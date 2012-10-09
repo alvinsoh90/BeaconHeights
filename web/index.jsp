@@ -9,10 +9,6 @@
 
     Hi, I'm the Stripes Calculator. I can only do addition. Maybe, some day, a nice programmer
     will come along and teach me how to do other things?
-    
-    
-    <br/>
-    SEETOH WAS HERE
 
     <stripes:form beanclass="net.sourceforge.stripes.examples.quickstart.CalculatorActionBean" focus="">
         <table>
@@ -32,7 +28,6 @@
             <tr>
                 <td>Result:</td>
                 <td>${actionBean.result}</td>
-                <div>HELLO</div>
             </tr>
         </table>
     </stripes:form>
