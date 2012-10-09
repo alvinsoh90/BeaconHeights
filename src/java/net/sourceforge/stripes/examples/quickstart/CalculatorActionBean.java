@@ -31,6 +31,6 @@ public class CalculatorActionBean implements ActionBean {
     @DefaultHandler
     public Resolution addition() {
         result = getNumberOne() + getNumberTwo();
-        return new ForwardResolution("/index.jsp");
+        return new ForwardResolution("/login.jsp");
     }
 }
