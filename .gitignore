@@ -3,3 +3,4 @@ build/
 dist/
 nbproject/
 web/META-INF/context.xml
+.DS_Store
