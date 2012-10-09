@@ -32,6 +32,7 @@
             <tr>
                 <td>Result:</td>
                 <td>${actionBean.result}</td>
+                <div>HELLO</div>
             </tr>
         </table>
     </stripes:form>
