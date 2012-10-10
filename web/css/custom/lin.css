@@ -1,0 +1,48 @@
+
+.container.pushdown{
+    margin-top: 5%;
+}
+
+.centerText{
+    text-align:center;
+}
+
+.inlineblock{
+    display:inline-block;
+}
+
+.widget-box.login{
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    margin-top: 5%;
+    width: 400px;
+}
+
+.heavyBlackBorder{
+    border: 10px solid #3D3B3B;
+}
+
+.widget-box.login .form-horizontal .control-label{
+    padding-top: 15px;
+    width: 113px;
+}
+
+.login .form-horizontal .controls {
+    margin-left: 110px;
+}
+
+.login .form-actions input[type="submit"]{
+    padding: 7px 60px;
+    font-size: 18px;
+    margin-left: -146px;
+}
+
+.userImageBadge{
+    height: 130px;
+    width: 130px;
+    border-radius: 100px;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+    overflow: hidden;
+}
