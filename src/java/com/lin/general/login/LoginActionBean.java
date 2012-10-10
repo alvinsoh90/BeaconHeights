@@ -48,8 +48,13 @@ public class LoginActionBean extends BaseActionBean {
         try {
             //retrieve hash from DB
             storedHash = loginDAO.getHash(username);
-            //check if hash is same as user input
-            success = BCrypt.checkpw(plaintext,storedHash);
+            //check if hash is same as user input        
+            if(plaintext !=null && !storedHash.isEmpty()){
+               success = BCrypt.checkpw(plaintext,storedHash);
+            }
+            else{
+                success = false;
+            }
             
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -59,7 +64,7 @@ public class LoginActionBean extends BaseActionBean {
         if(success){
             return new RedirectResolution("/manageusers.jsp");
         }else{
-            return new RedirectResolution("/login.jsp?err=true");
+            return new RedirectResolution("/login.jsp?err=true&user="+username);
         }
     }
 }
