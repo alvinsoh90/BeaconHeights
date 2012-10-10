@@ -1,6 +1,6 @@
 package com.lin.general.login;
 
-import com.lin.controller.LoginController;
+import com.lin.entities.LoginDAO;
 import com.lin.utils.BCrypt;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -34,8 +34,8 @@ public class LoginActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution login() {
         String storedHash;
-        LoginController loginController = new LoginController();
-        storedHash = loginController.getHash(username);
+        LoginDAO loginDAO = new LoginDAO();
+        storedHash = loginDAO.getHash(username);
         success = BCrypt.checkpw(plaintext,storedHash);
         if(success){
             return new RedirectResolution("/index.jsp");
