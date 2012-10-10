@@ -48,7 +48,7 @@ exports.getUserHash = function(callback,username){
 		return callback(err, null);
 	  }
 	  else{
-	  	return callback(null,rows);
+	  	return callback(null,rows[0]);
 	  }
 	  
 	});

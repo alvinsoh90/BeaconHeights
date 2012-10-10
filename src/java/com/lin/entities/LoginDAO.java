@@ -5,11 +5,9 @@
 package com.lin.entities;
 
 import com.lin.global.ApiUriList;
-import com.lin.utils.BCrypt;
+import com.lin.utils.json.JSONException;
+import com.lin.utils.json.JSONObject;
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -20,16 +18,21 @@ public class LoginDAO {
     
     //String salt = BCrypt.gensalt();
     
-    public String getHash(String username){
+    public String getHash(String username) throws IOException{
         String URL = ApiUriList.getCheckLoginHashURI(username);
         //String hash = BCrypt.hashpw("hash",salt);
         String hash = null;
+      
+        //retrieve from server - may throw IOException here
+        hash = HttpHandler.httpGet(URL);
+        
         try {
-            hash = HttpHandler.httpGet(URL);
-        } catch (IOException ex) {
-            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+            //if retrieval is successful, parse JSON response and take out hash
+            JSONObject jOb = new JSONObject(hash);
+            hash = jOb.getString("password");
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
-        System.out.println(hash);
         return hash;
     }
 }
