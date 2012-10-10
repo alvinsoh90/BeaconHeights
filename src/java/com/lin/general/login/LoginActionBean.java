@@ -1,5 +1,6 @@
 package com.lin.general.login;
 
+import com.lin.controller.LoginController;
 import com.lin.utils.BCrypt;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -12,6 +13,7 @@ import net.sourceforge.stripes.action.Resolution;
 public class LoginActionBean extends BaseActionBean {
     private String plaintext;
     private String username;
+    private boolean success;
 
     public String getPlaintext() {
         return plaintext;
@@ -32,11 +34,10 @@ public class LoginActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution login() {
         String storedHash;
-        boolean success;
-        //API CALL TO DB HERE
-        storedHash = null;
-        //success = BCrypt.checkpw(plaintext,storedHash);
-        if(true){
+        LoginController loginController = new LoginController();
+        storedHash = loginController.getHash(username);
+        success = BCrypt.checkpw(plaintext,storedHash);
+        if(success){
             return new RedirectResolution("/index.jsp");
         }else{
             return new RedirectResolution("/loginFailure.jsp");
