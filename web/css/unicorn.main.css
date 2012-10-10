@@ -753,11 +753,15 @@ a:hover {
     padding: 2px;
     width: 40px;
 }
-.user-info {
-    color: #666666;
-    font-size: 11px;
+.username {
+    margin-right: 10px;
+    margin-top: 5px;
+    float:left;
 }
 
+.user-address{
+    font-size: 11px;
+}
 .site-stats {
 	margin: 0;
 	padding: 0;
