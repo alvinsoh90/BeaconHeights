@@ -9,7 +9,7 @@ package com.lin.global;
  * @author Shamus
  */
 public class ApiUriList {
-    public static final String BaseURL = "http://106.187.95.45/";
+    public static final String BaseURL = "http://127.0.0.1:3000/";
     public static final String apiURL = "api/";
     
     public static String getCheckLoginHashURI(String username){

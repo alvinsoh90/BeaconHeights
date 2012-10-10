@@ -18,18 +18,18 @@ import java.util.logging.Logger;
 public class LoginDAO {
     
     
-    String salt = BCrypt.gensalt();
+    //String salt = BCrypt.gensalt();
     
     public String getHash(String username){
         String URL = ApiUriList.getCheckLoginHashURI(username);
-        String hash = BCrypt.hashpw("hash",salt);
-//        String hash = "test";
-//        try {
-//            hash = HttpHandler.httpGet(URL);
-//        } catch (IOException ex) {
-//            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
+        //String hash = BCrypt.hashpw("hash",salt);
+        String hash = null;
+        try {
+            hash = HttpHandler.httpGet(URL);
+        } catch (IOException ex) {
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(hash);
         return hash;
     }
 }
