@@ -4,3 +4,5 @@ dist/
 nbproject/
 web/META-INF/context.xml
 .DS_Store
+
+/node_server/logs/node.log
