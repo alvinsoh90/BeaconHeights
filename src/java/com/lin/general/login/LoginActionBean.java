@@ -3,6 +3,7 @@ package com.lin.general.login;
 import com.lin.entities.LoginDAO;
 import com.lin.utils.BCrypt;
 import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 
@@ -14,6 +15,15 @@ public class LoginActionBean extends BaseActionBean {
     private String plaintext;
     private String username;
     private boolean success;
+//    private String result;
+//
+//    public String getResult() {
+//        return result;
+//    }
+//
+//    public void setResult(String result) {
+//        this.result = result;
+//    }
 
     public String getPlaintext() {
         return plaintext;
@@ -36,6 +46,7 @@ public class LoginActionBean extends BaseActionBean {
         String storedHash;
         LoginDAO loginDAO = new LoginDAO();
         storedHash = loginDAO.getHash(username);
+//        result = storedHash;
         success = BCrypt.checkpw(plaintext,storedHash);
         if(success){
             return new RedirectResolution("/index.jsp");
