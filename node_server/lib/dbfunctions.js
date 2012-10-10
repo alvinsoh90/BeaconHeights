@@ -38,3 +38,18 @@ exports.getAllBlocks = function(callback){
 	  
 	});
 };
+
+exports.getUserHash = function(callback,username){
+	var sqlString = "SELECT password FROM lin_db.user WHERE user_name = '"+username+"'";
+
+	client.query(sqlString, function(err, rows, fields) {
+	  if (err) {
+	  	console.log(err);
+		return callback(err, null);
+	  }
+	  else{
+	  	return callback(null,rows);
+	  }
+	  
+	});
+};

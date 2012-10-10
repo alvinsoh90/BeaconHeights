@@ -62,5 +62,23 @@ app.get(ROOT + 'getAllBlocks', function(req, res){
 
 });
 
+app.get(ROOT + 'getUserHash/:username', function(req, res){
+  
+  console.log(req.params.username);
+
+  db_func.getUserHash(function(err,result){
+    if(err){
+      console.log("error in db call: "+err);
+      res.send(500,err);
+    }
+    else{
+      res.send(200,JSON.stringify(result));
+      logger.warn("Test warn")
+    }
+  },req.params.username);
+
+});
+
+
 app.listen(3000);
 console.log('Listening on port 3000');
