@@ -14,15 +14,17 @@ public class UserDAO {
 
     private static HashMap<String,User> userMap = new HashMap<String,User>();
     
-   
-    
-
-
-    
     
     
     public static HashMap<String,User> retrieveAllUsers() {
-        return userMap;
+      Role role1 = new Role(1,"admin","Admin user");
+      Block block1 = new Block(1,"blockname",2,3,"Block1");
+
+      User user1 = new User(1,"username1","password1","Jonathan","SEETOH",block1,5,12,role1);
+      User user2 = new User(1,"username2","password1","Shamus","MING",block1,5,12,role1);
+      userMap.put("username1",user1);
+      userMap.put("username2",user2); 
+      return userMap;
     }
 
     public User createUser(int id, String username, String password, String first_name,
@@ -32,19 +34,18 @@ public class UserDAO {
 
         //add to temporary hashmap
         userMap.put(username, user);
-
         //line that says u put into Objectify
         return user;
 
     }
 
-    public User deleteUser(String username) {
+    public boolean deleteUser(String username) {
         
         User user = userMap.remove(username);
-
+        boolean success = true;
 
         //line that says u put into Objectify
-        return user;
+        return success;
 
     }
     
@@ -58,15 +59,7 @@ public class UserDAO {
         return user;
     }
     
-    public User getUser(String user){
-      Role role1 = new Role(1,"admin","Admin user");
-      Block block1 = new Block(1,"blockname",2,3,"Block1");
-
-      User user1 = new User(1,"username1","password1","Jonathan","SEETOH",block1,5,12,role1);
-      User user2 = new User(1,"username2","password1","Shamus","MING",block1,5,12,role1);
-      userMap.put("username1",user1);
-      userMap.put("username2",user2);  
-      
+    public User getUser(String user){   
       return userMap.get(user);
     }
     
