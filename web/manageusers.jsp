@@ -17,7 +17,9 @@
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
         <link rel="stylesheet" href="css/fullcalendar.css" />	
         <link rel="stylesheet" href="css/unicorn.main.css" />
+        <link rel="stylesheet" href="css/custom/lin.css" />
         <link rel="stylesheet" href="css/unicorn.grey.css" class="skin-color" />
+        
     </head>
     <body>
         
@@ -65,7 +67,7 @@
 
         <div id="content">
             <div id="content-header">
-                <h1> ${manageUsersActionBean.test} </h1>
+                <h1> User </h1>
                 <div class="btn-group">
                     <a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
                     <a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
@@ -91,26 +93,41 @@
                                     <div class="span12"><!--span12-->
                                         <div class="widget-content nopadding">
                                             <ul class="recent-comments"> 
-                                                <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                                                <table class="table table-striped users">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>ID</th>
+                                                        <th>First Name</th>
+                                                        <th>Last Name</th>
+                                                        <th>Role</th>
+                                                        <th colspan="3">Address</th>
+                                                        <th>Action</th>
+                                                    </tr>
                                                     
-                                                    <li>
+                                                <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                                                    <tr>
+                                                       <td>
                                                         <div class="user-thumb">
                                                             <img width="40" height="40" alt="" src="img/demo/av1.jpg">
                                                         </div>
-                                                        <div class="comments">
-                                                            <span class="username">
-                                                                <b>${user.key}</b></br>
-                                                                ${user.value.first_name}</br>
-                                                                ${user.value.last_name}</br>
-                                                                ${user.value.role.name}</br>
-                                                                ${user.value.block.block_name}</br>                                                            
-                                                                ${user.value.level}</br>
-                                                                ${user.value.unit}</br>
-                                                            </span>                                                                 
-                                                            <a href="#" class="btn btn-primary btn-mini">Edit</a> <a href="#" class="btn btn-success btn-mini">Approve</a> <a href="#" class="btn btn-warning btn-mini">Mark as spam</a> <a href="#" class="btn btn-danger btn-mini">Delete</a>
-                                                        </div>
-                                                    </li>
+                                                       </td>
+                                                        <!--<div class="comments">
+                                                            <span class="username">-->
+                                                        <td><b>${user.key}</b></td>
+                                                        <td>${user.value.first_name}</td>
+                                                        <td>${user.value.last_name}</td>
+                                                        <td>${user.value.role.name}</td>
+                                                        <td>${user.value.block.block_name}</td>                                                            
+                                                        <td>${user.value.level}</td>
+                                                        <td>${user.value.unit}</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary btn-mini">Edit</a> 
+                                                            <a href="#" class="btn btn-success btn-mini">Approve</a> 
+                                                            <a href="#" class="btn btn-danger btn-mini">Delete</a>
+                                                        </td>
+                                                </tr>
                                                 </c:forEach>
+                                                </table>    
                                                 <li class="viewall">
                                                     <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
                                                 </li>
