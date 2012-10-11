@@ -756,12 +756,8 @@ a:hover {
 .username {
     margin-right: 10px;
     margin-top: 5px;
-    float:left;
 }
 
-.user-address{
-    font-size: 11px;
-}
 .site-stats {
 	margin: 0;
 	padding: 0;

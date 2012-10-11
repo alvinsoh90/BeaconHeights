@@ -76,9 +76,54 @@ app.get(ROOT + 'getUserHash/:username', function(req, res){
       logger.warn("Test warn")
     }
   },req.params.username);
-
 });
 
+app.get(ROOT + 'getUserRole/:username', function(req, res){
+  
+  console.log(req.params.username);
 
+  db_func.getUserRole(function(err,result){
+    if(err){
+      console.log("error in db call: "+err);
+      res.send(500,err);
+    }
+    else{
+      res.send(200,JSON.stringify(result));
+      logger.warn("Test warn")
+    }
+  },req.params.username);
+});
+
+app.get(ROOT + 'getNonAdminUsers', function(req, res){
+  
+  console.log(req.params.username);
+
+  db_func.getNonAdminUsers(function(err,result){
+    if(err){
+      console.log("error in db call: "+err);
+      res.send(500,err);
+    }
+    else{
+      res.send(200,JSON.stringify(result));
+      logger.warn("Test warn")
+    }
+  },req.params.username);
+});
+
+app.get(ROOT + 'getAllUsers', function(req, res){
+  
+  console.log(req.params.username);
+
+  db_func.getAllUsers(function(err,result){
+    if(err){
+      console.log("error in db call: "+err);
+      res.send(500,err);
+    }
+    else{
+      res.send(200,JSON.stringify(result));
+      logger.warn("Test warn")
+    }
+  },req.params.username);
+});
 app.listen(3000);
 console.log('Listening on port 3000');

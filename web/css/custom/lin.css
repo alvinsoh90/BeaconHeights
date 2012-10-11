@@ -51,3 +51,12 @@
 .login.alert{
     width: 400px;
 }
+
+.table.users th{
+    background-image: none;
+    background-color: #F9F9F9; 
+}
+
+.table.users td{
+    text-align:center;
+}

@@ -53,7 +53,7 @@ public class LoginActionBean extends BaseActionBean {
                success = BCrypt.checkpw(plaintext,storedHash);
             }
             else{
-                success = false;
+               success = false;
             }
             
         } catch (IOException ex) {

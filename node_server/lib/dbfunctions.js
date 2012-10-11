@@ -53,3 +53,48 @@ exports.getUserHash = function(callback,username){
 	  
 	});
 };
+
+exports.getUserRole = function(callback,username){
+	var sqlString = "SELECT name FROM lin_db.role WHERE id =(SELECT role_id FROM lin_db.user WHERE user_name = '"+username+"')";
+	
+	client.query(sqlString, function(err, rows, fields) {
+	  if (err) {
+	  	console.log(err);
+		return callback(err, null);
+	  }
+	  else{
+	  	return callback(null,rows[0]);
+	  }
+	  
+	});
+};
+
+exports.getNonAdminUsers = function(callback,username){
+	var sqlString = "SELECT `user_id`, `user_name`, `role_id`, `DOB`, `block_id`, `level`, `unit`, `facebook_id` FROM lin_db.user WHERE role_id<>1";
+	
+	client.query(sqlString, function(err, rows, fields) {
+	  if (err) {
+	  	console.log(err);
+		return callback(err, null);
+	  }
+	  else{
+	  	return callback(null,rows);
+	  }
+	  
+	});
+};
+
+exports.getAllUsers = function(callback,username){
+	var sqlString = "SELECT `user_id`, `user_name`, `role_id`, `DOB`, `block_id`, `level`, `unit`, `facebook_id` FROM lin_db.user";
+	
+	client.query(sqlString, function(err, rows, fields) {
+	  if (err) {
+	  	console.log(err);
+		return callback(err, null);
+	  }
+	  else{
+	  	return callback(null,rows);
+	  }
+	  
+	});
+};
