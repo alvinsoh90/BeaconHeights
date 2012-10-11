@@ -175,6 +175,7 @@ public class ManageUsersActionBean implements ActionBean {
     return userList.size();
   }
   
+
   
   @DefaultHandler
   public Resolution createUserAccount() {
@@ -196,6 +197,14 @@ public class ManageUsersActionBean implements ActionBean {
           result = e.getMessage();
       }
     return new RedirectResolution("/manageusers.jsp");
+
+
+
   }
-  
+   public boolean deleteUser() {
+    UserDAO uDAO = new UserDAO();
+    boolean success = uDAO.deleteUser(user.getUsername());
+
+    return success;
+   }
 }
