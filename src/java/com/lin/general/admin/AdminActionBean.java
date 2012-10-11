@@ -55,6 +55,6 @@ public class AdminActionBean implements ActionBean {
 
     result = user1.getFirst_name();
     //  result ="hello";
-    return new ForwardResolution("/adminView.jsp");
+    return new ForwardResolution("/adminview.jsp");
   }
 }

@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package com.lin.entities;
+//import javax.persistence.*;
 
 /**
  *
