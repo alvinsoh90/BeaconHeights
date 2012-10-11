@@ -22,7 +22,6 @@ public class ManageUsersActionBean implements ActionBean {
   private HashMap<String,User> userList;
   private User user;
   private Log log = Log.getInstance(ManageUsersActionBean.class);//in attempt to log what went wrong..
-  private String test = "test";
   
   public User getUser() {
     return user;
@@ -38,17 +37,8 @@ public class ManageUsersActionBean implements ActionBean {
     return userList.size();
   }
 
-  public String getTest() {
-        return test;
-    }
-  
-  
   public void setUserList(HashMap<String, User> userList) {
         this.userList = userList;
-  }
-  
-  public String getHigh() {
-    return "highhhh...";
   }
 
   public ActionBeanContext getContext() {
@@ -68,5 +58,6 @@ public class ManageUsersActionBean implements ActionBean {
   public int getListSize(){
     return userList.size();
   }
+  
   
 }

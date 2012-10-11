@@ -4,6 +4,8 @@
 <%@page import="com.lin.entities.UserDAO"%>
 <!DOCTYPE html>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:useBean id="manageUsersActionBean" scope="page"
                      class="com.lin.general.admin.ManageUsersActionBean"/>
 <html lang="en">
@@ -89,11 +91,7 @@
                                     <div class="span12"><!--span12-->
                                         <div class="widget-content nopadding">
                                             <ul class="recent-comments"> 
-                                                <% HashMap<String,User> hm = manageUsersActionBean.getUserList();
-                                                for(Map.Entry<String,User> entry : hm.entrySet()){ %>
-                                                
-                                                <!--CAN'T SEEM TO GET JSTL TO WORK!!SO FOR NOW I'M ACCESSING THE ACTION BEAN DIRECTLY-->
-                                                <!--<c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">-->
+                                                <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
                                                     
                                                     <li>
                                                         <div class="user-thumb">
@@ -101,23 +99,18 @@
                                                         </div>
                                                         <div class="comments">
                                                             <span class="username">
-                                                                <b><%=entry.getKey()%></b><br/>
-                                                                First Name: <%=entry.getValue().getFirst_name()%></br>
-                                                                Last Name: <%=entry.getValue().getLast_name()%></br>
-                                                                Role: <%=entry.getValue().getRole().getName()%></br>
-                                                            </span>
-                                                            <span class="user-address">
-                                                                Block: <%=entry.getValue().getBlock().getBlock_name()%></br>
-                                                                Level: <%=entry.getValue().getLevel()%></br>
-                                                                Unit: <%=entry.getValue().getUnit()%></br>
-                                                            </span>           
-                                                                
-                                                            </span>
+                                                                <b>${user.key}</b></br>
+                                                                ${user.value.first_name}</br>
+                                                                ${user.value.last_name}</br>
+                                                                ${user.value.role.name}</br>
+                                                                ${user.value.block.block_name}</br>                                                            
+                                                                ${user.value.level}</br>
+                                                                ${user.value.unit}</br>
+                                                            </span>                                                                 
                                                             <a href="#" class="btn btn-primary btn-mini">Edit</a> <a href="#" class="btn btn-success btn-mini">Approve</a> <a href="#" class="btn btn-warning btn-mini">Mark as spam</a> <a href="#" class="btn btn-danger btn-mini">Delete</a>
                                                         </div>
                                                     </li>
-                                                <!--</c:forEach>-->
-                                                <%}%>    
+                                                </c:forEach>
                                                 <li class="viewall">
                                                     <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
                                                 </li>
