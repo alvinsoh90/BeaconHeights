@@ -39,13 +39,13 @@ public class UserDAO {
 
     }
 
-    public User deleteUser(String username) {
+    public boolean deleteUser(String username) {
         
         User user = userMap.remove(username);
-
+        boolean success = true;
 
         //line that says u put into Objectify
-        return user;
+        return success;
 
     }
     

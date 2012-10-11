@@ -59,5 +59,11 @@ public class ManageUsersActionBean implements ActionBean {
     return userList.size();
   }
   
+   public boolean deleteUser() {
+    UserDAO uDAO = new UserDAO();
+    boolean success = uDAO.deleteUser(user.getUsername());
+
+    return success;
+  }
   
 }
