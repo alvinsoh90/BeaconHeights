@@ -2,8 +2,8 @@ package com.lin.general.login;
 
 import com.lin.entities.LoginDAO;
 import com.lin.utils.BCrypt;
+import java.io.IOException;
 import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 
@@ -43,15 +43,28 @@ public class LoginActionBean extends BaseActionBean {
         
     @DefaultHandler
     public Resolution login() {
-        String storedHash;
+        String storedHash = "";
         LoginDAO loginDAO = new LoginDAO();
-        storedHash = loginDAO.getHash(username);
-//        result = storedHash;
-        success = BCrypt.checkpw(plaintext,storedHash);
+        try {
+            //retrieve hash from DB
+            storedHash = loginDAO.getHash(username);
+            //check if hash is same as user input        
+            if(plaintext !=null && !storedHash.isEmpty()){
+               success = BCrypt.checkpw(plaintext,storedHash);
+            }
+            else{
+                success = false;
+            }
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            success = false;  //if fail to retrieve, default to success = false
+        }
+        
         if(success){
-            return new RedirectResolution("/index.jsp");
+            return new RedirectResolution("/manageusers.jsp");
         }else{
-            return new RedirectResolution("/loginFailure.jsp");
+            return new RedirectResolution("/login.jsp?err=true&user="+username);
         }
     }
 }

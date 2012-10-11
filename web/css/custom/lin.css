@@ -1,4 +1,5 @@
 
+
 .container.pushdown{
     margin-top: 5%;
 }
@@ -15,7 +16,7 @@
     border-radius:3px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
-    margin-top: 5%;
+    margin-top: 3%;
     width: 400px;
 }
 
@@ -45,4 +46,8 @@
     -moz-border-radius: 100px;
     -webkit-border-radius: 100px;
     overflow: hidden;
+}
+
+.login.alert{
+    width: 400px;
 }

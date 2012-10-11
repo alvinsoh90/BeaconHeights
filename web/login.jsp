@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +25,11 @@
         <link rel="stylesheet" href="css/custom/lin.css" />
     </head>
 
-    <body>
+    <body style="background: url('img/noise_grey_bg.png')">
+        <c:if test = "${param.err == 'true'}">
+            <c:set var="errorStyle" value="error" />
+        </c:if> 
+
         <div class="container pushdown centerText">
             
             <div class="userImageBadge heavyBlackBorder inlineblock">
@@ -44,13 +49,13 @@
                         <div class="widget-content nopadding">
                                 
                                 <stripes:form class="form-horizontal" method="post" action="#" name="password_validate" id="password_validate" beanclass="com.lin.general.login.LoginActionBean" focus="">
-                                <div class="control-group">
+                                <div class="control-group ${errorStyle}">
                                     <label class="control-label">Username</label>
                                     <div class="controls">
-                                        <stripes:text name="username"/>
+                                        <stripes:text name="username" value="${param.user}"/>
                                     </div>
                                 </div>
-                                <div class="control-group">
+                                <div class="control-group ${errorStyle}">
                                     <label class="control-label">Password</label>
                                     <div class="controls">
                                         <stripes:password name="plaintext"/>
@@ -61,7 +66,14 @@
                                 </div>
                             </stripes:form>
                         </div>
+                        
                     </div>
+                    <c:if test = "${param.err == 'true'}">
+                        <div class="login alert alert-error container">
+                            <b>Whoops.</b> Your username or password was not found in our records. Please try again.
+                        </div>
+                    </c:if> 
+
                 </div>			
             </div>
         </div>
@@ -69,4 +81,5 @@
         	
    
     </body>
+</html>
 </html>

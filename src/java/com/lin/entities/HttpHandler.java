@@ -39,7 +39,7 @@ public class HttpHandler {
         return sb.toString();
     }
     
-    public static String excutePost(String targetURL, String urlParameters){
+    public static String executePost(String targetURL, String urlParameters){
         URL url;
         HttpURLConnection connection = null;  
         try {
