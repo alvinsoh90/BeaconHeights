@@ -42,12 +42,12 @@
                     <div class="widget-box heavyBlackBorder inlineblock login">
                         <div class="widget-title">
                             <span class="icon">
-                                <i class="icon-user"></i>									
+                                <i class="icon-pencil"></i>									
                             </span>
-                            <h5>Please Register</h5>
+                            <h5>Please fill in the registration form</h5>
                         </div>
                         <div class="widget-content nopadding">
-                            <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="">
+                            <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
                                 <!-- User enters username, still need to validate if username is valid -->
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Username</label>
@@ -58,13 +58,13 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Password</label>
                                     <div class="controls">
-                                        <stripes:password name="password"/>
+                                        <stripes:password name="password" id="password"/>
                                     </div>
                                 </div>
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Confirm Password</label>
                                     <div class="controls">
-                                        <stripes:password name="passwordconfirm"/>
+                                        <stripes:password name="passwordconfirm" id="passwordconfirm"/>
                                     </div>
                                 </div>                             
                                 <div class="control-group ${errorStyle}">
@@ -87,34 +87,35 @@
                                 </div>  
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit Number</label>
-                                    <div class="controls unit">
-                                        <stripes:text name="level"/> - <stripes:text name="unitnumber"/>
-                                    </div>
-                                </div>
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Role</label>
                                     <div class="controls">
-                                        <stripes:text name="role"/>
+                                            <stripes:text name="level"/>-<stripes:text name="unitnumber"/>
                                     </div>
-                                </div>                               
+                                </div>                              
                                 <div class="form-actions">
                                     <input type="submit" name="createUserAccount" value="Register" class="btn btn-info btn-large">
                                 </div>                            
-                                
+
                             </stripes:form>
                         </div>
 
                     </div>
                     <c:if test = "${param.err == 'true'}">
                         <div class="login alert alert-error container">
-                            <b>Whoops.</b> Your username or password was not found in our records. Please try again.
+                            <b>Whoops.</b> There was an error submitting your registration form. Please try again.
                         </div>
                     </c:if> 
 
                 </div>			
             </div>
         </div>
-
+            <script src="js/jquery.min.js"></script>
+            <script src="js/jquery.ui.custom.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script src="js/jquery.uniform.js"></script>
+            <script src="js/jquery.chosen.js"></script>
+            <script src="js/jquery.validate.js"></script>
+            <script src="js/unicorn.js"></script>
+            <script src="js/lin.register.js"></script>
 
 
     </body>
