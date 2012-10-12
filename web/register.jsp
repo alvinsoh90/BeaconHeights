@@ -39,15 +39,18 @@
 
             <div class="row-fluid">
                 <div class="span12">
-                    <div>
-                        <br/>
-                    </div>
                     <c:if test = "${param.err == 'true'}">
+                        <div>
+                            <br/>
+                        </div>
                         <div class="login alert alert-error container">
                             <b>Whoops.</b> There was an error submitting your registration form. Please try again.
                         </div>
                     </c:if> 
                     <c:if test = "${param.err == 'false'}">
+                        <div>
+                            <br/>
+                        </div>
                         <div class="login alert alert-success container">
                             <b>Awesome!</b> Your registration form has been submitted to the Administrator. Please wait a couple of days for its approval.
                         </div>
@@ -101,7 +104,7 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit Number</label>
                                     <div class="controls">
-                                            <stripes:text name="level"/>-<stripes:text name="unitnumber"/>
+                                        <stripes:text name="level"/>-<stripes:text name="unitnumber"/>
                                     </div>
                                 </div>                              
                                 <div class="form-actions">
@@ -117,14 +120,14 @@
                 </div>			
             </div>
         </div>
-            <script src="js/jquery.min.js"></script>
-            <script src="js/jquery.ui.custom.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="js/jquery.uniform.js"></script>
-            <script src="js/jquery.chosen.js"></script>
-            <script src="js/jquery.validate.js"></script>
-            <script src="js/unicorn.js"></script>
-            <script src="js/lin.register.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.ui.custom.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.uniform.js"></script>
+        <script src="js/jquery.chosen.js"></script>
+        <script src="js/jquery.validate.js"></script>
+        <script src="js/unicorn.js"></script>
+        <script src="js/lin.register.js"></script>
 
 
     </body>
