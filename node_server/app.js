@@ -107,7 +107,7 @@ app.get(ROOT + 'getNonAdminUsers', function(req, res){
       res.send(200,JSON.stringify(result));
       logger.warn("Test warn")
     }
-  },req.params.username);
+  });
 });
 
 app.get(ROOT + 'getAllUsers', function(req, res){
@@ -123,7 +123,41 @@ app.get(ROOT + 'getAllUsers', function(req, res){
       res.send(200,JSON.stringify(result));
       logger.warn("Test warn")
     }
+  });
+});
+
+app.get(ROOT + 'doesUserExist/:username', function(req, res){
+  
+  console.log(req.params.username);
+
+  db_func.doesUserExist(function(err,result){
+    if(err){
+      console.log("error in db call: "+err);
+      res.send(500,err);
+    }
+    else{
+      res.send(200,JSON.stringify(result));
+      logger.warn("Test warn")
+    }
   },req.params.username);
 });
+
+app.get(ROOT + 'addTempUser/:userInfo', function(req, res){
+  
+  console.log(req.params.username);
+
+  db_func.addTempUser(function(err,result){
+    if(err){
+      console.log("error in db call: "+err);
+      res.send(500,err);
+    }
+    else{
+      res.send(200,JSON.stringify(result));
+      logger.warn("Test warn")
+    }
+  },req.params.userInfo);
+});
+
+
 app.listen(3000);
 console.log('Listening on port 3000');
