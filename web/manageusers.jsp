@@ -54,9 +54,6 @@
                 <li class="active">
                     <a href="#"><i class="icon icon-user"></i> <span>Users</span></a>
                 </li>
-                <li class="active">
-                    <a href="#"><i class="icon icon-user"></i> <span>Create User</span></a>
-                </li>
             </ul>
 
         </div>
@@ -77,162 +74,154 @@
                 <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
                 <a href="#" class="current">Users</a>
             </div>
-            <div>
-                <br/>
-                <br/>
-            </div>
+
 
             <div class="container-fluid">
-                <div class="widget-box recent-comments">
-                    <div class="widget-title">
-                        <span class="icon"><i class="icon-user"></i></span><h5>Users</h5></div>
-                    <div class="widget-content">
-                        <div class="row-fluid">
-                            <div class="span12">
-                                <div class="widget-content nopadding">
-                                    <ul class="recent-comments"> 
-                                        <table class="table table-striped users">
-                                            <tr>
-                                                <th></th>
-                                                <th>ID</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Role</th>
-                                                <th colspan="3">Address</th>
-                                                <th>Action</th>
-                                            </tr>
-
-                                            <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
-                                                <tr>
-                                                    <td>
-                                                        <div class="user-thumb">
-                                                            <img width="40" height="40" alt="" src="img/demo/av1.jpg">
-                                                        </div>
-                                                    </td>
-                                                    <!--<div class="comments">
-                                                        <span class="username">-->
-                                                    <td><b>${user.key}</b></td>
-                                                    <td>${user.value.first_name}</td>
-                                                    <td>${user.value.last_name}</td>
-                                                    <td>${user.value.role.name}</td>
-                                                    <td>${user.value.block.block_name}</td>                                                            
-                                                    <td>${user.value.level}</td>
-                                                    <td>${user.value.unit}</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-primary btn-mini">Edit</a> 
-                                                        <a href="#" class="btn btn-success btn-mini">Approve</a> 
-                                                        <a href="#" class="btn btn-danger btn-mini">Delete</a>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>    
-                                        <li class="viewall">
-                                            <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
-                                        </li>
-                                    </ul>
+                <div class="row-fluid">
+                <div class="span12">
+                    <div class="widget-box">
+                        <div data-target="#collapseTwo" data-toggle="collapse" class="widget-title">
+                            <span class="icon">
+                                <i class="icon-plus"></i>									
+                            </span>
+                            <h5>Add New User Form</h5>
+                        </div>
+                        <div class="widget-content collapse" id="collapseTwo">
+                            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageUsersActionBean" focus="" name="registration_validate" id="registration_validate">
+                                <!-- User enters username, still need to validate if username is valid -->
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Username</label>
+                                    <div class="controls">
+                                        <stripes:text name="username"/>
+                                    </div>
                                 </div>
-                            </div>	
-                        </div>							
-                    </div>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Password</label>
+                                    <div class="controls">
+                                        <stripes:password name="password" id="password"/>
+                                    </div>
+                                </div>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Confirm Password</label>
+                                    <div class="controls">
+                                        <stripes:password name="passwordconfirm" id="passwordconfirm"/>
+                                    </div>
+                                </div>                             
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">First Name</label>
+                                    <div class="controls">
+                                        <stripes:text name="firstname"/> 
+                                    </div>
+                                </div>                              
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Last Name</label>
+                                    <div class="controls">
+                                        <stripes:text name="lastname"/> 
+                                    </div>
+                                </div>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Block</label>
+                                    <div class="controls">
+                                        <stripes:text name="block"/> 
+                                    </div>
+                                </div>  
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Unit Number</label>
+                                    <div class="controls">
+                                        <stripes:text name="level"/>-<stripes:text name="unitnumber"/>
+                                    </div>
+                                </div> 
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Role</label>
+                                    <div class="controls">
+                                        <stripes:text name="role"/> 
+                                    </div>
+                                </div> 
+                                <div class="form-actions">
+                                    <input type="submit" name="createUserAccount" value="Add" class="btn btn-info btn-large">
+                                </div>                            
 
+                            </stripes:form>
 
-                    <div><a href="#" id="createUser" class="btn btn-info btn-large"><i class="icon-plus"></i> Create User</a></div>
-                    <div style="display:visible;" id="createUserForm">
-                        <div class="span12"><!--span12-->
-                            <div class="widget-content nopadding">
-                                <ul class="recent-comments"> 
-                                    <li>
-                                        <stripes:form beanclass="com.lin.general.admin.ManageUsersActionBean" focus="">
-                                            <h1>Create user account</h1>
-                                            <table>
+                        </div>
+                    </div>						
+                </div>
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <span class="icon"><i class="icon-user"></i></span><h5>Users</h5></div>
+                        <div class="widget-content">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <div class="widget-content nopadding">
+                                        <ul class="recent-comments"> 
+                                            <table class="table table-striped users">
                                                 <tr>
-                                                    <td>Result:</td>
-                                                    <td>${actionBean.result}</td>
+                                                    <th></th>
+                                                    <th>ID</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Role</th>
+                                                    <th colspan="3">Address</th>
+                                                    <th>Action</th>
                                                 </tr>
-                                                <tr>
-                                                    <!-- User enters username, still need to validate if username is valid -->
 
-                                                    <td>Enter Desired Username: </td>
-                                                    <td><stripes:text name="username"/> </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>Password: </td>
-                                                    <td><stripes:password name="password"/> </td>
-                                                </tr>  
-                                                <tr>
-                                                    <td>Confirm Password: </td>
-                                                    <td><stripes:password name="passwordconfirm"/> </td>
-                                                </tr>  
-                                                <tr>
-                                                    <td>First Name:</td>
-                                                    <td><stripes:text name="firstname"/> </td>
-                                                </tr>  
-                                                <tr>
-                                                    <td>Last Name:</td>
-                                                    <td><stripes:text name="lastname"/> </td>
-                                                </tr>  
-                                                <tr>
-                                                    <td>Block:</td>
-                                                    <td><stripes:text name="block"/> </td>
-                                                </tr>
-                                                <tr>                                                        
-                                                    <td>Unit Number:</td> 
-                                                    <td><stripes:text name="level"/></td> 
-                                                    <td>-</td> 
-                                                    <td><stripes:text name="unitnumber"/></td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>Specify Role:</td>
-                                                    <td><stripes:text name="role"/> </td>
-
-                                                </tr>  
-                                                <tr>
-                                                    <td>
-                                                        <stripes:submit name="createUserAccount" value="Submit Form" class="btn btn-info btn-large"/>                    
-                                                    </td>
-                                                </tr>
-
-
-                                            </table>
-                                        </stripes:form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>	
-                    </div>
-
-                        <div class="row-fluid">
-                            <div id="footer" class="span12">
-                                2012 &copy; Unicorn Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
-                            </div>
+                                                <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="user-thumb">
+                                                                <img width="40" height="40" alt="" src="img/demo/av1.jpg">
+                                                            </div>
+                                                        </td>
+                                                        <!--<div class="comments">
+                                                            <span class="username">-->
+                                                        <td><b>${user.key}</b></td>
+                                                        <td>${user.value.first_name}</td>
+                                                        <td>${user.value.last_name}</td>
+                                                        <td>${user.value.role.name}</td>
+                                                        <td>${user.value.block.block_name}</td>                                                            
+                                                        <td>${user.value.level}</td>
+                                                        <td>${user.value.unit}</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary btn-mini">Edit</a> 
+                                                            <a href="#" class="btn btn-success btn-mini">Approve</a> 
+                                                            <a href="#" class="btn btn-danger btn-mini">Delete</a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>    
+                                            <li class="viewall">
+                                                <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>	
+                            </div>							
                         </div>
                     </div>
                 </div>
 
-                    <script type="text/javascript">
-                        $('#createUser').click(function(){
-//                            if ($('#createUserForm').is(":visible")){
-//                                $('#createUserForm').hide(250);
-//                            } else {
-//                                $('#createUserForm').show(250);
-//                            }
-                               $('#createUserForm').toggle();
-                        });
-                    </script>
-                <!--<script src="js/excanvas.min.js"></script>-->
-                <script src="js/jquery.min.js"></script>
-                <script src="js/jquery.ui.custom.js"></script>
-                <script src="js/bootstrap.min.js"></script>
+                <div class="row-fluid">
+                    <div id="footer" class="span12">
+                        2012 &copy; Unicorn Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <script src="js/jquery.flot.min.js"></script>
-                <script src="js/jquery.flot.resize.min.js"></script>
-                <script src="js/jquery.peity.min.js"></script>
+        <!--<script src="js/excanvas.min.js"></script>-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.ui.custom.js"></script>
+        <script src="js/bootstrap.min.js"></script>
 
-                <script src="js/fullcalendar.min.js"></script>
-                <script src="js/unicorn.js"></script>
-                <script src="js/unicorn.dashboard.js"></script>
-                </body>
+        <script src="js/jquery.flot.min.js"></script>
+        <script src="js/jquery.flot.resize.min.js"></script>
+        <script src="js/jquery.peity.min.js"></script>
 
-                </html>
+        <script src="js/lin.register.js"></script>
+        <script src="js/fullcalendar.min.js"></script>
+        <script src="js/unicorn.js"></script>
+        <script src="js/unicorn.dashboard.js"></script>
+        
+    </body>
+
+</html>
