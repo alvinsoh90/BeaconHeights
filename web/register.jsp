@@ -47,7 +47,7 @@
                             <h5>Please Register</h5>
                         </div>
                         <div class="widget-content nopadding">
-                            <stripes:form class="form-horizontal" beanclass="com.lin.general.login.LoginActionBean" focus="">
+                            <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="">
                                 <!-- User enters username, still need to validate if username is valid -->
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Username</label>
