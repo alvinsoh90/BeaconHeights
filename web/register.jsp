@@ -39,6 +39,19 @@
 
             <div class="row-fluid">
                 <div class="span12">
+                    <div>
+                        <br/>
+                    </div>
+                    <c:if test = "${param.err == 'true'}">
+                        <div class="login alert alert-error container">
+                            <b>Whoops.</b> There was an error submitting your registration form. Please try again.
+                        </div>
+                    </c:if> 
+                    <c:if test = "${param.err == 'false'}">
+                        <div class="login alert alert-success container">
+                            <b>Awesome!</b> Your registration form has been submitted to the Administrator. Please wait a couple of days for its approval.
+                        </div>
+                    </c:if> 
                     <div class="widget-box heavyBlackBorder inlineblock login">
                         <div class="widget-title">
                             <span class="icon">
@@ -99,11 +112,7 @@
                         </div>
 
                     </div>
-                    <c:if test = "${param.err == 'true'}">
-                        <div class="login alert alert-error container">
-                            <b>Whoops.</b> There was an error submitting your registration form. Please try again.
-                        </div>
-                    </c:if> 
+
 
                 </div>			
             </div>
