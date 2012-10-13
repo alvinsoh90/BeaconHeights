@@ -100,11 +100,17 @@
                                     <div class="controls">
                                         <stripes:text name="block"/> 
                                     </div>
-                                </div>  
+                                </div> 
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Level</label>
+                                    <div class="controls">
+                                        <stripes:text name="level"/>
+                                    </div>
+                                </div>     
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit Number</label>
                                     <div class="controls">
-                                        <stripes:text name="level" id="inputUnitNumber"/> - <stripes:text name="unitnumber" id="inputUnitNumber"/>
+                                       <stripes:text name="unitnumber" />
                                     </div>
                                 </div>                              
                                 <div class="form-actions">
@@ -127,7 +133,7 @@
         <script src="js/jquery.chosen.js"></script>
         <script src="js/jquery.validate.js"></script>
         <script src="js/unicorn.js"></script>
-        <script src="js/lin.register.js"></script>
+        <script src="js/custom/lin.register.js"></script>
 
 
     </body>

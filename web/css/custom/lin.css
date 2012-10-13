@@ -87,16 +87,37 @@
     text-align:center;
 }
 
-#inputUnitNumber{
-    width:107px;
-}
-
-#inputUnitNumberAdmin{
-    width:378px;
+.inputAddressShorter{
+    width: 38.60% !important;
 }
 
 .addUser .form-actions input[type="submit"]{
     padding: 7px 60px;
     font-size: 18px;
     margin-left: 20px;
+}
+
+.widget-box .form-horizontal .control-label {
+    padding-top: 15px;
+    width: 18%;
+    float: left;
+}
+
+.widget-box .form-horizontal .controls {
+    margin-left: 20%;
+    padding: 10px 0;
+}
+
+.widget-title.clickable{
+    cursor:pointer;
+}
+
+.widget-title.clickable:hover{
+    background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#FDFDFD), to(#EAEAEA));
+    background-image: -webkit-linear-gradient(top, #FCFBFA 0%, whiteSmoke 100%);
+    background-image: -moz-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    background-image: -ms-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    background-image: -o-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    background-image: -linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    border-bottom: 1px solid #CDCDCD;
 }

@@ -1,7 +1,7 @@
 <%@page import="java.util.Map"%>
 <%@page import="com.lin.entities.User"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="com.lin.entities.UserDAO"%>
+<%@page import="com.lin.dao.UserDAO"%>
 <!DOCTYPE html>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,19 +13,22 @@
         <title>Unicorn Admin</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
-        <link rel="stylesheet" href="css/fullcalendar.css" />	
-        <link rel="stylesheet" href="css/unicorn.main.css" />
-        <link rel="stylesheet" href="css/custom/lin.css" />
-        <link rel="stylesheet" href="css/unicorn.grey.css" class="skin-color" />
+        <link rel="stylesheet" href="../css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="../css/fullcalendar.css" />	
+        <link rel="stylesheet" href="../css/unicorn.main.css" />
+        <link rel="stylesheet" href="../css/custom/lin.css" />
+        <link rel="stylesheet" href="../css/uniform.css" />
+        <link rel="stylesheet" href="../css/chosen.css" />	
+        <link rel="stylesheet" href="../css/unicorn.grey.css" class="skin-color" />
         <style>.starthidden { display:none; }</style>
-
+           
     </head>
     <body>
-
+        
+        
         <div id="header">
-            <h1><a href="./dashboard.html">Beacon Heights Admin</a></h1>		
+            <h1><a href="../dashboard.html">Beacon Heights Admin</a></h1>		
         </div>
 
         <div id="search">
@@ -51,18 +54,23 @@
             <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
             <ul>
                 <li class="submit"><a href="#"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
-                <li class="active">
-                    <a href="#"><i class="icon icon-user"></i> <span>Users</span></a>
-                </li>
+                    <li class="submenu active open">
+                        <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span> <span class="label">3</span></a>
+                        <ul>
+                            <li class ="active"><a href="manageusers.jsp">Manage Users</a></li>
+                            <li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
+                            <!--<li><a href="form-wizard.html">Wizard</a></li> -->
+                        </ul>
+                    </li>
             </ul>
 
         </div>
 
 
-
+        
         <div id="content">
             <div id="content-header">
-                <h1> Users </h1>
+                <h1> Approve Pending Accounts </h1>
                 <div class="btn-group">
                     <a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
                     <a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
@@ -72,9 +80,11 @@
             </div>
             <div id="breadcrumb">
                 <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-                <a href="#" class="current">Users</a>
+                <a href="manageusers.jsp" class="current">Users</a>
+                <a href="approveaccounts.jsp" class="current">Approve Pending Accounts</a>
             </div>
             <div class="container-fluid">
+             
                 <div class="row-fluid">
                     <div class="span12">
                         <c:if test = "${param.success == 'false'}">
@@ -89,76 +99,12 @@
                             <b>Awesome!</b> ${param.msg} was added to the user list!
                         </div>
                     </c:if>
-                        <div class="widget-box">
-                            <div data-target="#collapseTwo" data-toggle="collapse" class="widget-title" id="newUserForm">
-                                <span class="icon">
-                                    <i class="icon-plus"></i>									
-                                </span>
-                                <h5>Add New User Form</h5>
-                            </div>
-                            <div class="addUser collapse" id="collapseTwo">
-                                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageUsersActionBean" focus="" name="registration_validate" id="registration_validate">
-                                    <!-- User enters username, still need to validate if username is valid -->
-                                    <div class="control-group ${errorStyle}">
-                                        <label class="control-label">Username</label>
-                                        <div class="controls">
-                                            <stripes:text name="username"/>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ${errorStyle}">
-                                        <label class="control-label">Password</label>
-                                        <div class="controls">
-                                            <stripes:password name="password" id="password"/>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ${errorStyle}">
-                                        <label class="control-label">Confirm Password</label>
-                                        <div class="controls">
-                                            <stripes:password  name="passwordconfirm" id="passwordconfirm"/>
-                                        </div>
-                                    </div>                             
-                                    <div class="control-group ${errorStyle}">
-                                        <label class="control-label">First Name</label>
-                                        <div class="controls">
-                                            <stripes:text name="firstname"/> 
-                                        </div>
-                                    </div>                              
-                                    <div class="control-group ${errorStyle}">
-                                        <label class="control-label">Last Name</label>
-                                        <div class="controls">
-                                            <stripes:text name="lastname"/> 
-                                        </div>
-                                    </div>
-                                    <div class="control-group ${errorStyle}">
-                                        <label class="control-label">Block</label>
-                                        <div class="controls">
-                                            <stripes:text name="block"/> 
-                                        </div>
-                                    </div>  
-                                    <div class="control-group ${errorStyle}">
-                                        <label class="control-label">Unit Number</label>
-                                        <div class="controls">
-                                            <stripes:text name="level" id="inputUnitNumberAdmin"/> - <stripes:text name="unitnumber" id="inputUnitNumberAdmin"/>
-                                        </div>
-                                    </div> 
-                                    <div class="control-group ${errorStyle}">
-                                        <label class="control-label">Role</label>
-                                        <div class="controls">
-                                            <stripes:text name="role"/> 
-                                        </div>
-                                    </div> 
-                                    <div class="form-actions">
-                                        <input type="submit" name="createUserAccount" value="Add" class="btn btn-info btn-large">
-                                    </div>                            
-
-                                </stripes:form>
-
-                            </div>
-                        </div>						
-                    </div>
-                    <div class="widget-box">
+ 
+                    
+                    <!-- Users Pending Approval -->
+                     <div class="widget-box">
                         <div class="widget-title">
-                            <span class="icon"><i class="icon-user"></i></span><h5>Users</h5></div>
+                            <span class="icon"><i class="icon-user"></i></span><h5>Accounts Pending Approval</h5></div>
                         <div class="widget-content">
                             <div class="row-fluid">
                                 <div class="span12">
@@ -168,6 +114,7 @@
                                                 <tr>
                                                     <th></th>
                                                     <th>ID</th>
+                                                    <th>Username</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
                                                     <th>Role</th>
@@ -176,25 +123,28 @@
                                                 </tr>
 
                                                 <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                                                    <script>
+                                                        
+                                                    </script>
                                                     <tr>
                                                         <td>
                                                             <div class="user-thumb">
-                                                                <img width="40" height="40" alt="" src="img/demo/av1.jpg">
+                                                                <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
                                                             </div>
                                                         </td>
                                                         <!--<div class="comments">
                                                             <span class="username">-->
-                                                        <td><b>${user.key}</b></td>
+                                                        <td><b>${user.value.id}</b></td>
+                                                        <td><b>${user.value.username}</b></td>
                                                         <td>${user.value.firstName}</td>
                                                         <td>${user.value.lastName}</td>
                                                         <td>${user.value.role.name}</td>
-                                                        <td>${user.value.block.block_name}</td>                                                            
+                                                        <td>${user.value.block.blockName}</td>                                                            
                                                         <td>${user.value.level}</td>
                                                         <td>${user.value.unit}</td>
                                                         <td>
-                                                            <a href="#" class="btn btn-primary btn-mini">Edit</a> 
                                                             <a href="#" class="btn btn-success btn-mini">Approve</a> 
-                                                            <a href="#" class="btn btn-danger btn-mini">Delete</a>
+                                                            <a href="#" class="btn btn-danger btn-mini">Reject</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -208,30 +158,30 @@
                             </div>							
                         </div>
                     </div>
+                    
+                    
                 </div>
 
                 <div class="row-fluid">
                     <div id="footer" class="span12">
-                        2012 &copy; Unicorn Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
+                     
                     </div>
                 </div>
             </div>
-
+            
 
             <!--<script src="js/excanvas.min.js"></script>-->
-            <script src="js/jquery.min.js"></script>
-            <script src="js/jquery.ui.custom.js"></script>
-            <script src="js/bootstrap.min.js"></script>
+            <script src="../js/jquery.min.js"></script>
+            <script src="../js/jquery.ui.custom.js"></script>
+            <script src="../js/bootstrap.min.js"></script>
+            
+             <script src="../js/jquery.uniform.js"></script>
+            <script src="../js/jquery.chosen.js"></script>
+            <script src="../js/jquery.validate.js"></script>
 
-            <script src="js/jquery.flot.min.js"></script>
-            <script src="js/jquery.flot.resize.min.js"></script>
-            <script src="js/jquery.peity.min.js"></script>
-
-            <script src="js/lin.manageusers.js"></script>
-            <script src="js/fullcalendar.min.js"></script>
-            <script src="js/unicorn.js"></script>
-            <script src="js/unicorn.dashboard.js"></script>
-
+            <script src="../js/unicorn.js"></script>
+            <script src="../js/unicorn.dashboard.js"></script>
+            <script src="../js/unicorn.form_common.js"></script>
     </body>
 
 </html>

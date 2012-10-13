@@ -4,6 +4,7 @@
  */
 package com.lin.general.admin;
 
+import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
 import java.util.ArrayList;
@@ -165,6 +166,14 @@ public class ManageUsersActionBean implements ActionBean {
     return userList.size();
   }
   
+  public ArrayList<Role> getRoleList(){
+      ArrayList<Role> roleList = new ArrayList<Role>();
+      Role role1 = new Role(1,"admin","Admin user");
+      roleList.add(role1);
+      roleList.add(role1);
+      roleList.add(role1);
+      return roleList;
+  }
 
   
   @DefaultHandler
@@ -174,7 +183,6 @@ public class ManageUsersActionBean implements ActionBean {
       //temp code while we sort out how to insert address info like block, unit etc.
         Role role1 = new Role(1,"admin","Admin user");
         Block block1 = new Block(1,"blockname",2,3,"Block1");
-        int userID = 1;
         int levelInt = Integer.parseInt(level);
         int unitInt = Integer.parseInt(unitnumber);
       //int userID = 
@@ -182,12 +190,12 @@ public class ManageUsersActionBean implements ActionBean {
                 lastname, block1, levelInt, unitInt, role1);
         result = user1.getFirstName();
         success = true;
+        System.out.println(user1);
       }catch(Exception e){
-          e.printStackTrace();
           result = "";
           success = false;
       }
-    return new RedirectResolution("/manageusers.jsp?success=" + success + 
+    return new RedirectResolution("/admin/manageusers.jsp?success=" + success + 
             "&msg=" + result);
 
 

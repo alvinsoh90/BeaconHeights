@@ -1,6 +1,6 @@
 package com.lin.general.login;
 
-import com.lin.entities.LoginDAO;
+import com.lin.dao.LoginDAO;
 import com.lin.utils.BCrypt;
 import java.io.IOException;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -53,7 +53,7 @@ public class LoginActionBean extends BaseActionBean {
         }
         
         if(success){
-            return new RedirectResolution("/manageusers.jsp");
+            return new RedirectResolution("/admin/manageusers.jsp");
         }else{
             return new RedirectResolution("/login.jsp?err=true&user="+username);
         }

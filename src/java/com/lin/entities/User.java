@@ -19,6 +19,20 @@ public class User {
     private int unit;
     private Role role;
 
+    
+    public User(Long id, String username, String password, String first_name,  //TEMP CONSTRUCTOR
+            String last_name, Block block, int level, int unit, Role role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.block = block;
+        this.level = level;
+        this.unit = unit;
+        this.role = role;
+    }
+    
     public User(String username, String password, String first_name, 
             String last_name, Block block, int level, int unit, Role role) {
         this.username = username;
@@ -101,6 +115,11 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", block=" + block + ", level=" + level + ", unit=" + unit + ", role=" + role + '}';
     }
 
     

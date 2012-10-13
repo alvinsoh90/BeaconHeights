@@ -9,8 +9,8 @@ package com.lin.general.login;
  * @author Shamus
  */
 
-import com.lin.entities.LoginDAO;
-import com.lin.entities.UserDAO;
+import com.lin.dao.LoginDAO;
+import com.lin.dao.UserDAO;
 import com.lin.utils.BCrypt;
 import java.io.IOException;
 import java.util.logging.Level;

@@ -4,6 +4,7 @@
  */
 package com.lin.general.admin;
 
+import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
 import net.sourceforge.stripes.action.DefaultHandler;

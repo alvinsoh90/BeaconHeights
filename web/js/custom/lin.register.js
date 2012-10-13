@@ -1,7 +1,4 @@
-/**
- * Unicorn Admin Template
- * Diablo9983 -> diablo9983@gmail.com
-**/
+
 $(document).ready(function(){
 	
 	$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
@@ -13,7 +10,7 @@ $(document).ready(function(){
 		rules:{
 			username:{
 				required: true,
-				minlength:6,
+				minlength:5,
 				maxlength:20
 			},
                         password:{
@@ -33,9 +30,11 @@ $(document).ready(function(){
 			},block:{
 				required: true
 			},level:{
-				required: true
+				required: true,
+                                digits:true
 			},unitnumber:{
-				required: true
+				required: true,
+                                digits:true
 			}
 		},
 		errorClass: "help-inline",
