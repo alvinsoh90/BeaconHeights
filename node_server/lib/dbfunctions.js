@@ -69,7 +69,7 @@ exports.getUserRole = function(callback,username){
 	});
 };
 
-exports.getNonAdminUsers = function(callback,username){
+exports.getNonAdminUsers = function(callback){
 	var sqlString = "SELECT `user_id`, `user_name`, `role_id`, `DOB`, `block_id`, `level`, `unit`, `facebook_id` FROM lin_db.user WHERE role_id<>1";
 	
 	client.query(sqlString, function(err, rows, fields) {
@@ -84,7 +84,7 @@ exports.getNonAdminUsers = function(callback,username){
 	});
 };
 
-exports.getAllUsers = function(callback,username){
+exports.getAllUsers = function(callback){
 	var sqlString = "SELECT `user_id`, `user_name`, `role_id`, `DOB`, `block_id`, `level`, `unit`, `facebook_id` FROM lin_db.user";
 	
 	client.query(sqlString, function(err, rows, fields) {
@@ -94,6 +94,37 @@ exports.getAllUsers = function(callback,username){
 	  }
 	  else{
 	  	return callback(null,rows);
+	  }
+	  
+	});
+};
+
+exports.doesUserExist = function(callback,username){
+	var sqlString = "SELECT user_name FROM (SELECT user_name FROM lin_db.user UNION SELECT user_name FROM lin_db.user_temp) As all_users WHERE user_name='"+username+"'";
+	
+	client.query(sqlString, function(err, rows, fields) {
+	  if (err) {
+	  	console.log(err);
+		return callback(err, null);
+	  }
+	  else{
+	  	return callback(null,rows[0]);
+	  }
+	  
+	});
+};
+
+exports.addTempUser = function(callback,userInfo){
+	var info=userInfo.split(",");
+	var sqlString = "INSERT INTO `lin_db`.`user_temp` (`user_id`, `password`, `user_name`, `firstname`, `lastname`, `role_id`, `DOB`, `block_id`, `level`, `unit`, `facebook_id`) VALUES (NULL, '"+info[1]+"', '"+info[0]+"', '"+info[2]+"', '"+info[3]+"', '2', NULL, '"+info[4]+"', '"+info[5]+"', '"+info[6]+"', NULL)";
+	console.log(sqlString);
+	client.query(sqlString, function(err) {
+	  if (err) {
+	  	console.log(err);
+		return callback(err);
+	  }
+	  else{
+	  	return callback(null);
 	  }
 	  
 	});

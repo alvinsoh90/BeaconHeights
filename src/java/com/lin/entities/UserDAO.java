@@ -4,7 +4,14 @@
  */
 package com.lin.entities;
 
+import com.lin.global.ApiUriList;
+import com.lin.utils.BCrypt;
+import com.lin.utils.json.JSONException;
+import com.lin.utils.json.JSONObject;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,6 +32,36 @@ public class UserDAO {
       userMap.put("username1",user1);
       userMap.put("username2",user2); 
       return userMap;
+    }
+    
+    //Method checks DB if username exists.
+    public static Boolean doesUserExist(String username){
+        String URL = ApiUriList.getDoesUserExistURI(username);
+        boolean userExists;
+        String res = null;
+        try {
+            res = HttpHandler.httpGet(URL);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        if(!res.equals("")){
+            userExists=true;
+        }else{
+            userExists=false;
+        }
+        return userExists;
+        
+    }
+    
+    //Method adds a temp user in user_temp awaiting approval.
+    public static void addTempUser(String username, String password, String firstname, String lastname, String block, String level, String unitnumber) {
+        String salt = BCrypt.gensalt();
+        String URL = ApiUriList.getAddTempUserURI(username,BCrypt.hashpw(password, salt),firstname,lastname,block,level,unitnumber);
+        try {
+            HttpHandler.httpGet(URL);
+        } catch (IOException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public User createUser(int id, String username, String password, String first_name,

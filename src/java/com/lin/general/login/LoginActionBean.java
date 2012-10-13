@@ -15,15 +15,6 @@ public class LoginActionBean extends BaseActionBean {
     private String plaintext;
     private String username;
     private boolean success;
-//    private String result;
-//
-//    public String getResult() {
-//        return result;
-//    }
-//
-//    public void setResult(String result) {
-//        this.result = result;
-//    }
 
     public String getPlaintext() {
         return plaintext;
