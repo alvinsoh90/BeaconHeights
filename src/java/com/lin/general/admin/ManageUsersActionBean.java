@@ -169,8 +169,6 @@ public class ManageUsersActionBean implements ActionBean {
   
   @DefaultHandler
   public Resolution createUserAccount() {
-
-      
       try {
         UserDAO uDAO = new UserDAO();        
       //temp code while we sort out how to insert address info like block, unit etc.
@@ -180,13 +178,17 @@ public class ManageUsersActionBean implements ActionBean {
         int levelInt = Integer.parseInt(level);
         int unitInt = Integer.parseInt(unitnumber);
       //int userID = 
-        User user1 = uDAO.createUser(userID, username, password, firstname, lastname, block1, levelInt, unitInt, role1);
-        result = user1.getFirst_name() + " has been created!";
+        User user1 = uDAO.createUser(userID, username, password, firstname, 
+                lastname, block1, levelInt, unitInt, role1);
+        result = user1.getFirstName();
         success = true;
       }catch(Exception e){
-          result = "There was an error creating a user. Please try again!" ;
+          e.printStackTrace();
+          result = "";
+          success = false;
       }
-    return new RedirectResolution("/manageusers.jsp?success=" + success + "&msg=" + result);
+    return new RedirectResolution("/manageusers.jsp?success=" + success + 
+            "&msg=" + result);
 
 
 

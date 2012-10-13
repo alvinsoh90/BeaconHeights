@@ -78,19 +78,15 @@
                 <div class="row-fluid">
                     <div class="span12">
                         <c:if test = "${param.success == 'false'}">
-                        <div>
-                            <br/>
-                        </div>
+                        <div><br/></div>
                         <div class="login alert alert-error container">
-                            <b>Whoops.</b> ${param.msg}
+                            <b>Whoops.</b> There was an error creating a user. Please try again!
                         </div>
                     </c:if> 
                     <c:if test = "${param.success == 'true'}">
-                        <div>
-                            <br/>
-                        </div>
+                        <div><br/></div>
                         <div class="login alert alert-success container">
-                            <b>Awesome!</b> ${param.msg}
+                            <b>Awesome!</b> ${param.msg} was added to the user list!
                         </div>
                     </c:if>
                         <div class="widget-box">
@@ -118,7 +114,7 @@
                                     <div class="control-group ${errorStyle}">
                                         <label class="control-label">Confirm Password</label>
                                         <div class="controls">
-                                            <stripes:password name="passwordconfirm" id="passwordconfirm"/>
+                                            <stripes:password  name="passwordconfirm" id="passwordconfirm"/>
                                         </div>
                                     </div>                             
                                     <div class="control-group ${errorStyle}">
@@ -189,8 +185,8 @@
                                                         <!--<div class="comments">
                                                             <span class="username">-->
                                                         <td><b>${user.key}</b></td>
-                                                        <td>${user.value.first_name}</td>
-                                                        <td>${user.value.last_name}</td>
+                                                        <td>${user.value.firstName}</td>
+                                                        <td>${user.value.lastName}</td>
                                                         <td>${user.value.role.name}</td>
                                                         <td>${user.value.block.block_name}</td>                                                            
                                                         <td>${user.value.level}</td>

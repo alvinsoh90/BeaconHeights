@@ -17,10 +17,10 @@ public class ApiUriList {
     }
 
     public static String getDoesUserExistURI(String username) {
-        return BaseURL + apiURL + "doesUserExist/" + username;
+        return BASE_URL + API_URL + "doesUserExist/" + username;
     }
 
     public static String getAddTempUserURI(String username, String password, String firstname, String lastname, String block, String level, String unitnumber) {
-        return BaseURL + apiURL + "addTempUser/" + username +"," + password + "," + firstname + "," + lastname + "," + block + "," + level + "," + unitnumber;
+        return BASE_URL + API_URL + "addTempUser/" + username +"," + password + "," + firstname + "," + lastname + "," + block + "," + level + "," + unitnumber;
     }
 }

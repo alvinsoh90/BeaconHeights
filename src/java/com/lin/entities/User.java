@@ -12,8 +12,8 @@ public class User {
     private long id;
     private String username;
     private String password;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private Block block;
     private int level;
     private int unit;
@@ -24,8 +24,8 @@ public class User {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = first_name;
+        this.lastName = last_name;
         this.block = block;
         this.level = level;
         this.unit = unit;
@@ -40,12 +40,12 @@ public class User {
         this.block = block;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String first_name) {
+        this.firstName = first_name;
     }
 
     public long getId() {
@@ -56,12 +56,12 @@ public class User {
         this.id = id;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String last_name) {
+        this.lastName = last_name;
     }
 
     public int getLevel() {
