@@ -74,6 +74,11 @@
                             <b>Whoops.</b> Your username or password was not found in our records. Please try again.
                         </div>
                     </c:if> 
+                    <c:if test = "${param.success == 'true'}">
+                        <div class="login alert alert-success container">
+                            <b>Awesome!</b> "${param.msg}"
+                        </div>
+                    </c:if> 
 
                 </div>			
             </div>

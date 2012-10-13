@@ -5,6 +5,7 @@
 package com.lin.entities;
 
 import com.lin.global.ApiUriList;
+import com.lin.utils.BCrypt;
 import com.lin.utils.json.JSONException;
 import com.lin.utils.json.JSONObject;
 import java.io.IOException;
@@ -54,7 +55,8 @@ public class UserDAO {
     
     //Method adds a temp user in user_temp awaiting approval.
     public static void addTempUser(String username, String password, String firstname, String lastname, String block, String level, String unitnumber) {
-        String URL = ApiUriList.getAddTempUserURI(username,password,firstname,lastname,block,level,unitnumber);
+        String salt = BCrypt.gensalt();
+        String URL = ApiUriList.getAddTempUserURI(username,BCrypt.hashpw(password, salt),firstname,lastname,block,level,unitnumber);
         try {
             HttpHandler.httpGet(URL);
         } catch (IOException ex) {

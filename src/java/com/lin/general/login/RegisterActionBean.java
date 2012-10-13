@@ -119,8 +119,8 @@ public class RegisterActionBean extends BaseActionBean {
         }else{
            //Need to handle null for block,level,unitnumber
            UserDAO.addTempUser(username,password,firstname,lastname,block,level,unitnumber);
-           successMsg = "Your account has been added!";
-           return new RedirectResolution("/register.jsp?success=true&msg="+successMsg);
+           successMsg = "Your account has been added! Please wait for a couple of days for your account to be approved.";
+           return new RedirectResolution("/login.jsp?success=true&msg="+successMsg);
         }
     }
 }
