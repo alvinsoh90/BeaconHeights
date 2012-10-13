@@ -44,7 +44,7 @@
                             <br/>
                         </div>
                         <div class="login alert alert-error container">
-                            <b>Whoops.</b> ${param.errMsg}
+                            <b>Whoops.</b> ${param.msg}
                         </div>
                     </c:if> 
                     <c:if test = "${param.success == 'true'}">
@@ -52,7 +52,7 @@
                             <br/>
                         </div>
                         <div class="login alert alert-success container">
-                            <b>Awesome!</b> ${param.successMsg}
+                            <b>Awesome!</b> ${param.msg}
                         </div>
                     </c:if> 
                     <div class="widget-box heavyBlackBorder inlineblock register">
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>                              
                                 <div class="form-actions">
-                                    <input type="submit" name="createUserAccount" value="Register" class="btn btn-info btn-large">
+                                    <input type="submit" name="registerTempUserAccount" value="Register" class="btn btn-info btn-large">
                                 </div>                            
 
                             </stripes:form>

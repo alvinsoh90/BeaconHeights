@@ -99,7 +99,7 @@ public class RegisterActionBean extends BaseActionBean {
 
     
     @DefaultHandler
-    public Resolution createUserAccount() {
+    public Resolution registerTempUserAccount() {
         UserDAO uDAO = new UserDAO();
         Boolean userExists;
         Boolean passwordMatch;
@@ -111,16 +111,16 @@ public class RegisterActionBean extends BaseActionBean {
         if(!passwordMatch){
             //return err message
             errMsg = "Passwords do not match";
-            return new RedirectResolution("/register.jsp?err=true&errMsg="+errMsg);
+            return new RedirectResolution("/register.jsp?success=false&msg="+errMsg);
         }else if(userExists){
             //return err message
             errMsg = "Username already Exists";
-            return new RedirectResolution("/register.jsp?err=true&errMsg="+errMsg);
+            return new RedirectResolution("/register.jsp?success=false&msg="+errMsg);
         }else{
            //Need to handle null for block,level,unitnumber
            UserDAO.addTempUser(username,password,firstname,lastname,block,level,unitnumber);
            successMsg = "Your account has been added!";
-           return new RedirectResolution("/register.jsp?success=true&successMsg="+successMsg);
+           return new RedirectResolution("/register.jsp?success=true&msg="+successMsg);
         }
     }
 }

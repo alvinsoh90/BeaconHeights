@@ -35,6 +35,7 @@ public class ManageUsersActionBean implements ActionBean {
   private String role;
   private String result;
   private String test = "test";
+  private boolean success=false;
 
   public String getBlock() {
     return block;
@@ -181,11 +182,11 @@ public class ManageUsersActionBean implements ActionBean {
       //int userID = 
         User user1 = uDAO.createUser(userID, username, password, firstname, lastname, block1, levelInt, unitInt, role1);
         result = user1.getFirst_name() + " has been created!";
-        
+        success = true;
       }catch(Exception e){
-          result = e.getMessage();
+          result = "There was an error creating a user. Please try again!" ;
       }
-    return new RedirectResolution("/manageusers.jsp");
+    return new RedirectResolution("/manageusers.jsp?success=" + success + "&msg=" + result);
 
 
 

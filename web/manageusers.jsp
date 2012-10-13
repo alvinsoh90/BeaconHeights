@@ -74,78 +74,92 @@
                 <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
                 <a href="#" class="current">Users</a>
             </div>
-
-
             <div class="container-fluid">
                 <div class="row-fluid">
-                <div class="span12">
-                    <div class="widget-box">
-                        <div data-target="#collapseTwo" data-toggle="collapse" class="widget-title" id="newUserForm">
-                            <span class="icon">
-                                <i class="icon-plus"></i>									
-                            </span>
-                            <h5>Add New User Form</h5>
+                    <div class="span12">
+                        <c:if test = "${param.success == 'false'}">
+                        <div>
+                            <br/>
                         </div>
-                        <div class="addUser collapse" id="collapseTwo">
-                            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageUsersActionBean" focus="" name="registration_validate" id="registration_validate">
-                                <!-- User enters username, still need to validate if username is valid -->
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Username</label>
-                                    <div class="controls">
-                                        <stripes:text name="username"/>
-                                    </div>
-                                </div>
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Password</label>
-                                    <div class="controls">
-                                        <stripes:password name="password" id="password"/>
-                                    </div>
-                                </div>
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Confirm Password</label>
-                                    <div class="controls">
-                                        <stripes:password name="passwordconfirm" id="passwordconfirm"/>
-                                    </div>
-                                </div>                             
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">First Name</label>
-                                    <div class="controls">
-                                        <stripes:text name="firstname"/> 
-                                    </div>
-                                </div>                              
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Last Name</label>
-                                    <div class="controls">
-                                        <stripes:text name="lastname"/> 
-                                    </div>
-                                </div>
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Block</label>
-                                    <div class="controls">
-                                        <stripes:text name="block"/> 
-                                    </div>
-                                </div>  
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Unit Number</label>
-                                    <div class="controls">
-                                        <stripes:text name="level" id="inputUnitNumberAdmin"/> - <stripes:text name="unitnumber" id="inputUnitNumberAdmin"/>
-                                    </div>
-                                </div> 
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Role</label>
-                                    <div class="controls">
-                                        <stripes:text name="role"/> 
-                                    </div>
-                                </div> 
-                                <div class="form-actions">
-                                    <input type="submit" name="createUserAccount" value="Add" class="btn btn-info btn-large">
-                                </div>                            
-
-                            </stripes:form>
-
+                        <div class="login alert alert-error container">
+                            <b>Whoops.</b> ${param.msg}
                         </div>
-                    </div>						
-                </div>
+                    </c:if> 
+                    <c:if test = "${param.success == 'true'}">
+                        <div>
+                            <br/>
+                        </div>
+                        <div class="login alert alert-success container">
+                            <b>Awesome!</b> ${param.msg}
+                        </div>
+                    </c:if>
+                        <div class="widget-box">
+                            <div data-target="#collapseTwo" data-toggle="collapse" class="widget-title" id="newUserForm">
+                                <span class="icon">
+                                    <i class="icon-plus"></i>									
+                                </span>
+                                <h5>Add New User Form</h5>
+                            </div>
+                            <div class="addUser collapse" id="collapseTwo">
+                                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageUsersActionBean" focus="" name="registration_validate" id="registration_validate">
+                                    <!-- User enters username, still need to validate if username is valid -->
+                                    <div class="control-group ${errorStyle}">
+                                        <label class="control-label">Username</label>
+                                        <div class="controls">
+                                            <stripes:text name="username"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group ${errorStyle}">
+                                        <label class="control-label">Password</label>
+                                        <div class="controls">
+                                            <stripes:password name="password" id="password"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group ${errorStyle}">
+                                        <label class="control-label">Confirm Password</label>
+                                        <div class="controls">
+                                            <stripes:password name="passwordconfirm" id="passwordconfirm"/>
+                                        </div>
+                                    </div>                             
+                                    <div class="control-group ${errorStyle}">
+                                        <label class="control-label">First Name</label>
+                                        <div class="controls">
+                                            <stripes:text name="firstname"/> 
+                                        </div>
+                                    </div>                              
+                                    <div class="control-group ${errorStyle}">
+                                        <label class="control-label">Last Name</label>
+                                        <div class="controls">
+                                            <stripes:text name="lastname"/> 
+                                        </div>
+                                    </div>
+                                    <div class="control-group ${errorStyle}">
+                                        <label class="control-label">Block</label>
+                                        <div class="controls">
+                                            <stripes:text name="block"/> 
+                                        </div>
+                                    </div>  
+                                    <div class="control-group ${errorStyle}">
+                                        <label class="control-label">Unit Number</label>
+                                        <div class="controls">
+                                            <stripes:text name="level" id="inputUnitNumberAdmin"/> - <stripes:text name="unitnumber" id="inputUnitNumberAdmin"/>
+                                        </div>
+                                    </div> 
+                                    <div class="control-group ${errorStyle}">
+                                        <label class="control-label">Role</label>
+                                        <div class="controls">
+                                            <stripes:text name="role"/> 
+                                        </div>
+                                    </div> 
+                                    <div class="form-actions">
+                                        <input type="submit" name="createUserAccount" value="Add" class="btn btn-info btn-large">
+                                    </div>                            
+
+                                </stripes:form>
+
+                            </div>
+                        </div>						
+                    </div>
                     <div class="widget-box">
                         <div class="widget-title">
                             <span class="icon"><i class="icon-user"></i></span><h5>Users</h5></div>
@@ -206,22 +220,22 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!--<script src="js/excanvas.min.js"></script>-->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/jquery.ui.custom.js"></script>
-        <script src="js/bootstrap.min.js"></script>
 
-        <script src="js/jquery.flot.min.js"></script>
-        <script src="js/jquery.flot.resize.min.js"></script>
-        <script src="js/jquery.peity.min.js"></script>
+            <!--<script src="js/excanvas.min.js"></script>-->
+            <script src="js/jquery.min.js"></script>
+            <script src="js/jquery.ui.custom.js"></script>
+            <script src="js/bootstrap.min.js"></script>
 
-        <script src="js/lin.manageusers.js"></script>
-        <script src="js/fullcalendar.min.js"></script>
-        <script src="js/unicorn.js"></script>
-        <script src="js/unicorn.dashboard.js"></script>
-        
+            <script src="js/jquery.flot.min.js"></script>
+            <script src="js/jquery.flot.resize.min.js"></script>
+            <script src="js/jquery.peity.min.js"></script>
+
+            <script src="js/lin.manageusers.js"></script>
+            <script src="js/fullcalendar.min.js"></script>
+            <script src="js/unicorn.js"></script>
+            <script src="js/unicorn.dashboard.js"></script>
+
     </body>
 
 </html>
