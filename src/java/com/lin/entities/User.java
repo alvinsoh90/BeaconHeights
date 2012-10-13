@@ -19,9 +19,8 @@ public class User {
     private int unit;
     private Role role;
 
-    public User(long id, String username, String password, String first_name, 
+    public User(String username, String password, String first_name, 
             String last_name, Block block, int level, int unit, Role role) {
-        this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = first_name;

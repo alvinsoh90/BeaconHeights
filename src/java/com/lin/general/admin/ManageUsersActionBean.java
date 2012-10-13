@@ -178,7 +178,7 @@ public class ManageUsersActionBean implements ActionBean {
         int levelInt = Integer.parseInt(level);
         int unitInt = Integer.parseInt(unitnumber);
       //int userID = 
-        User user1 = uDAO.createUser(userID, username, password, firstname, 
+        User user1 = uDAO.createUser(username, password, firstname, 
                 lastname, block1, levelInt, unitInt, role1);
         result = user1.getFirstName();
         success = true;

@@ -27,8 +27,8 @@ public class UserDAO {
       Role role1 = new Role(1,"admin","Admin user");
       Block block1 = new Block(1,"blockname",2,3,"Block1");
 
-      User user1 = new User(1,"username1","password1","Jonathan","SEETOH",block1,5,12,role1);
-      User user2 = new User(1,"username2","password1","Shamus","MING",block1,5,12,role1);
+      User user1 = new User("username1","password1","Jonathan","SEETOH",block1,5,12,role1);
+      User user2 = new User("username2","password1","Shamus","MING",block1,5,12,role1);
       userMap.put("username1",user1);
       userMap.put("username2",user2); 
       return userMap;
@@ -44,7 +44,7 @@ public class UserDAO {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        if(!res.equals("")){
+        if(!res.equals("")){    // TODO: Change response to something like 'true' or 'false'
             userExists=true;
         }else{
             userExists=false;
@@ -54,9 +54,11 @@ public class UserDAO {
     }
     
     //Method adds a temp user in user_temp awaiting approval.
-    public static void addTempUser(String username, String password, String firstname, String lastname, String block, String level, String unitnumber) {
+    public static void addTempUser(String username, String password, String 
+            firstname, String lastname, String block, String level, String unitnumber) {
         String salt = BCrypt.gensalt();
-        String URL = ApiUriList.getAddTempUserURI(username,BCrypt.hashpw(password, salt),firstname,lastname,block,level,unitnumber);
+        String URL = ApiUriList.getAddTempUserURI(username,BCrypt.hashpw(password, salt),
+                firstname,lastname,block,level,unitnumber);
         try {
             HttpHandler.httpGet(URL);
         } catch (IOException ex) {
@@ -64,10 +66,11 @@ public class UserDAO {
         }
     }
 
-    public User createUser(int id, String username, String password, String first_name,
+    public User createUser(String username, String password, String first_name,
             String last_name, Block block, int level, int unit, Role role) {
 
-        User user = new User(id, username, password, first_name, last_name, block, level, unit, role);
+        User user = new User(username, password, first_name, last_name, block, 
+                level, unit, role);
 
         //add to temporary hashmap
         userMap.put(username, user);
@@ -88,7 +91,8 @@ public class UserDAO {
     
     public User updateUser(int id, String username, String password, String first_name,
             String last_name, Block block, int level, int unit, Role role){
-        User user = new User(id, username, password, first_name, last_name, block, level, unit, role);
+        User user = new User(username, password, first_name, last_name, block, 
+                level, unit, role);
         userMap.put(username, user);
         
         //update user where id = id
