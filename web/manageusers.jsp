@@ -80,13 +80,13 @@
                 <div class="row-fluid">
                 <div class="span12">
                     <div class="widget-box">
-                        <div data-target="#collapseTwo" data-toggle="collapse" class="widget-title">
+                        <div data-target="#collapseTwo" data-toggle="collapse" class="widget-title" id="newUserForm">
                             <span class="icon">
                                 <i class="icon-plus"></i>									
                             </span>
                             <h5>Add New User Form</h5>
                         </div>
-                        <div class="widget-content collapse" id="collapseTwo">
+                        <div class="addUser collapse" id="collapseTwo">
                             <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageUsersActionBean" focus="" name="registration_validate" id="registration_validate">
                                 <!-- User enters username, still need to validate if username is valid -->
                                 <div class="control-group ${errorStyle}">
@@ -128,7 +128,7 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit Number</label>
                                     <div class="controls">
-                                        <stripes:text name="level"/>-<stripes:text name="unitnumber"/>
+                                        <stripes:text name="level" id="inputUnitNumberAdmin"/> - <stripes:text name="unitnumber" id="inputUnitNumberAdmin"/>
                                     </div>
                                 </div> 
                                 <div class="control-group ${errorStyle}">
@@ -217,7 +217,7 @@
         <script src="js/jquery.flot.resize.min.js"></script>
         <script src="js/jquery.peity.min.js"></script>
 
-        <script src="js/lin.register.js"></script>
+        <script src="js/lin.manageusers.js"></script>
         <script src="js/fullcalendar.min.js"></script>
         <script src="js/unicorn.js"></script>
         <script src="js/unicorn.dashboard.js"></script>

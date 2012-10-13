@@ -20,6 +20,14 @@
     width: 400px;
 }
 
+.widget-box.register{
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    margin-top: 3%;
+    width: 500px;
+}
+
 .heavyBlackBorder{
     border: 10px solid #3D3B3B;
 }
@@ -36,7 +44,25 @@
 .login .form-actions input[type="submit"]{
     padding: 7px 60px;
     font-size: 18px;
-    margin-left: -146px;
+    position: relative;
+    bottom: 38px;
+    left: 12px;
+}
+
+.login .form-actions a[href="register.jsp"]{
+    padding: 7.5px 49px;
+    font-size: 18px;
+    margin-left: -340px;
+}
+
+#twoButtons{
+    height:40px;
+}
+
+.register .form-actions input[type="submit"]{
+    padding: 7px 60px;
+    font-size: 18px;
+    margin-left: -154px;
 }
 
 .userImageBadge{
@@ -59,4 +85,18 @@
 
 .table.users td{
     text-align:center;
+}
+
+#inputUnitNumber{
+    width:107px;
+}
+
+#inputUnitNumberAdmin{
+    width:378px;
+}
+
+.addUser .form-actions input[type="submit"]{
+    padding: 7px 60px;
+    font-size: 18px;
+    margin-left: 20px;
 }

@@ -26,7 +26,7 @@
     </head>
 
     <body style="background: url('img/noise_grey_bg.png')">
-        <c:if test = "${param.err == 'true'}">
+        <c:if test = "${param.success == 'true'}">
             <c:set var="errorStyle" value="error" />
         </c:if> 
 
@@ -39,23 +39,23 @@
 
             <div class="row-fluid">
                 <div class="span12">
-                    <c:if test = "${param.err == 'true'}">
+                    <c:if test = "${param.success == 'false'}">
                         <div>
                             <br/>
                         </div>
                         <div class="login alert alert-error container">
-                            <b>Whoops.</b> There was an error submitting your registration form. Please try again.
+                            <b>Whoops.</b> ${param.errMsg}
                         </div>
                     </c:if> 
-                    <c:if test = "${param.err == 'false'}">
+                    <c:if test = "${param.success == 'true'}">
                         <div>
                             <br/>
                         </div>
                         <div class="login alert alert-success container">
-                            <b>Awesome!</b> Your registration form has been submitted to the Administrator. Please wait a couple of days for its approval.
+                            <b>Awesome!</b> ${param.successMsg}
                         </div>
                     </c:if> 
-                    <div class="widget-box heavyBlackBorder inlineblock login">
+                    <div class="widget-box heavyBlackBorder inlineblock register">
                         <div class="widget-title">
                             <span class="icon">
                                 <i class="icon-pencil"></i>									
@@ -104,7 +104,7 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit Number</label>
                                     <div class="controls">
-                                        <stripes:text name="level"/>-<stripes:text name="unitnumber"/>
+                                        <stripes:text name="level" id="inputUnitNumber"/> - <stripes:text name="unitnumber" id="inputUnitNumber"/>
                                     </div>
                                 </div>                              
                                 <div class="form-actions">

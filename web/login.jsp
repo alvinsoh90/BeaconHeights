@@ -61,9 +61,9 @@
                                         <stripes:password name="plaintext"/>
                                     </div>
                                 </div>
-                                <div class="form-actions">
-                                    <div><a href="register.jsp" class="btn btn-large">Register</a></div>
-                                    <input type="submit" value="Login" class="btn btn-info btn-large">
+                                <div class="form-actions" id="twoButtons">
+                                    <div id="regBtn"><a href="register.jsp" class="btn btn-large">Register</a></div>
+                                    <div id="loginBtn"><input type="submit" value="Login" class="btn btn-info btn-large"></div>
                                 </div>
                             </stripes:form>
                         </div>
