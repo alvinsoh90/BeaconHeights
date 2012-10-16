@@ -124,7 +124,7 @@ exports.addTempUser = function(callback,userInfo){
 		return callback(err);
 	  }
 	  else{
-	  	return callback(null);
+	  	return callback(200);
 	  }
 	  
 	});

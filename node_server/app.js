@@ -128,7 +128,7 @@ app.get(ROOT + 'getAllUsers', function(req, res){
 
 app.get(ROOT + 'doesUserExist/:username', function(req, res){
   
-  console.log(req.params.username);
+  //console.log(req.params.username);
 
   db_func.doesUserExist(function(err,result){
     if(err){
@@ -144,7 +144,7 @@ app.get(ROOT + 'doesUserExist/:username', function(req, res){
 
 app.get(ROOT + 'addTempUser/:userInfo', function(req, res){
   
-  console.log(req.params.username);
+  //console.log(req.params.username);
 
   db_func.addTempUser(function(err,result){
     if(err){
