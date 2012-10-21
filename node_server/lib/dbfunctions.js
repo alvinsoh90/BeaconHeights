@@ -101,14 +101,20 @@ exports.getAllUsers = function(callback){
 
 exports.doesUserExist = function(callback,username){
 	var sqlString = "SELECT user_name FROM (SELECT user_name FROM lin_db.user UNION SELECT user_name FROM lin_db.user_temp) As all_users WHERE user_name='"+username+"'";
-	
+	var result;
+
 	client.query(sqlString, function(err, rows, fields) {
 	  if (err) {
 	  	console.log(err);
 		return callback(err, null);
 	  }
 	  else{
-	  	return callback(null,rows[0]);
+	  	if(rows.length>0){
+	  		result = {"userExists": "true"};
+	  	}else{
+	  		result = {"userExists": "false"};
+	  	}
+	  	return callback(null,result);
 	  }
 	  
 	});

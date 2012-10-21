@@ -41,17 +41,16 @@ public class UserDAO {
     //Method checks DB if username exists.
     public static Boolean doesUserExist(String username){
         String URL = ApiUriList.getDoesUserExistURI(username);
-        boolean userExists;
+        boolean userExists = true; //defaults to preventing users from creating account.
         String res = null;
         try {
             res = HttpHandler.httpGet(URL);
+            JSONObject resObj = new JSONObject(res);
+            userExists=resObj.getBoolean("userExists");
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-        if(!res.equals("")){    // TODO: Change response to something like 'true' or 'false'
-            userExists=true;
-        }else{
-            userExists=false;
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         return userExists;
         
