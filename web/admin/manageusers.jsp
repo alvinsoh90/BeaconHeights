@@ -22,8 +22,8 @@
         <link rel="stylesheet" href="../css/chosen.css" />	
         <link rel="stylesheet" href="../css/unicorn.grey.css" class="skin-color" />
         <style>.starthidden { display:none; }</style>
-        
-        <!-- -->
+
+        <!-- Populates the Edit User form -->
         <script>
             // Init an array of all users shown on this page
             var userList = [];
@@ -46,11 +46,31 @@
                 
             }
         </script>
-        
+
+        <!-- Populates the Delete User Modal-->
+        <script>
+            // Init an array of all users shown on this page
+            var userList = [];
+            
+            //when this function is called, userList should already be populated
+            function populateDeleteUserModal(userID){ 
+                userList.forEach(function(user){
+                    if(user.id == userID){
+                        $("#usernameDeleteLabel").text(user.username);
+                        $("#delete_username").val(user.username);
+                        $("#delete_firstname").text(user.firstName);
+                        $("#delete_lastname").text(user.lastName);
+
+                    }
+                });
+                
+            }
+        </script>
+
     </head>
     <body>
-        
-        
+
+
         <div id="header">
             <h1><a href="./dashboard.html">Beacon Heights Admin</a></h1>		
         </div>
@@ -78,19 +98,19 @@
             <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
             <ul>
                 <li class="submit"><a href="#"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
-                    <li class="submenu active open">
-                        <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span> <span class="label">3</span></a>
-                        <ul>
-                            <li class ="active"><a href="manageusers.jsp">Manage Users</a></li>
-                            <li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
-                            <!--<li><a href="form-wizard.html">Wizard</a></li> -->
-                        </ul>
-                    </li>
+                <li class="submenu active open">
+                    <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span> <span class="label">3</span></a>
+                    <ul>
+                        <li class ="active"><a href="manageusers.jsp">Manage Users</a></li>
+                        <li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
+                        <!--<li><a href="form-wizard.html">Wizard</a></li> -->
+                    </ul>
+                </li>
 
         </div>
 
 
-        
+
         <div id="content">
             <div id="content-header">
                 <h1> Manage Users </h1>
@@ -106,21 +126,33 @@
                 <a href="#" class="current">Users</a>
             </div>
             <div class="container-fluid">
-             
+
                 <div class="row-fluid">
                     <div class="span12">
-                        <c:if test = "${param.success == 'false'}">
-                        <div><br/></div>
-                        <div class="login alert alert-error container">
-                            <b>Whoops.</b> There was an error creating a user. Please try again!
-                        </div>
-                    </c:if> 
-                    <c:if test = "${param.success == 'true'}">
-                        <div><br/></div>
-                        <div class="login alert alert-success container">
-                            <b>Awesome!</b> ${param.msg} was added to the user list!
-                        </div>
-                    </c:if>
+                        <c:if test = "${param.createsuccess == 'false'}">
+                            <div><br/></div>
+                            <div class="login alert alert-error container">
+                                <b>Whoops.</b> There was an error creating a user. Please try again!
+                            </div>
+                        </c:if> 
+                        <c:if test = "${param.createsuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success container">
+                                <b>Awesome!</b> ${param.createmsg} was added to the user list!
+                            </div>
+                        </c:if>
+                            <c:if test = "${param.deletesuccess == 'false'}">
+                            <div><br/></div>
+                            <div class="login alert alert-error container">
+                                <b>Whoops.</b> The user could not be deleted.
+                            </div>
+                        </c:if> 
+                        <c:if test = "${param.deletesuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success container">
+                                <b>Awesome!</b> ${param.deletemsg} was successfully deleted!
+                            </div>
+                        </c:if>
                         <div class="widget-box">
                             <div title="Click to add a new user" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newUserForm">
                                 <span class="icon">
@@ -138,7 +170,7 @@
                                             </stripes:select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="control-group ${errorStyle}">
                                         <label class="control-label">Username</label>
                                         <div class="controls">
@@ -184,15 +216,15 @@
                                     <div class="control-group ${errorStyle}">
                                         <label class="control-label">Unit Number</label>
                                         <div class="controls">
-                                           <stripes:text name="unitnumber"/>
+                                            <stripes:text name="unitnumber"/>
                                         </div>
                                     </div> 
-                                        
+
                                     <div class="form-actions">
                                         <input type="submit" name="createUserAccount" value="Add this user" class="btn btn-info btn-large">
                                     </div>                            
                                 </stripes:form>
-                                  
+
                             </div>
                         </div>						
                     </div>
@@ -248,7 +280,7 @@
                                                         <td>
                                                             <a href="#editUserModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditUserModal('${user.value.id}')">Edit</a> 
                                                             <a href="#" class="btn btn-success btn-mini">Reset Password</a> 
-                                                            <a href="#" class="btn btn-danger btn-mini">Delete</a>
+                                                            <a href="#deleteUserModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteUserModal('${user.value.id}')">Delete</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -262,83 +294,83 @@
                             </div>							
                         </div>
                     </div>
-                    
-                    
-                    
-                    
+
+
+
+
                 </div>
 
                 <div class="row-fluid">
                     <div id="footer" class="span12">
-                     
+
                     </div>
                 </div>
             </div>
-            
+
             <!-- Edit User Modal Form -->
             <div id="editUserModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Edit <span id="usernameLabel"></span>'s information</h3>
-            </div>
-            <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="registration_validate">
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Role</label>
-                        <div class="controls">
-                            <stripes:select name="role">
-                                <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
-                            </stripes:select>
+                <div id="myModal" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3>Edit <span id="usernameLabel"></span>'s information</h3>
+                </div>
+                <div class="modal-body">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="registration_validate">
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Role</label>
+                            <div class="controls">
+                                <stripes:select name="role">
+                                    <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
+                                </stripes:select>
+                            </div>
+                        </div> 
+                        <stripes:text class="hide" name="id" id="editid" />
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Username</label>
+                            <div class="controls">
+                                <stripes:text id="edit_username" name="username"/>
+                            </div>
                         </div>
-                    </div> 
-                    <stripes:text class="hide" name="id" id="editid" />
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Username</label>
-                        <div class="controls">
-                            <stripes:text id="edit_username" name="username"/>
+
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">First Name</label>
+                            <div class="controls">
+                                <stripes:text id="edit_firstname" name="firstname"/> 
+                            </div>
+                        </div>                              
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Last Name</label>
+                            <div class="controls">
+                                <stripes:text id="edit_lastname" name="lastname"/> 
+                            </div>
                         </div>
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Block</label>
+                            <div class="controls">
+                                <stripes:text id="edit_block" name="block"/> 
+                            </div>
+                        </div>
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Level</label>
+                            <div class="controls">
+                                <stripes:text id="edit_level" name="level"/>
+                            </div>
+                        </div>     
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Unit Number</label>
+                            <div class="controls">
+                                <stripes:text id="edit_unit" name="unitnumber"/>
+                            </div>
+                        </div>                     
+
                     </div>
-                           
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">First Name</label>
-                        <div class="controls">
-                            <stripes:text id="edit_firstname" name="firstname"/> 
-                        </div>
-                    </div>                              
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Last Name</label>
-                        <div class="controls">
-                            <stripes:text id="edit_lastname" name="lastname"/> 
-                        </div>
+                    <div class="modal-footer">
+                        <a data-dismiss="modal" class="btn">Close</a>
+                        <input type="submit" name="editUser" value="Confirm Edit" class="btn btn-primary"/>
                     </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Block</label>
-                        <div class="controls">
-                            <stripes:text id="edit_block" name="block"/> 
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Level</label>
-                        <div class="controls">
-                            <stripes:text id="edit_level" name="level"/>
-                        </div>
-                    </div>     
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Unit Number</label>
-                        <div class="controls">
-                            <stripes:text id="edit_unit" name="unitnumber"/>
-                        </div>
-                    </div>                     
-                
+                </stripes:form>
             </div>
-            <div class="modal-footer">
-                <a data-dismiss="modal" class="btn">Close</a>
-                <input type="submit" name="editUser" value="Confirm Edit" class="btn btn-primary"/>
-            </div>
-                        </stripes:form>
-        </div>
-            
-            
+
+
             <script>
                 function loadValidate(){
                     $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
@@ -386,8 +418,27 @@
                             $(element).parents('.control-group').addClass('success');
                         }
                     });
-            }
+                }
             </script>
+
+
+            <!-- Delete User Modal -->
+            <div id="deleteUserModal" class="modal hide fade">
+                <div id="myModal" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3>Deletion of <span id="usernameDeleteLabel"></span>'s account</h3>
+                </div>
+                <div class="modal-body">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteUserBean" focus=""> 
+                        You are now deleting <span id="delete_firstname"></span> <span id="delete_lastname"></span>'s account. Are you sure?
+                    </div>
+                    <div class="modal-footer">
+                        <a data-dismiss="modal" class="btn">Close</a>
+                        <stripes:hidden id="delete_username" name="username"/>
+                        <input type="submit" name="deleteUser" value="Confirm Delete" class="btn btn-danger"/>
+                    </div>
+                </stripes:form>
+            </div>
 
             <!--<script src="js/excanvas.min.js"></script>-->
             <script src="../js/jquery.min.js"></script>
@@ -397,8 +448,8 @@
             <script src="../js/jquery.flot.min.js"></script>
             <script src="../js/jquery.flot.resize.min.js"></script>
             <script src="../js/jquery.peity.min.js"></script>
-            
-             <script src="../js/jquery.uniform.js"></script>
+
+            <script src="../js/jquery.uniform.js"></script>
             <script src="../js/jquery.chosen.js"></script>
             <script src="../js/jquery.validate.js"></script>
 
