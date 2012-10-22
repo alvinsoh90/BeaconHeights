@@ -45,10 +45,60 @@
                 });
                 
             }
+            
+            //Loop through userList and output all into table for display
+            function showAllUsers(){
+   
+                var r = new Array(), j = -1;
+                
+                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th colspan='3'>Address</th><th>Action</th></tr>"
+                
+                for (var i=0; i<userList.length; i++){
+                     r[++j] ='<tr><td>';
+                     r[++j] = userList[i].id;
+                     r[++j] = '</td><td class="whatever1">';
+                     r[++j] = userList[i].username;
+                     r[++j] = '</td><td class="whatever2">';
+                     r[++j] = userList[i].firstName;
+                     r[++j] = '</td><td class="whatever2">';
+                     r[++j] = userList[i].lastName;
+                     r[++j] = '</td><td class="whatever2">';
+                     r[++j] = userList[i].roleName;
+                     r[++j] = '</td><td class="whatever2">';
+                     r[++j] = userList[i].blockName;
+                     r[++j] = '</td><td class="whatever2">';
+                     r[++j] = userList[i].level;
+                     r[++j] = '</td><td class="whatever2">';
+                     r[++j] = userList[i].unit;
+                     r[++j] = '</td><td class="whatever2">';
+                     r[++j] = "<a href= '#editUserModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditUserModal(" + userList[i].id + ")'>Edit</a>\n\
+                               <a href='#' class='btn btn-success btn-mini'>ResetPassword</a>\n\
+                               <a href='#deleteUserModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteUserModal('" + userList[i].id + "')'>Delete</a>";
+                     r[++j] = '</td></tr>';
+                }
+                $('#userTable').html(tableHeaders + r.join('')); 
+            }
+            
+            // This method is used to filter the user list shown to admin
+            // when the filter selection is chosen
+            function filterByBlockName(blockName){
+                
+            }
         </script>
         
+               <script src="../js/jquery.min.js"></script>
+            <script src="../js/jquery.ui.custom.js"></script>
+            <script src="../js/bootstrap.min.js"></script>
+
+            <script src="../js/jquery.flot.min.js"></script>
+            <script src="../js/jquery.flot.resize.min.js"></script>
+            <script src="../js/jquery.peity.min.js"></script>
+            
+             <script src="../js/jquery.uniform.js"></script>
+            <script src="../js/jquery.chosen.js"></script>
+            <script src="../js/jquery.validate.js"></script>
     </head>
-    <body>
+    <body onload="showAllUsers()">
         
         
         <div id="header">
@@ -198,13 +248,48 @@
                     </div>
                     <div class="widget-box">
                         <div class="widget-title">
-                            <span class="icon"><i class="icon-user"></i></span><h5>Users</h5></div>
+                            <span class="icon"><i class="icon-user"></i></span><h5>Users</h5>
+                            <div class="float_r filterOptions">
+                                 <h5>or</h5>
+                                        <select>
+                                            <option>-Select Role-</option>
+                                            <option>Resident</option>
+                                            <option>MCST</option>
+                                        </select>
+                            </div>
+                            <div class="float_r filterOptions">
+                                 <h5> Filter By: </h5>
+                                    <select>
+                                            <option>-Select Block-</option>
+                                            <option>A</option>
+                                            <option>B</option>
+                                        </select>
+                            </div>
+                        </div>
+                        
+                        
+                        <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                            <script>
+                                var user = new Object();
+                                user.id = '${user.value.id}';
+                                user.username = '${user.value.username}';
+                                user.firstName = '${user.value.firstName}';
+                                user.lastName = '${user.value.lastName}';
+                                user.roleName = '${user.value.role.name}';
+                                user.blockName = '${user.value.block.blockName}';
+                                user.level = '${user.value.level}';
+                                user.unit = '${user.value.unit}';
+                                userList.push(user);
+                                                        
+                            </script>
+                        </c:forEach>
+                        
                         <div class="widget-content">
                             <div class="row-fluid">
                                 <div class="span12">
                                     <div class="widget-content nopadding">
                                         <ul class="recent-comments"> 
-                                            <table class="table table-striped users">
+                                            <table id="userTable" class="table table-striped users">
                                                 <tr>
                                                     <th></th>
                                                     <th>ID</th>
@@ -215,28 +300,18 @@
                                                     <th colspan="3">Address</th>
                                                     <th>Action</th>
                                                 </tr>
-
-                                                <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
-                                                    <script>
-                                                        var user = new Object();
-                                                        user.id = '${user.value.id}';
-                                                        user.username = '${user.value.username}';
-                                                        user.firstName = '${user.value.firstName}';
-                                                        user.lastName = '${user.value.lastName}';
-                                                        user.roleName = '${user.value.role.name}';
-                                                        user.blockName = '${user.value.block.blockName}';
-                                                        user.level = '${user.value.level}';
-                                                        user.unit = '${user.value.unit}';
-                                                        userList.push(user);
-                                                    </script>
-                                                    <tr>
+                                                
+                                                    
+                                                    
+                                                    
+                                                   <tr>
                                                         <td>
                                                             <div class="user-thumb">
                                                                 <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
                                                             </div>
                                                         </td>
-                                                        <!--<div class="comments">
-                                                            <span class="username">-->
+                                                        <!--<div class="comments"> 
+                                                            <span class="username">
                                                         <td><b>${user.value.id}</b></td>
                                                         <td><b>${user.value.username}</b></td>
                                                         <td>${user.value.firstName}</td>
@@ -251,7 +326,6 @@
                                                             <a href="#" class="btn btn-danger btn-mini">Delete</a>
                                                         </td>
                                                     </tr>
-                                                </c:forEach>
                                             </table>    
                                             <li class="viewall">
                                                 <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>

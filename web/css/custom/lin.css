@@ -1,4 +1,9 @@
-
+.float_l{
+    float:left;
+}
+.float_r{
+    float:right;
+}
 
 .container.pushdown{
     margin-top: 5%;
@@ -57,6 +62,13 @@
 
 #twoButtons{
     height:40px;
+}
+
+.filterOptions{
+    margin:3px 10px;
+}
+.filterOptions select{
+    width:130px;
 }
 
 .register .form-actions input[type="submit"]{
