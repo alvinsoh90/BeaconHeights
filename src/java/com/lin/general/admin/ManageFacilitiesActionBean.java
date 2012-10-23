@@ -23,6 +23,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
 
     private ActionBeanContext context;
     private HashMap<String, Facility> facilityList;
+    private ArrayList<FacilityType> facilityTypeList;
     private Log log = Log.getInstance(ManageFacilitiesActionBean.class);//in attempt to log what went wrong..
     private String type;
     private String name;
@@ -104,6 +105,17 @@ public class ManageFacilitiesActionBean implements ActionBean {
 
     public void setFacilityList(HashMap<String, Facility> facilityList) {
         this.facilityList = facilityList;
+    }
+
+    public ArrayList<FacilityType> getFacilityTypeList() {
+        ArrayList<FacilityType> facilityTypeList = new ArrayList<FacilityType>();
+        FacilityType facilityType1 = new FacilityType(1,"Tennis Court","for balls");
+        FacilityType facilityType2 = new FacilityType(2,"Barbeque Pit","for burnt shit");
+        FacilityType facilityType3 = new FacilityType(3,"Squash Court","for small black balls");
+        facilityTypeList.add(facilityType1);
+        facilityTypeList.add(facilityType2);
+        facilityTypeList.add(facilityType3);
+        return facilityTypeList;
     }
 
     @DefaultHandler

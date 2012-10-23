@@ -165,8 +165,8 @@
                                                         var facility = new Object();
                                                         facility.id = '${facility.value.id}';
                                                         facility.type = '${facility.value.type.name}';
-                                                        facility.latitude = '${user.value.latitude}';
-                                                        facility.longitude = '${user.value.longitude}';
+                                                        facility.latitude = '${facility.value.latitude}';
+                                                        facility.longitude = '${facility.value.longitude}';
                                                         
                                                         facilityList.push(facility);
                                                     </script>
@@ -218,24 +218,23 @@
                                 <label class="control-label">Type</label>
                                 <div class="controls">
                                     <stripes:select name="role">
-                                        <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
+                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="id" label="name"/>        
                                     </stripes:select>
                                 </div>
                             </div> 
                             <stripes:text class="hide" name="id" id="editid" />
-
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Latitude</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_latitude" name="latitude"/> 
+                                </div>
+                            </div>    
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Longitude</label>
                                 <div class="controls">
                                     <stripes:text id="edit_longitude" name="longitude"/> 
                                 </div>
                             </div>                              
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Latitude</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_latitude" name="latitude"/> 
-                                </div>
-                            </div>                     
 
                         </div>
                         <div class="modal-footer">
