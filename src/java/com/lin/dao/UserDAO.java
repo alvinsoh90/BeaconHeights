@@ -107,8 +107,8 @@ public class UserDAO {
         return user;
     }
     
-    public User getUser(String user){   
-      return userMap.get(user);
+    public User getUser(String username){   
+      return userMap.get(username);
     }
     
 }

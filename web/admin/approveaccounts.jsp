@@ -151,18 +151,23 @@
             <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
             <ul>
                 <li class="submit"><a href="#"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
-                    <li class="submenu active open">
-                        <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span> <span class="label">3</span></a>
-                        <ul>
-                            <li class ="active"><a href="manageusers.jsp">Manage Users</a></li>
-                            <li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
-                            <!--<li><a href="form-wizard.html">Wizard</a></li> -->
-                        </ul>
-                    </li>
+                <li class="submenu active open">
+                    <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span> <span class="label">3</span></a>
+                    <ul>
+                        <li><a href="manageusers.jsp">Manage Users</a></li>
+                        <li class="active"><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
+                        <!--<li><a href="form-wizard.html">Wizard</a></li> -->
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="managefacilities.jsp"><i class="icon icon-th-list"></i> <span>Facilities</span> <span class="label">3</span></a>
+                    <ul>
+                        <li><a href="managefacilities.jsp">Manage Facilities</a></li>
+                        <!--<li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li> -->
+                    </ul>
+                </li>
             </ul>
-
         </div>
-
 
         
         <div id="content">
