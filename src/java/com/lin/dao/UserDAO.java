@@ -23,10 +23,9 @@ import java.util.logging.Logger;
  */
 public class UserDAO {
 
-    private static HashMap<String,User> userMap = new HashMap<String,User>();
-    
-    
-    
+    public static HashMap<String,User> userMap = new HashMap<String,User>();
+    public static HashMap<String,User> userTempMap = new HashMap<String,User>();
+
     public static HashMap<String,User> retrieveAllUsers() {
       Role role1 = new Role(1,"admin","Admin user");
       Block block1 = new Block(1,"blockname",2,3,"Block1");
@@ -52,16 +51,24 @@ public class UserDAO {
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-        return userExists;
-        
+        //return userExists;
+        return false; /// XYSEETOH
     }
     
     //Method adds a temp user in user_temp awaiting approval.
     public static void addTempUser(String username, String password, String 
-            firstname, String lastname, String block, String level, String unitnumber) {
+            firstname, String lastname, String block, int level, int unitnumber) {
         String salt = BCrypt.gensalt();
         String URL = ApiUriList.getAddTempUserURI(username,BCrypt.hashpw(password, salt),
                 firstname,lastname,block,level,unitnumber);
+        
+        
+        Role r = new Role(1,"Resident","Resident of Beacon Heights");
+        Block b = new Block(1,"Default Block",1.123123123F,20.23232F,"This is a fake block");
+        User user = new User(username, password, firstname, lastname, b, level, unitnumber, r); 
+        userTempMap.put(username, user);    
+        System.out.println(user + "added in temp map");
+        
         try {
             HttpHandler.httpGet(URL);
         } catch (IOException ex) {
@@ -76,10 +83,9 @@ public class UserDAO {
                 level, unit, role);
 
         //add to temporary hashmap
-        userMap.put(username, user);
-        //line that says u put into Objectify
+        userMap.put(username, user);    
+        System.out.println("added new user: " + user);
         return user;
-
     }
 
     public boolean deleteUser(String username) {
@@ -87,9 +93,7 @@ public class UserDAO {
         User user = userMap.remove(username);
         boolean success = true;
 
-        //line that says u put into Objectify
         return success;
-
     }
     
     public User updateUser(long id, String username, String password, String first_name,

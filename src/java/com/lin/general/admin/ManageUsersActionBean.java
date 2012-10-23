@@ -22,6 +22,7 @@ public class ManageUsersActionBean implements ActionBean {
 
   private ActionBeanContext context;
   private HashMap<String,User> userList;
+  private HashMap<String,User> tempUserList;
   private User user;
   private Log log = Log.getInstance(ManageUsersActionBean.class);//in attempt to log what went wrong..
     
@@ -162,6 +163,12 @@ public class ManageUsersActionBean implements ActionBean {
     return userList;
   }
   
+   public HashMap<String,User> getUserApprovalList() {
+    UserDAO uDAO = new UserDAO();
+    tempUserList = uDAO.userTempMap;
+    return tempUserList;
+  }
+  
   public int getListSize(){
     return userList.size();
   }
@@ -169,9 +176,6 @@ public class ManageUsersActionBean implements ActionBean {
   public ArrayList<Role> getRoleList(){
       ArrayList<Role> roleList = new ArrayList<Role>();
       Role role1 = new Role(1,"admin","Admin user");
-      roleList.add(role1);
-      roleList.add(role1);
-      roleList.add(role1);
       return roleList;
   }
 

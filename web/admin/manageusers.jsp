@@ -49,8 +49,6 @@
 
         <!-- Populates the Delete User Modal-->
         <script>
-            // Init an array of all users shown on this page
-            var userList = [];
             
             //when this function is called, userList should already be populated
             function populateDeleteUserModal(userID){ 
@@ -60,10 +58,8 @@
                         $("#delete_username").val(user.username);
                         $("#delete_firstname").text(user.firstName);
                         $("#delete_lastname").text(user.lastName);
-
                     }
                 });
-                
             }
         </script>
 
