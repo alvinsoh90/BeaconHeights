@@ -23,6 +23,28 @@
         <link rel="stylesheet" href="../css/unicorn.grey.css" class="skin-color" />
         <style>.starthidden { display:none; }</style>
 
+        <!-- Populates the Edit Facilities form -->
+        <script>
+            // Init an array of all facilities shown on this page
+            var facilityList = [];
+            
+            //when this function is called, facilityList should already be populated
+            function populateEditFacilityModal(facilityID){ 
+                facilityList.forEach(function(facility){
+                    if(facility.id == facilityID){
+                        $("#facilityLabel").text(facility.type + " " + facility.id);
+                        $("#editid").val(facility.id);
+                        $("#edit_type").val(facility.type);
+                        $("#edit_longitude").val(facility.longitude);
+                        $("#edit_latitude").val(facility.latitude);
+
+                    }
+                });
+                
+            }
+        </script>
+
+
     </head>
     <body>
 
@@ -117,38 +139,130 @@
                                 <b>Awesome!</b> ${param.deletemsg} was successfully deleted!
                             </div>
                         </c:if>
+                    </div>
+
+                    <!-- Facilities Display -->
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <span class="icon"><i class="icon-user"></i></span><h5>Facilities</h5></div>
+                        <div class="widget-content">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <div class="widget-content nopadding">
+                                        <ul class="recent-comments"> 
+                                            <table class="table table-striped users">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>ID</th>
+                                                    <th>Facility Type</th>
+                                                    <th>Latitude</th>
+                                                    <th>Longitude</th>
+                                                    <th>Action</th>
+                                                </tr>
+
+                                                <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
+                                                    <script>
+                                                        var facility = new Object();
+                                                        facility.id = '${facility.value.id}';
+                                                        facility.type = '${facility.value.type.name}';
+                                                        facility.latitude = '${user.value.latitude}';
+                                                        facility.longitude = '${user.value.longitude}';
+                                                        
+                                                        facilityList.push(facility);
+                                                    </script>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="user-thumb">
+                                                                <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
+                                                            </div>
+                                                        </td>
+                                                        <td><b>${facility.value.id}</b></td>
+                                                        <td><b>${facility.value.type.name}</b></td>
+                                                        <td>${facility.value.latitude}</td>
+                                                        <td>${facility.value.longitude}</td>
+                                                        <td>
+                                                            <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.value.id}')">Edit</a> 
+                                                            <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.value.id}')">Delete</a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>    
+                                            <li class="viewall">
+                                                <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>	
+                            </div>							
+                        </div>
+                    </div>
 
 
+                    <div class="row-fluid">
+                        <div id="footer" class="span12">
 
-
-                </div>
-
-                <div class="row-fluid">
-                    <div id="footer" class="span12">
-
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
-            <!--<script src="js/excanvas.min.js"></script>-->
-            <script src="../js/jquery.min.js"></script>
-            <script src="../js/jquery.ui.custom.js"></script>
-            <script src="../js/bootstrap.min.js"></script>
+                <!-- Edit Facility Modal Form -->
+                <div id="editFacilityModal" class="modal hide fade">
+                    <div id="myModal" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3>Edit <span id="facilityLabel"></span></h3>
+                    </div>
+                    <div class="modal-body">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="registration_validate">
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Type</label>
+                                <div class="controls">
+                                    <stripes:select name="role">
+                                        <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
+                                    </stripes:select>
+                                </div>
+                            </div> 
+                            <stripes:text class="hide" name="id" id="editid" />
 
-            <script src="../js/jquery.flot.min.js"></script>
-            <script src="../js/jquery.flot.resize.min.js"></script>
-            <script src="../js/jquery.peity.min.js"></script>
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Longitude</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_longitude" name="longitude"/> 
+                                </div>
+                            </div>                              
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Latitude</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_latitude" name="latitude"/> 
+                                </div>
+                            </div>                     
 
-            <script src="../js/jquery.uniform.js"></script>
-            <script src="../js/jquery.chosen.js"></script>
-            <script src="../js/jquery.validate.js"></script>
+                        </div>
+                        <div class="modal-footer">
+                            <a data-dismiss="modal" class="btn">Close</a>
+                            <input type="submit" name="editUser" value="Confirm Edit" class="btn btn-primary"/>
+                        </div>
+                    </stripes:form>
+                </div>
 
-            <script src="../js/lin.manageusers.js"></script>
-            <script src="../js/fullcalendar.min.js"></script>
-            <script src="../js/unicorn.js"></script>
-            <script src="../js/unicorn.dashboard.js"></script>
-            <script src="../js/unicorn.form_common.js"></script>
-    </body>
+                <!--<script src="js/excanvas.min.js"></script>-->
+                <script src="../js/jquery.min.js"></script>
+                <script src="../js/jquery.ui.custom.js"></script>
+                <script src="../js/bootstrap.min.js"></script>
 
-</html>
+                <script src="../js/jquery.flot.min.js"></script>
+                <script src="../js/jquery.flot.resize.min.js"></script>
+                <script src="../js/jquery.peity.min.js"></script>
+
+                <script src="../js/jquery.uniform.js"></script>
+                <script src="../js/jquery.chosen.js"></script>
+                <script src="../js/jquery.validate.js"></script>
+
+                <script src="../js/lin.manageusers.js"></script>
+                <script src="../js/fullcalendar.min.js"></script>
+                <script src="../js/unicorn.js"></script>
+                <script src="../js/unicorn.dashboard.js"></script>
+                <script src="../js/unicorn.form_common.js"></script>
+                </body>
+
+                </html>

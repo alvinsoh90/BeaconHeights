@@ -235,6 +235,8 @@
                             </div>
                         </div>						
                     </div>
+                    
+                    <!-- Users -->
                     <div class="widget-box">
                         <div class="widget-title">
                             <span class="icon"><i class="icon-user"></i></span><h5>Users</h5></div>

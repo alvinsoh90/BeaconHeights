@@ -4,6 +4,7 @@
  */
 package com.lin.general.admin;
 
+import com.lin.dao.FacilityDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
@@ -21,7 +22,7 @@ import javax.persistence.*;
 public class ManageFacilitiesActionBean implements ActionBean {
 
     private ActionBeanContext context;
-    private HashMap<String, User> userList;
+    private HashMap<String, Facility> facilityList;
     private Log log = Log.getInstance(ManageFacilitiesActionBean.class);//in attempt to log what went wrong..
     private String type;
     private String name;
@@ -86,7 +87,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
     public void setResult(String result) {
         this.result = result;
     }
-    
+
     public ActionBeanContext getContext() {
         return context;
     }
@@ -95,6 +96,15 @@ public class ManageFacilitiesActionBean implements ActionBean {
         this.context = context;
     }
 
+    public HashMap<String, Facility> getFacilityList() {
+        FacilityDAO fDAO = new FacilityDAO();
+        facilityList = fDAO.retrieveAllFacilities();
+        return facilityList;
+    }
+
+    public void setFacilityList(HashMap<String, Facility> facilityList) {
+        this.facilityList = facilityList;
+    }
 
     @DefaultHandler
     public Resolution createFacility() {
@@ -102,9 +112,9 @@ public class ManageFacilitiesActionBean implements ActionBean {
             //UserDAO uDAO = new UserDAO();
 
             FacilityType type = new FacilityType(1, "Tennis Court", "Place where you play tennis");
-            
+
             //Facility = uDAO.createUser(username, password, firstname);
-            
+
             //result = facility.getFirstName();
             success = true;
             //System.out.println();
@@ -118,7 +128,6 @@ public class ManageFacilitiesActionBean implements ActionBean {
 
 
     }
-
 }
 
 //need facility dao.
