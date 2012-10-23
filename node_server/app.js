@@ -111,10 +111,25 @@ app.get(ROOT + 'getNonAdminUsers', function(req, res){
 });
 
 app.get(ROOT + 'getAllUsers', function(req, res){
+  var users;
+  db_func.getAllUsers(function(err,result){
+    if(err){
+      console.log("error in db call: "+err);
+      res.send(500,err);
+    }
+    else{
+      res.send(200,JSON.stringify(result));
+    }
+  });
+  
+
+});
+
+app.get(ROOT + 'getAllTempUsers', function(req, res){
   
   console.log(req.params.username);
 
-  db_func.getAllUsers(function(err,result){
+  db_func.getAllTempUsers(function(err,result){
     if(err){
       console.log("error in db call: "+err);
       res.send(500,err);
@@ -156,6 +171,22 @@ app.get(ROOT + 'addTempUser/:userInfo', function(req, res){
       logger.warn("Test warn")
     }
   },req.params.userInfo);
+});
+
+app.get(ROOT + 'approveTempUser/:userId', function(req, res){
+  
+  //console.log(req.params.username);
+
+  db_func.approveTempUser(function(err,result){
+    if(err){
+      console.log("error in db call: "+err);
+      res.send(500,err);
+    }
+    else{
+      res.send(200,JSON.stringify(result));
+      logger.warn("Test warn")
+    }
+  },req.params.userId);
 });
 
 
