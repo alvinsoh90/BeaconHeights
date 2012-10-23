@@ -85,15 +85,37 @@ exports.getNonAdminUsers = function(callback){
 };
 
 exports.getAllUsers = function(callback){
+	var result = {"success": false,"error": null};
 	var sqlString = "SELECT `user_id`, `user_name`, `role_id`, `DOB`, `block_id`, `level`, `unit`, `facebook_id` FROM lin_db.user";
-	
+	var firstResult;
 	client.query(sqlString, function(err, rows, fields) {
 	  if (err) {
 	  	console.log(err);
 		return callback(err, null);
 	  }
 	  else{
-	  	return callback(null,rows);
+	  	result.success=true;
+	  	result['result']=rows;
+	  	return callback(null,result);
+	  }
+	  
+	});
+};
+
+exports.getAllTempUsers = function(callback){
+	var sqlString = "SELECT `user_id`, `user_name`, `role_id`, `DOB`, `block_id`, `level`, `unit`, `facebook_id` FROM lin_db.user_temp";
+	client.query(sqlString, function(err, rows, fields) {
+	  if (err) {
+	  	console.log(err);
+		return callback(err, null);
+	  }
+	  else{
+	  	if(rows.length==0){
+	  		var result = {"isNull": "true"};
+	  		return callback(null,result);
+	  	}else{
+	  		return callback(null,rows);
+	  	}
 	  }
 	  
 	});
@@ -123,7 +145,6 @@ exports.doesUserExist = function(callback,username){
 exports.addTempUser = function(callback,userInfo){
 	var info=userInfo.split(",");
 	var sqlString = "INSERT INTO `lin_db`.`user_temp` (`user_id`, `password`, `user_name`, `firstname`, `lastname`, `role_id`, `DOB`, `block_id`, `level`, `unit`, `facebook_id`) VALUES (NULL, '"+info[1]+"', '"+info[0]+"', '"+info[2]+"', '"+info[3]+"', '2', NULL, '"+info[4]+"', '"+info[5]+"', '"+info[6]+"', NULL)";
-	console.log(sqlString);
 	client.query(sqlString, function(err) {
 	  if (err) {
 	  	console.log(err);
@@ -135,3 +156,25 @@ exports.addTempUser = function(callback,userInfo){
 	  
 	});
 };
+
+exports.approveTempUser = function(callback,userId){
+	var result = {"success": false,"error": null};
+	var sqlString = "SELECT * from lin_db.user_temp WHERE user_id='"+userId+"'; INSERT INTO lin_db.user (password,user_name,firstname,lastname,role_id,DOB,block_id,level,unit,facebook_id) SELECT password,user_name,firstname,lastname,role_id,DOB,block_id,level,unit,facebook_id FROM lin_db.user_temp WHERE lin_db.user_temp.user_id='"+userId+"'; DELETE FROM lin_db.user_temp WHERE user_id='"+userId+"'; commit;"
+	console.log("HELLO LOOK HERE! "+sqlString+"END OF THINOBGR");
+	client.query(sqlString, function(err,rows,fields) {
+	  if (err) {
+	  	console.log(err);
+		return callback(err,null);
+	  }
+	  else{
+	  	if(rows.length>0){
+	  		result.success=true;
+	  		result['result']=rows;
+	  	}
+	  	return callback(null,result);
+	  }
+	  
+	});
+};
+
+
