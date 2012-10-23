@@ -49,8 +49,6 @@
 
         <!-- Populates the Delete User Modal-->
         <script>
-            // Init an array of all users shown on this page
-            var userList = [];
             
             //when this function is called, userList should already be populated
             function populateDeleteUserModal(userID){ 
@@ -60,10 +58,8 @@
                         $("#delete_username").val(user.username);
                         $("#delete_firstname").text(user.firstName);
                         $("#delete_lastname").text(user.lastName);
-
                     }
                 });
-                
             }
         </script>
 
@@ -106,7 +102,14 @@
                         <!--<li><a href="form-wizard.html">Wizard</a></li> -->
                     </ul>
                 </li>
-
+                <li class="submenu">
+                    <a href="managefacilities.jsp"><i class="icon icon-th-list"></i> <span>Facilities</span> <span class="label">3</span></a>
+                    <ul>
+                        <li><a href="managefacilities.jsp">Manage Facilities</a></li>
+                        <!--<li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li> -->
+                    </ul>
+                </li>
+            </ul>
         </div>
 
 
@@ -228,6 +231,8 @@
                             </div>
                         </div>						
                     </div>
+                    
+                    <!-- Users -->
                     <div class="widget-box">
                         <div class="widget-title">
                             <span class="icon"><i class="icon-user"></i></span><h5>Users</h5></div>

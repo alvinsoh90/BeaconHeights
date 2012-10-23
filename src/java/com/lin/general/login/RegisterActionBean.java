@@ -112,13 +112,15 @@ public class RegisterActionBean extends BaseActionBean {
             //return err message
             errMsg = "Passwords do not match";
             return new RedirectResolution("/register.jsp?success=false&msg="+errMsg);
-        }else if(userExists){
+        }
+        else if(userExists){
             //return err message
             errMsg = "Username already Exists";
             return new RedirectResolution("/register.jsp?success=false&msg="+errMsg);
-        }else{
+        }
+        else{
            //Need to handle null for block,level,unitnumber
-           UserDAO.addTempUser(username,password,firstname,lastname,block,level,unitnumber);
+           UserDAO.addTempUser(username,password,firstname,lastname,block,Integer.parseInt(level),Integer.parseInt(unitnumber));
            successMsg = "Your account has been added! Please wait for a couple of days for your account to be approved.";
            return new RedirectResolution("/login.jsp?success=true&msg="+successMsg);
         }

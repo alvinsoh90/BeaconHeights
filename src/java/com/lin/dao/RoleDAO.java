@@ -5,6 +5,7 @@
 package com.lin.dao;
 
 import com.lin.entities.Role;
+import java.util.ArrayList;
 
 /**
  *
@@ -12,7 +13,11 @@ import com.lin.entities.Role;
  */
 public class RoleDAO {
 
-    public static void getAllRoles() {
+    private static ArrayList<Role> roleList = new ArrayList<Role>();
+    
+    public static ArrayList<Role> getAllRoles() {
+        roleList.add(new Role(1,"Admin","Boss man of Beacon"));
+        return roleList;
     }
 
     public static void updateRole(String roleId) {

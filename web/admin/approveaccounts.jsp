@@ -6,8 +6,8 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="manageUsersActionBean" scope="page"
-             class="com.lin.general.admin.ManageUsersActionBean"/>
+<jsp:useBean id="approveUserBean" scope="page"
+             class="com.lin.general.admin.ApproveUserBean"/>
 <html lang="en">
     <head>
         <title>Unicorn Admin</title>
@@ -23,9 +23,106 @@
         <link rel="stylesheet" href="../css/unicorn.grey.css" class="skin-color" />
         <style>.starthidden { display:none; }</style>
            
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/jquery.ui.custom.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+                
+        <script src="../js/jquery.uniform.js"></script>
+        <script src="../js/jquery.chosen.js"></script>
+        <script src="../js/jquery.validate.js"></script>
+                
+        <script src="../js/unicorn.js"></script>
+        <script src="../js/unicorn.dashboard.js"></script>
+        <script src="../js/unicorn.form_common.js"></script>
+        
+        <!-- Populates the Edit User form -->
+        <script>
+            // Init an array of all users shown on this page
+            var userList = [];
+            
+            //when this function is called, userList should already be populated
+            function populateApproveUserModal(userID){ 
+                userList.forEach(function(user){
+                    if(user.id == userID){
+                        $("#usernameLabel").text(user.username);
+                        $("#editid").val(user.id);
+                        $("#edit_username").val(user.username);
+                        $("#edit_firstname").val(user.firstName);
+                        $("#edit_lastname").val(user.lastName);
+                        $("#edit_block").val(user.blockName);
+                        $("#edit_role").val(user.roleName);
+                        $("#edit_level").val(user.level);
+                        $("#edit_unit").val(user.unit);
+                    }
+                });
+                
+            }
+        </script>
+        
     </head>
     <body>
-        
+        <!-- Approve User Modal Form -->
+            <div id="approveUserModal" class="modal hide fade">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3>Edit <span id="usernameLabel"></span>'s information</h3>
+                </div>
+                <div class="modal-body">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ApproveUserBean" focus="" name="registration_validate">
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Role</label>
+                            <div class="controls">
+                                <stripes:select name="role">
+                                    <stripes:options-collection collection="${approveUserBean.roleList}" value="id" label="name"/>        
+                                </stripes:select>
+                            </div>
+                        </div> 
+                        <stripes:text class="hide" name="id" id="editid" />
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Username</label>
+                            <div class="controls">
+                                <stripes:text id="edit_username" name="username"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">First Name</label>
+                            <div class="controls">
+                                <stripes:text id="edit_firstname" name="firstname"/> 
+                            </div>
+                        </div>                              
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Last Name</label>
+                            <div class="controls">
+                                <stripes:text id="edit_lastname" name="lastname"/> 
+                            </div>
+                        </div>
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Block</label>
+                            <div class="controls">
+                                <stripes:text id="edit_block" name="block"/> 
+                            </div>
+                        </div>
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Level</label>
+                            <div class="controls">
+                                <stripes:text id="edit_level" name="level"/>
+                            </div>
+                        </div>     
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Unit Number</label>
+                            <div class="controls">
+                                <stripes:text id="edit_unit" name="unitnumber"/>
+                            </div>
+                        </div>                     
+
+                    </div>
+                    <div class="modal-footer">
+                        <a data-dismiss="modal" class="btn">Close</a>
+                        <input type="submit" name="approveUserAction" value="Confirm Approval" class="btn btn-primary"/>
+                    </div>
+                </stripes:form>
+            </div>
         
         <div id="header">
             <h1><a href="../dashboard.html">Beacon Heights Admin</a></h1>		
@@ -54,18 +151,23 @@
             <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
             <ul>
                 <li class="submit"><a href="#"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
-                    <li class="submenu active open">
-                        <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span> <span class="label">3</span></a>
-                        <ul>
-                            <li class ="active"><a href="manageusers.jsp">Manage Users</a></li>
-                            <li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
-                            <!--<li><a href="form-wizard.html">Wizard</a></li> -->
-                        </ul>
-                    </li>
+                <li class="submenu active open">
+                    <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span> <span class="label">3</span></a>
+                    <ul>
+                        <li><a href="manageusers.jsp">Manage Users</a></li>
+                        <li class="active"><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
+                        <!--<li><a href="form-wizard.html">Wizard</a></li> -->
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="managefacilities.jsp"><i class="icon icon-th-list"></i> <span>Facilities</span> <span class="label">3</span></a>
+                    <ul>
+                        <li><a href="managefacilities.jsp">Manage Facilities</a></li>
+                        <!--<li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li> -->
+                    </ul>
+                </li>
             </ul>
-
         </div>
-
 
         
         <div id="content">
@@ -122,9 +224,18 @@
                                                     <th>Action</th>
                                                 </tr>
 
-                                                <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                                                <c:forEach items="${approveUserBean.userApprovalList}" var="user" varStatus="loop">
                                                     <script>
-                                                        
+                                                        var user = new Object();
+                                                        user.id = '${user.value.id}';
+                                                        user.username = '${user.value.username}';
+                                                        user.firstName = '${user.value.firstName}';
+                                                        user.lastName = '${user.value.lastName}';
+                                                        user.roleName = '${user.value.role.name}';
+                                                        user.blockName = '${user.value.block.blockName}';
+                                                        user.level = '${user.value.level}';
+                                                        user.unit = '${user.value.unit}';
+                                                        userList.push(user);
                                                     </script>
                                                     <tr>
                                                         <td>
@@ -143,7 +254,7 @@
                                                         <td>${user.value.level}</td>
                                                         <td>${user.value.unit}</td>
                                                         <td>
-                                                            <a href="#" class="btn btn-success btn-mini">Approve</a> 
+                                                            <a href="#approveUserModal" role="button" data-toggle="modal" onclick="populateApproveUserModal('${user.value.id}')" class="btn btn-success btn-mini">Approve</a> 
                                                             <a href="#" class="btn btn-danger btn-mini">Reject</a>
                                                         </td>
                                                     </tr>
@@ -171,17 +282,7 @@
             
 
             <!--<script src="js/excanvas.min.js"></script>-->
-            <script src="../js/jquery.min.js"></script>
-            <script src="../js/jquery.ui.custom.js"></script>
-            <script src="../js/bootstrap.min.js"></script>
-            
-             <script src="../js/jquery.uniform.js"></script>
-            <script src="../js/jquery.chosen.js"></script>
-            <script src="../js/jquery.validate.js"></script>
 
-            <script src="../js/unicorn.js"></script>
-            <script src="../js/unicorn.dashboard.js"></script>
-            <script src="../js/unicorn.form_common.js"></script>
     </body>
 
 </html>
