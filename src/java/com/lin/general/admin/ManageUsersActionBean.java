@@ -4,6 +4,8 @@
  */
 package com.lin.general.admin;
 
+import com.lin.dao.BlockDAO;
+import com.lin.dao.RoleDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
@@ -22,7 +24,8 @@ import javax.persistence.*;
 public class ManageUsersActionBean implements ActionBean {
 
     private ActionBeanContext context;
-    private HashMap<String, User> userList;
+    private ArrayList<User> userList;
+    private ArrayList<Role> roleList;
     private User user;
     private Log log = Log.getInstance(ManageUsersActionBean.class);//in attempt to log what went wrong..
     private String username;
@@ -155,22 +158,19 @@ public class ManageUsersActionBean implements ActionBean {
         return userList.size();
     }
 
-    public HashMap<String, User> getUserList() {
+    public ArrayList<User> getUserList() {
         UserDAO uDAO = new UserDAO();
         userList = uDAO.retrieveAllUsers();
         return userList;
     }
 
-    public void setUserList(HashMap<String, User> userList) {
+    public void setUserList(ArrayList<User> userList) {
         this.userList = userList;
     }
 
     public ArrayList<Role> getRoleList() {
-        ArrayList<Role> roleList = new ArrayList<Role>();
-        Role role1 = new Role("admin", "Admin user");
-        roleList.add(role1);
-        roleList.add(role1);
-        roleList.add(role1);
+        RoleDAO roleDao = new RoleDAO();
+        roleList = roleDao.getAllRoles();
         return roleList;
     }
 
@@ -178,14 +178,19 @@ public class ManageUsersActionBean implements ActionBean {
     public Resolution createUserAccount() {
         try {
             UserDAO uDAO = new UserDAO();
+            RoleDAO roleDao = new RoleDAO();
+            BlockDAO blockDao = new BlockDAO();
             //temp code while we sort out how to insert address info like block, unit etc.
-            Role role1 = new Role("admin", "Admin user");
-            Block block1 = new Block("blockname", 2, 3, "Block1");
+            Role roleObj = roleDao.getRoleByName(role);
+            Block blockObj = blockDao.getBlockByName(block);
+            
             int levelInt = Integer.parseInt(level);
             int unitInt = Integer.parseInt(unitnumber);
             Date dob = new Date();
-            //int userID = 
-            User user1 = uDAO.createUser(role1, block1, password, username, firstname, lastname, dob, levelInt, unitInt);
+            
+            User user1 = uDAO.createUser(roleObj, blockObj, password, username,
+                    firstname, lastname, dob, levelInt, unitInt);
+            
             result = user1.getFirstname();
             success = true;
             System.out.println(user1);

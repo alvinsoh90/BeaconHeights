@@ -45,6 +45,18 @@ public class UserTemp  implements java.io.Serializable {
        this.unit = unit;
        this.facebookId = facebookId;
     }
+    
+        public UserTemp(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+       this.role = role;
+       this.block = block;
+       this.password = password;
+       this.userName = userName;
+       this.firstname = firstname;
+       this.lastname = lastname;
+       this.dob = dob;
+       this.level = level;
+       this.unit = unit;
+    }
    
     public Integer getUserId() {
         return this.userId;
@@ -122,6 +134,11 @@ public class UserTemp  implements java.io.Serializable {
     
     public void setFacebookId(String facebookId) {
         this.facebookId = facebookId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserTemp{" + "userId=" + userId + ", role=" + role + ", block=" + block + ", password=" + password + ", userName=" + userName + ", firstname=" + firstname + ", lastname=" + lastname + ", dob=" + dob + ", level=" + level + ", unit=" + unit + '}';
     }
 
 

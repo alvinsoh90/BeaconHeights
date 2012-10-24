@@ -224,17 +224,17 @@
                                                     <th>Action</th>
                                                 </tr>
 
-                                                <c:forEach items="${approveUserBean.userApprovalList}" var="user" varStatus="loop">
+                                                <c:forEach items="${approveUserBean.tempUserList}" var="userTemp" varStatus="loop">
                                                     <script>
                                                         var user = new Object();
-                                                        user.id = '${user.value.userId}';
-                                                        user.username = '${user.value.userName}';
-                                                        user.firstName = '${user.value.firstname}';
-                                                        user.lastName = '${user.value.lastname}';
-                                                        user.roleName = '${user.value.role.name}';
-                                                        user.blockName = '${user.value.block.blockName}';
-                                                        user.level = '${user.value.level}';
-                                                        user.unit = '${user.value.unit}';
+                                                        user.id = '${userTemp.userId}';
+                                                        user.username = '${userTemp.userName}';
+                                                        user.firstName = '${userTemp.firstname}';
+                                                        user.lastName = '${userTemp.lastname}';
+                                                        user.roleName = '${userTemp.role.name}';
+                                                        user.blockName = '${userTemp.block.blockName}';
+                                                        user.level = '${userTemp.level}';
+                                                        user.unit = '${userTemp.unit}';
                                                         userList.push(user);
                                                     </script>
                                                     <tr>
@@ -245,16 +245,16 @@
                                                         </td>
                                                         <!--<div class="comments">
                                                             <span class="username">-->
-                                                        <td><b>${user.value.userId}</b></td>
-                                                        <td><b>${user.value.userName}</b></td>
-                                                        <td>${user.value.firstname}</td>
-                                                        <td>${user.value.lastname}</td>
-                                                        <td>${user.value.role.name}</td>
-                                                        <td>${user.value.block.blockName}</td>                                                            
-                                                        <td>${user.value.level}</td>
-                                                        <td>${user.value.unit}</td>
+                                                        <td><b>${userTemp.userId}</b></td>
+                                                        <td><b>${userTemp.userName}</b></td>
+                                                        <td>${userTemp.firstname}</td>
+                                                        <td>${userTemp.lastname}</td>
+                                                        <td>${userTemp.role.name}</td>
+                                                        <td>${userTemp.block.blockName}</td>                                                            
+                                                        <td>${userTemp.level}</td>
+                                                        <td>${userTemp.unit}</td>
                                                         <td>
-                                                            <a href="#approveUserModal" role="button" data-toggle="modal" onclick="populateApproveUserModal('${user.value.userId}')" class="btn btn-success btn-mini">Approve</a> 
+                                                            <a href="#approveUserModal" role="button" data-toggle="modal" onclick="populateApproveUserModal('${userTemp.userId}')" class="btn btn-success btn-mini">Approve</a> 
                                                             <a href="#" class="btn btn-danger btn-mini">Reject</a>
                                                         </td>
                                                     </tr>
