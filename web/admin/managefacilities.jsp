@@ -213,11 +213,11 @@
                         <h3>Edit <span id="facilityLabel"></span></h3>
                     </div>
                     <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="registration_validate">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilitiesBean" focus="" name="registration_validate">
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Type</label>
                                 <div class="controls">
-                                    <stripes:select name="role">
+                                    <stripes:select name="type">
                                         <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="id" label="name"/>        
                                     </stripes:select>
                                 </div>
@@ -239,7 +239,7 @@
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
-                            <input type="submit" name="editUser" value="Confirm Edit" class="btn btn-primary"/>
+                            <input type="submit" name="editFacility" value="Confirm Edit" class="btn btn-primary"/>
                         </div>
                     </stripes:form>
                 </div>
