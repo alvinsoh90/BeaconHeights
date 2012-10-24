@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lin.entities.Facility" table="facility" catalog="lin_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="facilityType" class="com.lin.entities.FacilityType" fetch="select">
+            <column name="facility_type_id" not-null="true" />
+        </many-to-one>
+        <property name="facilityLng" type="int">
+            <column name="facility_lng" not-null="true" />
+        </property>
+        <property name="facilityLat" type="int">
+            <column name="facility_lat" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

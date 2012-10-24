@@ -107,7 +107,7 @@ public class RegisterActionBean extends BaseActionBean {
         String successMsg;
         
         passwordMatch = (password == null ? passwordconfirm == null : password.equals(passwordconfirm));
-        userExists = UserDAO.doesUserExist(username);
+        userExists = uDAO.doesUserExist(username);
         if(!passwordMatch){
             //return err message
             errMsg = "Passwords do not match";
@@ -120,7 +120,7 @@ public class RegisterActionBean extends BaseActionBean {
         }
         else{
            //Need to handle null for block,level,unitnumber
-           UserDAO.addTempUser(username,password,firstname,lastname,block,Integer.parseInt(level),Integer.parseInt(unitnumber));
+           uDAO.addTempUser(username,password,firstname,lastname,block,Integer.parseInt(level),Integer.parseInt(unitnumber));
            successMsg = "Your account has been added! Please wait for a couple of days for your account to be approved.";
            return new RedirectResolution("/login.jsp?success=true&msg="+successMsg);
         }

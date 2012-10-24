@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lin.entities.UserTemp" table="user_temp" catalog="lin_db">
+        <id name="userId" type="java.lang.Integer">
+            <column name="user_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="role" class="com.lin.entities.Role" fetch="select">
+            <column name="role_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="block" class="com.lin.entities.Block" fetch="select">
+            <column name="block_id" />
+        </many-to-one>
+        <property name="password" type="string">
+            <column name="password" length="60" not-null="true" />
+        </property>
+        <property name="userName" type="string">
+            <column name="user_name" length="100" not-null="true" />
+        </property>
+        <property name="firstname" type="string">
+            <column name="firstname" length="100" not-null="true" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="lastname" length="100" not-null="true" />
+        </property>
+        <property name="dob" type="date">
+            <column name="DOB" length="10" />
+        </property>
+        <property name="level" type="java.lang.Integer">
+            <column name="level" />
+        </property>
+        <property name="unit" type="java.lang.Integer">
+            <column name="unit" />
+        </property>
+        <property name="facebookId" type="string">
+            <column name="facebook_id" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>

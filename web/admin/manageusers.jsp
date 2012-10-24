@@ -171,7 +171,7 @@
                                         <label class="control-label">Role</label>
                                         <div class="controls">
                                             <stripes:select name="role">
-                                                <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
+                                                <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="name" label="name"/>        
                                             </stripes:select>
                                         </div>
                                     </div>
@@ -258,14 +258,14 @@
                                                 <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
                                                     <script>
                                                         var user = new Object();
-                                                        user.id = '${user.value.id}';
-                                                        user.username = '${user.value.username}';
-                                                        user.firstName = '${user.value.firstName}';
-                                                        user.lastName = '${user.value.lastName}';
-                                                        user.roleName = '${user.value.role.name}';
-                                                        user.blockName = '${user.value.block.blockName}';
-                                                        user.level = '${user.value.level}';
-                                                        user.unit = '${user.value.unit}';
+                                                        user.id = '${user.userId}';
+                                                        user.username = '${user.userName}';
+                                                        user.firstName = '${user.firstname}';
+                                                        user.lastName = '${user.lastname}';
+                                                        user.roleName = '${user.role.name}';
+                                                        user.blockName = '${user.block.blockName}';
+                                                        user.level = '${user.level}';
+                                                        user.unit = '${user.unit}';
                                                         userList.push(user);
                                                     </script>
                                                     <tr>
@@ -276,18 +276,18 @@
                                                         </td>
                                                         <!--<div class="comments">
                                                             <span class="username">-->
-                                                        <td><b>${user.value.id}</b></td>
-                                                        <td><b>${user.value.username}</b></td>
-                                                        <td>${user.value.firstName}</td>
-                                                        <td>${user.value.lastName}</td>
-                                                        <td>${user.value.role.name}</td>
-                                                        <td>${user.value.block.blockName}</td>                                                            
-                                                        <td>${user.value.level}</td>
-                                                        <td>${user.value.unit}</td>
+                                                        <td><b>${user.userId}</b></td>
+                                                        <td><b>${user.userName}</b></td>
+                                                        <td>${user.firstname}</td>
+                                                        <td>${user.lastname}</td>
+                                                        <td>${user.role.name}</td>
+                                                        <td>${user.block.blockName}</td>                                                            
+                                                        <td>${user.level}</td>
+                                                        <td>${user.unit}</td>
                                                         <td>
-                                                            <a href="#editUserModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditUserModal('${user.value.id}')">Edit</a> 
+                                                            <a href="#editUserModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditUserModal('${user.userId}')">Edit</a> 
                                                             <a href="#" class="btn btn-success btn-mini">Reset Password</a> 
-                                                            <a href="#deleteUserModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteUserModal('${user.value.id}')">Delete</a>
+                                                            <a href="#deleteUserModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteUserModal('${user.userId}')">Delete</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -326,7 +326,7 @@
                             <label class="control-label">Role</label>
                             <div class="controls">
                                 <stripes:select name="role">
-                                    <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
+                                    <stripes:options-collection collection="${manageUsersActionBean.roleList}" label="name"/>        
                                 </stripes:select>
                             </div>
                         </div> 

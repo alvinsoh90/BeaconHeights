@@ -10,7 +10,9 @@ import com.lin.entities.User;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
+import com.lin.entities.UserTemp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -24,7 +26,7 @@ import net.sourceforge.stripes.action.Resolution;
 public class ApproveUserBean implements ActionBean{
   private ActionBeanContext context;
   private User user;
-  private HashMap<String,User> tempUserList;
+  private ArrayList<UserTemp> tempUserList;
   private ArrayList<Role> roleList;
   
   private String id;
@@ -37,6 +39,8 @@ public class ApproveUserBean implements ActionBean{
   private String level;
   private String unitnumber;
   private String role;
+  private String facebookId;
+  private Date dob;
 
   String result;
   boolean success;
@@ -52,9 +56,8 @@ public class ApproveUserBean implements ActionBean{
         int unitInt = Integer.parseInt(unitnumber);
         
         try{
-            User user1 = dao.createUser(username, password, firstname, 
-                lastname, blockObj, levelInt, unitInt, roleObj);
-            result = user1.getFirstName();
+            User user1 = dao.createUser(roleObj, blockObj, password, username, firstname, lastname, dob, levelInt, unitInt);
+            result = user1.getFirstname();
             success = true;
             System.out.println(user1);
         
@@ -66,13 +69,17 @@ public class ApproveUserBean implements ActionBean{
         return new RedirectResolution("/admin/manageusers.jsp?editsuccess=false");
         
     }
-
-      
-   public HashMap<String,User> getUserApprovalList() {
+    
+    public ArrayList<UserTemp> getTempUserList() {
         UserDAO uDAO = new UserDAO();
-        tempUserList = uDAO.userTempMap;
+        tempUserList = uDAO.retrieveAllTempUsers();
+        System.out.print("ok!"+tempUserList.get(0));
         return tempUserList;
-  }
+    }
+
+    public void setTempUserList(ArrayList<UserTemp> tempUserList) {
+        this.tempUserList = tempUserList;
+    }
     
     public String getId() {
         return id;

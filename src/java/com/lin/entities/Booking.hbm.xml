@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lin.entities.Booking" table="booking" catalog="lin_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="user" class="com.lin.entities.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <property name="bookingTimeStamp" type="date">
+            <column name="booking_time_stamp" length="10" not-null="true" />
+        </property>
+        <property name="startDate" type="date">
+            <column name="start_date" length="10" not-null="true" />
+        </property>
+        <property name="endDate" type="date">
+            <column name="end_date" length="10" not-null="true" />
+        </property>
+        <property name="isPaid" type="boolean">
+            <column name="is_paid" not-null="true" />
+        </property>
+        <property name="transactionId" type="string">
+            <column name="transaction_id" length="200" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -176,9 +176,9 @@
                                                     <script>
                                                         var facility = new Object();
                                                         facility.id = '${facility.value.id}';
-                                                        facility.type = '${facility.value.type.name}';
-                                                        facility.latitude = '${facility.value.latitude}';
-                                                        facility.longitude = '${facility.value.longitude}';
+                                                        facility.type = '${facility.value.facilityType.name}';
+                                                        facility.latitude = '${facility.value.facilityLat}';
+                                                        facility.longitude = '${facility.value.facilityLng}';
                                                         
                                                         facilityList.push(facility);
                                                     </script>
@@ -189,9 +189,9 @@
                                                             </div>
                                                         </td>
                                                         <td><b>${facility.value.id}</b></td>
-                                                        <td><b>${facility.value.type.name}</b></td>
-                                                        <td>${facility.value.latitude}</td>
-                                                        <td>${facility.value.longitude}</td>
+                                                        <td><b>${facility.value.facilityType.name}</b></td>
+                                                        <td>${facility.value.facilityLat}</td>
+                                                        <td>${facility.value.facilityLng}</td>
                                                         <td>
                                                             <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.value.id}')">Edit</a> 
                                                             <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.value.id}')">Delete</a>
