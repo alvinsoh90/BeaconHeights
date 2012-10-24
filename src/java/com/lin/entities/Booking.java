@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Oct 23, 2012 11:45:56 PM by Hibernate Tools 3.2.1.GA
+// Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;

@@ -7,108 +7,155 @@ package com.lin.dao;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
 import com.lin.entities.User;
+import com.lin.entities.UserTemp;
 import com.lin.utils.HttpHandler;
 import com.lin.global.ApiUriList;
 import com.lin.utils.BCrypt;
+import com.lin.utils.HibernateUtil;
 import com.lin.utils.json.JSONException;
 import com.lin.utils.json.JSONObject;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
  * @author Keffeine
  */
 public class UserDAO {
+    
+    ArrayList<User> userList = null;
+    ArrayList<UserTemp> userTempList = null;
+    
+    Session session = null;
+    public UserDAO(){
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
 
-    public static HashMap<String,User> userMap = new HashMap<String,User>();
-    public static HashMap<String,User> userTempMap = new HashMap<String,User>();
-
-    public static HashMap<String,User> retrieveAllUsers() {
-      Role role1 = new Role(1,"admin","Admin user");
-      Block block1 = new Block(1,"blockname",2,3,"Block1");
-
-      User user1 = new User(Long.parseLong("1"),"username1","password1","Jonathan","SEETOH",block1,5,12,role1);
-      User user2 = new User(Long.parseLong("2"),"username2","password1","Shamus","MING",block1,5,12,role1);
-      userMap.put("username1",user1);
-      userMap.put("username2",user2); 
-      return userMap;
+    public ArrayList<User> retrieveAllUsers() {
+       
+       try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from User");
+            userList = (ArrayList<User>) q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+      return userList;
     }
     
-    //Method checks DB if username exists.
-    public static Boolean doesUserExist(String username){
-        String URL = ApiUriList.getDoesUserExistURI(username);
-        boolean userExists = true; //defaults to preventing users from creating account.
-        String res = null;
-        try {
-            res = HttpHandler.httpGet(URL);
-            JSONObject resObj = new JSONObject(res);
-            userExists=resObj.getBoolean("userExists");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (JSONException ex) {
-            ex.printStackTrace();
+    public ArrayList<UserTemp> retrieveAllTempUsers() {
+       
+       try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from UserTemp");
+            userTempList = (ArrayList<UserTemp>) q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //return userExists;
-        return false; /// XYSEETOH
+       System.out.println("TEMPUSER:"+userTempList.get(0));
+      return userTempList;
+    }    
+    
+    //Method checks DB if username exists.
+    public Boolean doesUserExist(String username){
+        
+        //retieve all users first
+        retrieveAllUsers();
+        
+        //check if user exists
+        for(User u : userList){
+            if(u.getUserName().equals(username)){
+                return true;
+            }
+        }
+        return false;
     }
     
     //Method adds a temp user in user_temp awaiting approval.
-    public static void addTempUser(String username, String password, String 
+    public UserTemp addTempUser(String username, String password, String 
             firstname, String lastname, String block, int level, int unitnumber) {
         String salt = BCrypt.gensalt();
-        String URL = ApiUriList.getAddTempUserURI(username,BCrypt.hashpw(password, salt),
-                firstname,lastname,block,level,unitnumber);
+        String passwordHash = BCrypt.hashpw(password, salt);
         
+        RoleDAO rDao = new RoleDAO();
+        BlockDAO bDao = new BlockDAO();
+        Role defaultRole = rDao.getRoleByName("User");  //default is User role
+        Block blockObj = bDao.getBlockByName(block);
+        Date date = new Date(); //temporary
         
-        Role r = new Role(1,"Resident","Resident of Beacon Heights");
-        Block b = new Block(1,"Default Block",1.123123123F,20.23232F,"This is a fake block");
-        User user = new User(username, password, firstname, lastname, b, level, unitnumber, r); 
-        userTempMap.put(username, user);    
-        System.out.println(user + "added in temp map");
+        UserTemp temp = new UserTemp(defaultRole,blockObj,passwordHash,
+                username,firstname,lastname,date,level,unitnumber);
         
+        Transaction tx = null;
         try {
-            HttpHandler.httpGet(URL);
-        } catch (IOException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+             tx = session.beginTransaction();
+            session.save("UserTemp",temp);
+            tx.commit();
+            return temp;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
         }
+        //return null if failed
+        return null;
     }
+    
+    
 
-    public User createUser(String username, String password, String first_name,
-            String last_name, Block block, int level, int unit, Role role) {
-
-        User user = new User(username, password, first_name, last_name, block, 
-                level, unit, role);
-
-        //add to temporary hashmap
-        userMap.put(username, user);    
-        System.out.println("added new user: " + user);
-        return user;
-    }
-
-    public boolean deleteUser(String username) {
+    public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+        User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
         
-        User user = userMap.remove(username);
+        Transaction tx = null;
+        try {
+             tx = session.beginTransaction();
+            session.save("User",user);
+            tx.commit();
+            System.out.println("added new user: " + user);
+
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+        //return null if failed
+        return null;
+    }
+
+    public boolean deleteUser(int userId) {
+        
+        //User user = userMap.remove(username);
         boolean success = true;
 
         return success;
     }
     
-    public User updateUser(long id, String username, String password, String first_name,
-            String last_name, Block block, int level, int unit, Role role){
-        User user = new User(username, password, first_name, last_name, block, 
-                level, unit, role);
-        userMap.put(username, user);
-        
-        //update user where id = id
-        
+    public User updateUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+        User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
+
+        session.update(user);
+
         return user;
     }
     
     public User getUser(String username){   
-      return userMap.get(username);
+        retrieveAllUsers();
+        
+        for(User u : userList){
+            if(u.getUserName().equals(username)){
+                return u;
+            }
+        }
+        return null;
     }
     
 }

@@ -5,7 +5,10 @@
 package com.lin.dao;
 
 import com.lin.entities.Role;
+import com.lin.utils.HibernateUtil;
 import java.util.ArrayList;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -14,9 +17,20 @@ import java.util.ArrayList;
 public class RoleDAO {
 
     private static ArrayList<Role> roleList = new ArrayList<Role>();
+    Session session = null;
     
-    public static ArrayList<Role> getAllRoles() {
-        roleList.add(new Role(1,"Admin","Boss man of Beacon"));
+    public RoleDAO(){
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+    
+    public ArrayList<Role> getAllRoles() {
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Role");
+            roleList = (ArrayList<Role>) q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return roleList;
     }
 
@@ -26,8 +40,15 @@ public class RoleDAO {
     public static void createRole(String name, String description) {
     }
     
-    public static Role getRoleByName(String name){
-        //temp return
-        return new Role(1,"Admin","Boss man of Beacon");
+    public Role getRoleByName(String name){
+        //refresh role list
+        getAllRoles();
+        
+        for(Role r : roleList){
+            if(r.getName().equals(name)){
+                return r;
+            }
+        }
+        return null;
     }
 }

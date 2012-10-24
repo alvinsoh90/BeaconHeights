@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Oct 23, 2012 11:45:56 PM by Hibernate Tools 3.2.1.GA
+// Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -44,6 +44,18 @@ public class UserTemp  implements java.io.Serializable {
        this.level = level;
        this.unit = unit;
        this.facebookId = facebookId;
+    }
+    
+        public UserTemp(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+       this.role = role;
+       this.block = block;
+       this.password = password;
+       this.userName = userName;
+       this.firstname = firstname;
+       this.lastname = lastname;
+       this.dob = dob;
+       this.level = level;
+       this.unit = unit;
     }
    
     public Integer getUserId() {
@@ -122,6 +134,11 @@ public class UserTemp  implements java.io.Serializable {
     
     public void setFacebookId(String facebookId) {
         this.facebookId = facebookId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserTemp{" + "userId=" + userId + ", role=" + role + ", block=" + block + ", password=" + password + ", userName=" + userName + ", firstname=" + firstname + ", lastname=" + lastname + ", dob=" + dob + ", level=" + level + ", unit=" + unit + '}';
     }
 
 

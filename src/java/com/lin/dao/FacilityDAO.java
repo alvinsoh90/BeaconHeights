@@ -71,9 +71,9 @@ public class FacilityDAO {
      */
     
     
-    public Facility createFacility(double longitude, double latitude, FacilityType type) {
+    public Facility createFacility(double latitude, double longitude, FacilityType type) {
 
-        Facility facility = new Facility(longitude, latitude, type);
+        Facility facility = new Facility(latitude, longitude, type);
 
         //add to temporary hashmap
         facilityMap.put("facility"+facility.getId(), facility);
@@ -92,9 +92,9 @@ public class FacilityDAO {
 
     }
     
-    public Facility updateFacility(long id, double longitude, double latitude, FacilityType type){
+    public Facility updateFacility(long id, double latitude, double longitude, FacilityType type){
        
-        Facility facility = new Facility(id, longitude, latitude, type);
+        Facility facility = new Facility(id, latitude, longitude, type);
         facilityMap.put("facility"+id, facility);
         
         //update user where id = id
