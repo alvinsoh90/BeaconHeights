@@ -45,6 +45,7 @@ public class UserDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from User");
             userList = (ArrayList<User>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,6 +59,7 @@ public class UserDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from UserTemp");
             userTempList = (ArrayList<UserTemp>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,7 +123,6 @@ public class UserDAO {
             session.save("User",user);
             tx.commit();
             System.out.println("added new user: " + user);
-
             return user;
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,11 +133,26 @@ public class UserDAO {
     }
 
     public boolean deleteUser(int userId) {
+        Transaction tx = null;
+        int rowCount =0;
         
-        //User user = userMap.remove(username);
-        boolean success = true;
-
-        return success;
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from User where userId = :id";
+            Query query = session.createQuery(hql);
+            query.setString("id",userId+"");
+            rowCount = query.executeUpdate();
+            tx.commit();
+            } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+            System.out.println("Rows affected: " + rowCount);
+            if(rowCount>0){
+                return true;
+            }else{
+                return false;
+            }
     }
     
     public User updateUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {

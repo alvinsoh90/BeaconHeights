@@ -4,16 +4,20 @@
  */
 package com.lin.dao;
 
+import com.lin.entities.Facility;
 import com.lin.entities.FacilityType;
 import com.lin.utils.HttpHandler;
 import com.lin.global.ApiUriList;
 import com.lin.utils.BCrypt;
+import com.lin.utils.HibernateUtil;
 import com.lin.utils.json.JSONException;
 import com.lin.utils.json.JSONObject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.hibernate.Session;
 
 /**
  *
@@ -23,7 +27,12 @@ public class FacilityTypeDAO {
 
     private static HashMap<String,FacilityType> facilityTypeMap = new HashMap<String,FacilityType>();
     
+    ArrayList<Facility> facilityList = null;
     
+    Session session = null;
+    public FacilityTypeDAO(){
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
     
     public static HashMap<String,FacilityType> retrieveAllFacilityTypes() {
 
@@ -52,10 +61,10 @@ public class FacilityTypeDAO {
 
     }
     
-    public FacilityType updateFacilityType(long id, String name, String description){
+    public FacilityType updateFacilityType(String name, String description){
        
-        FacilityType facilityType = new FacilityType(id, name, description);
-        facilityTypeMap.put(name, facilityType);
+        FacilityType facilityType = new FacilityType( name,  description);
+        session.update(facilityType);
         
         //update user where id = id
         
