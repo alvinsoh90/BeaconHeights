@@ -45,6 +45,7 @@ public class UserDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from User");
             userList = (ArrayList<User>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,6 +59,7 @@ public class UserDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from UserTemp");
             userTempList = (ArrayList<UserTemp>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,7 +112,22 @@ public class UserDAO {
         return null;
     }
     
-    
+    public boolean createUser(User user) {
+        
+        Transaction tx = null;
+        try {
+             tx = session.beginTransaction();
+            session.save("User",user);
+            tx.commit();
+            System.out.println("added new user: " + user);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+        //return null if failed
+        return false;
+    }
 
     public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
         User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
@@ -121,7 +138,6 @@ public class UserDAO {
             session.save("User",user);
             tx.commit();
             System.out.println("added new user: " + user);
-
             return user;
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,11 +148,89 @@ public class UserDAO {
     }
 
     public boolean deleteUser(int userId) {
+        Transaction tx = null;
+        int rowCount =0;
         
-        //User user = userMap.remove(username);
-        boolean success = true;
-
-        return success;
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from User where userId = :id";
+            Query query = session.createQuery(hql);
+            query.setString("id",userId+"");
+            rowCount = query.executeUpdate();
+            tx.commit();
+            } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+            System.out.println("Rows affected: " + rowCount);
+            if(rowCount>0){
+                return true;
+            }else{
+                return false;
+            }
+    }
+    
+    public User getUser(int userId){
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from User");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       System.out.println("TEMPUSER:"+userList.get(0));
+      return userList.get(0);
+    }
+    
+    public User getUserTempAsUser(int userId){
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from UserTemp");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       System.out.println("TEMPUSER:"+userList.get(0));
+      return userList.get(0);
+    }
+    
+    public boolean removeTempUser(int userId) {
+        Transaction tx = null;
+        int rowCount =0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from UserTemp where userId = :id";
+            Query query = session.createQuery(hql);
+            query.setString("id",userId+"");
+            rowCount = query.executeUpdate();
+            tx.commit();
+            } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+            System.out.println("Rows affected: " + rowCount);
+            if(rowCount>0){
+                return true;
+            }else{
+                return false;
+            }
+    }
+    
+    public boolean approveTempUser(int userId){
+        User user = getUserTempAsUser(userId);
+        boolean successfulCreate = createUser(user);
+        boolean successfulRemove = false;
+        if(successfulCreate){
+            successfulRemove = removeTempUser(userId);
+        }
+        if(successfulCreate && successfulRemove){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     public User updateUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
