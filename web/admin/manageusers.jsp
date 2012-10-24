@@ -144,7 +144,7 @@
                                 <b>Awesome!</b> ${param.createmsg} was added to the user list!
                             </div>
                         </c:if>
-                            <c:if test = "${param.deletesuccess == 'false'}">
+                        <c:if test = "${param.deletesuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
                                 <b>Whoops.</b> The user could not be deleted.
@@ -156,6 +156,8 @@
                                 <b>Awesome!</b> ${param.deletemsg} was successfully deleted!
                             </div>
                         </c:if>
+
+                        <!-- Add a new user -->
                         <div class="widget-box">
                             <div title="Click to add a new user" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newUserForm">
                                 <span class="icon">
@@ -231,7 +233,7 @@
                             </div>
                         </div>						
                     </div>
-                    
+
                     <!-- Users -->
                     <div class="widget-box">
                         <div class="widget-title">

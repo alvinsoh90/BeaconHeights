@@ -118,19 +118,31 @@
                         <c:if test = "${param.createsuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
-                                <b>Whoops.</b> There was an error creating a user. Please try again!
+                                <b>Whoops.</b> There was an error creating a facility. Please try again!
                             </div>
                         </c:if> 
                         <c:if test = "${param.createsuccess == 'true'}">
                             <div><br/></div>
                             <div class="login alert alert-success container">
-                                <b>Awesome!</b> ${param.createmsg} was added to the user list!
+                                <b>Awesome!</b> ${param.createmsg} was added to the facilities list!
+                            </div>
+                        </c:if>
+                        <c:if test = "${param.editsuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success container">
+                                <b>Fantastic!</b> ${param.editmsg} was updated successfully!
+                            </div>
+                        </c:if>
+                        <c:if test = "${param.editsuccess == 'false'}">
+                            <div><br/></div>
+                            <div class="login alert alert-error container">
+                                <b>Whoops.</b> ${param.editmsg} was unable to be updated. Please try again!
                             </div>
                         </c:if>
                         <c:if test = "${param.deletesuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
-                                <b>Whoops.</b> The user could not be deleted.
+                                <b>Whoops.</b> The facility could not be deleted.
                             </div>
                         </c:if> 
                         <c:if test = "${param.deletesuccess == 'true'}">
@@ -217,8 +229,8 @@
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Type</label>
                                 <div class="controls">
-                                    <stripes:select name="type">
-                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="id" label="name"/>        
+                                    <stripes:select id="edit_type" name="type">
+                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name"/>        
                                     </stripes:select>
                                 </div>
                             </div> 
