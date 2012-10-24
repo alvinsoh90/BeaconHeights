@@ -13,6 +13,7 @@ import com.lin.utils.BCrypt;
 import com.lin.utils.json.JSONException;
 import com.lin.utils.json.JSONObject;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,11 +28,10 @@ public class UserDAO {
     public static HashMap<String,User> userTempMap = new HashMap<String,User>();
 
     public static HashMap<String,User> retrieveAllUsers() {
-      Role role1 = new Role(1,"admin","Admin user");
-      Block block1 = new Block(1,"blockname",2,3,"Block1");
-
-      User user1 = new User(Long.parseLong("1"),"username1","password1","Jonathan","SEETOH",block1,5,12,role1);
-      User user2 = new User(Long.parseLong("2"),"username2","password1","Shamus","MING",block1,5,12,role1);
+      Role role1 = new Role("admin","Admin user");
+      Block block1 = new Block("blockname",2,3,"Block1");
+      User user1 = new User(role1,"password1","username2","Jonathan","SEETOH",null);
+      User user2 = new User(role1,"password1","username2","Shamus","MING",null);
       userMap.put("username1",user1);
       userMap.put("username2",user2); 
       return userMap;
@@ -63,9 +63,9 @@ public class UserDAO {
                 firstname,lastname,block,level,unitnumber);
         
         
-        Role r = new Role(1,"Resident","Resident of Beacon Heights");
-        Block b = new Block(1,"Default Block",1.123123123F,20.23232F,"This is a fake block");
-        User user = new User(username, password, firstname, lastname, b, level, unitnumber, r); 
+        Role r = new Role("Resident","Resident of Beacon Heights");
+        Block b = new Block("Default Block",1211241,2023232,"This is a fake block");
+        User user = new User(r,"password1","username2","Shamus","MING",null); 
         userTempMap.put(username, user);    
         System.out.println(user + "added in temp map");
         
@@ -76,31 +76,27 @@ public class UserDAO {
         }
     }
 
-    public User createUser(String username, String password, String first_name,
-            String last_name, Block block, int level, int unit, Role role) {
-
-        User user = new User(username, password, first_name, last_name, block, 
-                level, unit, role);
+    public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+        User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
 
         //add to temporary hashmap
-        userMap.put(username, user);    
+        userMap.put(userName, user);    
         System.out.println("added new user: " + user);
         return user;
     }
 
-    public boolean deleteUser(String username) {
+    public boolean deleteUser(int userId) {
         
-        User user = userMap.remove(username);
+        //User user = userMap.remove(username);
         boolean success = true;
 
         return success;
     }
     
-    public User updateUser(long id, String username, String password, String first_name,
-            String last_name, Block block, int level, int unit, Role role){
-        User user = new User(username, password, first_name, last_name, block, 
-                level, unit, role);
-        userMap.put(username, user);
+    public User updateUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+        User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
+
+        userMap.put(userName, user);
         
         //update user where id = id
         

@@ -30,7 +30,7 @@ public class DeleteUserBean implements ActionBean{
         UserDAO dao = new UserDAO();
 
         try{
-            dao.deleteUser(username);
+            dao.deleteUser(Integer.parseInt(id));
             return new RedirectResolution("/admin/manageusers.jsp?deletesuccess=true"+"&deletemsg="+username);
         }
         catch(Exception e){

@@ -109,9 +109,9 @@ public class ManageFacilitiesActionBean implements ActionBean {
 
     public ArrayList<FacilityType> getFacilityTypeList() {
         ArrayList<FacilityType> facilityTypeList = new ArrayList<FacilityType>();
-        FacilityType facilityType1 = new FacilityType(1,"Tennis Court","for balls");
-        FacilityType facilityType2 = new FacilityType(2,"Barbeque Pit","for burnt shit");
-        FacilityType facilityType3 = new FacilityType(3,"Squash Court","for small black balls");
+        FacilityType facilityType1 = new FacilityType("Tennis Court","for balls");
+        FacilityType facilityType2 = new FacilityType("Barbeque Pit","for burnt shit");
+        FacilityType facilityType3 = new FacilityType("Squash Court","for small black balls");
         facilityTypeList.add(facilityType1);
         facilityTypeList.add(facilityType2);
         facilityTypeList.add(facilityType3);
@@ -123,7 +123,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
         try {
             //UserDAO uDAO = new UserDAO();
 
-            FacilityType type = new FacilityType(1, "Tennis Court", "Place where you play tennis");
+            FacilityType type = new FacilityType("Tennis Court", "Place where you play tennis");
 
             //Facility = uDAO.createUser(username, password, firstname);
 

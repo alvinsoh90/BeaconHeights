@@ -8,6 +8,7 @@ import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
@@ -166,7 +167,7 @@ public class ManageUsersActionBean implements ActionBean {
 
     public ArrayList<Role> getRoleList() {
         ArrayList<Role> roleList = new ArrayList<Role>();
-        Role role1 = new Role(1, "admin", "Admin user");
+        Role role1 = new Role("admin", "Admin user");
         roleList.add(role1);
         roleList.add(role1);
         roleList.add(role1);
@@ -178,14 +179,14 @@ public class ManageUsersActionBean implements ActionBean {
         try {
             UserDAO uDAO = new UserDAO();
             //temp code while we sort out how to insert address info like block, unit etc.
-            Role role1 = new Role(1, "admin", "Admin user");
-            Block block1 = new Block(1, "blockname", 2, 3, "Block1");
+            Role role1 = new Role("admin", "Admin user");
+            Block block1 = new Block("blockname", 2, 3, "Block1");
             int levelInt = Integer.parseInt(level);
             int unitInt = Integer.parseInt(unitnumber);
+            Date dob = new Date();
             //int userID = 
-            User user1 = uDAO.createUser(username, password, firstname,
-                    lastname, block1, levelInt, unitInt, role1);
-            result = user1.getFirstName();
+            User user1 = uDAO.createUser(role1, block1, password, username, firstname, lastname, dob, levelInt, unitInt);
+            result = user1.getFirstname();
             success = true;
             System.out.println(user1);
         } catch (Exception e) {
@@ -201,7 +202,7 @@ public class ManageUsersActionBean implements ActionBean {
 
     public boolean deleteUser() {
         UserDAO uDAO = new UserDAO();
-        boolean success = uDAO.deleteUser(user.getUsername());
+        boolean success = uDAO.deleteUser(user.getUserId());
 
         return success;
     }

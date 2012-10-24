@@ -164,9 +164,9 @@
                                                     <script>
                                                         var facility = new Object();
                                                         facility.id = '${facility.value.id}';
-                                                        facility.type = '${facility.value.type.name}';
-                                                        facility.latitude = '${facility.value.latitude}';
-                                                        facility.longitude = '${facility.value.longitude}';
+                                                        facility.type = '${facility.value.facilityType.name}';
+                                                        facility.latitude = '${facility.value.facilityLat}';
+                                                        facility.longitude = '${facility.value.facilityLng}';
                                                         
                                                         facilityList.push(facility);
                                                     </script>
@@ -177,9 +177,9 @@
                                                             </div>
                                                         </td>
                                                         <td><b>${facility.value.id}</b></td>
-                                                        <td><b>${facility.value.type.name}</b></td>
-                                                        <td>${facility.value.latitude}</td>
-                                                        <td>${facility.value.longitude}</td>
+                                                        <td><b>${facility.value.facilityType.name}</b></td>
+                                                        <td>${facility.value.facilityLat}</td>
+                                                        <td>${facility.value.facilityLng}</td>
                                                         <td>
                                                             <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.value.id}')">Edit</a> 
                                                             <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.value.id}')">Delete</a>
@@ -213,11 +213,11 @@
                         <h3>Edit <span id="facilityLabel"></span></h3>
                     </div>
                     <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="registration_validate">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilitiesBean" focus="" name="registration_validate">
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Type</label>
                                 <div class="controls">
-                                    <stripes:select name="role">
+                                    <stripes:select name="type">
                                         <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="id" label="name"/>        
                                     </stripes:select>
                                 </div>
@@ -239,7 +239,7 @@
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
-                            <input type="submit" name="editUser" value="Confirm Edit" class="btn btn-primary"/>
+                            <input type="submit" name="editFacility" value="Confirm Edit" class="btn btn-primary"/>
                         </div>
                     </stripes:form>
                 </div>

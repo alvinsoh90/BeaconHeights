@@ -16,7 +16,7 @@ public class RoleDAO {
     private static ArrayList<Role> roleList = new ArrayList<Role>();
     
     public static ArrayList<Role> getAllRoles() {
-        roleList.add(new Role(1,"Admin","Boss man of Beacon"));
+        roleList.add(new Role("Admin","Boss man of Beacon"));
         return roleList;
     }
 
@@ -28,6 +28,6 @@ public class RoleDAO {
     
     public static Role getRoleByName(String name){
         //temp return
-        return new Role(1,"Admin","Boss man of Beacon");
+        return new Role("Admin","Boss man of Beacon");
     }
 }

@@ -256,10 +256,10 @@
                                                 <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
                                                     <script>
                                                         var user = new Object();
-                                                        user.id = '${user.value.id}';
-                                                        user.username = '${user.value.username}';
-                                                        user.firstName = '${user.value.firstName}';
-                                                        user.lastName = '${user.value.lastName}';
+                                                        user.id = '${user.value.userId}';
+                                                        user.username = '${user.value.userName}';
+                                                        user.firstName = '${user.value.firstname}';
+                                                        user.lastName = '${user.value.lastname}';
                                                         user.roleName = '${user.value.role.name}';
                                                         user.blockName = '${user.value.block.blockName}';
                                                         user.level = '${user.value.level}';
@@ -274,18 +274,18 @@
                                                         </td>
                                                         <!--<div class="comments">
                                                             <span class="username">-->
-                                                        <td><b>${user.value.id}</b></td>
-                                                        <td><b>${user.value.username}</b></td>
-                                                        <td>${user.value.firstName}</td>
-                                                        <td>${user.value.lastName}</td>
+                                                        <td><b>${user.value.userId}</b></td>
+                                                        <td><b>${user.value.userName}</b></td>
+                                                        <td>${user.value.firstname}</td>
+                                                        <td>${user.value.lastname}</td>
                                                         <td>${user.value.role.name}</td>
                                                         <td>${user.value.block.blockName}</td>                                                            
                                                         <td>${user.value.level}</td>
                                                         <td>${user.value.unit}</td>
                                                         <td>
-                                                            <a href="#editUserModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditUserModal('${user.value.id}')">Edit</a> 
+                                                            <a href="#editUserModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditUserModal('${user.value.userId}')">Edit</a> 
                                                             <a href="#" class="btn btn-success btn-mini">Reset Password</a> 
-                                                            <a href="#deleteUserModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteUserModal('${user.value.id}')">Delete</a>
+                                                            <a href="#deleteUserModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteUserModal('${user.value.userId}')">Delete</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

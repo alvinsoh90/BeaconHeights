@@ -22,7 +22,7 @@ public class BlockDAO {
     
     public static Block getBlockByName(String name){
         //temp return
-        return new Block(Long.parseLong("1"),"Beacon Heights",1.0000F,1.2000F,"The One And Only Beacon Heights!");
+        return new Block("Beacon Heights",11241414,112411,"The One And Only Beacon Heights!");
     }
     
     public static void createBlock(Long id, String name, float lat, float lng, 

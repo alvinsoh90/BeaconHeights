@@ -11,6 +11,7 @@ import com.lin.dao.UserDAO;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -37,6 +38,8 @@ public class ApproveUserBean implements ActionBean{
   private String level;
   private String unitnumber;
   private String role;
+  private String facebookId;
+  private Date dob;
 
   String result;
   boolean success;
@@ -52,9 +55,8 @@ public class ApproveUserBean implements ActionBean{
         int unitInt = Integer.parseInt(unitnumber);
         
         try{
-            User user1 = dao.createUser(username, password, firstname, 
-                lastname, blockObj, levelInt, unitInt, roleObj);
-            result = user1.getFirstName();
+            User user1 = dao.createUser(roleObj, blockObj, password, username, firstname, lastname, dob, levelInt, unitInt);
+            result = user1.getFirstname();
             success = true;
             System.out.println(user1);
         

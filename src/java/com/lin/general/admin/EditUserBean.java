@@ -10,6 +10,7 @@ import com.lin.entities.User;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
+import java.util.Date;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -33,11 +34,14 @@ public class EditUserBean implements ActionBean{
   private String level;
   private String unitnumber;
   private String role;
+  private Date dob;
+  private String facebookId;
 
     public Resolution editUser(){
         UserDAO dao = new UserDAO();
         BlockDAO blockDao = new BlockDAO();
         RoleDAO roleDao = new RoleDAO();
+        Date date = new Date();
         
         Role roleObj = roleDao.getRoleByName(role);
         Block blockObj = blockDao.getBlockByName(block);
@@ -45,15 +49,15 @@ public class EditUserBean implements ActionBean{
         try{
             dao.updateUser
                     (
-                        Long.parseLong(id),
-                        username,
+                        roleObj,
+                        blockObj,
                         password,
+                        username,
                         firstname,
                         lastname,
-                        blockObj,
+                        date,
                         Integer.parseInt(level),
-                        Integer.parseInt(unitnumber),
-                        roleObj
+                        Integer.parseInt(unitnumber)
                     );
             return new RedirectResolution("/admin/manageusers.jsp?editsuccess=true");
         }

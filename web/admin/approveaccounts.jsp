@@ -227,10 +227,10 @@
                                                 <c:forEach items="${approveUserBean.userApprovalList}" var="user" varStatus="loop">
                                                     <script>
                                                         var user = new Object();
-                                                        user.id = '${user.value.id}';
-                                                        user.username = '${user.value.username}';
-                                                        user.firstName = '${user.value.firstName}';
-                                                        user.lastName = '${user.value.lastName}';
+                                                        user.id = '${user.value.userId}';
+                                                        user.username = '${user.value.userName}';
+                                                        user.firstName = '${user.value.firstname}';
+                                                        user.lastName = '${user.value.lastname}';
                                                         user.roleName = '${user.value.role.name}';
                                                         user.blockName = '${user.value.block.blockName}';
                                                         user.level = '${user.value.level}';
@@ -245,16 +245,16 @@
                                                         </td>
                                                         <!--<div class="comments">
                                                             <span class="username">-->
-                                                        <td><b>${user.value.id}</b></td>
-                                                        <td><b>${user.value.username}</b></td>
-                                                        <td>${user.value.firstName}</td>
-                                                        <td>${user.value.lastName}</td>
+                                                        <td><b>${user.value.userId}</b></td>
+                                                        <td><b>${user.value.userName}</b></td>
+                                                        <td>${user.value.firstname}</td>
+                                                        <td>${user.value.lastname}</td>
                                                         <td>${user.value.role.name}</td>
                                                         <td>${user.value.block.blockName}</td>                                                            
                                                         <td>${user.value.level}</td>
                                                         <td>${user.value.unit}</td>
                                                         <td>
-                                                            <a href="#approveUserModal" role="button" data-toggle="modal" onclick="populateApproveUserModal('${user.value.id}')" class="btn btn-success btn-mini">Approve</a> 
+                                                            <a href="#approveUserModal" role="button" data-toggle="modal" onclick="populateApproveUserModal('${user.value.userId}')" class="btn btn-success btn-mini">Approve</a> 
                                                             <a href="#" class="btn btn-danger btn-mini">Reject</a>
                                                         </td>
                                                     </tr>
