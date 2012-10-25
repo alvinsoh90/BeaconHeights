@@ -22,7 +22,7 @@ import javax.persistence.*;
 public class ManageFacilitiesActionBean implements ActionBean {
 
     private ActionBeanContext context;
-    private HashMap<String, Facility> facilityList;
+    private ArrayList<Facility> facilityList;
     private ArrayList<FacilityType> facilityTypeList;
     private Log log = Log.getInstance(ManageFacilitiesActionBean.class);//in attempt to log what went wrong..
     private String type;
@@ -97,13 +97,13 @@ public class ManageFacilitiesActionBean implements ActionBean {
         this.context = context;
     }
 
-    public HashMap<String, Facility> getFacilityList() {
+    public ArrayList<Facility> getFacilityList() {
         FacilityDAO fDAO = new FacilityDAO();
         facilityList = fDAO.retrieveAllFacilities();
         return facilityList;
     }
 
-    public void setFacilityList(HashMap<String, Facility> facilityList) {
+    public void setFacilityList(ArrayList<Facility> facilityList) {
         this.facilityList = facilityList;
     }
 

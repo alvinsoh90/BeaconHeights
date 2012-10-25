@@ -42,10 +42,9 @@ public class EditFacilitiesBean implements ActionBean{
         try{
             fDAO.updateFacility
                     (
-                        Long.parseLong(id),
-                        Double.parseDouble(latitude),
-                        Double.parseDouble(longitude),
-                        facilityType
+                        facilityType,
+                        Integer.parseInt(longitude),
+                        Integer.parseInt(latitude)
                     );
             return new RedirectResolution("/admin/managefacilities.jsp?editsuccess=true");
         }
