@@ -87,7 +87,7 @@ public class FacilityDAO {
         try {
             tx = session.beginTransaction();
             session.save("Facility",facility);
-            tx.commit();
+            //tx.commit();
             System.out.println("added new user: " + facility);
 
             return facility;
@@ -109,7 +109,7 @@ public class FacilityDAO {
             Query query = session.createQuery(hql);
             query.setString("id",id+"");
             rowCount = query.executeUpdate();
-            tx.commit();
+            //tx.commit();
             } catch (Exception e) {
             e.printStackTrace();
             if(tx!=null) tx.rollback();

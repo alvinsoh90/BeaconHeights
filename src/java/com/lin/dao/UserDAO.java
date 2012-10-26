@@ -37,15 +37,35 @@ public class UserDAO {
     Session session = null;
     public UserDAO(){
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        //System.out.println("HAHAHAHAHAHAHAHHAHAHAH" +session.toString());
     }
-
+    
+    private void openSession() {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+    
+    public String getUserHash(String username){
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from User where userName = :username");
+            q.setString("username",username);
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       //System.out.println("TEMPUSER:"+userTempList.get(0));
+      return userList.get(0).getPassword();
+    }
+    
     public ArrayList<User> retrieveAllUsers() {
-       
+       openSession();
        try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from User");
             userList = (ArrayList<User>) q.list();
-            tx.commit();
+            //tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,16 +74,16 @@ public class UserDAO {
     }
     
     public ArrayList<UserTemp> retrieveAllTempUsers() {
-       
+       openSession();
        try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from UserTemp");
             userTempList = (ArrayList<UserTemp>) q.list();
-            tx.commit();
+            //tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       System.out.println("TEMPUSER:"+userTempList.get(0));
+       //System.out.println("TEMPUSER:"+userTempList.get(0));
       return userTempList;
     }    
     
@@ -85,6 +105,7 @@ public class UserDAO {
     //Method adds a temp user in user_temp awaiting approval.
     public UserTemp addTempUser(String username, String password, String 
             firstname, String lastname, String block, int level, int unitnumber) {
+        openSession();
         String salt = BCrypt.gensalt();
         String passwordHash = BCrypt.hashpw(password, salt);
         
@@ -99,6 +120,7 @@ public class UserDAO {
         
         Transaction tx = null;
         try {
+            openSession();
              tx = session.beginTransaction();
             session.save("UserTemp",temp);
             tx.commit();
@@ -113,7 +135,7 @@ public class UserDAO {
     }
     
     public boolean createUser(User user) {
-        
+        openSession();
         Transaction tx = null;
         try {
              tx = session.beginTransaction();
@@ -130,11 +152,14 @@ public class UserDAO {
     }
 
     public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+        openSession();
+        
         User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
         
         Transaction tx = null;
         try {
-             tx = session.beginTransaction();
+            System.out.println("wahahahahhaHAHAHAHAHAHHA "+session.toString());
+            tx = session.beginTransaction();
             session.save("User",user);
             tx.commit();
             System.out.println("added new user: " + user);
@@ -148,6 +173,7 @@ public class UserDAO {
     }
 
     public boolean deleteUser(int userId) {
+        openSession();
         Transaction tx = null;
         int rowCount =0;
         
@@ -170,10 +196,14 @@ public class UserDAO {
             }
     }
     
+    
+    
     public User getUser(int userId){
+        openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from User");
+            Query q = session.createQuery ("from User where userId = :id");
+            q.setString("id",userId+"");
             userList = (ArrayList<User>) q.list();
             tx.commit();
         } catch (Exception e) {
@@ -183,30 +213,36 @@ public class UserDAO {
       return userList.get(0);
     }
     
-    public User getUserTempAsUser(int userId){
+    public UserTemp getUserTemp(int userId){
+        openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from UserTemp");
-            userList = (ArrayList<User>) q.list();
+            Query q = session.createQuery ("from UserTemp where userId = :id");
+            q.setString("id",userId+"");
+            userTempList = (ArrayList<UserTemp>) q.list();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       System.out.println("TEMPUSER:"+userList.get(0));
-      return userList.get(0);
+       //System.out.println("TEMPUSER:"+userTempList.get(0));
+      return userTempList.get(0);
     }
+   
     
     public boolean removeTempUser(int userId) {
+        openSession();
         Transaction tx = null;
         int rowCount =0;
-        
+        UserTemp userTemp = this.getUserTemp(userId);
+        //System.out.println("THIS IS THE ID"+ userTemp.getUserId());
+        openSession();
         try {
             tx = session.beginTransaction();
-            String hql = "delete from UserTemp where userId = :id";
+            String hql = "DELETE UserTemp uT WHERE uT.userId = :id";
+            
             Query query = session.createQuery(hql);
             query.setString("id",userId+"");
             rowCount = query.executeUpdate();
-            tx.commit();
             } catch (Exception e) {
             e.printStackTrace();
             if(tx!=null) tx.rollback();
@@ -219,21 +255,10 @@ public class UserDAO {
             }
     }
     
-    public boolean approveTempUser(int userId){
-        User user = getUserTempAsUser(userId);
-        boolean successfulCreate = createUser(user);
-        boolean successfulRemove = false;
-        if(successfulCreate){
-            successfulRemove = removeTempUser(userId);
-        }
-        if(successfulCreate && successfulRemove){
-            return true;
-        }else{
-            return false;
-        }
-    }
+  
     
     public User updateUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+        openSession();
         User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
 
         session.update(user);
@@ -251,5 +276,7 @@ public class UserDAO {
         }
         return null;
     }
-    
+
+
+   
 }
