@@ -54,12 +54,16 @@ public class ApproveUserBean implements ActionBean{
         Block blockObj = blockDao.getBlockByName(block);
         int levelInt = Integer.parseInt(level);
         int unitInt = Integer.parseInt(unitnumber);
+        User tempUser = dao.getUserTempAsUser(Integer.parseInt(id));
         
         try{
-            User user1 = dao.createUser(roleObj, blockObj, password, username, firstname, lastname, dob, levelInt, unitInt);
-            result = user1.getFirstname();
+            System.out.println("DEBUG MESSAGE HERE1 !!! "+ id + "" +role + " " + block + password + username + firstname + lastname + dob + levelInt + unitInt);
+            boolean createSuccess = dao.createUser(tempUser);
+            System.out.print(role + " " + block + password + username + firstname + lastname + dob + levelInt + unitInt);
+            dao.removeTempUser(Integer.parseInt(id));
+            result = tempUser.getFirstname();
             success = true;
-            System.out.println(user1);
+            //System.out.println(user1);
         
             return new RedirectResolution("/admin/manageusers.jsp?editsuccess=true");
         }

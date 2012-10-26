@@ -101,7 +101,7 @@ public class UserDAO {
         try {
              tx = session.beginTransaction();
             session.save("UserTemp",temp);
-            //tx.commit();
+            tx.commit();
             return temp;
             
         } catch (Exception e) {
@@ -118,7 +118,7 @@ public class UserDAO {
         try {
              tx = session.beginTransaction();
             session.save("User",user);
-            //tx.commit();
+            tx.commit();
             System.out.println("added new user: " + user);
             return true;
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class UserDAO {
         try {
              tx = session.beginTransaction();
             session.save("User",user);
-            //tx.commit();
+            tx.commit();
             System.out.println("added new user: " + user);
             return user;
         } catch (Exception e) {
@@ -157,7 +157,7 @@ public class UserDAO {
             Query query = session.createQuery(hql);
             query.setString("id",userId+"");
             rowCount = query.executeUpdate();
-            //tx.commit();
+            tx.commit();
             } catch (Exception e) {
             e.printStackTrace();
             if(tx!=null) tx.rollback();
@@ -170,12 +170,14 @@ public class UserDAO {
             }
     }
     
+    
+    
     public User getUser(int userId){
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from User");
             userList = (ArrayList<User>) q.list();
-            //tx.commit();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -203,10 +205,11 @@ public class UserDAO {
         try {
             tx = session.beginTransaction();
             String hql = "delete from UserTemp where userId = :id";
+            System.out.println(hql);
             Query query = session.createQuery(hql);
             query.setString("id",userId+"");
             rowCount = query.executeUpdate();
-            //tx.commit();
+            tx.commit();
             } catch (Exception e) {
             e.printStackTrace();
             if(tx!=null) tx.rollback();

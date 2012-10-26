@@ -261,7 +261,7 @@
                                                 </c:forEach>
                                             </table>    
                                             <li class="viewall">
-                                                <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
+                                                <a class="tip-top" href="#" data-original-title="View all users"> + View all + </a>
                                             </li>
                                         </ul>
                                     </div>
