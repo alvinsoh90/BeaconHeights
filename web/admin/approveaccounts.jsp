@@ -57,7 +57,21 @@
                 });
                 
             }
+      
+            
+            //when this function is called, userList should already be populated
+            function populateRejectModal(userID){ 
+                userList.forEach(function(user){
+                    if(user.id == userID){
+                        $("#usernameDeleteLabel").text(user.username);
+                        $("#delete_username").val(user.username);
+                        $("#delete_firstname").text(user.firstName);
+                        $("#delete_lastname").text(user.lastName);
+                    }
+                });
+            }
         </script>
+
         
     </head>
     <body>
@@ -120,6 +134,24 @@
                     <div class="modal-footer">
                         <a data-dismiss="modal" class="btn">Close</a>
                         <input type="submit" name="approveUserAction" value="Confirm Approval" class="btn btn-primary"/>
+                    </div>
+                </stripes:form>
+            </div>
+        
+        <!-- Reject User Modal -->
+            <div id="rejectUserModal" class="modal hide fade">
+                <div id="myModal" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3>Rejecting of <span id="usernameDeleteLabel"></span>'s account</h3>
+                </div>
+                <div class="modal-body">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteUserBean" focus=""> 
+                        You are now rejecting <span id="delete_firstname"></span> <span id="delete_lastname"></span>'s account. Are you sure?
+                    </div>
+                    <div class="modal-footer">
+                        <a data-dismiss="modal" class="btn">Close</a>
+                        <stripes:hidden id="delete_username" name="username"/>
+                        <input type="submit" name="deleteUser" value="Confirm Delete" class="btn btn-danger"/>
                     </div>
                 </stripes:form>
             </div>
@@ -255,7 +287,7 @@
                                                         <td>${userTemp.unit}</td>
                                                         <td>
                                                             <a href="#approveUserModal" role="button" data-toggle="modal" onclick="populateApproveUserModal('${userTemp.userId}')" class="btn btn-success btn-mini">Approve</a> 
-                                                            <a href="#" class="btn btn-danger btn-mini">Reject</a>
+                                                            <a  href="#rejectUserModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateRejectUserModal('${userTemp.userId}')">Reject</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

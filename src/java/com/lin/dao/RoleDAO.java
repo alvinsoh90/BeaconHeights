@@ -28,6 +28,7 @@ public class RoleDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from Role");
             roleList = (ArrayList<Role>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,6 +47,17 @@ public class RoleDAO {
         
         for(Role r : roleList){
             if(r.getName().equals(name)){
+                return r;
+            }
+        }
+        return null;
+    }
+    public Role getRoleById(int id){
+        //refresh role list
+        getAllRoles();
+        
+        for(Role r : roleList){
+            if(r.getId()==id){
                 return r;
             }
         }
