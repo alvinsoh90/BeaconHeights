@@ -57,16 +57,16 @@
                 });
                 
             }
-      
             
             //when this function is called, userList should already be populated
-            function populateRejectModal(userID){ 
+            function populateRejectUserModal(userID){ 
                 userList.forEach(function(user){
                     if(user.id == userID){
-                        $("#usernameDeleteLabel").text(user.username);
-                        $("#delete_username").val(user.username);
-                        $("#delete_firstname").text(user.firstName);
-                        $("#delete_lastname").text(user.lastName);
+                        $("#usernameRejectLabel").text(user.username);
+                        $("#reject_id").val(user.id);
+                        $("#reject_username").val(user.username);
+                        $("#reject_firstname").text(user.firstName);
+                        $("#reject_lastname").text(user.lastName);
                     }
                 });
             }
@@ -142,16 +142,17 @@
             <div id="rejectUserModal" class="modal hide fade">
                 <div id="myModal" class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Rejecting of <span id="usernameDeleteLabel"></span>'s account</h3>
+                    <h3>Rejecting of <span id="usernameRejectLabel"></span>'s account</h3>
                 </div>
                 <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteUserBean" focus=""> 
-                        You are now rejecting <span id="delete_firstname"></span> <span id="delete_lastname"></span>'s account. Are you sure?
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.RejectUserBean" focus=""> 
+                        You are now rejecting <span id="reject_firstname"></span> <span id="reject_lastname"></span>'s account. Are you sure?
                     </div>
                     <div class="modal-footer">
                         <a data-dismiss="modal" class="btn">Close</a>
-                        <stripes:hidden id="delete_username" name="username"/>
-                        <input type="submit" name="deleteUser" value="Confirm Delete" class="btn btn-danger"/>
+                        <stripes:hidden name="id" id="reject_id" />
+                        <stripes:hidden id="reject_username" name="username"/>
+                        <input type="submit" name="rejectUser" value="Confirm Rejection" class="btn btn-danger"/>
                     </div>
                 </stripes:form>
             </div>
@@ -221,6 +222,12 @@
              
                 <div class="row-fluid">
                     <div class="span12">
+                        <c:if test = "${param.approvesuccess == 'false'}">
+                            <div><br/></div>
+                            <div class="login alert alert-error container">
+                                <b>Whoops.</b> There was an error approving the user. Please try again!
+                            </div>
+                        </c:if>
                         <c:if test = "${param.success == 'false'}">
                         <div><br/></div>
                         <div class="login alert alert-error container">
@@ -233,7 +240,18 @@
                             <b>Awesome!</b> ${param.msg} was added to the user list!
                         </div>
                     </c:if>
- 
+                    <c:if test = "${param.rejectsuccess == 'true'}">
+                        <div><br/></div>
+                        <div class="login alert alert-success container">
+                            <b>Awesome!</b> ${param.rejectmsg} was successfully rejected!
+                        </div>
+                    </c:if>
+                    <c:if test = "${param.rejectsuccess == 'false'}">
+                        <div><br/></div>
+                        <div class="login alert alert-error container">
+                            <b>Whoops.</b> There was an error rejecting the user. Please try again!
+                        </div>
+                    </c:if> 
                     
                     <!-- Users Pending Approval -->
                      <div class="widget-box">
@@ -287,7 +305,7 @@
                                                         <td>${userTemp.unit}</td>
                                                         <td>
                                                             <a href="#approveUserModal" role="button" data-toggle="modal" onclick="populateApproveUserModal('${userTemp.userId}')" class="btn btn-success btn-mini">Approve</a> 
-                                                            <a  href="#rejectUserModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateRejectUserModal('${userTemp.userId}')">Reject</a>
+                                                            <a href="#rejectUserModal" role="button" data-toggle="modal" onclick="populateRejectUserModal('${userTemp.userId}')" class="btn btn-danger btn-mini" >Reject</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

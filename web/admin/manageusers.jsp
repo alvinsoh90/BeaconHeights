@@ -156,6 +156,12 @@
                                 <b>Awesome!</b> ${param.deletemsg} was successfully deleted!
                             </div>
                         </c:if>
+                        <c:if test = "${param.approvesuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success container">
+                                <b>Awesome!</b> ${param.approvemsg} was added to the user list!
+                            </div>
+                        </c:if>
                         <div class="widget-box">
                             <div title="Click to add a new user" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newUserForm">
                                 <span class="icon">

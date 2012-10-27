@@ -23,7 +23,7 @@ import net.sourceforge.stripes.action.Resolution;
  *
  * @author Yangsta
  */
-public class ApproveUserBean implements ActionBean{
+public class RejectUserBean implements ActionBean{
   private ActionBeanContext context;
   private User user;
   private ArrayList<UserTemp> tempUserList;
@@ -44,33 +44,30 @@ public class ApproveUserBean implements ActionBean{
 
   String result;
   boolean success;
-  
-    public Resolution approveUserAction(){
+    
+    public Resolution rejectUserAction(){
         UserDAO dao = new UserDAO();
         BlockDAO blockDao = new BlockDAO();
         RoleDAO roleDao = new RoleDAO();
         
-        Role roleObj = roleDao.getRoleById(Integer.parseInt(role));
-        Block blockObj = blockDao.getBlockByName(block);
-        int levelInt = Integer.parseInt(level);
-        int unitInt = Integer.parseInt(unitnumber);
+        //Role roleObj = roleDao.getRoleById(Integer.parseInt(role));
+        //Block blockObj = blockDao.getBlockByName(block);
+        //int levelInt = Integer.parseInt(level);
+        //int unitInt = Integer.parseInt(unitnumber);
         UserTemp tempUser = dao.getUserTemp(Integer.parseInt(id));
         
         try{
-            User newUser = dao.createUser(roleObj, blockObj, tempUser.getPassword(), username, firstname, lastname, new Date(), levelInt, unitInt);
-            System.out.print(role + " " + block + " " +  tempUser.getPassword() + " " +  username + " " +  firstname + " " +  lastname + " " +  dob + " " +  levelInt + " " +  unitInt);
-            System.out.println("THIS IS THE SECOND ID" + id);
             dao.removeTempUser(Integer.parseInt(id));
             result = tempUser.getFirstname();
             success = true;
             //System.out.println(user1);
         
-            return new RedirectResolution("/admin/manageusers.jsp?approvesuccess=true&approvemsg="+username);
+            return new RedirectResolution("/admin/approveaccounts.jsp?rejectsuccess=true&rejectmsg="+username);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/approveaccounts.jsp?approvesuccess=false");
+        return new RedirectResolution("/admin/approveaccounts.jsp?rejectsuccess=false");
         
     }
     
