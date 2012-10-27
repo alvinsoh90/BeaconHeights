@@ -8,6 +8,9 @@
 
 <jsp:useBean id="manageFacilitiesActionBean" scope="page"
              class="com.lin.general.admin.ManageFacilitiesActionBean"/>
+<jsp:useBean id="approveUserBean" scope="page"
+             class="com.lin.general.admin.ApproveUserBean"/>
+
 <html lang="en">
     <head>
         <title>Unicorn Admin</title>
@@ -100,7 +103,7 @@
                 <h1> Manage Facilities </h1>
                 <div class="btn-group">
                     <a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
-                    <a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
+                    <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Manage Pending Accounts"><i class="icon-user"></i><span class="label label-important">${approveUserBean.tempUserListCount}</span></a>
                     <a class="btn btn-large tip-bottom" title="Manage Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
                     <a class="btn btn-large tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>
                 </div>
