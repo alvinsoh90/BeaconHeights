@@ -66,3 +66,165 @@
 [2012-10-10 09:26:45.529] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 500 79 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.57 Safari/537.1"
 [2012-10-10 09:26:45.679] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.57 Safari/537.1"
 [2012-10-10 09:29:44.799] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.57 Safari/537.1"
+[2012-10-25 21:19:29.737] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 200 111 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 21:19:29.739] [WARN] [default] - Test warn
+[2012-10-25 21:19:30.013] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 21:19:46.107] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:19:46.108] [WARN] [default] - Test warn
+[2012-10-25 21:22:05.007] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:22:05.008] [WARN] [default] - Test warn
+[2012-10-25 21:23:19.891] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:23:19.892] [WARN] [default] - Test warn
+[2012-10-25 21:23:34.300] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:23:34.301] [WARN] [default] - Test warn
+[2012-10-25 21:24:40.042] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 200 111 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 21:24:40.045] [WARN] [default] - Test warn
+[2012-10-25 21:24:40.168] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 21:24:44.759] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:24:44.759] [WARN] [default] - Test warn
+[2012-10-25 21:33:41.416] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:33:41.417] [WARN] [default] - Test warn
+[2012-10-25 21:41:52.403] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:41:52.405] [WARN] [default] - Test warn
+[2012-10-25 21:49:08.970] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/jocelyn HTTP/1.1" 200 - "" "Java/1.6.0_35"
+[2012-10-25 21:49:08.971] [WARN] [default] - Test warn
+[2012-10-25 21:49:15.501] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/Jocelyn HTTP/1.1" 200 - "" "Java/1.6.0_35"
+[2012-10-25 21:49:15.501] [WARN] [default] - Test warn
+[2012-10-25 21:49:22.302] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:49:22.302] [WARN] [default] - Test warn
+[2012-10-25 21:49:39.875] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/Jocelyn HTTP/1.1" 200 - "" "Java/1.6.0_35"
+[2012-10-25 21:49:39.876] [WARN] [default] - Test warn
+[2012-10-25 21:50:42.450] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:50:42.452] [WARN] [default] - Test warn
+[2012-10-25 21:53:06.075] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 21:53:06.076] [WARN] [default] - Test warn
+[2012-10-25 23:17:08.173] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 500 2 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 23:17:08.668] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 23:17:10.840] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 500 79 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 23:17:10.972] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 23:17:39.438] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 200 111 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 23:17:39.441] [WARN] [default] - Test warn
+[2012-10-25 23:17:39.598] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-25 23:18:22.251] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 23:18:22.252] [WARN] [default] - Test warn
+[2012-10-25 23:19:26.644] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 23:19:26.645] [WARN] [default] - Test warn
+[2012-10-25 23:20:53.345] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 23:20:53.346] [WARN] [default] - Test warn
+[2012-10-25 23:25:14.294] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-25 23:25:14.295] [WARN] [default] - Test warn
+[2012-10-26 00:20:21.839] [INFO] [default] - 127.0.0.1 - - "GET /phpmyadmin HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 00:20:21.950] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 00:20:28.222] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 01:08:14.369] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 01:08:14.371] [WARN] [default] - Test warn
+[2012-10-26 01:10:04.688] [INFO] [default] - 127.0.0.1 - - "GET /phpmyadmin/index.php?db=lin_db&table=user_temp&target=sql.php&token=6978df8d65181803dfaa9c1f12526299 HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 01:10:04.927] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 12:24:33.191] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 200 111 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 12:24:33.194] [WARN] [default] - Test warn
+[2012-10-26 12:24:33.504] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 12:24:40.552] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 200 111 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 12:24:40.552] [WARN] [default] - Test warn
+[2012-10-26 12:24:40.677] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 12:25:25.096] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 12:25:26.217] [INFO] [default] - 127.0.0.1 - - "GET /phpmyadmin/index.php?db=lin_db&table=user_temp&target=sql.php&token=6978df8d65181803dfaa9c1f12526299 HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 12:25:26.348] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 12:28:26.344] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 12:28:26.347] [WARN] [default] - Test warn
+[2012-10-26 12:31:09.108] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 12:31:09.109] [WARN] [default] - Test warn
+[2012-10-26 12:36:09.787] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 12:36:09.788] [WARN] [default] - Test warn
+[2012-10-26 12:36:15.073] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 12:36:15.074] [WARN] [default] - Test warn
+[2012-10-26 12:36:33.383] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 12:36:33.384] [WARN] [default] - Test warn
+[2012-10-26 12:44:23.442] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 12:44:23.443] [WARN] [default] - Test warn
+[2012-10-26 12:52:44.453] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 12:52:44.454] [WARN] [default] - Test warn
+[2012-10-26 12:59:20.372] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 12:59:20.373] [WARN] [default] - Test warn
+[2012-10-26 13:02:02.166] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 13:02:02.168] [WARN] [default] - Test warn
+[2012-10-26 13:11:14.804] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 13:11:14.806] [WARN] [default] - Test warn
+[2012-10-26 20:10:32.322] [INFO] [default] - 127.0.0.1 - - "GET /api/getAllBlocks HTTP/1.1" 200 111 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 20:10:32.325] [WARN] [default] - Test warn
+[2012-10-26 20:10:32.576] [INFO] [default] - 127.0.0.1 - - "GET /favicon.ico HTTP/1.1" 404 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
+[2012-10-26 20:10:36.186] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:10:36.186] [WARN] [default] - Test warn
+[2012-10-26 20:16:11.714] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:16:11.715] [WARN] [default] - Test warn
+[2012-10-26 20:20:32.365] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:20:32.366] [WARN] [default] - Test warn
+[2012-10-26 20:25:06.022] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/sha HTTP/1.1" 200 - "" "Java/1.6.0_35"
+[2012-10-26 20:25:06.023] [WARN] [default] - Test warn
+[2012-10-26 20:25:10.160] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:25:10.160] [WARN] [default] - Test warn
+[2012-10-26 20:26:01.331] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:26:01.331] [WARN] [default] - Test warn
+[2012-10-26 20:29:13.387] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:29:13.388] [WARN] [default] - Test warn
+[2012-10-26 20:34:50.354] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:34:50.355] [WARN] [default] - Test warn
+[2012-10-26 20:41:48.455] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:41:48.456] [WARN] [default] - Test warn
+[2012-10-26 20:45:09.470] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:45:09.471] [WARN] [default] - Test warn
+[2012-10-26 20:46:13.269] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:46:13.271] [WARN] [default] - Test warn
+[2012-10-26 20:47:53.929] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:47:53.930] [WARN] [default] - Test warn
+[2012-10-26 20:51:53.519] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:51:53.519] [WARN] [default] - Test warn
+[2012-10-26 20:56:35.939] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 20:56:35.940] [WARN] [default] - Test warn
+[2012-10-26 21:00:12.235] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:00:12.236] [WARN] [default] - Test warn
+[2012-10-26 21:02:03.155] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:02:03.156] [WARN] [default] - Test warn
+[2012-10-26 21:04:39.133] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:04:39.135] [WARN] [default] - Test warn
+[2012-10-26 21:07:06.382] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:07:06.383] [WARN] [default] - Test warn
+[2012-10-26 21:08:13.475] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:08:13.476] [WARN] [default] - Test warn
+[2012-10-26 21:09:22.764] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:09:22.769] [WARN] [default] - Test warn
+[2012-10-26 21:16:19.596] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:16:19.597] [WARN] [default] - Test warn
+[2012-10-26 21:22:49.155] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:22:49.156] [WARN] [default] - Test warn
+[2012-10-26 21:25:48.326] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:25:48.327] [WARN] [default] - Test warn
+[2012-10-26 21:27:22.134] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:27:22.135] [WARN] [default] - Test warn
+[2012-10-26 21:27:25.565] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:27:25.565] [WARN] [default] - Test warn
+[2012-10-26 21:29:42.480] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:29:42.481] [WARN] [default] - Test warn
+[2012-10-26 21:29:45.597] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:29:45.597] [WARN] [default] - Test warn
+[2012-10-26 21:31:30.899] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:31:30.900] [WARN] [default] - Test warn
+[2012-10-26 21:32:31.526] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:32:31.528] [WARN] [default] - Test warn
+[2012-10-26 21:33:08.200] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:33:08.201] [WARN] [default] - Test warn
+[2012-10-26 21:37:05.318] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:37:05.319] [WARN] [default] - Test warn
+[2012-10-26 21:37:39.139] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:37:39.140] [WARN] [default] - Test warn
+[2012-10-26 21:39:17.342] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:39:17.343] [WARN] [default] - Test warn
+[2012-10-26 21:41:36.056] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:41:36.057] [WARN] [default] - Test warn
+[2012-10-26 21:45:39.471] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:45:39.472] [WARN] [default] - Test warn
+[2012-10-26 21:46:21.452] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:46:21.453] [WARN] [default] - Test warn
+[2012-10-26 21:48:04.627] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:48:04.628] [WARN] [default] - Test warn
+[2012-10-26 21:54:00.743] [INFO] [default] - 127.0.0.1 - - "GET /api/getUserHash/shamus HTTP/1.1" 200 75 "" "Java/1.6.0_35"
+[2012-10-26 21:54:00.744] [WARN] [default] - Test warn

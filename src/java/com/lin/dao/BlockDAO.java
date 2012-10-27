@@ -23,9 +23,15 @@ public class BlockDAO {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
     
+     private void openSession() {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+    
     public ArrayList<Block> getAllBlocks(){
+        openSession();
+        org.hibernate.Transaction tx;
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
+            tx = session.beginTransaction();
             Query q = session.createQuery ("from Block");
             blockList = (ArrayList<Block>) q.list();
         } catch (Exception e) {
@@ -55,5 +61,7 @@ public class BlockDAO {
             String desc){
         
     }
+
+   
 
 }

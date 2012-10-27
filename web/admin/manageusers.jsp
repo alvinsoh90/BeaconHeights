@@ -8,6 +8,8 @@
 
 <jsp:useBean id="manageUsersActionBean" scope="page"
              class="com.lin.general.admin.ManageUsersActionBean"/>
+<jsp:useBean id="approveUserBean" scope="page"
+             class="com.lin.general.admin.ApproveUserBean"/>
 <html lang="en">
     <head>
         <title>Unicorn Admin</title>
@@ -119,7 +121,7 @@
                 <h1> Manage Users </h1>
                 <div class="btn-group">
                     <a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
-                    <a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
+                    <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Manage Pending Accounts"><i class="icon-user"></i><span class="label label-important">${approveUserBean.tempUserListCount}</span></a>
                     <a class="btn btn-large tip-bottom" title="Manage Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
                     <a class="btn btn-large tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>
                 </div>
@@ -144,7 +146,7 @@
                                 <b>Awesome!</b> ${param.createmsg} was added to the user list!
                             </div>
                         </c:if>
-                        <c:if test = "${param.deletesuccess == 'false'}">
+                            <c:if test = "${param.deletesuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
                                 <b>Whoops.</b> The user could not be deleted.
@@ -156,8 +158,12 @@
                                 <b>Awesome!</b> ${param.deletemsg} was successfully deleted!
                             </div>
                         </c:if>
-
-                        <!-- Add a new user -->
+                        <c:if test = "${param.approvesuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success container">
+                                <b>Awesome!</b> ${param.approvemsg} was added to the user list!
+                            </div>
+                        </c:if>
                         <div class="widget-box">
                             <div title="Click to add a new user" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newUserForm">
                                 <span class="icon">
@@ -171,7 +177,7 @@
                                         <label class="control-label">Role</label>
                                         <div class="controls">
                                             <stripes:select name="role">
-                                                <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="name" label="name"/>        
+                                                <stripes:options-collection collection="${manageUsersActionBean.roleList}" label="name"/>        
                                             </stripes:select>
                                         </div>
                                     </div>
@@ -233,7 +239,7 @@
                             </div>
                         </div>						
                     </div>
-
+                    
                     <!-- Users -->
                     <div class="widget-box">
                         <div class="widget-title">

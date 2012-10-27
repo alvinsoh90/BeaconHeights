@@ -9,12 +9,8 @@ package com.lin.general.login;
  * @author Shamus
  */
 
-import com.lin.dao.LoginDAO;
 import com.lin.dao.UserDAO;
-import com.lin.utils.BCrypt;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.lin.entities.UserTemp;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -120,7 +116,7 @@ public class RegisterActionBean extends BaseActionBean {
         }
         else{
            //Need to handle null for block,level,unitnumber
-           uDAO.addTempUser(username,password,firstname,lastname,block,Integer.parseInt(level),Integer.parseInt(unitnumber));
+           UserTemp u = uDAO.addTempUser(username,password,firstname,lastname,block,Integer.parseInt(level),Integer.parseInt(unitnumber));
            successMsg = "Your account has been added! Please wait for a couple of days for your account to be approved.";
            return new RedirectResolution("/login.jsp?success=true&msg="+successMsg);
         }

@@ -1,6 +1,7 @@
 package com.lin.general.login;
 
 import com.lin.dao.LoginDAO;
+import com.lin.dao.UserDAO;
 import com.lin.utils.BCrypt;
 import java.io.IOException;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -35,23 +36,20 @@ public class LoginActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution login() {
         String storedHash = "";
-        LoginDAO loginDAO = new LoginDAO();
-        try {
-            //retrieve hash from DB
-            storedHash = loginDAO.getHash(username);
-            //check if hash is same as user input        
-            if(plaintext !=null && !storedHash.isEmpty()){
-               success = BCrypt.checkpw(plaintext,storedHash);
-            }
-            else{
-               success = false;
-            }
-            
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            success = false;  //if fail to retrieve, default to success = false
+        UserDAO userDAO = new UserDAO();
+
+        //retrieve hash from DB
+        storedHash = userDAO.getUserHash(username);
+        //check if hash is same as user input        
+        if(plaintext !=null && !storedHash.isEmpty()){
+           success = BCrypt.checkpw(plaintext,storedHash);
         }
-        
+        else{
+           success = false;
+        }
+
+
+
         if(success){
             return new RedirectResolution("/admin/manageusers.jsp");
         }else{
