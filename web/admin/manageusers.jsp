@@ -332,7 +332,7 @@
                             <label class="control-label">Role</label>
                             <div class="controls">
                                 <stripes:select name="role">
-                                    <stripes:options-collection collection="${manageUsersActionBean.roleList}" label="name"/>        
+                                    <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
                                 </stripes:select>
                             </div>
                         </div> 

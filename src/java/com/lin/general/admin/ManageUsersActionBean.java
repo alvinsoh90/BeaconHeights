@@ -38,7 +38,6 @@ public class ManageUsersActionBean implements ActionBean {
     private String unitnumber;
     private String role;
     private String result;
-    private String test = "test";
     private boolean success = false;
 
     public String getBlock() {
@@ -121,9 +120,6 @@ public class ManageUsersActionBean implements ActionBean {
         this.role = role;
     }
 
-    public void setTest(String test) {
-        this.test = test;
-    }
 
     public void setUnitnumber(String unitnumber) {
         this.unitnumber = unitnumber;

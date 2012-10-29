@@ -10,6 +10,7 @@ import com.lin.entities.User;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
+import java.util.ArrayList;
 import java.util.Date;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -22,40 +23,38 @@ import net.sourceforge.stripes.action.Resolution;
  */
 public class EditUserBean implements ActionBean{
   private ActionBeanContext context;
+  private ArrayList<User> userList;
+  private ArrayList<Role> roleList;
   private User user;
   
   private String id;
   private String username;
   private String password;
-  private String passwordConfirm;
   private String firstname;
   private String lastname;
   private String block;
   private String level;
   private String unitnumber;
   private String role;
-  private Date dob;
-  private String facebookId;
 
     public Resolution editUser(){
+        this.getRoleList();
         UserDAO dao = new UserDAO();
         BlockDAO blockDao = new BlockDAO();
         RoleDAO roleDao = new RoleDAO();
-        Date date = new Date();
-        
-        Role roleObj = roleDao.getRoleByName(role);
+        //System.out.println("ROLE ID "+ role);
+        Role roleObj = roleDao.getRoleById(Integer.parseInt(role));
         Block blockObj = blockDao.getBlockByName(block);
-        
+        //System.out.println("BLOCK NAME : "+block);
         try{
             dao.updateUser
                     (
+                        Integer.parseInt(id),
                         roleObj,
                         blockObj,
-                        password,
                         username,
                         firstname,
                         lastname,
-                        date,
                         Integer.parseInt(level),
                         Integer.parseInt(unitnumber)
                     );
@@ -124,14 +123,6 @@ public class EditUserBean implements ActionBean{
         this.password = password;
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
     public String getRole() {
         return role;
     }
@@ -163,6 +154,17 @@ public class EditUserBean implements ActionBean{
     public void setUsername(String username) {
         this.username = username;
     }
-  
+    
+    public ArrayList<Role> getRoleList(){
+        RoleDAO roleDAO = new RoleDAO(); 
+        roleList = roleDAO.getAllRoles();
+        return roleList;
+    }
+    
+    public ArrayList<User> getUserList() {
+        UserDAO uDAO = new UserDAO();
+        userList = uDAO.retrieveAllUsers();
+        return userList;
+    }
 
 }

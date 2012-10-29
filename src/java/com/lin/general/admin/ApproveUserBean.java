@@ -58,7 +58,7 @@ public class ApproveUserBean implements ActionBean{
         
         try{
             User newUser = dao.createUser(roleObj, blockObj, tempUser.getPassword(), username, firstname, lastname, new Date(), levelInt, unitInt);
-            System.out.print(role + " " + block + " " +  tempUser.getPassword() + " " +  username + " " +  firstname + " " +  lastname + " " +  dob + " " +  levelInt + " " +  unitInt);
+            System.out.println(role + " " + block + " " +  tempUser.getPassword() + " " +  username + " " +  firstname + " " +  lastname + " " +  dob + " " +  levelInt + " " +  unitInt);
             System.out.println("THIS IS THE SECOND ID" + id);
             dao.removeTempUser(Integer.parseInt(id));
             result = tempUser.getFirstname();
