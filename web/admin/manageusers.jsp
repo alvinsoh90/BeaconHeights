@@ -60,6 +60,7 @@
                         $("#delete_username").val(user.username);
                         $("#delete_firstname").text(user.firstName);
                         $("#delete_lastname").text(user.lastName);
+                        $("#delete_id").val(user.id);
                     }
                 });
             }
@@ -448,6 +449,7 @@
                     <div class="modal-footer">
                         <a data-dismiss="modal" class="btn">Close</a>
                         <stripes:hidden id="delete_username" name="username"/>
+                        <stripes:hidden id="delete_id" name="id"/>
                         <input type="submit" name="deleteUser" value="Confirm Delete" class="btn btn-danger"/>
                     </div>
                 </stripes:form>
