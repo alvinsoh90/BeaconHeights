@@ -243,6 +243,7 @@ public class UserDAO {
             Query query = session.createQuery(hql);
             query.setString("id",userId+"");
             rowCount = query.executeUpdate();
+            tx.commit();
             } catch (Exception e) {
             e.printStackTrace();
             if(tx!=null) tx.rollback();
@@ -257,13 +258,21 @@ public class UserDAO {
     
   
     
-    public User updateUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+    public User updateUser(int userId,Role role, Block block, String userName, String firstname, String lastname,  Integer level, Integer unit) {
         openSession();
-        User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
-
-        session.update(user);
-
-        return user;
+        //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
+        System.out.println("USER INFO : "+userId+" "+role + " " + block + " " + userName+ " " + firstname+ " " + lastname+ " " + level+ " " + unit);
+        //session.update("User",user);
+        User u = (User) session.get(User.class, userId);
+        u.setRole(role);
+        u.setBlock(block);
+        u.setUserName(userName);
+        u.setFirstname(firstname);
+        u.setLastname(lastname);
+        u.setLevel(level);
+        u.setUnit(unit);
+        
+        return u;
     }
     
     public User getUser(String username){   

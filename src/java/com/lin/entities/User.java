@@ -48,6 +48,16 @@ public class User  implements java.io.Serializable {
        this.level = level;
        this.unit = unit;
     }
+    public User(int userId, Role role, Block block,  String userName, String firstname, String lastname,  Integer level, Integer unit) {
+       this.userId = userId;
+       this.role = role;
+       this.block = block;
+       this.userName = userName;
+       this.firstname = firstname;
+       this.lastname = lastname;
+       this.level = level;
+       this.unit = unit;
+    }
     public User(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit, String facebookId) {
        this.role = role;
        this.block = block;

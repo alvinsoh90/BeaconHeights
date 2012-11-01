@@ -60,6 +60,7 @@
                         $("#delete_username").val(user.username);
                         $("#delete_firstname").text(user.firstName);
                         $("#delete_lastname").text(user.lastName);
+                        $("#delete_id").val(user.id);
                     }
                 });
             }
@@ -332,7 +333,7 @@
                             <label class="control-label">Role</label>
                             <div class="controls">
                                 <stripes:select name="role">
-                                    <stripes:options-collection collection="${manageUsersActionBean.roleList}" label="name"/>        
+                                    <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
                                 </stripes:select>
                             </div>
                         </div> 
@@ -448,6 +449,7 @@
                     <div class="modal-footer">
                         <a data-dismiss="modal" class="btn">Close</a>
                         <stripes:hidden id="delete_username" name="username"/>
+                        <stripes:hidden id="delete_id" name="id"/>
                         <input type="submit" name="deleteUser" value="Confirm Delete" class="btn btn-danger"/>
                     </div>
                 </stripes:form>
