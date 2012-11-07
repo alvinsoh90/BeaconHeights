@@ -33,7 +33,7 @@
         <div class="container pushdown centerText">
 
             <div class="userImageBadge heavyBlackBorder inlineblock">
-                <img src="http://b.vimeocdn.com/ps/346/445/3464459_300.jpg"/>
+                <img src="img/lin/loginlogo.png"/>
             </div>
 
 
