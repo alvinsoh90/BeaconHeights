@@ -133,3 +133,20 @@
     background-image: -linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
     border-bottom: 1px solid #CDCDCD;
 }
+
+/** Logo **/
+#header h1{
+    background: url("../../img/lin/livingnet_logo.png") no-repeat scroll 0 0 transparent;
+    height: 60px;
+    left: 15px;
+    line-height: 600px;
+    overflow: hidden;
+    position: relative;
+    top: 14px;
+    width: 191px;
+}
+
+#sidebar span.right-icon {
+    float: right;
+    margin-right: 20px; 
+}

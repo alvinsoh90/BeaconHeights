@@ -170,62 +170,62 @@
             <h1><a href="./dashboard.html">Beacon Heights Admin</a></h1>		
         </div>
 
-        <div id="search">
+        <!--<div id="search">
             <input type="text" placeholder="Search here..."/><button type="submit" class="tip-right" title="Search"><i class="icon-search icon-white"></i></button>
-        </div>
+        </div> -->
+        
         <div id="user-nav" class="navbar navbar-inverse">
             <ul class="nav btn-group">
                 <li class="btn btn-inverse" ><a title="" href="#"><i class="icon icon-user"></i> <span class="text">Profile</span></a></li>
-                <li class="btn btn-inverse dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
+                <!--<li class="btn btn-inverse dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a class="sAdd" title="" href="#">new message</a></li>
                         <li><a class="sInbox" title="" href="#">inbox</a></li>
                         <li><a class="sOutbox" title="" href="#">outbox</a></li>
                         <li><a class="sTrash" title="" href="#">trash</a></li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="btn btn-inverse"><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
                 <li class="btn btn-inverse"><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
             </ul>
         </div>
 
-        <div id="sidebar">
+       <div id="sidebar">
             <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
             <ul>
                 <li class="submit"><a href="#"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
-                <li class="submenu active open">
-                    <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span> <span class="label">3</span></a>
+                <li class="submenu">
+                    <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span>  <span class="right-icon"><i id="users-nav-icon" class="icon icon-chevron-down"></span></i></a>
                     <ul>
-                        <li class ="active"><a href="manageusers.jsp">Manage Users</a></li>
+                        <li><a href="manageusers.jsp">Manage Users</a></li>
                         <li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
                         <!--<li><a href="form-wizard.html">Wizard</a></li> -->
                     </ul>
                 </li>
-                <li class="submenu">
-                    <a href="managefacilities.jsp"><i class="icon icon-th-list"></i> <span>Facilities</span> <span class="label">3</span></a>
+                <li class="submenu active open">
+                    <a href="managefacilities.jsp"><i class="icon icon-th-list"></i> <span>Facilities</span> <span class="right-icon"><i id="users-nav-icon" class="icon icon-chevron-down"></span></i></a>
                     <ul>
-                        <li><a href="managefacilities.jsp">Manage Facilities</a></li>
-                        <!--<li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li> -->
+                        <li class ="active"><a href="managefacilities.jsp">Manage Facilities</a></li>
                     </ul>
                 </li>
-
+            </ul>
         </div>
 
 
 
         <div id="content">
             <div id="content-header">
-                <h1> Manage Users </h1>
+                <h1> Approve Pending Accounts </h1>
                 <div class="btn-group">
-                    <a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
-                    <a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
-                    <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Manage Pending Accounts"><i class="icon-user"></i>
+                    <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Pending Accounts"><i class="icon-user"></i>
                     <c:if test = "${approveUserBean.tempUserListCount > 0}">
                             <span class="label label-important">${approveUserBean.tempUserListCount}</span>
                     </c:if>
                     </a>
-                    <a class="btn btn-large tip-bottom" title="Manage Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
-                    <a class="btn btn-large tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>
+                    <a class="btn btn-large tip-bottom" title="Flagged Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
+                    <a class="btn btn-large tip-bottom" title="Flagged Events"><i class="icon-calendar"></i></a>
+                    <a class="btn btn-large tip-bottom" title="Forms Pending Approval"><i class="icon-file"></i></a>
+                    <a class="btn btn-large tip-bottom" title="Feedback & Enquries"><i class="icon-bell"></i></a>
                 </div>
             </div>
             <div id="breadcrumb">
@@ -390,9 +390,9 @@
                                             <table id="userTable" class="table table-striped users">
                                                    <!-- Elements dynamically added in -->
                                             </table>    
-                                            <li class="viewall">
+                                            <!--<li class="viewall">
                                                 <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
-                                            </li>
+                                            </li>-->
                                         </ul>
                                     </div>
                                 </div>	
