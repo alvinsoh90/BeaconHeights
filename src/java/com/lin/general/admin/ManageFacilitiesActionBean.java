@@ -124,11 +124,10 @@ public class ManageFacilitiesActionBean implements ActionBean {
         try {
             FacilityDAO fDAO = new FacilityDAO();
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
-
             FacilityType facilityType = tDAO.getFacilityType(type);
-            
+            System.out.println("DID I GET HERE????????? TWO");
             Facility facility = fDAO.createFacility(facilityType,Integer.parseInt(longitude),Integer.parseInt(latitude));
-
+            System.out.println("WHAT ABOUT HERE");
             result = facility.getName();
             success = true;
             System.out.println(result);

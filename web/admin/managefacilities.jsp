@@ -176,7 +176,7 @@
                                     <label class="control-label">Type</label>
                                     <div class="controls">
                                         <stripes:select name="type">
-                                            <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name"/>        
+                                            <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name" value="name"/>        
                                         </stripes:select>
                                     </div>
                                 </div>
