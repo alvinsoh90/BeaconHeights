@@ -217,7 +217,7 @@
 
         <div id="content">
             <div id="content-header">
-                <h1> Approve Pending Accounts </h1>
+                <h1> Manage Users </h1>
                 <div class="btn-group">
                     <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Pending Accounts"><i class="icon-user"></i>
                         <c:if test = "${approveUserBean.tempUserListCount > 0}">
