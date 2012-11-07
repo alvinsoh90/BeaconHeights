@@ -147,7 +147,6 @@ public class UserDAO {
             e.printStackTrace();
             if(tx!=null) tx.rollback();
         }
-        //return null if failed
         return false;
     }
 

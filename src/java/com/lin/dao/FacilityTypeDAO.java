@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -39,9 +41,13 @@ public class FacilityTypeDAO {
       return facilityTypeMap;
     }
     
+        
+    private void openSession() {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
     
     public FacilityType createFacilityType(String name, String description) {
-
+        
         FacilityType facilityType = new FacilityType(name, description);
 
         //add to temporary hashmap
@@ -72,7 +78,17 @@ public class FacilityTypeDAO {
     }
     
     public FacilityType getFacilityType(String name){   
-      return facilityTypeMap.get(name);
+        openSession();
+        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from FacilityType where name ='"+name+"'");
+            typeList = (ArrayList<FacilityType>) q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return typeList.get(0);
+        
     }
     
 }

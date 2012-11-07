@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 /**
  *
  * @author Keffeine
@@ -28,72 +29,76 @@ import org.hibernate.Transaction;
 public class FacilityDAO {
 
     ArrayList<Facility> facilityList = null;
-    
     Session session = null;
-    public FacilityDAO(){
+
+    public FacilityDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    
+
+    private void openSession() {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+
     public ArrayList<Facility> retrieveAllFacilities() {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Facility");
+            Query q = session.createQuery("from Facility");
             facilityList = (ArrayList<Facility>) q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
-      return facilityList;
+
+        return facilityList;
     }
-    
+
     //Method checks DB if facility exists.
     /*public static Boolean doesUserExist(String username){
-        String URL = ApiUriList.getDoesUserExistURI(username);
-        boolean userExists = true; //defaults to preventing users from creating account.
-        String res = null;
-        try {
-            res = HttpHandler.httpGet(URL);
-            JSONObject resObj = new JSONObject(res);
-            userExists=resObj.getBoolean("userExists");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-        return userExists;
-        
+    String URL = ApiUriList.getDoesUserExistURI(username);
+    boolean userExists = true; //defaults to preventing users from creating account.
+    String res = null;
+    try {
+    res = HttpHandler.httpGet(URL);
+    JSONObject resObj = new JSONObject(res);
+    userExists=resObj.getBoolean("userExists");
+    } catch (IOException ex) {
+    ex.printStackTrace();
+    } catch (JSONException ex) {
+    ex.printStackTrace();
+    }
+    return userExists;
+    
     }
     
     //Method adds a temp user in user_temp awaiting approval.
     public static void addTempUser(String username, String password, String 
-            firstname, String lastname, String block, String level, String unitnumber) {
-        String salt = BCrypt.gensalt();
-        String URL = ApiUriList.getAddTempUserURI(username,BCrypt.hashpw(password, salt),
-                firstname,lastname,block,level,unitnumber);
-        try {
-            HttpHandler.httpGet(URL);
-        } catch (IOException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    firstname, String lastname, String block, String level, String unitnumber) {
+    String salt = BCrypt.gensalt();
+    String URL = ApiUriList.getAddTempUserURI(username,BCrypt.hashpw(password, salt),
+    firstname,lastname,block,level,unitnumber);
+    try {
+    HttpHandler.httpGet(URL);
+    } catch (IOException ex) {
+    Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
      */
-    
-    
     public Facility createFacility(FacilityType facilityType, int facilityLng, int facilityLat) {
-        Facility facility = new Facility( facilityType, facilityLng, facilityLat);
-        
+        openSession();
+
+        Facility facility = new Facility(facilityType, facilityLng, facilityLat);
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.save("Facility",facility);
-            //tx.commit();
-            System.out.println("added new user: " + facility);
+            session.save("Facility", facility);
+            tx.commit();
+            System.out.println("added new facility: " + facility);
 
             return facility;
         } catch (Exception e) {
             e.printStackTrace();
-            if(tx!=null) tx.rollback();
+            if (tx != null) {
+                tx.rollback();
+            }
         }
         //return null if failed
         return null;
@@ -101,50 +106,51 @@ public class FacilityDAO {
 
     public boolean deleteFacility(long id) {
         Transaction tx = null;
-        int rowCount =0;
-        
+        int rowCount = 0;
+
         try {
             tx = session.beginTransaction();
             String hql = "delete from Facility where id = :id";
             Query query = session.createQuery(hql);
-            query.setString("id",id+"");
+            query.setString("id", id + "");
             rowCount = query.executeUpdate();
             //tx.commit();
-            } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            if(tx!=null) tx.rollback();
-        }
-            System.out.println("Rows affected: " + rowCount);
-            if(rowCount>0){
-                return true;
-            }else{
-                return false;
+            if (tx != null) {
+                tx.rollback();
             }
+        }
+        System.out.println("Rows affected: " + rowCount);
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
-    
-    public Facility updateFacility(FacilityType facilityType, int facilityLng, int facilityLat){
-       
-        Facility facility = new Facility( facilityType, facilityLng, facilityLat);
-       
+
+    public Facility updateFacility(FacilityType facilityType, int facilityLng, int facilityLat) {
+
+        Facility facility = new Facility(facilityType, facilityLng, facilityLat);
+
         session.update(facility);
-        
+
         return facility;
-        
+
     }
-    
-    public Facility getFacility(long id){   
+
+    public Facility getFacility(long id) {
         ArrayList<Facility> result = new ArrayList<Facility>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Facility where id :fId");
-            q.setString("fid",id+"");
+            Query q = session.createQuery("from Facility where id :fId");
+            q.setString("fid", id + "");
             result = (ArrayList<Facility>) q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
-      return result.get(0);
+
+        return result.get(0);
     }
-    
 }

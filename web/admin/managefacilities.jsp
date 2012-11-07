@@ -47,6 +47,12 @@
             }
         </script>
 
+         <script>
+                function loadValidate(){
+                    //no validation yet
+                }
+            </script>
+        
 
     </head>
     <body>
@@ -121,19 +127,31 @@
                         <c:if test = "${param.createsuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
-                                <b>Whoops.</b> There was an error creating a user. Please try again!
+                                <b>Whoops.</b> There was an error creating a facility. Please try again!
                             </div>
                         </c:if> 
                         <c:if test = "${param.createsuccess == 'true'}">
                             <div><br/></div>
                             <div class="login alert alert-success container">
-                                <b>Awesome!</b> ${param.createmsg} was added to the user list!
+                                <b>Awesome!</b> ${param.createmsg} was added to the facilities list!
+                            </div>
+                        </c:if>
+                        <c:if test = "${param.editsuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success container">
+                                <b>Fantastic!</b> ${param.editmsg} was updated successfully!
+                            </div>
+                        </c:if>
+                        <c:if test = "${param.editsuccess == 'false'}">
+                            <div><br/></div>
+                            <div class="login alert alert-error container">
+                                <b>Whoops.</b> ${param.editmsg} was unable to be updated. Please try again!
                             </div>
                         </c:if>
                         <c:if test = "${param.deletesuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
-                                <b>Whoops.</b> The user could not be deleted.
+                                <b>Whoops.</b> The facility could not be deleted.
                             </div>
                         </c:if> 
                         <c:if test = "${param.deletesuccess == 'true'}">
@@ -143,6 +161,48 @@
                             </div>
                         </c:if>
                     </div>
+
+                    <!-- Add New Facility -->   
+                    <div class="widget-box">
+                        <div title="Click to add a new facility" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newFacilityForm">
+                            <span class="icon">
+                                <i class="icon-plus"></i>									
+                            </span>
+                            <h5>Add New Facility</h5>
+                        </div>
+                        <div class="addUser collapse" id="collapseTwo">
+                            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilitiesActionBean" name="new_facility_validate" id="new_facility_validate">
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Type</label>
+                                    <div class="controls">
+                                        <stripes:select name="type">
+                                            <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name" value="name"/>        
+                                        </stripes:select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Latitude</label>
+                                    <div class="controls">
+                                        <stripes:text name="latitude"/>
+                                    </div>
+                                </div>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Longitude</label>
+                                    <div class="controls">
+                                        <stripes:text name="longitude"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <input type="submit" name="createFacility" value="Add this facility" class="btn btn-info btn-large"/>
+                                </div>                            
+                            </stripes:form>
+
+                        </div>
+                    </div>		
+
+
 
                     <!-- Facilities Display -->
                     <div class="widget-box">
@@ -220,8 +280,8 @@
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Type</label>
                                 <div class="controls">
-                                    <stripes:select name="type">
-                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="id" label="name"/>        
+                                    <stripes:select id="edit_type" name="type">
+                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name"/>        
                                     </stripes:select>
                                 </div>
                             </div> 
