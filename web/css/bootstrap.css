@@ -5162,6 +5162,7 @@ a.badge:hover {
 .label-important,
 .badge-important {
   background-color: #b94a48;
+  z-index: 1;
 }
 
 .label-important[href],

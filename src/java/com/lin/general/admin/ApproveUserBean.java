@@ -77,15 +77,20 @@ public class ApproveUserBean implements ActionBean{
     public ArrayList<UserTemp> getTempUserList() {
         UserDAO uDAO = new UserDAO();
         tempUserList = uDAO.retrieveAllTempUsers();
-        System.out.print("ok!"+tempUserList.get(0));
+        //System.out.print("ok!"+tempUserList.get(0));
         return tempUserList;
     }
     
     public int getTempUserListCount() {
         UserDAO uDAO = new UserDAO();
-        tempUserList = uDAO.retrieveAllTempUsers();
-        System.out.print("ok!"+tempUserList.get(0));
-        return tempUserList.size();
+        ArrayList<UserTemp> list = new ArrayList<UserTemp>();
+        list = uDAO.retrieveAllTempUsers();
+        //System.out.print("ok!"+tempUserList.get(0));
+        if(list==null){
+            return 0;
+        }else{
+        return list.size();
+        }
     }
 
     public void setTempUserList(ArrayList<UserTemp> tempUserList) {

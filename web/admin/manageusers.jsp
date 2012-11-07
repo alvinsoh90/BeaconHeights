@@ -201,6 +201,13 @@
                         <!--<li><a href="form-wizard.html">Wizard</a></li> -->
                     </ul>
                 </li>
+                <li class="submenu">
+                    <a href="managefacilities.jsp"><i class="icon icon-th-list"></i> <span>Facilities</span> <span class="label">3</span></a>
+                    <ul>
+                        <li><a href="managefacilities.jsp">Manage Facilities</a></li>
+                        <!--<li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li> -->
+                    </ul>
+                </li>
 
         </div>
 
@@ -212,7 +219,11 @@
                 <div class="btn-group">
                     <a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
                     <a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
-                    <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Manage Pending Accounts"><i class="icon-user"></i><span class="label label-important">${approveUserBean.tempUserListCount}</span></a>
+                    <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Manage Pending Accounts"><i class="icon-user"></i>
+                    <c:if test = "${approveUserBean.tempUserListCount > 0}">
+                            <span class="label label-important">${approveUserBean.tempUserListCount}</span>
+                    </c:if>
+                    </a>
                     <a class="btn btn-large tip-bottom" title="Manage Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
                     <a class="btn btn-large tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>
                 </div>
