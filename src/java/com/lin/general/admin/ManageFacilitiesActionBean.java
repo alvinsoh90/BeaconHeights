@@ -123,7 +123,6 @@ public class ManageFacilitiesActionBean implements ActionBean {
             Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
             result = facility.getName();
             success = true;
-            System.out.println(result + " DOE THIS LOOK OKS");
         } catch (Exception e) {
             result = "fail";
             success = false;

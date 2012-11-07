@@ -78,6 +78,31 @@
                         $(element).parents('.control-group').addClass('success');
                     }
                 });
+                
+                $("#edit_facility_validate").validate({
+                    rules:{
+                        type:{
+                            required:true
+                        },
+                        longitude:{
+                            required:true,
+                            digits:true
+                        },
+                        latitude:{
+                            required:true,
+                            digits: true
+                        }
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                });
             }
         </script>
 
@@ -276,7 +301,7 @@
                                                         <td>${facility.facilityLat}</td>
                                                         <td>${facility.facilityLng}</td>
                                                         <td>
-                                                            <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}')">Edit</a> 
+                                                            <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
                                                             <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.id}')">Delete</a>
                                                         </td>
                                                     </tr>
@@ -308,12 +333,12 @@
                         <h3>Edit <span id="facilityLabel"></span></h3>
                     </div>
                     <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilitiesBean" focus="" name="registration_validate">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilitiesBean" focus="" id="edit_facility_validate" name="edit_facility_validate">
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Type</label>
                                 <div class="controls">
                                     <stripes:select id="edit_type" name="type">
-                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name"/>        
+                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="name" label="name"/>        
                                     </stripes:select>
                                 </div>
                             </div> 
@@ -330,7 +355,7 @@
                                     <stripes:text id="edit_longitude" name="longitude"/> 
                                 </div>
                             </div>                              
-
+                                    <stripes:hidden id="editid" name="id"/>
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>

@@ -93,7 +93,7 @@
                      r[++j] = '</td><td >';
                      r[++j] = userArr[i].unit;
                      r[++j] = '</td><td >';
-                     r[++j] = "<a href= '#editUserModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditUserModal(" + userList[i].id + ")'>Edit</a>\n\
+                     r[++j] = "<a href= '#editUserModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditUserModal(" + userList[i].id + ");loadValidate()'>Edit</a>\n\
                                <a href='#' class='btn btn-success btn-mini'>Reset Password</a>\n\
                                <a href='#deleteUserModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteUserModal(" + userList[i].id + ")'>Delete</a>";
                      r[++j] = '</td></tr>';
@@ -419,7 +419,7 @@
                     <h3>Edit <span id="usernameLabel"></span>'s information</h3>
                 </div>
                 <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="registration_validate">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="edit_user_validate" id="edit_user_validate">
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Role</label>
                             <div class="controls">
@@ -483,6 +483,48 @@
                     $('select').chosen();
 
                     $("#new_user_validate").validate({
+                        rules:{
+                            username:{
+                                required: true,
+                                minlength:5,
+                                maxlength:20
+                            },
+                            password:{
+                                required: true,
+                                minlength:6,
+                                maxlength:20
+                            },
+                            passwordconfirm:{
+                                required:true,
+                                minlength:6,
+                                maxlength:20,
+                                equalTo:"#password"
+                            },firstname:{
+                                required: true
+                            },lastname:{
+                                required: true
+                            },block:{
+                                required: true
+                            },level:{
+                                required: true,
+                                digits:true
+                            },unitnumber:{
+                                required: true,
+                                digits:true
+                            }
+                        },
+                        errorClass: "help-inline",
+                        errorElement: "span",
+                        highlight:function(element, errorClass, validClass) {
+                            $(element).parents('.control-group').addClass('error');
+                        },
+                        unhighlight: function(element, errorClass, validClass) {
+                            $(element).parents('.control-group').removeClass('error');
+                            $(element).parents('.control-group').addClass('success');
+                        }
+                    });
+                    
+                    $("#edit_user_validate").validate({
                         rules:{
                             username:{
                                 required: true,

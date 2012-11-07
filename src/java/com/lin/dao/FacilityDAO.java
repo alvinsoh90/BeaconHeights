@@ -89,10 +89,8 @@ public class FacilityDAO {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            System.out.println("sexsex HORNYGUY");
             session.save("Facility", facility);
             tx.commit();
-            System.out.println("added new facility: " + facility);
 
             return facility;
         } catch (Exception e) {
@@ -131,10 +129,16 @@ public class FacilityDAO {
 
     }
 
-    public Facility updateFacility(FacilityType facilityType, int facilityLng, int facilityLat) {
-
-        Facility facility = new Facility(facilityType, facilityLng, facilityLat);
-
+    public Facility updateFacility(int id, FacilityType facilityType, int facilityLng, int facilityLat) {
+        
+        openSession();
+        //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
+        //session.update("User",user);
+        Facility facility = (Facility) session.get(Facility.class, id);
+        facility.setFacilityType(facilityType);
+        facility.setFacilityLng(facilityLng);
+        facility.setFacilityLat(facilityLat);
+        
         session.update(facility);
 
         return facility;
