@@ -455,9 +455,11 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Block</label>
                             <div class="controls">
-                                <stripes:text id="edit_block" name="block"/> 
+                                <stripes:select name="block">
+                                    <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
+                                </stripes:select>
                             </div>
-                        </div>
+                        </div> 
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Level</label>
                             <div class="controls">
