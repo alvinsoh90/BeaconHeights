@@ -54,7 +54,7 @@ public class AdminActionBean implements ActionBean {
     System.out.println("user being retrieved: " + username);
     User user1 = uDAO.getUser(username);
 
-    result = user1.getFirstName();
+    result = user1.getFirstname();
     //  result ="hello";
     return new ForwardResolution("/adminView.jsp");
   }

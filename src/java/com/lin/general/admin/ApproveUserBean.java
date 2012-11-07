@@ -10,8 +10,10 @@ import com.lin.entities.User;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
+import com.lin.entities.UserTemp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -21,52 +23,75 @@ import net.sourceforge.stripes.action.Resolution;
  *
  * @author Yangsta
  */
-public class EditUserBean implements ActionBean{
+public class ApproveUserBean implements ActionBean{
   private ActionBeanContext context;
-  private ArrayList<User> userList;
-  private ArrayList<Role> roleList;
   private User user;
+  private ArrayList<UserTemp> tempUserList;
+  private ArrayList<Role> roleList;
   
   private String id;
   private String username;
   private String password;
+  private String passwordConfirm;
   private String firstname;
   private String lastname;
   private String block;
   private String level;
   private String unitnumber;
   private String role;
+  private String facebookId;
+  private Date dob;
 
-    public Resolution editUser(){
-        this.getRoleList();
+  String result;
+  boolean success;
+  
+    public Resolution approveUserAction(){
         UserDAO dao = new UserDAO();
         BlockDAO blockDao = new BlockDAO();
         RoleDAO roleDao = new RoleDAO();
-        //System.out.println("ROLE ID "+ role);
+        
         Role roleObj = roleDao.getRoleById(Integer.parseInt(role));
         Block blockObj = blockDao.getBlockByName(block);
-        //System.out.println("BLOCK NAME : "+block);
+        int levelInt = Integer.parseInt(level);
+        int unitInt = Integer.parseInt(unitnumber);
+        UserTemp tempUser = dao.getUserTemp(Integer.parseInt(id));
+        
         try{
-            dao.updateUser
-                    (
-                        Integer.parseInt(id),
-                        roleObj,
-                        blockObj,
-                        username,
-                        firstname,
-                        lastname,
-                        Integer.parseInt(level),
-                        Integer.parseInt(unitnumber)
-                    );
-            return new RedirectResolution("/admin/manageusers.jsp?editsuccess=true");
+            User newUser = dao.createUser(roleObj, blockObj, tempUser.getPassword(), username, firstname, lastname, new Date(), levelInt, unitInt);
+            System.out.println(role + " " + block + " " +  tempUser.getPassword() + " " +  username + " " +  firstname + " " +  lastname + " " +  dob + " " +  levelInt + " " +  unitInt);
+            System.out.println("THIS IS THE SECOND ID" + id);
+            dao.removeTempUser(Integer.parseInt(id));
+            result = tempUser.getFirstname();
+            success = true;
+            //System.out.println(user1);
+        
+            return new RedirectResolution("/admin/manageusers.jsp?approvesuccess=true&approvemsg="+username);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/manageusers.jsp?editsuccess=false");
+        return new RedirectResolution("/admin/approveaccounts.jsp?approvesuccess=false");
         
     }
+    
+    public ArrayList<UserTemp> getTempUserList() {
+        UserDAO uDAO = new UserDAO();
+        tempUserList = uDAO.retrieveAllTempUsers();
+        System.out.print("ok!"+tempUserList.get(0));
+        return tempUserList;
+    }
+    
+    public int getTempUserListCount() {
+        UserDAO uDAO = new UserDAO();
+        tempUserList = uDAO.retrieveAllTempUsers();
+        System.out.print("ok!"+tempUserList.get(0));
+        return tempUserList.size();
+    }
 
+    public void setTempUserList(ArrayList<UserTemp> tempUserList) {
+        this.tempUserList = tempUserList;
+    }
+    
     public String getId() {
         return id;
     }
@@ -123,6 +148,14 @@ public class EditUserBean implements ActionBean{
         this.password = password;
     }
 
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
     public String getRole() {
         return role;
     }
@@ -154,17 +187,11 @@ public class EditUserBean implements ActionBean{
     public void setUsername(String username) {
         this.username = username;
     }
-    
+  
     public ArrayList<Role> getRoleList(){
         RoleDAO roleDAO = new RoleDAO(); 
         roleList = roleDAO.getAllRoles();
         return roleList;
-    }
-    
-    public ArrayList<User> getUserList() {
-        UserDAO uDAO = new UserDAO();
-        userList = uDAO.retrieveAllUsers();
-        return userList;
-    }
+  }
 
 }

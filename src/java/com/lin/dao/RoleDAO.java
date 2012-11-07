@@ -5,6 +5,10 @@
 package com.lin.dao;
 
 import com.lin.entities.Role;
+import com.lin.utils.HibernateUtil;
+import java.util.ArrayList;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -12,7 +16,23 @@ import com.lin.entities.Role;
  */
 public class RoleDAO {
 
-    public static void getAllRoles() {
+    private static ArrayList<Role> roleList = new ArrayList<Role>();
+    Session session = null;
+    
+    public RoleDAO(){
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+    
+    public ArrayList<Role> getAllRoles() {
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Role");
+            roleList = (ArrayList<Role>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return roleList;
     }
 
     public static void updateRole(String roleId) {
@@ -21,8 +41,26 @@ public class RoleDAO {
     public static void createRole(String name, String description) {
     }
     
-    public static Role getRoleByName(String name){
-        //temp return
-        return new Role(1,"Admin","Boss man of Beacon");
+    public Role getRoleByName(String name){
+        //refresh role list
+        getAllRoles();
+        
+        for(Role r : roleList){
+            if(r.getName().equals(name)){
+                return r;
+            }
+        }
+        return null;
+    }
+    public Role getRoleById(int id){
+        //refresh role list
+        getAllRoles();
+        
+        for(Role r : roleList){
+            if(r.getId()==id){
+                return r;
+            }
+        }
+        return null;
     }
 }
