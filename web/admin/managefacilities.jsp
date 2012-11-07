@@ -78,16 +78,34 @@
                         $(element).parents('.control-group').addClass('success');
                     }
                 });
+                
+                $("#edit_facility_validate").validate({
+                    rules:{
+                        type:{
+                            required:true
+                        },
+                        longitude:{
+                            required:true,
+                            digits:true
+                        },
+                        latitude:{
+                            required:true,
+                            digits: true
+                        }
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                });
             }
         </script>
-        
-        <script>
-            //This chunk manages onclick styles
-           // $("users-nav-icon").toggle(function(){
-           //     $("body").css("background-color","green")
-           // });
-            
-        </script>
+
 
     </head>
     <body>
@@ -339,11 +357,31 @@
                                     <stripes:text id="edit_longitude" name="longitude"/> 
                                 </div>
                             </div>                              
-
+                            <stripes:hidden id="editid" name="id"/>
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
                             <input type="submit" name="editFacility" value="Confirm Edit" class="btn btn-primary"/>
+                        </div>
+                    </stripes:form>
+                </div>
+
+
+                <!--Delete Facility Modal -->
+                <div id="deleteFacilityModal" class="modal hide fade">
+                    <div id="myModal" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3>Deletion of <span id="facilityDeleteLabel"></span></h3>
+                    </div>
+                    <div class="modal-body">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilitiesBean" focus=""> 
+                            You are now deleting <span id="delete_name"></span>. Are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            <a data-dismiss="modal" class="btn">Close</a>
+  
+                            <stripes:hidden id="delete_id" name="id"/>
+                            <input type="submit" name="deleteFacility" value="Confirm Delete" class="btn btn-danger"/>
                         </div>
                     </stripes:form>
                 </div>

@@ -42,6 +42,7 @@ public class EditFacilitiesBean implements ActionBean{
         try{
             fDAO.updateFacility
                     (
+                        Integer.parseInt(id),
                         facilityType,
                         Integer.parseInt(longitude),
                         Integer.parseInt(latitude)
