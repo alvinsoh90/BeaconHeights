@@ -5,6 +5,7 @@
 package com.lin.general.admin;
 
 import com.lin.dao.FacilityDAO;
+import com.lin.dao.FacilityTypeDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
@@ -109,9 +110,9 @@ public class ManageFacilitiesActionBean implements ActionBean {
 
     public ArrayList<FacilityType> getFacilityTypeList() {
         ArrayList<FacilityType> facilityTypeList = new ArrayList<FacilityType>();
-        FacilityType facilityType1 = new FacilityType("Tennis Court","for balls");
-        FacilityType facilityType2 = new FacilityType("Barbeque Pit","for burnt shit");
-        FacilityType facilityType3 = new FacilityType("Squash Court","for small black balls");
+        FacilityType facilityType1 = new FacilityType("Tennis Court", "for balls");
+        FacilityType facilityType2 = new FacilityType("Barbeque Pit", "for burnt shit");
+        FacilityType facilityType3 = new FacilityType("Squash Court", "for small black balls");
         facilityTypeList.add(facilityType1);
         facilityTypeList.add(facilityType2);
         facilityTypeList.add(facilityType3);
@@ -121,25 +122,23 @@ public class ManageFacilitiesActionBean implements ActionBean {
     @DefaultHandler
     public Resolution createFacility() {
         try {
-            //UserDAO uDAO = new UserDAO();
-
-            FacilityType type = new FacilityType("Tennis Court", "Place where you play tennis");
-
-            //Facility = uDAO.createUser(username, password, firstname);
-
-            //result = facility.getFirstName();
+            FacilityDAO fDAO = new FacilityDAO();
+            FacilityTypeDAO tDAO = new FacilityTypeDAO();
+            FacilityType facilityType = tDAO.getFacilityType(type);
+            System.out.println("DID I GET HERE????????? TWO");
+            Facility facility = fDAO.createFacility(facilityType,Integer.parseInt(longitude),Integer.parseInt(latitude));
+            System.out.println("WHAT ABOUT HERE");
+            result = facility.getName();
             success = true;
-            //System.out.println();
+            System.out.println(result);
         } catch (Exception e) {
-            result = "";
+            result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/manageusers.jsp?createsuccess=" + success
+        return new RedirectResolution("/admin/managefacilities.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
 
 
     }
 }
-
-//need facility dao.
