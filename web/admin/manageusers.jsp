@@ -270,7 +270,7 @@
                                         <label class="control-label">Role</label>
                                         <div class="controls">
                                             <stripes:select name="role">
-                                                <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
+                                                <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="name" label="name"/>        
                                             </stripes:select>
                                         </div>
                                     </div>
@@ -341,7 +341,7 @@
                                             <option>-Select Role-</option>
                                             <option>Resident</option>
                                             <option>MCST</option>
-                                            <option>Admin</option>
+                                            <option>Administrator</option>
                                         </select>
                             </div>
                             <div class="float_r filterOptions">

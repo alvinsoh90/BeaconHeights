@@ -37,7 +37,6 @@ public class UserDAO {
     Session session = null;
     public UserDAO(){
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-        //System.out.println("HAHAHAHAHAHAHAHHAHAHAH" +session.toString());
     }
     
     private void openSession() {
@@ -141,7 +140,6 @@ public class UserDAO {
              tx = session.beginTransaction();
             session.save("User",user);
             tx.commit();
-            System.out.println("added new user: " + user);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,16 +150,13 @@ public class UserDAO {
 
     public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
         openSession();
-        
         User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
         
         Transaction tx = null;
         try {
-            System.out.println("wahahahahhaHAHAHAHAHAHHA "+session.toString());
             tx = session.beginTransaction();
             session.save("User",user);
             tx.commit();
-            System.out.println("added new user: " + user);
             return user;
         } catch (Exception e) {
             e.printStackTrace();
