@@ -52,7 +52,9 @@ public class Facility  implements java.io.Serializable {
         this.facilityLat = facilityLat;
     }
 
-
+    public String getName (){
+        return facilityType + " " + id;
+    }
 
 
 }

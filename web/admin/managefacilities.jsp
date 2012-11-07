@@ -47,6 +47,12 @@
             }
         </script>
 
+         <script>
+                function loadValidate(){
+                    //no validation yet
+                }
+            </script>
+        
 
     </head>
     <body>
@@ -155,6 +161,48 @@
                             </div>
                         </c:if>
                     </div>
+
+                    <!-- Add New Facility -->   
+                    <div class="widget-box">
+                        <div title="Click to add a new facility" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newFacilityForm">
+                            <span class="icon">
+                                <i class="icon-plus"></i>									
+                            </span>
+                            <h5>Add New Facility</h5>
+                        </div>
+                        <div class="addUser collapse" id="collapseTwo">
+                            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilitiesActionBean" name="new_facility_validate" id="new_facility_validate">
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Type</label>
+                                    <div class="controls">
+                                        <stripes:select name="type">
+                                            <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name"/>        
+                                        </stripes:select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Latitude</label>
+                                    <div class="controls">
+                                        <stripes:text name="latitude"/>
+                                    </div>
+                                </div>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Longitude</label>
+                                    <div class="controls">
+                                        <stripes:text name="longitude"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <input type="submit" name="createFacility" value="Add this facility" class="btn btn-info btn-large"/>
+                                </div>                            
+                            </stripes:form>
+
+                        </div>
+                    </div>		
+
+
 
                     <!-- Facilities Display -->
                     <div class="widget-box">

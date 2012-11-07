@@ -87,8 +87,8 @@ public class FacilityDAO {
         try {
             tx = session.beginTransaction();
             session.save("Facility",facility);
-            //tx.commit();
-            System.out.println("added new user: " + facility);
+            tx.commit();
+            System.out.println("added new facility: " + facility);
 
             return facility;
         } catch (Exception e) {
