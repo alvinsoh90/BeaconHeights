@@ -9,8 +9,11 @@ package com.lin.general.login;
  * @author Shamus
  */
 
+import com.lin.dao.BlockDAO;
 import com.lin.dao.UserDAO;
+import com.lin.entities.Block;
 import com.lin.entities.UserTemp;
+import java.util.ArrayList;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -120,5 +123,11 @@ public class RegisterActionBean extends BaseActionBean {
            successMsg = "Your account has been added! Please wait for a couple of days for your account to be approved.";
            return new RedirectResolution("/login.jsp?success=true&msg="+successMsg);
         }
+    }
+    
+        public ArrayList<Block> getAllBlocks() {
+        BlockDAO bDAO = new BlockDAO();
+        ArrayList<Block> blockList = bDAO.getAllBlocks();
+        return blockList;
     }
 }

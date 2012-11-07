@@ -8,6 +8,8 @@
 
 <jsp:useBean id="manageUsersActionBean" scope="page"
              class="com.lin.general.admin.ManageUsersActionBean"/>
+<jsp:useBean id="registerActionBean" scope="page"
+             class="com.lin.general.login.RegisterActionBean"/>
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
 <html lang="en">
@@ -76,27 +78,27 @@
                 var tableHeaders = "<tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th colspan='3'>Address</th><th>Action</th></tr>"
                 
                 for (var i=userArr.length-1; i>=0; i--){
-                     r[++j] ='<tr><td>';
-                     r[++j] = userArr[i].id;
-                     r[++j] = '</td><td>';
-                     r[++j] = userArr[i].username;
-                     r[++j] = '</td><td >';
-                     r[++j] = userArr[i].firstName;
-                     r[++j] = '</td><td >';
-                     r[++j] = userArr[i].lastName;
-                     r[++j] = '</td><td >';
-                     r[++j] = userArr[i].roleName;
-                     r[++j] = '</td><td >';
-                     r[++j] = userArr[i].blockName;
-                     r[++j] = '</td><td >';
-                     r[++j] = userArr[i].level;
-                     r[++j] = '</td><td >';
-                     r[++j] = userArr[i].unit;
-                     r[++j] = '</td><td >';
-                     r[++j] = "<a href= '#editUserModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditUserModal(" + userList[i].id + ");loadValidate()'>Edit</a>\n\
+                    r[++j] ='<tr><td>';
+                    r[++j] = userArr[i].id;
+                    r[++j] = '</td><td>';
+                    r[++j] = userArr[i].username;
+                    r[++j] = '</td><td >';
+                    r[++j] = userArr[i].firstName;
+                    r[++j] = '</td><td >';
+                    r[++j] = userArr[i].lastName;
+                    r[++j] = '</td><td >';
+                    r[++j] = userArr[i].roleName;
+                    r[++j] = '</td><td >';
+                    r[++j] = userArr[i].blockName;
+                    r[++j] = '</td><td >';
+                    r[++j] = userArr[i].level;
+                    r[++j] = '</td><td >';
+                    r[++j] = userArr[i].unit;
+                    r[++j] = '</td><td >';
+                    r[++j] = "<a href= '#editUserModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditUserModal(" + userList[i].id + ");loadValidate()'>Edit</a>\n\
                                <a href='#' class='btn btn-success btn-mini'>Reset Password</a>\n\
                                <a href='#deleteUserModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteUserModal(" + userList[i].id + ")'>Delete</a>";
-                     r[++j] = '</td></tr>';
+                    r[++j] = '</td></tr>';
                 }
                 $('#userTable').html(tableHeaders + r.join('')); 
             }
@@ -149,19 +151,19 @@
             }
             
         </script>
-        
-            <script src="../js/jquery.min.js"></script>
-            <script src="../js/jquery.ui.custom.js"></script>
-            <script src="../js/bootstrap.min.js"></script>
 
-            <script src="../js/jquery.flot.min.js"></script>
-            <script src="../js/jquery.flot.resize.min.js"></script>
-            <script src="../js/jquery.peity.min.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/jquery.ui.custom.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
 
-            <script src="../js/jquery.uniform.js"></script>
-            <script src="../js/jquery.chosen.js"></script>
-            <script src="../js/jquery.validate.js"></script>
-            
+        <script src="../js/jquery.flot.min.js"></script>
+        <script src="../js/jquery.flot.resize.min.js"></script>
+        <script src="../js/jquery.peity.min.js"></script>
+
+        <script src="../js/jquery.uniform.js"></script>
+        <script src="../js/jquery.chosen.js"></script>
+        <script src="../js/jquery.validate.js"></script>
+
     </head>
     <body onload="showUsers(userList)">
 
@@ -173,7 +175,7 @@
         <!--<div id="search">
             <input type="text" placeholder="Search here..."/><button type="submit" class="tip-right" title="Search"><i class="icon-search icon-white"></i></button>
         </div> -->
-        
+
         <div id="user-nav" class="navbar navbar-inverse">
             <ul class="nav btn-group">
                 <li class="btn btn-inverse" ><a title="" href="#"><i class="icon icon-user"></i> <span class="text">Profile</span></a></li>
@@ -190,7 +192,7 @@
             </ul>
         </div>
 
-       <div id="sidebar">
+        <div id="sidebar">
             <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
             <ul>
                 <li class="submit"><a href="#"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
@@ -218,9 +220,9 @@
                 <h1> Approve Pending Accounts </h1>
                 <div class="btn-group">
                     <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Pending Accounts"><i class="icon-user"></i>
-                    <c:if test = "${approveUserBean.tempUserListCount > 0}">
+                        <c:if test = "${approveUserBean.tempUserListCount > 0}">
                             <span class="label label-important">${approveUserBean.tempUserListCount}</span>
-                    </c:if>
+                        </c:if>
                     </a>
                     <a class="btn btn-large tip-bottom" title="Flagged Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
                     <a class="btn btn-large tip-bottom" title="Flagged Events"><i class="icon-calendar"></i></a>
@@ -248,7 +250,7 @@
                                 <b>Awesome!</b> ${param.createmsg} was added to the user list!
                             </div>
                         </c:if>
-                            <c:if test = "${param.deletesuccess == 'false'}">
+                        <c:if test = "${param.deletesuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
                                 <b>Whoops.</b> The user could not be deleted.
@@ -266,7 +268,7 @@
                                 <b>Awesome!</b> ${param.approvemsg} was added to the user list!
                             </div>
                         </c:if>
-                            
+
                         <!-- Add New User -->   
                         <div class="widget-box">
                             <div title="Click to add a new user" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newUserForm">
@@ -319,9 +321,11 @@
                                     <div class="control-group ${errorStyle}">
                                         <label class="control-label">Block</label>
                                         <div class="controls">
-                                            <stripes:text name="block"/> 
+                                            <stripes:select name="block">
+                                                <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
+                                            </stripes:select>
                                         </div>
-                                    </div>  
+                                    </div> 
                                     <div class="control-group ${errorStyle}">
                                         <label class="control-label">Level</label>
                                         <div class="controls">
@@ -347,23 +351,23 @@
                         <div class="widget-title">
                             <span class="icon"><i class="icon-user"></i></span><h5>Users</h5>
                             <div class="float_r filterOptions">
-                                 <h5>or</h5>
-                                        <select id ="roleSelect" onChange="filterByRole()">
-                                            <option>-Select Role-</option>
-                                            <option>Resident</option>
-                                            <option>MCST</option>
-                                            <option>Administrator</option>
-                                        </select>
+                                <h5>or</h5>
+                                <select id ="roleSelect" onChange="filterByRole()">
+                                    <option>-Select Role-</option>
+                                    <option>Resident</option>
+                                    <option>MCST</option>
+                                    <option>Administrator</option>
+                                </select>
                             </div>
                             <div class="float_r filterOptions">
-                                 <h5> Filter By: </h5>
-                                    <select id ="blockSelect" onChange="filterByBlockname()">
-                                            <option>-Select Block-</option>
-                                            <option>A</option>
-                                            <option>B</option>
-                                            <option>1</option>
-                                            <option>blockname</option>
-                                        </select>
+                                <h5> Filter By: </h5>
+                                <select id ="blockSelect" onChange="filterByBlockname()">
+                                    <option>-Select Block-</option>
+                                    <option>A</option>
+                                    <option>B</option>
+                                    <option>1</option>
+                                    <option>blockname</option>
+                                </select>
                             </div>
                         </div>
                         <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
@@ -379,16 +383,16 @@
                                 user.unit = '${user.unit}';
                                 userList.push(user);
                             </script>
-                                                        
+
                         </c:forEach>
-                        
+
                         <div class="widget-content">
                             <div class="row-fluid">
                                 <div class="span12">
                                     <div class="widget-content nopadding">
                                         <ul class="recent-comments"> 
                                             <table id="userTable" class="table table-striped users">
-                                                   <!-- Elements dynamically added in -->
+                                                <!-- Elements dynamically added in -->
                                             </table>    
                                             <!--<li class="viewall">
                                                 <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
@@ -451,9 +455,11 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Block</label>
                             <div class="controls">
-                                <stripes:text id="edit_block" name="block"/> 
+                                <stripes:select name="block">
+                                    <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
+                                </stripes:select>
                             </div>
-                        </div>
+                        </div> 
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Level</label>
                             <div class="controls">
