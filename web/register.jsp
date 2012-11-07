@@ -8,6 +8,9 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:useBean id="registerActionBean" scope="page"
+             class="com.lin.general.login.RegisterActionBean"/>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,6 +26,9 @@
         <link rel="stylesheet" href="css/unicorn.main.css" />
         <link rel="stylesheet" href="css/unicorn.grey.css" class="skin-color" />
         <link rel="stylesheet" href="css/custom/lin.css" />
+        <link rel="stylesheet" href="css/uniform.css" />
+        <link rel="stylesheet" href="css/chosen.css" />
+        <script src="js/unicorn.form_common.js"></script>
     </head>
 
     <body style="background: url('img/noise_grey_bg.png')">
@@ -95,12 +101,17 @@
                                         <stripes:text name="lastname"/> 
                                     </div>
                                 </div>
+
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Block</label>
                                     <div class="controls">
-                                        <stripes:text name="block"/> 
+                                        <stripes:select name="block">
+                                            <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
+                                        </stripes:select>
                                     </div>
-                                </div> 
+                                </div>
+                          
+                              
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Level</label>
                                     <div class="controls">
@@ -110,7 +121,7 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit Number</label>
                                     <div class="controls">
-                                       <stripes:text name="unitnumber" />
+                                        <stripes:text name="unitnumber" />
                                     </div>
                                 </div>                              
                                 <div class="form-actions">
