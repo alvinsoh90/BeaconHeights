@@ -163,9 +163,9 @@
                 <div class="btn-group">
                     <a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
                     <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Manage Pending Accounts"><i class="icon-user"></i>
-                    <c:if test = "${approveUserBean.tempUserListCount > 0}">
+                        <c:if test = "${approveUserBean.tempUserListCount > 0}">
                             <span class="label label-important">${approveUserBean.tempUserListCount}</span>
-                    </c:if>
+                        </c:if>
                     </a>
                     <a class="btn btn-large tip-bottom" title="Manage Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
                     <a class="btn btn-large tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>
@@ -355,11 +355,31 @@
                                     <stripes:text id="edit_longitude" name="longitude"/> 
                                 </div>
                             </div>                              
-                                    <stripes:hidden id="editid" name="id"/>
+                            <stripes:hidden id="editid" name="id"/>
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
                             <input type="submit" name="editFacility" value="Confirm Edit" class="btn btn-primary"/>
+                        </div>
+                    </stripes:form>
+                </div>
+
+
+                <!--Delete Facility Modal -->
+                <div id="deleteFacilityModal" class="modal hide fade">
+                    <div id="myModal" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3>Deletion of <span id="facilityDeleteLabel"></span></h3>
+                    </div>
+                    <div class="modal-body">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilityBean" focus=""> 
+                            You are now deleting <span id="delete_firstname"></span>. Are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            <a data-dismiss="modal" class="btn">Close</a>
+                            <stripes:hidden id="delete_username" name="username"/>
+                            <stripes:hidden id="delete_id" name="id"/>
+                            <input type="submit" name="deleteUser" value="Confirm Delete" class="btn btn-danger"/>
                         </div>
                     </stripes:form>
                 </div>
