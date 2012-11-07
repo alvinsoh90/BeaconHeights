@@ -45,6 +45,17 @@
                 });
                 
             }
+            
+            function populateDeleteFacilityModal(facilityID){ 
+                facilityList.forEach(function(facility){
+                    if(facility.id == facilityID){
+                        $("#facilityDeleteLabel").text(facility.type + " " + facility.id);
+                        $("#delete_name").text(facility.type + " " + facility.id);
+                        $("#delete_id").val(facility.id);
+                    }
+                });
+                
+            }
         </script>
 
 
@@ -372,14 +383,14 @@
                         <h3>Deletion of <span id="facilityDeleteLabel"></span></h3>
                     </div>
                     <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilityBean" focus=""> 
-                            You are now deleting <span id="delete_firstname"></span>. Are you sure?
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilitiesBean" focus=""> 
+                            You are now deleting <span id="delete_name"></span>. Are you sure?
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
-                            <stripes:hidden id="delete_username" name="username"/>
+  
                             <stripes:hidden id="delete_id" name="id"/>
-                            <input type="submit" name="deleteUser" value="Confirm Delete" class="btn btn-danger"/>
+                            <input type="submit" name="deleteFacility" value="Confirm Delete" class="btn btn-danger"/>
                         </div>
                     </stripes:form>
                 </div>
