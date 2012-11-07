@@ -53,7 +53,7 @@ public class Facility  implements java.io.Serializable {
     }
 
     public String getName (){
-        return facilityType + " " + id;
+        return facilityType.getName() + " " + id;
     }
 
 

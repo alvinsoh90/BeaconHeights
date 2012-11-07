@@ -27,68 +27,70 @@ import org.hibernate.Transaction;
  */
 public class FacilityTypeDAO {
 
-    private static HashMap<String,FacilityType> facilityTypeMap = new HashMap<String,FacilityType>();
-    
-    ArrayList<Facility> facilityList = null;
-    
+    ArrayList<FacilityType> typeList = null;
     Session session = null;
-    public FacilityTypeDAO(){
+
+    public FacilityTypeDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    public static HashMap<String,FacilityType> retrieveAllFacilityTypes() {
 
-      return facilityTypeMap;
-    }
-    
-        
     private void openSession() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    public FacilityType createFacilityType(String name, String description) {
-        
-        FacilityType facilityType = new FacilityType(name, description);
 
-        //add to temporary hashmap
-        facilityTypeMap.put(facilityType.getName(), facilityType);
-        //line that says u put into Objectify
+    public ArrayList<FacilityType> retrieveAllFacilityTypes() {
+        openSession();
+        typeList = new ArrayList<FacilityType>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from FacilityType");
+            typeList = (ArrayList<FacilityType>) q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return typeList;
+    }
+
+    public FacilityType createFacilityType(String name, String description) {
+
+        FacilityType facilityType = new FacilityType(name, description);
+        
+        //line that says u put into DATABASE
         return facilityType;
 
     }
 
     public boolean deleteFacilityType(String name) {
-        
-        FacilityType facilityType = facilityTypeMap.remove(name);
+
+      //  FacilityType facilityType = typeList.remove(name);
         boolean success = true;
 
         //line that says u put into Objectify
         return success;
 
     }
-    
-    public FacilityType updateFacilityType(String name, String description){
-       
-        FacilityType facilityType = new FacilityType( name,  description);
+
+    public FacilityType updateFacilityType(String name, String description) {
+
+        FacilityType facilityType = new FacilityType(name, description);
         session.update(facilityType);
-        
+
         //update user where id = id
-        
+
         return facilityType;
     }
-    
-    public FacilityType getFacilityType(String name){   
+
+    public FacilityType getFacilityType(String name) {
         openSession();
         ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from FacilityType where name ='"+name+"'");
+            Query q = session.createQuery("from FacilityType where name ='" + name + "'");
             typeList = (ArrayList<FacilityType>) q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return typeList.get(0);
-        
+
     }
-    
 }

@@ -89,6 +89,7 @@ public class FacilityDAO {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
+            System.out.println("sexsex HORNYGUY");
             session.save("Facility", facility);
             tx.commit();
             System.out.println("added new facility: " + facility);

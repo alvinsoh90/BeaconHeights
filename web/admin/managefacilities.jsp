@@ -47,12 +47,40 @@
             }
         </script>
 
-         <script>
-                function loadValidate(){
-                    //no validation yet
-                }
-            </script>
-        
+
+        <script>
+            function loadValidate(){
+                $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+
+                $('select').chosen();
+
+                $("#new_facility_validate").validate({
+                    rules:{
+                        type:{
+                            required:true
+                        },
+                        longitude:{
+                            required:true,
+                            digits:true
+                        },
+                        latitude:{
+                            required:true,
+                            digits: true
+                        }
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                });
+            }
+        </script>
+
 
     </head>
     <body>
@@ -197,7 +225,7 @@
                                         <stripes:text name="longitude"/>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-actions">
                                     <input type="submit" name="createFacility" value="Add this facility" class="btn btn-info btn-large"/>
                                 </div>                            
@@ -230,10 +258,10 @@
                                                 <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
                                                     <script>
                                                         var facility = new Object();
-                                                        facility.id = '${facility.value.id}';
-                                                        facility.type = '${facility.value.facilityType.name}';
-                                                        facility.latitude = '${facility.value.facilityLat}';
-                                                        facility.longitude = '${facility.value.facilityLng}';
+                                                        facility.id = '${facility.id}';
+                                                        facility.type = '${facility.facilityType.name}';
+                                                        facility.latitude = '${facility.facilityLat}';
+                                                        facility.longitude = '${facility.facilityLng}';
                                                         
                                                         facilityList.push(facility);
                                                     </script>
@@ -243,13 +271,13 @@
                                                                 <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
                                                             </div>
                                                         </td>
-                                                        <td><b>${facility.value.id}</b></td>
-                                                        <td><b>${facility.value.facilityType.name}</b></td>
-                                                        <td>${facility.value.facilityLat}</td>
-                                                        <td>${facility.value.facilityLng}</td>
+                                                        <td><b>${facility.id}</b></td>
+                                                        <td><b>${facility.facilityType.name}</b></td>
+                                                        <td>${facility.facilityLat}</td>
+                                                        <td>${facility.facilityLng}</td>
                                                         <td>
-                                                            <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.value.id}')">Edit</a> 
-                                                            <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.value.id}')">Delete</a>
+                                                            <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}')">Edit</a> 
+                                                            <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.id}')">Delete</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

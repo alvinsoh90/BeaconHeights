@@ -109,13 +109,8 @@ public class ManageFacilitiesActionBean implements ActionBean {
     }
 
     public ArrayList<FacilityType> getFacilityTypeList() {
-        ArrayList<FacilityType> facilityTypeList = new ArrayList<FacilityType>();
-        FacilityType facilityType1 = new FacilityType("Tennis Court", "for balls");
-        FacilityType facilityType2 = new FacilityType("Barbeque Pit", "for burnt shit");
-        FacilityType facilityType3 = new FacilityType("Squash Court", "for small black balls");
-        facilityTypeList.add(facilityType1);
-        facilityTypeList.add(facilityType2);
-        facilityTypeList.add(facilityType3);
+        FacilityTypeDAO tDAO = new FacilityTypeDAO();
+        facilityTypeList = tDAO.retrieveAllFacilityTypes();
         return facilityTypeList;
     }
 
@@ -125,12 +120,10 @@ public class ManageFacilitiesActionBean implements ActionBean {
             FacilityDAO fDAO = new FacilityDAO();
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             FacilityType facilityType = tDAO.getFacilityType(type);
-            System.out.println("DID I GET HERE????????? TWO");
-            Facility facility = fDAO.createFacility(facilityType,Integer.parseInt(longitude),Integer.parseInt(latitude));
-            System.out.println("WHAT ABOUT HERE");
+            Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
             result = facility.getName();
             success = true;
-            System.out.println(result);
+            System.out.println(result + " DOE THIS LOOK OKS");
         } catch (Exception e) {
             result = "fail";
             success = false;
