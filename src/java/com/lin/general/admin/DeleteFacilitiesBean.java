@@ -29,6 +29,7 @@ public class DeleteFacilitiesBean implements ActionBean {
     public Resolution deleteFacility() {
         FacilityDAO fdao = new FacilityDAO();
         int fId = Integer.parseInt(id);
+        System.out.println(fId);
         Facility facility = fdao.getFacility(fId);
         try {
             fdao.deleteFacility(fId);

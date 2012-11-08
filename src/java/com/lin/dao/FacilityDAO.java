@@ -104,16 +104,17 @@ public class FacilityDAO {
     }
 
     public boolean deleteFacility(long id) {
+        openSession();
         Transaction tx = null;
         int rowCount = 0;
 
         try {
             tx = session.beginTransaction();
-            String hql = "delete from Facility where id = :id";
+            String hql = "delete from Facility where id = :fId";
             Query query = session.createQuery(hql);
-            query.setString("id", id + "");
+            query.setString("fId", id + "");
             rowCount = query.executeUpdate();
-            //tx.commit();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {
@@ -149,8 +150,8 @@ public class FacilityDAO {
         ArrayList<Facility> result = new ArrayList<Facility>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Facility where id :fId");
-            q.setString("fid", id + "");
+            Query q = session.createQuery("from Facility where id = :fId");
+            q.setString("fId", id + "");
             result = (ArrayList<Facility>) q.list();
         } catch (Exception e) {
             e.printStackTrace();

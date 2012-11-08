@@ -121,6 +121,7 @@ public class UserDAO {
         try {
             openSession();
              tx = session.beginTransaction();
+                         System.out.println("tempUser : "+temp);
             session.save("UserTemp",temp);
             tx.commit();
             return temp;
