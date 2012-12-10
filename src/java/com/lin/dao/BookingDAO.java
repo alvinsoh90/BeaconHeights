@@ -5,8 +5,10 @@
 package com.lin.dao;
 
 import com.lin.entities.Booking;
+import com.lin.entities.Facility;
 import com.lin.entities.User;
 import com.lin.utils.HibernateUtil;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.transaction.Transaction;
@@ -61,8 +63,9 @@ public class BookingDAO {
     }
 
     //Add bookings
-    public Booking addBooking(User user, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId) {
-        Booking booking = new Booking(user, bookingTimeStamp, startDate, endDate, isPaid, transactionId);
+    // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
+    public Booking addBooking(User user, Facility facility,Timestamp bookingTimeStamp, Timestamp startDate, Timestamp endDate, boolean isPaid, String transactionId) {
+        Booking booking = new Booking(user, facility,bookingTimeStamp, startDate, endDate, isPaid, transactionId);
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
