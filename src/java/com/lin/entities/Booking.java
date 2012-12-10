@@ -17,6 +17,8 @@ public class Booking  implements java.io.Serializable {
      private Date endDate;
      private boolean isPaid;
      private String transactionId;
+     private Integer facilityID;
+
 
     public Booking() {
     }
@@ -80,7 +82,13 @@ public class Booking  implements java.io.Serializable {
         this.transactionId = transactionId;
     }
 
+    public Integer getFacilityID() {
+        return facilityID;
+    }
 
+    public void setFacilityID(Integer facilityID) {
+        this.facilityID = facilityID;
+    }
 
 
 }
