@@ -4,6 +4,10 @@
         <meta charset="utf-8">
         <title>Make a Booking | Beacon Heights</title>
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+        <jsp:useBean id="manageBookingsActionBean" scope="page"
+                     class="com.lin.general.admin.ManageBookingsActionBean"/>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">    
@@ -26,13 +30,19 @@
         <!-- Scripts -->
         <script>
             // Retrieve booking events from DB
+            var bookingList = [];
+            
             function addEvents(){
                 	
-		var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
+                var date = new Date();
+                var d = date.getDate();
+                var m = date.getMonth();
+                var y = date.getFullYear();
                 
+                var e = new Object();
+                e.title = 'blaaa';
+                
+                /*
                 var event1 = {id: 997,
                     title: 'Repeating Event',
                     start: new Date(y, m, d+1, 16, 0),
@@ -49,14 +59,15 @@
                     title: 'Repeating Event',
                     start: new Date(y, m, d+3, 16, 0),
                     allDay: false
-                };
+                };*/
             
-                var eventSource = [event1,event2,event3];
+                var eventSource = bookingList;
                 $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
             }
             // Format into JSON
             // addEventSource
-        </script>    
+        </script> 
+
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -200,6 +211,17 @@
                             <div id="fullcalendar" class="calendarWidth"></div>
                         </div>
                     </div>
+                    <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
+                        <script>
+                            var booking = new Object();
+                            booking.id = '${booking.id}';
+                            booking.start = new Date(${booking.startTimeInSeconds});
+                            booking.end = new Date(${booking.endTimeInSeconds});
+                            booking.title = 'hi';
+                            booking.allDay = false;
+                            bookingList.push(booking);
+                        </script>
+                    </c:forEach>
 
 
                 </div> <!-- /row -->

@@ -108,7 +108,12 @@ public class Booking  implements java.io.Serializable {
         this.title = title;
     }
 
-
+    public long getStartTimeInSeconds(){
+        return startDate.getTime();
+    }
+    public long getEndTimeInSeconds(){
+        return endDate.getTime();
+    }
 
 
 }
