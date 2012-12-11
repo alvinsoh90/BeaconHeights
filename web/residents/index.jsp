@@ -15,20 +15,15 @@
     
     <link href="./css/adminia.css" rel="stylesheet"> 
     <link href="./css/adminia-responsive.css" rel="stylesheet"> 
+        <link href="./css/residentscustom.css" rel="stylesheet"> 
+
     <link rel="stylesheet" href="./css/fullcalendar.css" />	
     <link href="./css/pages/dashboard.css" rel="stylesheet"> 
     <script src="./js/jquery-1.7.2.min.js"></script>
+    <script src="./js/unicorn.calendar.js"></script>
     
     <!-- Scripts -->
-    <script>
-        $(document).ready(function() {
-            // page is now ready, initialize the calendar...
-            $('#calendar').fullCalendar({
-                // put your options and callbacks here
-            })
-            
-        });
-    </script>
+    
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -56,16 +51,17 @@
 			<div class="nav-collapse">
 			
 				<ul class="nav pull-right">
+                                    <li class="divider-vertical"></li>
 					<li>
-						<a href="#"><span class="badge badge-warning">7</span></a>
+                                            <img class="profilePic" src="http://profile.ak.fbcdn.net/hprofile-ak-snc7/371889_776405701_1107384686_q.jpg"/>
 					</li>
 					
-					<li class="divider-vertical"></li>
+					
 					
 					<li class="dropdown">
 						
 						<a data-toggle="dropdown" class="dropdown-toggle " href="#">
-							Rod Howard <b class="caret"></b>							
+							Garreth Peh <b class="caret"></b>							
 						</a>
 						
 						<ul class="dropdown-menu">
@@ -106,16 +102,40 @@
 			<div class="span3">
 				
 				<div class="account-container">
-				
-				
+                                    
+                                    <h2>Now Booking</h2>
+                                    <select>
+                                        <option value="tennis">Tennis Court A</option>
+                                    </select>
 				
 				</div> <!-- /account-container -->
 				
 				<hr />
 				
 				<ul id="main-nav" class="nav nav-tabs nav-stacked">
-					
-					
+					<h2>Your Booking Details</h2>
+                                        <div class="widget-content widget-nopad">
+                                            <div class="bookingDetails">
+                                                Venue: <span id="venue">Tennis Court A</span><br/>
+                                                Date: <span id="date">25/11/12</span> <br/>
+                                                Time: <span id="time">7pm</span>
+                                            </div>
+                                            <div class="inviteFriends comingsoon">
+                                                <div class="header">Invite Friends</div>
+                                                <input class="span2" type="text" placeholder="Type a friend's name"/>
+                                                <button class="btn btn-peace-2 btnmod">Invite</button>
+                                                Invited: 
+                                                <span class="inviteLabel label label-success">Fayanne Foo  x</span>                             
+                                            </div>
+                                            <div class="shareBooking centerText comingsoon">
+                                                <h4>Share this event with your friends</h4>
+                                                <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
+                                            </div>
+                                            
+                                            <div class="centerText">
+                                                <button class="inlineblock btn-large btn btn-peace-1">Place Booking</button>
+                                            </div>
+                                        </div>
 				
 				<hr />
 				
@@ -133,11 +153,16 @@
 				
 				<h1 class="page-title">
 					<i class="icon-home"></i>
-					Dashboard					
+					Tennis Court					
 				</h1>
+                            <br/>
                         </div>	
-                            
-                        <div id="calendar" class="span9"></div>
+                         
+                        <div class="span9">
+                            <div class="widget-content nopadding calendarContainer">
+                                 <div id="fullcalendar" class="calendarWidth"></div>
+                            </div>
+                        </div>
                         
 			
 		</div> <!-- /row -->
@@ -156,8 +181,6 @@
 	
 </div> <!-- /footer -->
 
-
-    
 
 <!-- Le javascript
 ================================================== -->
