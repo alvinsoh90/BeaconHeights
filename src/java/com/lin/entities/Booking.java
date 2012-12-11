@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA
+// Generated Dec 11, 2012 6:59:35 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -12,6 +12,7 @@ public class Booking  implements java.io.Serializable {
 
      private Integer id;
      private User user;
+     private Facility facility;
      private Date bookingTimeStamp;
      private Date startDate;
      private Date endDate;
@@ -21,8 +22,9 @@ public class Booking  implements java.io.Serializable {
     public Booking() {
     }
 
-    public Booking(User user, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId) {
+    public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId) {
        this.user = user;
+       this.facility = facility;
        this.bookingTimeStamp = bookingTimeStamp;
        this.startDate = startDate;
        this.endDate = endDate;
@@ -43,6 +45,13 @@ public class Booking  implements java.io.Serializable {
     
     public void setUser(User user) {
         this.user = user;
+    }
+    public Facility getFacility() {
+        return this.facility;
+    }
+    
+    public void setFacility(Facility facility) {
+        this.facility = facility;
     }
     public Date getBookingTimeStamp() {
         return this.bookingTimeStamp;
