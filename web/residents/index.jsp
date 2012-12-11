@@ -133,11 +133,11 @@
                                                 <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
                                             </div>
                                               <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
-                                              <stripes:text name="facilityid" id="facilityid" class="hide" />   
-                                              <stripes:text name="startdatestring" id="starttimemillis" class="hide" />   
-                                              <stripes:text name="enddatestring" id="endtimemillis" class="hide" />   
+                                              <stripes:text name="facilityID" id="facilityid" class="hide" />
+                                              <stripes:text name="startDateString" id="starttimemillis" class="hide" />   
+                                              <stripes:text name="endDateString" id="endtimemillis" class="hide"  /> 
                                             <div class="centerText">
-                                                <stripes:submit class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>   
+                                                <stripes:submit class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>
                                             </div>
                                         </div>
                                              </stripes:form>

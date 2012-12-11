@@ -12,6 +12,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.RedirectResolution;
 /**
  *
  * @author Yangsta
@@ -59,9 +60,8 @@ public class BookFacilityActionBean implements ActionBean{
   
   @DefaultHandler
   public Resolution placeBooking() {
-    System.out.println("HELLO " + enddatestring);
-    
-    return new ForwardResolution("residents/index.jsp");
+    System.out.println("HELLO " + getEndDateString());
+    return new RedirectResolution("/residents/index.jsp");
   }
     
 }
