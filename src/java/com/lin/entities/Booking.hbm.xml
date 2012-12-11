@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 11, 2012 6:59:35 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Dec 11, 2012 5:18:55 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Booking" table="booking" catalog="lin_db">
         <id name="id" type="java.lang.Integer">
@@ -28,6 +28,9 @@
         </property>
         <property name="transactionId" type="string">
             <column name="transaction_id" length="200" not-null="true" />
+        </property>
+        <property name="title" type="string">
+            <column name="title" length="75" />
         </property>
     </class>
 </hibernate-mapping>

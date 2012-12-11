@@ -136,6 +136,7 @@
                                               <stripes:text name="facilityID" id="facilityid" class="hide" />
                                               <stripes:text name="startDateString" id="starttimemillis" class="hide" />   
                                               <stripes:text name="endDateString" id="endtimemillis" class="hide"  /> 
+                                              <stripes:text name="title" id="title" class="hide"/>
                                             <div class="centerText">
                                                 <stripes:submit class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>
                                             </div>

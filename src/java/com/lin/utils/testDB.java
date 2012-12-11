@@ -33,6 +33,6 @@ public class testDB {
         
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         BookingDAO bookingDB = new BookingDAO();
-        bookingDB.addBooking(user, facility, ts, ts, ts, true, "12345");
+        bookingDB.addBooking(user, facility, ts, ts, ts, true, "12345","hello");
     }
 }

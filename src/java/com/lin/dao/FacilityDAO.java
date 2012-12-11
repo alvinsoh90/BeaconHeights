@@ -146,17 +146,19 @@ public class FacilityDAO {
 
     }
 
-    public Facility getFacility(long id) {
+    public Facility getFacility(int id) {
+        openSession();
         ArrayList<Facility> result = new ArrayList<Facility>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Facility where id = :fId");
             q.setString("fId", id + "");
             result = (ArrayList<Facility>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        System.out.println("RETRIEVEDFACILITY:"+result.get(0));
         return result.get(0);
     }
 }
