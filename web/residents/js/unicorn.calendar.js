@@ -55,6 +55,8 @@ unicorn = {
 //                }
                
                $("#time").text(start.customFormat("#h#:#mm# #ampm#") + " - " + end.customFormat("#h#:#mm# #ampm#"));   //SET TIME
+               $("#starttimemillis").text(start.getTime());
+               $("#endtimemillis").text(end.getTime());
                
                 title = "test";
                 if (title) {

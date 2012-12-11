@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Make a Booking | Beacon Heights</title>
-    
+    <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">    
     
@@ -131,11 +132,15 @@
                                                 <h4>Share this event with your friends</h4>
                                                 <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
                                             </div>
-                                            
+                                              <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
+                                              <stripes:text name="facilityid" id="facilityid" class="hide" />   
+                                              <stripes:text name="startdatestring" id="starttimemillis" class="hide" />   
+                                              <stripes:text name="enddatestring" id="endtimemillis" class="hide" />   
                                             <div class="centerText">
-                                                <button class="inlineblock btn-large btn btn-peace-1">Place Booking</button>
+                                                <stripes:submit class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>   
                                             </div>
                                         </div>
+                                             </stripes:form>
 				
 				<hr />
 				
