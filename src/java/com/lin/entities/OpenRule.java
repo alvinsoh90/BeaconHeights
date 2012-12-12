@@ -25,6 +25,13 @@ public class OpenRule  implements java.io.Serializable {
        this.startTime = startTime;
        this.endTime = endTime;
     }
+    
+    public OpenRule(FacilityType facilityType, int dayOfWeek, int startTime, int endTime) {
+       this.facilityType = facilityType;
+       this.dayOfWeek = dayOfWeek;
+       this.startTime = startTime;
+       this.endTime = endTime;
+    }
    
     public int getId() {
         return this.id;

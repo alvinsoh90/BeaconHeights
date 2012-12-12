@@ -97,9 +97,9 @@ public class RuleDAO {
         return list;
     }
     
-    public LimitRule createLimitRule(int id, FacilityType facilityType, int sessions, int numberOfTimeframe, String timeframeType){
+    public LimitRule createLimitRule(FacilityType facilityType, int sessions, int numberOfTimeframe, String timeframeType){
         openSession();
-        LimitRule lRule = new LimitRule( id, facilityType, sessions, numberOfTimeframe, timeframeType);
+        LimitRule lRule = new LimitRule(facilityType, sessions, numberOfTimeframe, timeframeType);
         
         Transaction tx = null;
         try {
@@ -115,9 +115,9 @@ public class RuleDAO {
         return null;
     }
     
-    public CloseRule createCloseRule(int id, FacilityType facilityType, Date startDate, Date endDate){
+    public CloseRule createCloseRule(FacilityType facilityType, Date startDate, Date endDate){
         openSession();
-        CloseRule cRule = new CloseRule( id, facilityType, startDate, endDate);
+        CloseRule cRule = new CloseRule(facilityType, startDate, endDate);
         
         Transaction tx = null;
         try {
@@ -133,9 +133,9 @@ public class RuleDAO {
         return null;
     }
     
-    public OpenRule createOpenRule(int id, FacilityType facilityType, int dayOfWeek, int startTime, int endTime){
+    public OpenRule createOpenRule(FacilityType facilityType, int dayOfWeek, int startTime, int endTime){
         openSession();
-        OpenRule oRule = new OpenRule( id, facilityType, dayOfWeek, startTime, endTime);
+        OpenRule oRule = new OpenRule(facilityType, dayOfWeek, startTime, endTime);
         
         Transaction tx = null;
         try {
@@ -151,9 +151,9 @@ public class RuleDAO {
         return null;
     }
     
-    public AdvanceRule createAdvanceRule(int id, FacilityType facilityType, int minDays, int maxDays){
+    public AdvanceRule createAdvanceRule(FacilityType facilityType, int minDays, int maxDays){
         openSession();
-        AdvanceRule aRule = new AdvanceRule( id, facilityType, minDays, maxDays);
+        AdvanceRule aRule = new AdvanceRule(facilityType, minDays, maxDays);
         
         Transaction tx = null;
         try {
@@ -169,4 +169,145 @@ public class RuleDAO {
         return null;
     }
     
+    public LimitRule updateLimitRule(int id, FacilityType facilityType, int sessions, int numberOfTimeframe, String timeframeType){
+        openSession();
+        LimitRule lRule = (LimitRule)session.get(LimitRule.class, id);
+        
+        lRule.setFacilityType(facilityType);
+        lRule.setNumberOfTimeframe(numberOfTimeframe);
+        lRule.setSessions(sessions);
+        lRule.setTimeframeType(timeframeType);
+        
+        return lRule;
+    }
+    
+    public CloseRule updateCloseRule(int id, FacilityType facilityType, Date startDate, Date endDate){
+        openSession();
+        CloseRule cRule = (CloseRule)session.get(CloseRule.class, id);
+        
+        cRule.setEndDate(endDate);
+        cRule.setFacilityType(facilityType);
+        cRule.setStartDate(startDate);
+        
+        return cRule;
+    }
+    
+    public OpenRule updateOpenRule(int id, FacilityType facilityType, int dayOfWeek, int startTime, int endTime){
+        openSession();
+        OpenRule oRule = (OpenRule)session.get(OpenRule.class, id);
+        
+        oRule.setDayOfWeek(dayOfWeek);
+        oRule.setEndTime(endTime);
+        oRule.setFacilityType(facilityType);
+        oRule.setStartTime(startTime);
+        
+        return oRule;
+    }
+    
+    public AdvanceRule updateAdvanceRule(int id, FacilityType facilityType, int minDays, int maxDays){
+        openSession();
+        AdvanceRule aRule = (AdvanceRule)session.get(AdvanceRule.class, id);
+        
+        aRule.setFacilityType(facilityType);
+        aRule.setMaxDays(maxDays);
+        aRule.setMinDays(minDays);
+        
+        return aRule;
+    }
+    
+    public boolean deleteLimitRule(int id) {
+        openSession();
+        Transaction tx = null;
+        int rowCount =0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from LimitRule where id = :id";
+            Query query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            tx.commit();
+            } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+            System.out.println("Rows affected: " + rowCount);
+            if(rowCount>0){
+                return true;
+            }else{
+                return false;
+            }
+    }
+    
+    public boolean deleteOpenRule(int id) {
+        openSession();
+        Transaction tx = null;
+        int rowCount =0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from OpenRule where id = :id";
+            Query query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            tx.commit();
+            } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+            System.out.println("Rows affected: " + rowCount);
+            if(rowCount>0){
+                return true;
+            }else{
+                return false;
+            }
+    }
+    
+    public boolean deleteCloseRule(int id) {
+        openSession();
+        Transaction tx = null;
+        int rowCount =0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from CloseRule where id = :id";
+            Query query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            tx.commit();
+            } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+            System.out.println("Rows affected: " + rowCount);
+            if(rowCount>0){
+                return true;
+            }else{
+                return false;
+            }
+    }
+    
+    public boolean deleteAdvanceRule(int id) {
+        openSession();
+        Transaction tx = null;
+        int rowCount =0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from AdvanceRule where id = :id";
+            Query query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            tx.commit();
+            } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+            System.out.println("Rows affected: " + rowCount);
+            if(rowCount>0){
+                return true;
+            }else{
+                return false;
+            }
+    }
 }

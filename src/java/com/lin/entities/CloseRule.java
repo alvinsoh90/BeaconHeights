@@ -24,6 +24,12 @@ public class CloseRule  implements java.io.Serializable {
        this.startDate = startDate;
        this.endDate = endDate;
     }
+    
+    public CloseRule(FacilityType facilityType, Date startDate, Date endDate) {
+       this.facilityType = facilityType;
+       this.startDate = startDate;
+       this.endDate = endDate;
+    }
    
     public int getId() {
         return this.id;

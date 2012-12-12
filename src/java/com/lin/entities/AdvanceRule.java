@@ -23,6 +23,12 @@ public class AdvanceRule  implements java.io.Serializable {
        this.minDays = minDays;
        this.maxDays = maxDays;
     }
+    
+    public AdvanceRule(FacilityType facilityType, int minDays, int maxDays) {
+       this.facilityType = facilityType;
+       this.minDays = minDays;
+       this.maxDays = maxDays;
+    }
    
     public int getId() {
         return this.id;
