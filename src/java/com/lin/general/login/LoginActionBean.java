@@ -2,6 +2,7 @@ package com.lin.general.login;
 
 import com.lin.dao.LoginDAO;
 import com.lin.dao.UserDAO;
+import com.lin.entities.User;
 import com.lin.utils.BCrypt;
 import java.io.IOException;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -51,6 +52,11 @@ public class LoginActionBean extends BaseActionBean {
 
 
         if(success){
+            User user = userDAO.getUser(username);
+            getContext().setUser(user);
+            
+            User u2 = getContext().getUser();
+            System.out.println("ADDED TO SESSION:" +u2.toString());
             return new RedirectResolution("/admin/manageusers.jsp");
         }else{
             return new RedirectResolution("/login.jsp?err=true&user="+username);
