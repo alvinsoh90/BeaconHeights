@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA
+// Generated Dec 12, 2012 6:30:41 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -14,8 +14,8 @@ public class Role  implements java.io.Serializable {
      private Integer id;
      private String name;
      private String description;
-     private Set<UserTemp> userTemps = new HashSet<UserTemp>(0);
-     private Set<User> users = new HashSet<User>(0);
+     private Set userTemps = new HashSet(0);
+     private Set users = new HashSet(0);
 
     public Role() {
     }
@@ -25,7 +25,7 @@ public class Role  implements java.io.Serializable {
         this.name = name;
         this.description = description;
     }
-    public Role(String name, String description, Set<UserTemp> userTemps, Set<User> users) {
+    public Role(String name, String description, Set userTemps, Set users) {
        this.name = name;
        this.description = description;
        this.userTemps = userTemps;
@@ -53,18 +53,18 @@ public class Role  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public Set<UserTemp> getUserTemps() {
+    public Set getUserTemps() {
         return this.userTemps;
     }
     
-    public void setUserTemps(Set<UserTemp> userTemps) {
+    public void setUserTemps(Set userTemps) {
         this.userTemps = userTemps;
     }
-    public Set<User> getUsers() {
+    public Set getUsers() {
         return this.users;
     }
     
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set users) {
         this.users = users;
     }
 
