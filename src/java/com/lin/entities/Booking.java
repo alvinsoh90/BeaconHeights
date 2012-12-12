@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Dec 11, 2012 6:59:35 AM by Hibernate Tools 3.2.1.GA
+// Generated Dec 12, 2012 6:30:41 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -18,11 +18,22 @@ public class Booking  implements java.io.Serializable {
      private Date endDate;
      private boolean isPaid;
      private String transactionId;
+     private String title;
 
     public Booking() {
     }
 
+	
     public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId) {
+        this.user = user;
+        this.facility = facility;
+        this.bookingTimeStamp = bookingTimeStamp;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isPaid = isPaid;
+        this.transactionId = transactionId;
+    }
+    public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId, String title) {
        this.user = user;
        this.facility = facility;
        this.bookingTimeStamp = bookingTimeStamp;
@@ -30,6 +41,7 @@ public class Booking  implements java.io.Serializable {
        this.endDate = endDate;
        this.isPaid = isPaid;
        this.transactionId = transactionId;
+       this.title = title;
     }
    
     public Integer getId() {
@@ -87,6 +99,13 @@ public class Booking  implements java.io.Serializable {
     
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+    public String getTitle() {
+        return this.title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 

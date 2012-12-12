@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA
+// Generated Dec 12, 2012 6:30:41 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -14,7 +14,7 @@ public class FacilityType  implements java.io.Serializable {
      private Integer id;
      private String name;
      private String description;
-     private Set<Facility> facilities = new HashSet<Facility>(0);
+     private Set facilities = new HashSet(0);
 
     public FacilityType() {
     }
@@ -24,7 +24,7 @@ public class FacilityType  implements java.io.Serializable {
         this.name = name;
         this.description = description;
     }
-    public FacilityType(String name, String description, Set<Facility> facilities) {
+    public FacilityType(String name, String description, Set facilities) {
        this.name = name;
        this.description = description;
        this.facilities = facilities;
@@ -51,11 +51,11 @@ public class FacilityType  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public Set<Facility> getFacilities() {
+    public Set getFacilities() {
         return this.facilities;
     }
     
-    public void setFacilities(Set<Facility> facilities) {
+    public void setFacilities(Set facilities) {
         this.facilities = facilities;
     }
 

@@ -15,22 +15,28 @@ import net.sourceforge.stripes.action.Resolution;
  *
  * @author Yangsta
  */
-public class DeleteBookingBean implements ActionBean{
+public class PayBookingBean implements ActionBean{
   private ActionBeanContext context;
   private String id;
   private String username;
+  private String transactionId;
 
-    public Resolution deleteBooking(){
+    public Resolution payBooking(){
         BookingDAO dao = new BookingDAO();
-
+        
         try{
-            dao.deleteBooking(Integer.parseInt(id));
-            return new RedirectResolution("/admin/managebookings.jsp?deletesuccess=true"+"&deletemsg="+username);
+            Booking b = dao.getBooking(Integer.parseInt(id));
+            if(b.isIsPaid()){
+                dao.updateBooking(Integer.parseInt(id), b.getUser(), b.getFacility(), b.getBookingTimeStamp(), b.getStartDate(), b.getEndDate(), false, "");
+            }else{
+                dao.updateBooking(Integer.parseInt(id), b.getUser(), b.getFacility(), b.getBookingTimeStamp(), b.getStartDate(), b.getEndDate(), true, transactionId);
+            }
+            return new RedirectResolution("/admin/managebookings.jsp?paysuccess=true"+"&paymsg="+username);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/managebookings.jsp?deletesuccess=false"+"&deletemsg="+username);
+        return new RedirectResolution("/admin/managebookings.jsp?paysuccess=false"+"&paymsg="+username);
         
     }
 

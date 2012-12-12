@@ -29,40 +29,14 @@
         <link rel="stylesheet" href="../css/unicorn.grey.css" class="skin-color" />
         <style>.starthidden { display:none; }</style>
 
-        <!-- Populates the Edit Booking form -->
-        <script>
-            // Init an array of all bookings shown on this page
-            var bookingList = [];
-            
-            //when this function is called, bookingList should already be populated
-            function populateEditBookingModal(bookingID){ 
-                bookingList.forEach(function(booking){
-                    if(booking.id == bookingID){
-                        $("#usernameLabel").text(booking.username);
-                        $("#edit_id").val(booking.id);
-                        $("#edit_username").val(booking.username);
-                        $("#edit_firstName").val(booking.firstName);
-                        $("#edit_lastName").val(booking.lastName);
-                        $("#edit_facilityType").val(booking.facilityType);
-                        $("#edit_facilityId").val(booking.facilityId);
-                        $("#edit_startDate").val(booking.startDate);
-                        $("#edit_endDate").val(booking.endDate);
-                        $("#edit_isPaid").val(booking.isPaid);
-                        $("#edit_transactionID").val(booking.transactionID);
-                    }
-                });
-                
-            }
-        </script>
-
-        <!-- Populates the Delete Booking Modal-->
+        <!-- Populates the Booking Modals-->
         <script>
             // Init an array of all bookings shown on this page
             var bookingList = [];
             
             //when this function is called, bookingList should already be populated
             function populateDeleteBookingModal(bookingID){ 
-                bookingList.forEach(function(user){
+                bookingList.forEach(function(booking){
                     if(booking.id == bookingID){
                         $("#usernameDeleteLabel").text(booking.username);
                         $("#delete_username").val(booking.username);
@@ -73,6 +47,27 @@
                         $("#delete_startDate").text(booking.startDate);
                         $("#delete_endDate").text(booking.endDate);
                         $("#delete_id").val(booking.id);
+                    }
+                });
+                
+            }
+            
+            function populatePayBookingModal(bookingID){ 
+                bookingList.forEach(function(booking){
+                    if(booking.id == bookingID){
+                        $("#usernamePayLabel").text(booking.username);
+                        $("#pay_username").val(booking.username);
+                        $("#pay_id").val(booking.id);
+                    }
+                });
+                
+            }
+            function populatePendingBookingModal(bookingID){ 
+                bookingList.forEach(function(booking){
+                    if(booking.id == bookingID){
+                        $("#usernamePendingLabel").text(booking.username);
+                        $("#pending_username").val(booking.username);
+                        $("#pending_id").val(booking.id);
                     }
                 });
                 
@@ -109,9 +104,16 @@
                     r[++j] = '</td><td >';
                     r[++j] = bookingArr[i].transactionID;
                     r[++j] = '</td><td >';
-                    r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal(" + bookingList[i].id + ");loadValidate()'>Edit</a>\n\
-                               <a href='#' class='btn btn-success btn-mini'>Paid</a>\n\
+                    
+                    if(bookingArr[i].isPaid == "true"){
+                        r[++j] = "<a href= '#' role='button' data-toggle='modal' class='btn btn-primary btn-mini'>Edit</a>\n\
+                               <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingList[i].id + ")'>Pending</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
+                    }else{
+                        r[++j] = "<a href= '#' role='button' data-toggle='modal' class='btn btn-primary btn-mini'>Edit</a>\n\
+                               <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingList[i].id + ")'>Paid</a>\n\
+                               <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
+                    }
                     r[++j] = '</td></tr>';
                 }
                 $('#bookingTable').html(tableHeaders + r.join('')); 
@@ -133,7 +135,7 @@
                 
                 if(tempArr.length == 0){
                     //show that nothing found
-                    alert("No users found!");
+                    alert("No bookings found!");
                 }
                 else{
                     showBookings(tempArr);
@@ -154,7 +156,7 @@
                 
                 if(tempArr.length == 0){
                     //show that nothing found
-                    alert("No users found!");
+                    alert("No bookings found!");
                 }
                 else{
                     showBookings(tempArr);
@@ -174,6 +176,7 @@
                             tempArr.push(bookingList[i]);
                         }
                     }
+                    
                 }else{
                     for(var i=0;i<bookingList.length;i++){
                         console.log(name);
@@ -181,18 +184,23 @@
                             tempArr.push(bookingList[i]);
                         }
                     }
+                    
                 }
                 
                 if(tempArr.length == 0){
                     //show that nothing found
-                    alert("No users found!");
+                    alert("No bookings found!");
                 }
                 else{
                     showBookings(tempArr);
                 }
+                
+                
             }
             
-            
+            function filterReset(){
+                showBookings(bookingList);
+            }
         </script>
 
         <script src="../js/jquery.min.js"></script>
@@ -281,7 +289,7 @@
             </div>
             <div id="breadcrumb">
                 <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-                <a href="#" class="current">Bookings</a>
+                <a href="#" class="tip-bottom">Bookings</a>
                 <a href="#" class="current">Manage Bookings</a>
             </div>
             <div class="container-fluid">
@@ -303,21 +311,27 @@
                         <c:if test = "${param.deletesuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
-                                <b>Whoops.</b> The user could not be deleted.
+                                <b>Whoops.</b> ${param.deletemsg}'s booking could not be deleted.
                             </div>
                         </c:if> 
                         <c:if test = "${param.deletesuccess == 'true'}">
                             <div><br/></div>
                             <div class="login alert alert-success container">
-                                <b>Awesome!</b> ${param.deletemsg} was successfully deleted!
+                                <b>Awesome!</b> ${param.deletemsg}'s booking was successfully deleted!
                             </div>
                         </c:if>
-                        <c:if test = "${param.approvesuccess == 'true'}">
+                        <c:if test = "${param.paysuccess == 'true'}">
                             <div><br/></div>
                             <div class="login alert alert-success container">
-                                <b>Awesome!</b> ${param.approvemsg} was added to the user list!
+                                <b>Awesome!</b> ${param.paymsg}'s payment was updated!
                             </div>
                         </c:if>
+                            <c:if test = "${param.paysuccess == 'false'}">
+                            <div><br/></div>
+                            <div class="login alert alert-error container">
+                                <b>Whoops.</b> ${param.paymsg}'s payment could not be updated.
+                            </div>
+                        </c:if> 
 
                         <!-- Add New User -->   
                         <div class="widget-box">
@@ -400,6 +414,7 @@
                     <div class="widget-box">
                         <div class="widget-title">
                             <span class="icon"><i class="icon-user"></i></span><h5>Bookings</h5>
+                            <div class="float_r filterOptions"><button class="btn" onClick="filterReset()">View All</button></div>
                             <div class="float_r filterOptions">
                                 <h5>or</h5>
                                 <select id ="usernameSelect" onChange="filterByUsername()">
@@ -475,166 +490,51 @@
                 </div>
             </div>
 
-            <!-- Edit Booking Modal Form -->
-            <div id="editBookingModal" class="modal hide fade">
+           
+        </div>
+        
+            <!-- Pay Booking Modal -->
+            <div id="payBookingModal" class="modal hide fade">
                 <div id="myModal" class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Edit <span id="usernameLabel"></span>'s information</h3>
+                    <h3>Update Payment of <span id="usernamePayLabel"></span>'s booking</h3>
                 </div>
                 <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="edit_user_validate" id="edit_user_validate">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Role</label>
+                            <label class="control-label">Transaction ID</label>
                             <div class="controls">
-                                <stripes:select name="role">
-                                    <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="id" label="name"/>        
-                                </stripes:select>
-                            </div>
-                        </div> 
-                        <stripes:text class="hide" name="id" id="editid" />
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Username</label>
-                            <div class="controls">
-                                <stripes:text id="edit_username" name="username"/>
+                                <stripes:text id="pay_transactionId" name="transactionId"/>
                             </div>
                         </div>
-
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">First Name</label>
-                            <div class="controls">
-                                <stripes:text id="edit_firstname" name="firstname"/> 
-                            </div>
-                        </div>                              
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Last Name</label>
-                            <div class="controls">
-                                <stripes:text id="edit_lastname" name="lastname"/> 
-                            </div>
-                        </div>
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Block</label>
-                            <div class="controls">
-                                <stripes:select name="block">
-                                    <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
-                                </stripes:select>
-                            </div>
-                        </div> 
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Level</label>
-                            <div class="controls">
-                                <stripes:text id="edit_level" name="level"/>
-                            </div>
-                        </div>     
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Unit Number</label>
-                            <div class="controls">
-                                <stripes:text id="edit_unit" name="unitnumber"/>
-                            </div>
-                        </div>                     
-
-                    </div>
-                    <div class="modal-footer">
-                        <a data-dismiss="modal" class="btn">Close</a>
-                        <input type="submit" name="editUser" value="Confirm Edit" class="btn btn-primary"/>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="pay_username" name="username"/>
+                    <stripes:hidden id="pay_id" name="id"/>
+                    <input type="submit" name="payBooking" value="Update" class="btn btn-primary"/>
+                </div>
                 </stripes:form>
             </div>
 
-
-            <script>
-                function loadValidate(){
-                    $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-
-                    $('select').chosen();
-
-                    $("#new_user_validate").validate({
-                        rules:{
-                            username:{
-                                required: true,
-                                minlength:5,
-                                maxlength:20
-                            },
-                            password:{
-                                required: true,
-                                minlength:6,
-                                maxlength:20
-                            },
-                            passwordconfirm:{
-                                required:true,
-                                minlength:6,
-                                maxlength:20,
-                                equalTo:"#password"
-                            },firstname:{
-                                required: true
-                            },lastname:{
-                                required: true
-                            },block:{
-                                required: true
-                            },level:{
-                                required: true,
-                                digits:true
-                            },unitnumber:{
-                                required: true,
-                                digits:true
-                            }
-                        },
-                        errorClass: "help-inline",
-                        errorElement: "span",
-                        highlight:function(element, errorClass, validClass) {
-                            $(element).parents('.control-group').addClass('error');
-                        },
-                        unhighlight: function(element, errorClass, validClass) {
-                            $(element).parents('.control-group').removeClass('error');
-                            $(element).parents('.control-group').addClass('success');
-                        }
-                    });
-                    
-                    $("#edit_user_validate").validate({
-                        rules:{
-                            username:{
-                                required: true,
-                                minlength:5,
-                                maxlength:20
-                            },
-                            password:{
-                                required: true,
-                                minlength:6,
-                                maxlength:20
-                            },
-                            passwordconfirm:{
-                                required:true,
-                                minlength:6,
-                                maxlength:20,
-                                equalTo:"#password"
-                            },firstname:{
-                                required: true
-                            },lastname:{
-                                required: true
-                            },block:{
-                                required: true
-                            },level:{
-                                required: true,
-                                digits:true
-                            },unitnumber:{
-                                required: true,
-                                digits:true
-                            }
-                        },
-                        errorClass: "help-inline",
-                        errorElement: "span",
-                        highlight:function(element, errorClass, validClass) {
-                            $(element).parents('.control-group').addClass('error');
-                        },
-                        unhighlight: function(element, errorClass, validClass) {
-                            $(element).parents('.control-group').removeClass('error');
-                            $(element).parents('.control-group').addClass('success');
-                        }
-                    });
-                }
-               
-                
-            </script>
-
+            <!-- Pay Booking Modal -->
+            <div id="pendingBookingModal" class="modal hide fade">
+                <div id="myModal" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3>Update Payment of <span id="usernamePendingLabel"></span>'s booking</h3>
+                </div>
+                <div class="modal-body">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
+                        You are now changing booking status to pending. Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="pending_username" name="username"/>
+                    <stripes:hidden id="pending_id" name="id"/>
+                    <input type="submit" name="payBooking" value="Change to Pending" class="btn btn-primary"/>
+                </div>
+                </stripes:form>
+            </div>
 
             <!-- Delete Booking Modal -->
             <div id="deleteBookingModal" class="modal hide fade">
@@ -644,7 +544,7 @@
                 </div>
                 <div class="modal-body">
                     <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteBookingBean" focus=""> 
-                        You are now deleting <span id="delete_firstName"></span> <span id="delete_lastName"></span>'s booking of <span id="delete_facilityType"></span> <span id="delete_facilityID"></span> on <span id="delete_startDate"></span>. Are you sure?
+                        You are now deleting <b><span id="delete_firstName"></span> <span id="delete_lastName"></span>'s</b> booking of <b><span id="delete_facilityType"></span> <span id="delete_facilityId"></span></b> on <b><span id="delete_startDate"></span></b>. Are you sure?
                     </div>
                     <div class="modal-footer">
                         <a data-dismiss="modal" class="btn">Close</a>
@@ -654,7 +554,6 @@
                     </div>
                 </stripes:form>
             </div>
-        </div>
 
             <!--<script src="js/excanvas.min.js"></script>-->
 
