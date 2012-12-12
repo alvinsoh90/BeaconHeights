@@ -61,6 +61,21 @@ public class BookingDAO {
         }
         return userBookingList;
     }
+    
+    public Booking getBooking(int id) {
+        ArrayList<Booking> userBookingList = new ArrayList<Booking>();
+        try {
+            ArrayList<Booking> tempList = getAllBookings();
+            for (Booking b : tempList) {
+                if (id == b.getId()) {
+                    return b;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //Add bookings
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
@@ -112,7 +127,9 @@ public class BookingDAO {
         }
     }
     
-    
+    public Booking updateBooking(Integer id, User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId) {
+       return null;
+    }
     // Update Bookings ( Not sure if we are gonna allow editing of bookings, but just add first)
     // Also assume that users can only change their 
     /*public Booking updateFacility(Date bookingTimeStamp, Date startDate, Date endDate) {
