@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lin.entities.LimitRule" table="limit_rule" catalog="lin_db">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="facilityType" class="com.lin.entities.FacilityType" fetch="select">
+            <column name="facility_type_id" not-null="true" />
+        </many-to-one>
+        <property name="sessions" type="int">
+            <column name="sessions" not-null="true" />
+        </property>
+        <property name="numberOfTimeframe" type="int">
+            <column name="number_of_timeframe" not-null="true" />
+        </property>
+        <property name="timeframeType" type="string">
+            <column name="timeframe_type" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

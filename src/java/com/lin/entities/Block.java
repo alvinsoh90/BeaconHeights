@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Dec 12, 2012 6:30:41 PM by Hibernate Tools 3.2.1.GA
+// Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;

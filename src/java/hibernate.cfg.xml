@@ -9,7 +9,6 @@
     <property name="hibernate.connection.password">Charisfyp!</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    
     <property name="org.hibernate.hql.ast.ASTQueryTranslatorFactory">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
     <mapping resource="com/lin/entities/Facility.hbm.xml"/>
     <mapping resource="com/lin/entities/Booking.hbm.xml"/>
@@ -18,5 +17,27 @@
     <mapping resource="com/lin/entities/FacilityType.hbm.xml"/>
     <mapping resource="com/lin/entities/Role.hbm.xml"/>
     <mapping resource="com/lin/entities/User.hbm.xml"/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping resource="com/lin/entities/OpenRule.hbm.xml"/>
+    <mapping/>
+    <mapping resource="com/lin/entities/AdvanceRule.hbm.xml"/>
+    <mapping/>
+    <mapping resource="com/lin/entities/CloseRule.hbm.xml"/>
+    <mapping resource="com/lin/entities/LimitRule.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
