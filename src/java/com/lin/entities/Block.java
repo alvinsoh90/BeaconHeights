@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA
+// Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -16,8 +16,8 @@ public class Block  implements java.io.Serializable {
      private int blockLng;
      private int blockLat;
      private String blockDescription;
-     private Set<UserTemp> userTemps = new HashSet<UserTemp>(0);
-     private Set<User> users = new HashSet<User>(0);
+     private Set userTemps = new HashSet(0);
+     private Set users = new HashSet(0);
 
     public Block() {
     }
@@ -29,7 +29,7 @@ public class Block  implements java.io.Serializable {
         this.blockLat = blockLat;
         this.blockDescription = blockDescription;
     }
-    public Block(String blockName, int blockLng, int blockLat, String blockDescription, Set<UserTemp> userTemps, Set<User> users) {
+    public Block(String blockName, int blockLng, int blockLat, String blockDescription, Set userTemps, Set users) {
        this.blockName = blockName;
        this.blockLng = blockLng;
        this.blockLat = blockLat;
@@ -73,18 +73,18 @@ public class Block  implements java.io.Serializable {
     public void setBlockDescription(String blockDescription) {
         this.blockDescription = blockDescription;
     }
-    public Set<UserTemp> getUserTemps() {
+    public Set getUserTemps() {
         return this.userTemps;
     }
     
-    public void setUserTemps(Set<UserTemp> userTemps) {
+    public void setUserTemps(Set userTemps) {
         this.userTemps = userTemps;
     }
-    public Set<User> getUsers() {
+    public Set getUsers() {
         return this.users;
     }
     
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set users) {
         this.users = users;
     }
 

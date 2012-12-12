@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lin.entities.OpenRule" table="open_rule" catalog="lin_db">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="facilityType" class="com.lin.entities.FacilityType" fetch="select">
+            <column name="facility_type_id" not-null="true" />
+        </many-to-one>
+        <property name="dayOfWeek" type="int">
+            <column name="day_of_week" not-null="true" />
+        </property>
+        <property name="startTime" type="int">
+            <column name="start_time" not-null="true" />
+        </property>
+        <property name="endTime" type="int">
+            <column name="end_time" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

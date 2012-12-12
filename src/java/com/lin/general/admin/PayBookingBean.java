@@ -23,13 +23,12 @@ public class PayBookingBean implements ActionBean{
 
     public Resolution payBooking(){
         BookingDAO dao = new BookingDAO();
-        
         try{
             Booking b = dao.getBooking(Integer.parseInt(id));
             if(b.isIsPaid()){
-                dao.updateBooking(Integer.parseInt(id), b.getUser(), b.getFacility(), b.getBookingTimeStamp(), b.getStartDate(), b.getEndDate(), false, "");
+                dao.updateBookingPayment(Integer.parseInt(id), false, "");
             }else{
-                dao.updateBooking(Integer.parseInt(id), b.getUser(), b.getFacility(), b.getBookingTimeStamp(), b.getStartDate(), b.getEndDate(), true, transactionId);
+                dao.updateBookingPayment(Integer.parseInt(id), true, transactionId);
             }
             return new RedirectResolution("/admin/managebookings.jsp?paysuccess=true"+"&paymsg="+username);
         }
@@ -62,6 +61,14 @@ public class PayBookingBean implements ActionBean{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
   
 

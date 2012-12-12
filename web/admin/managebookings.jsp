@@ -517,7 +517,7 @@
                 </stripes:form>
             </div>
 
-            <!-- Pay Booking Modal -->
+            <!-- Pending Booking Modal -->
             <div id="pendingBookingModal" class="modal hide fade">
                 <div id="myModal" class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>

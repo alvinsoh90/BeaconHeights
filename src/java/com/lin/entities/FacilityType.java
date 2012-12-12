@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Oct 24, 2012 12:17:41 AM by Hibernate Tools 3.2.1.GA
+// Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -14,7 +14,11 @@ public class FacilityType  implements java.io.Serializable {
      private Integer id;
      private String name;
      private String description;
-     private Set<Facility> facilities = new HashSet<Facility>(0);
+     private Set limitRules = new HashSet(0);
+     private Set advanceRules = new HashSet(0);
+     private Set facilities = new HashSet(0);
+     private Set openRules = new HashSet(0);
+     private Set closeRules = new HashSet(0);
 
     public FacilityType() {
     }
@@ -24,10 +28,14 @@ public class FacilityType  implements java.io.Serializable {
         this.name = name;
         this.description = description;
     }
-    public FacilityType(String name, String description, Set<Facility> facilities) {
+    public FacilityType(String name, String description, Set limitRules, Set advanceRules, Set facilities, Set openRules, Set closeRules) {
        this.name = name;
        this.description = description;
+       this.limitRules = limitRules;
+       this.advanceRules = advanceRules;
        this.facilities = facilities;
+       this.openRules = openRules;
+       this.closeRules = closeRules;
     }
    
     public Integer getId() {
@@ -51,12 +59,40 @@ public class FacilityType  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public Set<Facility> getFacilities() {
+    public Set getLimitRules() {
+        return this.limitRules;
+    }
+    
+    public void setLimitRules(Set limitRules) {
+        this.limitRules = limitRules;
+    }
+    public Set getAdvanceRules() {
+        return this.advanceRules;
+    }
+    
+    public void setAdvanceRules(Set advanceRules) {
+        this.advanceRules = advanceRules;
+    }
+    public Set getFacilities() {
         return this.facilities;
     }
     
-    public void setFacilities(Set<Facility> facilities) {
+    public void setFacilities(Set facilities) {
         this.facilities = facilities;
+    }
+    public Set getOpenRules() {
+        return this.openRules;
+    }
+    
+    public void setOpenRules(Set openRules) {
+        this.openRules = openRules;
+    }
+    public Set getCloseRules() {
+        return this.closeRules;
+    }
+    
+    public void setCloseRules(Set closeRules) {
+        this.closeRules = closeRules;
     }
 
 

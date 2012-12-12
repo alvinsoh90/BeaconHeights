@@ -127,9 +127,7 @@ public class BookingDAO {
         }
     }
     
-    public Booking updateBooking(Integer id, User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId) {
-       return null;
-    }
+   
     // Update Bookings ( Not sure if we are gonna allow editing of bookings, but just add first)
     // Also assume that users can only change their 
     /*public Booking updateFacility(Date bookingTimeStamp, Date startDate, Date endDate) {
@@ -147,4 +145,14 @@ public class BookingDAO {
         return facility;
 
     } */
+
+    public void updateBookingPayment(int id, boolean b, String string) {
+        openSession();
+        Booking booking = (Booking) session.get(Booking.class, id);
+        
+        booking.setIsPaid(b);
+        booking.setTransactionId(string);
+        
+        session.update(booking);
+    }
 }
