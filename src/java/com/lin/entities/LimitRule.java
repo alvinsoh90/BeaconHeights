@@ -25,6 +25,13 @@ public class LimitRule  implements java.io.Serializable {
        this.numberOfTimeframe = numberOfTimeframe;
        this.timeframeType = timeframeType;
     }
+    
+    public LimitRule(FacilityType facilityType, int sessions, int numberOfTimeframe, String timeframeType) {
+       this.facilityType = facilityType;
+       this.sessions = sessions;
+       this.numberOfTimeframe = numberOfTimeframe;
+       this.timeframeType = timeframeType;
+    }
    
     public int getId() {
         return this.id;
