@@ -26,100 +26,6 @@
         <link rel="stylesheet" href="../css/unicorn.grey.css" class="skin-color" />
         <style>.starthidden { display:none; }</style>
 
-        <!-- Populates the Edit Facilities form -->
-        <script>
-            // Init an array of all facilities shown on this page
-            var facilityList = [];
-            
-            //when this function is called, facilityList should already be populated
-            function populateEditFacilityModal(facilityID){ 
-                facilityList.forEach(function(facility){
-                    if(facility.id == facilityID){
-                        $("#facilityLabel").text(facility.type + " " + facility.id);
-                        $("#editid").val(facility.id);
-                        $("#edit_type").val(facility.type);
-                        $("#edit_longitude").val(facility.longitude);
-                        $("#edit_latitude").val(facility.latitude);
-
-                    }
-                });
-                
-            }
-            
-            //when this function is called, facilityList should already be populated
-            function populateDeleteFacilityModal(facilityID){ 
-                facilityList.forEach(function(facility){
-                    if(facility.id == facilityID){
-                        $("#facilityDeleteLabel").text(facility.type + " " + facility.id);
-                        $("#delete_name").text(facility.type + " " + facility.id);
-                        $("#delete_id").val(facility.id);
-
-                    }
-                });
-                
-            }
-        </script>
-
-
-        <script>
-            function loadValidate(){
-                $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-
-                $('select').chosen();
-
-                $("#new_facility_validate").validate({
-                    rules:{
-                        type:{
-                            required:true
-                        },
-                        longitude:{
-                            required:true,
-                            digits:true
-                        },
-                        latitude:{
-                            required:true,
-                            digits: true
-                        }
-                    },
-                    errorClass: "help-inline",
-                    errorElement: "span",
-                    highlight:function(element, errorClass, validClass) {
-                        $(element).parents('.control-group').addClass('error');
-                    },
-                    unhighlight: function(element, errorClass, validClass) {
-                        $(element).parents('.control-group').removeClass('error');
-                        $(element).parents('.control-group').addClass('success');
-                    }
-                });
-                
-                $("#edit_facility_validate").validate({
-                    rules:{
-                        type:{
-                            required:true
-                        },
-                        longitude:{
-                            required:true,
-                            digits:true
-                        },
-                        latitude:{
-                            required:true,
-                            digits: true
-                        }
-                    },
-                    errorClass: "help-inline",
-                    errorElement: "span",
-                    highlight:function(element, errorClass, validClass) {
-                        $(element).parents('.control-group').addClass('error');
-                    },
-                    unhighlight: function(element, errorClass, validClass) {
-                        $(element).parents('.control-group').removeClass('error');
-                        $(element).parents('.control-group').addClass('success');
-                    }
-                });
-            }
-        </script>
-
-
     </head>
     <body>
 
@@ -157,14 +63,13 @@
                     <ul>
                         <li><a href="manageusers.jsp">Manage Users</a></li>
                         <li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
-                        <!--<li><a href="form-wizard.html">Wizard</a></li> -->
                     </ul>
                 </li>
                 <li class="submenu active open">
                     <a href="managefacilities.jsp"><i class="icon icon-th-list"></i> <span>Facilities</span> <span class="right-icon"><i id="users-nav-icon" class="icon icon-chevron-down"></span></i></a>
                     <ul>
-                        <li><a href="managefacilitytypes.jsp">Manage Facility Types</a></li>
-                        <li class ="active"><a href="managefacilities.jsp">Manage Facilities</a></li>
+                        <li class ="active"><a href="managefacilitytypes.jsp">Manage Facility Types</a></li>
+                        <li><a href="managefacilities.jsp">Manage Facilities</a></li>
                     </ul>
                 </li>
             </ul>
@@ -174,12 +79,9 @@
 
         <div id="content">
             <div id="content-header">
-                <h1> Manage Facilities </h1>
+                <h1> Manage Facility Types </h1>
                 <div class="btn-group">
                     <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Pending Accounts"><i class="icon-user"></i>
-                    <c:if test = "${approveUserBean.tempUserListCount > 0}">
-                            <span class="label label-important">${approveUserBean.tempUserListCount}</span>
-                    </c:if>
                     </a>
                     <a class="btn btn-large tip-bottom" title="Flagged Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
                     <a class="btn btn-large tip-bottom" title="Flagged Events"><i class="icon-calendar"></i></a>
@@ -189,7 +91,7 @@
             </div>
             <div id="breadcrumb">
                 <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-                <a href="#" class="current">Facilities</a>
+                <a href="#" class="current">Facility Types</a>
             </div>
             <div class="container-fluid">
 
@@ -235,40 +137,47 @@
                         </c:if>
                     </div>
 
-                    <!-- Add New Facility -->   
+                    <!-- Add New Facility Type-->   
                     <div class="widget-box">
-                        <div title="Click to add a new facility" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newFacilityForm">
+                        <div title="Click to add a new facility type" onclick="loadValidate()" data-target="#collapseTwo" data-toggle="collapse" class="widget-title clickable tip-top" id="newFacilityTypeForm">
                             <span class="icon">
                                 <i class="icon-plus"></i>									
                             </span>
-                            <h5>Add New Facility</h5>
+                            <h5>Add New Facility Type</h5>
                         </div>
                         <div class="addUser collapse" id="collapseTwo">
                             <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilitiesActionBean" name="new_facility_validate" id="new_facility_validate">
                                 <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Type</label>
+                                    <label class="control-label">Name</label>
                                     <div class="controls">
-                                        <stripes:select name="type">
-                                            <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name" value="name"/>        
-                                        </stripes:select>
+                                        <stripes:text name="name"/>
                                     </div>
                                 </div>
 
                                 <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Latitude</label>
+                                    <label class="control-label">Description</label>
                                     <div class="controls">
-                                        <stripes:text name="latitude"/>
+                                        <stripes:text name="description"/>
                                     </div>
                                 </div>
+                                    
                                 <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Longitude</label>
+                                    <label class="control-label">Opening Hours</label>
                                     <div class="controls">
-                                        <stripes:text name="longitude"/>
+                                        Monday: Opening <stripes:select name="mondayOpen"/> Closing <stripes:select name="mondayClose"/>
                                     </div>
                                 </div>
-
+                                
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Description</label>
+                                    <div class="controls">
+                                        <stripes:text name="description"/>
+                                    </div>
+                                </div>
+                                
+                  
                                 <div class="form-actions">
-                                    <input type="submit" name="createFacility" value="Add this facility" class="btn btn-info btn-large"/>
+                                    <input type="submit" name="createFacilityType" value="Add this facility type" class="btn btn-info btn-large"/>
                                 </div>                            
                             </stripes:form>
 
@@ -280,7 +189,7 @@
                     <!-- Facilities Display -->
                     <div class="widget-box">
                         <div class="widget-title">
-                            <span class="icon"><i class="icon-user"></i></span><h5>Facilities</h5></div>
+                            <span class="icon"><i class="icon-user"></i></span><h5>Facility Types</h5></div>
                         <div class="widget-content">
                             <div class="row-fluid">
                                 <div class="span12">
@@ -291,11 +200,12 @@
                                                     <th></th>
                                                     <th>ID</th>
                                                     <th>Facility Type</th>
-                                                    <th>Latitude</th>
-                                                    <th>Longitude</th>
-                                                    <th>Action</th>
+                                                    <th>Opening Hours</th>
+                                                    <th>Booking Limit</th>
+                                                    <th>Advance Booking Limit</th>
                                                 </tr>
 
+                                                <!--
                                                 <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
                                                     <script>
                                                         var facility = new Object();
@@ -322,10 +232,8 @@
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
+                                                -->
                                             </table>    
-                                             <!--<li class="viewall">
-                                                <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
-                                            </li>-->
                                         </ul>
                                     </div>
                                 </div>	
