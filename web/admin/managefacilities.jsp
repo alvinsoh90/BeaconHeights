@@ -10,7 +10,7 @@
              class="com.lin.general.admin.ManageFacilitiesActionBean"/>
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
-
+<%@include file="/protect.jsp"%>
 <html lang="en">
     <head>
         <title>Admin | Living Integrated Network</title>
@@ -128,10 +128,10 @@
             <h1><a href="./dashboard.html">Beacon Heights Admin</a></h1>		
         </div>
 
-                <!--<div id="search">
-            <input type="text" placeholder="Search here..."/><button type="submit" class="tip-right" title="Search"><i class="icon-search icon-white"></i></button>
-        </div> -->
-        
+        <!--<div id="search">
+    <input type="text" placeholder="Search here..."/><button type="submit" class="tip-right" title="Search"><i class="icon-search icon-white"></i></button>
+</div> -->
+
         <div id="user-nav" class="navbar navbar-inverse">
             <ul class="nav btn-group">
                 <li class="btn btn-inverse" ><a title="" href="#"><i class="icon icon-user"></i> <span class="text">Profile</span></a></li>
@@ -176,9 +176,9 @@
                 <h1> Manage Facilities </h1>
                 <div class="btn-group">
                     <a href="approveaccounts.jsp" class="btn btn-large tip-bottom" title="Pending Accounts"><i class="icon-user"></i>
-                    <c:if test = "${approveUserBean.tempUserListCount > 0}">
+                        <c:if test = "${approveUserBean.tempUserListCount > 0}">
                             <span class="label label-important">${approveUserBean.tempUserListCount}</span>
-                    </c:if>
+                        </c:if>
                     </a>
                     <a class="btn btn-large tip-bottom" title="Flagged Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
                     <a class="btn btn-large tip-bottom" title="Flagged Events"><i class="icon-calendar"></i></a>
@@ -322,9 +322,9 @@
                                                     </tr>
                                                 </c:forEach>
                                             </table>    
-                                             <!--<li class="viewall">
-                                                <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
-                                            </li>-->
+                                            <!--<li class="viewall">
+                                               <a class="tip-top" href="#" data-original-title="View all comments"> + View all + </a>
+                                           </li>-->
                                         </ul>
                                     </div>
                                 </div>	
@@ -392,7 +392,7 @@
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
-  
+
                             <stripes:hidden id="delete_id" name="id"/>
                             <input type="submit" name="deleteFacility" value="Confirm Delete" class="btn btn-danger"/>
                         </div>

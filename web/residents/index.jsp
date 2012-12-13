@@ -5,10 +5,9 @@
         <title>Make a Booking | Beacon Heights</title>
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
         <jsp:useBean id="manageBookingsActionBean" scope="page"
                      class="com.lin.general.admin.ManageBookingsActionBean"/>
-
+        <%@include file="/protect.jsp"%>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">    
 
@@ -104,7 +103,8 @@
                             <li class="dropdown">
 
                                 <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                                    Garreth Peh <b class="caret"></b>							
+                                    ${user}
+                                    <b class="caret"></b>							
                                 </a>
 
                                 <ul class="dropdown-menu">
@@ -145,7 +145,6 @@
                     <div class="span3">
 
                         <div class="account-container">
-
                             <h2>Now Booking</h2>
                             <select>
                                 <option value="tennis">Tennis Court A</option>

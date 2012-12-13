@@ -57,7 +57,7 @@ public class LoginActionBean extends BaseActionBean {
             
             User u2 = getContext().getUser();
             System.out.println("ADDED TO SESSION:" +u2.toString());
-            return new RedirectResolution("/admin/manageusers.jsp");
+            return new RedirectResolution("/residents/index.jsp");
         }else{
             return new RedirectResolution("/login.jsp?err=true&user="+username);
         }
