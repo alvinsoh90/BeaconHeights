@@ -119,60 +119,61 @@
                                     <li class="divider"></li>
 
                                     <li>
-                                        <a href="./"><i class="icon-off"></i> Logout</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                                        <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
 
-                    </div> <!-- /nav-collapse -->
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
 
-                </div> <!-- /container -->
+                        </div> <!-- /nav-collapse -->
 
-            </div> <!-- /navbar-inner -->
+                    </div> <!-- /container -->
 
-        </div> <!-- /navbar -->
+                </div> <!-- /navbar-inner -->
+
+            </div> <!-- /navbar -->
 
 
 
 
-        <div id="content">
+            <div id="content">
 
-            <div class="container">
+                <div class="container">
 
-                <div class="row">
+                    <div class="row">
 
-                    <div class="span3">
+                        <div class="span3">
 
-                        <div class="account-container">
-                            <h2>Now Booking</h2>
-                            <select>
-                                <option value="tennis">Tennis Court A</option>
-                            </select>
+                            <div class="account-container">
+                                <h2>Now Booking</h2>
+                                <select>
+                                    <option value="tennis">Tennis Court A</option>
+                                </select>
 
-                        </div> <!-- /account-container -->
+                            </div> <!-- /account-container -->
 
-                        <hr />
+                            <hr />
 
-                        <ul id="main-nav" class="nav nav-tabs nav-stacked">
-                            <h2>Your Booking Details</h2>
-                            <div class="widget-content widget-nopad">
-                                <div class="bookingDetails">
-                                    Venue: <span id="venue">Tennis Court A</span><br/>
-                                    Date: <span id="date">25/11/12</span> <br/>
-                                    Time: <span id="time">7pm</span>
-                                </div>
-                                <div class="inviteFriends comingsoon">
-                                    <div class="header">Invite Friends</div>
-                                    <input class="span2" type="text" placeholder="Type a friend's name"/>
-                                    <button class="btn btn-peace-2 btnmod">Invite</button>
-                                    Invited: 
-                                    <span class="inviteLabel label label-success">Fayanne Foo  x</span>                             
-                                </div>
-                                <div class="shareBooking centerText comingsoon">
-                                    <h4>Share this event with your friends</h4>
-                                    <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
-                                </div>
+                            <ul id="main-nav" class="nav nav-tabs nav-stacked">
+                                <h2>Your Booking Details</h2>
+                                <div class="widget-content widget-nopad">
+                                    <div class="bookingDetails">
+                                        Venue: <span id="venue">Tennis Court A</span><br/>
+                                        Date: <span id="date">25/11/12</span> <br/>
+                                        Time: <span id="time">7pm</span>
+                                    </div>
+                                    <div class="inviteFriends comingsoon">
+                                        <div class="header">Invite Friends</div>
+                                        <input class="span2" type="text" placeholder="Type a friend's name"/>
+                                        <button class="btn btn-peace-2 btnmod">Invite</button>
+                                        Invited: 
+                                        <span class="inviteLabel label label-success">Fayanne Foo  x</span>                             
+                                    </div>
+                                    <div class="shareBooking centerText comingsoon">
+                                        <h4>Share this event with your friends</h4>
+                                        <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
+                                    </div>
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
                                     <stripes:text name="facilityID" id="facilityid" class="hide" />
                                     <stripes:text name="startDateString" id="starttimemillis" class="hide" />   
