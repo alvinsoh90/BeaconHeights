@@ -274,6 +274,8 @@ public class UserDAO {
         retrieveAllUsers();
         
         for(User u : userList){
+            System.out.println("THIS IS THE USERNAME: "+username);
+            System.out.println(u.getFirstname());
             if(u.getUserName().equals(username)){
                 return u;
             }

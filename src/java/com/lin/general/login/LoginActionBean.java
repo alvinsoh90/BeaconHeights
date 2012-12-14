@@ -17,6 +17,7 @@ public class LoginActionBean extends BaseActionBean {
     private String plaintext;
     private String username;
     private boolean success;
+    private User currentUser;
 
     public String getPlaintext() {
         return plaintext;
@@ -32,6 +33,15 @@ public class LoginActionBean extends BaseActionBean {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public String getCurrentUser(){
+        String username= getContext().getUser().getFirstname();
+        return username;
+    }
+    
+    public void setCurrentUser(User currentUser){
+        this.currentUser = currentUser;
     }
         
     @DefaultHandler
@@ -52,14 +62,17 @@ public class LoginActionBean extends BaseActionBean {
 
 
         if(success){
+            System.out.println(username);
             User user = userDAO.getUser(username);
             getContext().setUser(user);
-            
-            User u2 = getContext().getUser();
-            System.out.println("ADDED TO SESSION:" +u2.toString());
+
+            currentUser= getContext().getUser();
+            System.out.println("ADDED TO SESSION:" +currentUser.toString());
             return new RedirectResolution("/residents/index.jsp");
         }else{
             return new RedirectResolution("/login.jsp?err=true&user="+username);
         }
     }
+    
+ 
 }

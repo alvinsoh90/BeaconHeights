@@ -103,7 +103,7 @@
                             <li class="dropdown">
 
                                 <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                                    ${user}
+                                    ${user.firstname}
                                     <b class="caret"></b>							
                                 </a>
 
