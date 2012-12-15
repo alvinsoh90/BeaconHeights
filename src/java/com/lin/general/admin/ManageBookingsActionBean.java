@@ -188,6 +188,8 @@ public class ManageBookingsActionBean implements ActionBean {
     public ArrayList<Booking> getBookingList() {
         BookingDAO bDAO = new BookingDAO();
         bookingList = bDAO.getAllBookings();
+        System.out.println("No of Bookings: "+  bookingList.size());
+        System.out.println("Booking ID :" + bookingList.get(0).getId());
         return bookingList;
     }
 

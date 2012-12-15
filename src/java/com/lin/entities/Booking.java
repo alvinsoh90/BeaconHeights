@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Dec 12, 2012 6:30:41 PM by Hibernate Tools 3.2.1.GA
+// Generated Dec 11, 2012 5:18:55 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -108,7 +108,12 @@ public class Booking  implements java.io.Serializable {
         this.title = title;
     }
 
-
+    public long getStartTimeInSeconds(){
+        return startDate.getTime();
+    }
+    public long getEndTimeInSeconds(){
+        return endDate.getTime();
+    }
 
 
 }

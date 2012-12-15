@@ -25,7 +25,31 @@
         <link rel="stylesheet" href="../css/chosen.css" />	
         <link rel="stylesheet" href="../css/unicorn.grey.css" class="skin-color" />
         <style>.starthidden { display:none; }</style>
+        <script>
+            
+            function populate(selector) {
+                var select = $(selector);
+                var hours, minutes, ampm;
+                for(var i = 420; i <= 1320; i += 15){
+                    hours = Math.floor(i / 60);
+                    minutes = i % 60;
+                    if (minutes < 10){
+                        minutes = '0' + minutes; // adding leading zero
+                    }
+                    ampm = hours % 24 < 12 ? 'AM' : 'PM';
+                    hours = hours % 12;
+                    if (hours === 0){
+                        hours = 12;
+                    }
+                    select.append($('<option></option>')
+                    .attr('value', i)
+                    .text(hours + ':' + minutes + ' ' + ampm)); 
+                }
+            }
 
+        </script>
+        <script src="../js/jquery.timePicker.min.js"></script>
+        <script src="../js/jquery.timePicker.js"></script>
     </head>
     <body>
 
@@ -34,10 +58,10 @@
             <h1><a href="./dashboard.html">Beacon Heights Admin</a></h1>		
         </div>
 
-                <!--<div id="search">
-            <input type="text" placeholder="Search here..."/><button type="submit" class="tip-right" title="Search"><i class="icon-search icon-white"></i></button>
-        </div> -->
-        
+        <!--<div id="search">
+    <input type="text" placeholder="Search here..."/><button type="submit" class="tip-right" title="Search"><i class="icon-search icon-white"></i></button>
+    </div> -->
+
         <div id="user-nav" class="navbar navbar-inverse">
             <ul class="nav btn-group">
                 <li class="btn btn-inverse" ><a title="" href="#"><i class="icon icon-user"></i> <span class="text">Profile</span></a></li>
@@ -160,30 +184,40 @@
                                         <stripes:text name="description"/>
                                     </div>
                                 </div>
-                                    
+                              
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Opening Hours</label>
                                     <div class="controls">
-                                        Monday: Opening <stripes:select name="mondayOpen"/> Closing <stripes:select name="mondayClose"/>
+
+                                        Monday:     Opening <stripes:text name="1Open"/>   Closing <stripes:text name="1Close"/><br/>
+                                        Tuesday:    Opening <stripes:text name="2Open"/>   Closing <stripes:text name="2Close"/><br/>
+                                        Wednesday:  Opening <stripes:text name="3Open"/>    Closing <stripes:text name="3Close"/><br/>
+                                        Thursday:   Opening <stripes:text name="4Open"/>   Closing <stripes:text name="4Close"/><br/>
+                                        Friday:     Opening <stripes:text name="5Open"/>    Closing <stripes:text name="5Close"/><br/>
+                                        Saturday:   Opening <stripes:text name="6Open"/>    Closing <stripes:text name="6Close"/><br/>
+                                        Sunday:     Opening <stripes:text name="7Open"/>    Closing <stripes:text name="7Close"/><br/>
+                                        
+
                                     </div>
                                 </div>
-                                
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Description</label>
                                     <div class="controls">
                                         <stripes:text name="description"/>
                                     </div>
                                 </div>
-                                
-                  
+                                    
+
                                 <div class="form-actions">
                                     <input type="submit" name="createFacilityType" value="Add this facility type" class="btn btn-info btn-large"/>
-                                </div>                            
+                                </div>         
+
                             </stripes:form>
+
 
                         </div>
                     </div>		
-
+                    
 
 
                     <!-- Facilities Display -->
@@ -301,7 +335,7 @@
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
-  
+
                             <stripes:hidden id="delete_id" name="id"/>
                             <input type="submit" name="deleteFacility" value="Confirm Delete" class="btn btn-danger"/>
                         </div>

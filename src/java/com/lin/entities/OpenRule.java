@@ -1,5 +1,9 @@
 package com.lin.entities;
+<<<<<<< HEAD
 // Generated Dec 11, 2012 9:16:27 PM by Hibernate Tools 3.2.1.GA
+=======
+// Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
 
 
 
@@ -10,17 +14,35 @@ public class OpenRule  implements java.io.Serializable {
 
 
      private int id;
+<<<<<<< HEAD
      private int facilityTypeId;
      private String dayOfWeek;
+=======
+     private FacilityType facilityType;
+     private int dayOfWeek;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
      private int startTime;
      private int endTime;
 
     public OpenRule() {
     }
 
+<<<<<<< HEAD
     public OpenRule(int id, int facilityTypeId, String dayOfWeek, int startTime, int endTime) {
        this.id = id;
        this.facilityTypeId = facilityTypeId;
+=======
+    public OpenRule(int id, FacilityType facilityType, int dayOfWeek, int startTime, int endTime) {
+       this.id = id;
+       this.facilityType = facilityType;
+       this.dayOfWeek = dayOfWeek;
+       this.startTime = startTime;
+       this.endTime = endTime;
+    }
+    
+    public OpenRule(FacilityType facilityType, int dayOfWeek, int startTime, int endTime) {
+       this.facilityType = facilityType;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
        this.dayOfWeek = dayOfWeek;
        this.startTime = startTime;
        this.endTime = endTime;
@@ -33,6 +55,7 @@ public class OpenRule  implements java.io.Serializable {
     public void setId(int id) {
         this.id = id;
     }
+<<<<<<< HEAD
     public int getFacilityTypeId() {
         return this.facilityTypeId;
     }
@@ -45,6 +68,20 @@ public class OpenRule  implements java.io.Serializable {
     }
     
     public void setDayOfWeek(String dayOfWeek) {
+=======
+    public FacilityType getFacilityType() {
+        return this.facilityType;
+    }
+    
+    public void setFacilityType(FacilityType facilityType) {
+        this.facilityType = facilityType;
+    }
+    public int getDayOfWeek() {
+        return this.dayOfWeek;
+    }
+    
+    public void setDayOfWeek(int dayOfWeek) {
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
         this.dayOfWeek = dayOfWeek;
     }
     public int getStartTime() {

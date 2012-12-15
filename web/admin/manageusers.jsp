@@ -12,6 +12,8 @@
              class="com.lin.general.login.RegisterActionBean"/>
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
+<%@include file="/protect.jsp"%>
+
 <html lang="en">
     <head>
         <title>Admin | Living Integrated Network</title>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 12, 2012 6:30:42 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.FacilityType" table="facility_type" catalog="lin_db">
         <id name="id" type="java.lang.Integer">
@@ -14,11 +14,35 @@
         <property name="description" type="string">
             <column name="description" length="400" not-null="true" />
         </property>
+        <set name="limitRules" inverse="true">
+            <key>
+                <column name="facility_type_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.LimitRule" />
+        </set>
+        <set name="advanceRules" inverse="true">
+            <key>
+                <column name="facility_type_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.AdvanceRule" />
+        </set>
         <set name="facilities" inverse="true">
             <key>
                 <column name="facility_type_id" not-null="true" />
             </key>
             <one-to-many class="com.lin.entities.Facility" />
+        </set>
+        <set name="openRules" inverse="true">
+            <key>
+                <column name="facility_type_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.OpenRule" />
+        </set>
+        <set name="closeRules" inverse="true">
+            <key>
+                <column name="facility_type_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.CloseRule" />
         </set>
     </class>
 </hibernate-mapping>

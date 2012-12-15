@@ -1,16 +1,26 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<<<<<<< HEAD
 <!-- Generated Dec 11, 2012 9:16:28 PM by Hibernate Tools 3.2.1.GA -->
+=======
+<!-- Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA -->
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
 <hibernate-mapping>
     <class name="com.lin.entities.AdvanceRule" table="advance_rule" catalog="lin_db">
         <id name="id" type="int">
             <column name="id" />
             <generator class="assigned" />
         </id>
+<<<<<<< HEAD
         <property name="facilityTypeId" type="int">
             <column name="facility_type_id" not-null="true" />
         </property>
+=======
+        <many-to-one name="facilityType" class="com.lin.entities.FacilityType" fetch="select">
+            <column name="facility_type_id" not-null="true" />
+        </many-to-one>
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
         <property name="minDays" type="int">
             <column name="min_days" not-null="true" />
         </property>

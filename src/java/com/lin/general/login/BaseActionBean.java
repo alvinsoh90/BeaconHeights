@@ -11,13 +11,17 @@ import net.sourceforge.stripes.action.ActionBeanContext;
  *
  * @author Shamus
  */
-public abstract class BaseActionBean implements ActionBean { 
-    private ActionBeanContext context; 
-    
-    public ActionBeanContext getContext() { 
-        return context; 
+public abstract class BaseActionBean implements ActionBean {
+
+    private MyAppActionBeanContext context;
+
+    /** Interface method from ActionBean. */
+    public void setContext(ActionBeanContext context) {
+        this.context = (MyAppActionBeanContext) context;
     }
-    
-    public void setContext(ActionBeanContext context) { 
-        this.context = context; } 
+
+    /** Interface method from ActionBean, using a co-variant return type! */
+    public MyAppActionBeanContext getContext() {
+        return this.context;
     }
+}

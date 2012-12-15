@@ -204,7 +204,7 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       System.out.println("TEMPUSER:"+userList.get(0));
+       System.out.println("RETRIEVEDUSER:"+userList.get(0));
       return userList.get(0);
     }
     

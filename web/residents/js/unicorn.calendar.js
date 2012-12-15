@@ -6,17 +6,8 @@ $(document).ready(function(){
 	
     unicorn.init();
 	
-    $('#add-event-submit').click(function(){
-        unicorn.add_event();
-    });
-	
-    $('#event-name').keypress(function(e){
-        if(e.which == 13) {	
-            unicorn.add_event();
-        }
-    });
-
-        
+  addEvents();//trigger adding of events
+  
 });
 
 unicorn = {	
@@ -55,8 +46,8 @@ unicorn = {
 //                }
                
                $("#time").text(start.customFormat("#h#:#mm# #ampm#") + " - " + end.customFormat("#h#:#mm# #ampm#"));   //SET TIME
-               $("#starttimemillis").text(start.getTime());
-               $("#endtimemillis").text(end.getTime());
+               $("#starttimemillis").val(start.getTime());
+               $("#endtimemillis").val(end.getTime());
                
                 title = "test";
                 if (title) {

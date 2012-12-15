@@ -14,6 +14,7 @@
              class="com.lin.general.admin.ApproveUserBean"/>
 <jsp:useBean id="manageBookingsActionBean" scope="page"
              class="com.lin.general.admin.ManageBookingsActionBean"/>
+<%@include file="/protect.jsp"%>
 <html lang="en">
     <head>
         <title>Admin | Living Integrated Network</title>
@@ -326,7 +327,7 @@
                                 <b>Awesome!</b> ${param.paymsg}'s payment was updated!
                             </div>
                         </c:if>
-                            <c:if test = "${param.paysuccess == 'false'}">
+                        <c:if test = "${param.paysuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
                                 <b>Whoops.</b> ${param.paymsg}'s payment could not be updated.
@@ -490,23 +491,23 @@
                 </div>
             </div>
 
-           
+
         </div>
-        
-            <!-- Pay Booking Modal -->
-            <div id="payBookingModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Update Payment of <span id="usernamePayLabel"></span>'s booking</h3>
-                </div>
-                <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Transaction ID</label>
-                            <div class="controls">
-                                <stripes:text id="pay_transactionId" name="transactionId"/>
-                            </div>
+
+        <!-- Pay Booking Modal -->
+        <div id="payBookingModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Update Payment of <span id="usernamePayLabel"></span>'s booking</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Transaction ID</label>
+                        <div class="controls">
+                            <stripes:text id="pay_transactionId" name="transactionId"/>
                         </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>
@@ -514,18 +515,18 @@
                     <stripes:hidden id="pay_id" name="id"/>
                     <input type="submit" name="payBooking" value="Update" class="btn btn-primary"/>
                 </div>
-                </stripes:form>
-            </div>
+            </stripes:form>
+        </div>
 
-            <!-- Pay Booking Modal -->
-            <div id="pendingBookingModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Update Payment of <span id="usernamePendingLabel"></span>'s booking</h3>
-                </div>
-                <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
-                        You are now changing booking status to pending. Are you sure?
+        <!-- Pending Booking Modal -->
+        <div id="pendingBookingModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Update Payment of <span id="usernamePendingLabel"></span>'s booking</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
+                    You are now changing booking status to pending. Are you sure?
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>
@@ -533,36 +534,36 @@
                     <stripes:hidden id="pending_id" name="id"/>
                     <input type="submit" name="payBooking" value="Change to Pending" class="btn btn-primary"/>
                 </div>
-                </stripes:form>
-            </div>
+            </stripes:form>
+        </div>
 
-            <!-- Delete Booking Modal -->
-            <div id="deleteBookingModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Deletion of <span id="usernameDeleteLabel"></span>'s booking</h3>
+        <!-- Delete Booking Modal -->
+        <div id="deleteBookingModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Deletion of <span id="usernameDeleteLabel"></span>'s booking</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteBookingBean" focus=""> 
+                    You are now deleting <b><span id="delete_firstName"></span> <span id="delete_lastName"></span>'s</b> booking of <b><span id="delete_facilityType"></span> <span id="delete_facilityId"></span></b> on <b><span id="delete_startDate"></span></b>. Are you sure?
                 </div>
-                <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteBookingBean" focus=""> 
-                        You are now deleting <b><span id="delete_firstName"></span> <span id="delete_lastName"></span>'s</b> booking of <b><span id="delete_facilityType"></span> <span id="delete_facilityId"></span></b> on <b><span id="delete_startDate"></span></b>. Are you sure?
-                    </div>
-                    <div class="modal-footer">
-                        <a data-dismiss="modal" class="btn">Close</a>
-                        <stripes:hidden id="delete_username" name="username"/>
-                        <stripes:hidden id="delete_id" name="id"/>
-                        <input type="submit" name="deleteBooking" value="Confirm Delete" class="btn btn-danger"/>
-                    </div>
-                </stripes:form>
-            </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="delete_username" name="username"/>
+                    <stripes:hidden id="delete_id" name="id"/>
+                    <input type="submit" name="deleteBooking" value="Confirm Delete" class="btn btn-danger"/>
+                </div>
+            </stripes:form>
+        </div>
 
-            <!--<script src="js/excanvas.min.js"></script>-->
+        <!--<script src="js/excanvas.min.js"></script>-->
 
 
-            <script src="../js/lin.manageusers.js"></script>
-            <script src="../js/fullcalendar.min.js"></script>
-            <script src="../js/unicorn.js"></script>
-            <script src="../js/unicorn.dashboard.js"></script>
-            <script src="../js/unicorn.form_common.js"></script>
+        <script src="../js/lin.manageusers.js"></script>
+        <script src="../js/fullcalendar.min.js"></script>
+        <script src="../js/unicorn.js"></script>
+        <script src="../js/unicorn.dashboard.js"></script>
+        <script src="../js/unicorn.form_common.js"></script>
     </body>
 
 </html>

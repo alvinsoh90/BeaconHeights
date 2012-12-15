@@ -79,8 +79,11 @@ public class BookingDAO {
 
     //Add bookings
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
-    public Booking addBooking(User user, Facility facility,Timestamp bookingTimeStamp, Timestamp startDate, Timestamp endDate, boolean isPaid, String transactionId) {
-        Booking booking = new Booking(user, facility,bookingTimeStamp, startDate, endDate, isPaid, transactionId);
+    public Booking addBooking(User user, Facility facility,
+            Timestamp bookingTimeStamp, Timestamp startDate, Timestamp endDate, 
+            boolean isPaid, String transactionId,String title) {
+        openSession();
+        Booking booking = new Booking(user, facility,bookingTimeStamp, startDate, endDate, isPaid, transactionId,title);
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -124,9 +127,7 @@ public class BookingDAO {
         }
     }
     
-    public Booking updateBooking(Integer id, User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId) {
-       return null;
-    }
+   
     // Update Bookings ( Not sure if we are gonna allow editing of bookings, but just add first)
     // Also assume that users can only change their 
     /*public Booking updateFacility(Date bookingTimeStamp, Date startDate, Date endDate) {
@@ -144,4 +145,14 @@ public class BookingDAO {
         return facility;
 
     } */
+
+    public void updateBookingPayment(int id, boolean b, String string) {
+        openSession();
+        Booking booking = (Booking) session.get(Booking.class, id);
+        
+        booking.setIsPaid(b);
+        booking.setTransactionId(string);
+        
+        session.update(booking);
+    }
 }

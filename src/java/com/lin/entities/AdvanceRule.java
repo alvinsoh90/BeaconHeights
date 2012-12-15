@@ -1,5 +1,9 @@
 package com.lin.entities;
+<<<<<<< HEAD
 // Generated Dec 11, 2012 9:16:27 PM by Hibernate Tools 3.2.1.GA
+=======
+// Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
 
 
 
@@ -10,16 +14,32 @@ public class AdvanceRule  implements java.io.Serializable {
 
 
      private int id;
+<<<<<<< HEAD
      private int facilityTypeId;
+=======
+     private FacilityType facilityType;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
      private int minDays;
      private int maxDays;
 
     public AdvanceRule() {
     }
 
+<<<<<<< HEAD
     public AdvanceRule(int id, int facilityTypeId, int minDays, int maxDays) {
        this.id = id;
        this.facilityTypeId = facilityTypeId;
+=======
+    public AdvanceRule(int id, FacilityType facilityType, int minDays, int maxDays) {
+       this.id = id;
+       this.facilityType = facilityType;
+       this.minDays = minDays;
+       this.maxDays = maxDays;
+    }
+    
+    public AdvanceRule(FacilityType facilityType, int minDays, int maxDays) {
+       this.facilityType = facilityType;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
        this.minDays = minDays;
        this.maxDays = maxDays;
     }
@@ -31,12 +51,21 @@ public class AdvanceRule  implements java.io.Serializable {
     public void setId(int id) {
         this.id = id;
     }
+<<<<<<< HEAD
     public int getFacilityTypeId() {
         return this.facilityTypeId;
     }
     
     public void setFacilityTypeId(int facilityTypeId) {
         this.facilityTypeId = facilityTypeId;
+=======
+    public FacilityType getFacilityType() {
+        return this.facilityType;
+    }
+    
+    public void setFacilityType(FacilityType facilityType) {
+        this.facilityType = facilityType;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
     }
     public int getMinDays() {
         return this.minDays;
