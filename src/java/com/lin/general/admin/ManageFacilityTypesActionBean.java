@@ -12,6 +12,7 @@ import com.lin.entities.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -224,35 +225,60 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         this.context = context;
     }
 
-
     public ArrayList<FacilityType> getFacilityTypeList() {
         FacilityTypeDAO tDAO = new FacilityTypeDAO();
         facilityTypeList = tDAO.retrieveAllFacilityTypes();
         return facilityTypeList;
     }
 
-    
-    
-    public AdvanceRule createAdvanceRule(FacilityType facilityType, String minDays, String maxDays){
-        
-    }
-    
     @DefaultHandler
     public Resolution createFacility() {
+        boolean success;
+        String result;
         try {
 
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             RuleDAO rDAO = new RuleDAO();
+
+            FacilityType facilityType = tDAO.createFacilityType(name, description);
+
+            //HashSet declarations
+
+            HashSet openRuleSet = new HashSet();
+            HashSet closeRuleSet = new HashSet();
+            HashSet limitRuleSet = new HashSet();
+            HashSet advanceRuleSet = new HashSet();
+
+
+            //BADLY HARDCODED INELEGANT CODE
+            OpenRule openRule1 = rDAO.createOpenRule(facilityType, 1, Integer.parseInt(monOpen), Integer.parseInt(monClose));
+            OpenRule openRule2 = rDAO.createOpenRule(facilityType, 2, Integer.parseInt(tueOpen), Integer.parseInt(tueClose));
+            OpenRule openRule3 = rDAO.createOpenRule(facilityType, 3, Integer.parseInt(wedOpen), Integer.parseInt(wedClose));
+            OpenRule openRule4 = rDAO.createOpenRule(facilityType, 4, Integer.parseInt(thuOpen), Integer.parseInt(thuClose));
+            OpenRule openRule5 = rDAO.createOpenRule(facilityType, 5, Integer.parseInt(friOpen), Integer.parseInt(friClose));
+            OpenRule openRule6 = rDAO.createOpenRule(facilityType, 6, Integer.parseInt(satOpen), Integer.parseInt(satClose));
+            OpenRule openRule7 = rDAO.createOpenRule(facilityType, 7, Integer.parseInt(sunOpen), Integer.parseInt(sunClose));
+
+            openRuleSet.add(openRule1);
+            openRuleSet.add(openRule2);
+            openRuleSet.add(openRule3);
+            openRuleSet.add(openRule4);
+            openRuleSet.add(openRule5);
+            openRuleSet.add(openRule6);
+            openRuleSet.add(openRule7);
+
+            LimitRule limitRule = rDAO.createLimitRule(facilityType, Integer.parseInt(sessions), Integer.parseInt(numberOfTimeframe), timeframeType);
+
+            limitRuleSet.add(limitRule);
+
+            AdvanceRule advanceRule = rDAO.createAdvanceRule(facilityType, Integer.parseInt(minDays), Integer.parseInt(maxDays));
+
+            advanceRuleSet.add(advanceRule);
             
-            FacilityType facilityType = new FacilityType (name, description);
+            facilityType = tDAO.appendRulesToType(facilityType, openRuleSet, closeRuleSet, limitRuleSet, advanceRuleSet);
             
-            
-            
-            
-            
-            Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
-            result = facility.getName();
             success = true;
+            result = "yes!";
         } catch (Exception e) {
             result = "fail";
             success = false;
