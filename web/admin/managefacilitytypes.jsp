@@ -189,23 +189,33 @@
                                     <label class="control-label">Opening Hours</label>
                                     <div class="controls">
 
-                                        Monday:     Opening <stripes:text name="1Open"/>   Closing <stripes:text name="1Close"/><br/>
-                                        Tuesday:    Opening <stripes:text name="2Open"/>   Closing <stripes:text name="2Close"/><br/>
-                                        Wednesday:  Opening <stripes:text name="3Open"/>    Closing <stripes:text name="3Close"/><br/>
-                                        Thursday:   Opening <stripes:text name="4Open"/>   Closing <stripes:text name="4Close"/><br/>
-                                        Friday:     Opening <stripes:text name="5Open"/>    Closing <stripes:text name="5Close"/><br/>
-                                        Saturday:   Opening <stripes:text name="6Open"/>    Closing <stripes:text name="6Close"/><br/>
-                                        Sunday:     Opening <stripes:text name="7Open"/>    Closing <stripes:text name="7Close"/><br/>
+                                        Monday:     Opening <stripes:text name="monOpen"/>   Closing <stripes:text name="monClose"/><br/>
+                                        Tuesday:    Opening <stripes:text name="tueOpen"/>   Closing <stripes:text name="tueClose"/><br/>
+                                        Wednesday:  Opening <stripes:text name="wedOpen"/>    Closing <stripes:text name="wedClose"/><br/>
+                                        Thursday:   Opening <stripes:text name="thuOpen"/>   Closing <stripes:text name="thuClose"/><br/>
+                                        Friday:     Opening <stripes:text name="friOpen"/>    Closing <stripes:text name="friClose"/><br/>
+                                        Saturday:   Opening <stripes:text name="satOpen"/>    Closing <stripes:text name="satClose"/><br/>
+                                        Sunday:     Opening <stripes:text name="sunOpen"/>    Closing <stripes:text name="sunClose"/><br/>
                                         
 
                                     </div>
                                 </div>
+                                        
                                 <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Description</label>
+                                    <label class="control-label">Booking Limits</label>
                                     <div class="controls">
-                                        <stripes:text name="description"/>
+                                        This Facility Type may be booked a maximum of <stripes:text name="sessions"/> times per <stripes:text name="numberOfTimeframe"/> <stripes:text name="timeframeType"/>
                                     </div>
                                 </div>
+                                    
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Limitation on Booking in Advance</label>
+                                    <div class="controls">
+                                        This Facility Type's booking opens: <stripes:text name="maxDays"/> in advance <br/>
+                                        This Facility Type's booking closes: <stripes:text name="minDays"/> in advance
+                                    </div>
+                                </div>
+                                
                                     
 
                                 <div class="form-actions">

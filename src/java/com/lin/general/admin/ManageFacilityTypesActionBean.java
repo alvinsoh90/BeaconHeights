@@ -6,6 +6,7 @@ package com.lin.general.admin;
 
 import com.lin.dao.FacilityDAO;
 import com.lin.dao.FacilityTypeDAO;
+import com.lin.dao.RuleDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
@@ -23,16 +24,29 @@ import javax.persistence.*;
 public class ManageFacilityTypesActionBean implements ActionBean {
 
     private ActionBeanContext context;
-    private ArrayList<Facility> facilityList;
     private ArrayList<FacilityType> facilityTypeList;
     private Log log = Log.getInstance(ManageFacilityTypesActionBean.class);//in attempt to log what went wrong..
-    private String type;
     private String name;
     private String description;
-    private String latitude;
-    private String longitude;
-    private String result;
-    private boolean success = false;
+    private String monOpen;
+    private String tueOpen;
+    private String wedOpen;
+    private String thuOpen;
+    private String friOpen;
+    private String satOpen;
+    private String sunOpen;
+    private String monClose;
+    private String tueClose;
+    private String wedClose;
+    private String thuClose;
+    private String friClose;
+    private String satClose;
+    private String sunClose;
+    private String sessions;
+    private String numberOfTimeframe;
+    private String timeframeType;
+    private String minDays;
+    private String maxDays;
 
     public String getDescription() {
         return description;
@@ -42,20 +56,52 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         this.description = description;
     }
 
-    public String getLatitude() {
-        return latitude;
+    public String getFriClose() {
+        return friClose;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
+    public void setFriClose(String friClose) {
+        this.friClose = friClose;
     }
 
-    public String getLongitude() {
-        return longitude;
+    public String getFriOpen() {
+        return friOpen;
     }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setFriOpen(String friOpen) {
+        this.friOpen = friOpen;
+    }
+
+    public String getMaxDays() {
+        return maxDays;
+    }
+
+    public void setMaxDays(String maxDays) {
+        this.maxDays = maxDays;
+    }
+
+    public String getMinDays() {
+        return minDays;
+    }
+
+    public void setMinDays(String minDays) {
+        this.minDays = minDays;
+    }
+
+    public String getMonClose() {
+        return monClose;
+    }
+
+    public void setMonClose(String monClose) {
+        this.monClose = monClose;
+    }
+
+    public String getMonOpen() {
+        return monOpen;
+    }
+
+    public void setMonOpen(String monOpen) {
+        this.monOpen = monOpen;
     }
 
     public String getName() {
@@ -66,28 +112,108 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getNumberOfTimeframe() {
+        return numberOfTimeframe;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setNumberOfTimeframe(String numberOfTimeframe) {
+        this.numberOfTimeframe = numberOfTimeframe;
     }
 
-    public Log getLog() {
-        return log;
+    public String getSatClose() {
+        return satClose;
     }
 
-    public String getResult() {
-        return result;
+    public void setSatClose(String satClose) {
+        this.satClose = satClose;
     }
 
-    public void setLog(Log log) {
-        this.log = log;
+    public String getSatOpen() {
+        return satOpen;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setSatOpen(String satOpen) {
+        this.satOpen = satOpen;
+    }
+
+    public String getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(String sessions) {
+        this.sessions = sessions;
+    }
+
+    public String getSunClose() {
+        return sunClose;
+    }
+
+    public void setSunClose(String sunClose) {
+        this.sunClose = sunClose;
+    }
+
+    public String getSunOpen() {
+        return sunOpen;
+    }
+
+    public void setSunOpen(String sunOpen) {
+        this.sunOpen = sunOpen;
+    }
+
+    public String getThuClose() {
+        return thuClose;
+    }
+
+    public void setThuClose(String thuClose) {
+        this.thuClose = thuClose;
+    }
+
+    public String getThuOpen() {
+        return thuOpen;
+    }
+
+    public void setThuOpen(String thuOpen) {
+        this.thuOpen = thuOpen;
+    }
+
+    public String getTimeframeType() {
+        return timeframeType;
+    }
+
+    public void setTimeframeType(String timeframeType) {
+        this.timeframeType = timeframeType;
+    }
+
+    public String getTueClose() {
+        return tueClose;
+    }
+
+    public void setTueClose(String tueClose) {
+        this.tueClose = tueClose;
+    }
+
+    public String getTueOpen() {
+        return tueOpen;
+    }
+
+    public void setTueOpen(String tueOpen) {
+        this.tueOpen = tueOpen;
+    }
+
+    public String getWedClose() {
+        return wedClose;
+    }
+
+    public void setWedClose(String wedClose) {
+        this.wedClose = wedClose;
+    }
+
+    public String getWedOpen() {
+        return wedOpen;
+    }
+
+    public void setWedOpen(String wedOpen) {
+        this.wedOpen = wedOpen;
     }
 
     public ActionBeanContext getContext() {
@@ -98,15 +224,6 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         this.context = context;
     }
 
-    public ArrayList<Facility> getFacilityList() {
-        FacilityDAO fDAO = new FacilityDAO();
-        facilityList = fDAO.retrieveAllFacilities();
-        return facilityList;
-    }
-
-    public void setFacilityList(ArrayList<Facility> facilityList) {
-        this.facilityList = facilityList;
-    }
 
     public ArrayList<FacilityType> getFacilityTypeList() {
         FacilityTypeDAO tDAO = new FacilityTypeDAO();
@@ -114,12 +231,25 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         return facilityTypeList;
     }
 
+    
+    
+    public AdvanceRule createAdvanceRule(FacilityType facilityType, String minDays, String maxDays){
+        
+    }
+    
     @DefaultHandler
     public Resolution createFacility() {
         try {
-            FacilityDAO fDAO = new FacilityDAO();
+
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
-            FacilityType facilityType = tDAO.getFacilityType(type);
+            RuleDAO rDAO = new RuleDAO();
+            
+            FacilityType facilityType = new FacilityType (name, description);
+            
+            
+            
+            
+            
             Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
             result = facility.getName();
             success = true;
