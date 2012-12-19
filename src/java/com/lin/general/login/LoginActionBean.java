@@ -48,24 +48,25 @@ public class LoginActionBean extends BaseActionBean {
     public Resolution login() {
         String storedHash = "";
         UserDAO userDAO = new UserDAO();
-
-        //retrieve hash from DB
-        storedHash = userDAO.getUserHash(username);
-        //check if hash is same as user input        
-        if(plaintext !=null && !storedHash.isEmpty()){
-           success = BCrypt.checkpw(plaintext,storedHash);
-        }
-        else{
-           success = false;
-        }
-
-
-
+        User user = userDAO.getUser(username);
+        
+        if(user==null){
+            return new RedirectResolution("/login.jsp?err=true&user="+username);
+        }else{ 
+            //retrieve hash from DB
+            storedHash = userDAO.getUserHash(username);
+            //check if hash is same as user input        
+            if(plaintext !=null && !storedHash.isEmpty()){
+               success = BCrypt.checkpw(plaintext,storedHash);
+            }
+            else{
+               success = false;
+            }
+        }  
+        
         if(success){
             System.out.println(username);
-            User user = userDAO.getUser(username);
             getContext().setUser(user);
-
             currentUser= getContext().getUser();
             System.out.println("ADDED TO SESSION:" +currentUser.toString());
             return new RedirectResolution("/residents/index.jsp");
