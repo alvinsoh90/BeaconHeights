@@ -1,9 +1,5 @@
 package com.lin.entities;
-<<<<<<< HEAD
-// Generated Dec 11, 2012 9:16:27 PM by Hibernate Tools 3.2.1.GA
-=======
 // Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
->>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
 
 
 import java.util.Date;
@@ -15,22 +11,13 @@ public class CloseRule  implements java.io.Serializable {
 
 
      private int id;
-<<<<<<< HEAD
-     private int facilityTypeId;
-=======
      private FacilityType facilityType;
->>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
      private Date startDate;
      private Date endDate;
 
     public CloseRule() {
     }
 
-<<<<<<< HEAD
-    public CloseRule(int id, int facilityTypeId, Date startDate, Date endDate) {
-       this.id = id;
-       this.facilityTypeId = facilityTypeId;
-=======
     public CloseRule(int id, FacilityType facilityType, Date startDate, Date endDate) {
        this.id = id;
        this.facilityType = facilityType;
@@ -40,7 +27,6 @@ public class CloseRule  implements java.io.Serializable {
     
     public CloseRule(FacilityType facilityType, Date startDate, Date endDate) {
        this.facilityType = facilityType;
->>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
        this.startDate = startDate;
        this.endDate = endDate;
     }
@@ -52,21 +38,12 @@ public class CloseRule  implements java.io.Serializable {
     public void setId(int id) {
         this.id = id;
     }
-<<<<<<< HEAD
-    public int getFacilityTypeId() {
-        return this.facilityTypeId;
-    }
-    
-    public void setFacilityTypeId(int facilityTypeId) {
-        this.facilityTypeId = facilityTypeId;
-=======
     public FacilityType getFacilityType() {
         return this.facilityType;
     }
     
     public void setFacilityType(FacilityType facilityType) {
         this.facilityType = facilityType;
->>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
     }
     public Date getStartDate() {
         return this.startDate;
