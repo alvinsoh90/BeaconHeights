@@ -37,6 +37,15 @@ public class FacilityType  implements java.io.Serializable {
        this.openRules = openRules;
        this.closeRules = closeRules;
     }
+    
+     public FacilityType(String name, String description, Set limitRules, Set advanceRules, Set openRules, Set closeRules) {
+       this.name = name;
+       this.description = description;
+       this.limitRules = limitRules;
+       this.advanceRules = advanceRules;
+       this.openRules = openRules;
+       this.closeRules = closeRules;
+    }
    
     public Integer getId() {
         return this.id;
