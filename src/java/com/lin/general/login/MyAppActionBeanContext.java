@@ -11,6 +11,9 @@ import net.sourceforge.stripes.action.ActionBeanContext;
  *
  * @author fayannefoo
  */
+
+//test comments
+
 public class MyAppActionBeanContext extends ActionBeanContext {
 
     public void setUser(User user) {

@@ -11,6 +11,8 @@ import net.sourceforge.stripes.action.ActionBeanContext;
  *
  * @author Shamus
  */
+//test comments
+
 public abstract class BaseActionBean implements ActionBean {
 
     private MyAppActionBeanContext context;
