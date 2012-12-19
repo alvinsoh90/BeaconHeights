@@ -1,5 +1,9 @@
 package com.lin.entities;
+<<<<<<< HEAD
+// Generated Dec 11, 2012 9:16:27 PM by Hibernate Tools 3.2.1.GA
+=======
 // Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
 
 
 
@@ -10,14 +14,27 @@ public class LimitRule  implements java.io.Serializable {
 
 
      private int id;
+<<<<<<< HEAD
+     private int facilityTypeId;
+     private int sessions;
+     private String timeframe;
+=======
      private FacilityType facilityType;
      private int sessions;
      private int numberOfTimeframe;
      private String timeframeType;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
 
     public LimitRule() {
     }
 
+<<<<<<< HEAD
+    public LimitRule(int id, int facilityTypeId, int sessions, String timeframe) {
+       this.id = id;
+       this.facilityTypeId = facilityTypeId;
+       this.sessions = sessions;
+       this.timeframe = timeframe;
+=======
     public LimitRule(int id, FacilityType facilityType, int sessions, int numberOfTimeframe, String timeframeType) {
        this.id = id;
        this.facilityType = facilityType;
@@ -31,6 +48,7 @@ public class LimitRule  implements java.io.Serializable {
        this.sessions = sessions;
        this.numberOfTimeframe = numberOfTimeframe;
        this.timeframeType = timeframeType;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
     }
    
     public int getId() {
@@ -40,12 +58,21 @@ public class LimitRule  implements java.io.Serializable {
     public void setId(int id) {
         this.id = id;
     }
+<<<<<<< HEAD
+    public int getFacilityTypeId() {
+        return this.facilityTypeId;
+    }
+    
+    public void setFacilityTypeId(int facilityTypeId) {
+        this.facilityTypeId = facilityTypeId;
+=======
     public FacilityType getFacilityType() {
         return this.facilityType;
     }
     
     public void setFacilityType(FacilityType facilityType) {
         this.facilityType = facilityType;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
     }
     public int getSessions() {
         return this.sessions;
@@ -54,6 +81,14 @@ public class LimitRule  implements java.io.Serializable {
     public void setSessions(int sessions) {
         this.sessions = sessions;
     }
+<<<<<<< HEAD
+    public String getTimeframe() {
+        return this.timeframe;
+    }
+    
+    public void setTimeframe(String timeframe) {
+        this.timeframe = timeframe;
+=======
     public int getNumberOfTimeframe() {
         return this.numberOfTimeframe;
     }
@@ -67,6 +102,7 @@ public class LimitRule  implements java.io.Serializable {
     
     public void setTimeframeType(String timeframeType) {
         this.timeframeType = timeframeType;
+>>>>>>> 18a8e40164edd991519a8df03f92bdd4afad6d88
     }
 
 

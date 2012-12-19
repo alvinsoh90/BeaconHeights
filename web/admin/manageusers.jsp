@@ -198,18 +198,19 @@
             <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
             <ul>
                 <li class="submit"><a href="#"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
-                <li class="submenu">
+                <li class="submenu active open">
                     <a href="manageusers.jsp"><i class="icon icon-th-list"></i> <span>Users</span>  <span class="right-icon"><i id="users-nav-icon" class="icon icon-chevron-down"></span></i></a>
                     <ul>
-                        <li><a href="manageusers.jsp">Manage Users</a></li>
+                        <li class="active"><a href="manageusers.jsp">Manage Users</a></li>
                         <li><a href="approveaccounts.jsp">Approve Pending Accounts</a></li>
                         <!--<li><a href="form-wizard.html">Wizard</a></li> -->
                     </ul>
                 </li>
-                <li class="submenu active open">
+                <li class="submenu">
                     <a href="managefacilities.jsp"><i class="icon icon-th-list"></i> <span>Facilities</span> <span class="right-icon"><i id="users-nav-icon" class="icon icon-chevron-down"></span></i></a>
                     <ul>
-                        <li class ="active"><a href="managefacilities.jsp">Manage Facilities</a></li>
+                        <li><a href="managefacilitytypes.jsp">Manage Facility Types</a></li>
+                        <li><a href="managefacilities.jsp">Manage Facilities</a></li>
                     </ul>
                 </li>
             </ul>

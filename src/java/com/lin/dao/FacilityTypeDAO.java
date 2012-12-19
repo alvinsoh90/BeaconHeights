@@ -15,6 +15,7 @@ import com.lin.utils.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.Query;
@@ -58,6 +59,56 @@ public class FacilityTypeDAO {
         //line that says u put into DATABASE
         return facilityType;
 
+    }
+    
+    //new constructor with rules
+    public FacilityType createFacilityType(String name, String description, Set openRules, Set closeRules, Set limitRules, Set advanceRules) {
+        openSession();
+        
+        FacilityType facilityType = new FacilityType(name, description, openRules, closeRules, limitRules, advanceRules);
+        
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save("FacilityType", facilityType);
+            tx.commit();
+
+            return facilityType;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        //return null if failed
+        return null;
+
+    }
+    
+    public FacilityType appendRulesToType(FacilityType facilityType, Set openRules, Set closeRules, Set limitRules, Set advanceRules){
+        facilityType.setOpenRules(openRules);
+        facilityType.setCloseRules(closeRules);
+        facilityType.setLimitRules(limitRules);
+        facilityType.setAdvanceRules(advanceRules);
+        
+        openSession();
+        
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save("FacilityType", facilityType);
+            tx.commit();
+
+            return facilityType;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        //return null if failed
+        return null;
+        
     }
 
     public boolean deleteFacilityType(String name) {
