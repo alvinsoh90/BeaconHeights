@@ -276,14 +276,14 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             advanceRuleSet.add(advanceRule);
             
             facilityType = tDAO.appendRulesToType(facilityType, openRuleSet, closeRuleSet, limitRuleSet, advanceRuleSet);
-            
+          
             success = true;
-            result = "yes!";
+            result = name;
         } catch (Exception e) {
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/managefacilities.jsp?createsuccess=" + success
+        return new RedirectResolution("/admin/managefacilitytypes.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
 

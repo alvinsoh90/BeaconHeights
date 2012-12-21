@@ -56,8 +56,21 @@ public class FacilityTypeDAO {
 
         FacilityType facilityType = new FacilityType(name, description);
         
-        //line that says u put into DATABASE
-        return facilityType;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save("FacilityType", facilityType);
+            tx.commit();
+
+            return facilityType;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        //return null if failed
+        return null;
 
     }
     
@@ -91,9 +104,14 @@ public class FacilityTypeDAO {
         facilityType.setLimitRules(limitRules);
         facilityType.setAdvanceRules(advanceRules);
         
+        
+        
+        //doesn't appear to be a need to write; could be wrong
+        /*
         openSession();
         
         Transaction tx = null;
+        
         try {
             tx = session.beginTransaction();
             session.save("FacilityType", facilityType);
@@ -105,7 +123,7 @@ public class FacilityTypeDAO {
             if (tx != null) {
                 tx.rollback();
             }
-        }
+        }*/
         //return null if failed
         return null;
         

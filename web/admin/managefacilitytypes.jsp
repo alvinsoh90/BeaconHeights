@@ -6,8 +6,8 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="manageFacilitiesActionBean" scope="page"
-             class="com.lin.general.admin.ManageFacilitiesActionBean"/>
+<jsp:useBean id="manageFacilityTypesActionBean" scope="page"
+             class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
 
@@ -126,13 +126,13 @@
                         <c:if test = "${param.createsuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
-                                <b>Whoops.</b> There was an error creating a facility. Please try again!
+                                <b>Whoops.</b> There was an error creating a facility types. Please try again!
                             </div>
                         </c:if> 
                         <c:if test = "${param.createsuccess == 'true'}">
                             <div><br/></div>
                             <div class="login alert alert-success container">
-                                <b>Awesome!</b> ${param.createmsg} was added to the facilities list!
+                                <b>Awesome!</b> ${param.createmsg} was added to the available facility types list!
                             </div>
                         </c:if>
                         <c:if test = "${param.editsuccess == 'true'}">
@@ -150,7 +150,7 @@
                         <c:if test = "${param.deletesuccess == 'false'}">
                             <div><br/></div>
                             <div class="login alert alert-error container">
-                                <b>Whoops.</b> The facility could not be deleted.
+                                <b>Whoops.</b> The facility type could not be deleted.
                             </div>
                         </c:if> 
                         <c:if test = "${param.deletesuccess == 'true'}">
@@ -170,7 +170,7 @@
                             <h5>Add New Facility Type</h5>
                         </div>
                         <div class="addUser collapse" id="collapseTwo">
-                            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilitiesActionBean" name="new_facility_validate" id="new_facility_validate">
+                            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilityTypesActionBean" name="new_facility_validate" id="new_facility_validate">
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Name</label>
                                     <div class="controls">
@@ -244,21 +244,19 @@
                                                     <th></th>
                                                     <th>ID</th>
                                                     <th>Facility Type</th>
+                                                    <th>Description</th>
                                                     <th>Opening Hours</th>
                                                     <th>Booking Limit</th>
                                                     <th>Advance Booking Limit</th>
                                                 </tr>
-
-                                                <!--
-                                                <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
+                                                <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
                                                     <script>
-                                                        var facility = new Object();
-                                                        facility.id = '${facility.id}';
-                                                        facility.type = '${facility.facilityType.name}';
-                                                        facility.latitude = '${facility.facilityLat}';
-                                                        facility.longitude = '${facility.facilityLng}';
+                                                        var facilityType = new Object();
+                                                        facilityType.id = '${facilityType.id}';
+                                                        facilityType.type = '${facilityType.name}';
+                                                        facilityType.latitude = '${facilityType.description}';
                                                         
-                                                        facilityList.push(facility);
+                                                        facilityList.push(facilityType);
                                                     </script>
                                                     <tr>
                                                         <td>
@@ -266,17 +264,15 @@
                                                                 <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
                                                             </div>
                                                         </td>
-                                                        <td><b>${facility.id}</b></td>
-                                                        <td><b>${facility.facilityType.name}</b></td>
-                                                        <td>${facility.facilityLat}</td>
-                                                        <td>${facility.facilityLng}</td>
+                                                        <td><b>${facilityType.id}</b></td>
+                                                        <td><b>${facilityType.name}</b></td>
+                                                        <td>${facilityType.description}</td>
                                                         <td>
                                                             <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
                                                             <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.id}')">Delete</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
-                                                -->
                                             </table>    
                                         </ul>
                                     </div>
