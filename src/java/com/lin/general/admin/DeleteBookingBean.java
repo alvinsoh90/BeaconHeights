@@ -25,12 +25,12 @@ public class DeleteBookingBean implements ActionBean{
 
         try{
             dao.deleteBooking(Integer.parseInt(id));
-            return new RedirectResolution("/admin/managebookings.jsp?deletesuccess=true"+"&deletemsg="+username);
+            return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=true"+"&deletemsg="+username);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/managebookings.jsp?deletesuccess=false"+"&deletemsg="+username);
+        return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=false"+"&deletemsg="+username);
         
     }
 

@@ -127,7 +127,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/managefacilities.jsp?createsuccess=" + success
+        return new RedirectResolution("/admin/manage-facilities.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
 

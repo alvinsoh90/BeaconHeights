@@ -62,12 +62,12 @@ public class RejectUserBean implements ActionBean{
             success = true;
             //System.out.println(user1);
         
-            return new RedirectResolution("/admin/approveaccounts.jsp?rejectsuccess=true&rejectmsg="+username);
+            return new RedirectResolution("/admin/adminmain.jsp?rejectsuccess=true&rejectmsg="+username);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/approveaccounts.jsp?rejectsuccess=false");
+        return new RedirectResolution("/admin/adminmain.jsp?rejectsuccess=false");
         
     }
     

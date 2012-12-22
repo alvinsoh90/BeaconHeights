@@ -47,12 +47,12 @@ public class EditFacilitiesBean implements ActionBean{
                         Integer.parseInt(longitude),
                         Integer.parseInt(latitude)
                     );
-            return new RedirectResolution("/admin/managefacilities.jsp?editsuccess=true"+"&editmsg="+type+"%20"+id);
+            return new RedirectResolution("/admin/manage-facilities.jsp?editsuccess=true"+"&editmsg="+type+"%20"+id);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/managefacilities.jsp?editsuccess=false"+"&editmsg="+type+"%20"+id);
+        return new RedirectResolution("/admin/manage-facilities.jsp?editsuccess=false"+"&editmsg="+type+"%20"+id);
         
     }
 

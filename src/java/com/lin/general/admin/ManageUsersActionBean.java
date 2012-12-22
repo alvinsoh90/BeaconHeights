@@ -194,7 +194,7 @@ public class ManageUsersActionBean implements ActionBean {
             result = "";
             success = false;
         }
-        return new RedirectResolution("/admin/manageusers.jsp?createsuccess=" + success
+        return new RedirectResolution("/admin/users.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
 

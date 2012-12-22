@@ -33,11 +33,11 @@ public class DeleteFacilitiesBean implements ActionBean {
         Facility facility = fdao.getFacility(fId);
         try {
             fdao.deleteFacility(fId);
-            return new RedirectResolution("/admin/managefacilities.jsp?deletesuccess=true" + "&deletemsg=" + facility.getName());
+            return new RedirectResolution("/admin/manage-facilities.jsp?deletesuccess=true" + "&deletemsg=" + facility.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new RedirectResolution("/admin/managefacilities.jsp?deletesuccess=false");
+        return new RedirectResolution("/admin/manage-facilities.jsp?deletesuccess=false");
 
     }
 

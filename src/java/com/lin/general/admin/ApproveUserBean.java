@@ -65,12 +65,12 @@ public class ApproveUserBean implements ActionBean{
             success = true;
             //System.out.println(user1);
         
-            return new RedirectResolution("/admin/manageusers.jsp?approvesuccess=true&approvemsg="+username);
+            return new RedirectResolution("/admin/users.jsp?approvesuccess=true&approvemsg="+username);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/approveaccounts.jsp?approvesuccess=false");
+        return new RedirectResolution("/admin/adminmain.jsp?approvesuccess=false");
         
     }
     

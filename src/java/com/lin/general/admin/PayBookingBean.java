@@ -30,12 +30,12 @@ public class PayBookingBean implements ActionBean{
             }else{
                 dao.updateBookingPayment(Integer.parseInt(id), true, transactionId);
             }
-            return new RedirectResolution("/admin/managebookings.jsp?paysuccess=true"+"&paymsg="+username);
+            return new RedirectResolution("/admin/manage-bookings.jsp?paysuccess=true"+"&paymsg="+username);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/managebookings.jsp?paysuccess=false"+"&paymsg="+username);
+        return new RedirectResolution("/admin/manage-bookings.jsp?paysuccess=false"+"&paymsg="+username);
         
     }
 

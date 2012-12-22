@@ -1,0 +1,17 @@
+.userFilterBar h5{
+    vertical-align: 3px;
+}
+
+.userFilterBar button{
+    vertical-align: 5px;
+}
+
+.float_r{
+    float:right;
+}
+.float_l{
+    float:left;
+}
+.inlineblock{
+    display:inline-block;
+}
