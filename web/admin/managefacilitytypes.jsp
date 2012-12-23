@@ -246,15 +246,17 @@
                                                     <th>Facility Type</th>
                                                     <th>Description</th>
                                                     <th>Opening Hours</th>
+                                                    <th>Exclusion Dates</th>
                                                     <th>Booking Limit</th>
                                                     <th>Advance Booking Limit</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                                 <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
                                                     <script>
                                                         var facilityType = new Object();
                                                         facilityType.id = '${facilityType.id}';
                                                         facilityType.type = '${facilityType.name}';
-                                                        facilityType.latitude = '${facilityType.description}';
+                                                        facilityType.description = '${facilityType.description}';
                                                         
                                                         facilityList.push(facilityType);
                                                     </script>
@@ -264,9 +266,17 @@
                                                                 <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
                                                             </div>
                                                         </td>
+                                                        <!-- Need help with displaying the rows of Rules. -->
                                                         <td><b>${facilityType.id}</b></td>
                                                         <td><b>${facilityType.name}</b></td>
                                                         <td>${facilityType.description}</td>
+                                                        <td><c:forEach items="${facilityType.openRules}" var="openRule" varStatus="loop">
+                                                                ${openRule.dayOfWeek}:${openRule.startTime} - ${openRule.endTime}<br/>
+                                                                
+                                                            </c:forEach></td>
+                                                        <td>${facilityType.closeRules}</td>
+                                                        <td>${facilityType.limitRules}</td>
+                                                        <td>${facilityType.advanceRules}</td>
                                                         <td>
                                                             <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
                                                             <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.id}')">Delete</a>
