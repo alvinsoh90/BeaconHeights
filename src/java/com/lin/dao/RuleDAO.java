@@ -115,9 +115,9 @@ public class RuleDAO {
         return null;
     }
     
-    public CloseRule createCloseRule(FacilityType facilityType, Date startDate, Date endDate){
+    public CloseRule createCloseRule(FacilityType facilityType, Date startDate, Date endDate, boolean repeatedAnnually){
         openSession();
-        CloseRule cRule = new CloseRule(facilityType, startDate, endDate);
+        CloseRule cRule = new CloseRule(facilityType, startDate, endDate, repeatedAnnually);
         
         Transaction tx = null;
         try {
@@ -133,7 +133,7 @@ public class RuleDAO {
         return null;
     }
     
-    public OpenRule createOpenRule(FacilityType facilityType, int dayOfWeek, int startTime, int endTime){
+    public OpenRule createOpenRule(FacilityType facilityType, int dayOfWeek, Date startTime, Date endTime){
         openSession();
         OpenRule oRule = new OpenRule(facilityType, dayOfWeek, startTime, endTime);
         
@@ -192,7 +192,7 @@ public class RuleDAO {
         return cRule;
     }
     
-    public OpenRule updateOpenRule(int id, FacilityType facilityType, int dayOfWeek, int startTime, int endTime){
+    public OpenRule updateOpenRule(int id, FacilityType facilityType, int dayOfWeek, Date startTime, Date endTime){
         openSession();
         OpenRule oRule = (OpenRule)session.get(OpenRule.class, id);
         
