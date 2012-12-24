@@ -25,56 +25,80 @@
                     </a>
 
                     <a class="brand" href="/index.jsp">Beacon Heights</a>
+                    <ul class="nav pull-left">
 
-                    <div class="nav-collapse">
+                        <li class="dropdown">
 
-                        <ul class="nav pull-right">
-                            <li class="divider-vertical"></li>
-                            <li>
-                                <img class="profilePic" src="http://profile.ak.fbcdn.net/hprofile-ak-snc7/371889_776405701_1107384686_q.jpg"/>
-                            </li>
+                                    <a data-toggle="dropdown" class="dropdown-toggle " href="#">
+                                        Make Booking
+                                        <b class="caret"></b>							
+                                    </a>
 
-
-
-                            <li class="dropdown">
-
-                                <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                                    ${user.firstname}
-                                    <b class="caret"></b>							
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
-                                    </li>
-                                    
-                                    <c:if test= "${user.role.id==1}">
+                                    <ul class="dropdown-menu">
                                         <li>
-                                            <a href="/admin/adminmain.jsp"><i class="icon-forward"></i> ${user.role.id}Go to Admin</a>
+                                            <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
                                         </li>
-                                    </c:if>
 
-                                    <li class="divider"></li>
+                                        <li>
+                                            <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
+                                        </li>
 
-                                    <li>
-                                    <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
+                                        <c:if test= "${user.role.id==1}">
+                                            <li>
+                                                <a href="/admin/adminmain.jsp"><i class="icon-forward"></i> ${user.role.id}Go to Admin</a>
+                                            </li>
+                                        </c:if>
+                                </li> </ul></li></ul>
 
+                        <div class="nav-collapse">
+
+                            <ul class="nav pull-right">
+                                <li class="divider-vertical"></li>
+                                <li>
+                                    <img class="profilePic" src="http://profile.ak.fbcdn.net/hprofile-ak-snc7/371889_776405701_1107384686_q.jpg"/>
+                                </li>
+
+
+
+                                <li class="dropdown">
+
+                                    <a data-toggle="dropdown" class="dropdown-toggle " href="#">
+                                        ${user.firstname}
+                                        <b class="caret"></b>							
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
+                                        </li>
+
+                                        <c:if test= "${user.role.id==1}">
+                                            <li>
+                                                <a href="/admin/adminmain.jsp"><i class="icon-forward"></i> ${user.role.id}Go to Admin</a>
+                                            </li>
+                                        </c:if>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                        <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
+
+                                </li>
+                            </ul>
                             </li>
-                        </ul>
-                        </li>
 
-                        </ul>
+                    </ul>
 
-                    </div> <!-- /nav-collapse -->
+                </div> <!-- /nav-collapse -->
 
-                </div> <!-- /container -->
+            </div> <!-- /container -->
 
-            </div> <!-- /navbar-inner -->
+        </div> <!-- /navbar-inner -->
 
-        </div> <!-- /navbar -->
-    </body>
+    </div> <!-- /navbar -->
+</body>
 </html>
