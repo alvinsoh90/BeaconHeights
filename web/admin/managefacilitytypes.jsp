@@ -47,6 +47,35 @@
                 }
             }
 
+            <!-- Populates the Edit Facilities form -->
+            // Init an array of all facilities shown on this page
+            var facilityTypeList = [];
+            
+            function populateEditFacilityTypeModal(typeID){ 
+                facilityTypeList.forEach(function(facilityType){
+                    if(facilityType.id == typeID){
+                        $("#facilityTypeLabel").text(facilityType.name);
+                        $("#editid").val(facilityType.id);
+                        $("#edit_name").val(facilityType.name);
+                        $("#edit_description").val(facilityType.description);
+                    }
+                });
+                
+            }
+            
+            function populateDeleteFacilityTypeModal(typeID){ 
+                facilityTypeList.forEach(function(facilityType){
+                    if(facilityType.id == typeID){
+                        $("#facilityTypeDeleteLabel").text(facilityType.name);
+                        $("#delete_name").text(facilityType.name);
+                        $("#delete_id").val(facilityType.id);
+
+                    }
+                });
+                
+            }
+        </script>
+
         </script>
         <script src="../js/jquery.timePicker.min.js"></script>
         <script src="../js/jquery.timePicker.js"></script>
@@ -246,17 +275,19 @@
                                                     <th>Facility Type</th>
                                                     <th>Description</th>
                                                     <th>Opening Hours</th>
+                                                    <th>Exclusion Dates</th>
                                                     <th>Booking Limit</th>
                                                     <th>Advance Booking Limit</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                                 <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
                                                     <script>
                                                         var facilityType = new Object();
                                                         facilityType.id = '${facilityType.id}';
-                                                        facilityType.type = '${facilityType.name}';
-                                                        facilityType.latitude = '${facilityType.description}';
+                                                        facilityType.name = '${facilityType.name}';
+                                                        facilityType.description = '${facilityType.description}';
                                                         
-                                                        facilityList.push(facilityType);
+                                                        facilityTypeList.push(facilityType);
                                                     </script>
                                                     <tr>
                                                         <td>
@@ -264,12 +295,20 @@
                                                                 <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
                                                             </div>
                                                         </td>
+                                                        <!-- Need help with displaying the rows of Rules. -->
                                                         <td><b>${facilityType.id}</b></td>
                                                         <td><b>${facilityType.name}</b></td>
                                                         <td>${facilityType.description}</td>
+                                                        <td><c:forEach items="${facilityType.openRules}" var="openRule" varStatus="loop">
+                                                                ${openRule.dayOfWeek}:${openRule.startTime} - ${openRule.endTime}<br/>
+                                                                
+                                                            </c:forEach></td>
+                                                        <td>${facilityType.closeRules}</td>
+                                                        <td>${facilityType.limitRules}</td>
+                                                        <td>${facilityType.advanceRules}</td>
                                                         <td>
-                                                            <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
-                                                            <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.id}')">Delete</a>
+                                                            <a href="#editFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityTypeModal('${facilityType.id}');loadValidate()">Edit</a> 
+                                                            <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -290,50 +329,42 @@
                 </div>
 
 
-                <!-- Edit Facility Modal Form -->
-                <div id="editFacilityModal" class="modal hide fade">
+                <!-- Edit Facility Type Modal Form -->
+                <div id="editFacilityTypeModal" class="modal hide fade">
                     <div id="myModal" class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h3>Edit <span id="facilityLabel"></span></h3>
+                        <h3>Edit <span id="facilityTypeLabel"></span></h3>
                     </div>
                     <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilitiesBean" focus="" id="edit_facility_validate" name="edit_facility_validate">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilityTypesBean" focus="" id="edit_types_validate" name="edit_types_validate">
+                            
                             <div class="control-group ${errorStyle}">
-                                <label class="control-label">Type</label>
+                                <label class="control-label">Name</label>
                                 <div class="controls">
-                                    <stripes:select id="edit_type" name="type">
-                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="name" label="name"/>        
-                                    </stripes:select>
-                                </div>
-                            </div> 
-                            <stripes:text class="hide" name="id" id="editid" />
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Latitude</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_latitude" name="latitude"/> 
+                                    <stripes:text id="edit_name" name="name"/> 
                                 </div>
                             </div>    
                             <div class="control-group ${errorStyle}">
-                                <label class="control-label">Longitude</label>
+                                <label class="control-label">Description</label>
                                 <div class="controls">
-                                    <stripes:text id="edit_longitude" name="longitude"/> 
+                                    <stripes:text id="edit_description" name="description"/> 
                                 </div>
                             </div>                              
                             <stripes:hidden id="editid" name="id"/>
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
-                            <input type="submit" name="editFacility" value="Confirm Edit" class="btn btn-primary"/>
+                            <input type="submit" name="editFacilityType" value="Confirm Edit" class="btn btn-primary"/>
                         </div>
                     </stripes:form>
                 </div>
 
 
                 <!--Delete Facility Modal -->
-                <div id="deleteFacilityModal" class="modal hide fade">
+                <div id="deleteFacilityTypeModal" class="modal hide fade">
                     <div id="myModal" class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h3>Deletion of <span id="facilityDeleteLabel"></span></h3>
+                        <h3>Deletion of <span id="facilityTypeDeleteLabel"></span></h3>
                     </div>
                     <div class="modal-body">
                         <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilitiesBean" focus=""> 
