@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
+// Generated Dec 24, 2012 5:54:59 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -10,32 +10,27 @@ import java.util.Date;
 public class CloseRule  implements java.io.Serializable {
 
 
-     private int id;
+     private Integer id;
      private FacilityType facilityType;
      private Date startDate;
      private Date endDate;
+     private boolean repeatedAnnually;
 
     public CloseRule() {
     }
 
-    public CloseRule(int id, FacilityType facilityType, Date startDate, Date endDate) {
-       this.id = id;
+    public CloseRule(FacilityType facilityType, Date startDate, Date endDate, boolean repeatedAnnually) {
        this.facilityType = facilityType;
        this.startDate = startDate;
        this.endDate = endDate;
-    }
-    
-    public CloseRule(FacilityType facilityType, Date startDate, Date endDate) {
-       this.facilityType = facilityType;
-       this.startDate = startDate;
-       this.endDate = endDate;
+       this.repeatedAnnually = repeatedAnnually;
     }
    
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public FacilityType getFacilityType() {
@@ -58,6 +53,13 @@ public class CloseRule  implements java.io.Serializable {
     
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+    public boolean isRepeatedAnnually() {
+        return this.repeatedAnnually;
+    }
+    
+    public void setRepeatedAnnually(boolean repeatedAnnually) {
+        this.repeatedAnnually = repeatedAnnually;
     }
 
 

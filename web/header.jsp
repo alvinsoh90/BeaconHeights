@@ -24,7 +24,7 @@
                         <span class="icon-bar"></span> 				
                     </a>
 
-                    <a class="brand" href="./">Adminia Admin</a>
+                    <a class="brand" href="/index.jsp">Beacon Heights</a>
 
                     <div class="nav-collapse">
 
@@ -51,6 +51,12 @@
                                     <li>
                                         <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
                                     </li>
+                                    
+                                    <c:if test= "${user.role.id==1}">
+                                        <li>
+                                            <a href="/admin/adminmain.jsp"><i class="icon-forward"></i> ${user.role.id}Go to Admin</a>
+                                        </li>
+                                    </c:if>
 
                                     <li class="divider"></li>
 
@@ -60,6 +66,7 @@
                             </li>
                         </ul>
                         </li>
+
                         </ul>
 
                     </div> <!-- /nav-collapse -->
