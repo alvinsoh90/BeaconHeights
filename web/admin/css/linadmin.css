@@ -15,3 +15,25 @@
 .inlineblock{
     display:inline-block;
 }
+/** Create Facility Styles **/
+.timepicker{
+    width:75px;
+}
+.timepickerArea{
+    margin-left: 160px;
+    margin-bottom: 10px;
+}
+.timepickerArea span:first-of-type{
+    width: 95px;
+    display:inline-block;
+    margin-left: 0px;
+}
+.timepickerArea span{
+    margin: 0 10px;
+    position: relative;
+    top: 1px;
+}
+.span75{
+    width:80px !important;
+    display:inline-block !important;
+}

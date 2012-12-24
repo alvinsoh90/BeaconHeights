@@ -2,6 +2,7 @@ package com.lin.dao;
 // Generated Dec 25, 2012 4:22:58 AM by Hibernate Tools 3.2.1.GA
 
 
+import com.lin.entities.FacilityType;
 import java.util.Date;
 
 /**
