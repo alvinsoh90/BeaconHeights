@@ -1,19 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 24, 2012 5:54:59 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Dec 25, 2012 4:22:59 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.lin.entities.OpenRule" table="open_rule" catalog="lin_db">
+    <class name="com.lin.dao.OpenRule" table="open_rule" catalog="lin_db">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="facilityType" class="com.lin.entities.FacilityType" fetch="select">
+        <many-to-one name="facilityType" class="com.lin.dao.FacilityType" fetch="select">
             <column name="facility_type_id" not-null="true" />
         </many-to-one>
-        <property name="dayOfWeek" type="int">
-            <column name="day_of_week" not-null="true" />
-        </property>
         <property name="startTime" type="timestamp">
             <column name="start_time" length="19" not-null="true" />
         </property>
