@@ -4,6 +4,7 @@
  */
 package com.lin.dao;
 
+import com.lin.entities.OpenRule;
 import com.lin.entities.*;
 import com.lin.utils.HttpHandler;
 import com.lin.global.ApiUriList;
@@ -97,7 +98,7 @@ public class RuleDAO {
         return list;
     }
     
-    public LimitRule createLimitRule(FacilityType facilityType, int sessions, int numberOfTimeframe, String timeframeType){
+    public LimitRule createLimitRule(FacilityType facilityType, int sessions, int numberOfTimeframe, LimitRule.TimeFrameType timeframeType){
         openSession();
         LimitRule lRule = new LimitRule(facilityType, sessions, numberOfTimeframe, timeframeType);
         
@@ -133,7 +134,7 @@ public class RuleDAO {
         return null;
     }
     
-    public OpenRule createOpenRule(FacilityType facilityType, int dayOfWeek, Date startTime, Date endTime){
+    public OpenRule createOpenRule(FacilityType facilityType, Date startTime, Date endTime){
         openSession();
         OpenRule oRule = new OpenRule(facilityType, startTime, endTime);
         

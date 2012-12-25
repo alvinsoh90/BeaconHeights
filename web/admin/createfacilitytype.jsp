@@ -36,7 +36,8 @@
         <script>
             //Handle timepickers
             function loadTimepickerInput(){
-                var date = getDateFromString($("#mon1").val());
+                $("#mondayOne").val( getDateFromString($("#mon1").val()).getMilliseconds() );
+                
             }
             
             function getDateFromString(inputString){
@@ -45,7 +46,8 @@
                 var hour = inputString.substring(0,2);
                 
                 var d = new Date();
-                return new Date(d.getYear(), d.getMonth(), d.getDate(), hour, mins,0 ,0);
+                d.setHours(hour,mins,0);
+                return d;
             }
             
         </script>
@@ -114,6 +116,12 @@
                     
                     <!-- Create FT form start -->
                     <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilityTypesActionBean" name="new_facility_validate" id="new_facility_validate">
+                        
+                        <stripes:errors>
+     <stripes:errors-header><div class="errorHeader">Validation Errors</div><ul></stripes:errors-header>
+     <li><stripes:individual-error/></li>
+     <stripes:errors-footer></ul></stripes:errors-footer>
+</stripes:errors>
                         
                         <div class="control-group ${errorStyle}">
                                     <label class="control-label">Name</label>
@@ -198,15 +206,13 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Limits</label>
                                     <div class="timepickerArea">
-                                        <input id="booking-limit-days" class="span75"/>
-                                        <stripes:hidden name="bookingLimitDays" id="bookingLimitDays"/> 
+                                        <stripes:text class="span75" name="bookingLimitSessions" id="bookingLimitSessions"/> 
                                         time(s) per
-                                        <input id="booking-limit-freq" class="span75"/>
-                                        <stripes:hidden name="bookingLimitFreq" id="bookingLimitFreq" />
+                                        <stripes:text class="span75" name="bookingLimitFreq" id="bookingLimitFreq" />
                                         <stripes:select name="bookingLimitUnit" class="span75">
-                                            <option value="days">Days</option>
-                                            <option value="weeks">Weeks</option>
-                                            <option value="months">Months</option>
+                                            <option value="d">Days</option>
+                                            <option value="w">Weeks</option>
+                                            <option value="m">Months</option>
                                         </stripes:select>
                                     </div> 
                          </div>           
@@ -215,17 +221,17 @@
                                     <label class="control-label">Limitation on Booking in Advance</label>
                                     <div class="timepickerArea">
                                         <span>Booking Opens</span>
-                                        <input id="booking-open-advance" class="span75"/>
-                                        <stripes:hidden name="bookingOpenAdvance" id="bookingOpenAdvance"/> 
+                                        <stripes:text class="span75" name="bookingOpenAdvance" id="bookingOpenAdvance"/> 
                                         <span>days in advance</span>
                                     </div> 
                                         
                                     <div class="timepickerArea">
                                         <span>Booking Closes</span>
-                                        <input id="booking-open-advance" class="span75"/>
-                                        <stripes:hidden name="bookingOpenAdvance" id="bookingOpenAdvance"/> 
+                                        <stripes:text class="span75" name="bookingCloseAdvance" id="bookingCloseAdvance"/> 
                                         <span>days in advance</span>
                                     </div>     
+                                        
+                                    <input type="submit" name="editFacilityType" value="Confirm Edit" class="btn btn-primary"/>    
                          </div>                                                        
                     </stripes:form>
             

@@ -8,7 +8,10 @@ package com.lin.entities;
  */
 public class LimitRule  implements java.io.Serializable {
 
-
+     public enum TimeFrameType {
+         DAY, MONTH, WEEK;
+     }
+    
      private int id;
      private FacilityType facilityType;
      private int sessions;
@@ -18,21 +21,34 @@ public class LimitRule  implements java.io.Serializable {
     public LimitRule() {
     }
 
-    public LimitRule(int id, FacilityType facilityType, int sessions, int numberOfTimeframe, String timeframeType) {
+    public LimitRule(int id, FacilityType facilityType, int sessions, int numberOfTimeframe, TimeFrameType timeframeType) {
        this.id = id;
        this.facilityType = facilityType;
        this.sessions = sessions;
        this.numberOfTimeframe = numberOfTimeframe;
-       this.timeframeType = timeframeType;
+       this.timeframeType = getTimeFrameStringFromType(timeframeType);
     }
     
-    public LimitRule(FacilityType facilityType, int sessions, int numberOfTimeframe, String timeframeType) {
+    public LimitRule(FacilityType facilityType, int sessions, int numberOfTimeframe, TimeFrameType timeframeType) {
        this.facilityType = facilityType;
        this.sessions = sessions;
        this.numberOfTimeframe = numberOfTimeframe;
-       this.timeframeType = timeframeType;
+       this.timeframeType = getTimeFrameStringFromType(timeframeType);
     }
    
+    private String getTimeFrameStringFromType(TimeFrameType type){
+        if(type == TimeFrameType.DAY){
+            return "DAY";
+        }
+        else if(type == TimeFrameType.MONTH){
+            return "MONTH";
+        }
+        else if(type == TimeFrameType.WEEK){
+            return "WEEK";
+        }
+        return null;
+    }
+    
     public int getId() {
         return this.id;
     }

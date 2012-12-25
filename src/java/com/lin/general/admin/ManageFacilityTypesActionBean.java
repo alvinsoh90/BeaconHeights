@@ -27,83 +27,173 @@ public class ManageFacilityTypesActionBean implements ActionBean {
 
     private ActionBeanContext context;
     private ArrayList<FacilityType> facilityTypeList;
-    private Log log = Log.getInstance(ManageFacilityTypesActionBean.class);//in attempt to log what went wrong..
+    private Log log = Log.getInstance(ManageFacilityTypesActionBean.class);
     private String name;
     private String description;
-    private String monOpen;
-    private String tueOpen;
-    private String wedOpen;
-    private String thuOpen;
-    private String friOpen;
-    private String satOpen;
-    private String sunOpen;
-    private String monClose;
-    private String tueClose;
-    private String wedClose;
-    private String thuClose;
-    private String friClose;
-    private String satClose;
-    private String sunClose;
-    private String sessions;
-    private String numberOfTimeframe;
-    private String timeframeType;
-    private String minDays;
-    private String maxDays;
+    private Long mondayOne;
+    private Long mondayTwo;
+    private Long tuesdayOne;
+    private Long tuesdayTwo;
+    private Long wednesdayOne;
+    private Long wednesdayTwo;
+    private Long thursdayOne;
+    private Long thursdayTwo;
+    private Long fridayOne;
+    private Long fridayTwo;
+    private Long saturdayOne;
+    private Long saturdayTwo;
+    private Long sundayOne;
+    private Long sundayTwo;
+    private int bookingSessions;
+    private int bookingLimitFreq;
+    private char bookingLimitUnit;
+    private int bookingOpenAdvance;
+    private int bookingCloseAdvance;
 
-    public String getDescription() {
-        return description;
+    public int getBookingLimitFreq() {
+        return bookingLimitFreq;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBookingLimitFreq(int bookingLimitFreq) {
+        this.bookingLimitFreq = bookingLimitFreq;
     }
 
-    public String getFriClose() {
-        return friClose;
+    public char getBookingLimitUnit() {
+        return bookingLimitUnit;
     }
 
-    public void setFriClose(String friClose) {
-        this.friClose = friClose;
+    public void setBookingLimitUnit(char bookingLimitUnit) {
+        this.bookingLimitUnit = bookingLimitUnit;
     }
 
-    public String getFriOpen() {
-        return friOpen;
+    public int getBookingSessions() {
+        return bookingSessions;
     }
 
-    public void setFriOpen(String friOpen) {
-        this.friOpen = friOpen;
+    public void setBookingSessions(int bookingSessions) {
+        this.bookingSessions = bookingSessions;
+    }
+    
+    public Long getFridayOne() {
+        return fridayOne;
     }
 
-    public String getMaxDays() {
-        return maxDays;
+    public void setFridayOne(Long fridayOne) {
+        this.fridayOne = fridayOne;
     }
 
-    public void setMaxDays(String maxDays) {
-        this.maxDays = maxDays;
+    public Long getFridayTwo() {
+        return fridayTwo;
     }
 
-    public String getMinDays() {
-        return minDays;
+    public void setFridayTwo(Long fridayTwo) {
+        this.fridayTwo = fridayTwo;
     }
 
-    public void setMinDays(String minDays) {
-        this.minDays = minDays;
+    public Log getLog() {
+        return log;
     }
 
-    public String getMonClose() {
-        return monClose;
+    public void setLog(Log log) {
+        this.log = log;
     }
 
-    public void setMonClose(String monClose) {
-        this.monClose = monClose;
+    public Long getSaturdayOne() {
+        return saturdayOne;
     }
 
-    public String getMonOpen() {
-        return monOpen;
+    public void setSaturdayOne(Long saturdayOne) {
+        this.saturdayOne = saturdayOne;
     }
 
-    public void setMonOpen(String monOpen) {
-        this.monOpen = monOpen;
+    public Long getSaturdayTwo() {
+        return saturdayTwo;
+    }
+
+    public void setSaturdayTwo(Long saturdayTwo) {
+        this.saturdayTwo = saturdayTwo;
+    }
+
+    public Long getSundayOne() {
+        return sundayOne;
+    }
+
+    public void setSundayOne(Long sundayOne) {
+        this.sundayOne = sundayOne;
+    }
+
+    public Long getSundayTwo() {
+        return sundayTwo;
+    }
+
+    public void setSundayTwo(Long sundayTwo) {
+        this.sundayTwo = sundayTwo;
+    }
+
+    public Long getThursdayOne() {
+        return thursdayOne;
+    }
+
+    public void setThursdayOne(Long thursdayOne) {
+        this.thursdayOne = thursdayOne;
+    }
+
+    public Long getThursdayTwo() {
+        return thursdayTwo;
+    }
+
+    public void setThursdayTwo(Long thursdayTwo) {
+        this.thursdayTwo = thursdayTwo;
+    }
+
+    public Long getTuesdayOne() {
+        return tuesdayOne;
+    }
+
+    public void setTuesdayOne(Long tuesdayOne) {
+        this.tuesdayOne = tuesdayOne;
+    }
+
+    public Long getTuesdayTwo() {
+        return tuesdayTwo;
+    }
+
+    public void setTuesdayTwo(Long tuesdayTwo) {
+        this.tuesdayTwo = tuesdayTwo;
+    }
+
+    public Long getWednesdayOne() {
+        return wednesdayOne;
+    }
+
+    public void setWednesdayOne(Long wednesdayOne) {
+        this.wednesdayOne = wednesdayOne;
+    }
+
+    public Long getWednesdayTwo() {
+        return wednesdayTwo;
+    }
+
+    public void setWednesdayTwo(Long wednesdayTwo) {
+        this.wednesdayTwo = wednesdayTwo;
+    }
+    
+    
+
+    public Long getMondayOne() {
+        return mondayOne;
+    }
+
+    public void setMondayOne(Long mondayOne) {
+        this.mondayOne = mondayOne;
+    }
+
+    public Long getMondayTwo() {
+        return mondayTwo;
+    }
+
+    public void setMondayTwo(Long mondayTwo) {
+        this.mondayTwo = mondayTwo;
     }
 
     public String getName() {
@@ -113,110 +203,18 @@ public class ManageFacilityTypesActionBean implements ActionBean {
     public void setName(String name) {
         this.name = name;
     }
+    
+    
 
-    public String getNumberOfTimeframe() {
-        return numberOfTimeframe;
+    public String getDescription() {
+        return description;
     }
 
-    public void setNumberOfTimeframe(String numberOfTimeframe) {
-        this.numberOfTimeframe = numberOfTimeframe;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getSatClose() {
-        return satClose;
-    }
-
-    public void setSatClose(String satClose) {
-        this.satClose = satClose;
-    }
-
-    public String getSatOpen() {
-        return satOpen;
-    }
-
-    public void setSatOpen(String satOpen) {
-        this.satOpen = satOpen;
-    }
-
-    public String getSessions() {
-        return sessions;
-    }
-
-    public void setSessions(String sessions) {
-        this.sessions = sessions;
-    }
-
-    public String getSunClose() {
-        return sunClose;
-    }
-
-    public void setSunClose(String sunClose) {
-        this.sunClose = sunClose;
-    }
-
-    public String getSunOpen() {
-        return sunOpen;
-    }
-
-    public void setSunOpen(String sunOpen) {
-        this.sunOpen = sunOpen;
-    }
-
-    public String getThuClose() {
-        return thuClose;
-    }
-
-    public void setThuClose(String thuClose) {
-        this.thuClose = thuClose;
-    }
-
-    public String getThuOpen() {
-        return thuOpen;
-    }
-
-    public void setThuOpen(String thuOpen) {
-        this.thuOpen = thuOpen;
-    }
-
-    public String getTimeframeType() {
-        return timeframeType;
-    }
-
-    public void setTimeframeType(String timeframeType) {
-        this.timeframeType = timeframeType;
-    }
-
-    public String getTueClose() {
-        return tueClose;
-    }
-
-    public void setTueClose(String tueClose) {
-        this.tueClose = tueClose;
-    }
-
-    public String getTueOpen() {
-        return tueOpen;
-    }
-
-    public void setTueOpen(String tueOpen) {
-        this.tueOpen = tueOpen;
-    }
-
-    public String getWedClose() {
-        return wedClose;
-    }
-
-    public void setWedClose(String wedClose) {
-        this.wedClose = wedClose;
-    }
-
-    public String getWedOpen() {
-        return wedOpen;
-    }
-
-    public void setWedOpen(String wedOpen) {
-        this.wedOpen = wedOpen;
-    }
+ 
 
     public ActionBeanContext getContext() {
         return context;
@@ -237,7 +235,21 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         boolean success;
         String result;
         try {
-
+            Date monOne = new Date(mondayOne);
+            Date monTwo = new Date(mondayTwo);
+            Date tueOne = new Date(tuesdayOne);
+            Date tueTwo = new Date(tuesdayTwo);
+            Date wedOne = new Date(wednesdayOne);
+            Date wedTwo = new Date(wednesdayTwo);
+            Date thuOne = new Date(thursdayOne);
+            Date thuTwo = new Date(thursdayTwo);
+            Date friOne = new Date(fridayOne);
+            Date friTwo = new Date(fridayTwo);
+            Date satOne = new Date(saturdayOne);
+            Date satTwo = new Date(saturdayTwo);
+            Date sunOne = new Date(sundayOne);
+            Date sunTwo = new Date(sundayTwo);
+            
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             RuleDAO rDAO = new RuleDAO();
 
@@ -250,30 +262,43 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             HashSet limitRuleSet = new HashSet();
             HashSet advanceRuleSet = new HashSet();
 
-            Date d = new Date();
-//            //BADLY HARDCODED INELEGANT CODE
-//            OpenRule openRule1 = rDAO.createOpenRule(facilityType, 1, new Date(), Integer.parseInt(monClose));
-//            OpenRule openRule2 = rDAO.createOpenRule(facilityType, 2, Integer.parseInt(tueOpen), Integer.parseInt(tueClose));
-//            OpenRule openRule3 = rDAO.createOpenRule(facilityType, 3, Integer.parseInt(wedOpen), Integer.parseInt(wedClose));
-//            OpenRule openRule4 = rDAO.createOpenRule(facilityType, 4, Integer.parseInt(thuOpen), Integer.parseInt(thuClose));
-//            OpenRule openRule5 = rDAO.createOpenRule(facilityType, 5, Integer.parseInt(friOpen), Integer.parseInt(friClose));
-//            OpenRule openRule6 = rDAO.createOpenRule(facilityType, 6, Integer.parseInt(satOpen), Integer.parseInt(satClose));
-//            OpenRule openRule7 = rDAO.createOpenRule(facilityType, 7, Integer.parseInt(sunOpen), Integer.parseInt(sunClose));
-//
-//            openRuleSet.add(openRule1);
-//            openRuleSet.add(openRule2);
-//            openRuleSet.add(openRule3);
-//            openRuleSet.add(openRule4);
-//            openRuleSet.add(openRule5);
-//            openRuleSet.add(openRule6);
-//            openRuleSet.add(openRule7);
+            //Create open rules and store to DB          
+            OpenRule openRule1 = rDAO.createOpenRule(facilityType, monOne, monTwo);
+            OpenRule openRule2 = rDAO.createOpenRule(facilityType, tueOne, tueTwo);
+            OpenRule openRule3 = rDAO.createOpenRule(facilityType, wedOne, wedTwo);
+            OpenRule openRule4 = rDAO.createOpenRule(facilityType, thuOne, thuTwo);
+            OpenRule openRule5 = rDAO.createOpenRule(facilityType, friOne, friTwo);
+            OpenRule openRule6 = rDAO.createOpenRule(facilityType, satOne, satTwo);
+            OpenRule openRule7 = rDAO.createOpenRule(facilityType, sunOne, sunTwo);
+            
+            //add these rules to set
+            openRuleSet.add(openRule1);
+            openRuleSet.add(openRule2);
+            openRuleSet.add(openRule3);
+            openRuleSet.add(openRule4);
+            openRuleSet.add(openRule5);
+            openRuleSet.add(openRule6);
+            openRuleSet.add(openRule7);
 
-            LimitRule limitRule = rDAO.createLimitRule(facilityType, Integer.parseInt(sessions), Integer.parseInt(numberOfTimeframe), timeframeType);
-
-            limitRuleSet.add(limitRule);
-
-            AdvanceRule advanceRule = rDAO.createAdvanceRule(facilityType, Integer.parseInt(minDays), Integer.parseInt(maxDays));
-
+            //create limit rule
+            //evaluate timeframe type entered
+            switch(bookingLimitUnit){
+                case 'd':
+                    LimitRule limitRuleD = rDAO.createLimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.DAY);
+                    limitRuleSet.add(limitRuleD);
+                    break;    
+                case 'w':
+                    LimitRule limitRuleW = rDAO.createLimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.WEEK);
+                    limitRuleSet.add(limitRuleW);
+                    break;
+                case 'm':
+                    LimitRule limitRuleM = rDAO.createLimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.MONTH);
+                    limitRuleSet.add(limitRuleM);
+                    break;
+            }
+                    
+            //limitation on booking in advance            
+            AdvanceRule advanceRule = rDAO.createAdvanceRule(facilityType, bookingOpenAdvance, bookingCloseAdvance);
             advanceRuleSet.add(advanceRule);
             
             facilityType = tDAO.appendRulesToType(facilityType, openRuleSet, closeRuleSet, limitRuleSet, advanceRuleSet);
