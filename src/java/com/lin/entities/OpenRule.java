@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Dec 25, 2012 6:20:27 PM by Hibernate Tools 3.2.1.GA
+// Generated Dec 25, 2012 6:37:22 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -14,14 +14,22 @@ public class OpenRule  implements java.io.Serializable {
      private FacilityType facilityType;
      private Date startTime;
      private Date endTime;
+     private Integer dayOfWeek;
 
     public OpenRule() {
     }
 
+	
     public OpenRule(FacilityType facilityType, Date startTime, Date endTime) {
+        this.facilityType = facilityType;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    public OpenRule(FacilityType facilityType, Date startTime, Date endTime, Integer dayOfWeek) {
        this.facilityType = facilityType;
        this.startTime = startTime;
        this.endTime = endTime;
+       this.dayOfWeek = dayOfWeek;
     }
    
     public Integer getId() {
@@ -51,6 +59,13 @@ public class OpenRule  implements java.io.Serializable {
     
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+    public Integer getDayOfWeek() {
+        return this.dayOfWeek;
+    }
+    
+    public void setDayOfWeek(Integer dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
 
