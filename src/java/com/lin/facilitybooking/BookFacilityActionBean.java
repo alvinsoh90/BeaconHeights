@@ -25,6 +25,7 @@ public class BookFacilityActionBean implements ActionBean{
     private ActionBeanContext context;
     private String startdatestring;
     private String enddatestring;
+    private String transactionDateTimeString;
     private String facilityID;
     private String title;
     private String result;
@@ -62,6 +63,15 @@ public class BookFacilityActionBean implements ActionBean{
         this.startdatestring = startDateString;
     }
     
+    public String getTransactionDateTimeString() {
+        return transactionDateTimeString;
+    }
+
+    public void getTransactionDateTimeString(String getTransactionDateTimeString) {
+        this.transactionDateTimeString = getTransactionDateTimeString;
+    }
+    
+    
     public String getTitle() {
         return title;
     }
@@ -92,11 +102,13 @@ public class BookFacilityActionBean implements ActionBean{
                 (Long.parseLong(getEndDateString()));
         boolean isPaid = false;
         String transactionId =  "010101";
+        Timestamp transactionTimeStamp = new Timestamp
+                (Long.parseLong(getEndDateString()));
         String title = "MY AWESOME BOOKING";
         
         //Add booking into DB
         Booking booking = bDAO.addBooking(user, facility,bookingTimeStamp,
-                startDate,endDate,isPaid,transactionId,title);
+                startDate,endDate,isPaid,transactionId,transactionTimeStamp,title);
         result = booking.toString();
         success = true;
         System.out.println(result);

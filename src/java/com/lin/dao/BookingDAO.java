@@ -61,7 +61,7 @@ public class BookingDAO {
         }
         return userBookingList;
     }
-    
+
     public Booking getBooking(int id) {
         ArrayList<Booking> userBookingList = new ArrayList<Booking>();
         try {
@@ -80,10 +80,10 @@ public class BookingDAO {
     //Add bookings
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
     public Booking addBooking(User user, Facility facility,
-            Timestamp bookingTimeStamp, Timestamp startDate, Timestamp endDate, 
-            boolean isPaid, String transactionId,String title) {
+            Timestamp bookingTimeStamp, Timestamp startDate, Timestamp endDate,
+            boolean isPaid, String transactionId,Date transactionTimeStamp, String title) {
         openSession();
-        Booking booking = new Booking(user, facility,bookingTimeStamp, startDate, endDate, isPaid, transactionId,title);
+        Booking booking = new Booking(user, facility, bookingTimeStamp, startDate, endDate, isPaid, transactionId,transactionTimeStamp, title);
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -126,33 +126,63 @@ public class BookingDAO {
             return false;
         }
     }
-    
-   
+
     // Update Bookings ( Not sure if we are gonna allow editing of bookings, but just add first)
     // Also assume that users can only change their 
     /*public Booking updateFacility(Date bookingTimeStamp, Date startDate, Date endDate) {
-
-        openSession();
-        
-        Booking booking = (Booking) session.get(Booking.class, id);
-        
-        booking.setBookingTimeStamp(bookingTimeStamp);
-        booking.setStartDate(startDate);
-        booking.setEndDate(endDate);
-
-        session.update(booking);
-
-        return facility;
-
+    
+    openSession();
+    
+    Booking booking = (Booking) session.get(Booking.class, id);
+    
+    booking.setBookingTimeStamp(bookingTimeStamp);
+    booking.setStartDate(startDate);
+    booking.setEndDate(endDate);
+    
+    session.update(booking);
+    
+    return facility;
+    
     } */
-
     public void updateBookingPayment(int id, boolean b, String string) {
         openSession();
         Booking booking = (Booking) session.get(Booking.class, id);
-        
+
         booking.setIsPaid(b);
         booking.setTransactionId(string);
-        
+
         session.update(booking);
+    }
+
+    public ArrayList<Booking> getUserHistoricalBookings(User u) {
+        int userID = u.getUserId();
+        ArrayList<Booking> histList = new ArrayList<Booking>();
+        try {
+            ArrayList<Booking> temp = getUserBookings(userID);
+            for (Booking b : temp) {
+                if (b.getEndDate().compareTo(new Date()) < 0) {
+                    histList.add(b);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return histList;
+    }
+
+    public ArrayList<Booking> getUserCurrentBookings(User u) {
+        int userID = u.getUserId();
+        ArrayList<Booking> currentList = new ArrayList<Booking>();
+        try {
+            ArrayList<Booking> temp = getUserBookings(userID);
+            for (Booking b : temp) {
+                if (b.getEndDate().compareTo(new Date()) > 0) {
+                    currentList.add(b);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return currentList;
     }
 }
