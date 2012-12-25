@@ -24,81 +24,77 @@
                         <span class="icon-bar"></span> 				
                     </a>
 
-                    <a class="brand" href="/index.jsp">Beacon Heights</a>
+                    <a class="brand" href="/residents/index.jsp">Beacon Heights</a>
                     <ul class="nav pull-left">
 
                         <li class="dropdown">
 
-                                    <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                                        Make Booking
-                                        <b class="caret"></b>							
-                                    </a>
+                            <a data-toggle="dropdown" class="dropdown-toggle " href="#">
+                                My Bookings
+                                <b class="caret"></b>							
+                            </a>
 
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
-                                        </li>
-
-                                        <c:if test= "${user.role.id==1}">
-                                            <li>
-                                                <a href="/admin/adminmain.jsp"><i class="icon-forward"></i> ${user.role.id}Go to Admin</a>
-                                            </li>
-                                        </c:if>
-                                </li> </ul></li></ul>
-
-                        <div class="nav-collapse">
-
-                            <ul class="nav pull-right">
-                                <li class="divider-vertical"></li>
+                            <ul class="dropdown-menu">
                                 <li>
-                                    <img class="profilePic" src="http://profile.ak.fbcdn.net/hprofile-ak-snc7/371889_776405701_1107384686_q.jpg"/>
+                                    <a href="/residents/index.jsp"> Book Facility</a>
+                                </li>
+
+                                <li>
+                                    <a href="/residents/mybookings.jsp"> My Bookings</a>
                                 </li>
 
 
+                        </li> </ul></li></ul>
 
-                                <li class="dropdown">
+                    <div class="nav-collapse">
 
-                                    <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                                        ${user.firstname}
-                                        <b class="caret"></b>							
-                                    </a>
-
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
-                                        </li>
-
-                                        <c:if test= "${user.role.id==1}">
-                                            <li>
-                                                <a href="/admin/adminmain.jsp"><i class="icon-forward"></i> ${user.role.id}Go to Admin</a>
-                                            </li>
-                                        </c:if>
-
-                                        <li class="divider"></li>
-
-                                        <li>
-                                        <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
-
-                                </li>
-                            </ul>
+                        <ul class="nav pull-right">
+                            <li class="divider-vertical"></li>
+                            <li>
+                                <img class="profilePic" src="http://profile.ak.fbcdn.net/hprofile-ak-snc7/371889_776405701_1107384686_q.jpg"/>
                             </li>
 
-                    </ul>
 
-                </div> <!-- /nav-collapse -->
 
-            </div> <!-- /container -->
+                            <li class="dropdown">
 
-        </div> <!-- /navbar-inner -->
+                                <a data-toggle="dropdown" class="dropdown-toggle " href="#">
+                                    ${user.firstname}
+                                    <b class="caret"></b>							
+                                </a>
 
-    </div> <!-- /navbar -->
-</body>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
+                                    </li>
+
+                                    <c:if test= "${user.role.id==1}">
+                                        <li>
+                                            <a href="/admin/adminmain.jsp"><i class="icon-forward"></i> ${user.role.id}Go to Admin</a>
+                                        </li>
+                                    </c:if>
+
+                                    <li class="divider"></li>
+
+                                    <li>
+                                    <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
+
+                            </li>
+                        </ul>
+                        </li>
+
+                        </ul>
+
+                    </div> <!-- /nav-collapse -->
+
+                </div> <!-- /container -->
+
+            </div> <!-- /navbar-inner -->
+
+        </div> <!-- /navbar -->
+    </body>
 </html>

@@ -1,8 +1,7 @@
 package com.lin.entities;
-// Generated Dec 25, 2012 4:22:58 AM by Hibernate Tools 3.2.1.GA
+// Generated Dec 25, 2012 6:20:27 PM by Hibernate Tools 3.2.1.GA
 
 
-import com.lin.entities.FacilityType;
 import java.util.Date;
 
 /**
