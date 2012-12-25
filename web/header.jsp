@@ -4,12 +4,14 @@
     Author     : fayannefoo
 --%>
 
+<%@page import="com.lin.entities.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>Make a Booking | Beacon Heights</title>
+        
     </head>
     <body>
         <div class="navbar navbar-fixed-top">
@@ -24,23 +26,25 @@
                         <span class="icon-bar"></span> 				
                     </a>
 
-                    <a class="brand" href="/residents/index.jsp">Beacon Heights</a>
+                    <a class="brand" href="/residents/index.jsp">Beacon Heights
+
+                    </a>
                     <ul class="nav pull-left">
 
                         <li class="dropdown">
 
-                            <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                                My Bookings
+                            <a data-toggle="dropdown" class="dropdown-toggle ">
+                                Facility Booking
                                 <b class="caret"></b>							
                             </a>
 
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/residents/index.jsp"> Book Facility</a>
+                                    <a href="/residents/index.jsp"> Book Facilities</a>
                                 </li>
 
                                 <li>
-                                    <a href="/residents/mybookings.jsp"> My Bookings</a>
+                                    <a href="/residents/mybookings.jsp"> View My Bookings</a>
                                 </li>
 
 

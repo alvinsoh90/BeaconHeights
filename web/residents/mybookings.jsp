@@ -7,6 +7,7 @@
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <jsp:useBean id="manageBookingsActionBean" scope="page"
                      class="com.lin.general.admin.ManageBookingsActionBean"/>
+        <jsp:setProperty name = "manageBookingsActionBean"  property = "currentUser"  value = "${user}" />
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -25,54 +26,9 @@
 
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
-        <script src="./js/jquery-1.7.2.min.js"></script>
         <script src="./js/unicorn.calendar.js"></script>
-
+        <script src="./js/jquery-1.7.2.min.js"></script>
         <!-- Scripts -->
-        <script>
-            $(document).ready(function(){
-                $('#history').hide();
-            });
-
-
-            // Retrieve booking events from DB
-            var bookingList = [];
-            
-            function addEvents(){
-                	
-                var date = new Date();
-                var d = date.getDate();
-                var m = date.getMonth();
-                var y = date.getFullYear();
-                
-                var e = new Object();
-                e.title = 'blaaa';
-                
-                /*
-                var event1 = {id: 997,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d+1, 16, 0),
-                    allDay: false
-                };
-
-                var event2 = {id: 998,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d+2, 16, 0),
-                    allDay: false
-                };
-
-                var event3 = {id: 999,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d+3, 16, 0),
-                    allDay: false
-                };*/
-            
-                var eventSource = bookingList;
-                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
-            }
-            // Format into JSON
-            // addEventSource
-        </script> 
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -82,6 +38,7 @@
     </head>
 
     <body>
+
 
 
 
@@ -116,10 +73,15 @@
                                 <h3> Current Bookings </h3>
 
                                 <script>
+                                    ( function($) {
+                                        $(document).ready( function() { 
+                                            $('#history').hide();
+                                        } );
+                                    } ) ( jQuery );
+                                    
                                     function displayVals() {
                                         var singleValues = $("#view").val();
-                                        $("h3").html(
-                                        singleValues);
+                                        $("h3").html(singleValues);
                                     }
 
                                     $("select").change(displayVals);
@@ -129,8 +91,8 @@
                                             $('#current').show();
                                             $('#history').hide();
                                         }else{
-                                            $('#current').hide();
                                             $('#history').show();                                            
+                                            $('#current').hide();
                                         }
                                     });
 
@@ -140,73 +102,77 @@
                             <div class="widget-content">
 
                                 <table class="table table-striped table-bordered" id="current">
-                                    <thead>
-                                    <th>No.</th>
-                                    <th>Date</th>
-                                    <th>Booking Title</th>
-                                    <th>Facility</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
+                                    <c:if test="${manageBookingsActionBean.userCurrentBookingList.size()!=0}">     
+                                        <thead>
+                                        <th>No.</th>
+                                        <th>Date</th>
+                                        <th>Booking Title</th>
+                                        <th>Facility</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
+                                                <tr>
+                                                    <td>${booking.id}</td>
+                                                    <td>${booking.bookingTimeStamp}</td>
+                                                    <td>${booking.title}</td>
+                                                    <td>${booking.facility.facilityType.name}</td>
+                                                    <td>${booking.startDate}</td>
+                                                    <td>${booking.endDate}</td>
+                                                    <td><c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
+                                                    </td>
+                                                    <td class="action-td">
+                                                        <a href="javascript:;" class="btn btn-small btn-warning">
+                                                            <i class="icon-heart"></i>								
+                                                        </a>					
+                                                        <a href="javascript:;" class="btn btn-small">
+                                                            <i class="icon-trash"></i>						
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                        <c:if test="${manageBookingsActionBean.userCurrentBookingList.size()==0}">
+                                        <thead>
+                                        <th> You have no current bookings</th>
+                                        </thead>
+                                    </c:if>
+                                </table>
+
+                                <table class="table table-striped table-bordered" id="history">
+                                    <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()!=0}">     
+                                        <thead>
+                                        <th>No.</th>
+                                        <th>Date</th>
+                                        <th>Booking Title</th>
+                                        <th>Facility</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        </thead>
+                                        <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
                                             <tr>
                                                 <td>${booking.id}</td>
                                                 <td>${booking.bookingTimeStamp}</td>
                                                 <td>${booking.title}</td>
                                                 <td>${booking.facility.facilityType.name}</td>
                                                 <td>${booking.startDate}</td>
-                                                <td>${booking.endDate}</td>
-                                                <td><c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
-                                                </td>
-                                                <td class="action-td">
-                                                    <a href="javascript:;" class="btn btn-small btn-warning">
-                                                        <i class="icon-heart"></i>								
-                                                    </a>					
-                                                    <a href="javascript:;" class="btn btn-small">
-                                                        <i class="icon-trash"></i>						
-                                                    </a>
-                                                </td>
+                                                <td>${booking.endDate}</td>            
                                             </tr>
                                         </c:forEach>
-                                </table>
-
-                                <table class="table table-striped table-bordered" id="history">
-                                    <thead>
-                                    <th>No.</th>
-                                    <th>Date</th>
-                                    <th>Booking Title</th>
-                                    <th>Facility</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    </thead>
-                                    <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
-                                        <tr>
-                                            <td>${booking.id}</td>
-                                            <td>${booking.bookingTimeStamp}</td>
-                                            <td>${booking.title}</td>
-                                            <td>${booking.facility.facilityType.name}</td>
-                                            <td>${booking.startDate}</td>
-                                            <td>${booking.endDate}</td>            
-                                        </tr>
-                                    </c:forEach>
+                                    </c:if>
+                                    <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()==0}">
+                                        <thead>
+                                        <th> You have no bookings</th>
+                                        </thead>
+                                    </c:if>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
-                        <script>
-                            var booking = new Object();
-                            booking.id = '${booking.id}';
-                            booking.start = new Date(${booking.startTimeInSeconds});
-                            booking.end = new Date(${booking.endTimeInSeconds});
-                            booking.title = 'hi';
-                            booking.allDay = false;
-                            bookingList.push(booking);
-                        </script>
-                    </c:forEach>
 
 
                 </div> <!-- /row -->
@@ -229,7 +195,6 @@
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-
         <script src="./js/excanvas.min.js"></script>
         <script src="./js/jquery.flot.js"></script>
         <script src="./js/jquery.flot.pie.js"></script>
