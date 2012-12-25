@@ -26,19 +26,97 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!-- Populates the Edit Facilities form -->
-
+    <script>
+                <!-- Populates the Edit Facilities form -->
+            // Init an array of all facilities shown on this page
+            var facilityTypeList = [];
+            
+            function populateEditFacilityTypeModal(typeID){ 
+                facilityTypeList.forEach(function(facilityType){
+                    if(facilityType.id == typeID){
+                        $("#facilityTypeLabel").text(facilityType.name);
+                        $("#editid").val(facilityType.id);
+                        $("#edit_name").val(facilityType.name);
+                        $("#edit_description").val(facilityType.description);
+                    }
+                });
+                
+            }
+            
+            function populateDeleteFacilityTypeModal(typeID){ 
+                facilityTypeList.forEach(function(facilityType){
+                    if(facilityType.id == typeID){
+                        $("#facilityTypeDeleteLabel").text(facilityType.name);
+                        $("#delete_name").text(facilityType.name);
+                        $("#delete_id").val(facilityType.id);
+ 
+                    }
+                });
+                
+            }
+        </script>
+ 
+    
   </head>
   <body>
       
     <%@include file="include/mainnavigationbar.jsp"%>
     <div class="container-fluid">
        <%@include file="include/sidemenu.jsp"%>   
-
+       
         <div class="span9">
 		  <div class="row-fluid">
                         <!-- Info Messages -->
                     <%@include file="include/pageinfobar.jsp"%>
+                    
+                    <!-- Edit Facility Type Modal Form -->
+                <div id="editFacilityTypeModal" class="modal hide fade">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3>Edit <span id="facilityTypeLabel"></span></h3>
+                    </div>
+                    <div class="modal-body">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilityTypesBean" focus="name" id="edit_types_validate" name="edit_types_validate">
+                            
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Name</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_name" name="name"/> 
+                                </div>
+                            </div>    
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Description</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_description" name="description"/> 
+                                </div>
+                            </div>                              
+                            <stripes:hidden id="editid" name="id"/>
+                        </div>
+                        <div class="modal-footer">
+                            <a data-dismiss="modal" class="btn">Close</a>
+                            <input type="submit" name="editFacilityType" value="Confirm Edit" class="btn btn-primary"/>
+                        </div>
+                    </stripes:form>
+                </div>
+                
+                <!--Delete Facility Modal -->
+                <div id="deleteFacilityTypeModal" class="modal hide fade">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3>Deletion of <span id="facilityTypeDeleteLabel"></span></h3>
+                    </div>
+                    <div class="modal-body">
+                        <stripes:form focus="id" class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilitiesBean"> 
+                            You are now deleting <span id="delete_name"></span>. Are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            <a data-dismiss="modal" class="btn">Close</a>
+
+                            <stripes:hidden id="delete_id" name="id"/>
+                            <input type="submit" name="deleteFacility" value="Confirm Delete" class="btn btn-danger"/>
+                        </div>
+                    </stripes:form>
+                </div>    
                     
 			<div class="page-header">
 				<h1>Facility Types <small>Manage estate facility types</small></h1>
@@ -59,11 +137,11 @@
 				<c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
                                                     <script>
                                                         var facilityType = new Object();
-                                                        facilityType.id = '${facilityType.id}';
-                                                        facilityType.type = '${facilityType.name}';
-                                                        facilityType.latitude = '${facilityType.description}';
+                                                        facilityType.id = "${facilityType.id}";
+                                                        facilityType.name = "${facilityType.name}";
+                                                        facilityType.description = "${facilityType.description}";
                                                         
-                                                        facilityList.push(facilityType);
+                                                        facilityTypeList.push(facilityType);
                                                     </script>
                                                     <tr>
                                                         <td>
@@ -75,8 +153,8 @@
                                                         <td><b>${facilityType.name}</b></td>
                                                         <td>${facilityType.description}</td>
                                                         <td>
-                                                            <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
-                                                            <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.id}')">Delete</a>
+                                                            <a href="#editFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityTypeModal('${facilityType.id}');">Edit</a> 
+                                                            <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -94,7 +172,7 @@
 					<li><a href="#">Next</a></li>
 				</ul>
 			</div>
-			<a href="#createFacilityTypeModal" role='button' data-toggle='modal' class="btn btn-success">Create New Facility Type</a>
+			<a href="createfacilitytype.jsp" class="btn btn-success">Create New Facility Type</a>
 		  </div>
         </div>
       </div>
@@ -103,9 +181,9 @@
 
 <%@include file="include/footer.jsp"%>
 
-<!-- Create new facility type modal -->
+                <!-- Create new facility type modal -->
                 <div id="createFacilityTypeModal" class="modal hide fade">
-                    <div id="myModal" class="modal-header">
+                    <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                         <h3>Create New Facility Type</h3>
                     </div>
@@ -166,65 +244,7 @@
                 </div>
 
 
-        <!-- Edit Facility Modal Form -->
-                <div id="editFacilityModal" class="modal hide fade">
-                    <div id="myModal" class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h3>Edit <span id="facilityLabel"></span></h3>
-                    </div>
-                    <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilitiesBean" focus="" id="edit_facility_validate" name="edit_facility_validate">
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Type</label>
-                                <div class="controls">
-                                    <stripes:select id="edit_type" name="type">
-                                        <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="name" label="name"/>        
-                                    </stripes:select>
-                                </div>
-                            </div> 
-                            <stripes:text class="hide" name="id" id="editid" />
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Latitude</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_latitude" name="latitude"/> 
-                                </div>
-                            </div>    
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Longitude</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_longitude" name="longitude"/> 
-                                </div>
-                            </div>                              
-                            <stripes:hidden id="editid" name="id"/>
-                        </div>
-                        <div class="modal-footer">
-                            <a data-dismiss="modal" class="btn">Close</a>
-                            <input type="submit" name="editFacility" value="Confirm Edit" class="btn btn-primary"/>
-                        </div>
-                    </stripes:form>
-                </div>
-
-
-                <!--Delete Facility Modal -->
-                <div id="deleteFacilityModal" class="modal hide fade">
-                    <div id="myModal" class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h3>Deletion of <span id="facilityDeleteLabel"></span></h3>
-                    </div>
-                    <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilitiesBean" focus=""> 
-                            You are now deleting <span id="delete_name"></span>. Are you sure?
-                        </div>
-                        <div class="modal-footer">
-                            <a data-dismiss="modal" class="btn">Close</a>
-
-                            <stripes:hidden id="delete_id" name="id"/>
-                            <input type="submit" name="deleteFacility" value="Confirm Delete" class="btn btn-danger"/>
-                        </div>
-                    </stripes:form>
-                </div>
-
-    <script src="js/jquery.js"></script>
+        <script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script>
 	$(document).ready(function() {

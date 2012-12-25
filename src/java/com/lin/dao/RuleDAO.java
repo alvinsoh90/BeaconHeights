@@ -135,7 +135,7 @@ public class RuleDAO {
     
     public OpenRule createOpenRule(FacilityType facilityType, int dayOfWeek, Date startTime, Date endTime){
         openSession();
-        OpenRule oRule = new OpenRule(facilityType, dayOfWeek, startTime, endTime);
+        OpenRule oRule = new OpenRule(facilityType, startTime, endTime);
         
         Transaction tx = null;
         try {
@@ -196,7 +196,6 @@ public class RuleDAO {
         openSession();
         OpenRule oRule = (OpenRule)session.get(OpenRule.class, id);
         
-        oRule.setDayOfWeek(dayOfWeek);
         oRule.setEndTime(endTime);
         oRule.setFacilityType(facilityType);
         oRule.setStartTime(startTime);

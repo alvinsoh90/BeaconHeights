@@ -11,6 +11,7 @@ import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -249,23 +250,23 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             HashSet limitRuleSet = new HashSet();
             HashSet advanceRuleSet = new HashSet();
 
-
-            //BADLY HARDCODED INELEGANT CODE
-            OpenRule openRule1 = rDAO.createOpenRule(facilityType, 1, Integer.parseInt(monOpen), Integer.parseInt(monClose));
-            OpenRule openRule2 = rDAO.createOpenRule(facilityType, 2, Integer.parseInt(tueOpen), Integer.parseInt(tueClose));
-            OpenRule openRule3 = rDAO.createOpenRule(facilityType, 3, Integer.parseInt(wedOpen), Integer.parseInt(wedClose));
-            OpenRule openRule4 = rDAO.createOpenRule(facilityType, 4, Integer.parseInt(thuOpen), Integer.parseInt(thuClose));
-            OpenRule openRule5 = rDAO.createOpenRule(facilityType, 5, Integer.parseInt(friOpen), Integer.parseInt(friClose));
-            OpenRule openRule6 = rDAO.createOpenRule(facilityType, 6, Integer.parseInt(satOpen), Integer.parseInt(satClose));
-            OpenRule openRule7 = rDAO.createOpenRule(facilityType, 7, Integer.parseInt(sunOpen), Integer.parseInt(sunClose));
-
-            openRuleSet.add(openRule1);
-            openRuleSet.add(openRule2);
-            openRuleSet.add(openRule3);
-            openRuleSet.add(openRule4);
-            openRuleSet.add(openRule5);
-            openRuleSet.add(openRule6);
-            openRuleSet.add(openRule7);
+            Date d = new Date();
+//            //BADLY HARDCODED INELEGANT CODE
+//            OpenRule openRule1 = rDAO.createOpenRule(facilityType, 1, new Date(), Integer.parseInt(monClose));
+//            OpenRule openRule2 = rDAO.createOpenRule(facilityType, 2, Integer.parseInt(tueOpen), Integer.parseInt(tueClose));
+//            OpenRule openRule3 = rDAO.createOpenRule(facilityType, 3, Integer.parseInt(wedOpen), Integer.parseInt(wedClose));
+//            OpenRule openRule4 = rDAO.createOpenRule(facilityType, 4, Integer.parseInt(thuOpen), Integer.parseInt(thuClose));
+//            OpenRule openRule5 = rDAO.createOpenRule(facilityType, 5, Integer.parseInt(friOpen), Integer.parseInt(friClose));
+//            OpenRule openRule6 = rDAO.createOpenRule(facilityType, 6, Integer.parseInt(satOpen), Integer.parseInt(satClose));
+//            OpenRule openRule7 = rDAO.createOpenRule(facilityType, 7, Integer.parseInt(sunOpen), Integer.parseInt(sunClose));
+//
+//            openRuleSet.add(openRule1);
+//            openRuleSet.add(openRule2);
+//            openRuleSet.add(openRule3);
+//            openRuleSet.add(openRule4);
+//            openRuleSet.add(openRule5);
+//            openRuleSet.add(openRule6);
+//            openRuleSet.add(openRule7);
 
             LimitRule limitRule = rDAO.createLimitRule(facilityType, Integer.parseInt(sessions), Integer.parseInt(numberOfTimeframe), timeframeType);
 
