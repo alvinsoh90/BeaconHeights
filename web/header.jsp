@@ -68,17 +68,17 @@
                                 </a>
 
                                 <ul class="dropdown-menu">
-                                    <li>
+                                    <!--<li>
                                         <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
                                     </li>
 
                                     <li>
                                         <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
-                                    </li>
+                                    </li>-->
 
                                     <c:if test= "${user.role.id==1}">
                                         <li>
-                                            <a href="/admin/adminmain.jsp"><i class="icon-forward"></i> ${user.role.id}Go to Admin</a>
+                                            <a href="/admin/adminmain.jsp"><i class="icon-forward"></i>Go to Admin</a>
                                         </li>
                                     </c:if>
 
