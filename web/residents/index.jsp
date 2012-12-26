@@ -35,23 +35,22 @@
             // Retrieve booking events from DB
             var bookingList = [];
             
-            function addEvents(){
+            function showFacilityBookingsByFacilityID(facilityID){
                 //this method is called when page is fully loaded, 
                 //bookingList is populated as page loads
                 
 //                var eventSource = bookingList;
 //                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
                 
-                var eventSource = "/json/bookingevents.jsp?facilityid=28";
+                //clear previous events
+                $('#fullcalendar').fullCalendar( 'removeEvents');
+                
+                //add new event source
+                var eventSource = "/json/bookingevents.jsp?facilityid=" + facilityID;
                 $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
                 
             }
             
-            function showFacilityBookingsByFacilityID(id){
-                $('#fullcalendar').fullCalendar({
-                    events: '/bookingeventsjson.jsp?facilityid=' + id
-                });
-            }
             
         </script> 
 
@@ -141,17 +140,27 @@
                     </div>	
                     
                     <script>
-                        // To display facility selected in the dropdown box, in the booking details
-                        function displayVals() {
-                            var singleValues = $("#facilityDropDown option:selected").text();
-                            //set venue texts
-                            $("#venue").text(singleValues); 
-                            $("#sub").text(singleValues);  
-                            //set hidden field facility id
-                            $("#facilityid").val($("#facilityDropDown").val());
-                        }
-                        $("select").change(displayVals);
-                        displayVals();
+                        $(document).ready(function(){
+                            // To display facility selected in the dropdown box, in the booking details
+                            function displayVals() {
+                                var singleValues = $("#facilityDropDown option:selected").text();
+
+                                //set venue texts
+                                $("#venue").text(singleValues); 
+                                $("#sub").text(singleValues);  
+                                //set hidden field facility id
+                                $("#facilityid").val($("#facilityDropDown").val());
+
+                                //reload calendar when dropdown is changed
+                                var currFacilityID = $("#facilityDropDown option:selected").val();
+                                showFacilityBookingsByFacilityID(currFacilityID);
+                            }
+                            //attach handler
+                            $("#facilityDropDown").change(displayVals);
+                            //first call
+                            displayVals();
+                        });
+                        
                     </script>
 
                     <div class="span9">

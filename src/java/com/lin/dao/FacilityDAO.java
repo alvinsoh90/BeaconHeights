@@ -152,7 +152,7 @@ public class FacilityDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Facility where id = :fId");
-            q.setString("fId", id + "");
+            q.setInteger("fId", id);
             result = (ArrayList<Facility>) q.list();
             tx.commit();
         } catch (Exception e) {
