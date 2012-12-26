@@ -19,10 +19,6 @@ public class DeleteFacilityTypeBean implements ActionBean{
   private int delete_facility_type_id;
   private String delete_name;
   private FacilityTypeDAO fDAO;
-  private OpenRuleDAO orDAO;
-  private CloseRuleDAO crDAO;
-  private LimitRuleDAO lrDAO;
-  private AdvanceRuleDAO arDAO;
   private FacilityType fType;
 
     public ActionBeanContext getContext() {
