@@ -71,22 +71,19 @@ public class FacilityTypeDAO {
         }
         //return null if failed
         return null;
-
     }
     
-    //new constructor with rules
-    public FacilityType createFacilityType(String name, String description, Set openRules, Set closeRules, Set limitRules, Set advanceRules) {
+    
+    public FacilityType createFacilityType(FacilityType ftype) {
         openSession();
-        
-        FacilityType facilityType = new FacilityType(name, description, openRules, closeRules, limitRules, advanceRules);
-        
+  
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.save("FacilityType", facilityType);
+            session.save("FacilityType", ftype);
             tx.commit();
 
-            return facilityType;
+            return ftype;
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {

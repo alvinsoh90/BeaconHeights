@@ -59,7 +59,12 @@ public class AdvanceRule  implements java.io.Serializable {
         this.maxDays = maxDays;
     }
 
+    @Override
+    public String toString() {
+        return "AdvanceRule{" + "minDays=" + minDays + ", maxDays=" + maxDays + '}';
+    }
 
+    
 
 
 }

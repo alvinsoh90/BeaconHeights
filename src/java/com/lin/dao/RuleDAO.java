@@ -134,23 +134,23 @@ public class RuleDAO {
         return null;
     }
     
-    public OpenRule createOpenRule(FacilityType facilityType, Date startTime, Date endTime){
-        openSession();
-        OpenRule oRule = new OpenRule(facilityType, startTime, endTime);
-        
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            session.save("OpenRule",oRule);
-            tx.commit();
-            return oRule;
-        } catch (Exception e) {
-            e.printStackTrace();
-            if(tx!=null) tx.rollback();
-        }
-        //return null if failed
-        return null;
-    }
+//    public OpenRule createOpenRule(FacilityType facilityType, Date startTime, Date endTime){
+//        openSession();
+//        OpenRule oRule = new OpenRule(facilityType, startTime, endTime);
+//        
+//        Transaction tx = null;
+//        try {
+//            tx = session.beginTransaction();
+//            session.save("OpenRule",oRule);
+//            tx.commit();
+//            return oRule;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            if(tx!=null) tx.rollback();
+//        }
+//        //return null if failed
+//        return null;
+//    }
     
     public AdvanceRule createAdvanceRule(FacilityType facilityType, int minDays, int maxDays){
         openSession();

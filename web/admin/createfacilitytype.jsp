@@ -36,18 +36,28 @@
         <script>
             //Handle timepickers
             function loadTimepickerInput(){
-                $("#mondayOne").val( getDateFromString($("#mon1").val()).getMilliseconds() );
-                
+                $("#mondayOne").val( getDateFromString($("#mon1").val()) );
+                $("#mondayTwo").val( getDateFromString($("#mon2").val()) );
+                $("#tuesdayOne").val( getDateFromString($("#tue1").val()) );
+                $("#tuesdayTwo").val( getDateFromString($("#tue2").val()) );
+                $("#wednesdayOne").val( getDateFromString($("#wed1").val()) );
+                $("#wednesdayTwo").val( getDateFromString($("#wed2").val()) );
+                $("#thursdayOne").val( getDateFromString($("#thu1").val()) );
+                $("#thursdayTwo").val( getDateFromString($("#thu2").val()) );
+                $("#fridayOne").val( getDateFromString($("#fri1").val()) );
+                $("#fridayTwo").val( getDateFromString($("#fri2").val()) );
+                $("#saturdayOne").val( getDateFromString($("#sat1").val()) );
+                $("#saturdayTwo").val( getDateFromString($("#sat2").val()) );
+                $("#sundayOne").val( getDateFromString($("#sun1").val()) );
+                $("#sundayTwo").val( getDateFromString($("#sun2").val()) );                
             }
             
             function getDateFromString(inputString){
-                var ampm = inputString.substring(6,8);
                 var mins = inputString.substring(3,5);
                 var hour = inputString.substring(0,2);
-                
                 var d = new Date();
-                d.setHours(hour,mins,0);
-                return d;
+                var d1 = new Date(d.getFullYear(),d.getMonth(),d.getDay(),hour,mins,0,0);
+                return d1.getTime();
             }
             
         </script>
@@ -61,6 +71,24 @@
                     loadTimepickerInput();
                 });
                   
+            }
+            
+            function copyFirstRow(){
+                $("#tue1").val( $("#mon1").val() );
+                $("#wed1").val( $("#mon1").val() );
+                $("#thu1").val( $("#mon1").val() );
+                $("#fri1").val( $("#mon1").val() );
+                $("#sat1").val( $("#mon1").val() );
+                $("#sun1").val( $("#mon1").val() );
+                
+                $("#tue2").val( $("#mon2").val() );
+                $("#wed2").val( $("#mon2").val() );
+                $("#thu2").val( $("#mon2").val() );
+                $("#fri2").val( $("#mon2").val() );
+                $("#sat2").val( $("#mon2").val() );
+                $("#sun2").val( $("#mon2").val() );
+                
+                loadTimepickerInput();
             }
         </script>
         
@@ -146,6 +174,7 @@
                                         <span>to</span>
                                         <input id="mon2" class="timepicker"/>
                                         <stripes:hidden name="mondayTwo" id="mondayTwo" />
+                                        <a href="#copy" onclick="copyFirstRow()">  Copy first row downwards</a>
                                     </div>
                                     
                                     <div class="timepickerArea">
@@ -160,10 +189,10 @@
                                     <div class="timepickerArea">
                                         <span>Wednesday</span>
                                         <input id="wed1" class="timepicker"/>
-                                        <stripes:hidden name="wedesdayOne" id="wedesdayOne" /> 
+                                        <stripes:hidden name="wednesdayOne" id="wednesdayOne" /> 
                                         <span>to</span>
                                         <input id="wed2" class="timepicker"/>
-                                        <stripes:hidden name="wedesdayTwo" id="wedesdayTwo" />
+                                        <stripes:hidden name="wednesdayTwo" id="wednesdayTwo" />
                                     </div>
                                     
                                     <div class="timepickerArea">
@@ -206,7 +235,7 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Limits</label>
                                     <div class="timepickerArea">
-                                        <stripes:text class="span75" name="bookingLimitSessions" id="bookingLimitSessions"/> 
+                                        <stripes:text class="span75" name="bookingSessions" id="bookingSessions"/> 
                                         time(s) per
                                         <stripes:text class="span75" name="bookingLimitFreq" id="bookingLimitFreq" />
                                         <stripes:select name="bookingLimitUnit" class="span75">

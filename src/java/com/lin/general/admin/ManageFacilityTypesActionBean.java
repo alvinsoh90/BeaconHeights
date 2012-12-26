@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -50,6 +51,22 @@ public class ManageFacilityTypesActionBean implements ActionBean {
     private int bookingOpenAdvance;
     private int bookingCloseAdvance;
 
+    public int getBookingCloseAdvance() {
+        return bookingCloseAdvance;
+    }
+
+    public void setBookingCloseAdvance(int bookingCloseAdvance) {
+        this.bookingCloseAdvance = bookingCloseAdvance;
+    }
+
+    public int getBookingOpenAdvance() {
+        return bookingOpenAdvance;
+    }
+
+    public void setBookingOpenAdvance(int bookingOpenAdvance) {
+        this.bookingOpenAdvance = bookingOpenAdvance;
+    }
+    
     public int getBookingLimitFreq() {
         return bookingLimitFreq;
     }
@@ -235,7 +252,7 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         boolean success;
         String result;
         try {
-            Date monOne = new Date(mondayOne);
+            Date monOne = new Date(mondayOne); 
             Date monTwo = new Date(mondayTwo);
             Date tueOne = new Date(tuesdayOne);
             Date tueTwo = new Date(tuesdayTwo);
@@ -253,7 +270,7 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             RuleDAO rDAO = new RuleDAO();
 
-            FacilityType facilityType = tDAO.createFacilityType(name, description);
+            FacilityType facilityType = new FacilityType(name, description);
 
             //HashSet declarations
 
@@ -263,13 +280,20 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             HashSet advanceRuleSet = new HashSet();
 
             //Create open rules and store to DB          
-            OpenRule openRule1 = rDAO.createOpenRule(facilityType, monOne, monTwo);
-            OpenRule openRule2 = rDAO.createOpenRule(facilityType, tueOne, tueTwo);
-            OpenRule openRule3 = rDAO.createOpenRule(facilityType, wedOne, wedTwo);
-            OpenRule openRule4 = rDAO.createOpenRule(facilityType, thuOne, thuTwo);
-            OpenRule openRule5 = rDAO.createOpenRule(facilityType, friOne, friTwo);
-            OpenRule openRule6 = rDAO.createOpenRule(facilityType, satOne, satTwo);
-            OpenRule openRule7 = rDAO.createOpenRule(facilityType, sunOne, sunTwo);
+            OpenRule openRule1 = new OpenRule(facilityType, monOne, monTwo, 
+                    OpenRule.DAY_OF_WEEK.MONDAY);
+            OpenRule openRule2 = new OpenRule(facilityType, tueOne, tueTwo, 
+                    OpenRule.DAY_OF_WEEK.TUESDAY);
+            OpenRule openRule3 = new OpenRule(facilityType, wedOne, wedTwo, 
+                    OpenRule.DAY_OF_WEEK.WEDNESDAY);
+            OpenRule openRule4 = new OpenRule(facilityType, thuOne, thuTwo, 
+                    OpenRule.DAY_OF_WEEK.THURSDAY);
+            OpenRule openRule5 = new OpenRule(facilityType, friOne, friTwo, 
+                    OpenRule.DAY_OF_WEEK.FRIDAY);
+            OpenRule openRule6 = new OpenRule(facilityType, satOne, satTwo, 
+                    OpenRule.DAY_OF_WEEK.SATURDAY);
+            OpenRule openRule7 = new OpenRule(facilityType, sunOne, sunTwo, 
+                    OpenRule.DAY_OF_WEEK.SUNDAY);
             
             //add these rules to set
             openRuleSet.add(openRule1);
@@ -279,37 +303,59 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             openRuleSet.add(openRule5);
             openRuleSet.add(openRule6);
             openRuleSet.add(openRule7);
+            
+            Iterator iter = openRuleSet.iterator();
+            while (iter.hasNext()) {
+                System.out.println(iter.next());
+            }
 
             //create limit rule
             //evaluate timeframe type entered
             switch(bookingLimitUnit){
                 case 'd':
-                    LimitRule limitRuleD = rDAO.createLimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.DAY);
+                    LimitRule limitRuleD = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.DAY);
                     limitRuleSet.add(limitRuleD);
+                    System.out.println(limitRuleD);
                     break;    
                 case 'w':
-                    LimitRule limitRuleW = rDAO.createLimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.WEEK);
+                    LimitRule limitRuleW = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.WEEK);
                     limitRuleSet.add(limitRuleW);
                     break;
                 case 'm':
-                    LimitRule limitRuleM = rDAO.createLimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.MONTH);
+                    LimitRule limitRuleM = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.MONTH);
                     limitRuleSet.add(limitRuleM);
                     break;
             }
                     
             //limitation on booking in advance            
-            AdvanceRule advanceRule = rDAO.createAdvanceRule(facilityType, bookingOpenAdvance, bookingCloseAdvance);
+            AdvanceRule advanceRule = new AdvanceRule(facilityType, bookingOpenAdvance, bookingCloseAdvance);
             advanceRuleSet.add(advanceRule);
             
-            facilityType = tDAO.appendRulesToType(facilityType, openRuleSet, closeRuleSet, limitRuleSet, advanceRuleSet);
+            System.out.println(advanceRule);
+            
+            //facilityType(facilityType, openRuleSet, closeRuleSet, limitRuleSet, advanceRuleSet);
+            facilityType.setLimitRules(limitRuleSet);
+            facilityType.setAdvanceRules(advanceRuleSet);
+            facilityType.setCloseRules(closeRuleSet);
+            facilityType.setOpenRules(openRuleSet);
           
-            success = true;
-            result = name;
+            //insert into DB
+            if( tDAO.createFacilityType(facilityType) != null ){
+                success = true;
+                result = name;
+                System.out.println("successsssss");
+            }
+            else{
+                result = "fail";
+                success = false;
+            }
+            
         } catch (Exception e) {
+            e.printStackTrace();
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/manage-facilitytypes.jsp?createsuccess=" + success
+        return new RedirectResolution("/admin/createfacilitytype.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
 
