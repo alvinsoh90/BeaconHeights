@@ -55,11 +55,6 @@ public class Facility  implements java.io.Serializable {
     public String getName (){
         return facilityType.getName() + " " + id;
     }
-
-    @Override
-    public String toString() {
-        return "Facility{" + "id=" + id + ", facilityType=" + facilityType + ", facilityLng=" + facilityLng + ", facilityLat=" + facilityLat + '}';
-    }
     
 
 }
