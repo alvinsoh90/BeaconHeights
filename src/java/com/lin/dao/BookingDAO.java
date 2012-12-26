@@ -183,4 +183,21 @@ public class BookingDAO {
         }
         return currentList;
     }
+        public ArrayList<Booking> getAllBookingsByFacilityType(String fType) {
+        ArrayList<Booking> currentList = new ArrayList<Booking>();
+        try {
+            ArrayList<Booking> temp = getAllBookings();
+            System.out.println("TEMPARRSIZE: "+temp.size());
+            for (Booking b : temp) {
+                System.out.println("B: "+b.getFacility().getFacilityType().getName());
+                if (b.getFacility().getFacilityType().getName()
+                        .equals(fType)) {
+                    currentList.add(b);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return currentList;
+    }
 }
