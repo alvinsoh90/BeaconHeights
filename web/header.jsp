@@ -55,7 +55,7 @@
                         <ul class="nav pull-right">
                             <li class="divider-vertical"></li>
                             <li>
-                                <img class="profilePic" src="http://png-3.findicons.com/files/icons/1580/devine_icons_part_2/128/account_and_control.png"/>
+                                <img class="profilePic" src="http://png.findicons.com/files/icons/756/ginux/64/user.png"/>
                             </li>
 
 
