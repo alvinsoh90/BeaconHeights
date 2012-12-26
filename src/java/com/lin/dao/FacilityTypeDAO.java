@@ -214,6 +214,20 @@ public class FacilityTypeDAO {
         return typeList.get(0);
 
     }
+
+    public FacilityType editFacilityType(FacilityType facilityType) {
+        openSession();
+        FacilityType fT = (FacilityType) session.get(FacilityType.class, facilityType.getId());
+        System.out.println("FT NAME HERE : "+fT.getName());
+        fT.setName(facilityType.getName());
+        fT.setDescription(facilityType.getDescription());
+        fT.setAdvanceRules(facilityType.getAdvanceRules());
+        fT.setCloseRules(facilityType.getCloseRules());
+        fT.setLimitRules(facilityType.getLimitRules());
+        fT.setOpenRules(facilityType.getOpenRules());
+        
+        return fT;
+    }
     
     
 }

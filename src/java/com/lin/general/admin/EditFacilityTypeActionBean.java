@@ -258,7 +258,7 @@ public class EditFacilityTypeActionBean implements ActionBean {
     }
 
     @DefaultHandler
-    public Resolution createFacility() {
+    public Resolution editFacility() {
         boolean success;
         String result;
         try {
@@ -350,7 +350,7 @@ public class EditFacilityTypeActionBean implements ActionBean {
             facilityType.setOpenRules(openRuleSet);
           
             //insert into DB
-            if( tDAO.createFacilityType(facilityType) != null ){
+            if( tDAO.editFacilityType(facilityType) != null ){
                 success = true;
                 result = name;
                 System.out.println("successsssss");
@@ -365,7 +365,7 @@ public class EditFacilityTypeActionBean implements ActionBean {
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/createfacilitytype.jsp?createsuccess=" + success
+        return new RedirectResolution("/admin/manage-facilitytypes.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
 
