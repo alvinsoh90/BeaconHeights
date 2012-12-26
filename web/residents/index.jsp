@@ -7,6 +7,8 @@
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <jsp:useBean id="manageBookingsActionBean" scope="page"
                      class="com.lin.general.admin.ManageBookingsActionBean"/>
+        <jsp:useBean id="manageFacilitiesActionBean" scope="page"
+                     class="com.lin.general.admin.ManageFacilitiesActionBean"/>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -67,6 +69,7 @@
             }
             // Format into JSON
             // addEventSource
+            
         </script> 
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -80,43 +83,46 @@
 
 
 
-            <div id="content">
+        <div id="content">
 
-                <div class="container">
+            <div class="container">
 
-                    <div class="row">
+                <div class="row">
 
-                        <div class="span3">
+                    <div class="span3">
 
-                            <div class="account-container">
-                                <h2>Now Booking</h2>
-                                <select>
-                                    <option value="tennis">Tennis Court A</option>
-                                </select>
+                        <div class="account-container">
+                            <h2>Now Booking</h2>
+                            <select id ="choosefacility">
+                                <c:forEach items="${manageFacilitiesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
+                                    <option value="${facilityType.name}">${facilityType.name}</option>
+                                </c:forEach>
+                            </select>
 
-                            </div> <!-- /account-container -->
+                        </div> <!-- /account-container -->
 
-                            <hr />
+                        <hr />
 
-                            <ul id="main-nav" class="nav nav-tabs nav-stacked">
-                                <h2>Your Booking Details</h2>
-                                <div class="widget-content widget-nopad">
-                                    <div class="bookingDetails">
-                                        Venue: <span id="venue">Tennis Court A</span><br/>
-                                        Date: <span id="date">25/11/12</span> <br/>
-                                        Time: <span id="time">7pm</span>
-                                    </div>
-                                    <div class="inviteFriends comingsoon">
-                                        <div class="header">Invite Friends</div>
-                                        <input class="span2" type="text" placeholder="Type a friend's name"/>
-                                        <button class="btn btn-peace-2 btnmod">Invite</button>
-                                        Invited: 
-                                        <span class="inviteLabel label label-success">Fayanne Foo  x</span>                             
-                                    </div>
-                                    <div class="shareBooking centerText comingsoon">
-                                        <h4>Share this event with your friends</h4>
-                                        <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
-                                    </div>
+                        <ul id="main-nav" class="nav nav-tabs nav-stacked">
+                            <h2>Your Booking Details</h2>
+                            <div class="widget-content widget-nopad">
+                                <div class="bookingDetails">
+                                    Venue: <span id="venue">Choose facility
+                                    </span><br/>
+                                    Date: <span id="date"><i><font size="2"> --</font></span> <br/>
+                                    Time: <span id="time"><i><font size="2"> --</font></i></span>
+                                </div>
+                                <div class="inviteFriends comingsoon">
+                                    <div class="header">Invite Friends</div>
+                                    <input class="span2" type="text" placeholder="Type a friend's name"/>
+                                    <button class="btn btn-peace-2 btnmod">Invite</button>
+                                    <!--Invited: 
+                                    <span class="inviteLabel label label-success"></span>-->                             
+                                </div>
+                                <div class="shareBooking centerText comingsoon">
+                                    <h4>Share this event with your friends</h4>
+                                    <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
+                                </div>
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
                                     <stripes:text name="facilityID" id="facilityid" class="hide" />
                                     <stripes:text name="startDateString" id="starttimemillis" class="hide" />   
@@ -131,23 +137,34 @@
                             <hr />
 
                             <div class="sidebar-extra">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
-                            </div> <!-- .sidebar-extra -->
+                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>-->
+                            </div>  <!-- .sidebar-extra -->
 
                             <br />
 
                     </div> <!-- /span3 -->
 
 
-
                     <div class="span9">
 
                         <h1 class="page-title">
                             <i class="icon-home"></i>
-                            Tennis Court					
+                            Current Bookings :    
+                            <span id ="sub">page-title sub"></sub> </h1>
+
                         </h1>
                         <br/>
                     </div>	
+                    
+                    <script>// To display facility selected in the dropdown box, in the booking details
+                        function displayVals() {
+                            var singleValues = $("select").val();
+                            $("#venue").html(singleValues);
+                            $("#sub").html(singleValues);                                    
+                        }
+                        $("select").change(displayVals);
+                        displayVals();
+                    </script>
 
                     <div class="span9">
                         <div class="widget-content nopadding calendarContainer">
@@ -178,7 +195,7 @@
 
             <div class="container">				
                 <hr>
-                <p>&copy; 2012 Go Ideate.</p>
+                <p>Beacon Heights Condominium</p>
             </div> <!-- /container -->
 
         </div> <!-- /footer -->

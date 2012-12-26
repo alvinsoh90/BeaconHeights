@@ -7,7 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<jsp:useBean id="loginActionBean" scope="page"
+             class="com.lin.general.login.LoginActionBean"/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,6 +27,9 @@
     </head>
 
     <body style="background: url('img/noise_grey_bg.png')">
+        <% if (session.getAttribute("user") != null) {
+                response.sendRedirect("/residents/index.jsp");
+            }%>
         <c:if test = "${param.err == 'true'}">
             <c:set var="errorStyle" value="error" />
         </c:if> 

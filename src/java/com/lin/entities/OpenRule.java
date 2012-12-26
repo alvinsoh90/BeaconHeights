@@ -77,12 +77,30 @@ public class OpenRule  implements java.io.Serializable {
     public void setDayOfWeek(Integer dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
+    
+    public String getDay(){
+        switch(this.dayOfWeek){
+            case 0:return "Monday";
+            case 1:return "Tuesday";
+            case 2:return "Wednesday";
+            case 3:return "Thursday";
+            case 4:return "Friday";
+            case 5:return "Saturday";
+            case 6:return "Sunday";
+                
+        }
+        return null;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "OpenRule{" + "facilityType=" + facilityType + ", startTime=" + startTime + ", endTime=" + endTime + ", dayOfWeek=" + dayOfWeek + '}';
+//    }
 
     @Override
     public String toString() {
-        return "OpenRule{" + "facilityType=" + facilityType + ", startTime=" + startTime + ", endTime=" + endTime + ", dayOfWeek=" + dayOfWeek + '}';
+        return this.getDay()+ " " + startTime.getHours() + ":"+ startTime.getMinutes()+" - " + endTime.getHours() + ":"+ endTime.getMinutes();
     }
-
     
 
 
