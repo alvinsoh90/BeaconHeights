@@ -89,6 +89,8 @@
                 $("#sun2").val( $("#mon2").val() );
                 
                 loadTimepickerInput();
+                
+                validateTimePickerInput();
             }
         </script>
         
@@ -123,8 +125,22 @@
                 });
                 
             }
+            
+            
+        function disableBookingLimitArea(){
+            $("#bookingLimitArea").toggleClass("disabled");
+            $("#enableBookingLimit").toggleClass("hide");
+            
+            //remove inputs if any
+            if($("#bookingSessions").val()){
+                $("#bookingSessions").val("");
+            }
+            if($("#bookingLimitFreq").val()){
+                $("#bookingLimitFreq").val("");
+            }
+        }    
         </script>
- 
+        
     
   </head>
   <body onload="loadTimePickers()">
@@ -155,6 +171,8 @@
                                     <label class="control-label">Name</label>
                                     <div class="controls">
                                         <stripes:text name="name" class="input-xxlarge"/>
+                                        <p class="field-validation-valid" data-valmsg-for="input1" data-valmsg-replace="true">
+                </p>
                                     </div>
                          </div>
                                     
@@ -162,6 +180,7 @@
                                     <label class="control-label">Description</label>
                                     <div class="controls">
                                         <stripes:textarea name="description" class="input-xxlarge"/>
+                                   
                                     </div>
                          </div>
                                     
@@ -234,7 +253,7 @@
                                     
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Limits</label>
-                                    <div class="timepickerArea">
+                                    <div id="bookingLimitArea" class="float_l">
                                         <stripes:text class="span75" name="bookingSessions" id="bookingSessions"/> 
                                         time(s) per
                                         <stripes:text class="span75" name="bookingLimitFreq" id="bookingLimitFreq" />
@@ -242,9 +261,11 @@
                                             <option value="d">Days</option>
                                             <option value="w">Weeks</option>
                                             <option value="m">Months</option>
-                                        </stripes:select>
-                                    </div> 
-                         </div>           
+                                        </stripes:select>                                            
+                                        <a href="#blimit" id="disableBookingLimit" class="embeddedBtn" onclick="disableBookingLimitArea()">No Booking Limits</a>                               
+                                    </div>
+                               <a id="enableBookingLimit" href="#blimit" class="btn btn-info hide float_l" onclick="disableBookingLimitArea()">Enable Booking Limits</a>          
+                         </div>            
                         
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Limitation on Booking in Advance</label>
@@ -260,8 +281,9 @@
                                         <span>days in advance</span>
                                     </div>     
                                         
-                                    <input type="submit" name="editFacilityType" value="Confirm Edit" class="btn btn-primary"/>    
-                         </div>                                                        
+                                
+                         </div>  
+                                            <input type="submit" name="editFacilityType" value="Create Facility" class="btn btn-large btn-primary timepickerArea"/>    
                     </stripes:form>
             
                    </div>
@@ -275,8 +297,6 @@
 
 	<script src="js/bootstrap.min.js"></script>
 
-        
-        
 	<script>
 	$(document).ready(function() {
 		$('.dropdown-menu li a').hover(
@@ -294,7 +314,157 @@
 	});
 	</script>
         
-                <script src="../js/jquery.validate.js"></script>
+        <script>
+            $(document).ready(function() { 
+                
+                    $("#new_facility_validate").validate({
+                        rules: {
+                          name: "required",
+                          description: "required",
+                          bookingSessions: {
+                              digits:true
+                          },
+                          bookingLimitFreq: {
+                              digits:true
+                          },
+                          bookingOpenAdvance: {
+                              digits:true
+                          },
+                          bookingCloseAdvance: {
+                              digits:true
+                          }
+                        },
+                        messages :{
+                            name: "Please enter a facility name",
+                            description: "Please enter a description for the facility",
+                            bookingSessions: "(only digits)",
+                            bookingLimitFreq: "(only digits)",
+                            bookingOpenAdvance: "(only digits)",
+                            bookingCloseAdvance: "(only digits)"
+                        },
+                        
+                        submitHandler: function(form) {
+                            if(!timePickerHasError){
+                                form.submit();
+                            }
+                            
+                        }
+                        
+                });
+                
+                validateTimePickerInput();
+            });
+            
+            var timePickerHasError = false;
+            
+            function validateTimePickerInput(){
+                //validate first
+                checkTimeAndSetStyles($("#mon1"),$("#mon2"));
+                checkTimeAndSetStyles($("#tue1"),$("#tue2"));
+                checkTimeAndSetStyles($("#wed1"),$("#wed2"));
+                checkTimeAndSetStyles($("#thu1"),$("#thu2"));
+                checkTimeAndSetStyles($("#fri1"),$("#fri2"));
+                checkTimeAndSetStyles($("#sat1"),$("#sat2"));
+                checkTimeAndSetStyles($("#sun1"),$("#sun2"));
+                
+                //add change listeners
+                $("#mon2").change(function() {
+                    checkTimeAndSetStyles($("#mon1"),$(this));
+                });
+                
+                $("#tue2").change(function() {
+                    checkTimeAndSetStyles($("#tue1"),$(this));
+                });
+                
+                $("#wed2").change(function() {
+                    checkTimeAndSetStyles($("#wed1"),$(this));
+                });
+                
+                $("#thu2").change(function() {
+                    checkTimeAndSetStyles($("#thu1"),$(this));
+                });
+                
+                $("#fri2").change(function() {
+                    checkTimeAndSetStyles($("#fri1"),$(this));
+                });
+                
+                $("#sat2").change(function() {
+                    checkTimeAndSetStyles($("#sat1"),$(this));
+                });
+                
+                $("#sun2").change(function() {
+                    checkTimeAndSetStyles($("#sun1"),$(this));
+                });
+                // more listeners!
+                $("#mon1").change(function() {
+                    checkTimeAndSetStyles($("#mon1"),$("#mon2"));
+                });
+                
+                $("#tue1").change(function() {
+                    checkTimeAndSetStyles($("#tue1"),$("#tue2"));
+                });
+                
+                $("#wed1").change(function() {
+                    checkTimeAndSetStyles($("#wed1"),$("#wed2"));
+                });
+                
+                $("#thu1").change(function() {
+                    checkTimeAndSetStyles($("#thu1"),$("#thu2"));
+                });
+                
+                $("#fri1").change(function() {
+                    checkTimeAndSetStyles($("#fri1"),$("#fri2"));
+                });
+                
+                $("#sat1").change(function() {
+                    checkTimeAndSetStyles($("#sat1"),$("#sat2"));
+                });
+                
+                $("#sun1").change(function() {
+                    checkTimeAndSetStyles($("#sun1"),$("#sun2"));
+                });                
+                
+            }
+            
+            function checkTimeAndSetStyles(time1,time2){
+                if((isAfter(time1,time2))) {
+                    time2.addClass("error");
+                    time2.removeClass("success");
+                    time1.removeClass("success");
+                    timePickerHasError = true;
+                  }
+                  else {
+                    time2.removeClass("error");
+                    time2.addClass("success");
+                    time1.addClass("success");
+                    timePickerHasError = false;
+                  }
+            }
+            //RETURNS TRUE IF TIMEBEFORE is after TIMEAFTER
+            //ALSO RETURNS TRUE IF ANY DATES CANNOT BE PARSED
+            function isAfter(timeBefore,timeAfter){
+                console.log(timeBefore.val());
+                
+                var dBefore = getDateFromString(timeBefore.val());
+                var dAfter = getDateFromString(timeAfter.val());
+                                
+                if(isNaN(dBefore) || isNaN(dAfter)){
+                    return true;
+                }
+                else {
+                    if(dBefore >= dAfter){
+                    return true;
+                }
+                    else{
+                        return false;
+                    }
+                }
+                
+            }
+        </script>
+        
+        <script src="../js/jquery.validate.js"></script>
+        <script src="../js/jquery.validate.bootstrap.js"></script>
         
   </body>
 </html>
