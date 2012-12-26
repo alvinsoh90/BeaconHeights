@@ -72,15 +72,8 @@
       
         <div class="span9">
           <div class="well hero-unit">
-            <h1>Welcome, Precious</h1>
-            <p>Three Rings for the Elven-kings under the sky,
-Seven for the Dwarf-lords in their halls of stone,
-Nine for Mortal Men doomed to die,
-One for the Dark Lord on his dark throne. 
-In the Land of Mordor where the Shadows lie.
-One Ring to rule them all, One Ring to find them,
-One Ring to bring them all and in the darkness bind them.
-In the Land of Mordor where the Shadows lie.</p>
+            <h1>Welcome, Administrator.</h1>
+            <p>What would you like to do today?</p>
             <p><a class="btn btn-success btn-large" href="users.jsp">Manage Users &raquo;</a></p>
           </div>
           <div class="row-fluid">
