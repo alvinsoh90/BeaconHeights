@@ -41,6 +41,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
     private String username;
     private String firstName;
     private String lastName;
+    private Facility facility;
     private String facilityType;
     private String facilityId;
     private String startDate;
@@ -100,6 +101,14 @@ public class ManageBookingsActionBean extends BaseActionBean {
 
     public String getUsername() {
         return username;
+    }
+
+    public Facility getFacility() {
+        return facility;
+    }
+
+    public void setFacility(Facility facility) {
+        this.facility = facility;
     }
 
     public void setBooking(Booking booking) {
@@ -219,10 +228,10 @@ public class ManageBookingsActionBean extends BaseActionBean {
         return bookingList;
     }
 
-    public ArrayList<Booking> getAllBookingsByFacilityType() {
+    public ArrayList<Booking> getAllBookingsByFacility() {
         BookingDAO bDAO = new BookingDAO();
-        System.out.println("FACILITY TYPE "+getFacilityType());
-        bookingList = bDAO.getAllBookingsByFacilityType(getFacilityType());
+        System.out.println("FACILITY: " + getFacility());
+        bookingList = bDAO.getAllBookingsByFacility(getFacility());
         System.out.println("No of Bookings: " + bookingList.size());
         return bookingList;
     }
@@ -249,7 +258,6 @@ public class ManageBookingsActionBean extends BaseActionBean {
         this.bookingList = bookingList;
     }
 
-    
     /*
     public Resolution createUserAccount() {
     try {
@@ -287,6 +295,6 @@ public class ManageBookingsActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution setFType() {
         System.out.println("HELLO " + getFacilityType());
-        return new RedirectResolution("/residents/index.jsp?ftype="+getFacilityType());
+        return new RedirectResolution("/residents/index.jsp?ftype=" + getFacilityType());
     }
 }

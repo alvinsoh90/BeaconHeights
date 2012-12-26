@@ -36,39 +36,23 @@
             var bookingList = [];
             
             function addEvents(){
-                	
-                var date = new Date();
-                var d = date.getDate();
-                var m = date.getMonth();
-                var y = date.getFullYear();
+                //this method is called when page is fully loaded, 
+                //bookingList is populated as page loads
                 
-                var e = new Object();
-                e.title = 'blaaa';
+//                var eventSource = bookingList;
+//                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
                 
-                /*
-                var event1 = {id: 997,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d+1, 16, 0),
-                    allDay: false
-                };
-
-                var event2 = {id: 998,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d+2, 16, 0),
-                    allDay: false
-                };
-
-                var event3 = {id: 999,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d+3, 16, 0),
-                    allDay: false
-                };*/
-            
-                var eventSource = bookingList;
+                var eventSource = "/json/bookingevents.jsp?facilityid=28";
                 $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
+                
             }
-            // Format into JSON
-            // addEventSource
+            
+            function showFacilityBookingsByFacilityID(id){
+                $('#fullcalendar').fullCalendar({
+                    events: '/bookingeventsjson.jsp?facilityid=' + id
+                });
+            }
+            
         </script> 
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -79,6 +63,9 @@
     </head>
 
     <body>
+
+
+
         <div id="content">
 
             <div class="container">
@@ -89,9 +76,9 @@
 
                         <div class="account-container">
                             <h2>Now Booking</h2>
-                            <select id ="choosefacility">
-                                <c:forEach items="${manageFacilitiesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
-                                    <option value="${facilityType.name}">${facilityType.name}</option>
+                            <select id ="facilityDropDown">
+                                <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
+                                    <option value="${facility.id}">${facility.facilityType.name} ${facility.id}</option>
                                 </c:forEach>
                             </select>
 
@@ -108,12 +95,6 @@
                                     Date: <span id="date"><i><font size="2"> --</font></span> <br/>
                                     Time: <span id="time"><i><font size="2"> --</font></i></span>
                                 </div>
-                                
-                                <!--This is the form used to parse the facility type over to the action bean -->
-                                <stripes:form beanclass="com.lin.general.admin.ManageBookingsActionBean" id="ftype" focus="">
-                                    <stripes:text name="facilityType" id="facilitytype" />
-                                </stripes:form>
-
                                 <div class="inviteFriends comingsoon">
                                     <div class="header">Invite Friends</div>
                                     <input class="span2" type="text" placeholder="Type a friend's name"/>
@@ -126,10 +107,11 @@
                                     <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
                                 </div>
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
-                                    <stripes:text name="facilityID" id="facilityid" class="hide" />
-                                    <stripes:text name="startDateString" id="starttimemillis" class="hide" />   
-                                    <stripes:text name="endDateString" id="endtimemillis" class="hide"  /> 
-                                    <stripes:text name="title" id="title" class="hide"/>
+                                    <stripes:hidden name="facilityID" id="facilityid" />
+                                    <stripes:hidden name="startDateString" id="starttimemillis"  />   
+                                    <stripes:hidden name="endDateString" id="endtimemillis"   /> 
+                                    <stripes:hidden name="title" id="title"/>
+                                    <stripes:hidden name="currentUserID" id="userID" value='${sessionScope.user.userId}'/>                                   
                                     <div class="centerText">
                                         <stripes:submit class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>
                                     </div>
@@ -151,70 +133,44 @@
 
                         <h1 class="page-title">
                             <i class="icon-home"></i>
-                            Current Bookings :
-                            <span id ="sub">${param.ftype} </sub> </h1>
-                            <!-- I'm using this to field to store the param, so that I can use jquery to populate the other booking details-->
+                                
+                            <span id ="sub"></span> 
+                            Bookings
                         </h1>
                         <br/>
                     </div>	
-
-
-                    <!--To display facility selected in the dropdown box, in the booking details-->                    
-                    <script>      
+                    
+                    <script>
+                        // To display facility selected in the dropdown box, in the booking details
                         function displayVals() {
-                            var singleValues = $("select").val();
-                            $("#venue").html(singleValues);
-                            $("#sub").html(singleValues);
-                            $("#facilitytype").val(singleValues);
+                            var singleValues = $("#facilityDropDown option:selected").text();
+                            //set venue texts
+                            $("#venue").text(singleValues); 
+                            $("#sub").text(singleValues);  
+                            //set hidden field facility id
+                            $("#facilityid").val($("#facilityDropDown").val());
                         }
                         $("select").change(displayVals);
-                        //displayVals;
-                        $("select").change(function(){
-                            document.forms["ftype"].submit();
-                        });
-
-                        
+                        displayVals();
                     </script>
-
-                    <!-- Check if the parameter is empty, if it is not, then reload the fields using the param value-->
-                    <c:if test="${not empty param.ftype}">
-                        <script>
-                            function loadFtype() {
-                                var singleValues = $('#sub').html();
-                                $("#venue").html(singleValues);
-                                $("#sub").html(singleValues);
-                                $("select").val("BB").attr("selected", "selected");
-                                $("#facilitytype").val($("select").val());
-                                alert($('#facility').contains(singleValues));   
-                            }
-                            loadFtype();
-                        </script>
-                    </c:if>
-
 
                     <div class="span9">
                         <div class="widget-content nopadding calendarContainer">
                             <div id="fullcalendar" class="calendarWidth"></div>
                         </div>
                     </div>
-
-
-                    <!-- Need to set facilityType, as when page reloads, when you get bookingListByFacilityType, the facility type is null-->
-                    <jsp:setProperty name = "manageBookingsActionBean"  property = "facilityType"  value = "${param.ftype}" />
-                    <c:if test= "${manageBookingsActionBean.allBookingsByFacilityType.size()
-                                   !=0}">
-                        <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
-                            <script>
-                                var booking = new Object();
-                                booking.id = '${booking.id}';
-                                booking.start = new Date(${booking.startTimeInSeconds});
-                                booking.end = new Date(${booking.endTimeInSeconds});
-                                booking.title = '${booking.title}';
-                                booking.allDay = false;
-                                bookingList.push(booking);
-                            </script>
-                        </c:forEach>
-                    </c:if>
+                    <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
+                        <script>
+                            var booking = new Object();
+                            booking.id = '${booking.id}';
+                            booking.start = new Date(${booking.startTimeInSeconds});
+                            booking.end = new Date(${booking.endTimeInSeconds});
+                            booking.title 
+                                = '${booking.facility.facilityType.name} ${booking.facility.id}';
+                            booking.allDay = false;
+                            bookingList.push(booking);
+                        </script>
+                    </c:forEach>
 
 
                 </div> <!-- /row -->
