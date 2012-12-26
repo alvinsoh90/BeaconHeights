@@ -159,4 +159,18 @@ public class FacilityTypeDAO {
         return typeList.get(0);
 
     }
+    
+    public FacilityType getFacilityType(Integer id) {
+        openSession();
+        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from FacilityType where id ='" + id + "'");
+            typeList = (ArrayList<FacilityType>) q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return typeList.get(0);
+
+    }
 }
