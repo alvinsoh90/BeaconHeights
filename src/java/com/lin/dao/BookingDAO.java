@@ -183,15 +183,14 @@ public class BookingDAO {
         }
         return currentList;
     }
-        public ArrayList<Booking> getAllBookingsByFacilityType(String fType) {
+        public ArrayList<Booking> getAllBookingsByFacility(Facility facility) {
         ArrayList<Booking> currentList = new ArrayList<Booking>();
         try {
             ArrayList<Booking> temp = getAllBookings();
             System.out.println("TEMPARRSIZE: "+temp.size());
             for (Booking b : temp) {
-                System.out.println("B: "+b.getFacility().getFacilityType().getName());
-                if (b.getFacility().getFacilityType().getName()
-                        .equals(fType)) {
+                System.out.println("B: "+b.getFacility().toString());
+                if (b.getFacility().equals(facility)) {
                     currentList.add(b);
                 }
             }
