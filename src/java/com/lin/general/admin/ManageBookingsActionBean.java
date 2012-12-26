@@ -34,6 +34,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
     private ArrayList<User> userList;
     private ArrayList<FacilityType> facilityTypeList;
     private ArrayList<Booking> bookingList;
+    private ArrayList<Booking> bookingListForSingleFacility;
     //private User user;
     private Booking booking;
     private Log log = Log.getInstance(ManageBookingsActionBean.class);//in attempt to log what went wrong..
@@ -43,7 +44,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
     private String lastName;
     private Facility facility;
     private String facilityType;
-    private String facilityId;
+    private int facilityId;
     private String startDate;
     private String endDate;
     private String isPaid;
@@ -51,6 +52,18 @@ public class ManageBookingsActionBean extends BaseActionBean {
     private boolean success = false;
     private User currentUser;
 
+    public ArrayList<Booking> getBookingListForSingleFacility() {
+        bookingListForSingleFacility = getAllBookingsByFacilityID(facilityId);
+        System.out.println("size" + bookingListForSingleFacility.size());
+        return bookingListForSingleFacility;
+    }
+
+    public void setBookingListForSingleFacility(ArrayList<Booking> bookingListForSingleFacility) {
+        this.bookingListForSingleFacility = bookingListForSingleFacility;
+    }
+
+    
+    
     public Booking getBooking() {
         return booking;
     }
@@ -71,7 +84,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
         return facilityType;
     }
 
-    public String getFacilityId() {
+    public int getFacilityId() {
         return facilityId;
     }
 
@@ -135,7 +148,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
         this.facilityType = facilityType;
     }
 
-    public void setFacilityId(String facilityId) {
+    public void setFacilityId(int facilityId) {
         this.facilityId = facilityId;
     }
 
@@ -228,10 +241,10 @@ public class ManageBookingsActionBean extends BaseActionBean {
         return bookingList;
     }
 
-    public ArrayList<Booking> getAllBookingsByFacility() {
+    public ArrayList<Booking> getAllBookingsByFacilityID(int id) {
         BookingDAO bDAO = new BookingDAO();
         System.out.println("FACILITY: " + getFacility());
-        bookingList = bDAO.getAllBookingsByFacility(getFacility());
+        bookingList = bDAO.getAllBookingsByFacilityID(id);
         System.out.println("No of Bookings: " + bookingList.size());
         return bookingList;
     }

@@ -183,20 +183,17 @@ public class BookingDAO {
         }
         return currentList;
     }
-        public ArrayList<Booking> getAllBookingsByFacility(Facility facility) {
+        public ArrayList<Booking> getAllBookingsByFacilityID(int facilityid) {
         ArrayList<Booking> currentList = new ArrayList<Booking>();
-        try {
-            ArrayList<Booking> temp = getAllBookings();
-            System.out.println("TEMPARRSIZE: "+temp.size());
-            for (Booking b : temp) {
-                System.out.println("B: "+b.getFacility().toString());
-                if (b.getFacility().equals(facility)) {
-                    currentList.add(b);
-                }
+            openSession();
+            try {
+                org.hibernate.Transaction tx = session.beginTransaction();
+                Query q = session.createQuery("from Booking where facility_id ='" + facilityid + "'");
+                currentList = (ArrayList<Booking>) q.list();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return currentList;
     }
 }

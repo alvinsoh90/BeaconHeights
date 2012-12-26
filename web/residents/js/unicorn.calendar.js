@@ -6,7 +6,7 @@ $(document).ready(function(){
 	
     unicorn.init();
 	
-  addEvents();//trigger adding of events
+  //addEvents();//trigger adding of events TRIGGERING NOW HAPPENS WITHIN PAGE ITSELF
   
 });
 
