@@ -70,34 +70,7 @@
                     <%@include file="include/pageinfobar.jsp"%>
                     
                     <!-- Edit Facility Type Modal Form -->
-                <div id="editFacilityTypeModal" class="modal hide fade">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h3>Edit <span id="facilityTypeLabel"></span></h3>
-                    </div>
-                    <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilityTypesBean" focus="name" id="edit_types_validate" name="edit_types_validate">
-                            
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Name</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_name" name="name"/> 
-                                </div>
-                            </div>    
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Description</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_description" name="description"/> 
-                                </div>
-                            </div>                              
-                            <stripes:hidden id="editid" name="id"/>
-                        </div>
-                        <div class="modal-footer">
-                            <a data-dismiss="modal" class="btn">Close</a>
-                            <input type="submit" name="editFacilityType" value="Confirm Edit" class="btn btn-primary"/>
-                        </div>
-                    </stripes:form>
-                </div>
+                
                 
                 <!--Delete Facility Modal -->
                 <div id="deleteFacilityTypeModal" class="modal hide fade">
@@ -163,7 +136,7 @@
                                                             ${advanceRules}<br>    
                                                             </c:forEach></td>
                                                         <td>
-                                                            <a href="#editFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityTypeModal('${facilityType.id}');">Edit</a> 
+                                                            <a href="editfacilitytype.jsp?id=${facilityType.id}" role="button" class="btn btn-primary btn-mini">Edit</a> 
                                                             <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>
                                                         </td>
                                                     </tr>

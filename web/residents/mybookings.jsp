@@ -126,84 +126,86 @@
                                                     <td><c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
                                                     </td>
                                                     <td class="action-td">
-                                                        <a href="javascript:;" class="btn btn-small btn-warning">
-                                                            <i class="icon-heart"></i>								
-                                                        </a>					
-                                                        <a href="javascript:;" class="btn btn-small">
-                                                            <i class="icon-trash"></i>						
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </c:if>
-                                        <c:if test="${manageBookingsActionBean.userCurrentBookingList.size()==0}">
-                                        <thead>
-                                        <th> You have no current bookings</th>
-                                        </thead>
-                                    </c:if>
-                                </table>
+                                                        <!--<a href="javascript:;" class="btn btn-small btn-warning">
+                                                            Pay							
+                                                        </a>-->
+                                                        <jsp:setProperty name = "manageBookingsActionBean"  property = "id"  value = "${booking.id}" />
+                                                        <stripes:form beanclass="com.lin.general.admin.ManageBookingsActionBean" focus="">
+                                                            <stripes:hidden name="id" id="id"  value = "${booking.id}" />
+                                                            <stripes:submit class="btn btn-small btn-warning" name="deleteBooking" value="Delete"/>                                                           						
+                                                                </stripes:form>
+                                                            </td>
+                                                        </tr>
+                                                        </c:forEach>
+                                                        </c:if>
+                                                        <c:if test="${manageBookingsActionBean.userCurrentBookingList.size()==0}">
+                                                        <thead>
+                                                        <th> You have no current bookings</th>
+                                                        </thead>
+                                                    </c:if>
+                                                </table>
 
-                                <table class="table table-striped table-bordered" id="history">
-                                    <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()!=0}">     
-                                        <thead>
-                                        <th>No.</th>
-                                        <th>Date</th>
-                                        <th>Booking Title</th>
-                                        <th>Facility</th>
-                                        <th>Start Time</th>
-                                        <th>End Time</th>
-                                        </thead>
-                                        <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
-                                            <tr>
-                                                <td>${booking.id}</td>
-                                                <td>${booking.bookingTimeStamp}</td>
-                                                <td>${booking.title}</td>
-                                                <td>${booking.facility.facilityType.name}</td>
-                                                <td>${booking.startDate}</td>
-                                                <td>${booking.endDate}</td>            
-                                            </tr>
-                                        </c:forEach>
-                                    </c:if>
-                                    <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()==0}">
-                                        <thead>
-                                        <th> You have no bookings</th>
-                                        </thead>
-                                    </c:if>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div> <!-- /row -->
-
-            </div> <!-- /container -->
-
-        </div> <!-- /content -->
+                                                <table class="table table-striped table-bordered" id="history">
+                                                    <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()!=0}">     
+                                                        <thead>
+                                                        <th>No.</th>
+                                                        <th>Date</th>
+                                                        <th>Booking Title</th>
+                                                        <th>Facility</th>
+                                                        <th>Start Time</th>
+                                                        <th>End Time</th>
+                                                        </thead>
+                                                        <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
+                                                            <tr>
+                                                                <td>${booking.id}</td>
+                                                                <td>${booking.bookingTimeStamp}</td>
+                                                                <td>${booking.title}</td>
+                                                                <td>${booking.facility.facilityType.name}</td>
+                                                                <td>${booking.startDate}</td>
+                                                                <td>${booking.endDate}</td>            
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                    <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()==0}">
+                                                        <thead>
+                                                        <th> You have no bookings</th>
+                                                        </thead>
+                                                    </c:if>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-        <div id="footer">
+                                </div> <!-- /row -->
 
-            <div class="container">				
-                <hr>
-                <p>&copy; 2012 Go Ideate.</p>
-            </div> <!-- /container -->
+                            </div> <!-- /container -->
 
-        </div> <!-- /footer -->
+                        </div> <!-- /content -->
 
 
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
+                        <div id="footer">
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+                            <div class="container">				
+                                <hr>
+                                <p>Beacon Heights Condominium</p>
+                            </div> <!-- /container -->
 
-    </body>
-</html>
+                        </div> <!-- /footer -->
+
+
+                        <!-- Le javascript
+                        ================================================== -->
+                        <!-- Placed at the end of the document so the pages load faster -->
+                        <script src="./js/excanvas.min.js"></script>
+                        <script src="./js/jquery.flot.js"></script>
+                        <script src="./js/jquery.flot.pie.js"></script>
+                        <script src="./js/jquery.flot.orderBars.js"></script>
+                        <script src="./js/jquery.flot.resize.js"></script>
+                        <script src="./js/fullcalendar.min.js"></script>
+
+                        <script src="./js/bootstrap.js"></script>
+                        <script src="./js/charts/bar.js"></script>
+
+                    </body>
+                </html>

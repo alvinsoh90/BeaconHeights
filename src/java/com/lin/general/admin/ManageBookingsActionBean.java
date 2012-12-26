@@ -27,7 +27,10 @@ import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import net.sourceforge.stripes.action.Before;
+import net.sourceforge.stripes.action.*;
+
+
+@UrlBinding("/stripes/ManageBookings.action")
 
 public class ManageBookingsActionBean extends BaseActionBean {
 
@@ -133,6 +136,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
     }
 
     public void setId(String id) {
+        System.out.println("SETTED");
         this.id = id;
     }
 
@@ -298,11 +302,11 @@ public class ManageBookingsActionBean extends BaseActionBean {
     return new RedirectResolution("/admin/manageusers.jsp?createsuccess=" + success
     + "&createmsg=" + result);
     }*/
-    public boolean deleteBooking() {
+    @HandlesEvent("deleteBooking")
+    public Resolution deleteBooking() {
         BookingDAO bDAO = new BookingDAO();
-        boolean success = bDAO.deleteBooking(booking.getId());
-
-        return success;
+        boolean success = bDAO.deleteBooking(Integer.parseInt(getId()));
+        return new RedirectResolution("/residents/mybookings.jsp");
     }
 
     @DefaultHandler
