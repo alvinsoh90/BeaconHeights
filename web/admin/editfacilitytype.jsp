@@ -1,3 +1,8 @@
+<%@page import="com.lin.entities.AdvanceRule"%>
+<%@page import="com.lin.entities.OpenRule"%>
+<%@page import="com.lin.entities.LimitRule"%>
+<%@page import="com.lin.entities.FacilityType"%>
+<%@page import="com.lin.dao.FacilityTypeDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.lin.entities.User"%>
@@ -141,7 +146,26 @@
         }    
         </script>
         
-    
+    <% 
+        FacilityTypeDAO fDAO = new FacilityTypeDAO();
+        FacilityType fType = fDAO.getFacilityType(Integer.parseInt(request.getParameter("id")));
+        
+        LimitRule lRule = (LimitRule)fType.getLimitRules().toArray()[0];
+        String timeFrameType = "";
+        String timeFrameValue = "";
+        if(lRule.getTimeframeType().equals("DAY")){
+            timeFrameType = "d";
+            timeFrameValue = "Days";
+        }else if(lRule.getTimeframeType().equals("WEEK")){
+            timeFrameType = "w";
+            timeFrameValue = "Weeks";
+        }else if(lRule.getTimeframeType().equals("MONTH")){
+            timeFrameType = "m";
+            timeFrameValue = "Months";
+        }  
+        
+        AdvanceRule aRule = (AdvanceRule)fType.getAdvanceRules().toArray()[0];
+    %>
   </head>
   <body onload="loadTimePickers()">
       
@@ -155,12 +179,13 @@
                     <%@include file="include/pageinfobar.jsp"%>
                     
                     <div class="page-header">
-				<h1>Create Facility Type <small></small></h1>
+				<h1>Edit Facility Type <small></small></h1>
 			</div>
                     
                     <!-- Create FT form start -->
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilityTypesActionBean" name="new_facility_validate" id="new_facility_validate">
-                        
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilityTypeActionBean" name="new_facility_validate" id="new_facility_validate">
+                        <stripes:hidden name="id" id="id" value="<%= fType.getId() %>" />
+                     
                         <stripes:errors>
      <stripes:errors-header><div class="errorHeader">Validation Errors</div><ul></stripes:errors-header>
      <li><stripes:individual-error/></li>
@@ -170,7 +195,7 @@
                         <div class="control-group ${errorStyle}">
                                     <label class="control-label">Name</label>
                                     <div class="controls">
-                                        <stripes:text name="name" class="input-xxlarge"/>
+                                        <stripes:text name="name" class="input-xxlarge" value="<%= fType.getName() %>"/>
                                         <p class="field-validation-valid" data-valmsg-for="input1" data-valmsg-replace="true">
                 </p>
                                     </div>
@@ -179,7 +204,7 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Description</label>
                                     <div class="controls">
-                                        <stripes:textarea name="description" class="input-xxlarge"/>
+                                        <stripes:textarea name="description" class="input-xxlarge" value="<%= fType.getDescription() %>"/>
                                    
                                     </div>
                          </div>
@@ -254,10 +279,11 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Limits</label>
                                     <div id="bookingLimitArea" class="float_l">
-                                        <stripes:text class="span75" name="bookingSessions" id="bookingSessions"/> 
+                                        <stripes:text class="span75" name="bookingSessions" id="bookingSessions" value="<%= lRule.getSessions() %>"/> 
                                         time(s) per
-                                        <stripes:text class="span75" name="bookingLimitFreq" id="bookingLimitFreq" />
+                                        <stripes:text class="span75" name="bookingLimitFreq" id="bookingLimitFreq" value="<%= lRule.getNumberOfTimeframe() %>"/>
                                         <stripes:select name="bookingLimitUnit" class="span75">
+                                            <option SELECTED value="<%= timeFrameType %>"><%= timeFrameValue %></option>
                                             <option value="d">Days</option>
                                             <option value="w">Weeks</option>
                                             <option value="m">Months</option>
@@ -271,19 +297,19 @@
                                     <label class="control-label">Limitation on Booking in Advance</label>
                                     <div class="timepickerArea">
                                         <span>Booking Opens</span>
-                                        <stripes:text class="span75" name="bookingOpenAdvance" id="bookingOpenAdvance"/> 
+                                        <stripes:text class="span75" name="bookingOpenAdvance" id="bookingOpenAdvance" value="<%= aRule.getMinDays() %>" /> 
                                         <span>days in advance</span>
                                     </div> 
                                         
                                     <div class="timepickerArea">
                                         <span>Booking Closes</span>
-                                        <stripes:text class="span75" name="bookingCloseAdvance" id="bookingCloseAdvance"/> 
+                                        <stripes:text class="span75" name="bookingCloseAdvance" id="bookingCloseAdvance" value="<%= aRule.getMaxDays() %>"/> 
                                         <span>days in advance</span>
                                     </div>     
                                         
                                 
                          </div>  
-                                            <input type="submit" name="editFacilityType" value="Create Facility" class="btn btn-large btn-primary timepickerArea"/>    
+                                            <input type="submit" name="editFacilityType" value="Edit Facility" class="btn btn-large btn-primary timepickerArea"/>    
                     </stripes:form>
             
                    </div>
