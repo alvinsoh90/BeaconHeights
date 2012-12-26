@@ -55,7 +55,7 @@
                         <ul class="nav pull-right">
                             <li class="divider-vertical"></li>
                             <li>
-                                <img class="profilePic" src="http://profile.ak.fbcdn.net/hprofile-ak-snc7/371889_776405701_1107384686_q.jpg"/>
+                                <img class="profilePic" src="http://png-3.findicons.com/files/icons/1580/devine_icons_part_2/128/account_and_control.png"/>
                             </li>
 
 

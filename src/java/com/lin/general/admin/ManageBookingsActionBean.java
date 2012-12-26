@@ -30,8 +30,6 @@ import javax.servlet.http.HttpSession;
 import net.sourceforge.stripes.action.*;
 
 
-@UrlBinding("/stripes/ManageBookings.action")
-
 public class ManageBookingsActionBean extends BaseActionBean {
 
     private ArrayList<User> userList;
