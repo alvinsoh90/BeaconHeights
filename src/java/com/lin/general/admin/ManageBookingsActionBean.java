@@ -158,28 +158,27 @@ public class ManageBookingsActionBean extends BaseActionBean {
     public int getSize() {
         return userList.size();
     }
-    
-    
+
     public User getCurrentUser() {
         /*User u = null;
         try {
-            //HttpServletRequest request = super.getContext().getRequest();
-            //HttpSession session = request.getSession();
-            //System.out.println(session.getId());
-            //u = ${LoginActionBean.currentUser};
-            //this.getContext();
-            //this.getContext().getRequest();
-            //this.getContext().getRequest().getSession();
-            //HttpSession session = this.getContext().getRequest().getSession();
-            MyAppActionBeanContext c = this.getContext();
-            if(c == null) System.out.println("CNULL");
-            u = c.getUser();
-            System.out.println("YAYZERS" + u.toString());
-
+        //HttpServletRequest request = super.getContext().getRequest();
+        //HttpSession session = request.getSession();
+        //System.out.println(session.getId());
+        //u = ${LoginActionBean.currentUser};
+        //this.getContext();
+        //this.getContext().getRequest();
+        //this.getContext().getRequest().getSession();
+        //HttpSession session = this.getContext().getRequest().getSession();
+        MyAppActionBeanContext c = this.getContext();
+        if(c == null) System.out.println("CNULL");
+        u = c.getUser();
+        System.out.println("YAYZERS" + u.toString());
+        
         } catch (NullPointerException e) {
-            e.printStackTrace();
-            System.out.println("user is null");
-
+        e.printStackTrace();
+        System.out.println("user is null");
+        
         }*/
         return currentUser;
     }
@@ -220,6 +219,14 @@ public class ManageBookingsActionBean extends BaseActionBean {
         return bookingList;
     }
 
+    public ArrayList<Booking> getAllBookingsByFacilityType() {
+        BookingDAO bDAO = new BookingDAO();
+        System.out.println("FACILITY TYPE "+getFacilityType());
+        bookingList = bDAO.getAllBookingsByFacilityType(getFacilityType());
+        System.out.println("No of Bookings: " + bookingList.size());
+        return bookingList;
+    }
+
     public ArrayList<Booking> getUserCurrentBookingList() {
         User u = getCurrentUser();
         System.out.println(u.toString());
@@ -242,7 +249,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
         this.bookingList = bookingList;
     }
 
-    @DefaultHandler
+    
     /*
     public Resolution createUserAccount() {
     try {
@@ -275,5 +282,11 @@ public class ManageBookingsActionBean extends BaseActionBean {
         boolean success = bDAO.deleteBooking(booking.getId());
 
         return success;
+    }
+
+    @DefaultHandler
+    public Resolution setFType() {
+        System.out.println("HELLO " + getFacilityType());
+        return new RedirectResolution("/residents/index.jsp?ftype="+getFacilityType());
     }
 }

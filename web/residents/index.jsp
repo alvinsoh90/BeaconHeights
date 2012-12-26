@@ -7,6 +7,8 @@
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <jsp:useBean id="manageBookingsActionBean" scope="page"
                      class="com.lin.general.admin.ManageBookingsActionBean"/>
+        <jsp:useBean id="manageFacilitiesActionBean" scope="page"
+                     class="com.lin.general.admin.ManageFacilitiesActionBean"/>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -77,46 +79,52 @@
     </head>
 
     <body>
+        <div id="content">
 
+            <div class="container">
 
+                <div class="row">
 
-            <div id="content">
+                    <div class="span3">
 
-                <div class="container">
+                        <div class="account-container">
+                            <h2>Now Booking</h2>
+                            <select id ="choosefacility">
+                                <c:forEach items="${manageFacilitiesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
+                                    <option value="${facilityType.name}">${facilityType.name}</option>
+                                </c:forEach>
+                            </select>
 
-                    <div class="row">
+                        </div> <!-- /account-container -->
 
-                        <div class="span3">
+                        <hr />
 
-                            <div class="account-container">
-                                <h2>Now Booking</h2>
-                                <select>
-                                    <option value="tennis">Tennis Court A</option>
-                                </select>
+                        <ul id="main-nav" class="nav nav-tabs nav-stacked">
+                            <h2>Your Booking Details</h2>
+                            <div class="widget-content widget-nopad">
+                                <div class="bookingDetails">
+                                    Venue: <span id="venue">Choose facility
+                                    </span><br/>
+                                    Date: <span id="date"><i><font size="2"> --</font></span> <br/>
+                                    Time: <span id="time"><i><font size="2"> --</font></i></span>
+                                </div>
+                                
+                                <!--This is the form used to parse the facility type over to the action bean -->
+                                <stripes:form beanclass="com.lin.general.admin.ManageBookingsActionBean" id="ftype" focus="">
+                                    <stripes:text name="facilityType" id="facilitytype" />
+                                </stripes:form>
 
-                            </div> <!-- /account-container -->
-
-                            <hr />
-
-                            <ul id="main-nav" class="nav nav-tabs nav-stacked">
-                                <h2>Your Booking Details</h2>
-                                <div class="widget-content widget-nopad">
-                                    <div class="bookingDetails">
-                                        Venue: <span id="venue">Tennis Court A</span><br/>
-                                        Date: <span id="date">25/11/12</span> <br/>
-                                        Time: <span id="time">7pm</span>
-                                    </div>
-                                    <div class="inviteFriends comingsoon">
-                                        <div class="header">Invite Friends</div>
-                                        <input class="span2" type="text" placeholder="Type a friend's name"/>
-                                        <button class="btn btn-peace-2 btnmod">Invite</button>
-                                        Invited: 
-                                        <span class="inviteLabel label label-success">Fayanne Foo  x</span>                             
-                                    </div>
-                                    <div class="shareBooking centerText comingsoon">
-                                        <h4>Share this event with your friends</h4>
-                                        <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
-                                    </div>
+                                <div class="inviteFriends comingsoon">
+                                    <div class="header">Invite Friends</div>
+                                    <input class="span2" type="text" placeholder="Type a friend's name"/>
+                                    <button class="btn btn-peace-2 btnmod">Invite</button>
+                                    <!--Invited: 
+                                    <span class="inviteLabel label label-success"></span>-->                             
+                                </div>
+                                <div class="shareBooking centerText comingsoon">
+                                    <h4>Share this event with your friends</h4>
+                                    <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
+                                </div>
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
                                     <stripes:text name="facilityID" id="facilityid" class="hide" />
                                     <stripes:text name="startDateString" id="starttimemillis" class="hide" />   
@@ -131,40 +139,82 @@
                             <hr />
 
                             <div class="sidebar-extra">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
-                            </div> <!-- .sidebar-extra -->
+                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>-->
+                            </div>  <!-- .sidebar-extra -->
 
                             <br />
 
                     </div> <!-- /span3 -->
 
 
-
                     <div class="span9">
 
                         <h1 class="page-title">
                             <i class="icon-home"></i>
-                            Tennis Court					
+                            Current Bookings :
+                            <span id ="sub">${param.ftype} </sub> </h1>
+                            <!-- I'm using this to field to store the param, so that I can use jquery to populate the other booking details-->
                         </h1>
                         <br/>
                     </div>	
+
+
+                    <!--To display facility selected in the dropdown box, in the booking details-->                    
+                    <script>      
+                        function displayVals() {
+                            var singleValues = $("select").val();
+                            $("#venue").html(singleValues);
+                            $("#sub").html(singleValues);
+                            $("#facilitytype").val(singleValues);
+                        }
+                        $("select").change(displayVals);
+                        //displayVals;
+                        $("select").change(function(){
+                            document.forms["ftype"].submit();
+                        });
+
+                        
+                    </script>
+
+                    <!-- Check if the parameter is empty, if it is not, then reload the fields using the param value-->
+                    <c:if test="${not empty param.ftype}">
+                        <script>
+                            function loadFtype() {
+                                var singleValues = $('#sub').html();
+                                $("#venue").html(singleValues);
+                                $("#sub").html(singleValues);
+                                $("select").val("BB").attr("selected", "selected");
+                                $("#facilitytype").val($("select").val());
+                                alert($('#facility').contains(singleValues));   
+                            }
+                            loadFtype();
+                        </script>
+                    </c:if>
+
 
                     <div class="span9">
                         <div class="widget-content nopadding calendarContainer">
                             <div id="fullcalendar" class="calendarWidth"></div>
                         </div>
                     </div>
-                    <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
-                        <script>
-                            var booking = new Object();
-                            booking.id = '${booking.id}';
-                            booking.start = new Date(${booking.startTimeInSeconds});
-                            booking.end = new Date(${booking.endTimeInSeconds});
-                            booking.title = 'hi';
-                            booking.allDay = false;
-                            bookingList.push(booking);
-                        </script>
-                    </c:forEach>
+
+
+                    <!-- Need to set facilityType, as when page reloads, when you get bookingListByFacilityType, the facility type is null-->
+                    <jsp:setProperty name = "manageBookingsActionBean"  property = "facilityType"  value = "${param.ftype}" />
+                    <c:if test= "${manageBookingsActionBean.allBookingsByFacilityType.size()
+                                   !=0}">
+                        <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
+                            <script>
+                                var booking = new Object();
+                                booking.id = '${booking.id}';
+                                booking.start = new Date(${booking.startTimeInSeconds});
+                                booking.end = new Date(${booking.endTimeInSeconds});
+                                booking.title = '${booking.title}';
+                                booking.allDay = false;
+                                bookingList.push(booking);
+                            </script>
+                        </c:forEach>
+                    </c:if>
 
 
                 </div> <!-- /row -->
@@ -178,7 +228,7 @@
 
             <div class="container">				
                 <hr>
-                <p>&copy; 2012 Go Ideate.</p>
+                <p>Beacon Heights Condominium</p>
             </div> <!-- /container -->
 
         </div> <!-- /footer -->

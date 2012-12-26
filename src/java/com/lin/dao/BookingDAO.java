@@ -79,11 +79,9 @@ public class BookingDAO {
 
     //Add bookings
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
-    public Booking addBooking(User user, Facility facility,
-            Timestamp bookingTimeStamp, Timestamp startDate, Timestamp endDate,
-            boolean isPaid, String transactionId,Date transactionTimeStamp, String title) {
+    public Booking addBooking(Booking booking) {
         openSession();
-        Booking booking = new Booking(user, facility, bookingTimeStamp, startDate, endDate, isPaid, transactionId,transactionTimeStamp, title);
+
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -177,6 +175,23 @@ public class BookingDAO {
             ArrayList<Booking> temp = getUserBookings(userID);
             for (Booking b : temp) {
                 if (b.getEndDate().compareTo(new Date()) > 0) {
+                    currentList.add(b);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return currentList;
+    }
+        public ArrayList<Booking> getAllBookingsByFacilityType(String fType) {
+        ArrayList<Booking> currentList = new ArrayList<Booking>();
+        try {
+            ArrayList<Booking> temp = getAllBookings();
+            System.out.println("TEMPARRSIZE: "+temp.size());
+            for (Booking b : temp) {
+                System.out.println("B: "+b.getFacility().getFacilityType().getName());
+                if (b.getFacility().getFacilityType().getName()
+                        .equals(fType)) {
                     currentList.add(b);
                 }
             }
