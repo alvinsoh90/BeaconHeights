@@ -69,7 +69,6 @@
             }
             // Format into JSON
             // addEventSource
-            
         </script> 
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -80,9 +79,6 @@
     </head>
 
     <body>
-
-
-
         <div id="content">
 
             <div class="container">
@@ -112,6 +108,12 @@
                                     Date: <span id="date"><i><font size="2"> --</font></span> <br/>
                                     Time: <span id="time"><i><font size="2"> --</font></i></span>
                                 </div>
+                                
+                                <!--This is the form used to parse the facility type over to the action bean -->
+                                <stripes:form beanclass="com.lin.general.admin.ManageBookingsActionBean" id="ftype" focus="">
+                                    <stripes:text name="facilityType" id="facilitytype" />
+                                </stripes:form>
+
                                 <div class="inviteFriends comingsoon">
                                     <div class="header">Invite Friends</div>
                                     <input class="span2" type="text" placeholder="Type a friend's name"/>
@@ -149,39 +151,70 @@
 
                         <h1 class="page-title">
                             <i class="icon-home"></i>
-                            Current Bookings :    
-                            <span id ="sub">page-title sub"></sub> </h1>
-
+                            Current Bookings :
+                            <span id ="sub">${param.ftype} </sub> </h1>
+                            <!-- I'm using this to field to store the param, so that I can use jquery to populate the other booking details-->
                         </h1>
                         <br/>
                     </div>	
-                    
-                    <script>// To display facility selected in the dropdown box, in the booking details
+
+
+                    <!--To display facility selected in the dropdown box, in the booking details-->                    
+                    <script>      
                         function displayVals() {
                             var singleValues = $("select").val();
                             $("#venue").html(singleValues);
-                            $("#sub").html(singleValues);                                    
+                            $("#sub").html(singleValues);
+                            $("#facilitytype").val(singleValues);
                         }
                         $("select").change(displayVals);
-                        displayVals();
+                        //displayVals;
+                        $("select").change(function(){
+                            document.forms["ftype"].submit();
+                        });
+
+                        
                     </script>
+
+                    <!-- Check if the parameter is empty, if it is not, then reload the fields using the param value-->
+                    <c:if test="${not empty param.ftype}">
+                        <script>
+                            function loadFtype() {
+                                var singleValues = $('#sub').html();
+                                $("#venue").html(singleValues);
+                                $("#sub").html(singleValues);
+                                $("select").val("BB").attr("selected", "selected");
+                                $("#facilitytype").val($("select").val());
+                                alert($('#facility').contains(singleValues));   
+                            }
+                            loadFtype();
+                        </script>
+                    </c:if>
+
 
                     <div class="span9">
                         <div class="widget-content nopadding calendarContainer">
                             <div id="fullcalendar" class="calendarWidth"></div>
                         </div>
                     </div>
-                    <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
-                        <script>
-                            var booking = new Object();
-                            booking.id = '${booking.id}';
-                            booking.start = new Date(${booking.startTimeInSeconds});
-                            booking.end = new Date(${booking.endTimeInSeconds});
-                            booking.title = 'hi';
-                            booking.allDay = false;
-                            bookingList.push(booking);
-                        </script>
-                    </c:forEach>
+
+
+                    <!-- Need to set facilityType, as when page reloads, when you get bookingListByFacilityType, the facility type is null-->
+                    <jsp:setProperty name = "manageBookingsActionBean"  property = "facilityType"  value = "${param.ftype}" />
+                    <c:if test= "${manageBookingsActionBean.allBookingsByFacilityType.size()
+                                   !=0}">
+                        <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
+                            <script>
+                                var booking = new Object();
+                                booking.id = '${booking.id}';
+                                booking.start = new Date(${booking.startTimeInSeconds});
+                                booking.end = new Date(${booking.endTimeInSeconds});
+                                booking.title = '${booking.title}';
+                                booking.allDay = false;
+                                bookingList.push(booking);
+                            </script>
+                        </c:forEach>
+                    </c:if>
 
 
                 </div> <!-- /row -->
