@@ -79,11 +79,9 @@ public class BookingDAO {
 
     //Add bookings
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
-    public Booking addBooking(User user, Facility facility,
-            Timestamp bookingTimeStamp, Timestamp startDate, Timestamp endDate,
-            boolean isPaid, String transactionId,Date transactionTimeStamp, String title) {
+    public Booking addBooking(Booking booking) {
         openSession();
-        Booking booking = new Booking(user, facility, bookingTimeStamp, startDate, endDate, isPaid, transactionId,transactionTimeStamp, title);
+
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();

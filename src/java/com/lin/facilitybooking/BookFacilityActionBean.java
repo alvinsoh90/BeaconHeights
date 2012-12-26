@@ -26,14 +26,23 @@ public class BookFacilityActionBean implements ActionBean{
     private String startdatestring;
     private String enddatestring;
     private String transactionDateTimeString;
-    private String facilityID;
+    private Integer facilityID;
     private String title;
     private String result;
     private boolean success;
+    private Integer currentUserID;
+
+    public Integer getCurrentUserID() {
+        return currentUserID;
+    }
+
+    public void setCurrentUserID(Integer currentUserID) {
+        this.currentUserID = currentUserID;
+    }
 
     public ActionBeanContext getContext() {
-    return context;
-  }
+        return context;
+    }
 
   public void setContext(ActionBeanContext context) {
     this.context = context;
@@ -47,11 +56,11 @@ public class BookFacilityActionBean implements ActionBean{
         this.enddatestring = endDateString;
     }
 
-    public String getFacilityID() {
+    public Integer getFacilityID() {
         return facilityID;
     }
 
-    public void setFacilityID(String facilityID) {
+    public void setFacilityID(Integer facilityID) {
         this.facilityID = facilityID;
     }
 
@@ -89,35 +98,36 @@ public class BookFacilityActionBean implements ActionBean{
         FacilityDAO fDAO = new FacilityDAO();
         UserDAO uDAO = new UserDAO();
         
+        
+        User user = uDAO.getUser(getCurrentUserID());       
+        Facility facility = fDAO.getFacility(getFacilityID());
+        
         //Retrieve form variables
-        //Hardcode: take user from db first, later must take from session
-        //Hardcode: facilityID
-        User user = uDAO.getUser(52);
-        Facility facility = fDAO.getFacility(2);
         Timestamp bookingTimeStamp = new Timestamp
                 (System.currentTimeMillis());
         Timestamp startDate = new Timestamp
                 (Long.parseLong(getStartDateString()));
         Timestamp endDate = new Timestamp
                 (Long.parseLong(getEndDateString()));
-        boolean isPaid = false;
-        String transactionId =  "010101";
-        Timestamp transactionTimeStamp = new Timestamp
-                (Long.parseLong(getEndDateString()));
-        String title = "MY AWESOME BOOKING";
+
+        String title = "Resident Booking";
         
-        //Add booking into DB
-        Booking booking = bDAO.addBooking(user, facility,bookingTimeStamp,
-                startDate,endDate,isPaid,transactionId,transactionTimeStamp,title);
+        //Create new booking
+        Booking booking = new Booking(user, facility,bookingTimeStamp,
+                startDate,endDate,title);
+        //add booking into DB, returns booking with ID
+        booking = bDAO.addBooking(booking);
+        
         result = booking.toString();
         success = true;
         System.out.println(result);
+        
     }catch(Exception e) {
         result = "";
         success = false;
         e.printStackTrace();
     }
-    System.out.println("HELLO " + getEndDateString());
+    
     return new RedirectResolution("/residents/index.jsp");
   }
     

@@ -21,16 +21,18 @@ public class Booking implements java.io.Serializable {
 
     public Booking() {
     }
-
-    public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId, Date transactionTimeStamp) {
+    
+    //Constructor for booking that has not yet been paid for
+    public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, String title) {
         this.user = user;
         this.facility = facility;
         this.bookingTimeStamp = bookingTimeStamp;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.isPaid = isPaid;
-        this.transactionId = transactionId;
-        this.transactionTimeStamp = transactionTimeStamp;
+        this.isPaid = false;
+        this.transactionId = null;
+        this.transactionTimeStamp = null;
+        this.title = title;
     }
 
     public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId, Date transactionTimeStamp, String title) {
