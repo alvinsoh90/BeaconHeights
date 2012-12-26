@@ -106,14 +106,15 @@
                         <h3>Deletion of <span id="facilityTypeDeleteLabel"></span></h3>
                     </div>
                     <div class="modal-body">
-                        <stripes:form focus="id" class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilitiesBean"> 
+                        <stripes:form focus="id" class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilityTypeBean"> 
                             You are now deleting <span id="delete_name"></span>. Are you sure?
                         </div>
                         <div class="modal-footer">
                             <a data-dismiss="modal" class="btn">Close</a>
 
-                            <stripes:hidden id="delete_id" name="id"/>
-                            <input type="submit" name="deleteFacility" value="Confirm Delete" class="btn btn-danger"/>
+                            <stripes:hidden id="delete_id" name="delete_facility_type_id"/>
+                            <stripes:hidden id="delete_name" name="delete_name"/>
+                            <input type="submit" name="deleteFacilityType" value="Confirm Delete" class="btn btn-danger"/>
                         </div>
                     </stripes:form>
                 </div>    

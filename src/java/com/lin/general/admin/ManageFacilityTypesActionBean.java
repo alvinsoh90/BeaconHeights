@@ -50,6 +50,7 @@ public class ManageFacilityTypesActionBean implements ActionBean {
     private char bookingLimitUnit;
     private int bookingOpenAdvance;
     private int bookingCloseAdvance;
+    
 
     public int getBookingCloseAdvance() {
         return bookingCloseAdvance;
@@ -268,7 +269,7 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             Date sunTwo = new Date(sundayTwo);
             
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
-            RuleDAO rDAO = new RuleDAO();
+            
 
             FacilityType facilityType = new FacilityType(name, description);
 

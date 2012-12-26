@@ -126,14 +126,55 @@ public class FacilityTypeDAO {
         
     }
 
-    public boolean deleteFacilityType(String name) {
+    public boolean deleteFacilityType(int id) {
+        openSession();
+        Transaction tx = null;
+        int rowCount =0;
+        
+        try {
+            tx = session.beginTransaction();
+            
+            String hql = "delete from OpenRule where facility_type_id = :id";
+            Query query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            
+            hql = "delete from CloseRule where facility_type_id = :id";
+            query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            
+            hql = "delete from LimitRule where facility_type_id = :id";
+            query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            
+            hql = "delete from AdvanceRule where facility_type_id = :id";
+            query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            
+            hql = "delete from FacilityType where id = :id";
+            query = session.createQuery(hql);
+            query.setString("id",id+"");
+            rowCount = query.executeUpdate();
+            
+            tx.commit();
+            } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null) tx.rollback();
+        }
+            System.out.println("Rows affected: " + rowCount);
+            if(rowCount>0){
+                return true;
+            }else{
+                return false;
+            }
 
-      //  FacilityType facilityType = typeList.remove(name);
-        boolean success = true;
-
-        //line that says u put into Objectify
-        return success;
-
+    }
+    
+    public void deleteFacilityType(FacilityType facilityType) {
+        session.delete(facilityType);
     }
 
     public FacilityType updateFacilityType(String name, String description) {
@@ -159,4 +200,20 @@ public class FacilityTypeDAO {
         return typeList.get(0);
 
     }
+    
+    public FacilityType getFacilityType(int id) {
+        openSession();
+        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from FacilityType where id ='" + id + "'");
+            typeList = (ArrayList<FacilityType>) q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return typeList.get(0);
+
+    }
+    
+    
 }

@@ -14,13 +14,15 @@
         <property name="description" type="string">
             <column name="description" length="400" not-null="true" />
         </property>
-        <set name="limitRules" inverse="true" cascade="all">
+              
+        
+        <set name="limitRules" inverse="true" cascade="all-delete-orphan">
             <key>
-                <column name="facility_type_id" not-null="true" />
+                <column name="facility_type_id" not-null="true"  />
             </key>
             <one-to-many class="com.lin.entities.LimitRule" />
         </set>
-        <set name="advanceRules" inverse="true" cascade="all">
+        <set name="advanceRules" inverse="true" cascade="all-delete-orphan">
             <key>
                 <column name="facility_type_id" not-null="true" />
             </key>
@@ -32,13 +34,13 @@
             </key>
             <one-to-many class="com.lin.entities.Facility" />
         </set>
-        <set name="openRules" inverse="true" cascade="all">
+        <set name="openRules" inverse="true" cascade="all-delete-orphan">
             <key>
                 <column name="facility_type_id" not-null="true" />
             </key>
             <one-to-many class="com.lin.entities.OpenRule" />
         </set>
-        <set name="closeRules" inverse="true" cascade="all">
+        <set name="closeRules" inverse="true" cascade="all-delete-orphan">
             <key>
                 <column name="facility_type_id" not-null="true" />
             </key>

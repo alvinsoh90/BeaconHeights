@@ -4,7 +4,6 @@
  */
 package com.lin.dao;
 
-import com.lin.entities.OpenRule;
 import com.lin.entities.*;
 import com.lin.utils.HttpHandler;
 import com.lin.global.ApiUriList;
