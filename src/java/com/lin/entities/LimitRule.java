@@ -85,12 +85,15 @@ public class LimitRule  implements java.io.Serializable {
         this.timeframeType = timeframeType;
     }
 
+//    @Override
+//    public String toString() {
+//        return "LimitRule{" + "sessions=" + sessions + ", numberOfTimeframe=" + numberOfTimeframe + ", timeframeType=" + timeframeType + '}';
+//    }
+
     @Override
     public String toString() {
-        return "LimitRule{" + "sessions=" + sessions + ", numberOfTimeframe=" + numberOfTimeframe + ", timeframeType=" + timeframeType + '}';
+        return this.sessions + " Sessions in "+this.numberOfTimeframe + " " + this.timeframeType;
     }
-
-
 
 
 }

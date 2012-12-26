@@ -152,6 +152,15 @@
                                                         <td><b>${facilityType.id}</b></td>
                                                         <td><b>${facilityType.name}</b></td>
                                                         <td>${facilityType.description}</td>
+                                                        <td><c:forEach items="${facilityType.openRules}" var="openRule" varStatus="loop">
+                                                            ${openRule}<br>    
+                                                            </c:forEach></td>
+                                                        <td><c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
+                                                            ${limitRules}<br>    
+                                                            </c:forEach></td>
+                                                        <td><c:forEach items="${facilityType.advanceRules}" var="advanceRules" varStatus="loop">
+                                                            ${advanceRules}<br>    
+                                                            </c:forEach></td>
                                                         <td>
                                                             <a href="#editFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityTypeModal('${facilityType.id}');">Edit</a> 
                                                             <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>
