@@ -47,7 +47,6 @@
                 
                 //add new event source
                 var eventSource = "/json/bookingevents.jsp?facilityid=" + facilityID +"&userid="+${sessionScope.user.userId};
-                alert(eventSource);
                 $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
                 
             }
