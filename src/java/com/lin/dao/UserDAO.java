@@ -256,7 +256,7 @@ public class UserDAO {
     public User updateUser(int userId,Role role, Block block, String userName, String firstname, String lastname,  Integer level, Integer unit) {
         openSession();
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
-        System.out.println("USER INFO : "+userId+" "+role + " " + block + " " + userName+ " " + firstname+ " " + lastname+ " " + level+ " " + unit);
+        //System.out.println("USER INFO : "+userId+" "+role + " " + block + " " + userName+ " " + firstname+ " " + lastname+ " " + level+ " " + unit);
         //session.update("User",user);
         User u = (User) session.get(User.class, userId);
         u.setRole(role);
@@ -274,8 +274,8 @@ public class UserDAO {
         retrieveAllUsers();
         
         for(User u : userList){
-            System.out.println("THIS IS THE USERNAME: "+username);
-            System.out.println(u.getFirstname());
+//            System.out.println("THIS IS THE USERNAME: "+username);
+//            System.out.println(u.getFirstname());
             if(u.getUserName().equals(username)){
                 return u;
             }

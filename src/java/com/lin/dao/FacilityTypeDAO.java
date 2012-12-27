@@ -4,6 +4,7 @@
  */
 package com.lin.dao;
 
+import com.lin.entities.AdvanceRule;
 import com.lin.entities.Facility;
 import com.lin.entities.FacilityType;
 import com.lin.utils.HttpHandler;
@@ -194,6 +195,7 @@ public class FacilityTypeDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from FacilityType where name ='" + name + "'");
             typeList = (ArrayList<FacilityType>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,6 +210,7 @@ public class FacilityTypeDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from FacilityType where id ='" + id + "'");
             typeList = (ArrayList<FacilityType>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -217,14 +220,31 @@ public class FacilityTypeDAO {
 
     public FacilityType editFacilityType(FacilityType facilityType) {
         openSession();
+        String name = facilityType.getName();
+        String desc = facilityType.getDescription();
+        Set ars = facilityType.getAdvanceRules();
+        Set crs = facilityType.getCloseRules();
+        Set lrs = facilityType.getLimitRules();
+        Set ors = facilityType.getOpenRules();
+        
+        
+        
+        org.hibernate.Transaction tx = session.beginTransaction();
         FacilityType fT = (FacilityType) session.get(FacilityType.class, facilityType.getId());
-        System.out.println("FT NAME HERE : "+fT.getName());
-        fT.setName(facilityType.getName());
-        fT.setDescription(facilityType.getDescription());
-        fT.setAdvanceRules(facilityType.getAdvanceRules());
-        fT.setCloseRules(facilityType.getCloseRules());
-        fT.setLimitRules(facilityType.getLimitRules());
-        fT.setOpenRules(facilityType.getOpenRules());
+        
+        fT.setName(name);
+        fT.setDescription(desc);
+        fT.setAdvanceRules(ars);
+        fT.setCloseRules(crs);
+        fT.setLimitRules(lrs);
+        fT.setOpenRules(ors);
+        
+        tx.commit();
+        
+//        System.out.println("NEW FT NAME HERE : "+fT.getDescription());
+//        System.out.println("OLD FT NAME HERE : "+facilityType.getDescription());
+        
+       
         
         return fT;
     }
