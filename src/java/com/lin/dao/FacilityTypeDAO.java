@@ -210,7 +210,7 @@ public class FacilityTypeDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from FacilityType where id ='" + id + "'");
             typeList = (ArrayList<FacilityType>) q.list();
-            tx.commit();
+            //tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
