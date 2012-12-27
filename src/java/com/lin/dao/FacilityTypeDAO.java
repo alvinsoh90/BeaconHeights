@@ -41,12 +41,15 @@ public class FacilityTypeDAO {
     }
 
     public ArrayList<FacilityType> retrieveAllFacilityTypes() {
-        openSession();
+        //openSession();
+        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        
         typeList = new ArrayList<FacilityType>();
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from FacilityType");
+            org.hibernate.Transaction tx = sess.beginTransaction();
+            Query q = sess.createQuery("from FacilityType");
             typeList = (ArrayList<FacilityType>) q.list();
+            //tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,7 +131,8 @@ public class FacilityTypeDAO {
     }
 
     public boolean deleteFacilityType(int id) {
-        openSession();
+        //openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         int rowCount =0;
         
@@ -195,7 +199,7 @@ public class FacilityTypeDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from FacilityType where name ='" + name + "'");
             typeList = (ArrayList<FacilityType>) q.list();
-            tx.commit();
+            //tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -219,7 +223,8 @@ public class FacilityTypeDAO {
     }
 
     public FacilityType editFacilityType(FacilityType facilityType) {
-        openSession();
+        //openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         String name = facilityType.getName();
         String desc = facilityType.getDescription();
         Set ars = facilityType.getAdvanceRules();
