@@ -24,12 +24,12 @@ public class EditBookingBean implements ActionBean{
 
         try{
       
-            return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=true"+"&deletemsg="+username);
+            return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=true"+"&deletemsg=");
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=false"+"&deletemsg="+username);
+        return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=false"+"&deletemsg=");
         
     }
 

@@ -39,8 +39,8 @@
                 //this method is called when page is fully loaded, 
                 //bookingList is populated as page loads
                 
-//                var eventSource = bookingList;
-//                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
+                //                var eventSource = bookingList;
+                //                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
                 
                 //clear previous events
                 $('#fullcalendar').fullCalendar( 'removeEvents');
@@ -132,13 +132,13 @@
 
                         <h1 class="page-title">
                             <i class="icon-home"></i>
-                                
+
                             <span id ="sub"></span> 
                             Bookings
                         </h1>
                         <br/>
                     </div>	
-                    
+
                     <script>
                         $(document).ready(function(){
                             // To display facility selected in the dropdown box, in the booking details
