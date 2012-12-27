@@ -39,8 +39,8 @@
                 //this method is called when page is fully loaded, 
                 //bookingList is populated as page loads
                 
-//                var eventSource = bookingList;
-//                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
+                //                var eventSource = bookingList;
+                //                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
                 
                 //clear previous events
                 $('#fullcalendar').fullCalendar( 'removeEvents');
@@ -132,13 +132,13 @@
 
                         <h1 class="page-title">
                             <i class="icon-home"></i>
-                                
+
                             <span id ="sub"></span> 
                             Bookings
                         </h1>
                         <br/>
                     </div>	
-                    
+
                     <script>
                         $(document).ready(function(){
                             // To display facility selected in the dropdown box, in the booking details
@@ -168,50 +168,51 @@
                             <div id="fullcalendar" class="calendarWidth"></div>
                         </div>
                     </div>
-                    <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
-                        <script>
-                            var booking = new Object();
-                            booking.id = '${booking.id}';
-                            booking.start = new Date(${booking.startTimeInSeconds});
-                            booking.end = new Date(${booking.endTimeInSeconds});
-                            booking.title 
-                                = '${booking.facility.facilityType.name} ${booking.facility.id}';
-                            booking.allDay = false;
-                            bookingList.push(booking);
-                        </script>
-                    </c:forEach>
+                    <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
+                        <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
+                            <script>
+                                var booking = new Object();
+                                booking.id = '${booking.id}';
+                                booking.start = new Date(${booking.startTimeInSeconds});
+                                booking.end = new Date(${booking.endTimeInSeconds});
+                                booking.title 
+                                    = '${booking.facility.facilityType.name} ${booking.facility.id}';
+                                booking.allDay = false;
+                                bookingList.push(booking);
+                            </script>
+                        </c:forEach>
+                    </c:if>
+
+                    </div> <!-- /row -->
+
+                </div> <!-- /container -->
+
+            </div> <!-- /content -->
 
 
-                </div> <!-- /row -->
+            <div id="footer">
 
-            </div> <!-- /container -->
+                <div class="container">				
+                    <hr>
+                    <p>Beacon Heights Condominium</p>
+                </div> <!-- /container -->
 
-        </div> <!-- /content -->
-
-
-        <div id="footer">
-
-            <div class="container">				
-                <hr>
-                <p>Beacon Heights Condominium</p>
-            </div> <!-- /container -->
-
-        </div> <!-- /footer -->
+            </div> <!-- /footer -->
 
 
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
+            <!-- Le javascript
+            ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
 
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
+            <script src="./js/excanvas.min.js"></script>
+            <script src="./js/jquery.flot.js"></script>
+            <script src="./js/jquery.flot.pie.js"></script>
+            <script src="./js/jquery.flot.orderBars.js"></script>
+            <script src="./js/jquery.flot.resize.js"></script>
+            <script src="./js/fullcalendar.min.js"></script>
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+            <script src="./js/bootstrap.js"></script>
+            <script src="./js/charts/bar.js"></script>
 
-    </body>
-</html>
+        </body>
+    </html>
