@@ -6,7 +6,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#">LivingNet Admin</a>
+            <a class="brand" href="adminmain.jsp">LivingNet Admin</a>
             <div class="btn-group pull-right">
                 <a class="btn" href="adminmain.jsp"><i class="icon-user"></i> Admin</a>
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -35,9 +35,9 @@
 
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Facilities <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="new-user.jsp">Manage Bookings</a></li>
-                            <li><a href="users.jsp">Manage Facilities</a></li>
-                            <li><a href="users.jsp">Manage Facilities Types</a></li>
+                            <li><a href="manage-bookings.jsp">Manage Bookings</a></li>
+                            <li><a href="manage-facilities.jsp">Manage Facilities</a></li>
+                            <li><a href="manage-facilitytypes.jsp">Manage Facilities Types</a></li>
                         </ul>
                     </li>            
 <!--
