@@ -79,7 +79,7 @@
                         <h3>Deletion of <span id="facilityTypeDeleteLabel"></span></h3>
                     </div>
                     <div class="modal-body">
-                        <stripes:form focus="id" class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilityTypeBean"> 
+                        <stripes:form  class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilityTypeBean"> 
                             You are now deleting <span id="delete_name"></span>. Are you sure?
                         </div>
                         <div class="modal-footer">
