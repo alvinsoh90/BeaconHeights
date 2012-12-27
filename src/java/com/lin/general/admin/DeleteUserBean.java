@@ -10,10 +10,7 @@ import com.lin.entities.User;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.RedirectResolution;
-import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.*;
 
 /**
  *
@@ -25,7 +22,8 @@ public class DeleteUserBean implements ActionBean{
   
   private String id;
   private String username;
-
+    
+    @DefaultHandler
     public Resolution deleteUser(){
         UserDAO dao = new UserDAO();
 

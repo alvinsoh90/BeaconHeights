@@ -54,6 +54,22 @@
                 
             }
             
+            function populateEditBookingModal(bookingID){ 
+                bookingList.forEach(function(booking){
+                    if(booking.id == bookingID){
+                        $("#usernameEditLabel").text(booking.username);
+                        $("#edit_username").val(booking.username);
+                        $("#edit_facilityType").text(booking.facilityType);
+                        $("#edit_facilityId").text(booking.facilityId);
+                        $("#edit_startDate").text(booking.startDate);
+                        $("#edit_endDate").text(booking.endDate);
+                        $("#edit_id").val(booking.id);
+                    }
+                });
+                
+            }
+
+            
             function populatePayBookingModal(bookingID){ 
                 bookingList.forEach(function(booking){
                     if(booking.id == bookingID){
@@ -108,11 +124,11 @@
                     r[++j] = '</td><td >';
                     
                     if(bookingArr[i].isPaid == "true"){
-                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini'>Edit</a>\n\
+                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+bookingList[i].id + ")'>Edit</a>\n\
                                <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingList[i].id + ")'>Pending</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
                     }else{
-                        r[++j] = "<a href= '#' role='button' data-toggle='modal' class='btn btn-primary btn-mini'>Edit</a>\n\
+                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+bookingList[i].id + ")'>Edit</a>\n\
                                <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingList[i].id + ")'>Paid</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
                     }
@@ -223,158 +239,195 @@
                 </script>
             </c:forEach>
         </c:if>
-        </head>
-        <body onload="showBookings(bookingList)">
+    </head>
+    <body onload="showBookings(bookingList)">
 
-            <%@include file="include/mainnavigationbar.jsp"%>
-            <div class="container-fluid">
-                <%@include file="include/sidemenu.jsp"%>   
+        <%@include file="include/mainnavigationbar.jsp"%>
+        <div class="container-fluid">
+            <%@include file="include/sidemenu.jsp"%>   
 
-                <div class="span9">
-                    <div class="row-fluid">
-                        <!-- Info Messages -->
-                        <%@include file="include/pageinfobar.jsp"%>
+            <div class="span9">
+                <div class="row-fluid">
+                    <!-- Info Messages -->
+                    <%@include file="include/pageinfobar.jsp"%>
 
-                        <div class="page-header">
-                            <h1>Bookings <small>View and manage current facility bookings</small></h1>
-                        </div>
-
-                        <div class='userFilterBar float_r'>
-                            <h5 class="inlineblock"> Filter By: </h5>
-                            <div class="inlineblock filterOptions">
-                                <select id ="usernameSelect" onChange="filterByUsername()">
-                                    <option>-Select Username-</option>
-                                    <c:forEach items="${manageBookingsActionBean.userList}" var="user" varStatus="loop">
-                                        <option>${user.userName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="inlineblock filterOptions">
-                                <h5 class="inlineblock">or</h5>
-                                <select id ="statusSelect" onChange="filterByStatus()">
-                                    <option>-Select Status-</option>
-                                    <option>Paid</option>
-                                    <option>Pending</option>
-                                </select>
-                            </div>
-                            <div class="inlineblock filterOptions">
-                                <h5 class="inlineblock">or</h5>                                
-                                <select id ="facilitySelect" onChange="filterByFacility()">
-                                    <option>-Select Facility-</option>
-                                    <c:forEach items="${manageBookingsActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
-                                        <option>${facilityType.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="inlineblock filterOptions"><button class="btn" onClick="filterReset()">View All</button></div>                          
-                        </div>
-
-                        <table id="bookingTable" class="table table-striped table-bordered table-condensed">
-
-                        </table>
-                        <div class="pagination">
-                            <ul>
-                                <li><a href="#">Prev</a></li>
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">Next</a></li>
-                            </ul>
-                        </div>
-                        <a href="#" class="btn btn-success">New Booking</a>
+                    <div class="page-header">
+                        <h1>Bookings <small>View and manage current facility bookings</small></h1>
                     </div>
+
+                    <div class='userFilterBar float_r'>
+                        <h5 class="inlineblock"> Filter By: </h5>
+                        <div class="inlineblock filterOptions">
+                            <select id ="usernameSelect" onChange="filterByUsername()">
+                                <option>-Select Username-</option>
+                                <c:forEach items="${manageBookingsActionBean.userList}" var="user" varStatus="loop">
+                                    <option>${user.userName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="inlineblock filterOptions">
+                            <h5 class="inlineblock">or</h5>
+                            <select id ="statusSelect" onChange="filterByStatus()">
+                                <option>-Select Status-</option>
+                                <option>Paid</option>
+                                <option>Pending</option>
+                            </select>
+                        </div>
+                        <div class="inlineblock filterOptions">
+                            <h5 class="inlineblock">or</h5>                                
+                            <select id ="facilitySelect" onChange="filterByFacility()">
+                                <option>-Select Facility-</option>
+                                <c:forEach items="${manageBookingsActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
+                                    <option>${facilityType.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="inlineblock filterOptions"><button class="btn" onClick="filterReset()">View All</button></div>                          
+                    </div>
+
+                    <table id="bookingTable" class="table table-striped table-bordered table-condensed">
+
+                    </table>
+                    <div class="pagination">
+                        <ul>
+                            <li><a href="#">Prev</a></li>
+                            <li class="active">
+                                <a href="#">1</a>
+                            </li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">Next</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn btn-success">New Booking</a>
                 </div>
             </div>
-
-            <hr>
-
-            <%@include file="include/footer.jsp"%>
-
-
-            <!-- Pay Booking Modal -->
-            <div id="payBookingModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Update Payment of <span id="usernamePayLabel"></span>'s booking</h3>
-                </div>
-                <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Transaction ID</label>
-                            <div class="controls">
-                                <stripes:text id="pay_transactionId" name="transactionId"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a data-dismiss="modal" class="btn">Close</a>
-                        <stripes:hidden id="pay_username" name="username"/>
-                        <stripes:hidden id="pay_id" name="id"/>
-                        <input type="submit" name="payBooking" value="Update" class="btn btn-primary"/>
-                    </div>
-                </stripes:form>
-            </div>
-
-            <!-- Pending Booking Modal -->
-            <div id="pendingBookingModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Update Payment of <span id="usernamePendingLabel"></span>'s booking</h3>
-                </div>
-                <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
-                        You are now changing booking status to pending. Are you sure?
-                    </div>
-                    <div class="modal-footer">
-                        <a data-dismiss="modal" class="btn">Close</a>
-                        <stripes:hidden id="pending_username" name="username"/>
-                        <stripes:hidden id="pending_id" name="id"/>
-                        <input type="submit" name="payBooking" value="Change to Pending" class="btn btn-primary"/>
-                    </div>
-                </stripes:form>
-            </div>
-
-            <!-- Delete Booking Modal -->
-            <div id="deleteBookingModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Deletion of <span id="usernameDeleteLabel"></span>'s booking</h3>
-                </div>
-                <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteBookingBean" focus=""> 
-                        You are now deleting <b><span id="delete_firstName"></span> <span id="delete_lastName"></span>'s</b> booking of <b><span id="delete_facilityType"></span> <span id="delete_facilityId"></span></b> on <b><span id="delete_startDate"></span></b>. Are you sure?
-                    </div>
-                    <div class="modal-footer">
-                        <a data-dismiss="modal" class="btn">Close</a>
-                        <stripes:hidden id="delete_username" name="username"/>
-                        <stripes:hidden id="delete_id" name="id"/>
-                        <input type="submit" name="deleteBooking" value="Confirm Delete" class="btn btn-danger"/>
-                    </div>
-                </stripes:form>
-            </div>
-
         </div>
 
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('.dropdown-menu li a').hover(
-                function() {
-                    $(this).children('i').addClass('icon-white');
-                },
-                function() {
-                    $(this).children('i').removeClass('icon-white');
-                });
-		
-                if($(window).width() > 760)
-                {
-                    $('tr.list-users td div ul').addClass('pull-right');
-                }
+        <hr>
+
+        <%@include file="include/footer.jsp"%>
+
+
+        <!-- Pay Booking Modal -->
+        <div id="payBookingModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Update Payment of <span id="usernamePayLabel"></span>'s booking</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Transaction ID</label>
+                        <div class="controls">
+                            <stripes:text id="pay_transactionId" name="transactionId"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="pay_username" name="username"/>
+                    <stripes:hidden id="pay_id" name="id"/>
+                    <input type="submit" name="payBooking" value="Update" class="btn btn-primary"/>
+                </div>
+            </stripes:form>
+        </div>
+
+        <!-- Pending Booking Modal -->
+        <div id="pendingBookingModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Update Payment of <span id="usernamePendingLabel"></span>'s booking</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
+                    You are now changing booking status to pending. Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="pending_username" name="username"/>
+                    <stripes:hidden id="pending_id" name="id"/>
+                    <input type="submit" name="payBooking" value="Change to Pending" class="btn btn-primary"/>
+                </div>
+            </stripes:form>
+        </div>
+
+
+        <!-- Edit Booking Modal Form -->
+        <div id="editBookingModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Edit <span id="bookingLabel"></span></h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditBookingBean" focus="" id="edit_booking_validate" name="edit_booking_validate">
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Booking ID</label>
+                        <div class="controls">
+                            ${#edit_id}
+                        </div>
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Start Time</label>
+                        <div class="controls">
+                            <stripes:text id="edit_startDate" name="start"/> 
+                        </div>
+                    </div>    
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">End Time</label>
+                        <div class="controls">
+                            <stripes:text id="edit_endDate" name="end"/> 
+                        </div>
+                    </div>                              
+                    <stripes:hidden id="editid" name="id"/>
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <input type="submit" name="editBooking" value="Confirm Edit" class="btn btn-primary"/>
+                </div>
+            </stripes:form>
+        </div>
+
+
+        <!-- Delete Booking Modal -->
+        <div id="deleteBookingModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Deletion of <span id="usernameDeleteLabel"></span>'s booking</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteBookingBean" focus=""> 
+                    You are now deleting <b><span id="delete_firstName"></span> <span id="delete_lastName"></span>'s</b> booking of <b><span id="delete_facilityType"></span> <span id="delete_facilityId"></span></b> on <b><span id="delete_startDate"></span></b>. Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="delete_username" name="username"/>
+                    <stripes:hidden id="delete_id" name="id"/>
+                    <input type="submit" name="deleteBooking" value="Confirm Delete" class="btn btn-danger"/>
+                </div>
+            </stripes:form>
+        </div>
+
+    </div>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-menu li a').hover(
+            function() {
+                $(this).children('i').addClass('icon-white');
+            },
+            function() {
+                $(this).children('i').removeClass('icon-white');
             });
-        </script>
-    </body>
+		
+            if($(window).width() > 760)
+            {
+                $('tr.list-users td div ul').addClass('pull-right');
+            }
+        });
+    </script>
+</body>
 </html>
