@@ -77,7 +77,7 @@
             <p><a class="btn btn-success btn-large" href="users.jsp">Manage Users &raquo;</a></p>
           </div>
           <div class="row-fluid">
-            <div class="span3">
+            <!--<div class="span3">
               <h3>Total Users</h3>
               <p><a href="users.jsp" class="badge badge-inverse">563</a></p>
             </div>
@@ -92,7 +92,7 @@
             <div class="span3">
               <h3>Roles</h3>
 			  <p><a href="roles.html" class="badge badge-inverse">3</a></p>
-            </div>
+            </div>-->
           </div>
 		  <br />
 		  <div class="row-fluid">
