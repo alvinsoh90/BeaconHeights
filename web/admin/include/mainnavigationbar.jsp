@@ -8,7 +8,7 @@
             </a>
             <a class="brand" href="#">LivingNet Admin</a>
             <div class="btn-group pull-right">
-                <a class="btn" href="my-profile.html"><i class="icon-user"></i> Admin</a>
+                <a class="btn" href="adminmain.jsp"><i class="icon-user"></i> Admin</a>
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                     <span class="caret"></span>
                 </a>
@@ -24,7 +24,7 @@
             </div>
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li><a href="mainadmin.jsp">Home</a></li>
+                    <li><a href="adminmain.jsp">Home</a></li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="new-user.jsp">New User</a></li>
