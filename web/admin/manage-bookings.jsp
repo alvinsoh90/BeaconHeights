@@ -61,9 +61,10 @@
                         $("#edit_username").val(booking.username);
                         $("#edit_facilityType").text(booking.facilityType);
                         $("#edit_facilityId").text(booking.facilityId);
-                        $("#edit_startDate").text(booking.startDate);
-                        $("#edit_endDate").text(booking.endDate);
+                        $("#edit_startDate").val(booking.startDate);
+                        $("#edit_endDate").val(booking.endDate);
                         $("#edit_id").val(booking.id);
+                        $("#edit_displayid").val(booking.id);
                     }
                 });
                 
@@ -124,11 +125,11 @@
                     r[++j] = '</td><td >';
                     
                     if(bookingArr[i].isPaid == "true"){
-                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+bookingList[i].id + ")'>Edit</a>\n\
+                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingList[i].id + ")'>Edit</a>\n\
                                <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingList[i].id + ")'>Pending</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
                     }else{
-                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+bookingList[i].id + ")'>Edit</a>\n\
+                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingList[i].id + ")'>Edit</a>\n\
                                <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingList[i].id + ")'>Paid</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
                     }
@@ -358,29 +359,30 @@
         <div id="editBookingModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Edit <span id="bookingLabel"></span></h3>
+                <h3>Edit <span id="usernameEditLabel"></span>'s booking</h3>
             </div>
             <div class="modal-body">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditBookingBean" focus="" id="edit_booking_validate" name="edit_booking_validate">
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Booking ID</label>
+                        
                         <div class="controls">
-                            ${#edit_id}
+                            <stripes:text id="edit_displayid" name="displayid" disabled="true"/>
+                            <stripes:hidden id="edit_id" name="id"/>
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Start Time</label>
                         <div class="controls">
-                            <stripes:text id="edit_startDate" name="start"/> 
+                            <stripes:text id="edit_startDate" name="startDate"/> 
                         </div>
                     </div>    
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">End Time</label>
                         <div class="controls">
-                            <stripes:text id="edit_endDate" name="end"/> 
+                            <stripes:text id="edit_endDate" name="endDate"/> 
                         </div>
                     </div>                              
-                    <stripes:hidden id="editid" name="id"/>
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>

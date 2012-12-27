@@ -7,6 +7,8 @@ package com.lin.general.admin;
 import com.lin.dao.*;
 import com.lin.entities.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -20,19 +22,10 @@ import net.sourceforge.stripes.action.Resolution;
 public class EditBookingBean implements ActionBean {
 
     private ActionBeanContext context;
+    private int id;
+    private String startDate;
+    private String endDate;
 
-    public Resolution editBooking() {
-        BookingDAO dao = new BookingDAO();
-
-        try {
-
-            return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=true" + "&deletemsg=");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=false" + "&deletemsg=");
-
-    }
 
     public ActionBeanContext getContext() {
         return context;
@@ -42,29 +35,51 @@ public class EditBookingBean implements ActionBean {
         this.context = context;
     }
 
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    
     @DefaultHandler
-    public Resolution placeBooking() {
-        /*try {
+    public Resolution editBooking() {
+        String result;
+        boolean success;
+        
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
             BookingDAO bDAO = new BookingDAO();
-            FacilityDAO fDAO = new FacilityDAO();
-            UserDAO uDAO = new UserDAO();
-
-
-            User user = uDAO.getUser();
-            Facility facility = fDAO.getFacility();
-
+            
             //Retrieve form variables
             Timestamp bookingTimeStamp = new Timestamp(System.currentTimeMillis());
-            Timestamp startDate = new Timestamp(Long.parseLong(getStartDateString()));
-            Timestamp endDate = new Timestamp(Long.parseLong(getEndDateString()));
-
+            Date start = sdf.parse(startDate);
+            Date end = sdf.parse(endDate);
+            
+            System.out.println("THIS IS" + id);
+            
             String title = "Resident Booking";
 
             //Create new booking
-            Booking booking = new Booking(user, facility, bookingTimeStamp,
-                    startDate, endDate, title);
-            //add booking into DB, returns booking with ID
-            booking = bDAO.addBooking(booking);
+            Booking booking = bDAO.updateBooking(id, start, end);
 
             result = booking.toString();
             success = true;
@@ -74,8 +89,9 @@ public class EditBookingBean implements ActionBean {
             result = "";
             success = false;
             e.printStackTrace();
-        }*/
+        }
 
-        return new RedirectResolution("/residents/index.jsp");
+        return new RedirectResolution("/admin/manage-bookings.jsp?editsuccess=" + success
+                + "&editmsg=" + result);
     }
 }

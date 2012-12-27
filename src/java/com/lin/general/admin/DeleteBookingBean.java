@@ -8,6 +8,7 @@ import com.lin.dao.BookingDAO;
 import com.lin.entities.Booking;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 
@@ -20,6 +21,7 @@ public class DeleteBookingBean implements ActionBean{
   private String id;
   private String username;
 
+    @DefaultHandler
     public Resolution deleteBooking(){
         BookingDAO dao = new BookingDAO();
 

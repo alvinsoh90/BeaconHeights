@@ -125,23 +125,32 @@ public class BookingDAO {
         }
     }
 
-    // Update Bookings ( Not sure if we are gonna allow editing of bookings, but just add first)
-    // Also assume that users can only change their 
-    /*public Booking updateFacility(Date bookingTimeStamp, Date startDate, Date endDate) {
-    
-    openSession();
-    
-    Booking booking = (Booking) session.get(Booking.class, id);
-    
-    booking.setBookingTimeStamp(bookingTimeStamp);
-    booking.setStartDate(startDate);
-    booking.setEndDate(endDate);
-    
-    session.update(booking);
-    
-    return facility;
-    
-    } */
+    public Booking updateBooking(int id, Date startDate, Date endDate) {
+
+        openSession();
+
+        org.hibernate.Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Booking booking = (Booking) session.get(Booking.class, id);
+
+            booking.setStartDate(startDate);
+            booking.setEndDate(endDate);
+            session.update(booking);
+            tx.commit();
+            return booking;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+
+       
+        return null;
+
+    }
+
     public void updateBookingPayment(int id, boolean b, String string) {
         openSession();
         Booking booking = (Booking) session.get(Booking.class, id);
@@ -183,16 +192,17 @@ public class BookingDAO {
         }
         return currentList;
     }
-        public ArrayList<Booking> getAllBookingsByFacilityID(int facilityid) {
+
+    public ArrayList<Booking> getAllBookingsByFacilityID(int facilityid) {
         ArrayList<Booking> currentList = new ArrayList<Booking>();
-            openSession();
-            try {
-                org.hibernate.Transaction tx = session.beginTransaction();
-                Query q = session.createQuery("from Booking where facility_id ='" + facilityid + "'");
-                currentList = (ArrayList<Booking>) q.list();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking where facility_id ='" + facilityid + "'");
+            currentList = (ArrayList<Booking>) q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return currentList;
     }
