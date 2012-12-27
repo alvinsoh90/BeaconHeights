@@ -16,15 +16,10 @@ public class FacilityType  implements java.io.Serializable {
      private Integer id;
      private String name;
      private String description;
-     @OnDelete(action = OnDeleteAction.CASCADE)
      private Set limitRules = new HashSet(0);
-     @OnDelete(action = OnDeleteAction.CASCADE)
      private Set advanceRules = new HashSet(0);
-     @OnDelete(action = OnDeleteAction.CASCADE)
      private Set facilities = new HashSet(0);
-     @OnDelete(action = OnDeleteAction.CASCADE)
      private Set openRules = new HashSet(0);
-     @OnDelete(action = OnDeleteAction.CASCADE)
      private Set closeRules = new HashSet(0);
      
 

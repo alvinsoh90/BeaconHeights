@@ -343,11 +343,17 @@ public class EditFacilityTypeActionBean implements ActionBean {
             
             System.out.println(advanceRule);
             
+            
             //facilityType(facilityType, openRuleSet, closeRuleSet, limitRuleSet, advanceRuleSet);
+            facilityType.setName(name);
+            facilityType.setDescription(description);
             facilityType.setLimitRules(limitRuleSet);
             facilityType.setAdvanceRules(advanceRuleSet);
             facilityType.setCloseRules(closeRuleSet);
             facilityType.setOpenRules(openRuleSet);
+            
+            //checking new ftype
+            System.out.println("NEW DESC FROM BEAN "+ facilityType.getDescription());
           
             //insert into DB
             if( tDAO.editFacilityType(facilityType) != null ){

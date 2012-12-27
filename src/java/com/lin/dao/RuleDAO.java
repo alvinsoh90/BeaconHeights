@@ -45,6 +45,7 @@ public class RuleDAO {
             Query q = session.createQuery("from LimitRule WHERE FacilityType id = :id");
             q.setString("id", facilityTypeId + "");
             list = (ArrayList<LimitRule>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,6 +61,7 @@ public class RuleDAO {
             Query q = session.createQuery("from OpenRule WHERE FacilityType id = :id");
             q.setString("id", facilityTypeId + "");
             list = (ArrayList<OpenRule>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,6 +77,7 @@ public class RuleDAO {
             Query q = session.createQuery("from CloseRule WHERE FacilityType id = :id");
             q.setString("id", facilityTypeId + "");
             list = (ArrayList<CloseRule>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,6 +93,7 @@ public class RuleDAO {
             Query q = session.createQuery("from AdvanceRule WHERE FacilityType id = :id");
             q.setString("id", facilityTypeId + "");
             list = (ArrayList<AdvanceRule>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

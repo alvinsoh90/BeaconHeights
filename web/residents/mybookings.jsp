@@ -35,7 +35,35 @@
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
- 
+        <script>
+            
+            var bookingList = [];
+            
+            //populate delete booking modal
+            function populateDeleteBookingModal(bookingID){ 
+                alert(bookingID);
+                bookingList.forEach(function(booking){
+                    alert("bleah"+booking.id);
+                    if(booking.id == bookingID){
+                        $("#delete_facilityType").text(booking.facilityType);
+                        $("#delete_startDate").text(booking.startDate);
+                        $("#delete_endDate").text(booking.endDate);
+                        $("#delete_id").val(booking.id);
+                    }
+                });
+            }
+        </script>
+
+        <!--populate user current bookings -->
+        <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
+            <script>
+                var booking = new Object();
+                booking.id = '${booking.id}';
+                booking.facilityType = '${booking.facility.facilityType.name}';
+                booking.startDate = '${booking.startDate}';
+                bookingList.push(booking);
+            </script>
+        </c:forEach>
     </head>
 
     <body>
@@ -130,14 +158,12 @@
                                                     <td><c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
                                                     </td>
                                                     <td class="action-td">
-                                                        <!--<a href="javascript:;" class="btn btn-small btn-warning">
-                                                            Pay							
-                                                        </a>-->
-                                                        <jsp:setProperty name = "manageBookingsActionBean"  property = "id"  value = "${booking.id}" />
-                                                        <stripes:form beanclass="com.lin.general.admin.ManageBookingsActionBean" focus="">
-                                                            <stripes:hidden name="id" id="id"  value = "${booking.id}" />
-                                                            <stripes:submit class="btn btn-small btn-warning" name="deleteBooking" value="Delete"/>                                                           						
-                                                        </stripes:form>
+                                                        <a href="#deleteBookingModal" role ="button" data-toggle="modal" 
+                                                           class="btn btn-small btn-warning"
+                                                           onclick="populateDeleteBookingModal(43)">
+                                                            <i class="icon-trash"></i>							
+                                                        </a>
+
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -191,6 +217,24 @@
 
         </div> <!-- /content -->
 
+        <div id="deleteBookingModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Deletion of <span id="usernameDeleteLabel"></span>'s booking</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageBookingsActionBean" focus=""> 
+                    You are now deleting the booking of <b><span id="delete_facilityType"></span> on <b><span id="delete_startDate"></span></b>. Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <jsp:setProperty name = "manageBookingsActionBean"  property = "id"  value = "${booking.id}" />
+                    <stripes:hidden id="delete_id" name="id"/>
+                    <stripes:submit class="btn btn-small btn-warning" name="deleteBooking" value="Delete"/>                                                           						
+                    <input type="submit" name="deleteBooking" value="Confirm Delete" class="btn btn-danger"/>
+                </div>
+            </stripes:form>
+        </div>
 
         <div id="footer">
 
