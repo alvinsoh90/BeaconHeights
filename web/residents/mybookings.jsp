@@ -35,7 +35,7 @@
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-
+ 
     </head>
 
     <body>
@@ -148,6 +148,7 @@
                                         </thead>
                                     </c:if>
                                 </table>
+
 
                                 <table class="table table-striped table-bordered" id="history">
                                     <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()!=0}">     
