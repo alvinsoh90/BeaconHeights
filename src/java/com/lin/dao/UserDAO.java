@@ -30,138 +30,146 @@ import org.hibernate.Transaction;
  * @author Keffeine
  */
 public class UserDAO {
-    
+
     ArrayList<User> userList = null;
     ArrayList<UserTemp> userTempList = null;
-    
     Session session = null;
-    public UserDAO(){
+
+    public UserDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
+
     private void openSession() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    public String getUserHash(String username){
+
+    public String getUserHash(String username) {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from User where userName = :username");
-            q.setString("username",username);
+            Query q = session.createQuery("from User where userName = :username");
+            q.setString("username", username);
             userList = (ArrayList<User>) q.list();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       //System.out.println("TEMPUSER:"+userTempList.get(0));
-      return userList.get(0).getPassword();
+        //System.out.println("TEMPUSER:"+userTempList.get(0));
+        return userList.get(0).getPassword();
     }
-    
+
     public ArrayList<User> retrieveAllUsers() {
-       openSession();
-       try {
+        openSession();
+        try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from User");
+            Query q = session.createQuery("from User");
             userList = (ArrayList<User>) q.list();
             //tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
-      return userList;
+
+        return userList;
     }
-    
+
     public ArrayList<UserTemp> retrieveAllTempUsers() {
-       openSession();
-       try {
+        openSession();
+        try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from UserTemp");
+            Query q = session.createQuery("from UserTemp");
             userTempList = (ArrayList<UserTemp>) q.list();
             //tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       //System.out.println("TEMPUSER:"+userTempList.get(0));
-      return userTempList;
-    }    
-    
+        //System.out.println("TEMPUSER:"+userTempList.get(0));
+        return userTempList;
+    }
+
     //Method checks DB if username exists.
-    public Boolean doesUserExist(String username){
-        
+    public Boolean doesUserExist(String username) {
+
         //retieve all users first
         retrieveAllUsers();
-        
+
         //check if user exists
-        for(User u : userList){
-            if(u.getUserName().equals(username)){
+        for (User u : userList) {
+            if (u.getUserName().equals(username)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     //Method adds a temp user in user_temp awaiting approval.
-    public UserTemp addTempUser(String username, String password, String 
-            firstname, String lastname, String block, int level, int unitnumber) {
+    public UserTemp addTempUser(String username, String password, String firstname, String lastname, String block, int level, int unitnumber) {
         openSession();
         String salt = BCrypt.gensalt();
         String passwordHash = BCrypt.hashpw(password, salt);
-        
+
         RoleDAO rDao = new RoleDAO();
         BlockDAO bDao = new BlockDAO();
         Role defaultRole = rDao.getRoleByName("User");  //default is User role
         Block blockObj = bDao.getBlockByName(block);
         Date date = new Date(); //temporary
-        
-        UserTemp temp = new UserTemp(defaultRole,blockObj,passwordHash,
-                username,firstname,lastname,date,level,unitnumber);
-        
+
+        UserTemp temp = new UserTemp(defaultRole, blockObj, passwordHash,
+                username, firstname, lastname, date, level, unitnumber);
+
         Transaction tx = null;
         try {
             openSession();
-             tx = session.beginTransaction();
-                         System.out.println("tempUser : "+temp);
-            session.save("UserTemp",temp);
+            tx = session.beginTransaction();
+            System.out.println("tempUser : " + temp);
+            session.save("UserTemp", temp);
             tx.commit();
             return temp;
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            if(tx!=null) tx.rollback();
+            if (tx != null) {
+                tx.rollback();
+            }
         }
         //return null if failed
         return null;
     }
-    
+
     public boolean createUser(User user) {
         openSession();
         Transaction tx = null;
         try {
-             tx = session.beginTransaction();
-            session.save("User",user);
+            tx = session.beginTransaction();
+            session.save("User", user);
             tx.commit();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            if(tx!=null) tx.rollback();
+            if (tx != null) {
+                tx.rollback();
+            }
         }
         return false;
     }
 
     public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
         openSession();
-        User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
         
+        String salt = BCrypt.gensalt();
+        String passwordHash = BCrypt.hashpw(password, salt);
+        User user = new User(role, block, passwordHash, userName, firstname, lastname, dob, level, unit);
+
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.save("User",user);
+            session.save("User", user);
             tx.commit();
             return user;
         } catch (Exception e) {
             e.printStackTrace();
-            if(tx!=null) tx.rollback();
+            if (tx != null) {
+                tx.rollback();
+            }
         }
         //return null if failed
         return null;
@@ -170,93 +178,92 @@ public class UserDAO {
     public boolean deleteUser(int userId) {
         openSession();
         Transaction tx = null;
-        int rowCount =0;
-        
+        int rowCount = 0;
+
         try {
             tx = session.beginTransaction();
             String hql = "delete from User where userId = :id";
             Query query = session.createQuery(hql);
-            query.setString("id",userId+"");
+            query.setString("id", userId + "");
             rowCount = query.executeUpdate();
             tx.commit();
-            } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            if(tx!=null) tx.rollback();
-        }
-            System.out.println("Rows affected: " + rowCount);
-            if(rowCount>0){
-                return true;
-            }else{
-                return false;
+            if (tx != null) {
+                tx.rollback();
             }
+        }
+        System.out.println("Rows affected: " + rowCount);
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    
-    
-    
-    public User getUser(int userId){
+
+    public User getUser(int userId) {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from User where userId = :id");
-            q.setString("id",userId+"");
+            Query q = session.createQuery("from User where userId = :id");
+            q.setString("id", userId + "");
             userList = (ArrayList<User>) q.list();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       System.out.println("RETRIEVEDUSER:"+userList.get(0));
-      return userList.get(0);
+        System.out.println("RETRIEVEDUSER:" + userList.get(0));
+        return userList.get(0);
     }
-    
-    public UserTemp getUserTemp(int userId){
+
+    public UserTemp getUserTemp(int userId) {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from UserTemp where userId = :id");
-            q.setString("id",userId+"");
+            Query q = session.createQuery("from UserTemp where userId = :id");
+            q.setString("id", userId + "");
             userTempList = (ArrayList<UserTemp>) q.list();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-       //System.out.println("TEMPUSER:"+userTempList.get(0));
-      return userTempList.get(0);
+        //System.out.println("TEMPUSER:"+userTempList.get(0));
+        return userTempList.get(0);
     }
-   
-    
+
     public boolean removeTempUser(int userId) {
         openSession();
         Transaction tx = null;
-        int rowCount =0;
+        int rowCount = 0;
         UserTemp userTemp = this.getUserTemp(userId);
         //System.out.println("THIS IS THE ID"+ userTemp.getUserId());
         openSession();
         try {
             tx = session.beginTransaction();
             String hql = "DELETE UserTemp uT WHERE uT.userId = :id";
-            
+
             Query query = session.createQuery(hql);
-            query.setString("id",userId+"");
+            query.setString("id", userId + "");
             rowCount = query.executeUpdate();
             tx.commit();
-            } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            if(tx!=null) tx.rollback();
-        }
-            System.out.println("Rows affected: " + rowCount);
-            if(rowCount>0){
-                return true;
-            }else{
-                return false;
+            if (tx != null) {
+                tx.rollback();
             }
+        }
+        System.out.println("Rows affected: " + rowCount);
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    
-  
-    
-    public User updateUser(int userId,Role role, Block block, String userName, String firstname, String lastname,  Integer level, Integer unit) {
+
+    public User updateUser(int userId, Role role, Block block, String userName, String firstname, String lastname, Integer level, Integer unit) {
         openSession();
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
-        //System.out.println("USER INFO : "+userId+" "+role + " " + block + " " + userName+ " " + firstname+ " " + lastname+ " " + level+ " " + unit);
+        System.out.println("USER INFO : " + userId + " " + role + " " + block + " " + userName + " " + firstname + " " + lastname + " " + level + " " + unit);
         //session.update("User",user);
         User u = (User) session.get(User.class, userId);
         u.setRole(role);
@@ -266,23 +273,20 @@ public class UserDAO {
         u.setLastname(lastname);
         u.setLevel(level);
         u.setUnit(unit);
-        
+
         return u;
     }
-    
-    public User getUser(String username){   
+
+    public User getUser(String username) {
         retrieveAllUsers();
-        
-        for(User u : userList){
-//            System.out.println("THIS IS THE USERNAME: "+username);
-//            System.out.println(u.getFirstname());
-            if(u.getUserName().equals(username)){
+
+        for (User u : userList) {
+            System.out.println("THIS IS THE USERNAME: " + username);
+            System.out.println(u.getFirstname());
+            if (u.getUserName().equals(username)) {
                 return u;
             }
         }
         return null;
     }
-
-
-   
 }
