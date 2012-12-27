@@ -18,7 +18,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Users | Strass</title>
+        <title>Users</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
         <meta name="author" content="travis">
@@ -105,11 +105,11 @@
                     r[++j] =					'<ul class="dropdown-menu">'
                     r[++j] =						"<li><a href='#editUserModal' role='button' data-toggle='modal' onclick='populateEditUserModal(" + userList[i].id + ");loadValidate()'><i class='icon-pencil'></i> Edit</a></li>"
                     r[++j] =					"<li><a href='#deleteUserModal' role='button' data-toggle='modal' onclick='populateDeleteUserModal(" + userList[i].id + ")'><i class='icon-trash'></i> Delete</a></li>"
-                    r[++j] =					'<li><a href="#"><i class="icon-user"></i> Details</a></li>'
-                    r[++j] =					'<li class="nav-header">Permissions</li>'
-                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Admin</strong></a></li>'
-                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Moderator</strong></a></li>'
-                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>User</strong></a></li>'
+//                    r[++j] =					'<li><a href="#"><i class="icon-user"></i> Details</a></li>'
+//                    r[++j] =					'<li class="nav-header">Permissions</li>'
+//                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Admin</strong></a></li>'
+//                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Moderator</strong></a></li>'
+//                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>User</strong></a></li>'
                     r[++j] =				'</ul>'
                     r[++j] =			'</div>'                     
                                         
@@ -352,7 +352,7 @@
         </div>
 
         <footer class="well">
-            &copy; Strass
+            &copy; Charis
         </footer>
 
     </div>
