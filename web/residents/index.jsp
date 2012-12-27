@@ -46,7 +46,8 @@
                 $('#fullcalendar').fullCalendar( 'removeEvents');
                 
                 //add new event source
-                var eventSource = "/json/bookingevents.jsp?facilityid=" + facilityID;
+                var eventSource = "/json/bookingevents.jsp?facilityid=" + facilityID +"&userid="+${sessionScope.user.userId};
+                alert(eventSource);
                 $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
                 
             }
@@ -135,6 +136,10 @@
 
                             <span id ="sub"></span> 
                             Bookings
+                            <span id ="legend">
+                                <i class="icon-stop" style="color: #7DC8D3"></i> Your booking (awaiting payment) &nbsp;
+                                <i class="icon-stop" style="color: #206F77"></i> Your booking (paid)</span>
+
                         </h1>
                         <br/>
                     </div>	
@@ -183,36 +188,36 @@
                         </c:forEach>
                     </c:if>
 
-                    </div> <!-- /row -->
+                </div> <!-- /row -->
 
-                </div> <!-- /container -->
+            </div> <!-- /container -->
 
-            </div> <!-- /content -->
-
-
-            <div id="footer">
-
-                <div class="container">				
-                    <hr>
-                    <p>Beacon Heights Condominium</p>
-                </div> <!-- /container -->
-
-            </div> <!-- /footer -->
+        </div> <!-- /content -->
 
 
-            <!-- Le javascript
-            ================================================== -->
-            <!-- Placed at the end of the document so the pages load faster -->
+        <div id="footer">
 
-            <script src="./js/excanvas.min.js"></script>
-            <script src="./js/jquery.flot.js"></script>
-            <script src="./js/jquery.flot.pie.js"></script>
-            <script src="./js/jquery.flot.orderBars.js"></script>
-            <script src="./js/jquery.flot.resize.js"></script>
-            <script src="./js/fullcalendar.min.js"></script>
+            <div class="container">				
+                <hr>
+                <p>Beacon Heights Condominium</p>
+            </div> <!-- /container -->
 
-            <script src="./js/bootstrap.js"></script>
-            <script src="./js/charts/bar.js"></script>
+        </div> <!-- /footer -->
 
-        </body>
-    </html>
+
+        <!-- Le javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+
+        <script src="./js/excanvas.min.js"></script>
+        <script src="./js/jquery.flot.js"></script>
+        <script src="./js/jquery.flot.pie.js"></script>
+        <script src="./js/jquery.flot.orderBars.js"></script>
+        <script src="./js/jquery.flot.resize.js"></script>
+        <script src="./js/fullcalendar.min.js"></script>
+
+        <script src="./js/bootstrap.js"></script>
+        <script src="./js/charts/bar.js"></script>
+
+    </body>
+</html>
