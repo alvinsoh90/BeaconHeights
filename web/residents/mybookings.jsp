@@ -41,9 +41,7 @@
             
             //populate delete booking modal
             function populateDeleteBookingModal(bookingID){ 
-                alert(bookingID);
                 bookingList.forEach(function(booking){
-                    alert("bleah"+booking.id);
                     if(booking.id == bookingID){
                         $("#delete_facilityType").text(booking.facilityType);
                         $("#delete_startDate").text(booking.startDate);
@@ -160,7 +158,7 @@
                                                     <td class="action-td">
                                                         <a href="#deleteBookingModal" role ="button" data-toggle="modal" 
                                                            class="btn btn-small btn-warning"
-                                                           onclick="populateDeleteBookingModal(43)">
+                                                           onclick="populateDeleteBookingModal(${booking.id})">
                                                             <i class="icon-trash"></i>							
                                                         </a>
 
@@ -220,7 +218,7 @@
         <div id="deleteBookingModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Deletion of <span id="usernameDeleteLabel"></span>'s booking</h3>
+                <h3>Delete Booking</h3>
             </div>
             <div class="modal-body">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageBookingsActionBean" focus=""> 
@@ -230,8 +228,7 @@
                     <a data-dismiss="modal" class="btn">Close</a>
                     <jsp:setProperty name = "manageBookingsActionBean"  property = "id"  value = "${booking.id}" />
                     <stripes:hidden id="delete_id" name="id"/>
-                    <stripes:submit class="btn btn-small btn-warning" name="deleteBooking" value="Delete"/>                                                           						
-                    <input type="submit" name="deleteBooking" value="Confirm Delete" class="btn btn-danger"/>
+                    <stripes:submit class="btn btn-danger" name="deleteBooking" value="Delete"/>                                                           						
                 </div>
             </stripes:form>
         </div>
