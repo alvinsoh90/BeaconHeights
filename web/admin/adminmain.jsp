@@ -77,22 +77,22 @@
             <p><a class="btn btn-success btn-large" href="users.jsp">Manage Users &raquo;</a></p>
           </div>
           <div class="row-fluid">
-            <!--<div class="span3">
+            <div class="span3">
               <h3>Total Users</h3>
-              <p><a href="users.jsp" class="badge badge-inverse">563</a></p>
+              <p><a href="users.jsp" class="badge badge-inverse">${approveUserBean.userListCount}</a></p>
             </div>
             <div class="span3">
               <h3>New Users Today</h3>
-              <p><a href="users.jsp" class="badge badge-inverse">8</a></p>
+              <p><a href="users.jsp" class="badge badge-inverse">${approveUserBean.newUserListCount}</a></p>
             </div>
             <div class="span3">
               <h3>Pending</h3>
-			  <p><a href="users.jsp" class="badge badge-inverse">2</a></p>
+			  <p><a href="users.jsp" class="badge badge-inverse">${approveUserBean.tempUserListCount}</a></p>
             </div>
             <div class="span3">
               <h3>Roles</h3>
-			  <p><a href="roles.html" class="badge badge-inverse">3</a></p>
-            </div>-->
+			  <p><a href="roles.html" class="badge badge-inverse">${approveUserBean.roleListCount}</a></p>
+            </div>
           </div>
 		  <br />
 		  <div class="row-fluid">

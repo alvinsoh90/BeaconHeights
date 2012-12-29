@@ -29,6 +29,11 @@ public class ApproveUserBean implements ActionBean{
   private ArrayList<UserTemp> tempUserList;
   private ArrayList<Role> roleList;
   
+  private int userListCount;
+  private int newUserListCount;
+  private int tempUserListCount;
+  private int roleListCount;
+  
   private String id;
   private String username;
   private String password;
@@ -74,6 +79,37 @@ public class ApproveUserBean implements ActionBean{
         
     }
     
+    public int getUserListCount() {
+        UserDAO uDAO = new UserDAO();
+        ArrayList<User> list = new ArrayList<User>();
+        list = uDAO.retrieveAllUsers();
+        if(list==null){
+            userListCount = 0;
+        }else{
+            userListCount = list.size();
+        }
+        return userListCount;
+    }
+    
+    public int getNewUserListCount() {
+        UserDAO uDAO = new UserDAO();
+        ArrayList<User> list = new ArrayList<User>();
+        list = uDAO.retrieveAllUsers();
+        if(list==null){
+            newUserListCount = 0;
+        }else{
+            newUserListCount = 0;
+            Date today = new Date();
+            for(User u:list){
+               if(today.getYear() == u.getDob().getYear() && today.getMonth() == u.getDob().getMonth() && today.getDate() == u.getDob().getDate()){
+               newUserListCount++; 
+               }
+            }
+            
+        }
+        return newUserListCount;
+    }
+    
     public ArrayList<UserTemp> getTempUserList() {
         UserDAO uDAO = new UserDAO();
         tempUserList = uDAO.retrieveAllTempUsers();
@@ -87,10 +123,11 @@ public class ApproveUserBean implements ActionBean{
         list = uDAO.retrieveAllTempUsers();
         //System.out.print("ok!"+tempUserList.get(0));
         if(list==null){
-            return 0;
+            tempUserListCount = 0;
         }else{
-        return list.size();
+            tempUserListCount = list.size();
         }
+        return tempUserListCount;
     }
 
     public void setTempUserList(ArrayList<UserTemp> tempUserList) {
@@ -198,5 +235,17 @@ public class ApproveUserBean implements ActionBean{
         roleList = roleDAO.getAllRoles();
         return roleList;
   }
+    
+    public int getRoleListCount() {
+        RoleDAO roleDAO = new RoleDAO(); 
+        ArrayList<Role> list = new ArrayList<Role>();
+        list = roleDAO.getAllRoles();
+        if(list==null){
+            roleListCount = 0;
+        }else{
+            roleListCount = list.size();
+        }
+        return roleListCount;
+    }
 
 }
