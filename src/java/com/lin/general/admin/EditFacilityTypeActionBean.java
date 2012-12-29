@@ -374,8 +374,8 @@ public class EditFacilityTypeActionBean implements ActionBean {
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/manage-facilitytypes.jsp?createsuccess=" + success
-                + "&createmsg=" + result);
+        return new RedirectResolution("/admin/manage-facilitytypes.jsp?editsuccess=" + success
+                + "&editmsg=" + result);
 
 
 

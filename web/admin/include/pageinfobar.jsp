@@ -29,4 +29,10 @@
                                 <b>Awesome!</b> ${param.approvemsg} was added!
                             </div>
                         </c:if>
+                            <c:if test = "${param.editsuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success">
+                                <b>Awesome!</b> ${param.editmsg} was successfully edited!
+                            </div>
+                        </c:if>
                     </div>
