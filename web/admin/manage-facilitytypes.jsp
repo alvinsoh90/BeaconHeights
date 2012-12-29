@@ -13,21 +13,21 @@
 <%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Users | Strass</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
-    <meta name="author" content="travis">
+    <head>
+        <meta charset="utf-8">
+        <title>Users | Strass</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
+        <meta name="author" content="travis">
 
-    <link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/site.css" rel="stylesheet">
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script>
-                <!-- Populates the Edit Facilities form -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/site.css" rel="stylesheet">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script>
+            <!-- Populates the Edit Facilities form -->
             // Init an array of all facilities shown on this page
             var facilityTypeList = [];
             
@@ -55,198 +55,208 @@
                 
             }
         </script>
- 
-    
-  </head>
-  <body>
-      
-    <%@include file="include/mainnavigationbar.jsp"%>
-    <div class="container-fluid">
-       <%@include file="include/sidemenu.jsp"%>   
-       
-        <div class="span9">
-		  <div class="row-fluid">
-                        <!-- Info Messages -->
+
+
+    </head>
+    <body>
+
+        <%@include file="include/mainnavigationbar.jsp"%>
+        <div class="container-fluid">
+            <%@include file="include/sidemenu.jsp"%>   
+
+            <div class="span9">
+                <div class="row-fluid">
+                    <!-- Info Messages -->
                     <%@include file="include/pageinfobar.jsp"%>
-                    
+
                     <!-- Edit Facility Type Modal Form -->
-                
-                
-                <!--Delete Facility Modal -->
-                <div id="deleteFacilityTypeModal" class="modal hide fade">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h3>Deletion of <span id="facilityTypeDeleteLabel"></span></h3>
-                    </div>
-                    <div class="modal-body">
-                        <stripes:form  class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilityTypeBean"> 
-                            You are now deleting <span id="delete_name"></span>. Are you sure?
-                        </div>
-                        <div class="modal-footer">
-                            <a data-dismiss="modal" class="btn">Close</a>
 
-                            <stripes:hidden id="delete_id" name="delete_facility_type_id"/>
-                            <stripes:hidden id="delete_name" name="delete_name"/>
-                            <input type="submit" name="deleteFacilityType" value="Confirm Delete" class="btn btn-danger"/>
+
+                    <!--Delete Facility Modal -->
+                    <div id="deleteFacilityTypeModal" class="modal hide fade">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                            <h3>Deletion of <span id="facilityTypeDeleteLabel"></span></h3>
                         </div>
-                    </stripes:form>
-                </div>    
-                    
-			<div class="page-header">
-				<h1>Facility Types <small>Manage estate facility types</small></h1>
-			</div>
-			<table class="table table-striped table-bordered table-condensed">
-				<thead>
-					<tr>
-                                                <th></th>
-						<th>ID</th>
-						<th>Facility Type</th>
-						<th>Description</th>
-						<th>Opening Hours</th>
-						<th>Booking Limit</th>
-                                                <th>Advance Booking Limit</th>
-					</tr>
-				</thead>
-				<tbody>
-				<c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
-                                                    <script>
-                                                        var facilityType = new Object();
-                                                        facilityType.id = "${facilityType.id}";
-                                                        facilityType.name = "${facilityType.name}";
-                                                        facilityType.description = "${facilityType.description}";
+                        <div class="modal-body">
+                            <stripes:form  class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilityTypeBean"> 
+                                You are now deleting <span id="delete_name"></span>. Are you sure?
+                            </div>
+                            <div class="modal-footer">
+                                <a data-dismiss="modal" class="btn">Close</a>
+
+                                <stripes:hidden id="delete_id" name="delete_facility_type_id"/>
+                                <stripes:hidden id="delete_name" name="delete_name"/>
+                                <input type="submit" name="deleteFacilityType" value="Confirm Delete" class="btn btn-danger"/>
+                            </div>
+                        </stripes:form>
+                    </div>    
+
+                    <div class="page-header">
+                        <h1>Facility Types <small>Manage estate facility types</small></h1>
+                    </div>
+                    <table class="table table-striped table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>Facility Type</th>
+                                <th>Description</th>
+                                <th>Opening Hours</th>
+                                <th>Booking Limit</th>
+                                <th>Advance Booking Limit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
+                            <script>
+                                var facilityType = new Object();
+                                facilityType.id = "${facilityType.id}";
+                                facilityType.name = "${facilityType.name}";
+                                facilityType.description = "${facilityType.description}";
                                                         
-                                                        facilityTypeList.push(facilityType);
-                                                    </script>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="user-thumb">
-                                                                <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
-                                                            </div>
-                                                        </td>
-                                                        <td><b>${facilityType.id}</b></td>
-                                                        <td><b>${facilityType.name}</b></td>
-                                                        <td>${facilityType.description}</td>
-                                                        <td><c:forEach items="${facilityType.openRules}" var="openRule" varStatus="loop">
-                                                            ${openRule}<br>    
-                                                            </c:forEach></td>
-                                                        <td><c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
-                                                            ${limitRules}<br>    
-                                                            </c:forEach></td>
-                                                        <td><c:forEach items="${facilityType.advanceRules}" var="advanceRules" varStatus="loop">
-                                                            ${advanceRules}<br>    
-                                                            </c:forEach></td>
-                                                        <td>
-                                                            <a href="editfacilitytype.jsp?id=${facilityType.id}" role="button" class="btn btn-primary btn-mini">Edit</a> 
-                                                            <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<ul>
-					<li><a href="#">Prev</a></li>
-					<li class="active">
-						<a href="#">1</a>
-					</li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">Next</a></li>
-				</ul>
-			</div>
-			<a href="createfacilitytype.jsp" class="btn btn-success">Create New Facility Type</a>
-		  </div>
-        </div>
-      </div>
-
-      <hr>
-
-<%@include file="include/footer.jsp"%>
-
-                <!-- Create new facility type modal -->
-                <div id="createFacilityTypeModal" class="modal hide fade">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h3>Create New Facility Type</h3>
+                                facilityTypeList.push(facilityType);
+                            </script>
+                            <tr>
+                                <td>
+                                    <div class="user-thumb">
+                                        <c:choose>
+                                            <c:when test="${facilityType.name=='BBQ Pit'}">
+                                                <img width="40" height="40" alt="" src="../img/lin/bbq.png"/>  
+                                            </c:when>
+                                            <c:when test="${facilityType.name=='Tennis Court'}">
+                                                <img width="40" height="40" alt="" src="../img/lin/tennis.png"/>  
+                                            </c:when>
+                                            <c:otherwise>
+                                                <!-- put placeholder image if no facility -->
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </td>
+                                <td><b>${facilityType.id}</b></td>
+                                <td><b>${facilityType.name}</b></td>
+                                <td>${facilityType.description}</td>
+                                <td><c:forEach items="${facilityType.openRules}" var="openRule" varStatus="loop">
+                                        ${openRule}<br>    
+                                    </c:forEach></td>
+                                <td><c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
+                                        ${limitRules}<br>    
+                                    </c:forEach></td>
+                                <td><c:forEach items="${facilityType.advanceRules}" var="advanceRules" varStatus="loop">
+                                        ${advanceRules}<br>    
+                                    </c:forEach></td>
+                                <td>
+                                    <a href="editfacilitytype.jsp?id=${facilityType.id}" role="button" class="btn btn-primary btn-mini">Edit</a> 
+                                    <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <ul>
+                            <li><a href="#">Prev</a></li>
+                            <li class="active">
+                                <a href="#">1</a>
+                            </li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">Next</a></li>
+                        </ul>
                     </div>
-                    <div class="modal-body">
-                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilityTypesActionBean" name="new_facility_validate" id="new_facility_validate">
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Name</label>
-                                    <div class="controls">
-                                        <stripes:text name="name"/>
-                                    </div>
-                                </div>
-
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Description</label>
-                                    <div class="controls">
-                                        <stripes:text name="description"/>
-                                    </div>
-                                </div>
-                              
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Opening Hours</label>
-                                    <div class="controls">
-
-                                        Monday:     Opening <stripes:text name="monOpen"/>   Closing <stripes:text name="monClose"/><br/>
-                                        Tuesday:    Opening <stripes:text name="tueOpen"/>   Closing <stripes:text name="tueClose"/><br/>
-                                        Wednesday:  Opening <stripes:text name="wedOpen"/>    Closing <stripes:text name="wedClose"/><br/>
-                                        Thursday:   Opening <stripes:text name="thuOpen"/>   Closing <stripes:text name="thuClose"/><br/>
-                                        Friday:     Opening <stripes:text name="friOpen"/>    Closing <stripes:text name="friClose"/><br/>
-                                        Saturday:   Opening <stripes:text name="satOpen"/>    Closing <stripes:text name="satClose"/><br/>
-                                        Sunday:     Opening <stripes:text name="sunOpen"/>    Closing <stripes:text name="sunClose"/><br/>
-                                        
-
-                                    </div>
-                                </div>
-                                        
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Booking Limits</label>
-                                    <div class="controls">
-                                        This Facility Type may be booked a maximum of <stripes:text name="sessions"/> times per <stripes:text name="numberOfTimeframe"/> <stripes:text name="timeframeType"/>
-                                    </div>
-                                </div>
-                                    
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Limitation on Booking in Advance</label>
-                                    <div class="controls">
-                                        This Facility Type's booking opens: <stripes:text name="maxDays"/> in advance <br/>
-                                        This Facility Type's booking closes: <stripes:text name="minDays"/> in advance
-                                    </div>
-                                </div>
-                                
-                                    
-
-                                <div class="form-actions">
-                                    <input type="submit" name="createFacilityType" value="Add this facility type" class="btn btn-info btn-large"/>
-                                </div>         
-
-                            </stripes:form>
+                    <a href="createfacilitytype.jsp" class="btn btn-success">Create New Facility Type</a>
                 </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <%@include file="include/footer.jsp"%>
+
+        <!-- Create new facility type modal -->
+        <div id="createFacilityTypeModal" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Create New Facility Type</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilityTypesActionBean" name="new_facility_validate" id="new_facility_validate">
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Name</label>
+                        <div class="controls">
+                            <stripes:text name="name"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Description</label>
+                        <div class="controls">
+                            <stripes:text name="description"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Opening Hours</label>
+                        <div class="controls">
+
+                            Monday:     Opening <stripes:text name="monOpen"/>   Closing <stripes:text name="monClose"/><br/>
+                            Tuesday:    Opening <stripes:text name="tueOpen"/>   Closing <stripes:text name="tueClose"/><br/>
+                            Wednesday:  Opening <stripes:text name="wedOpen"/>    Closing <stripes:text name="wedClose"/><br/>
+                            Thursday:   Opening <stripes:text name="thuOpen"/>   Closing <stripes:text name="thuClose"/><br/>
+                            Friday:     Opening <stripes:text name="friOpen"/>    Closing <stripes:text name="friClose"/><br/>
+                            Saturday:   Opening <stripes:text name="satOpen"/>    Closing <stripes:text name="satClose"/><br/>
+                            Sunday:     Opening <stripes:text name="sunOpen"/>    Closing <stripes:text name="sunClose"/><br/>
 
 
-        <script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script>
-	$(document).ready(function() {
-		$('.dropdown-menu li a').hover(
-		function() {
-			$(this).children('i').addClass('icon-white');
-		},
-		function() {
-			$(this).children('i').removeClass('icon-white');
-		});
+                        </div>
+                    </div>
+
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Booking Limits</label>
+                        <div class="controls">
+                            This Facility Type may be booked a maximum of <stripes:text name="sessions"/> times per <stripes:text name="numberOfTimeframe"/> <stripes:text name="timeframeType"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Limitation on Booking in Advance</label>
+                        <div class="controls">
+                            This Facility Type's booking opens: <stripes:text name="maxDays"/> in advance <br/>
+                            This Facility Type's booking closes: <stripes:text name="minDays"/> in advance
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-actions">
+                        <input type="submit" name="createFacilityType" value="Add this facility type" class="btn btn-info btn-large"/>
+                    </div>         
+
+                </stripes:form>
+            </div>
+
+
+            <script src="js/jquery.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('.dropdown-menu li a').hover(
+                    function() {
+                        $(this).children('i').addClass('icon-white');
+                    },
+                    function() {
+                        $(this).children('i').removeClass('icon-white');
+                    });
 		
-		if($(window).width() > 760)
-		{
-			$('tr.list-users td div ul').addClass('pull-right');
-		}
-	});
-	</script>
-        
-                <script src="../js/jquery.validate.js"></script>
-        
-  </body>
+                    if($(window).width() > 760)
+                    {
+                        $('tr.list-users td div ul').addClass('pull-right');
+                    }
+                });
+            </script>
+
+            <script src="../js/jquery.validate.js"></script>
+
+    </body>
 </html>

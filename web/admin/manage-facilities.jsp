@@ -158,7 +158,17 @@
                             <tr>
                                 <td>
                                     <div class="user-thumb">
-                                        <img width="40" height="40" alt="" src="../img/lin/bbq.jpg">
+                                        <c:choose>
+                                            <c:when test="${facility.facilityType.name=='BBQ Pit'}">
+                                                <img width="40" height="40" alt="" src="../img/lin/bbq.png"/>  
+                                            </c:when>
+                                            <c:when test="${facility.facilityType.name=='Tennis Court'}">
+                                                <img width="40" height="40" alt="" src="../img/lin/tennis.png"/>  
+                                            </c:when>
+                                            <c:otherwise>
+                                                <!-- put placeholder image if no facility -->
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </td>
                                 <td><b>${facility.id}</b></td>
@@ -214,15 +224,15 @@
 <!--                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Latitude</label>
                         <div class="controls">
-                            <stripes:text name="latitude" />
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Longitude</label>
-                        <div class="controls">
-                            <stripes:text name="longitude"  />
-                        </div>
-                    </div>-->
+                    <stripes:text name="latitude" />
+                </div>
+            </div>
+            <div class="control-group ${errorStyle}">
+                <label class="control-label">Longitude</label>
+                <div class="controls">
+                    <stripes:text name="longitude"  />
+                </div>
+            </div>-->
 
                     <div class="modal-footer">
                         <input type="submit" name="createFacility" value="Add this facility" class="btn btn-info btn-large"/>                                                           
@@ -251,15 +261,15 @@
 <!--                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Latitude</label>
                         <div class="controls">
-                            <stripes:text id="edit_latitude" name="latitude"/> 
-                        </div>
-                    </div>    
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Longitude</label>
-                        <div class="controls">
-                            <stripes:text id="edit_longitude" name="longitude"/> 
-                        </div>
-                    </div>                              -->
+                    <stripes:text id="edit_latitude" name="latitude"/> 
+                </div>
+            </div>    
+            <div class="control-group ${errorStyle}">
+                <label class="control-label">Longitude</label>
+                <div class="controls">
+                    <stripes:text id="edit_longitude" name="longitude"/> 
+                </div>
+            </div>                              -->
                     <stripes:hidden id="editid" name="id"/>
                 </div>
                 <div class="modal-footer">
