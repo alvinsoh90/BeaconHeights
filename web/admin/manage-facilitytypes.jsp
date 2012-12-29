@@ -10,7 +10,7 @@
              class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
-<%@include file="/protect.jsp"%>
+<%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>

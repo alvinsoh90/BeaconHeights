@@ -10,6 +10,7 @@
              class="com.lin.general.admin.ManageUsersActionBean"/>
 <jsp:useBean id="registerActionBean" scope="page"
              class="com.lin.general.login.RegisterActionBean"/>
+<%@include file="/protectadmin.jsp"%>
 <html lang="en">
   <head>
     <meta charset="utf-8">

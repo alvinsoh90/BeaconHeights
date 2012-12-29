@@ -8,7 +8,7 @@
 
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
-<%@include file="/protect.jsp"%>
+<%@include file="/protectadmin.jsp"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en">

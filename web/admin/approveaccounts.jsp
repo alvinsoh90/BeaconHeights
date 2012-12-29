@@ -8,7 +8,7 @@
 
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
-<%@include file="/protect.jsp"%>
+<%@include file="/protectadmin.jsp"%>
 <html lang="en">
     <head>
         <title>Admin | Living Integrated Network</title>

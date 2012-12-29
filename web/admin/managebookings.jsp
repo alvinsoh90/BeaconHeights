@@ -14,7 +14,7 @@
              class="com.lin.general.admin.ApproveUserBean"/>
 <jsp:useBean id="manageBookingsActionBean" scope="page"
              class="com.lin.general.admin.ManageBookingsActionBean"/>
-<%@include file="/protect.jsp"%>
+<%@include file="/protectadmin.jsp"%>
 <html lang="en">
     <head>
         <title>Admin | Living Integrated Network</title>
