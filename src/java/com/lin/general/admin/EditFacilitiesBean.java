@@ -44,8 +44,10 @@ public class EditFacilitiesBean implements ActionBean{
                     (
                         Integer.parseInt(id),
                         facilityType,
-                        Integer.parseInt(longitude),
-                        Integer.parseInt(latitude)
+                        123456,
+                        123456
+//                        Integer.parseInt(longitude),
+//                        Integer.parseInt(latitude)
                     );
             return new RedirectResolution("/admin/manage-facilities.jsp?editsuccess=true"+"&editmsg="+type+"%20"+id);
         }

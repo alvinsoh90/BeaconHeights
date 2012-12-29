@@ -40,6 +40,7 @@ public class FacilityDAO {
     }
 
     public ArrayList<Facility> retrieveAllFacilities() {
+        openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Facility");
@@ -135,28 +136,48 @@ public class FacilityDAO {
         openSession();
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
         //session.update("User",user);
-        Facility facility = (Facility) session.get(Facility.class, id);
-        facility.setFacilityType(facilityType);
-        facility.setFacilityLng(facilityLng);
-        facility.setFacilityLat(facilityLat);
-        
-        session.update(facility);
+        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();        
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Facility facility = (Facility) session.get(Facility.class, id);
+            facility.setFacilityType(facilityType);
+            facility.setFacilityLng(facilityLng);
+            facility.setFacilityLat(facilityLat);
+            session.update(facility);
+            tx.commit();
 
-        return facility;
+            return facility;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        
+        
+
+        return null;
 
     }
 
     public Facility getFacility(int id) {
         openSession();
+        
         ArrayList<Facility> result = new ArrayList<Facility>();
+        Transaction tx = null;
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
+            tx = session.beginTransaction();
             Query q = session.createQuery("from Facility where id = :fId");
             q.setInteger("fId", id);
             result = (ArrayList<Facility>) q.list();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
         }
         System.out.println("RETRIEVEDFACILITY:"+result.get(0));
         return result.get(0);

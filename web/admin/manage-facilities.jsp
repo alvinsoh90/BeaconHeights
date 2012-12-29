@@ -211,18 +211,18 @@
                         </div>
                     </div>
 
-                    <div class="control-group ${errorStyle}">
+<!--                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Latitude</label>
                         <div class="controls">
-                            <stripes:text name="latitude"/>
+                            <stripes:text name="latitude" />
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Longitude</label>
                         <div class="controls">
-                            <stripes:text name="longitude"/>
+                            <stripes:text name="longitude"  />
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="modal-footer">
                         <input type="submit" name="createFacility" value="Add this facility" class="btn btn-info btn-large"/>                                                           
@@ -238,7 +238,7 @@
                 <h3>Edit <span id="facilityLabel"></span></h3>
             </div>
             <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilitiesBean" focus="" id="edit_facility_validate" name="edit_facility_validate">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilitiesBean" id="edit_facility_validate" name="edit_facility_validate">
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Type</label>
                         <div class="controls">
@@ -248,7 +248,7 @@
                         </div>
                     </div> 
                     <stripes:text class="hide" name="id" id="editid" />
-                    <div class="control-group ${errorStyle}">
+<!--                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Latitude</label>
                         <div class="controls">
                             <stripes:text id="edit_latitude" name="latitude"/> 
@@ -259,7 +259,7 @@
                         <div class="controls">
                             <stripes:text id="edit_longitude" name="longitude"/> 
                         </div>
-                    </div>                              
+                    </div>                              -->
                     <stripes:hidden id="editid" name="id"/>
                 </div>
                 <div class="modal-footer">
@@ -277,7 +277,7 @@
                 <h3>Deletion of <span id="facilityDeleteLabel"></span></h3>
             </div>
             <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilitiesBean" focus=""> 
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFacilitiesBean" > 
                     You are now deleting <span id="delete_name"></span>. Are you sure?
                 </div>
                 <div class="modal-footer">

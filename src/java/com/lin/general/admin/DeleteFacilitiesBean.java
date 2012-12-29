@@ -29,11 +29,12 @@ public class DeleteFacilitiesBean implements ActionBean {
     public Resolution deleteFacility() {
         FacilityDAO fdao = new FacilityDAO();
         int fId = Integer.parseInt(id);
-        System.out.println(fId);
-        Facility facility = fdao.getFacility(fId);
+        //System.out.println(fId);
+        //Facility facility = fdao.getFacility(fId);
         try {
             fdao.deleteFacility(fId);
-            return new RedirectResolution("/admin/manage-facilities.jsp?deletesuccess=true" + "&deletemsg=" + facility.getName());
+            fdao = new FacilityDAO();
+            return new RedirectResolution("/admin/manage-facilities.jsp?deletesuccess=true&deletemsg=Facility");
         } catch (Exception e) {
             e.printStackTrace();
         }

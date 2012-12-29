@@ -120,7 +120,8 @@ public class ManageFacilitiesActionBean implements ActionBean {
             FacilityDAO fDAO = new FacilityDAO();
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             FacilityType facilityType = tDAO.getFacilityType(type);
-            Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
+            //Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
+            Facility facility = fDAO.createFacility(facilityType, 12345, 12345);
             result = facility.getName();
             success = true;
         } catch (Exception e) {
