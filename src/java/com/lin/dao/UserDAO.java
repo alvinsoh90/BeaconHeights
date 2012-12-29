@@ -155,9 +155,9 @@ public class UserDAO {
     public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
         openSession();
         
-        String salt = BCrypt.gensalt();
-        String passwordHash = BCrypt.hashpw(password, salt);
-        User user = new User(role, block, passwordHash, userName, firstname, lastname, dob, level, unit);
+        //String salt = BCrypt.gensalt();
+        //String passwordHash = BCrypt.hashpw(password, salt);
+        User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
 
         Transaction tx = null;
         try {

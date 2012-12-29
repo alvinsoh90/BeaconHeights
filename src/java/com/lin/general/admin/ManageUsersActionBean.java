@@ -9,6 +9,7 @@ import com.lin.dao.RoleDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
+import com.lin.utils.BCrypt;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -184,7 +185,10 @@ public class ManageUsersActionBean implements ActionBean {
             int unitInt = Integer.parseInt(unitnumber);
             Date dob = new Date();
             
-            User user1 = uDAO.createUser(roleObj, blockObj, password, username,
+            // salt password here, as uDAO method requires a salted password
+            String salt = BCrypt.gensalt();
+            String passwordHash = BCrypt.hashpw(password, salt);
+            User user1 = uDAO.createUser(roleObj, blockObj, passwordHash, username,
                     firstname, lastname, dob, levelInt, unitInt);
             
             result = user1.getFirstname();
