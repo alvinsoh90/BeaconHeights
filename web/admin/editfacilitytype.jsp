@@ -149,6 +149,8 @@
     <% 
         FacilityTypeDAO fDAO = new FacilityTypeDAO();
         FacilityType fType = fDAO.getFacilityType(Integer.parseInt(request.getParameter("id")));
+        System.out.println("TEST FTYPE NAME : " +fType.getDescription());
+        
         
         LimitRule lRule = (LimitRule)fType.getLimitRules().toArray()[0];
         String timeFrameType = "";

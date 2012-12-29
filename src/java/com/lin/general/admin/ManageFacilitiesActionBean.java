@@ -32,6 +32,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
     private String latitude;
     private String longitude;
     private String result;
+    private String facility_name;
     private boolean success = false;
 
     public String getDescription() {
@@ -121,7 +122,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             FacilityType facilityType = tDAO.getFacilityType(type);
             //Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
-            Facility facility = fDAO.createFacility(facilityType, 12345, 12345);
+            Facility facility = fDAO.createFacility(facilityType,facility_name,12345, 12345);
             result = facility.getName();
             success = true;
         } catch (Exception e) {
