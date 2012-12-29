@@ -4,9 +4,7 @@
  */
 package com.lin.dao;
 
-import com.lin.entities.AdvanceRule;
-import com.lin.entities.Facility;
-import com.lin.entities.FacilityType;
+import com.lin.entities.*;
 import com.lin.utils.HttpHandler;
 import com.lin.global.ApiUriList;
 import com.lin.utils.BCrypt;
@@ -14,9 +12,7 @@ import com.lin.utils.HibernateUtil;
 import com.lin.utils.json.JSONException;
 import com.lin.utils.json.JSONObject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.Query;
@@ -191,7 +187,8 @@ public class FacilityTypeDAO {
 
         return facilityType;
     }
-
+    
+    
     public FacilityType getFacilityType(String name) {
         openSession();
         ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
@@ -199,7 +196,7 @@ public class FacilityTypeDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from FacilityType where name ='" + name + "'");
             typeList = (ArrayList<FacilityType>) q.list();
-            //tx.commit();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -207,24 +204,30 @@ public class FacilityTypeDAO {
 
     }
     
+    
     public FacilityType getFacilityType(int id) {
-        openSession();
+        //openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        Transaction tx = null;
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
+            tx = session.beginTransaction();
             Query q = session.createQuery("from FacilityType where id ='" + id + "'");
             typeList = (ArrayList<FacilityType>) q.list();
-            //tx.commit();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
         }
         return typeList.get(0);
 
     }
 
     public FacilityType editFacilityType(FacilityType facilityType) {
-        //openSession();
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        openSession();
+        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         String name = facilityType.getName();
         String desc = facilityType.getDescription();
         Set ars = facilityType.getAdvanceRules();
@@ -239,11 +242,11 @@ public class FacilityTypeDAO {
         
         fT.setName(name);
         fT.setDescription(desc);
-        fT.setAdvanceRules(ars);
-        fT.setCloseRules(crs);
-        fT.setLimitRules(lrs);
-        fT.setOpenRules(ors);
-        
+//        fT.setAdvanceRules(ars);
+//        fT.setCloseRules(crs);
+//        fT.setLimitRules(lrs);
+//        fT.setOpenRules(ors);
+//        
         tx.commit();
         
 //        System.out.println("NEW FT NAME HERE : "+fT.getDescription());
@@ -253,6 +256,116 @@ public class FacilityTypeDAO {
         
         return fT;
     }
+
+    public FacilityType editFacilityType(int id, FacilityType newFT) {
+        openSession();
+        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        org.hibernate.Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            FacilityType fT = (FacilityType) session.get(FacilityType.class, id);
+            fT.setName(newFT.getName());
+            fT.setDescription(newFT.getDescription());
+            fT.setAdvanceRules(newFT.getAdvanceRules());
+            fT.setCloseRules(newFT.getCloseRules());
+            fT.setLimitRules(newFT.getLimitRules());
+            fT.setOpenRules(newFT.getOpenRules());
+            tx.commit();
+            
+            return fT;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return null;
+    }
     
+    
+    public FacilityType editFacilityType(int id, String name, String description, Date monOne, Date monTwo, Date tueOne, Date tueTwo, Date wedOne, Date wedTwo, Date thuOne, Date thuTwo, Date friOne, Date friTwo, Date satOne, Date satTwo, Date sunOne, Date sunTwo, int bookingSessions, int bookingLimitFreq, char bookingLimitUnit, int bookingOpenAdvance, int bookingCloseAdvance){
+        openSession();
+        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        org.hibernate.Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            FacilityType fT = (FacilityType) session.get(FacilityType.class, id);
+            //HashSet declarations
+
+            HashSet openRuleSet = new HashSet();
+            HashSet closeRuleSet = new HashSet();
+            HashSet limitRuleSet = new HashSet();
+            HashSet advanceRuleSet = new HashSet();
+
+            //Create open rules and store to DB          
+            OpenRule openRule1 = new OpenRule(fT, monOne, monTwo, 
+                    OpenRule.DAY_OF_WEEK.MONDAY);
+            OpenRule openRule2 = new OpenRule(fT, tueOne, tueTwo, 
+                    OpenRule.DAY_OF_WEEK.TUESDAY);
+            OpenRule openRule3 = new OpenRule(fT, wedOne, wedTwo, 
+                    OpenRule.DAY_OF_WEEK.WEDNESDAY);
+            OpenRule openRule4 = new OpenRule(fT, thuOne, thuTwo, 
+                    OpenRule.DAY_OF_WEEK.THURSDAY);
+            OpenRule openRule5 = new OpenRule(fT, friOne, friTwo, 
+                    OpenRule.DAY_OF_WEEK.FRIDAY);
+            OpenRule openRule6 = new OpenRule(fT, satOne, satTwo, 
+                    OpenRule.DAY_OF_WEEK.SATURDAY);
+            OpenRule openRule7 = new OpenRule(fT, sunOne, sunTwo, 
+                    OpenRule.DAY_OF_WEEK.SUNDAY);
+            
+            //add these rules to set
+            openRuleSet.add(openRule1);
+            openRuleSet.add(openRule2);
+            openRuleSet.add(openRule3);
+            openRuleSet.add(openRule4);
+            openRuleSet.add(openRule5);
+            openRuleSet.add(openRule6);
+            openRuleSet.add(openRule7);
+            
+//            limitation on booking in advance            
+            AdvanceRule advanceRule = new AdvanceRule(fT, bookingOpenAdvance, bookingCloseAdvance);
+            advanceRuleSet.add(advanceRule);
+            
+            //create limit rule
+            //evaluate timeframe type entered
+            switch(bookingLimitUnit){
+                case 'd':
+                    LimitRule limitRuleD = new LimitRule(fT, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.DAY);
+                    limitRuleSet.add(limitRuleD);
+                    System.out.println(limitRuleD);
+                    break;    
+                case 'w':
+                    LimitRule limitRuleW = new LimitRule(fT, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.WEEK);
+                    limitRuleSet.add(limitRuleW);
+                    break;
+                case 'm':
+                    LimitRule limitRuleM = new LimitRule(fT, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.MONTH);
+                    limitRuleSet.add(limitRuleM);
+                    break;
+            }
+            
+            fT.setName(name);
+            fT.setDescription(description);
+            
+            fT.getAdvanceRules().clear();
+            fT.getAdvanceRules().addAll(advanceRuleSet);
+            fT.getCloseRules().clear();
+            fT.getCloseRules().addAll(closeRuleSet);
+            fT.getLimitRules().clear();
+            fT.getLimitRules().addAll(limitRuleSet);
+            fT.getOpenRules().clear();
+            fT.getOpenRules().addAll(openRuleSet);
+            
+            tx.commit();
+            
+            return fT;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return null;
+    }
     
 }

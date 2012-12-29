@@ -35,7 +35,7 @@
             function populateEditFacilityModal(facilityID){ 
                 facilityList.forEach(function(facility){
                     if(facility.id == facilityID){
-                        $("#facilityLabel").text(facility.type + " " + facility.id);
+                        $("#facilityLabel").text(facility.type + " " + facility.name);
                         $("#editid").val(facility.id);
                         $("#edit_type").val(facility.type);
                         $("#edit_longitude").val(facility.longitude);

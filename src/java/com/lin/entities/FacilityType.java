@@ -4,6 +4,8 @@ package com.lin.entities;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -71,20 +73,24 @@ public class FacilityType  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    @Fetch(FetchMode.JOIN)
     public Set getLimitRules() {
         return this.limitRules;
     }
-    
+    @Fetch(FetchMode.JOIN)
     public void setLimitRules(Set limitRules) {
         this.limitRules = limitRules;
     }
+    @Fetch(FetchMode.JOIN)
     public Set getAdvanceRules() {
         return this.advanceRules;
     }
-    
+    @Fetch(FetchMode.JOIN)
     public void setAdvanceRules(Set advanceRules) {
         this.advanceRules = advanceRules;
     }
+    
     public Set getFacilities() {
         return this.facilities;
     }
@@ -92,17 +98,19 @@ public class FacilityType  implements java.io.Serializable {
     public void setFacilities(Set facilities) {
         this.facilities = facilities;
     }
+    @Fetch(FetchMode.JOIN)
     public Set getOpenRules() {
         return this.openRules;
     }
-    
+    @Fetch(FetchMode.JOIN)
     public void setOpenRules(Set openRules) {
         this.openRules = openRules;
     }
+    @Fetch(FetchMode.JOIN)
     public Set getCloseRules() {
         return this.closeRules;
     }
-    
+    @Fetch(FetchMode.JOIN)
     public void setCloseRules(Set closeRules) {
         this.closeRules = closeRules;
     }

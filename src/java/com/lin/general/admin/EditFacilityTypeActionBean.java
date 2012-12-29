@@ -10,11 +10,7 @@ import com.lin.dao.RuleDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -51,6 +47,8 @@ public class EditFacilityTypeActionBean implements ActionBean {
     private int bookingOpenAdvance;
     private int bookingCloseAdvance;
     private int id;
+    
+    
 
     public int getId() {
         return id;
@@ -277,86 +275,91 @@ public class EditFacilityTypeActionBean implements ActionBean {
             Date sunOne = new Date(sundayOne);
             Date sunTwo = new Date(sundayTwo);
             
+            
+            
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             
 
-            FacilityType facilityType = tDAO.getFacilityType(id);
+            //FacilityType facilityType = tDAO.getFacilityType(id);
 
             //HashSet declarations
 
-            HashSet openRuleSet = new HashSet();
-            HashSet closeRuleSet = new HashSet();
-            HashSet limitRuleSet = new HashSet();
-            HashSet advanceRuleSet = new HashSet();
-
-            //Create open rules and store to DB          
-            OpenRule openRule1 = new OpenRule(facilityType, monOne, monTwo, 
-                    OpenRule.DAY_OF_WEEK.MONDAY);
-            OpenRule openRule2 = new OpenRule(facilityType, tueOne, tueTwo, 
-                    OpenRule.DAY_OF_WEEK.TUESDAY);
-            OpenRule openRule3 = new OpenRule(facilityType, wedOne, wedTwo, 
-                    OpenRule.DAY_OF_WEEK.WEDNESDAY);
-            OpenRule openRule4 = new OpenRule(facilityType, thuOne, thuTwo, 
-                    OpenRule.DAY_OF_WEEK.THURSDAY);
-            OpenRule openRule5 = new OpenRule(facilityType, friOne, friTwo, 
-                    OpenRule.DAY_OF_WEEK.FRIDAY);
-            OpenRule openRule6 = new OpenRule(facilityType, satOne, satTwo, 
-                    OpenRule.DAY_OF_WEEK.SATURDAY);
-            OpenRule openRule7 = new OpenRule(facilityType, sunOne, sunTwo, 
-                    OpenRule.DAY_OF_WEEK.SUNDAY);
-            
-            //add these rules to set
-            openRuleSet.add(openRule1);
-            openRuleSet.add(openRule2);
-            openRuleSet.add(openRule3);
-            openRuleSet.add(openRule4);
-            openRuleSet.add(openRule5);
-            openRuleSet.add(openRule6);
-            openRuleSet.add(openRule7);
-            
-            Iterator iter = openRuleSet.iterator();
-            while (iter.hasNext()) {
-                System.out.println(iter.next());
-            }
+//            HashSet openRuleSet = new HashSet();
+//            HashSet closeRuleSet = new HashSet();
+//            HashSet limitRuleSet = new HashSet();
+//            HashSet advanceRuleSet = new HashSet();
+//
+//            //Create open rules and store to DB          
+//            OpenRule openRule1 = new OpenRule(facilityType, monOne, monTwo, 
+//                    OpenRule.DAY_OF_WEEK.MONDAY);
+//            OpenRule openRule2 = new OpenRule(facilityType, tueOne, tueTwo, 
+//                    OpenRule.DAY_OF_WEEK.TUESDAY);
+//            OpenRule openRule3 = new OpenRule(facilityType, wedOne, wedTwo, 
+//                    OpenRule.DAY_OF_WEEK.WEDNESDAY);
+//            OpenRule openRule4 = new OpenRule(facilityType, thuOne, thuTwo, 
+//                    OpenRule.DAY_OF_WEEK.THURSDAY);
+//            OpenRule openRule5 = new OpenRule(facilityType, friOne, friTwo, 
+//                    OpenRule.DAY_OF_WEEK.FRIDAY);
+//            OpenRule openRule6 = new OpenRule(facilityType, satOne, satTwo, 
+//                    OpenRule.DAY_OF_WEEK.SATURDAY);
+//            OpenRule openRule7 = new OpenRule(facilityType, sunOne, sunTwo, 
+//                    OpenRule.DAY_OF_WEEK.SUNDAY);
+//            
+//            //add these rules to set
+//            openRuleSet.add(openRule1);
+//            openRuleSet.add(openRule2);
+//            openRuleSet.add(openRule3);
+//            openRuleSet.add(openRule4);
+//            openRuleSet.add(openRule5);
+//            openRuleSet.add(openRule6);
+//            openRuleSet.add(openRule7);
+//            
+//            Iterator iter = openRuleSet.iterator();
+//            while (iter.hasNext()) {
+//                System.out.println(iter.next());
+//            }
 
             //create limit rule
             //evaluate timeframe type entered
-            switch(bookingLimitUnit){
-                case 'd':
-                    LimitRule limitRuleD = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.DAY);
-                    limitRuleSet.add(limitRuleD);
-                    System.out.println(limitRuleD);
-                    break;    
-                case 'w':
-                    LimitRule limitRuleW = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.WEEK);
-                    limitRuleSet.add(limitRuleW);
-                    break;
-                case 'm':
-                    LimitRule limitRuleM = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.MONTH);
-                    limitRuleSet.add(limitRuleM);
-                    break;
-            }
+//            switch(bookingLimitUnit){
+//                case 'd':
+//                    LimitRule limitRuleD = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.DAY);
+//                    limitRuleSet.add(limitRuleD);
+//                    System.out.println(limitRuleD);
+//                    break;    
+//                case 'w':
+//                    LimitRule limitRuleW = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.WEEK);
+//                    limitRuleSet.add(limitRuleW);
+//                    break;
+//                case 'm':
+//                    LimitRule limitRuleM = new LimitRule(facilityType, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.MONTH);
+//                    limitRuleSet.add(limitRuleM);
+//                    break;
+//            }
                     
             //limitation on booking in advance            
-            AdvanceRule advanceRule = new AdvanceRule(facilityType, bookingOpenAdvance, bookingCloseAdvance);
-            advanceRuleSet.add(advanceRule);
-            
-            System.out.println(advanceRule);
+//            AdvanceRule advanceRule = new AdvanceRule(facilityType, bookingOpenAdvance, bookingCloseAdvance);
+//            advanceRuleSet.add(advanceRule);
+//            
+//            System.out.println(advanceRule);
             
             
             //facilityType(facilityType, openRuleSet, closeRuleSet, limitRuleSet, advanceRuleSet);
-            facilityType.setName(name);
-            facilityType.setDescription(description);
-            facilityType.setLimitRules(limitRuleSet);
-            facilityType.setAdvanceRules(advanceRuleSet);
-            facilityType.setCloseRules(closeRuleSet);
-            facilityType.setOpenRules(openRuleSet);
+//            facilityType.setName(name);
+//            facilityType.setDescription(description);
+//            facilityType.setLimitRules(limitRuleSet);
+//            facilityType.setAdvanceRules(advanceRuleSet);
+//            facilityType.setCloseRules(closeRuleSet);
+//            facilityType.setOpenRules(openRuleSet);
+            
+            
+            //FacilityType newFT = new FacilityType( name,  description,  limitRuleSet, advanceRuleSet, openRuleSet, closeRuleSet);
             
             //checking new ftype
-            System.out.println("NEW DESC FROM BEAN "+ facilityType.getDescription());
+            //System.out.println("NEW DESC FROM BEAN "+ newFT.getDescription());
           
             //insert into DB
-            if( tDAO.editFacilityType(facilityType) != null ){
+            if( tDAO.editFacilityType(id, name, description, monOne, monTwo, tueOne, tueTwo, wedOne, wedTwo, thuOne, thuTwo, friOne, friTwo, satOne, satTwo, sunOne, sunTwo, bookingSessions, bookingLimitFreq, bookingLimitUnit, bookingOpenAdvance, bookingCloseAdvance) != null ){                
                 success = true;
                 result = name;
                 System.out.println("successsssss");
