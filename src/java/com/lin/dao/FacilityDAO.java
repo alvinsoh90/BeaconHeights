@@ -135,14 +135,29 @@ public class FacilityDAO {
         openSession();
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
         //session.update("User",user);
-        Facility facility = (Facility) session.get(Facility.class, id);
-        facility.setFacilityType(facilityType);
-        facility.setFacilityLng(facilityLng);
-        facility.setFacilityLat(facilityLat);
-        
-        session.update(facility);
+        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();        
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Facility facility = (Facility) session.get(Facility.class, id);
+            facility.setFacilityType(facilityType);
+            facility.setFacilityLng(facilityLng);
+            facility.setFacilityLat(facilityLat);
+            session.update(facility);
+            tx.commit();
 
-        return facility;
+            return facility;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        
+        
+
+        return null;
 
     }
 
