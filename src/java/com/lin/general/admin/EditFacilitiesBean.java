@@ -31,6 +31,7 @@ public class EditFacilitiesBean implements ActionBean{
   private String type;
   private String latitude;
   private String longitude;
+  private String facility_name;
 
 
     public Resolution editFacility(){
@@ -45,7 +46,8 @@ public class EditFacilitiesBean implements ActionBean{
                         Integer.parseInt(id),
                         facilityType,
                         123456,
-                        123456
+                        123456,
+                        facility_name
 //                        Integer.parseInt(longitude),
 //                        Integer.parseInt(latitude)
                     );
@@ -97,6 +99,16 @@ public class EditFacilitiesBean implements ActionBean{
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getFacility_name() {
+        return facility_name;
+    }
+
+    public void setFacility_name(String facility_name) {
+        this.facility_name = facility_name;
+    }
+
+    
     
     public ActionBeanContext getContext() {
         return context;

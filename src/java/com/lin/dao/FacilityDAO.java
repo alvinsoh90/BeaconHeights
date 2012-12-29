@@ -83,10 +83,10 @@ public class FacilityDAO {
     }
     }
      */
-    public Facility createFacility(FacilityType facilityType, int facilityLng, int facilityLat) {
+    public Facility createFacility(FacilityType facilityType, String name, int facilityLng, int facilityLat) {
         openSession();
         // Shamus, I Added facilityType.getName() here - Fay
-        Facility facility = new Facility(facilityType,facilityType.getName(), facilityLng, facilityLat);
+        Facility facility = new Facility(facilityType,name , facilityLng, facilityLat);
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -131,7 +131,7 @@ public class FacilityDAO {
 
     }
 
-    public Facility updateFacility(int id, FacilityType facilityType, int facilityLng, int facilityLat) {
+    public Facility updateFacility(int id, FacilityType facilityType, int facilityLng, int facilityLat, String name) {
         
         openSession();
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
@@ -144,6 +144,7 @@ public class FacilityDAO {
             facility.setFacilityType(facilityType);
             facility.setFacilityLng(facilityLng);
             facility.setFacilityLat(facilityLat);
+            facility.setName(name);
             session.update(facility);
             tx.commit();
 

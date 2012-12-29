@@ -40,6 +40,7 @@
                         $("#edit_type").val(facility.type);
                         $("#edit_longitude").val(facility.longitude);
                         $("#edit_latitude").val(facility.latitude);
+                        $("#edit_facility_name").val(facility.name);
 
                     }
                 });
@@ -138,9 +139,8 @@
                             <tr>
                                 <th></th>
                                 <th>ID</th>
+                                <th>Name</th>
                                 <th>Facility Type</th>
-                                <th>Latitude</th>
-                                <th>Longitude</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -152,6 +152,7 @@
                                 facility.type = '${facility.facilityType.name}';
                                 facility.latitude = '${facility.facilityLat}';
                                 facility.longitude = '${facility.facilityLng}';
+                                facility.name = '${facility.name}';
                                                         
                                 facilityList.push(facility);
                             </script>
@@ -162,9 +163,8 @@
                                     </div>
                                 </td>
                                 <td><b>${facility.id}</b></td>
+                                <td><b>${facility.name}</b></td>
                                 <td><b>${facility.facilityType.name}</b></td>
-                                <td>${facility.facilityLat}</td>
-                                <td>${facility.facilityLng}</td>
                                 <td>
                                     <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
                                     <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.id}')">Delete</a>
@@ -210,7 +210,12 @@
                             </stripes:select>
                         </div>
                     </div>
-
+                        <div class="control-group ${errorStyle}">
+                        <label class="control-label">Name</label>
+                        <div class="controls">
+                            <stripes:text name="facility_name" />
+                        </div>
+                    </div>
 <!--                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Latitude</label>
                         <div class="controls">
@@ -247,6 +252,12 @@
                             </stripes:select>
                         </div>
                     </div> 
+                        <div class="control-group ${errorStyle}">
+                        <label class="control-label">Name</label>
+                        <div class="controls">
+                            <stripes:text id="edit_facility_name" name="facility_name" />
+                        </div>
+                    </div>
                     <stripes:text class="hide" name="id" id="editid" />
 <!--                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Latitude</label>
