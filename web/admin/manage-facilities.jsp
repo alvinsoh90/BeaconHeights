@@ -158,7 +158,7 @@
                             <tr>
                                 <td>
                                     <div class="user-thumb">
-                                        <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
+                                        <img width="40" height="40" alt="" src="../img/lin/bbq.jpg">
                                     </div>
                                 </td>
                                 <td><b>${facility.id}</b></td>
