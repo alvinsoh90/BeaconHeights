@@ -40,6 +40,7 @@ public class FacilityDAO {
     }
 
     public ArrayList<Facility> retrieveAllFacilities() {
+        openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Facility");
@@ -163,15 +164,20 @@ public class FacilityDAO {
 
     public Facility getFacility(int id) {
         openSession();
+        
         ArrayList<Facility> result = new ArrayList<Facility>();
+        Transaction tx = null;
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
+            tx = session.beginTransaction();
             Query q = session.createQuery("from Facility where id = :fId");
             q.setInteger("fId", id);
             result = (ArrayList<Facility>) q.list();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
         }
         System.out.println("RETRIEVEDFACILITY:"+result.get(0));
         return result.get(0);
