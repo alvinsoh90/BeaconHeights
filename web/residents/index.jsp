@@ -94,17 +94,18 @@
                                     Date: <span id="date"><i><font size="2"> --</font></span> <br/>
                                     Time: <span id="time"><i><font size="2"> --</font></i></span>
                                 </div>
-                                <div class="inviteFriends comingsoon">
+                                <!--<div class="inviteFriends comingsoon">
                                     <div class="header">Invite Friends</div>
                                     <input class="span2" type="text" placeholder="Type a friend's name"/>
                                     <button class="btn btn-peace-2 btnmod">Invite</button>
-                                    <!--Invited: 
-                                    <span class="inviteLabel label label-success"></span>-->                             
-                                </div>
-                                <div class="shareBooking centerText comingsoon">
-                                    <h4>Share this event with your friends</h4>
-                                    <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
-                                </div>
+                                <!--Invited: 
+                                <span class="inviteLabel label label-success"></span>                         
+                            </div>
+                            <div class="shareBooking centerText comingsoon">
+                                <h4>Share this event with your friends</h4>-->
+                                <h4>&nbsp;</h4>
+                                <!--<button class="socialIcons iconFacebook icon-facebook"></button>
+                            </div>-->
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
                                     <stripes:hidden name="facilityID" id="facilityid" />
                                     <stripes:hidden name="startDateString" id="starttimemillis"  />   
