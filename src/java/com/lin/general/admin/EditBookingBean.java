@@ -64,10 +64,13 @@ public class EditBookingBean implements ActionBean {
     public Resolution editBooking() {
         String result;
         boolean success;
+        String name = "";
         
         try{
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
             BookingDAO bDAO = new BookingDAO();
+            User user = bDAO.getBooking(id).getUser();
+            name = user.getFirstname() + " " + user.getLastname();
             
             //Retrieve form variables
             Timestamp bookingTimeStamp = new Timestamp(System.currentTimeMillis());
@@ -91,7 +94,6 @@ public class EditBookingBean implements ActionBean {
             e.printStackTrace();
         }
 
-        return new RedirectResolution("/admin/manage-bookings.jsp?editsuccess=" + success
-                + "&editmsg=" + result);
+        return new RedirectResolution("/admin/manage-bookings.jsp?editsuccess=" + success + "&editmsg="+name + "\'s booking");
     }
 }

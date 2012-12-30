@@ -86,7 +86,7 @@ public class FacilityDAO {
     public Facility createFacility(FacilityType facilityType, String name, int facilityLng, int facilityLat) {
         openSession();
         // Shamus, I Added facilityType.getName() here - Fay
-        Facility facility = new Facility(facilityType,name , facilityLng, facilityLat);
+        Facility facility = new Facility(facilityType, name, facilityLng, facilityLat);
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
