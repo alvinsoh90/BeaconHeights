@@ -42,7 +42,7 @@ public class RuleDAO {
         ArrayList<LimitRule> list = new ArrayList<LimitRule>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from LimitRule WHERE id = :id");
+            Query q = session.createQuery("from LimitRule WHERE facility_type_id = :id");
             q.setString("id", facilityTypeId + "");
             list = (ArrayList<LimitRule>) q.list();
             tx.commit();
@@ -58,7 +58,7 @@ public class RuleDAO {
         ArrayList<OpenRule> list = new ArrayList<OpenRule>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from OpenRule WHERE id = :id");
+            Query q = session.createQuery("from OpenRule WHERE facility_type_id = :id");
             q.setString("id", facilityTypeId + "");
             list = (ArrayList<OpenRule>) q.list();
             tx.commit();
@@ -74,7 +74,7 @@ public class RuleDAO {
         ArrayList<CloseRule> list = new ArrayList<CloseRule>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from CloseRule WHERE id = :id");
+            Query q = session.createQuery("from CloseRule WHERE facility_type_id = :id");
             q.setString("id", facilityTypeId + "");
             list = (ArrayList<CloseRule>) q.list();
             tx.commit();
@@ -90,7 +90,7 @@ public class RuleDAO {
         ArrayList<AdvanceRule> list = new ArrayList<AdvanceRule>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from AdvanceRule WHERE id = :id");
+            Query q = session.createQuery("from AdvanceRule WHERE facility_type_id = :id");
             q.setString("id", facilityTypeId + "");
             list = (ArrayList<AdvanceRule>) q.list();
             tx.commit();
