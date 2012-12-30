@@ -28,7 +28,15 @@
                 messageClass: 'toast-message'
             },
 
-
+            errorSticky = function(message, title) {
+                return notify({
+                    iconClass: getOptions().iconClasses.error,
+                    message: message,
+                    title: title,
+                    stickAround: true
+                })
+            },
+            
             error = function(message, title) {
                 return notify({
                     iconClass: getOptions().iconClasses.error,
@@ -123,7 +131,7 @@
                 $container.prepend($toastElement)
                 $toastElement.fadeIn(options.fadeIn)
 
-                if (options.timeOut > 0) {
+                if (options.timeOut > 0 && !map.stickAround) {
                     intervalId = setTimeout(fadeAway, options.timeOut)
                 }
 
@@ -160,7 +168,8 @@
             info: info,
             options: {},
             success: success,
-            warning: warning
+            warning: warning,
+            errorSticky: errorSticky
         }
     })()
 } (window, jQuery));

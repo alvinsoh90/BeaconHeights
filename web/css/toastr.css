@@ -83,7 +83,7 @@
 }
 .toast-top-right {
 	top: 112px;
-	right: 500px;
+	left: 40%;
 }
 
 #toast-container > :hover {
