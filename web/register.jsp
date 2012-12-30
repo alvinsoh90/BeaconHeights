@@ -26,12 +26,22 @@
         <link rel="stylesheet" href="css/custom/lin.css" />
         <link rel="stylesheet" href="css/uniform.css" />
         <link rel="stylesheet" href="css/chosen.css" />
-        <script src="js/unicorn.form_common.js"></script>
+        
+                <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.ui.custom.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <!--<script src="js/jquery.uniform.js"></script> -->
+       <script src="js/jquery.chosen.js"></script>
+        <script src="js/jquery.validate.js"></script>
+        <script src="js/unicorn.js"></script>
+        <script src="js/custom/lin.register.js"></script>
+        
      <script>
             var levels="";
             var units = "";
             
-            function load() {
+            function loadLevelsAndUnits() {
+                console.log("loading");
                 var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
                 $.ajax({
                     url: "/json/loadblockproperties.jsp",
@@ -53,9 +63,24 @@
                         };
                         $("select#level").html(levelOptions);
                         $("select#unitnumber").html(unitOptions);
+                        
+                        // only after successful loading should we load this 'sexy chosen' plugin	
+                        $('select').chosen();
                     }
                 });
-            };  
+            };
+            
+            $(document).ready(function(){    
+            
+                // When document loads fully, load level and unit options via AJAX
+                loadLevelsAndUnits();
+
+                // if dropdown changes, we want to reload the unit and level options.
+                $("#block").change(function(){
+                   loadLevelsAndUnits();
+                });
+            });
+            
         </script>
     </head>
 
@@ -169,14 +194,7 @@
             </div>
         </div>
 
-        <script src="js/jquery.min.js"></script>
-        <script src="js/jquery.ui.custom.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.uniform.js"></script>
-        <script src="js/jquery.chosen.js"></script>
-        <script src="js/jquery.validate.js"></script>
-        <script src="js/unicorn.js"></script>
-        <script src="js/custom/lin.register.js"></script>
+
 
 
     </body>
