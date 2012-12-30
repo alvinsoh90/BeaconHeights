@@ -4,7 +4,6 @@
     Author     : Shamus
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -19,7 +18,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
-
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
         <link rel="stylesheet" href="css/fullcalendar.css" />	
@@ -29,9 +27,40 @@
         <link rel="stylesheet" href="css/uniform.css" />
         <link rel="stylesheet" href="css/chosen.css" />
         <script src="js/unicorn.form_common.js"></script>
+     <script>
+            var levels="";
+            var units = "";
+            
+            function load() {
+                var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
+                $.ajax({
+                    url: "/json/loadblockproperties.jsp",
+                    type: "GET",
+                    data:"blockName="+$('select#block').val(),
+                    dataType: 'text',
+                    success: function (data) {
+                        var obj = jQuery.parseJSON(data);
+                        levels = obj.levels;
+                        units = obj.units;
+                        
+                        var levelOptions="";
+                        var unitOptions = "";
+                        for (var i=1;i<levels+1;i++){
+                            levelOptions += '<option value="' + i + '">' + i + '</option>';
+                        };
+                        for (var i=1;i<units+1;i++){
+                            unitOptions += '<option value="' + i + '">' + i + '</option>';
+                        };
+                        $("select#level").html(levelOptions);
+                        $("select#unitnumber").html(unitOptions);
+                    }
+                });
+            };  
+        </script>
     </head>
 
     <body style="background: url('img/noise_grey_bg.png')">
+
         <c:if test = "${param.success == 'true'}">
             <c:set var="errorStyle" value="error" />
         </c:if> 
@@ -68,6 +97,7 @@
                             </span>
                             <h5>Please fill in the registration form</h5>
                         </div>
+
                         <div class="widget-content nopadding">
                             <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
                                 <!-- User enters username, still need to validate if username is valid -->
@@ -105,30 +135,31 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Block</label>
                                     <div class="controls">
-                                        <stripes:select name="block">
+                                        <stripes:select name="block" id ="block">
                                             <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
                                         </stripes:select>
                                     </div>
                                 </div>
-                          
-                              
+
+
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Level</label>
                                     <div class="controls">
-                                        <stripes:text name="level"/>
-                                    </div>
+                                        <stripes:select name="level" id="level">
+                                        </stripes:select>                                    </div>
                                 </div>     
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit Number</label>
                                     <div class="controls">
-                                        <stripes:text name="unitnumber" />
-                                    </div>
+                                        <stripes:select name="unitnumber" id ="unitnumber">
+                                        </stripes:select>                                     </div>
                                 </div>                              
                                 <div class="form-actions">
                                     <input type="submit" name="registerTempUserAccount" value="Register" class="btn btn-info btn-large">
                                 </div>                            
 
                             </stripes:form>
+
                         </div>
 
                     </div>
@@ -137,6 +168,7 @@
                 </div>			
             </div>
         </div>
+
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery.ui.custom.js"></script>
         <script src="js/bootstrap.min.js"></script>
@@ -148,5 +180,4 @@
 
 
     </body>
-</html>
 </html>

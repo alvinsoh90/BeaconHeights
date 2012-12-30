@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
+// Generated Dec 30, 2012 4:03:04 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -16,6 +16,8 @@ public class Block  implements java.io.Serializable {
      private int blockLng;
      private int blockLat;
      private String blockDescription;
+     private Integer levels;
+     private Integer unitsPerFloor;
      private Set userTemps = new HashSet(0);
      private Set users = new HashSet(0);
 
@@ -29,11 +31,13 @@ public class Block  implements java.io.Serializable {
         this.blockLat = blockLat;
         this.blockDescription = blockDescription;
     }
-    public Block(String blockName, int blockLng, int blockLat, String blockDescription, Set userTemps, Set users) {
+    public Block(String blockName, int blockLng, int blockLat, String blockDescription, Integer levels, Integer unitsPerFloor, Set userTemps, Set users) {
        this.blockName = blockName;
        this.blockLng = blockLng;
        this.blockLat = blockLat;
        this.blockDescription = blockDescription;
+       this.levels = levels;
+       this.unitsPerFloor = unitsPerFloor;
        this.userTemps = userTemps;
        this.users = users;
     }
@@ -72,6 +76,20 @@ public class Block  implements java.io.Serializable {
     
     public void setBlockDescription(String blockDescription) {
         this.blockDescription = blockDescription;
+    }
+    public Integer getLevels() {
+        return this.levels;
+    }
+    
+    public void setLevels(Integer levels) {
+        this.levels = levels;
+    }
+    public Integer getUnitsPerFloor() {
+        return this.unitsPerFloor;
+    }
+    
+    public void setUnitsPerFloor(Integer unitsPerFloor) {
+        this.unitsPerFloor = unitsPerFloor;
     }
     public Set getUserTemps() {
         return this.userTemps;

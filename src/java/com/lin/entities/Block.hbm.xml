@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Dec 30, 2012 4:03:05 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Block" table="block" catalog="lin_db">
         <id name="id" type="java.lang.Integer">
@@ -19,6 +19,12 @@
         </property>
         <property name="blockDescription" type="string">
             <column name="block_description" length="400" not-null="true" />
+        </property>
+        <property name="levels" type="java.lang.Integer">
+            <column name="levels" />
+        </property>
+        <property name="unitsPerFloor" type="java.lang.Integer">
+            <column name="units_per_floor" />
         </property>
         <set name="userTemps" inverse="true">
             <key>

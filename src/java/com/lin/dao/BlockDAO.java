@@ -15,53 +15,51 @@ import org.hibernate.Session;
  * @author Yangsta
  */
 public class BlockDAO {
-    
+
     private static ArrayList<Block> blockList = new ArrayList<Block>();
+    
     Session session = null;
-    
-    public BlockDAO(){
+
+    public BlockDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-     private void openSession() {
+
+    private void openSession() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    public ArrayList<Block> getAllBlocks(){
+
+    public ArrayList<Block> getAllBlocks() {
         openSession();
         org.hibernate.Transaction tx;
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery ("from Block");
+            Query q = session.createQuery("from Block");
             blockList = (ArrayList<Block>) q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return blockList;
-    } 
-    
-    public static void updateBlock(String blockId){
-        
     }
-    
-    public Block getBlockByName(String name){
+
+    public static void updateBlock(String blockId) {
+    }
+
+    public Block getBlockByName(String name) {
         //refresh role list
         getAllBlocks();
-        
-        for(Block r : blockList){
-            if(r.getBlockName().equals(name)){
+
+        for (Block r : blockList) {
+            if (r.getBlockName().equals(name)) {
                 return r;
             }
         }
-        
+
         return null;
     }
-    
-    public static void createBlock(Long id, String name, float lat, float lng, 
-            String desc){
-        
+
+    public static void createBlock(Long id, String name, float lat, float lng,
+            String desc) {
     }
 
-   
 
 }
