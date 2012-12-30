@@ -356,8 +356,8 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/createfacilitytype.jsp?createsuccess=" + success
-                + "&createmsg=" + result);
+        return new RedirectResolution("/admin/manage-facilities.jsp?createFTsuccess=" + success
+                + "&createFTmsg=" + result);
 
 
 
