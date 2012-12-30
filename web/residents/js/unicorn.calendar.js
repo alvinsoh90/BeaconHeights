@@ -48,6 +48,7 @@ unicorn = {
             timeFormat: 'h(:mm) tt',
             loading: function(bool) {
                   if (bool){
+                      $('#fullcalendar').fullCalendar( 'removeEvents');
                      $("#ajax-spinner").show();
                      $("#fullcalendar").css("opacity","0.4");
                   }
