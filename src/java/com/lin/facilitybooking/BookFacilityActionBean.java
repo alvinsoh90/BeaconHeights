@@ -135,7 +135,7 @@ public class BookFacilityActionBean implements ActionBean{
         e.printStackTrace();
     }
     
-    return new RedirectResolution("/residents/index.jsp");
+    return new RedirectResolution("/residents/index.jsp?fid="+getFacilityID());
   }
     
 }

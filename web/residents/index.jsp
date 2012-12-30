@@ -52,11 +52,8 @@
                 var eventSource = "/json/bookingevents.jsp?facilityid=" 
                     + facilityID +"&userid="+${sessionScope.user.userId};
                 
-                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
-                
+                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );               
             }
-            
-            
         </script> 
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -167,7 +164,15 @@
                             }
                             //attach handler
                             $("#facilityDropDown").change(displayVals);
-                            //first call
+                            
+                            // if there is a specific facility's booking to load, then 
+                            // change the dropdown to the correct facility
+                            var facilityID = "${param.fid}";
+
+                            if (facilityID != ""){
+                                $("#facilityDropDown").val("${param.fid}");
+                            }
+                            //  display default bookings as per whats in the dropdown
                             displayVals();
                         });
                         
