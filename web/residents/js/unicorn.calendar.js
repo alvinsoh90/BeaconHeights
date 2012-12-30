@@ -1,7 +1,4 @@
-/**
- * Unicorn Admin Template
- * Diablo9983 -> diablo9983@gmail.com
-**/
+
 $(document).ready(function(){
 	
     unicorn.init();
@@ -22,33 +19,32 @@ unicorn = {
 		
         $('#fullcalendar').fullCalendar({
             dayClick: function(date, allDay, jsEvent, view) {
-                
-                    var today = new Date();
+                    var bookableDate = new Date();
                     
-                    //How many days to add from today?
-                    //var daysToAdd = 15;
+                    bookableDate.setDate(bookableDate.getDate() + 1);
                     
-                    //myDate.setDate(myDate.getDate() + daysToAdd);
-                
-                    if (date < today) {
-                        //TRUE Clicked date smaller than today 
-                    toastr.warning("Please select a date that is not in the past!");
+                    if (date < bookableDate) {
+                        // Clicked date smaller than today 
+                        toastr.warning("You must make a booking 24 hours in advance!");
                     } else {
-                        //FLASE Clicked date larger than today
+                        // Clicked date larger than today
                         $("#date").text(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());   //SET DATE
               
                         if(view.name == "month"){
                             //if day is clicked, zoom to actual day with day view
-                            $("#fullcalendar").fullCalendar( 'changeView', "agendaDay" );
+                            $("#fullcalendar").fullCalendar( 'changeView', "agendaWeek" );
                             $("#fullcalendar").fullCalendar( 'gotoDate', date);
-
+                            
+                            //scroll window to top
+                            $("html, body").animate({ scrollTop: 30 }, "slow");
                         }
                     }   
             },
             timeFormat: 'h(:mm) tt',
             loading: function(bool) {
                   if (bool){
-                      $('#fullcalendar').fullCalendar( 'removeEvents');
+                      //remove events first, otherwise duplicate events will show.
+                      $('#fullcalendar').fullCalendar( 'removeEvents'); 
                      $("#ajax-spinner").show();
                      $("#fullcalendar").css("opacity","0.4");
                   }
@@ -67,32 +63,43 @@ unicorn = {
 //                    end = new Date(adjustedEndTime);
 //                }
                
-               $("#time").text(start.customFormat("#h#:#mm# #ampm#") + " - " + end.customFormat("#h#:#mm# #ampm#"));   //SET TIME
-               $("#starttimemillis").val(start.getTime());
-               $("#endtimemillis").val(end.getTime());
+               //check if clicked date is before today
+               var bookableDate = new Date();                   
+               bookableDate.setDate(bookableDate.getDate() + 1);
                
-                title = "test";
-                if (title) {
-                    $("fullcalendar").fullCalendar('renderEvent',
-                    {
-                        title: title,
-                        start: start,
-                        end: end,
-                        allDay: allDay
-                    },
-                    true // make the event "stick"
-                    );
-                     
-                }
-                $("fullcalendar").fullCalendar('unselect');
-                $("fullcalendar").fullCalendar('render');
+               if (start < bookableDate) {
+                   //NOT OK to book
+                   $("#fullcalendar").fullCalendar('unselect');
+               }
+               else{      
+                   //OK to book
+                   $("#time").text(start.customFormat("#h#:#mm# #ampm#") + " - " + end.customFormat("#h#:#mm# #ampm#"));   //SET TIME
+                   $("#starttimemillis").val(start.getTime());
+                   $("#endtimemillis").val(end.getTime());
+
+                    title = "test";
+                    if (title) {
+                        $("fullcalendar").fullCalendar('renderEvent',
+                        {
+                            title: title,
+                            start: start,
+                            end: end,
+                            allDay: allDay
+                        },
+                        true // make the event "stick"
+                        );
+
+                    }
+                    //$("fullcalendar").fullCalendar('unselect');
+                    //$("fullcalendar").fullCalendar('render');
+               }
             },
 
                     
             header: {
                 left: 'prev,next',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'month,agendaWeek'
             },
             titleFormat: {
                 month: 'MMMM yyyy',                             // September 2009
