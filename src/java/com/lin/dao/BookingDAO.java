@@ -80,8 +80,9 @@ public class BookingDAO {
     //Add bookings
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
     public Booking addBooking(Booking booking) {
-        openSession();
 
+        openSession();
+        
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -129,28 +130,16 @@ public class BookingDAO {
 
         openSession();
 
-        org.hibernate.Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            Booking booking = (Booking) session.get(Booking.class, id);
+        Booking booking = (Booking) session.get(Booking.class, id);
 
-            booking.setStartDate(startDate);
-            booking.setEndDate(endDate);
-            session.update(booking);
-            tx.commit();
-            return booking;
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (tx != null) {
-                tx.rollback();
-            }
-        }
+        booking.setStartDate(startDate);
+        booking.setEndDate(endDate);
+ 
 
-       
-        return null;
+        return booking;
 
     }
-
+    
     public void updateBookingPayment(int id, boolean b, String string) {
         openSession();
         org.hibernate.Transaction tx = null;

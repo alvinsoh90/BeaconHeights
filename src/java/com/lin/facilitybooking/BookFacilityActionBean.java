@@ -4,12 +4,14 @@
  */
 package com.lin.facilitybooking;
 
+import com.lin.controllers.RuleController;
 import com.lin.dao.BookingDAO;
 import com.lin.dao.FacilityDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -97,7 +99,7 @@ public class BookFacilityActionBean implements ActionBean{
         BookingDAO bDAO = new BookingDAO();
         FacilityDAO fDAO = new FacilityDAO();
         UserDAO uDAO = new UserDAO();
-        
+        RuleController ruleController = new RuleController();
         
         User user = uDAO.getUser(getCurrentUserID());       
         Facility facility = fDAO.getFacility(getFacilityID());
@@ -111,8 +113,13 @@ public class BookFacilityActionBean implements ActionBean{
                 (Long.parseLong(getEndDateString()));
 
         String title = "Resident Booking";
+        ArrayList<String> errorMsg = ruleController.isFacilityAvailable(currentUserID, getFacilityID(), startDate, endDate);
         
-        //Create new booking
+        for(String msg: errorMsg){
+            System.out.println("LOOK IS ERROR");
+            System.out.println(msg);
+        }
+        
         Booking booking = new Booking(user, facility,bookingTimeStamp,
                 startDate,endDate,title);
         //add booking into DB, returns booking with ID
