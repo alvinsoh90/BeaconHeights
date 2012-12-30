@@ -183,25 +183,22 @@
                             toastr.success("Your booking is confirmed. Booking ID: " + successBookingID);
                         }
                         else if(failure){
-                            toastr.warning("There was an error with your booking.");
+                            var msg = "<b>There was an error with your booking.</b><br/>";
+                            msg += "<ol>"
+                            <c:forEach var="message" items="${MESSAGES}">
+                                msg += "<li>${message}</li>";
+                            </c:forEach>
+                            msg += "</ol>";    
+                            toastr.errorSticky(msg);
                         }
                         
                     </script>
-                       <c:forEach var="message" items="${errorMsg}">
-                                <div class="message_name">${message}</div>
-                            </c:forEach>
+                       
                     
                     <div class="span9">
-<<<<<<< HEAD
-                        
-                            <div class="widget-content nopadding calendarContainer">
-                                <div id="fullcalendar" class="calendarWidth"></div>
-                            </div>
-=======
                         <div class="widget-content nopadding calendarContainer">
                             <div id="ajax-spinner" class="ajaxSpinner hide"></div>
                             <div id="fullcalendar" class="calendarWidth"></div>
->>>>>>> 53ae8063ac962f8442433513b71cacbc6c114d9a
                         </div>
                         <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
                             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
