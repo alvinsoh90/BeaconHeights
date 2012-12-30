@@ -178,7 +178,7 @@
                         
                         //if successful booking, show message
                         var successBookingID = "${SUCCESS}";
-                        var failure = ${FAILURE};
+                        var failure = "${FAILURE}";
                         if(successBookingID != ""){
                             toastr.success("Your booking is confirmed. Booking ID: " + successBookingID);
                         }
