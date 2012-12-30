@@ -92,8 +92,8 @@
 
         <div class="container pushdown centerText">
 
-            <div class="userImageBadge heavyBlackBorder inlineblock">
-                <img src="img/lin/loginlogo.png"/>
+            <div class="userImageBadge inlineblock">
+                <img src="img/lin/bh.png"/>
             </div>
 
 
