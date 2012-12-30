@@ -176,59 +176,78 @@
                             displayVals();
                         });
                         
+                        //if successful booking, show message
+                        var successBookingID = "${SUCCESS}";
+                        var failure = "${FAILURE}";
+                        if(successBookingID != ""){
+                            toastr.success("Your booking is confirmed. Booking ID: " + successBookingID);
+                        }
+                        else if(failure){
+                            toastr.warning("There was an error with your booking.");
+                        }
+                        
                     </script>
-
+                       <c:forEach var="message" items="${errorMsg}">
+                                <div class="message_name">${message}</div>
+                            </c:forEach>
+                    
                     <div class="span9">
+<<<<<<< HEAD
+                        
+                            <div class="widget-content nopadding calendarContainer">
+                                <div id="fullcalendar" class="calendarWidth"></div>
+                            </div>
+=======
                         <div class="widget-content nopadding calendarContainer">
                             <div id="ajax-spinner" class="ajaxSpinner hide"></div>
                             <div id="fullcalendar" class="calendarWidth"></div>
+>>>>>>> 53ae8063ac962f8442433513b71cacbc6c114d9a
                         </div>
-                    </div>
-                    <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
-                        <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
-                            <script>
-                                var booking = new Object();
-                                booking.id = '${booking.id}';
-                                booking.start = new Date(${booking.startTimeInSeconds});
-                                booking.end = new Date(${booking.endTimeInSeconds});
-                                booking.title 
-                                    = '${booking.facility.facilityType.name} ${booking.facility.id}';
-                                booking.allDay = false;
-                                bookingList.push(booking);
-                            </script>
-                        </c:forEach>
-                    </c:if>
+                        <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
+                            <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
+                                <script>
+                                    var booking = new Object();
+                                    booking.id = '${booking.id}';
+                                    booking.start = new Date(${booking.startTimeInSeconds});
+                                    booking.end = new Date(${booking.endTimeInSeconds});
+                                    booking.title 
+                                        = '${booking.facility.facilityType.name} ${booking.facility.id}';
+                                    booking.allDay = false;
+                                    bookingList.push(booking);
+                                </script>
+                            </c:forEach>
+                        </c:if>
 
-                </div> <!-- /row -->
+                    </div> <!-- /row -->
 
-            </div> <!-- /container -->
+                </div> <!-- /container -->
 
-        </div> <!-- /content -->
-
-
-        <div id="footer">
-
-            <div class="container">				
-                <hr>
-                <p>Beacon Heights Condominium</p>
-            </div> <!-- /container -->
-
-        </div> <!-- /footer -->
+            </div> <!-- /content -->
 
 
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
+            <div id="footer">
 
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
+                <div class="container">				
+                    <hr>
+                    <p>Beacon Heights Condominium</p>
+                </div> <!-- /container -->
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+            </div> <!-- /footer -->
+
+
+            <!-- Le javascript
+            ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+
+            <script src="./js/excanvas.min.js"></script>
+            <script src="./js/jquery.flot.js"></script>
+            <script src="./js/jquery.flot.pie.js"></script>
+            <script src="./js/jquery.flot.orderBars.js"></script>
+            <script src="./js/jquery.flot.resize.js"></script>
+            <script src="./js/fullcalendar.min.js"></script>
+
+            <script src="./js/bootstrap.js"></script>
+            <script src="./js/charts/bar.js"></script>
 
     </body>
 </html>

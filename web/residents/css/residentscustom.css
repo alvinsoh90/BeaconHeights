@@ -108,3 +108,11 @@
     top: 35em;
     left: 65em;
 }
+
+.fc-view-month .fc-event-skin{
+    padding-right: 4px;
+    width: 113px !important;
+}
+.fc-view-month .fc-event-time, .fc-event-title{
+    float:none !important;
+}

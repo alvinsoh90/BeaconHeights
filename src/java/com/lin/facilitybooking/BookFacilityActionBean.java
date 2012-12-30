@@ -9,6 +9,7 @@ import com.lin.dao.BookingDAO;
 import com.lin.dao.FacilityDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
+import com.lin.global.StandardMsgs;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.controller.FlashScope;
 /**
  *
  * @author Yangsta
@@ -115,11 +117,20 @@ public class BookFacilityActionBean implements ActionBean{
         String title = "Resident Booking";
         ArrayList<String> errorMsg = ruleController.isFacilityAvailable(currentUserID, getFacilityID(), startDate, endDate);
         
-        for(String msg: errorMsg){
-            System.out.println("LOOK IS ERROR");
-            System.out.println(msg);
+        if(!errorMsg.isEmpty()){
+            for(String msg: errorMsg){
+                System.out.println("LOOK IS ERROR");
+                System.out.println(msg);
+                
+                // get flash scope instance
+                FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+                // put shit inside       
+                fs.put("FAILURE",true);
+                fs.put("MESSAGES",errorMsg);
+                // redirect as normal        
+                return new RedirectResolution("/residents/index.jsp?fid="+getFacilityID());
+            }
         }
-        
         Booking booking = new Booking(user, facility,bookingTimeStamp,
                 startDate,endDate,title);
         //add booking into DB, returns booking with ID
@@ -128,6 +139,13 @@ public class BookFacilityActionBean implements ActionBean{
         result = booking.toString();
         success = true;
         System.out.println(result);
+        
+        // get flash scope instance
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        // put shit inside       
+        fs.put("SUCCESS",booking.getId());
+        // redirect as normal        
+        return new RedirectResolution("/residents/index.jsp?fid="+getFacilityID());
         
     }catch(Exception e) {
         result = "";
