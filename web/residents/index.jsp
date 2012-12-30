@@ -176,6 +176,16 @@
                             displayVals();
                         });
                         
+                        //if successful booking, show message
+                        var successBookingID = "${SUCCESS}";
+                        var failure = ${FAILURE};
+                        if(successBookingID != ""){
+                            toastr.success("Your booking is confirmed. Booking ID: " + successBookingID);
+                        }
+                        else if(failure){
+                            toastr.warning("There was an error with your booking.");
+                        }
+                        
                     </script>
 
                     <div class="span9">
