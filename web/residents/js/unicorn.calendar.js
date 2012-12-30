@@ -24,8 +24,20 @@ unicorn = {
             
             
             dayClick: function(date, allDay, jsEvent, view) {
-              
-                $("#date").text(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());   //SET DATE
+                
+                    var today = new Date();
+                    
+                    //How many days to add from today?
+                    //var daysToAdd = 15;
+                    
+                    //myDate.setDate(myDate.getDate() + daysToAdd);
+                
+                    if (date < today) {
+                        //TRUE Clicked date smaller than today 
+                    toastr.warning("Please select a date that is not in the past!");
+                    } else {
+                        //FLASE Clicked date larger than today
+                        $("#date").text(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());   //SET DATE
               
                 if(view.name == "month"){
                     //if day is clicked, zoom to actual day with day view
@@ -33,6 +45,9 @@ unicorn = {
                     $("#fullcalendar").fullCalendar( 'gotoDate', date);
                     
                 }
+                     } 
+                
+                
                 
             },
             selectable: true,
