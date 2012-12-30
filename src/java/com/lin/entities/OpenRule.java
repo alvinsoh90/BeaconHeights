@@ -91,6 +91,22 @@ public class OpenRule  implements java.io.Serializable {
         }
         return null;
     }
+    
+    public String getStartHours(){
+        if(this.startTime.getHours() < 10){
+            return "0"+this.startTime.getHours();
+        }else{
+            return ""+this.startTime.getHours();
+        }
+    }
+    
+    public String getEndHours(){
+        if(this.endTime.getHours() < 10){
+            return "0"+this.endTime.getHours();
+        }else{
+            return ""+this.endTime.getHours();
+        }
+    }
 
 //    @Override
 //    public String toString() {

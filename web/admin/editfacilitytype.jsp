@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.lin.dao.RuleDAO"%>
 <%@page import="org.hibernate.Hibernate"%>
 <%@page import="java.util.Set"%>
@@ -183,6 +184,33 @@
         
         //AdvanceRule aRule = rDAO.getAllAdvanceRule(id).get(0);
         AdvanceRule aRule =  fDAO.getFacilityTypeAdvanceRules(id);
+        ArrayList<OpenRule> oRules = fDAO.getFacilityTypeOpenRules(id);
+        OpenRule openRuleMon = null;
+        OpenRule openRuleTue = null;
+        OpenRule openRuleWed = null;
+        OpenRule openRuleThu = null;
+        OpenRule openRuleFri = null;
+        OpenRule openRuleSat = null;
+        OpenRule openRuleSun = null;
+        
+        for(OpenRule or : oRules){
+            switch(or.getDayOfWeek()){
+                case 0:
+                    openRuleMon = or;
+                case 1:
+                    openRuleTue = or;
+                case 2:
+                    openRuleWed = or;
+                case 3:
+                    openRuleThu = or;
+                case 4:
+                    openRuleFri = or;
+                case 5:
+                    openRuleSat = or;
+                case 6:
+                    openRuleSun = or;
+            }
+        }
     %>
   </head>
   <body onload="loadTimePickers()">
@@ -231,66 +259,66 @@
                                     <label class="control-label">Facility Availability</label>
                                     <div class="timepickerArea">
                                         <span>Monday</span>
-                                        <input id="mon1" class="timepicker"/>
-                                        <stripes:hidden name="mondayOne" id="mondayOne" /> 
+                                        <input id="mon1" class="timepicker" value="<%= openRuleMon.getStartHours()+":"+openRuleMon.getStartTime().getMinutes() %>"/>
+                                        <stripes:hidden name="mondayOne" id="mondayOne" value="<%= openRuleMon.getStartTime().getTime() %>"/> 
                                         <span>to</span>
-                                        <input id="mon2" class="timepicker"/>
-                                        <stripes:hidden name="mondayTwo" id="mondayTwo" />
+                                        <input id="mon2" class="timepicker" value="<%= openRuleMon.getEndHours()+":"+openRuleMon.getEndTime().getMinutes() %>"/>
+                                        <stripes:hidden name="mondayTwo" id="mondayTwo" value="<%= openRuleMon.getEndTime().getTime() %>"/>
                                         <a href="#copy" onclick="copyFirstRow()">  Copy first row downwards</a>
                                     </div>
                                     
                                     <div class="timepickerArea">
                                         <span>Tuesday</span>
-                                        <input id="tue1" class="timepicker"/>
-                                        <stripes:hidden name="tuesdayOne" id="tuesdayOne" /> 
+                                        <input id="tue1" class="timepicker" value="<%= openRuleTue.getStartHours()+":"+openRuleTue.getStartTime().getMinutes() %>"/>
+                                        <stripes:hidden name="tuesdayOne" id="tuesdayOne" value="<%= openRuleTue.getStartTime().getTime() %>"/> 
                                         <span>to</span>
-                                        <input id="tue2" class="timepicker"/>
-                                        <stripes:hidden name="tuesdayTwo" id="tuesdayTwo" />
+                                        <input id="tue2" class="timepicker" value="<%= openRuleTue.getEndHours()+":"+openRuleTue.getEndTime().getMinutes() %>"/>
+                                        <stripes:hidden name="tuesdayTwo" id="tuesdayTwo" value="<%= openRuleTue.getEndTime().getTime() %>"/>
                                     </div>
                                     
                                     <div class="timepickerArea">
                                         <span>Wednesday</span>
-                                        <input id="wed1" class="timepicker"/>
-                                        <stripes:hidden name="wednesdayOne" id="wednesdayOne" /> 
+                                        <input id="wed1" class="timepicker" value="<%= openRuleWed.getStartHours()+":"+openRuleWed.getStartTime().getMinutes() %>"/>
+                                        <stripes:hidden name="wednesdayOne" id="wednesdayOne" value="<%= openRuleWed.getStartTime().getTime() %>"/> 
                                         <span>to</span>
-                                        <input id="wed2" class="timepicker"/>
-                                        <stripes:hidden name="wednesdayTwo" id="wednesdayTwo" />
+                                        <input id="wed2" class="timepicker" value="<%= openRuleWed.getEndHours()+":"+openRuleWed.getEndTime().getMinutes() %>"/>
+                                        <stripes:hidden name="wednesdayTwo" id="wednesdayTwo" value="<%= openRuleWed.getEndTime().getTime() %>"/>
                                     </div>
                                     
                                     <div class="timepickerArea">
                                         <span>Thursday</span>
-                                        <input id="thu1" class="timepicker"/>
-                                        <stripes:hidden name="thursdayOne" id="thursdayOne" /> 
+                                        <input id="thu1" class="timepicker" value="<%= openRuleThu.getStartHours()+":"+openRuleThu.getStartTime().getMinutes() %>"/>
+                                        <stripes:hidden name="thursdayOne" id="thursdayOne" value="<%= openRuleThu.getStartTime().getTime() %>"/> 
                                         <span>to</span>
-                                        <input id="thu2" class="timepicker"/>
-                                        <stripes:hidden name="thursdayTwo" id="thursdayTwo" />
+                                        <input id="thu2" class="timepicker" value="<%= openRuleThu.getEndHours()+":"+openRuleThu.getEndTime().getMinutes() %>"/>
+                                        <stripes:hidden name="thursdayTwo" id="thursdayTwo" value="<%= openRuleThu.getEndTime().getTime() %>"/>
                                     </div>
                                     
                                     <div class="timepickerArea">
                                         <span>Friday</span>
-                                        <input id="fri1" class="timepicker"/>
-                                        <stripes:hidden name="fridayOne" id="fridayOne" /> 
+                                        <input id="fri1" class="timepicker" value="<%= openRuleFri.getStartHours()+":"+openRuleFri.getStartTime().getMinutes() %>"/>
+                                        <stripes:hidden name="fridayOne" id="fridayOne" value="<%= openRuleFri.getStartTime().getTime() %>"/> 
                                         <span>to</span>
-                                        <input id="fri2" class="timepicker"/>
-                                        <stripes:hidden name="fridayTwo" id="fridayTwo" />
+                                        <input id="fri2" class="timepicker" value="<%= openRuleFri.getEndHours()+":"+openRuleFri.getEndTime().getMinutes() %>"/>
+                                        <stripes:hidden name="fridayTwo" id="fridayTwo" value="<%= openRuleFri.getEndTime().getTime() %>"/>
                                     </div>
                                     
                                     <div class="timepickerArea">
                                         <span>Saturday</span>
-                                        <input id="sat1" class="timepicker"/>
-                                        <stripes:hidden name="saturdayOne" id="saturdayOne" /> 
+                                        <input id="sat1" class="timepicker" value="<%= openRuleSat.getStartHours()+":"+openRuleSat.getStartTime().getMinutes() %>"/>
+                                        <stripes:hidden name="saturdayOne" id="saturdayOne" value="<%= openRuleSat.getStartTime().getTime() %>"/> 
                                         <span>to</span>
-                                        <input id="sat2" class="timepicker"/>
-                                        <stripes:hidden name="saturdayTwo" id="saturdayTwo" />
+                                        <input id="sat2" class="timepicker" value="<%= openRuleSat.getEndHours()+":"+openRuleSat.getEndTime().getMinutes() %>"/>
+                                        <stripes:hidden name="saturdayTwo" id="saturdayTwo" value="<%= openRuleSat.getEndTime().getTime() %>"/>
                                     </div>
                                     
                                     <div class="timepickerArea">
                                         <span>Sunday</span>
-                                        <input id="sun1" class="timepicker"/>
-                                        <stripes:hidden name="sundayOne" id="sundayOne" /> 
+                                        <input id="sun1" class="timepicker" value="<%= openRuleSun.getStartHours()+":"+openRuleSun.getStartTime().getMinutes() %>"/>
+                                        <stripes:hidden name="sundayOne" id="sundayOne" value="<%= openRuleSun.getStartTime().getTime() %>"/> 
                                         <span>to</span>
-                                        <input id="sun2" class="timepicker"/>
-                                        <stripes:hidden name="sundayTwo" id="sundayTwo" />
+                                        <input id="sun2" class="timepicker" value="<%= openRuleSun.getEndHours()+":"+openRuleSun.getEndTime().getMinutes() %>"/>
+                                        <stripes:hidden name="sundayTwo" id="sundayTwo" value="<%= openRuleSun.getEndTime().getTime() %>"/>
                                     </div> 
                          </div>
                                     

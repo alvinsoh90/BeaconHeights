@@ -251,7 +251,7 @@ public class FacilityTypeDAO {
             session.createCriteria(FacilityType.class).setFetchMode("limitRules", FetchMode.JOIN);
             Query q = session.createQuery("from FacilityType where id ='" + id + "'");
             typeList = (ArrayList<FacilityType>) q.list();
-            System.out.println("SUCCESS GET FACILITY");
+            
             result = typeList.get(0);
             lRule = (LimitRule) result.getLimitRules().toArray()[0];
             tx.commit();
@@ -259,7 +259,7 @@ public class FacilityTypeDAO {
             return lRule;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("FAILLLLL GET FACILITY");
+            
             if(tx!=null){
                 tx.rollback();
             }
@@ -278,10 +278,10 @@ public class FacilityTypeDAO {
         AdvanceRule aRule;
         try {
             tx = session.beginTransaction();
-            session.createCriteria(FacilityType.class).setFetchMode("limitRules", FetchMode.JOIN);
+            session.createCriteria(FacilityType.class).setFetchMode("advanceRules", FetchMode.JOIN);
             Query q = session.createQuery("from FacilityType where id ='" + id + "'");
             typeList = (ArrayList<FacilityType>) q.list();
-            System.out.println("SUCCESS GET FACILITY");
+            
             result = typeList.get(0);
             Hibernate.initialize(result);
             aRule = (AdvanceRule) result.getAdvanceRules().toArray()[0];
@@ -290,7 +290,43 @@ public class FacilityTypeDAO {
             return aRule;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("FAILLLLL GET FACILITY");
+            
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return null;
+
+    }
+    
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
+    public ArrayList<OpenRule> getFacilityTypeOpenRules(int id) {
+        //openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        Transaction tx = null;
+        FacilityType result;
+        ArrayList<OpenRule> oRules = new ArrayList<OpenRule>();
+        try {
+            tx = session.beginTransaction();
+            session.createCriteria(FacilityType.class).setFetchMode("openRules", FetchMode.JOIN);
+            Query q = session.createQuery("from FacilityType where id ='" + id + "'");
+            typeList = (ArrayList<FacilityType>) q.list();
+            
+            result = typeList.get(0);
+            Hibernate.initialize(result.getOpenRules());
+            
+            for(Object obj : result.getOpenRules().toArray()){
+                OpenRule or = (OpenRule)obj;
+                oRules.add(or);
+            }
+            //oRules = (OpenRule[]) result.getOpenRules().toArray();
+            tx.commit();
+            
+            return oRules;
+        } catch (Exception e) {
+            e.printStackTrace();
+            
             if(tx!=null){
                 tx.rollback();
             }
