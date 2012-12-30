@@ -29,4 +29,16 @@
                                 <b>Awesome!</b> ${param.approvemsg} was added!
                             </div>
                         </c:if>
+                            <c:if test = "${param.editsuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success">
+                                <b>Awesome!</b> ${param.editmsg} was successfully edited!
+                            </div>
+                        </c:if>
+                            <c:if test = "${param.createFTsuccess == 'true'}">
+                            <div><br/></div>
+                            <div class="login alert alert-success">
+                                <b>Awesome!</b> ${param.createFTmsg} was successfully created! You can now create a new facility for this Facility Type.
+                            </div>
+                        </c:if>
                     </div>

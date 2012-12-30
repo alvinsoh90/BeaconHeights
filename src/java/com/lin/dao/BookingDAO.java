@@ -142,12 +142,22 @@ public class BookingDAO {
     
     public void updateBookingPayment(int id, boolean b, String string) {
         openSession();
+        org.hibernate.Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
         Booking booking = (Booking) session.get(Booking.class, id);
 
         booking.setIsPaid(b);
         booking.setTransactionId(string);
 
         session.update(booking);
+        tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
     }
 
     public ArrayList<Booking> getUserHistoricalBookings(User u) {

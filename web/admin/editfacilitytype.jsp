@@ -1,3 +1,6 @@
+<%@page import="com.lin.dao.RuleDAO"%>
+<%@page import="org.hibernate.Hibernate"%>
+<%@page import="java.util.Set"%>
 <%@page import="com.lin.entities.AdvanceRule"%>
 <%@page import="com.lin.entities.OpenRule"%>
 <%@page import="com.lin.entities.LimitRule"%>
@@ -147,12 +150,24 @@
         </script>
         
     <% 
+        int id = Integer.parseInt(request.getParameter("id"));
         FacilityTypeDAO fDAO = new FacilityTypeDAO();
-        FacilityType fType = fDAO.getFacilityType(Integer.parseInt(request.getParameter("id")));
+        FacilityType fType = fDAO.getFacilityType(id);
+        RuleDAO rDAO = new RuleDAO();
         System.out.println("TEST FTYPE NAME : " +fType.getDescription());
         
+        //Set limitRules = fType.getLimitRules();
+        //int count = limitRules.size();
+        //System.out.print("PRINTING COUNT OF LIMITRULS :"+limitRules);
+        //LimitRule[] lRules = (LimitRule[]) limitRules.toArray();
+        //LimitRule lRule = lRules[0];
+        //Hibernate.initialize(fType.getLimitRules());
         
-        LimitRule lRule = (LimitRule)fType.getLimitRules().toArray()[0];
+        //LimitRule lRule = rDAO.getAllLimitRule(id).get(0);
+        LimitRule lRule =  fDAO.getFacilityTypeLimitRules(id);
+        
+        
+        System.out.println("SUCCESS GET LimitRUle");
         String timeFrameType = "";
         String timeFrameValue = "";
         if(lRule.getTimeframeType().equals("DAY")){
@@ -166,7 +181,8 @@
             timeFrameValue = "Months";
         }  
         
-        AdvanceRule aRule = (AdvanceRule)fType.getAdvanceRules().toArray()[0];
+        //AdvanceRule aRule = rDAO.getAllAdvanceRule(id).get(0);
+        AdvanceRule aRule =  fDAO.getFacilityTypeAdvanceRules(id);
     %>
   </head>
   <body onload="loadTimePickers()">

@@ -15,9 +15,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.Fetch;
+//import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -188,7 +192,7 @@ public class FacilityTypeDAO {
         return facilityType;
     }
     
-    
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     public FacilityType getFacilityType(String name) {
         openSession();
         ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
@@ -205,6 +209,8 @@ public class FacilityTypeDAO {
     }
     
     
+    
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     public FacilityType getFacilityType(int id) {
         //openSession();
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -212,19 +218,87 @@ public class FacilityTypeDAO {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
+            session.createCriteria(FacilityType.class).setFetchMode("limitRules", FetchMode.JOIN);
             Query q = session.createQuery("from FacilityType where id ='" + id + "'");
             typeList = (ArrayList<FacilityType>) q.list();
+            System.out.println("SUCCESS GET FACILITY");
+            FacilityType result = typeList.get(0);
+            Hibernate.initialize(result);
             tx.commit();
+            
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("FAILLLLL GET FACILITY");
             if(tx!=null){
                 tx.rollback();
             }
         }
-        return typeList.get(0);
+        return null;
 
     }
+    
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
+    public LimitRule getFacilityTypeLimitRules(int id) {
+        //openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        Transaction tx = null;
+        FacilityType result;
+        LimitRule lRule;
+        try {
+            tx = session.beginTransaction();
+            session.createCriteria(FacilityType.class).setFetchMode("limitRules", FetchMode.JOIN);
+            Query q = session.createQuery("from FacilityType where id ='" + id + "'");
+            typeList = (ArrayList<FacilityType>) q.list();
+            System.out.println("SUCCESS GET FACILITY");
+            result = typeList.get(0);
+            lRule = (LimitRule) result.getLimitRules().toArray()[0];
+            tx.commit();
+            
+            return lRule;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("FAILLLLL GET FACILITY");
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return null;
 
+    }
+    
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
+    public AdvanceRule getFacilityTypeAdvanceRules(int id) {
+        //openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+        Transaction tx = null;
+        FacilityType result;
+        AdvanceRule aRule;
+        try {
+            tx = session.beginTransaction();
+            session.createCriteria(FacilityType.class).setFetchMode("limitRules", FetchMode.JOIN);
+            Query q = session.createQuery("from FacilityType where id ='" + id + "'");
+            typeList = (ArrayList<FacilityType>) q.list();
+            System.out.println("SUCCESS GET FACILITY");
+            result = typeList.get(0);
+            Hibernate.initialize(result);
+            aRule = (AdvanceRule) result.getAdvanceRules().toArray()[0];
+            tx.commit();
+            
+            return aRule;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("FAILLLLL GET FACILITY");
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return null;
+
+    }
+    
     public FacilityType editFacilityType(FacilityType facilityType) {
         openSession();
         //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
