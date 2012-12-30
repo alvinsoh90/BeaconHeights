@@ -51,7 +51,7 @@
             function populateDeleteFacilityModal(facilityID){ 
                 facilityList.forEach(function(facility){
                     if(facility.id == facilityID){
-                        $("#facilityDeleteLabel").text(facility.type + " " + facility.id);
+                        $("#facilityDeleteLabel").text(facility.type + " " + facility.name);
                         $("#delete_name").text(facility.type + " " + facility.id);
                         $("#delete_id").val(facility.id);
 

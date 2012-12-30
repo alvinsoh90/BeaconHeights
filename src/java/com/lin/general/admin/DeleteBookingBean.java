@@ -6,6 +6,7 @@ package com.lin.general.admin;
 
 import com.lin.dao.BookingDAO;
 import com.lin.entities.Booking;
+import com.lin.entities.User;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -20,19 +21,25 @@ public class DeleteBookingBean implements ActionBean{
   private ActionBeanContext context;
   private String id;
   private String username;
+  
 
     @DefaultHandler
     public Resolution deleteBooking(){
         BookingDAO dao = new BookingDAO();
+        String name = "";
+        
+            
 
         try{
+            User user = dao.getBooking(Integer.parseInt(id)).getUser();
+            name = user.getFirstname() + " " + user.getLastname();
             dao.deleteBooking(Integer.parseInt(id));
-            return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=true"+"&deletemsg="+username);
+            return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=true"+"&deletemsg="+name+"\'s booking");
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=false"+"&deletemsg="+username);
+        return new RedirectResolution("/admin/manage-bookings.jsp?deletesuccess=false"+"&deletemsg="+name);
         
     }
 

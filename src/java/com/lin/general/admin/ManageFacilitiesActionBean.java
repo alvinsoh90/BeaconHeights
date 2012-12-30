@@ -91,6 +91,14 @@ public class ManageFacilitiesActionBean implements ActionBean {
         this.result = result;
     }
 
+    public String getFacility_name() {
+        return facility_name;
+    }
+
+    public void setFacility_name(String facility_name) {
+        this.facility_name = facility_name;
+    }
+
     public ActionBeanContext getContext() {
         return context;
     }
@@ -122,8 +130,8 @@ public class ManageFacilitiesActionBean implements ActionBean {
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             FacilityType facilityType = tDAO.getFacilityType(type);
             //Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
-            Facility facility = fDAO.createFacility(facilityType,facility_name,12345, 12345);
-            result = facility.getName();
+            Facility facility = fDAO.createFacility(facilityType, facility_name, 12345, 12345);
+            result = facility.getFacilityType().getName() + " " + facility.getName();
             success = true;
         } catch (Exception e) {
             result = "fail";

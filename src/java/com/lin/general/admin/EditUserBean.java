@@ -58,7 +58,7 @@ public class EditUserBean implements ActionBean{
                         Integer.parseInt(level),
                         Integer.parseInt(unitnumber)
                     );
-            return new RedirectResolution("/admin/users.jsp?editsuccess=true");
+            return new RedirectResolution("/admin/users.jsp?editsuccess=true&editmsg="+username);
         }
         catch(Exception e){
             e.printStackTrace(); 
