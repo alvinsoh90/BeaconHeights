@@ -49,7 +49,9 @@
                 $('#fullcalendar').fullCalendar( 'removeEvents');
                 
                 //add new event source
-                var eventSource = "/json/bookingevents.jsp?facilityid=" + facilityID +"&userid="+${sessionScope.user.userId};
+                var eventSource = "/json/bookingevents.jsp?facilityid=" 
+                    + facilityID +"&userid="+${sessionScope.user.userId};
+                
                 $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
                 
             }
@@ -172,6 +174,7 @@
 
                     <div class="span9">
                         <div class="widget-content nopadding calendarContainer">
+                            <div id="ajax-spinner" class="ajaxSpinner hide"></div>
                             <div id="fullcalendar" class="calendarWidth"></div>
                         </div>
                     </div>

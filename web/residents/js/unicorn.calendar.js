@@ -21,8 +21,6 @@ unicorn = {
         var y = date.getFullYear();	
 		
         $('#fullcalendar').fullCalendar({
-            
-            
             dayClick: function(date, allDay, jsEvent, view) {
                 
                     var today = new Date();
@@ -39,16 +37,24 @@ unicorn = {
                         //FLASE Clicked date larger than today
                         $("#date").text(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());   //SET DATE
               
-                if(view.name == "month"){
-                    //if day is clicked, zoom to actual day with day view
-                    $("#fullcalendar").fullCalendar( 'changeView', "agendaDay" );
-                    $("#fullcalendar").fullCalendar( 'gotoDate', date);
-                    
-                }
-                     } 
-                
-                
-                
+                        if(view.name == "month"){
+                            //if day is clicked, zoom to actual day with day view
+                            $("#fullcalendar").fullCalendar( 'changeView', "agendaDay" );
+                            $("#fullcalendar").fullCalendar( 'gotoDate', date);
+
+                        }
+                    }   
+            },
+            timeFormat: 'h(:mm) tt',
+            loading: function(bool) {
+                  if (bool){
+                     $("#ajax-spinner").show();
+                     $("#fullcalendar").css("opacity","0.4");
+                  }
+                  else{
+                     $("#ajax-spinner").hide();
+                     $("#fullcalendar").css("opacity","1");
+                  }
             },
             selectable: true,
             selectHelper: true,
