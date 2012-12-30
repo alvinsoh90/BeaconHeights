@@ -12,18 +12,21 @@ import com.lin.entities.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.controller.FlashScope;
+
 /**
  *
  * @author Yangsta
  */
-public class BookFacilityActionBean implements ActionBean{
-    
+public class BookFacilityActionBean implements ActionBean {
+
     private ActionBeanContext context;
     private String startdatestring;
     private String enddatestring;
@@ -46,9 +49,9 @@ public class BookFacilityActionBean implements ActionBean{
         return context;
     }
 
-  public void setContext(ActionBeanContext context) {
-    this.context = context;
-  }
+    public void setContext(ActionBeanContext context) {
+        this.context = context;
+    }
 
     public String getEndDateString() {
         return enddatestring;
@@ -73,7 +76,7 @@ public class BookFacilityActionBean implements ActionBean{
     public void setStartDateString(String startDateString) {
         this.startdatestring = startDateString;
     }
-    
+
     public String getTransactionDateTimeString() {
         return transactionDateTimeString;
     }
@@ -81,8 +84,7 @@ public class BookFacilityActionBean implements ActionBean{
     public void getTransactionDateTimeString(String getTransactionDateTimeString) {
         this.transactionDateTimeString = getTransactionDateTimeString;
     }
-    
-    
+
     public String getTitle() {
         return title;
     }
@@ -90,52 +92,49 @@ public class BookFacilityActionBean implements ActionBean{
     public void setTitle(String title) {
         this.title = title;
     }
-  
-  
-  
-  @DefaultHandler
-  public Resolution placeBooking() {
-    try{
-        BookingDAO bDAO = new BookingDAO();
-        FacilityDAO fDAO = new FacilityDAO();
-        UserDAO uDAO = new UserDAO();
-        RuleController ruleController = new RuleController();
-        
-        User user = uDAO.getUser(getCurrentUserID());       
-        Facility facility = fDAO.getFacility(getFacilityID());
-        
-        //Retrieve form variables
-        Timestamp bookingTimeStamp = new Timestamp
-                (System.currentTimeMillis());
-        Timestamp startDate = new Timestamp
-                (Long.parseLong(getStartDateString()));
-        Timestamp endDate = new Timestamp
-                (Long.parseLong(getEndDateString()));
 
-        String title = "Resident Booking";
-        ArrayList<String> errorMsg = ruleController.isFacilityAvailable(currentUserID, getFacilityID(), startDate, endDate);
-        
-        for(String msg: errorMsg){
-            System.out.println("LOOK IS ERROR");
-            System.out.println(msg);
+    @DefaultHandler
+    public Resolution placeBooking() {
+        try {
+            BookingDAO bDAO = new BookingDAO();
+            FacilityDAO fDAO = new FacilityDAO();
+            UserDAO uDAO = new UserDAO();
+            RuleController ruleController = new RuleController();
+
+            User user = uDAO.getUser(getCurrentUserID());
+            Facility facility = fDAO.getFacility(getFacilityID());
+
+            //Retrieve form variables
+            Timestamp bookingTimeStamp = new Timestamp(System.currentTimeMillis());
+            Timestamp startDate = new Timestamp(Long.parseLong(getStartDateString()));
+            Timestamp endDate = new Timestamp(Long.parseLong(getEndDateString()));
+
+            String title = "Resident Booking";
+            ArrayList<String> errorMsg = ruleController.isFacilityAvailable(currentUserID, getFacilityID(), startDate, endDate);
+
+            if (errorMsg.isEmpty()) {
+                Booking booking = new Booking(user, facility, bookingTimeStamp,
+                        startDate, endDate, title);
+                //add booking into DB, returns booking with ID
+                booking = bDAO.addBooking(booking);
+
+                result = booking.toString();
+                success = true;
+                System.out.println(result);
+            } else {
+                HttpServletRequest request = context.getRequest();
+                FlashScope fs = FlashScope.getCurrent(request, true);
+
+                fs.put("errorMsg", errorMsg);
+
+            }
+
+        } catch (Exception e) {
+            result = "";
+            success = false;
+            e.printStackTrace();
         }
-        
-        Booking booking = new Booking(user, facility,bookingTimeStamp,
-                startDate,endDate,title);
-        //add booking into DB, returns booking with ID
-        booking = bDAO.addBooking(booking);
-        
-        result = booking.toString();
-        success = true;
-        System.out.println(result);
-        
-    }catch(Exception e) {
-        result = "";
-        success = false;
-        e.printStackTrace();
+
+        return new RedirectResolution("/residents/index.jsp");
     }
-    
-    return new RedirectResolution("/residents/index.jsp");
-  }
-    
 }
