@@ -35,26 +35,34 @@ public class RuleController {
 
         Facility facility = fDAO.getFacility(facilityID);
         FacilityType facilityType = facility.getFacilityType();
+        int facilityTypeID = facilityType.getId();
+        
+        
+        ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
+        ArrayList<CloseRule> closeRuleList = rDAO.getAllCloseRule(facilityTypeID);
+        ArrayList<LimitRule> limitRuleList = rDAO.getAllLimitRule(facilityTypeID);
+        ArrayList<AdvanceRule> advanceRuleList = rDAO.getAllAdvanceRule(facilityTypeID);
 
-        Set openRuleSet = facilityType.getOpenRules();
-        Set closeRuleSet = facilityType.getCloseRules();
-        Set limitRuleSet = facilityType.getLimitRules();
-        Set advanceRuleSet = facilityType.getAdvanceRules();
-
-        for (Object o : openRuleSet) {
+        
+        
+        for (Object o : openRuleList) {
             OpenRule openRule = (OpenRule) o;
             if (openRule.getDayOfWeek() == startBookingTime.getDay()) {
                 Date openStart = openRule.getStartTime();
+                
+                //check
+                System.out.println("opentime: "+ openStart.getHours() + "booktime: " + startBookingTime.getHours());
+                
                 if (openStart.getHours() > startBookingTime.getHours()) {
                     errorMsg.add("Unable to book before facility opens!");
-                } else if (openStart.getMinutes() > startBookingTime.getMinutes()) {
+                } else if (openStart.getHours() == startBookingTime.getHours() && openStart.getMinutes() > startBookingTime.getMinutes()) {
                     errorMsg.add("Unable to book before facility opens! Check to the minute.");
                 }
 
                 Date openEnd = openRule.getEndTime();
                 if (openEnd.getHours() < endBookingTime.getHours()) {
                     errorMsg.add("Unable to book after facility closes!");
-                } else if (openEnd.getMinutes() < endBookingTime.getMinutes()) {
+                } else if (openEnd.getHours() == endBookingTime.getHours() && openEnd.getMinutes() < endBookingTime.getMinutes()) {
                     errorMsg.add("Unable to book after facility closes! Check to the minute.");
                 }
 
@@ -63,7 +71,7 @@ public class RuleController {
 
         }
 
-        for (Object o : closeRuleSet) {
+        for (Object o : closeRuleList) {
             CloseRule closeRule = (CloseRule) o;
 
             //if the start of booking falls between the start of the closed time and end of it
@@ -75,7 +83,7 @@ public class RuleController {
             }
         }
 
-        for (Object o : limitRuleSet) {
+        for (Object o : limitRuleList) {
             LimitRule limitRule = (LimitRule) o;
             String timeFrametype = limitRule.getTimeframeType();
             int numberOfTimeframe = limitRule.getNumberOfTimeframe();
@@ -103,21 +111,21 @@ public class RuleController {
 
         }
         
-        for (Object o : advanceRuleSet){
+        for (Object o : advanceRuleList){
             AdvanceRule advanceRule = (AdvanceRule) o;
             Date currentDate = new Date();
             long currentTime = currentDate.getTime();
             long startTime = startBookingTime.getTime();
             long daysBetween = getMillisecondsToDay(startTime-currentTime);
-            if (daysBetween > advanceRule.getMaxDays()){
-                errorMsg.add("Sorry, the facility allows you to book a maximum of " + advanceRule.getMaxDays() + " in advance.");
-            } else if (daysBetween < advanceRule.getMinDays()){
-                errorMsg.add("Sorry, you need to book the facility at least "+ advanceRule.getMinDays() + " in advance." );
+            if (daysBetween > advanceRule.getMinDays()){
+                errorMsg.add("Sorry, the facility allows you to book a maximum of " + advanceRule.getMinDays() + " days in advance.");
+            } else if (daysBetween < advanceRule.getMaxDays()){
+                errorMsg.add("Sorry, you need to book the facility at least "+ advanceRule.getMaxDays() + " days in advance." );
             }
           
             
         }
-
+        
         return errorMsg;
 
 
