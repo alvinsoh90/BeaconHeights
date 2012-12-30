@@ -78,11 +78,11 @@
 }
 
 .userImageBadge{
-    height: 130px;
-    width: 130px;
-    border-radius: 100px;
-    -moz-border-radius: 100px;
-    -webkit-border-radius: 100px;
+    height: 215px;
+    width: 500px;
+    border-radius: 10px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
     overflow: hidden;
 }
 
