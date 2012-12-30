@@ -15,7 +15,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Users | Strass</title>
+        <title>Admin | Manage Facility Types</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
         <meta name="author" content="travis">
@@ -159,9 +159,9 @@
                             <li class="active">
                                 <a href="#">1</a>
                             </li>
-                            <li><a href="#">2</a></li>
+                            <!--<li><a href="#">2</a></li>
                             <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
+                            <li><a href="#">4</a></li>-->
                             <li><a href="#">Next</a></li>
                         </ul>
                     </div>

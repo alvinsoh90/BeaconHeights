@@ -4,7 +4,7 @@
             <ul class="nav nav-list">
 
                 <li class="nav-header"><i class="icon-wrench"></i> Users</li>
-                <li> <a href="users.jsp">View All Users</a></li>
+                <li> <a href="users.jsp">Manage Users</a></li>
                 <li><a href="new-user.jsp">Add New User</a></li>
                 <li><a href="adminmain.jsp">Approve Users</a></li>
                 <!--<li><a href="roles.html">User Roles</a></li>-->
@@ -13,7 +13,7 @@
                 <li class="nav-header"><i class="icon-signal"></i> Facility Management</li>
                 <li><a href="manage-bookings.jsp">Manage Bookings</a></li>
                 <li><a href="manage-facilities.jsp">Manage Facilities</a></li>
-                <li><a href="manage-facilitytypes.jsp">Facility Types</a></li>
+                <li><a href="manage-facilitytypes.jsp">Manage Facility Types</a></li>
 
 
                 <!--<li class="nav-header"><i class="icon-signal"></i> Statistics</li>

@@ -97,3 +97,14 @@
     float:right;
     font-size: 12px;
 }
+
+.ajaxSpinner {
+    background: url("../img/ajax-loader.gif");
+    height: 31px;
+    width: 31px;
+    position: absolute;
+}
+.calendarContainer .ajaxSpinner{
+    top: 35em;
+    left: 65em;
+}

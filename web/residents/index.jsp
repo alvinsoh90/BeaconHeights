@@ -29,6 +29,9 @@
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/jquery-1.7.2.min.js"></script>
         <script src="./js/unicorn.calendar.js"></script>
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
 
         <!-- Scripts -->
         <script>
@@ -46,12 +49,11 @@
                 $('#fullcalendar').fullCalendar( 'removeEvents');
                 
                 //add new event source
-                var eventSource = "/json/bookingevents.jsp?facilityid=" + facilityID +"&userid="+${sessionScope.user.userId};
-                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
+                var eventSource = "/json/bookingevents.jsp?facilityid=" 
+                    + facilityID +"&userid="+${sessionScope.user.userId};
                 
+                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );               
             }
-            
-            
         </script> 
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -94,17 +96,18 @@
                                     Date: <span id="date"><i><font size="2"> --</font></span> <br/>
                                     Time: <span id="time"><i><font size="2"> --</font></i></span>
                                 </div>
-                                <div class="inviteFriends comingsoon">
+                                <!--<div class="inviteFriends comingsoon">
                                     <div class="header">Invite Friends</div>
                                     <input class="span2" type="text" placeholder="Type a friend's name"/>
                                     <button class="btn btn-peace-2 btnmod">Invite</button>
-                                    <!--Invited: 
-                                    <span class="inviteLabel label label-success"></span>-->                             
-                                </div>
-                                <div class="shareBooking centerText comingsoon">
-                                    <h4>Share this event with your friends</h4>
-                                    <!--<button class="socialIcons iconFacebook icon-facebook"></button> -->
-                                </div>
+                                <!--Invited: 
+                                <span class="inviteLabel label label-success"></span>                         
+                            </div>
+                            <div class="shareBooking centerText comingsoon">
+                                <h4>Share this event with your friends</h4>-->
+                                <h4>&nbsp;</h4>
+                                <!--<button class="socialIcons iconFacebook icon-facebook"></button>
+                            </div>-->
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
                                     <stripes:hidden name="facilityID" id="facilityid" />
                                     <stripes:hidden name="startDateString" id="starttimemillis"  />   
@@ -161,7 +164,15 @@
                             }
                             //attach handler
                             $("#facilityDropDown").change(displayVals);
-                            //first call
+                            
+                            // if there is a specific facility's booking to load, then 
+                            // change the dropdown to the correct facility
+                            var facilityID = "${param.fid}";
+
+                            if (facilityID != ""){
+                                $("#facilityDropDown").val("${param.fid}");
+                            }
+                            //  display default bookings as per whats in the dropdown
                             displayVals();
                         });
                         
@@ -171,10 +182,16 @@
                             </c:forEach>
                     
                     <div class="span9">
+<<<<<<< HEAD
                         
                             <div class="widget-content nopadding calendarContainer">
                                 <div id="fullcalendar" class="calendarWidth"></div>
                             </div>
+=======
+                        <div class="widget-content nopadding calendarContainer">
+                            <div id="ajax-spinner" class="ajaxSpinner hide"></div>
+                            <div id="fullcalendar" class="calendarWidth"></div>
+>>>>>>> 53ae8063ac962f8442433513b71cacbc6c114d9a
                         </div>
                         <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
                             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">

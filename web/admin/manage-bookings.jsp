@@ -19,7 +19,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Users | Strass</title>
+        <title>Admin | Manage Bookings</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
         <meta name="author" content="travis">
@@ -126,11 +126,11 @@
                     
                     if(bookingArr[i].isPaid == "true"){
                         r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingList[i].id + ")'>Edit</a>\n\
-                               <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingList[i].id + ")'>Pending</a>\n\
+                               <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingList[i].id + ")'>Revert</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
                     }else{
                         r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingList[i].id + ")'>Edit</a>\n\
-                               <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingList[i].id + ")'>Paid</a>\n\
+                               <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingList[i].id + ")'>Record</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
                     }
                     r[++j] = '</td></tr>';
@@ -295,9 +295,9 @@
                             <li class="active">
                                 <a href="#">1</a>
                             </li>
-                            <li><a href="#">2</a></li>
+                            <!--<li><a href="#">2</a></li>
                             <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
+                            <li><a href="#">4</a></li>-->
                             <li><a href="#">Next</a></li>
                         </ul>
                     </div>
@@ -315,7 +315,7 @@
         <div id="payBookingModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Update Payment of <span id="usernamePayLabel"></span>'s booking</h3>
+                <h3>Record Payment of <span id="usernamePayLabel"></span>'s booking</h3>
             </div>
             <div class="modal-body">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
@@ -339,11 +339,11 @@
         <div id="pendingBookingModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Update Payment of <span id="usernamePendingLabel"></span>'s booking</h3>
+                <h3>Revert Payment of <span id="usernamePendingLabel"></span>'s booking</h3>
             </div>
             <div class="modal-body">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
-                    You are now changing booking status to pending. Are you sure?
+                    You are now reverting the booking status to pending. Are you sure?
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>
