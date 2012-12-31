@@ -20,68 +20,106 @@ import java.util.Set;
  */
 public class RuleController {
 
+    private ArrayList<String> errorMsg;
+    private UserDAO uDAO;
+    private BookingDAO bDAO;
+    private RuleDAO rDAO;
+    private FacilityTypeDAO tDAO;
+    private FacilityDAO fDAO;
+
     public ArrayList<String> isFacilityAvailable(int userID, int facilityID, Date startBookingTime, Date endBookingTime) {
-        ArrayList<String> errorMsg = new ArrayList<String>();
-
-        UserDAO uDAO = new UserDAO();
-        User user = uDAO.getUser(userID);
-        BookingDAO bDAO = new BookingDAO();
-        ArrayList<Booking> userBookingList = bDAO.getUserBookings(userID);
+        errorMsg = new ArrayList<String>();
 
 
-        RuleDAO rDAO = new RuleDAO();
-        FacilityTypeDAO tDAO = new FacilityTypeDAO();
-        FacilityDAO fDAO = new FacilityDAO();
+        bDAO = new BookingDAO();
+
+
+        rDAO = new RuleDAO();
+        tDAO = new FacilityTypeDAO();
+        fDAO = new FacilityDAO();
 
         Facility facility = fDAO.getFacility(facilityID);
         FacilityType facilityType = facility.getFacilityType();
         int facilityTypeID = facilityType.getId();
-        
-        
-        ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
-        ArrayList<CloseRule> closeRuleList = rDAO.getAllCloseRule(facilityTypeID);
-        ArrayList<LimitRule> limitRuleList = rDAO.getAllLimitRule(facilityTypeID);
-        ArrayList<AdvanceRule> advanceRuleList = rDAO.getAllAdvanceRule(facilityTypeID);
 
+        ArrayList<String> openRuleErrors = validateOpenRule(userID, facilityTypeID, startBookingTime, endBookingTime);
+        ArrayList<String> closeRuleErrors = validateCloseRule(userID, facilityTypeID, startBookingTime, endBookingTime);
+        ArrayList<String> limitRuleErrors = validateLimitRule(userID, facilityTypeID, startBookingTime, endBookingTime);
+        ArrayList<String> advanceRuleErrors = validateAdvanceRule(userID, facilityTypeID, startBookingTime, endBookingTime);
+        
+        if (!openRuleErrors.isEmpty()){
+            errorMsg.addAll(openRuleErrors);
+        }
+        if (!closeRuleErrors.isEmpty()){
+            errorMsg.addAll(closeRuleErrors);
+        }
+        if (!limitRuleErrors.isEmpty()){
+            errorMsg.addAll(limitRuleErrors);
+        }
+        if (!advanceRuleErrors.isEmpty()){
+            errorMsg.addAll(advanceRuleErrors);
+        }
         
         
+        return errorMsg;
+
+
+    }
+
+    private ArrayList<String> validateOpenRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
+        ArrayList<String> openRuleErrors = new ArrayList<String>();
+        ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
+
         for (Object o : openRuleList) {
             OpenRule openRule = (OpenRule) o;
             if (openRule.getDayOfWeek() == startBookingTime.getDay()) {
                 Date openStart = openRule.getStartTime();
-                
-                //check
-                System.out.println("opentime: "+ openStart.getHours() + "booktime: " + startBookingTime.getHours());
-                
+
                 if (openStart.getHours() > startBookingTime.getHours()) {
-                    errorMsg.add("Unable to book before facility opens!");
+                    openRuleErrors.add("Unable to book before facility opens!");
                 } else if (openStart.getHours() == startBookingTime.getHours() && openStart.getMinutes() > startBookingTime.getMinutes()) {
-                    errorMsg.add("Unable to book before facility opens! Check to the minute.");
+                    openRuleErrors.add("Unable to book before facility opens! Check to the minute.");
                 }
 
                 Date openEnd = openRule.getEndTime();
                 if (openEnd.getHours() < endBookingTime.getHours()) {
-                    errorMsg.add("Unable to book after facility closes!");
+                    openRuleErrors.add("Unable to book after facility closes!");
                 } else if (openEnd.getHours() == endBookingTime.getHours() && openEnd.getMinutes() < endBookingTime.getMinutes()) {
-                    errorMsg.add("Unable to book after facility closes! Check to the minute.");
+                    openRuleErrors.add("Unable to book after facility closes! Check to the minute.");
                 }
 
             }
 
 
         }
+
+        return openRuleErrors;
+    }
+
+    private ArrayList<String> validateCloseRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
+        ArrayList<String> closeRuleErrors = new ArrayList<String>();
+        ArrayList<CloseRule> closeRuleList = rDAO.getAllCloseRule(facilityTypeID);
 
         for (Object o : closeRuleList) {
             CloseRule closeRule = (CloseRule) o;
 
             //if the start of booking falls between the start of the closed time and end of it
             if (closeRule.getStartDate().before(startBookingTime) && closeRule.getEndDate().after(startBookingTime)) {
-                errorMsg.add("Sorry, the facility is closed on that day.");
+                closeRuleErrors.add("Sorry, the facility is closed on that day.");
                 //if the end of the booking falls between the start of the closed time and end of it
             } else if (closeRule.getStartDate().before(endBookingTime) && closeRule.getEndDate().after(endBookingTime)) {
-                errorMsg.add("Sorry, the facility is closed on that day.");
+                closeRuleErrors.add("Sorry, the facility is closed on that day.");
             }
         }
+
+        return closeRuleErrors;
+
+    }
+
+    private ArrayList<String> validateLimitRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
+        ArrayList<String> limitRuleErrors = new ArrayList<String>();
+        ArrayList<LimitRule> limitRuleList = rDAO.getAllLimitRule(facilityTypeID);
+        ArrayList<Booking> userBookingList = bDAO.getUserBookings(userID);
 
         for (Object o : limitRuleList) {
             LimitRule limitRule = (LimitRule) o;
@@ -95,7 +133,7 @@ public class RuleController {
 
                         Facility bookingFacility = booking.getFacility();
                         FacilityType bookingFacilityType = bookingFacility.getFacilityType();
-                        if (bookingFacilityType.equals(facilityType)) {
+                        if (bookingFacilityType.getId() == facilityTypeID) {
                             count++;
                         }
 
@@ -110,32 +148,41 @@ public class RuleController {
 
 
         }
-        
-        for (Object o : advanceRuleList){
+
+        return limitRuleErrors;
+
+    }
+
+    private ArrayList<String> validateAdvanceRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
+
+        ArrayList<String> advanceRuleErrors = new ArrayList<String>();
+        ArrayList<AdvanceRule> advanceRuleList = rDAO.getAllAdvanceRule(facilityTypeID);
+
+
+        for (Object o : advanceRuleList) {
             AdvanceRule advanceRule = (AdvanceRule) o;
             Date currentDate = new Date();
             long currentTime = currentDate.getTime();
             long startTime = startBookingTime.getTime();
-            long daysBetween = getMillisecondsToDay(startTime-currentTime);
-            if (daysBetween > advanceRule.getMinDays()){
-                errorMsg.add("Sorry, the facility allows you to book a maximum of " + advanceRule.getMinDays() + " days in advance.");
-            } else if (daysBetween < advanceRule.getMaxDays()){
-                errorMsg.add("Sorry, you need to book the facility at least "+ advanceRule.getMaxDays() + " days in advance." );
+            long daysBetween = getMillisecondsToDay(startTime - currentTime);
+            if (daysBetween > advanceRule.getMinDays()) {
+                advanceRuleErrors.add("Sorry, the facility allows you to book a maximum of " + advanceRule.getMinDays() + " days in advance.");
+            } else if (daysBetween < advanceRule.getMaxDays()) {
+                advanceRuleErrors.add("Sorry, you need to book the facility at least " + advanceRule.getMaxDays() + " days in advance.");
             }
-          
-            
+
+
         }
-        
-        return errorMsg;
 
+        return advanceRuleErrors;
 
     }
-    
-    private long getDayToMilliseconds(int i){
-        return i*1000*60*60*24;
+
+    private long getDayToMilliseconds(int i) {
+        return i * 1000 * 60 * 60 * 24;
     }
-    
-    private long getMillisecondsToDay(long i){
-        return i/1000/60/60/24;
+
+    private long getMillisecondsToDay(long i) {
+        return i / 1000 / 60 / 60 / 24;
     }
 }
