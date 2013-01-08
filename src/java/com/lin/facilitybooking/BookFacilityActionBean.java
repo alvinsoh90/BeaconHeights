@@ -114,7 +114,10 @@ public class BookFacilityActionBean implements ActionBean{
         Timestamp endDate = new Timestamp
                 (Long.parseLong(getEndDateString()));
 
-        String title = "Resident Booking";
+        if (title.equals("Enter an optional event name")){
+            title="Resident Booking";
+        }
+        
         ArrayList<String> errorMsg = ruleController.isFacilityAvailable(currentUserID, getFacilityID(), startDate, endDate);
         
         if(!errorMsg.isEmpty()){

@@ -93,7 +93,7 @@
                                 <div class="bookingDetails">
                                     Venue: <span id="venue">Choose facility
                                     </span><br/>
-                                    Date: <span id="date"><i><font size="2"> --</font></span> <br/>
+                                    Date: <span id="date"><i><font size="2"> --</font></i></span> <br/>
                                     Time: <span id="time"><i><font size="2"> --</font></i></span>
                                 </div>
                                 <!--<div class="inviteFriends comingsoon">
@@ -105,15 +105,15 @@
                             </div>
                             <div class="shareBooking centerText comingsoon">
                                 <h4>Share this event with your friends</h4>-->
-                                <h4>&nbsp;</h4>
                                 <!--<button class="socialIcons iconFacebook icon-facebook"></button>
                             </div>-->
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
                                     <stripes:hidden name="facilityID" id="facilityid" />
                                     <stripes:hidden name="startDateString" id="starttimemillis"  />   
                                     <stripes:hidden name="endDateString" id="endtimemillis"   /> 
-                                    <stripes:hidden name="title" id="title"/>
-                                    <stripes:hidden name="currentUserID" id="userID" value='${sessionScope.user.userId}'/>                                   
+                                    <stripes:text name="title" id="title" value="Enter an optional event name"/>
+                                    <stripes:hidden name="currentUserID" id="userID" value='${sessionScope.user.userId}'/> 
+                                 
                                     <div class="centerText">
                                         <stripes:submit class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>
                                     </div>

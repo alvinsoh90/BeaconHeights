@@ -133,7 +133,7 @@
                                         <thead>
                                         <th>No.</th>
                                         <th>Booking Made On</th>
-                                        <th>Booking Title</th>
+                                        <th>Event</th>
                                         <th>Facility</th>
                                         <th>Start Time</th>
                                         <th>End Time</th>
@@ -179,18 +179,18 @@
                                         <thead>
                                         <th>No.</th>
                                         <th>Booking Made On</th>
-                                        <th>Booking Title</th>
+                                        <th>Event</th>
                                         <th>Facility</th>
                                         <th>Start Time</th>
                                         <th>End Time</th>
                                         </thead>
 
-                                        <% int count = 1;%>
+                                        <% int countHistory = 1;%>
 
                                         <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
                                             <tr>
 
-                                                <td><%=count++%></td>
+                                                <td><%=countHistory++%></td>
                                                 <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                 value="${booking.bookingTimeStamp}"/></td>
                                                 <td>${booking.title}</td>
