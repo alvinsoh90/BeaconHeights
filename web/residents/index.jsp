@@ -139,7 +139,7 @@
                             <span id ="sub"></span> 
                             Bookings
                             <span id ="legend">
-                                <i class="icon-stop" style="color: #7DC8D3"></i> Your booking (awaiting payment) &nbsp;
+                                <i class="icon-stop" style="color: #E0BEC1"></i> Your booking (awaiting payment) &nbsp;
                                 <i class="icon-stop" style="color: #206F77"></i> Your booking (paid)</span>
 
                         </h1>

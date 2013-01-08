@@ -35,6 +35,16 @@ window.onload = function() {
             unitnumber:{
                 required: true,
                 digits:true
+            },
+            mobileno:{
+                required: true,
+                digits:true,
+                minlength:8,
+                maxlength:8
+            },
+            email:{
+                required:true,
+                email:true
             }
         },
         errorClass: "help-inline",

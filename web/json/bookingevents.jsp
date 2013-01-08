@@ -42,7 +42,7 @@
 
         if (Integer.parseInt(
                 request.getParameter("userid")) == b.getUser().getUserId() && !b.isIsPaid()) {
-            jBooking.put("backgroundColor", "#7DC8D3");
+            jBooking.put("backgroundColor", "#E0BEC1");
         }
         arr.put(jBooking);
     }

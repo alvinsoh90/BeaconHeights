@@ -156,7 +156,22 @@
                                         <stripes:text name="lastname"/> 
                                     </div>
                                 </div>
-
+                                    
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Email</label>
+                                    <div class="controls">
+                                        <stripes:text name="email"/> 
+                                    </div>
+                                </div>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Mobile Number</label>
+                                    <div class="controls">
+                                        <div class="input-prepend">
+                                            <span class="add-on">+65</span><stripes:text name="mobileno"/> 
+                                        </div>
+                                    </div>  
+                                </div>
+                                        
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Block</label>
                                     <div class="controls">

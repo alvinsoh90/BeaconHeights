@@ -24,12 +24,14 @@
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
-        
+        <link rel="stylesheet" href="/css/custom/lin.css" />
+
+
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="/js/jquery.validate.js"></script>
         <script src="/js/custom/lin.register.js"></script>
-        
+
         <!-- Add white space above -->
         <script>
             $(document).ready(function() {
@@ -47,7 +49,7 @@
                 }
             });
         </script>
-       
+
         <!-- load levels and units in the dropdown -->
         <script>
             var levels="";
@@ -149,42 +151,55 @@
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Block</label>
+                            <label class="control-label">Email</label>
                             <div class="controls">
-                                <stripes:select name="block" id="block">
-
-                                    <stripes:options-collection collection="${registerActionBean.allBlocks}" 
-                                                                value="blockName" label="blockName"/>        
-                                </stripes:select>
+                                <stripes:text name="email"/> 
                             </div>
-                        </div> 
+                        </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Level</label>
+                            <label class="control-label">Mobile Number</label>
                             <div class="controls">
-                                <stripes:select name="level" id="level">
-                                </stripes:select>
-                            </div>
-                        </div>     
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Unit Number</label>
-                            <div class="controls">
-                                <stripes:select name="unitnumber" id ="unitnumber">
-                                </stripes:select>                                        </div>
-                        </div> 
+                                <div class="input-prepend">
+                                    <span class="add-on">+65</span><stripes:text name="mobileno"/> 
+                                </div>
+                            </div>  
+                        </div>
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Block</label>
+                                <div class="controls">
+                                    <stripes:select name="block" id="block">
+                                        <stripes:options-collection collection="${registerActionBean.allBlocks}" 
+                                                                    value="blockName" label="blockName"/>        
+                                    </stripes:select>
+                                </div>
+                            </div> 
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Level</label>
+                                <div class="controls">
+                                    <stripes:select name="level" id="level">
+                                    </stripes:select>
+                                </div>
+                            </div>     
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Unit Number</label>
+                                <div class="controls">
+                                    <stripes:select name="unitnumber" id ="unitnumber">
+                                    </stripes:select>                                        </div>
+                            </div> 
 
-                        <div class="form-actions">
-                            <input type="submit" name="createUserAccount" value="Add this user" class="btn btn-info btn-large">
-                        </div>                            
-                    </stripes:form>
+                            <div class="form-actions">
+                                <input type="submit" name="createUserAccount" value="Add this user" class="btn btn-info btn-large">
+                            </div>                            
+                        </stripes:form>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <hr>
+            <hr>
 
-        <%@include file="include/footer.jsp"%>
+            <%@include file="include/footer.jsp"%>
 
 
-    </body>
+            </body>
 
-</html>
+            </html>
