@@ -103,13 +103,13 @@
                     r[++j] = '<div class="btn-group" style="visibility:visible !important;">'
                     r[++j] =      '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>'
                     r[++j] =					'<ul class="dropdown-menu">'
-                    r[++j] =						"<li><a href='#editUserModal' role='button' data-toggle='modal' onclick='populateEditUserModal(" + userList[i].id + ");loadValidate()'><i class='icon-pencil'></i> Edit</a></li>"
-                    r[++j] =					"<li><a href='#deleteUserModal' role='button' data-toggle='modal' onclick='populateDeleteUserModal(" + userList[i].id + ")'><i class='icon-trash'></i> Delete</a></li>"
-//                    r[++j] =					'<li><a href="#"><i class="icon-user"></i> Details</a></li>'
-//                    r[++j] =					'<li class="nav-header">Permissions</li>'
-//                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Admin</strong></a></li>'
-//                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Moderator</strong></a></li>'
-//                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>User</strong></a></li>'
+                    r[++j] =						"<li><a href='#editUserModal' role='button' data-toggle='modal' onclick='populateEditUserModal(" + userArr[i].id + ");loadValidate()'><i class='icon-pencil'></i> Edit</a></li>"
+                    r[++j] =					"<li><a href='#deleteUserModal' role='button' data-toggle='modal' onclick='populateDeleteUserModal(" + userArr[i].id + ")'><i class='icon-trash'></i> Delete</a></li>"
+                    //                    r[++j] =					'<li><a href="#"><i class="icon-user"></i> Details</a></li>'
+                    //                    r[++j] =					'<li class="nav-header">Permissions</li>'
+                    //                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Admin</strong></a></li>'
+                    //                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Moderator</strong></a></li>'
+                    //                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>User</strong></a></li>'
                     r[++j] =				'</ul>'
                     r[++j] =			'</div>'                     
                                         
@@ -169,20 +169,26 @@
                 
                 var tempArr = [];
                 
-                for(var i=0;i<userList.length;i++){
-                    console.log(name);
-                    if(userList[i].roleName == role){
-                        tempArr.push(userList[i]);
-                    }
-                }
-                
-                if(tempArr.length == 0){
-                    //show that nothing found
-                    alert("No users found!");
-                }
-                else{
-                    showUsers(tempArr);
+                if (role == "All"){
+                    showUsers(userList);
+                }else {
                     
+                    for(var i=0;i<userList.length;i++){
+                        console.log(name);
+                        if(userList[i].roleName == role){
+                            tempArr.push(userList[i]);
+                        }
+                    }
+                
+                    if(tempArr.length == 0){
+                        //show that nothing found
+                        alert("No users found!");
+                    }
+                    else{
+                        showUsers(tempArr);
+                    
+                    }
+                
                 }
             }
             
@@ -227,7 +233,7 @@
                             <h5 class="inlineblock"> Filter By: </h5>
 
                             <select id ="roleSelect" onChange="filterByRole()">
-                                <option>-Select Role-</option>
+                                <option>All</option>
                                 <c:forEach items="${manageUsersActionBean.roleList}" var="role" varStatus="loop">
                                     <option>${role.name}</option>
                                 </c:forEach>

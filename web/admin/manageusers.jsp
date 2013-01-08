@@ -107,26 +107,33 @@
             
             // This method is used to filter the user list shown to admin
             // when the filter selection is chosen
+
             function filterByBlockname(){
                 
                 var block = $('#blockSelect').val();
                 
                 var tempArr = [];
                 
-                for(var i=0;i<userList.length;i++){
-                    console.log(name);
-                    if(userList[i].blockName == block){
-                        tempArr.push(userList[i]);
+                if (block.equals("All")){
+                    showUsers(userList);   
+                } else{
+                     
+                    for(var i=0;i<userList.length;i++){
+                        console.log(name);
+                        if(userList[i].blockName == block){
+                            tempArr.push(userList[i]);
+                        }
+                    }
+                
+                
+                    if(tempArr.length == 0){
+                        //show that nothing found
+                        alert("No users found!");
+                    } else{
+                        showUsers(tempArr);
                     }
                 }
-                
-                if(tempArr.length == 0){
-                    //show that nothing found
-                    alert("No users found!");
-                }
-                else{
-                    showUsers(tempArr);
-                }
+               
                 
             }
             
@@ -250,7 +257,7 @@
                         <c:if test = "${param.createsuccess == 'true'}">
                             <div><br/></div>
                             <div class="login alert alert-success container">
-                                <b>Awesome!</b> ${param.createmsg} was added to the user list!
+                                <b>Done!</b> ${param.createmsg} was added to the user list!
                             </div>
                         </c:if>
                         <c:if test = "${param.deletesuccess == 'false'}">
@@ -262,13 +269,13 @@
                         <c:if test = "${param.deletesuccess == 'true'}">
                             <div><br/></div>
                             <div class="login alert alert-success container">
-                                <b>Awesome!</b> ${param.deletemsg} was successfully deleted!
+                                <b>Done!</b> ${param.deletemsg} was successfully deleted!
                             </div>
                         </c:if>
                         <c:if test = "${param.approvesuccess == 'true'}">
                             <div><br/></div>
                             <div class="login alert alert-success container">
-                                <b>Awesome!</b> ${param.approvemsg} was added to the user list!
+                                <b>Done!</b> ${param.approvemsg} was added to the user list!
                             </div>
                         </c:if>
 
@@ -357,6 +364,7 @@
                                 <h5>or</h5>
                                 <select id ="roleSelect" onChange="filterByRole()">
                                     <option>-Select Role-</option>
+                                    <option>All</option>
                                     <option>Resident</option>
                                     <option>MCST</option>
                                     <option>Administrator</option>
@@ -366,6 +374,7 @@
                                 <h5> Filter By: </h5>
                                 <select id ="blockSelect" onChange="filterByBlockname()">
                                     <option>-Select Block-</option>
+                                    <option>All</option>
                                     <option>A</option>
                                     <option>B</option>
                                     <option>1</option>
