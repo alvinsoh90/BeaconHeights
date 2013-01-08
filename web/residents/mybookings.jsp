@@ -132,7 +132,7 @@
                                     <c:if test="${manageBookingsActionBean.userCurrentBookingList.size()!=0}">     
                                         <thead>
                                         <th>No.</th>
-                                        <th>Date</th>
+                                        <th>Booking Made On</th>
                                         <th>Booking Title</th>
                                         <th>Facility</th>
                                         <th>Start Time</th>
@@ -145,13 +145,13 @@
                                             <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
                                                 <tr>
                                                     <td>${booking.id}</td>
-                                                    <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+                                                    <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.bookingTimeStamp}"/></td>
                                                     <td>${booking.title}</td>
                                                     <td>${booking.facility.facilityType.name} ${booking.facility.id}</td>
-                                                    <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+                                                    <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.startDate}"/></td>
-                                                    <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+                                                    <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.endDate}"/></td> 
                                                     <td><c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
                                                     </td>
@@ -178,7 +178,7 @@
                                     <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()!=0}">     
                                         <thead>
                                         <th>No.</th>
-                                        <th>Date</th>
+                                        <th>Booking Made On</th>
                                         <th>Booking Title</th>
                                         <th>Facility</th>
                                         <th>Start Time</th>
@@ -187,13 +187,13 @@
                                         <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
                                             <tr>
                                                 <td>${booking.id}</td>
-                                                <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+                                                <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                 value="${booking.bookingTimeStamp}"/></td>
                                                 <td>${booking.title}</td>
                                                 <td>${booking.facility.facilityType.name} ${booking.facility.id}</td>
-                                                <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+                                                <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                 value="${booking.startDate}"/></td>
-                                                <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+                                                <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                 value="${booking.endDate}"/></td>            
                                             </tr>
                                         </c:forEach>
