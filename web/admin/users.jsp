@@ -31,6 +31,11 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/custom/lin.register.js"></script>
+        <script src="js/jquery.validate.js"></script>
+
         <!-- Populates the Edit User form -->
         <script>
             // Init an array of all users shown on this page
@@ -209,7 +214,52 @@
                 userList.push(user);
             </script>
         </c:forEach>
+        <script>
+            var levels="";
+            var units = "";
+            
+            function loadLevelsAndUnits() {
+                console.log("loading");
+                var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
+                $.ajax({
+                    url: "/json/loadblockproperties.jsp",
+                    type: "GET",
+                    data:"blockName="+$('select#block').val(),
+                    dataType: 'text',
+                    success: function (data) {
+                        var obj = jQuery.parseJSON(data);
+                        levels = obj.levels;
+                        units = obj.units;
+                        
+                        var levelOptions="";
+                        var unitOptions = "";
+                        for (var i=1;i<levels+1;i++){
+                            levelOptions += '<option value="' + i + '">' + i + '</option>';
+                        };
+                        for (var i=1;i<units+1;i++){
+                            unitOptions += '<option value="' + i + '">' + i + '</option>';
+                        };
+                        $("select#level").html(levelOptions);
+                        $("select#unitnumber").html(unitOptions);
+                        
+                        // only after successful loading should we load this 'sexy chosen' plugin	
+                        $('select').chosen();
+                    }
+                });
+            };
+            
+            $(document).ready(function(){    
+            
+                // When document loads fully, load level and unit options via AJAX
+                loadLevelsAndUnits();
 
+                // if dropdown changes, we want to reload the unit and level options.
+                $("#block").change(function(){
+                    loadLevelsAndUnits();
+                });
+            });
+            
+        </script>
     </head>
     <body  onload="showUsers(userList)">
         <%@include file="include/mainnavigationbar.jsp"%>
@@ -312,7 +362,7 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Block</label>
                         <div class="controls">
-                            <stripes:select name="block">
+                            <stripes:select name="block" id ="block">
                                 <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
                             </stripes:select>
                         </div>
@@ -320,14 +370,14 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Level</label>
                         <div class="controls">
-                            <stripes:text id="edit_level" name="level"/>
-                        </div>
+                            <stripes:select name="level" id="level">
+                            </stripes:select>                             </div>
                     </div>     
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Unit Number</label>
                         <div class="controls">
-                            <stripes:text id="edit_unit" name="unitnumber"/>
-                        </div>
+                            <stripes:select name="unitnumber" id ="unitnumber">
+                            </stripes:select>                        </div>
                     </div>                     
 
                 </div>
@@ -363,8 +413,7 @@
 
     </div>
 
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $('.dropdown-menu li a').hover(
@@ -384,52 +433,8 @@
 
     <script>
         function loadValidate(){
-            $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-
             $('select').chosen();
-
-            $("#new_user_validate").validate({
-                rules:{
-                    username:{
-                        required: true,
-                        minlength:5,
-                        maxlength:20
-                    },
-                    password:{
-                        required: true,
-                        minlength:6,
-                        maxlength:20
-                    },
-                    passwordconfirm:{
-                        required:true,
-                        minlength:6,
-                        maxlength:20,
-                        equalTo:"#password"
-                    },firstname:{
-                        required: true
-                    },lastname:{
-                        required: true
-                    },block:{
-                        required: true
-                    },level:{
-                        required: true,
-                        digits:true
-                    },unitnumber:{
-                        required: true,
-                        digits:true
-                    }
-                },
-                errorClass: "help-inline",
-                errorElement: "span",
-                highlight:function(element, errorClass, validClass) {
-                    $(element).parents('.control-group').addClass('error');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).parents('.control-group').removeClass('error');
-                    $(element).parents('.control-group').addClass('success');
-                }
-            });
-                    
+         
             $("#edit_user_validate").validate({
                 rules:{
                     username:{

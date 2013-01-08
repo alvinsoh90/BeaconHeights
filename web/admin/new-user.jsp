@@ -21,14 +21,40 @@
         <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
         <meta name="author" content="travis">
 
-        <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
-
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="/js/jquery.validate.js"></script>
+        <script src="/js/custom/lin.register.js"></script>
+        
+        <!-- Add white space above -->
+        <script>
+            $(document).ready(function() {
+                $('.dropdown-menu li a').hover(
+                function() {
+                    $(this).children('i').addClass('icon-white');
+                },
+                function() {
+                    $(this).children('i').removeClass('icon-white');
+                });
+		
+                if($(window).width() > 760)
+                {
+                    $('tr.list-users td div ul').addClass('pull-right');
+                }
+            });
+        </script>
+       
+        <!-- load levels and units in the dropdown -->
         <script>
             var levels="";
             var units = "";
-            window.onload = function() {
+            
+            function loadLevelsAndUnits() {
+                console.log("loading");
                 var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
                 $.ajax({
                     url: "/json/loadblockproperties.jsp",
@@ -50,9 +76,24 @@
                         };
                         $("select#level").html(levelOptions);
                         $("select#unitnumber").html(unitOptions);
+                        
+                        // only after successful loading should we load this 'sexy chosen' plugin	
+                        $('select').chosen();
                     }
                 });
-            };  
+            };
+            
+            $(document).ready(function(){    
+            
+                // When document loads fully, load level and unit options via AJAX
+                loadLevelsAndUnits();
+
+                // if dropdown changes, we want to reload the unit and level options.
+                $("#block").change(function(){
+                    loadLevelsAndUnits();
+                });
+            });
+            
         </script>
     </head>
 
@@ -67,7 +108,7 @@
                     <div class="page-header">
                         <h1>New User <small>User registration</small></h1>
                     </div>
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageUsersActionBean" focus="" name="new_user_validate" id="new_user_validate">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageUsersActionBean" focus="" name="registration_validate" id="registration_validate">
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Role</label>
                             <div class="controls">
@@ -143,9 +184,7 @@
 
         <%@include file="include/footer.jsp"%>
 
-    </div>
 
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-</body>
+    </body>
+
 </html>

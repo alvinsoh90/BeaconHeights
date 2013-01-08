@@ -28,7 +28,35 @@
         <link rel="stylesheet" href="../css/chosen.css" />	
         <link rel="stylesheet" href="../css/unicorn.grey.css" class="skin-color" />
         <style>.starthidden { display:none; }</style>
-
+        <script>
+            var levels="";
+            var units = "";
+            window.onload = function() {
+                var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
+                $.ajax({
+                    url: "/json/loadblockproperties.jsp",
+                    type: "GET",
+                    data:"blockName="+$('select#block').val(),
+                    dataType: 'text',
+                    success: function (data) {
+                        var obj = jQuery.parseJSON(data);
+                        levels = obj.levels;
+                        units = obj.units;
+                        
+                        var levelOptions="";
+                        var unitOptions = "";
+                        for (var i=1;i<levels+1;i++){
+                            levelOptions += '<option value="' + i + '">' + i + '</option>';
+                        };
+                        for (var i=1;i<units+1;i++){
+                            unitOptions += '<option value="' + i + '">' + i + '</option>';
+                        };
+                        $("select#level").html(levelOptions);
+                        $("select#unitnumber").html(unitOptions);
+                    }
+                });
+            };  
+        </script>
         <!-- Populates the Edit User form -->
         <script>
             // Init an array of all users shown on this page
@@ -475,14 +503,14 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Level</label>
                             <div class="controls">
-                                <stripes:text id="edit_level" name="level"/>
-                            </div>
+                                <stripes:select name="level" id="level">
+                                </stripes:select>                            </div>
                         </div>     
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Unit Number</label>
                             <div class="controls">
-                                <stripes:text id="edit_unit" name="unitnumber"/>
-                            </div>
+                                <stripes:select name="unitnumber" id ="unitnumber">
+                                </stripes:select>                             </div>
                         </div>                     
 
                     </div>

@@ -26,17 +26,17 @@
         <link rel="stylesheet" href="css/custom/lin.css" />
         <link rel="stylesheet" href="css/uniform.css" />
         <link rel="stylesheet" href="css/chosen.css" />
-        
-                <script src="js/jquery.min.js"></script>
+
+        <script src="js/jquery.min.js"></script>
         <script src="js/jquery.ui.custom.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <!--<script src="js/jquery.uniform.js"></script> -->
-       <script src="js/jquery.chosen.js"></script>
+        <script src="js/jquery.chosen.js"></script>
         <script src="js/jquery.validate.js"></script>
         <script src="js/unicorn.js"></script>
         <script src="js/custom/lin.register.js"></script>
-        
-     <script>
+
+        <script>
             var levels="";
             var units = "";
             
@@ -77,7 +77,7 @@
 
                 // if dropdown changes, we want to reload the unit and level options.
                 $("#block").change(function(){
-                   loadLevelsAndUnits();
+                    loadLevelsAndUnits();
                 });
             });
             
@@ -112,7 +112,7 @@
                             <br/>
                         </div>
                         <div class="login alert alert-success container">
-                            <b>Awesome!</b> ${param.msg}
+                            <b>Success: </b> ${param.msg}
                         </div>
                     </c:if> 
                     <div class="widget-box heavyBlackBorder inlineblock register">
