@@ -35,7 +35,7 @@
             function populateEditFacilityModal(facilityID){ 
                 facilityList.forEach(function(facility){
                     if(facility.id == facilityID){
-                        $("#facilityLabel").text(facility.type + " " + facility.name);
+                        $("#facilityLabel").text(facility.name);
                         $("#editid").val(facility.id);
                         $("#edit_type").val(facility.type);
                         $("#edit_longitude").val(facility.longitude);
@@ -51,7 +51,7 @@
             function populateDeleteFacilityModal(facilityID){ 
                 facilityList.forEach(function(facility){
                     if(facility.id == facilityID){
-                        $("#facilityDeleteLabel").text(facility.type + " " + facility.name);
+                        $("#facilityDeleteLabel").text(facility.name);
                         $("#delete_name").text(facility.type + " " + facility.id);
                         $("#delete_id").val(facility.id);
 
