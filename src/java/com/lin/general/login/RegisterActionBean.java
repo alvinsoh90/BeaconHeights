@@ -28,6 +28,8 @@ public class RegisterActionBean extends BaseActionBean {
     private String passwordconfirm;
     private String firstname;
     private String lastname;
+    private String mobileno;
+    private String email; 
     private String block;
     private String level;
     private String unitnumber;
@@ -96,6 +98,22 @@ public class RegisterActionBean extends BaseActionBean {
         this.username = username;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobileno() {
+        return mobileno;
+    }
+
+    public void setMobileno(String mobileno) {
+        this.mobileno = mobileno;
+    }
+
     
     @DefaultHandler
     public Resolution registerTempUserAccount() {
@@ -119,7 +137,7 @@ public class RegisterActionBean extends BaseActionBean {
         }
         else{
            //Need to handle null for block,level,unitnumber
-           UserTemp u = uDAO.addTempUser(username,password,firstname,lastname,block,Integer.parseInt(level),Integer.parseInt(unitnumber));
+           UserTemp u = uDAO.addTempUser(username,password,firstname,lastname,mobileno,email,block,Integer.parseInt(level),Integer.parseInt(unitnumber));
            successMsg = "Your account has been added! Please wait for a couple of days for your account to be approved.";
            return new RedirectResolution("/login.jsp?success=true&msg="+successMsg);
         }

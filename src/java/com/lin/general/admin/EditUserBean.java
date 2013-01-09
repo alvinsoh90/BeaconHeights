@@ -33,6 +33,8 @@ public class EditUserBean implements ActionBean{
   private String firstname;
   private String lastname;
   private String block;
+  private String email;
+  private String mobileno;
   private String level;
   private String unitnumber;
   private String role;
@@ -55,6 +57,8 @@ public class EditUserBean implements ActionBean{
                         username,
                         firstname,
                         lastname,
+                        email,
+                        mobileno,
                         Integer.parseInt(level),
                         Integer.parseInt(unitnumber)
                     );
@@ -154,6 +158,23 @@ public class EditUserBean implements ActionBean{
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobileno() {
+        return mobileno;
+    }
+
+    public void setMobileno(String mobileno) {
+        this.mobileno = mobileno;
+    }
+    
     
     public ArrayList<Role> getRoleList(){
         RoleDAO roleDAO = new RoleDAO(); 

@@ -102,7 +102,7 @@ public class UserDAO {
     }
 
     //Method adds a temp user in user_temp awaiting approval.
-    public UserTemp addTempUser(String username, String password, String firstname, String lastname, String block, int level, int unitnumber) {
+    public UserTemp addTempUser(String username, String password, String firstname, String lastname, String mobileno,String email, String block, int level, int unitnumber) {
         openSession();
         String salt = BCrypt.gensalt();
         String passwordHash = BCrypt.hashpw(password, salt);
@@ -114,7 +114,7 @@ public class UserDAO {
         Date date = new Date(); //temporary
 
         UserTemp temp = new UserTemp(defaultRole, blockObj, passwordHash,
-                username, firstname, lastname, date, level, unitnumber);
+                username, firstname, lastname, date,mobileno,email, level, unitnumber);
 
         Transaction tx = null;
         try {
@@ -152,12 +152,12 @@ public class UserDAO {
         return false;
     }
 
-    public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit) {
+    public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob,String mobileno,String email,  Integer level, Integer unit) {
         openSession();
-        
+
         //String salt = BCrypt.gensalt();
         //String passwordHash = BCrypt.hashpw(password, salt);
-        User user = new User(role, block, password, userName, firstname, lastname, dob, level, unit);
+        User user = new User(role, block, password, userName, firstname, lastname,dob,mobileno,email,level, unit);
 
         Transaction tx = null;
         try {
@@ -260,7 +260,7 @@ public class UserDAO {
         }
     }
 
-    public User updateUser(int userId, Role role, Block block, String userName, String firstname, String lastname, Integer level, Integer unit) {
+    public User updateUser(int userId, Role role, Block block, String userName, String firstname, String lastname,String email,String mobileNo, Integer level, Integer unit) {
         openSession();
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
         System.out.println("USER INFO : " + userId + " " + role + " " + block + " " + userName + " " + firstname + " " + lastname + " " + level + " " + unit);
@@ -271,6 +271,8 @@ public class UserDAO {
         u.setUserName(userName);
         u.setFirstname(firstname);
         u.setLastname(lastname);
+        u.setEmail(email);
+        u.setMobileNo(mobileNo);
         u.setLevel(level);
         u.setUnit(unit);
 
@@ -279,13 +281,17 @@ public class UserDAO {
 
     public User getUser(String username) {
         retrieveAllUsers();
-
-        for (User u : userList) {
-            System.out.println("THIS IS THE USERNAME: " + username);
-            System.out.println(u.getFirstname());
-            if (u.getUserName().equals(username)) {
-                return u;
+        try {
+            for (User u : userList) {
+                System.out.println("THIS IS THE USERNAME: " + username);
+                System.out.println(u.getFirstname());
+                if (u.getUserName().equals(username)) {
+                    return u;
+                }
             }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return null;
         }
         return null;
     }

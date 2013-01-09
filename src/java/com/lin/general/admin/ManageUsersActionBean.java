@@ -40,6 +40,8 @@ public class ManageUsersActionBean implements ActionBean {
     private String role;
     private String result;
     private boolean success = false;
+    private String email;
+    private String mobileno;
 
     public String getBlock() {
         return block;
@@ -121,7 +123,6 @@ public class ManageUsersActionBean implements ActionBean {
         this.role = role;
     }
 
-
     public void setUnitnumber(String unitnumber) {
         this.unitnumber = unitnumber;
     }
@@ -171,6 +172,22 @@ public class ManageUsersActionBean implements ActionBean {
         return roleList;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobileno() {
+        return mobileno;
+    }
+
+    public void setMobileno(String mobileno) {
+        this.mobileno = mobileno;
+    }
+
     @DefaultHandler
     public Resolution createUserAccount() {
         try {
@@ -180,17 +197,17 @@ public class ManageUsersActionBean implements ActionBean {
             //temp code while we sort out how to insert address info like block, unit etc.
             Role roleObj = roleDao.getRoleByName(role);
             Block blockObj = blockDao.getBlockByName(block);
-            
+
             int levelInt = Integer.parseInt(level);
             int unitInt = Integer.parseInt(unitnumber);
             Date dob = new Date();
-            
+
             // salt password here, as uDAO method requires a salted password
             String salt = BCrypt.gensalt();
             String passwordHash = BCrypt.hashpw(password, salt);
             User user1 = uDAO.createUser(roleObj, blockObj, passwordHash, username,
-                    firstname, lastname, dob, levelInt, unitInt);
-            
+                    firstname, lastname, dob,email,mobileno, levelInt, unitInt);
+
             result = user1.getFirstname();
             success = true;
             System.out.println(user1);

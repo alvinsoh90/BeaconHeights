@@ -44,6 +44,8 @@ public class ApproveUserBean implements ActionBean{
   private String level;
   private String unitnumber;
   private String role;
+  private String email;
+  private String mobileno;
   private String facebookId;
   private Date dob;
 
@@ -62,7 +64,9 @@ public class ApproveUserBean implements ActionBean{
         UserTemp tempUser = dao.getUserTemp(Integer.parseInt(id));
         
         try{
-            User newUser = dao.createUser(roleObj, blockObj, tempUser.getPassword(), username, firstname, lastname, new Date(), levelInt, unitInt);
+            User newUser = dao.createUser(roleObj, blockObj, tempUser.getPassword(),
+                    username, firstname, lastname, new Date(),tempUser.getEmail(),
+                    tempUser.getMobileNo(),levelInt, unitInt);
             System.out.println(role + " " + block + " " +  tempUser.getPassword() + " " +  username + " " +  firstname + " " +  lastname + " " +  dob + " " +  levelInt + " " +  unitInt);
             System.out.println("THIS IS THE SECOND ID" + id);
             dao.removeTempUser(Integer.parseInt(id));
@@ -228,6 +232,22 @@ public class ApproveUserBean implements ActionBean{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobileno() {
+        return mobileno;
+    }
+
+    public void setMobileno(String mobileno) {
+        this.mobileno = mobileno;
     }
   
     public ArrayList<Role> getRoleList(){

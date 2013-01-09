@@ -51,6 +51,8 @@
                         $("#edit_firstname").val(user.firstName);
                         $("#edit_lastname").val(user.lastName);
                         $("#edit_block").val(user.blockName);
+                        $("#edit_email").val(user.email);
+                        $("#edit_mobileno").val(user.mobileNo);
                         $("#edit_role").val(user.roleName);
                         $("#edit_level").val(user.level);
                         $("#edit_unit").val(user.unit);
@@ -84,7 +86,7 @@
                 
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th colspan='3'>Address</th><th>Action</th></tr>"
+                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th>Email</th><th>Mobile No</th><th colspan='3'>Address</th><th>Action</th></tr>"
                 
                 for (var i=userArr.length-1; i>=0; i--){
                     r[++j] ='<tr class="list-users"><td>';
@@ -97,6 +99,10 @@
                     r[++j] = userArr[i].lastName;
                     r[++j] = '</td><td >';
                     r[++j] = userArr[i].roleName;
+                    r[++j] = '</td><td >';
+                    r[++j] = userArr[i].email;
+                    r[++j] = '</td><td >';
+                    r[++j] = userArr[i].mobileNo;
                     r[++j] = '</td><td >';
                     r[++j] = userArr[i].blockName;
                     r[++j] = '</td><td >';
@@ -208,6 +214,8 @@
                 user.firstName = '${user.firstname}';
                 user.lastName = '${user.lastname}';
                 user.roleName = '${user.role.name}';
+                user.email = '${user.email}';
+                user.mobileNo= '${user.mobileNo}';
                 user.blockName = '${user.block.blockName}';
                 user.level = '${user.level}';
                 user.unit = '${user.unit}';
@@ -357,6 +365,18 @@
                         <label class="control-label">Last Name</label>
                         <div class="controls">
                             <stripes:text id="edit_lastname" name="lastname"/> 
+                        </div>
+                    </div>
+                        <div class="control-group ${errorStyle}">
+                        <label class="control-label">Email</label>
+                        <div class="controls">
+                            <stripes:text id="edit_email" name="email"/> 
+                        </div>
+                    </div>
+                        <div class="control-group ${errorStyle}">
+                        <label class="control-label">Mobile No.</label>
+                        <div class="controls">
+                            <stripes:text id="edit_mobileno" name="mobileno"/> 
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
