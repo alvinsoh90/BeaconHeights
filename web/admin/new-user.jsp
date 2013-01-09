@@ -3,7 +3,7 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="com.lin.dao.UserDAO"%>
 <!DOCTYPE html>
-<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes-dynattr.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="manageUsersActionBean" scope="page"
@@ -123,44 +123,44 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Username</label>
                             <div class="controls">
-                                <stripes:text name="username"/>
+                                <stripes:text name="username" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Password</label>
                             <div class="controls">
-                                <stripes:password name="password" id="password"/>
+                                <stripes:password name="password" id="password" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Confirm Password</label>
                             <div class="controls">
-                                <stripes:password  name="passwordconfirm" id="passwordconfirm"/>
+                                <stripes:password  name="passwordconfirm" id="passwordconfirm" autocomplete="off"/>
                             </div>
                         </div>                             
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">First Name</label>
                             <div class="controls">
-                                <stripes:text name="firstname"/> 
+                                <stripes:text name="firstname" autocomplete="off"/> 
                             </div>
                         </div>                              
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Last Name</label>
                             <div class="controls">
-                                <stripes:text name="lastname"/> 
+                                <stripes:text name="lastname" autocomplete="off"/> 
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Email</label>
                             <div class="controls">
-                                <stripes:text name="email"/> 
+                                <stripes:text name="email" autocomplete="off"/> 
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Mobile Number</label>
                             <div class="controls">
                                 <div class="input-prepend">
-                                    <span class="add-on">+65</span><stripes:text name="mobileno"/> 
+                                    <span class="add-on">+65</span><stripes:text name="mobileno" autocomplete="off"/> 
                                 </div>
                             </div>  
                         </div>
