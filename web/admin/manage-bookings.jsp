@@ -125,13 +125,13 @@
                     r[++j] = '</td><td >';
                     
                     if(bookingArr[i].isPaid == "true"){
-                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingList[i].id + ")'>Edit</a>\n\
-                               <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingList[i].id + ")'>Revert</a>\n\
-                               <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
+                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingArr[i].id + ")'>Edit</a>\n\
+                               <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingArr[i].id + ")'>Revert</a>\n\
+                               <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
                     }else{
-                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingList[i].id + ")'>Edit</a>\n\
-                               <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingList[i].id + ")'>Record</a>\n\
-                               <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingList[i].id + ")'>Delete</a>";
+                        r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingArr[i].id + ")'>Edit</a>\n\
+                               <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingArr[i].id + ")'>Record</a>\n\
+                               <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
                     }
                     r[++j] = '</td></tr>';
                 }
