@@ -35,6 +35,9 @@ public class BookFacilityActionBean implements ActionBean{
     private String result;
     private boolean success;
     private Integer currentUserID;
+    private boolean isPaid;//check if user has paid
+    private boolean isDeleted;//check if user has deleted
+    private boolean needPayment;//check if facility requires payment
 
     public Integer getCurrentUserID() {
         return currentUserID;
@@ -134,19 +137,29 @@ public class BookFacilityActionBean implements ActionBean{
                 return new RedirectResolution("/residents/index.jsp?fid="+getFacilityID());
             }
         }
+        /*if(facility.needsPayment()){
+            isPaid = false;
+         * }else{
+         *  isPaid = true;
+         */
+        isDeleted = false;
         Booking booking = new Booking(user, facility,bookingTimeStamp,
-                startDate,endDate,title);
+                startDate,endDate,title,isPaid,isDeleted);
+        
         //add booking into DB, returns booking with ID
         booking = bDAO.addBooking(booking);
         
         result = booking.toString();
         success = true;
+        
         System.out.println(result);
         
         // get flash scope instance
         FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        
         // put shit inside       
         fs.put("SUCCESS",booking.getId());
+        
         // redirect as normal        
         return new RedirectResolution("/residents/index.jsp?fid="+getFacilityID());
         

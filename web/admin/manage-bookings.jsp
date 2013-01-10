@@ -97,16 +97,16 @@
    
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>Name</th><th>Facility</th><th>Start</th><th>End</th><th>Paid</th><th>Transaction ID</th><th>Action</th></tr>"
+                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>Name</th><th>Facility</th><th>Start</th><th>End</th><th>Status</th><th>Paid</th><th>Transaction ID</th><th>Action</th></tr>"
                 
                 for (var i=bookingArr.length-1; i>=0; i--){
                     r[++j] ='<tr><td>';
                     r[++j] = bookingArr[i].id;
-                    r[++j] = '</td><td>';
+                    r[++j] = '</td><td nowrap>';
                     r[++j] = bookingArr[i].username;
-                    r[++j] = '</td><td >';
+                    r[++j] = '</td><td nowrap>';
                     r[++j] = bookingArr[i].firstName + " " + bookingArr[i].lastName;
-                    r[++j] = '</td><td >';
+                    r[++j] = '</td><td nowrap>';
                     r[++j] = bookingArr[i].facilityType + " " + bookingArr[i].facilityId;
                     r[++j] = '</td><td >';
                     r[++j] = bookingArr[i].startDate;
@@ -114,129 +114,135 @@
                     r[++j] = bookingArr[i].endDate;
                     r[++j] = '</td><td >';
 
-                    if(bookingArr[i].isPaid == "true"){
-                        r[++j] = "Paid";
-                    }else{
-                        r[++j] = "Pending";
-                    }
-                    
-                    r[++j] = '</td><td >';
-                    r[++j] = bookingArr[i].transactionID;
-                    r[++j] = '</td><td >';
-                    
-                    if(bookingArr[i].isPaid == "true"){
+                    if(bookingArr[i].isDeleted == "true"){
+                        r[++j] = "Deleted";
+                        r[++j] = '</td><td >';
+                        r[++j] = "-";
+                        r[++j] = '</td><td nowrap >';
+                        r[++j] ="<a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
+                    }else if(bookingArr[i].isPaid == "true"){
+                        r[++j] = "Confirmed";
+                        r[++j] = '</td><td >';
+                        r[++j] = "Revert";
+                        r[++j] = '</td><td nowrap>';
                         r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingArr[i].id + ")'>Edit</a>\n\
                                <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingArr[i].id + ")'>Revert</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
                     }else{
+                        r[++j] = "Confirmed";
+                        r[++j] = '</td><td >';
+                        r[++j] = 'pending';
+                        r[++j] = '</td><td nowrap>';
                         r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingArr[i].id + ")'>Edit</a>\n\
                                <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingArr[i].id + ")'>Record</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
                     }
-                    r[++j] = '</td></tr>';
-                }
-                $('#bookingTable').html(tableHeaders + r.join('')); 
-            }
+
+        r[++j] = '</td></tr>';
+    }
+    $('#bookingTable').html(tableHeaders + r.join('')); 
+}
             
-            // This method is used to filter the booking list shown to admin
-            // when the filter selection is chosen
-            function filterByUsername(){
-                var username = $('#usernameSelect').val();
+// This method is used to filter the booking list shown to admin
+// when the filter selection is chosen
+function filterByUsername(){
+    var username = $('#usernameSelect').val();
                 
-                var tempArr = [];
+    var tempArr = [];
                 
-                for(var i=0;i<bookingList.length;i++){
-                    console.log(name);
-                    if(bookingList[i].username == username){
-                        tempArr.push(bookingList[i]);
-                    }
-                }
+    for(var i=0;i<bookingList.length;i++){
+        console.log(name);
+        if(bookingList[i].username == username){
+            tempArr.push(bookingList[i]);
+        }
+    }
                 
-                if(tempArr.length == 0){
-                    //show that nothing found
-                    alert("No bookings found!");
-                }
-                else{
-                    showBookings(tempArr);
-                }
-            }
+    if(tempArr.length == 0){
+        //show that nothing found
+        alert("No bookings found!");
+    }
+    else{
+        showBookings(tempArr);
+    }
+}
             
-            function filterByFacility(){
-                var facilityType = $('#facilitySelect').val();
+function filterByFacility(){
+    var facilityType = $('#facilitySelect').val();
                 
-                var tempArr = [];
+    var tempArr = [];
                 
-                for(var i=0;i<bookingList.length;i++){
-                    console.log(name);
-                    if(bookingList[i].facilityType == facilityType){
-                        tempArr.push(bookingList[i]);
-                    }
-                }
+    for(var i=0;i<bookingList.length;i++){
+        console.log(name);
+        if(bookingList[i].facilityType == facilityType){
+            tempArr.push(bookingList[i]);
+        }
+    }
                 
-                if(tempArr.length == 0){
-                    //show that nothing found
-                    alert("No bookings found!");
-                }
-                else{
-                    showBookings(tempArr);
-                }
-            }
+    if(tempArr.length == 0){
+        //show that nothing found
+        alert("No bookings found!");
+    }
+    else{
+        showBookings(tempArr);
+    }
+}
             
-            function filterByStatus(){
-                var status = $('#statusSelect').val();
+function filterByStatus(){
+    var status = $('#statusSelect').val();
                 
-                var tempArr = [];
+    var tempArr = [];
                 
-                if(status == "Paid"){
+    if(status == "Paid"){
                 
-                    for(var i=0;i<bookingList.length;i++){
-                        console.log(name);
-                        if(bookingList[i].isPaid == "true"){
-                            tempArr.push(bookingList[i]);
-                        }
-                    }
+        for(var i=0;i<bookingList.length;i++){
+            console.log(name);
+            if(bookingList[i].isPaid == "true"){
+                tempArr.push(bookingList[i]);
+            }
+        }
                     
-                }else{
-                    for(var i=0;i<bookingList.length;i++){
-                        console.log(name);
-                        if(bookingList[i].isPaid == "false"){
-                            tempArr.push(bookingList[i]);
-                        }
-                    }
+    }else{
+        for(var i=0;i<bookingList.length;i++){
+            console.log(name);
+            if(bookingList[i].isPaid == "false"){
+                tempArr.push(bookingList[i]);
+            }
+        }
                     
-                }
+    }
                 
-                if(tempArr.length == 0){
-                    //show that nothing found
-                    alert("No bookings found!");
-                }
-                else{
-                    showBookings(tempArr);
-                }
+    if(tempArr.length == 0){
+        //show that nothing found
+        alert("No bookings found!");
+    }
+    else{
+        showBookings(tempArr);
+    }
                 
                 
-            }
+}
             
-            function filterReset(){
-                showBookings(bookingList);
-            }
+function filterReset(){
+    showBookings(bookingList);
+}
         </script>
         <%--Load up bookings --%>
         <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
                 <script>
-                    var booking = new Object();
-                    booking.id = '${booking.id}';
-                    booking.username = '${booking.user.userName}';
-                    booking.firstName = '${booking.user.firstname}';
-                    booking.lastName = '${booking.user.lastname}';
-                    booking.facilityType = '${booking.facility.facilityType.name}';
-                    booking.facilityId = '${booking.facility.id}';
-                    booking.startDate = '${booking.startDate}';
-                    booking.endDate = '${booking.endDate}';
-                    booking.isPaid = '${booking.isPaid}';
-                    booking.transactionID = '${booking.transactionId}';
-                    bookingList.push(booking);
+        var booking = new Object();
+        booking.id = '${booking.id}';
+        booking.username = '${booking.user.userName}';
+        booking.firstName = '${booking.user.firstname}';
+        booking.lastName = '${booking.user.lastname}';
+        booking.facilityType = '${booking.facility.facilityType.name}';
+        booking.facilityId = '${booking.facility.id}';
+        booking.startDate = '${booking.startDate}';
+        booking.endDate = '${booking.endDate}';
+        booking.isDeleted = '${booking.isDeleted}';
+        booking.isPaid = '${booking.isPaid}';
+        booking.transactionID = '${booking.transactionId}';
+        bookingList.push(booking);
                 </script>
             </c:forEach>
         </c:if>
@@ -365,7 +371,7 @@
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditBookingBean" focus="" id="edit_booking_validate" name="edit_booking_validate">
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Booking ID</label>
-                        
+
                         <div class="controls">
                             <stripes:text id="edit_displayid" name="displayid" disabled="true"/>
                             <stripes:hidden id="edit_id" name="id"/>
@@ -416,20 +422,20 @@
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.dropdown-menu li a').hover(
-            function() {
-                $(this).children('i').addClass('icon-white');
-            },
-            function() {
-                $(this).children('i').removeClass('icon-white');
-            });
+$(document).ready(function() {
+$('.dropdown-menu li a').hover(
+function() {
+    $(this).children('i').addClass('icon-white');
+},
+function() {
+    $(this).children('i').removeClass('icon-white');
+});
 		
-            if($(window).width() > 760)
-            {
-                $('tr.list-users td div ul').addClass('pull-right');
-            }
-        });
+if($(window).width() > 760)
+{
+    $('tr.list-users td div ul').addClass('pull-right');
+}
+});
     </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Dec 25, 2012 6:37:22 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 10, 2013 9:37:55 PM by Hibernate Tools 3.2.1.GA
 
 import java.util.Date;
 
@@ -18,24 +18,24 @@ public class Booking implements java.io.Serializable {
     private String transactionId;
     private Date transactionTimeStamp;
     private String title;
+    private boolean isDeleted;
 
     public Booking() {
     }
-    
-    //Constructor for booking that has not yet been paid for
-    public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, String title) {
+
+    public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate,
+            Date endDate, String title, boolean isPaid, boolean isDeleted) {
         this.user = user;
         this.facility = facility;
         this.bookingTimeStamp = bookingTimeStamp;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.isPaid = false;
-        this.transactionId = null;
-        this.transactionTimeStamp = null;
         this.title = title;
+        this.isPaid = isPaid;
+        this.isDeleted = isDeleted;
     }
 
-    public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId, Date transactionTimeStamp, String title) {
+    public Booking(User user, Facility facility, Date bookingTimeStamp, Date startDate, Date endDate, boolean isPaid, String transactionId, Date transactionTimeStamp, String title, Boolean isDeleted) {
         this.user = user;
         this.facility = facility;
         this.bookingTimeStamp = bookingTimeStamp;
@@ -45,6 +45,7 @@ public class Booking implements java.io.Serializable {
         this.transactionId = transactionId;
         this.transactionTimeStamp = transactionTimeStamp;
         this.title = title;
+        this.isDeleted = isDeleted;
     }
 
     public Integer getId() {
@@ -127,12 +128,27 @@ public class Booking implements java.io.Serializable {
         this.title = title;
     }
 
+    public boolean getIsDeleted() {
+        return this.isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     public long getStartTimeInSeconds() {
+        return startDate.getTime();
+    }
+
+    public long setStartTimeInSeconds() {
         return startDate.getTime();
     }
 
     public long getEndTimeInSeconds() {
         return endDate.getTime();
+    }
 
+    public long setEndTimeInSeconds() {
+        return endDate.getTime();
     }
 }

@@ -43,6 +43,7 @@
             function populateDeleteBookingModal(bookingID){ 
                 bookingList.forEach(function(booking){
                     if(booking.id == bookingID){
+                        console.log(booking.id);
                         $("#delete_facilityType").text(booking.facilityType);
                         $("#delete_startDate").text(booking.startDate);
                         $("#delete_endDate").text(booking.endDate);
@@ -132,38 +133,51 @@
                                     <c:if test="${manageBookingsActionBean.userCurrentBookingList.size()!=0}">     
                                         <thead>
                                         <th>No.</th>
-                                        <th>Booking Made On</th>
+                                        <th>Booking Placed</th>
                                         <th>Event</th>
                                         <th>Facility</th>
                                         <th>Start Time</th>
                                         <th>End Time</th>
                                         <th>Status</th>
+                                        <th>Payment</th>
                                         <th>Action</th>
                                         </thead>
-                                        <tbody>
-                                        <%int count = 1;%>
+                                        <tbody style="font-size: 11px">
+                                            <%int count = 1;%>
                                             <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
                                                 <tr>
                                                     <td><%= count++%></td>
-                                                    <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.bookingTimeStamp}"/></td>
-                                                    <td>${booking.title}</td>
-                                                    <td>${booking.facility.facilityType.name} ${booking.facility.id}</td>
-                                                    <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                    <td nowrap>${booking.title}</td>
+                                                    <td nowrap>${booking.facility.facilityType.name} ${booking.facility.id}</td>
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.startDate}"/></td>
-                                                    <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.endDate}"/></td> 
-                                                    <td><c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
+                                                    <td><c:if test= "${booking.isDeleted == 'true'}"><font color="red">Deleted</font></c:if>
+                                                        <c:if test= "${booking.isDeleted == 'false'}"><font color="green">Confirmed</font></c:if>
                                                     </td>
-                                                    <td class="action-td">
-                                                        <a href="#deleteBookingModal" role ="button" data-toggle="modal" 
-                                                           class="btn btn-small btn-warning"
-                                                           onclick="populateDeleteBookingModal(${booking.id})">
-                                                            <i class="icon-trash"></i>							
-                                                        </a>
-
-                                                    </td>
-                                                </tr>
+                                                    <td><c:if test= "${booking.isDeleted == 'true'}">
+                                                            -
+                                                        </c:if>
+                                                        <c:if test= "${booking.isDeleted == 'false'}">
+                                                            <c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
+                                                        </c:if>
+                                                        </td>
+                                                        <td class="action-td">
+                                                            <c:if test= "${booking.isDeleted == 'true'}">
+                                                                -
+                                                            </c:if>
+                                                            <c:if test= "${booking.isDeleted == 'false'}">
+                                                                <a href="#deleteBookingModal" role ="button" data-toggle="modal" 
+                                                                   class="btn btn-small btn-warning"
+                                                                   onclick="populateDeleteBookingModal(${booking.id})">
+                                                                    <i class="icon-remove"></i>							
+                                                                </a>
+                                                            </c:if>
+                                                        </td>
+                                                    </tr>
                                             </c:forEach>
                                         </c:if>
                                         <c:if test="${manageBookingsActionBean.userCurrentBookingList.size()==0}">
@@ -178,7 +192,7 @@
                                     <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()!=0}">     
                                         <thead>
                                         <th>No.</th>
-                                        <th>Booking Made On</th>
+                                        <th>Booking Placed</th>
                                         <th>Event</th>
                                         <th>Facility</th>
                                         <th>Start Time</th>
@@ -186,10 +200,9 @@
                                         </thead>
 
                                         <% int countHistory = 1;%>
-
+                                        <tbody style="font-size: 11px">
                                         <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
                                             <tr>
-
                                                 <td><%=countHistory++%></td>
                                                 <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                 value="${booking.bookingTimeStamp}"/></td>
@@ -202,6 +215,7 @@
                                             </tr>
                                         </c:forEach>
                                     </c:if>
+                                        </tbody>
                                     <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()==0}">
                                         <thead>
                                         <th> You have no bookings</th>

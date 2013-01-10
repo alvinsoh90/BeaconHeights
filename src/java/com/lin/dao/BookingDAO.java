@@ -82,7 +82,7 @@ public class BookingDAO {
     public Booking addBooking(Booking booking) {
 
         openSession();
-        
+
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -134,24 +134,24 @@ public class BookingDAO {
 
         booking.setStartDate(startDate);
         booking.setEndDate(endDate);
- 
+
 
         return booking;
 
     }
-    
+
     public void updateBookingPayment(int id, boolean b, String string) {
         openSession();
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
-        Booking booking = (Booking) session.get(Booking.class, id);
+            Booking booking = (Booking) session.get(Booking.class, id);
 
-        booking.setIsPaid(b);
-        booking.setTransactionId(string);
+            booking.setIsPaid(b);
+            booking.setTransactionId(string);
 
-        session.update(booking);
-        tx.commit();
+            session.update(booking);
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {
@@ -166,7 +166,7 @@ public class BookingDAO {
         try {
             ArrayList<Booking> temp = getUserBookings(userID);
             for (Booking b : temp) {
-                if (b.getEndDate().compareTo(new Date()) < 0) {
+                if (b.getEndDate().compareTo(new Date()) < 0 && !b.getIsDeleted()) {
                     histList.add(b);
                 }
             }
@@ -204,5 +204,27 @@ public class BookingDAO {
         }
 
         return currentList;
+    }
+
+    public void switchToDelete(int id) {
+        openSession();
+        org.hibernate.Transaction tx = null;
+        int rowCount = 0;
+
+        try {            
+            tx = session.beginTransaction();
+            Booking booking = (Booking) session.get(Booking.class, id);
+
+            booking.setIsDeleted(true);
+
+            session.update(booking);
+            tx.commit();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
     }
 }

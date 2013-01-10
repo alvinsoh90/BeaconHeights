@@ -302,7 +302,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
     @HandlesEvent("deleteBooking")
     public Resolution deleteBooking() {
         BookingDAO bDAO = new BookingDAO();
-        boolean success = bDAO.deleteBooking(Integer.parseInt(getId()));
+        bDAO.switchToDelete(Integer.parseInt(getId()));
         return new RedirectResolution("/residents/mybookings.jsp");
     }
 

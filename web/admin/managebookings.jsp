@@ -79,7 +79,7 @@
    
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>Name</th><th>Facility</th><th>Start</th><th>End</th><th>Paid</th><th>Transaction ID</th><th>Action</th></tr>"
+                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>Name</th><th>Facility</th><th>Start</th><th>End</th><th>Status</th><th>Paid</th><th>Transaction ID</th><th>Action</th></tr>"
                 
                 for (var i=bookingArr.length-1; i>=0; i--){
                     r[++j] ='<tr><td>';
@@ -95,15 +95,28 @@
                     r[++j] = '</td><td >';
                     r[++j] = bookingArr[i].endDate;
                     r[++j] = '</td><td >';
+                   
+                    if(bookingArr[i].isDeleted == "true"){
+                        r[++j] = "Deleted";
+                    }else{
+                        r[++j] = "Booked";
+                    }
+                    r[++j] = '</td><td >';
 
-                    if(bookingArr[i].isPaid == "true"){
-                        r[++j] = "Paid";
+                    if(bookingArr[i].isDeleted == "true"){
+                        r[++j] = "-";
+                    }else if(bookingArr[i].isPaid == "true"){
+                        r[++j] = "Pending";
                     }else{
                         r[++j] = "Pending";
-                    }
-                    
+                    };
                     r[++j] = '</td><td >';
-                    r[++j] = bookingArr[i].transactionID;
+                    
+                    if(bookingArr[i].isDeleted == "true"){
+                        r[++j] = "-";
+                    }else{
+                        r[++j] = bookingArr[i].transactionID;
+                    }
                     r[++j] = '</td><td >';
                     
                     if(bookingArr[i].isPaid == "true"){
@@ -455,6 +468,7 @@
                                 booking.startDate = '${booking.startDate}';
                                 booking.endDate = '${booking.endDate}';
                                 booking.isPaid = '${booking.isPaid}';
+                                booking.isDeleted = '${booking.isDeleted}';
                                 booking.transactionID = '${booking.transactionId}';
                                 bookingList.push(booking);
                             </script>
