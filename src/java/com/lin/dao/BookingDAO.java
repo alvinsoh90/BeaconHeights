@@ -226,6 +226,7 @@ public class BookingDAO {
                 tx.rollback();
             }
         }
+    }
     
     public ArrayList<Booking> getBookingByDateAndFacility(Date start, Facility facility){
         ArrayList<Booking> list = new ArrayList<Booking>();

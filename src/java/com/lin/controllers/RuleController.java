@@ -46,6 +46,8 @@ public class RuleController {
         ArrayList<String> closeRuleErrors = validateCloseRule(userID, facilityTypeID, startBookingTime, endBookingTime);
         ArrayList<String> limitRuleErrors = validateLimitRule(userID, facilityTypeID, startBookingTime, endBookingTime);
         ArrayList<String> advanceRuleErrors = validateAdvanceRule(userID, facilityTypeID, startBookingTime, endBookingTime);
+        ArrayList<String> clashErrors = validateClash(facility, startBookingTime, endBookingTime);
+        
         
         if (!openRuleErrors.isEmpty()){
             errorMsg.addAll(openRuleErrors);
@@ -59,6 +61,10 @@ public class RuleController {
         if (!advanceRuleErrors.isEmpty()){
             errorMsg.addAll(advanceRuleErrors);
         }
+        if (!clashErrors.isEmpty()){
+            errorMsg.addAll(clashErrors);
+        }
+       
         
         
         return errorMsg;
@@ -95,6 +101,8 @@ public class RuleController {
 
         return openRuleErrors;
     }
+    
+    
 
     private ArrayList<String> validateCloseRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> closeRuleErrors = new ArrayList<String>();
@@ -177,7 +185,42 @@ public class RuleController {
         return advanceRuleErrors;
 
     }
-
+    
+    private ArrayList<String> validateClash(Facility facility, Date startBookingTime, Date endBookingTime){
+        ArrayList<String> clashErrors = new ArrayList<String>();
+        ArrayList<Booking> bookings = bDAO.getBookingByDateAndFacility (startBookingTime, facility);
+        for (Booking b : bookings){
+            Date startTime = b.getStartDate();
+            Date endTime = b.getEndDate();
+            
+            if (isOverlapping(startBookingTime, endBookingTime, startTime, endTime)){
+                clashErrors.add("Your booking clashes with another booking. Please try again.");
+            }
+        }
+        
+        return clashErrors;
+        
+    }
+    
+    private boolean isOverlapping(Date checkStartTime, Date checkEndTime, Date startTime, Date endTime){
+        
+        if (checkStartTime.after(startTime) && checkStartTime.after(endTime)){
+            return true;
+        }
+        
+        if (checkEndTime.after(startTime) && checkEndTime.before(endTime)){
+            return true;
+        }
+        if (startTime.after(checkStartTime) && startTime.before(checkEndTime)){
+            return true;
+        }
+        if (endTime.after(checkStartTime) && endTime.before(checkEndTime)){
+            return true;
+        }
+        
+        return false;
+    }
+    
     private long getDayToMilliseconds(int i) {
         return i * 1000 * 60 * 60 * 24;
     }
