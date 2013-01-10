@@ -244,4 +244,56 @@ public class BookingDAO {
         
         return list;
     }
+    
+    public ArrayList<Booking> checkStartClash(Date start, Facility facility){
+        ArrayList<Booking> list = new ArrayList<Booking>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking b where b.facility = :facility and b.startDate <= :start and b.endDate >= :start");
+            q.setParameter("facility",facility);
+            q.setParameter("start",start);
+            list = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<Booking> checkOverlap(Date start, Date end, Facility facility){
+        ArrayList<Booking> list = new ArrayList<Booking>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking b where b.facility = :facility and b.startDate >= :start and b.endDate <= :end");
+            q.setParameter("facility",facility);
+            q.setParameter("start",start);
+            q.setParameter("end",end);
+            list = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<Booking> checkEndClash(Date end, Facility facility){
+        ArrayList<Booking> list = new ArrayList<Booking>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking b where b.facility = :facility and b.startDate <= :end and b.endDate >= :end");
+            q.setParameter("facility",facility);
+            q.setParameter("end",end);
+            list = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+    }
 }
