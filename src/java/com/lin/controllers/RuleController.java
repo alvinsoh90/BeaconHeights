@@ -190,6 +190,7 @@ public class RuleController {
         ArrayList<String> clashErrors = new ArrayList<String>();
         ArrayList<Booking> bookings = bDAO.getBookingByDateAndFacility (startBookingTime, facility);
         for (Booking b : bookings){
+
             Date startTime = b.getStartDate();
             Date endTime = b.getEndDate();
             
@@ -204,16 +205,18 @@ public class RuleController {
     
     private boolean isOverlapping(Date checkStartTime, Date checkEndTime, Date startTime, Date endTime){
         
-        if (checkStartTime.after(startTime) && checkStartTime.after(endTime)){
+        if (checkStartTime.after(startTime) && checkStartTime.before(endTime)){
             return true;
         }
         
         if (checkEndTime.after(startTime) && checkEndTime.before(endTime)){
             return true;
         }
+        
         if (startTime.after(checkStartTime) && startTime.before(checkEndTime)){
             return true;
         }
+        
         if (endTime.after(checkStartTime) && endTime.before(checkEndTime)){
             return true;
         }
