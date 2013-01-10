@@ -3,6 +3,8 @@
 <%@page import="com.lin.entities.User"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="com.lin.dao.UserDAO"%>
+<%@page import="com.lin.utils.*"%>
+
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -150,10 +152,10 @@
                                 var facility = new Object();
                                 facility.id = '${facility.id}';
                                 facility.type = '${facility.facilityType.name}';
+                                console.log(facility.type);
                                 facility.latitude = '${facility.facilityLat}';
                                 facility.longitude = '${facility.facilityLng}';
-                                facility.name = '${facility.name}';
-                                                        
+                                facility.name = '${facility.escapedName}';
                                 facilityList.push(facility);
                             </script>
                             <tr>
@@ -173,7 +175,7 @@
                                     </div>
                                 </td>
                                 <td><b>${facility.id}</b></td>
-                                <td><b>${facility.name}</b></td>
+                                <td><b>${facility.unescapedName}</b></td>
                                 <td><b>${facility.facilityType.name}</b></td>
                                 <td>
                                     <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
@@ -220,7 +222,7 @@
                             </stripes:select>
                         </div>
                     </div>
-                        <div class="control-group ${errorStyle}">
+                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Name</label>
                         <div class="controls">
                             <stripes:text name="facility_name" />
@@ -262,7 +264,7 @@
                             </stripes:select>
                         </div>
                     </div> 
-                        <div class="control-group ${errorStyle}">
+                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Name</label>
                         <div class="controls">
                             <stripes:text id="edit_facility_name" name="facility_name" />
