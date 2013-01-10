@@ -139,7 +139,6 @@
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Facility Type</th>
@@ -159,21 +158,7 @@
                                 facilityList.push(facility);
                             </script>
                             <tr>
-                                <td>
-                                    <div class="user-thumb">
-                                        <c:choose>
-                                            <c:when test="${facility.facilityType.name=='BBQ Pit'}">
-                                                <img width="40" height="40" alt="" src="../img/lin/bbq.png"/>  
-                                            </c:when>
-                                            <c:when test="${facility.facilityType.name=='Tennis Court'}">
-                                                <img width="40" height="40" alt="" src="../img/lin/tennis.png"/>  
-                                            </c:when>
-                                            <c:otherwise>
-                                                <!-- put placeholder image if no facility -->
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                </td>
+                  
                                 <td><b>${facility.id}</b></td>
                                 <td><b>${facility.unescapedName}</b></td>
                                 <td><b>${facility.facilityType.name}</b></td>
