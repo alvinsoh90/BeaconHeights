@@ -105,6 +105,7 @@
                                 <th>Opening Hours</th>
                                 <th>Booking Limit</th>
                                 <th>Advance Booking Limit</th>
+                                <th>Requires Payment?</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,6 +115,7 @@
                                 facilityType.id = "${facilityType.id}";
                                 facilityType.name = "${facilityType.name}";
                                 facilityType.description = "${facilityType.description}";
+                                facilityType.needsPaymentString = "${facilityType.needsPayment}";
                                                         
                                 facilityTypeList.push(facilityType);
                             </script>
@@ -145,6 +147,7 @@
                                 <td><c:forEach items="${facilityType.advanceRules}" var="advanceRules" varStatus="loop">
                                         ${advanceRules}<br>    
                                     </c:forEach></td>
+                                <td><b>${facilityType.needsPaymentString}</b></td>
                                 <td>
                                     <a href="editfacilitytype.jsp?id=${facilityType.id}" role="button" class="btn btn-primary btn-mini">Edit</a> 
                                     <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>

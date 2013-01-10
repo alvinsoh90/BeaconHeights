@@ -183,6 +183,14 @@
                                    
                                     </div>
                          </div>
+                                        
+                         <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Does Facility Require Payment?</label>
+                                    <div class="controls">
+                                        <stripes:checkbox name="needsPayment"/>
+                                   
+                                    </div>
+                         </div>
                                     
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Facility Availability</label>
