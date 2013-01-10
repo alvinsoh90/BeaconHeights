@@ -246,7 +246,7 @@ public class ManageBookingsActionBean extends BaseActionBean {
         BookingDAO bDAO = new BookingDAO();
         System.out.println("FACILITY: " + getFacility());
         bookingList = bDAO.getAllBookingsByFacilityID(id);
-        System.out.println("No of Bookings: " + bookingList.size());
+        System.out.println("No of Bookings by ID: " + bookingList.size());
         return bookingList;
     }
 
