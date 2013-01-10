@@ -20,10 +20,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
         <meta name="author" content="travis">
-
+        <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
+                <link href="css/linadmin.css" rel="stylesheet">
+
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="/css/custom/lin.css" />
 
 
@@ -164,42 +165,42 @@
                                 </div>
                             </div>  
                         </div>
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Block</label>
-                                <div class="controls">
-                                    <stripes:select name="block" id="block">
-                                        <stripes:options-collection collection="${registerActionBean.allBlocks}" 
-                                                                    value="blockName" label="blockName"/>        
-                                    </stripes:select>
-                                </div>
-                            </div> 
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Level</label>
-                                <div class="controls">
-                                    <stripes:select name="level" id="level">
-                                    </stripes:select>
-                                </div>
-                            </div>     
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Unit Number</label>
-                                <div class="controls">
-                                    <stripes:select name="unitnumber" id ="unitnumber">
-                                    </stripes:select>                                        </div>
-                            </div> 
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Block</label>
+                            <div class="controls">
+                                <stripes:select name="block" id="block">
+                                    <stripes:options-collection collection="${registerActionBean.allBlocks}" 
+                                                                value="blockName" label="blockName"/>        
+                                </stripes:select>
+                            </div>
+                        </div> 
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Level</label>
+                            <div class="controls">
+                                <stripes:select name="level" id="level">
+                                </stripes:select>
+                            </div>
+                        </div>     
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Unit Number</label>
+                            <div class="controls">
+                                <stripes:select name="unitnumber" id ="unitnumber">
+                                </stripes:select>                                        </div>
+                        </div> 
 
-                            <div class="form-actions">
-                                <input type="submit" name="createUserAccount" value="Add this user" class="btn btn-info btn-large">
-                            </div>                            
-                        </stripes:form>
-                    </div>
+                        <div class="form-actions">
+                            <input type="submit" name="createUserAccount" value="Add this user" class="btn btn-info btn-large">
+                        </div>                            
+                    </stripes:form>
                 </div>
             </div>
+        </div>
 
-            <hr>
+        <hr>
 
-            <%@include file="include/footer.jsp"%>
+        <%@include file="include/footer.jsp"%>
 
 
-            </body>
+    </body>
 
-            </html>
+</html>

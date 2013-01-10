@@ -80,7 +80,7 @@
                     </c:if> 
                     <c:if test = "${param.success == 'true'}">
                         <div class="login alert alert-success container">
-                            <b>Awesome!</b> "${param.msg}"
+                            <b>Success.</b> "${param.msg}"
                         </div>
                     </c:if> 
 

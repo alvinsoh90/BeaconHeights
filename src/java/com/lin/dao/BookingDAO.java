@@ -202,7 +202,7 @@ public class BookingDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+       System.out.println("FROM DAO: NUM:" + currentList.size());
         return currentList;
     }
 

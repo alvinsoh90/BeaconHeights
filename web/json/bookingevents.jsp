@@ -29,22 +29,24 @@
 
 <%
     for (Booking b : bookingList) {
-        JSONObject jBooking = new JSONObject();
-        jBooking.put("id", b.getId());
-        jBooking.put("allDay", false);
-        jBooking.put("start", df.format(new Date(b.getStartTimeInSeconds())));
-        jBooking.put("end", df.format(new Date(b.getEndTimeInSeconds())));
-        jBooking.put("title", "Booking ID: " + b.getId());
-        if (Integer.parseInt(
-                request.getParameter("userid")) == b.getUser().getUserId()) {
-            jBooking.put("backgroundColor", "#206F77");
-        }
+        if (!b.getIsDeleted()) {
+            JSONObject jBooking = new JSONObject();
+            jBooking.put("id", b.getId());
+            jBooking.put("allDay", false);
+            jBooking.put("start", df.format(new Date(b.getStartTimeInSeconds())));
+            jBooking.put("end", df.format(new Date(b.getEndTimeInSeconds())));
+            jBooking.put("title", "Booking ID: " + b.getId());
+            if (Integer.parseInt(
+                    request.getParameter("userid")) == b.getUser().getUserId()) {
+                jBooking.put("backgroundColor", "#206F77");
+            }
 
-        if (Integer.parseInt(
-                request.getParameter("userid")) == b.getUser().getUserId() && !b.isIsPaid()) {
-            jBooking.put("backgroundColor", "#E0BEC1");
+            if (Integer.parseInt(
+                    request.getParameter("userid")) == b.getUser().getUserId() && !b.isIsPaid()) {
+                jBooking.put("backgroundColor", "#E0BEC1");
+            }
+            arr.put(jBooking);
         }
-        arr.put(jBooking);
     }
 %>
 
