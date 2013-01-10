@@ -56,9 +56,9 @@ public class FacilityTypeDAO {
         return typeList;
     }
 
-    public FacilityType createFacilityType(String name, String description) {
+    public FacilityType createFacilityType(String name, String description, boolean needsPayment) {
 
-        FacilityType facilityType = new FacilityType(name, description);
+        FacilityType facilityType = new FacilityType(name, description, needsPayment);
         
         Transaction tx = null;
         try {
@@ -182,15 +182,17 @@ public class FacilityTypeDAO {
         session.delete(facilityType);
     }
 
-    public FacilityType updateFacilityType(String name, String description) {
-
-        FacilityType facilityType = new FacilityType(name, description);
-        session.update(facilityType);
-
-        //update user where id = id
-
-        return facilityType;
-    }
+    
+    //NOT IN USE
+//    public FacilityType updateFacilityType(String name, String description, boolean needsPayment) {
+//
+//        FacilityType facilityType = new FacilityType(name, description, needsPayment);
+//        session.update(facilityType);
+//
+//        //update user where id = id
+//
+//        return facilityType;
+//    }
     
     @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     public FacilityType getFacilityType(String name) {
@@ -221,7 +223,7 @@ public class FacilityTypeDAO {
             session.createCriteria(FacilityType.class).setFetchMode("limitRules", FetchMode.JOIN);
             Query q = session.createQuery("from FacilityType where id ='" + id + "'");
             typeList = (ArrayList<FacilityType>) q.list();
-            System.out.println("SUCCESS GET FACILITY");
+            //System.out.println("SUCCESS GET FACILITY");
             FacilityType result = typeList.get(0);
             Hibernate.initialize(result);
             tx.commit();
@@ -229,7 +231,7 @@ public class FacilityTypeDAO {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("FAILLLLL GET FACILITY");
+            //System.out.println("FAILLLLL GET FACILITY");
             if(tx!=null){
                 tx.rollback();
             }
@@ -334,66 +336,68 @@ public class FacilityTypeDAO {
         return null;
 
     }
-    
-    public FacilityType editFacilityType(FacilityType facilityType) {
-        openSession();
-        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        String name = facilityType.getName();
-        String desc = facilityType.getDescription();
-        Set ars = facilityType.getAdvanceRules();
-        Set crs = facilityType.getCloseRules();
-        Set lrs = facilityType.getLimitRules();
-        Set ors = facilityType.getOpenRules();
-        
-        
-        
-        org.hibernate.Transaction tx = session.beginTransaction();
-        FacilityType fT = (FacilityType) session.get(FacilityType.class, facilityType.getId());
-        
-        fT.setName(name);
-        fT.setDescription(desc);
-//        fT.setAdvanceRules(ars);
-//        fT.setCloseRules(crs);
-//        fT.setLimitRules(lrs);
-//        fT.setOpenRules(ors);
+    //NOT IN USE
+//    public FacilityType editFacilityType(FacilityType facilityType) {
+//        openSession();
+//        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//        String name = facilityType.getName();
+//        String desc = facilityType.getDescription();
+//        Set ars = facilityType.getAdvanceRules();
+//        Set crs = facilityType.getCloseRules();
+//        Set lrs = facilityType.getLimitRules();
+//        Set ors = facilityType.getOpenRules();
 //        
-        tx.commit();
-        
-//        System.out.println("NEW FT NAME HERE : "+fT.getDescription());
-//        System.out.println("OLD FT NAME HERE : "+facilityType.getDescription());
-        
-       
-        
-        return fT;
-    }
+//        
+//        
+//        org.hibernate.Transaction tx = session.beginTransaction();
+//        FacilityType fT = (FacilityType) session.get(FacilityType.class, facilityType.getId());
+//        
+//        fT.setName(name);
+//        fT.setDescription(desc);
+////        fT.setAdvanceRules(ars);
+////        fT.setCloseRules(crs);
+////        fT.setLimitRules(lrs);
+////        fT.setOpenRules(ors);
+////        
+//        tx.commit();
+//        
+////        System.out.println("NEW FT NAME HERE : "+fT.getDescription());
+////        System.out.println("OLD FT NAME HERE : "+facilityType.getDescription());
+//        
+//       
+//        
+//        return fT;
+//    }
 
-    public FacilityType editFacilityType(int id, FacilityType newFT) {
-        openSession();
-        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
-        org.hibernate.Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            FacilityType fT = (FacilityType) session.get(FacilityType.class, id);
-            fT.setName(newFT.getName());
-            fT.setDescription(newFT.getDescription());
-            fT.setAdvanceRules(newFT.getAdvanceRules());
-            fT.setCloseRules(newFT.getCloseRules());
-            fT.setLimitRules(newFT.getLimitRules());
-            fT.setOpenRules(newFT.getOpenRules());
-            tx.commit();
-            
-            return fT;
-        } catch (Exception e) {
-            e.printStackTrace();
-            if(tx!=null){
-                tx.rollback();
-            }
-        }
-        return null;
-    }
+    
+    //NOT IN USE
+//    public FacilityType editFacilityType(int id, FacilityType newFT) {
+//        openSession();
+//        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
+//        org.hibernate.Transaction tx = null;
+//        try {
+//            tx = session.beginTransaction();
+//            FacilityType fT = (FacilityType) session.get(FacilityType.class, id);
+//            fT.setName(newFT.getName());
+//            fT.setDescription(newFT.getDescription());
+//            fT.setAdvanceRules(newFT.getAdvanceRules());
+//            fT.setCloseRules(newFT.getCloseRules());
+//            fT.setLimitRules(newFT.getLimitRules());
+//            fT.setOpenRules(newFT.getOpenRules());
+//            tx.commit();
+//            
+//            return fT;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            if(tx!=null){
+//                tx.rollback();
+//            }
+//        }
+//        return null;
+//    }
     
     
-    public FacilityType editFacilityType(int id, String name, String description, Date monOne, Date monTwo, Date tueOne, Date tueTwo, Date wedOne, Date wedTwo, Date thuOne, Date thuTwo, Date friOne, Date friTwo, Date satOne, Date satTwo, Date sunOne, Date sunTwo, int bookingSessions, int bookingLimitFreq, char bookingLimitUnit, int bookingOpenAdvance, int bookingCloseAdvance){
+    public FacilityType editFacilityType(int id, String name, String description, boolean needsPayment, Date monOne, Date monTwo, Date tueOne, Date tueTwo, Date wedOne, Date wedTwo, Date thuOne, Date thuTwo, Date friOne, Date friTwo, Date satOne, Date satTwo, Date sunOne, Date sunTwo, int bookingSessions, int bookingLimitFreq, char bookingLimitUnit, int bookingOpenAdvance, int bookingCloseAdvance){
         openSession();
         ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
         org.hibernate.Transaction tx = null;
@@ -456,6 +460,7 @@ public class FacilityTypeDAO {
             
             fT.setName(name);
             fT.setDescription(description);
+            fT.setNeedsPayment(needsPayment);
             
             fT.getAdvanceRules().clear();
             fT.getAdvanceRules().addAll(advanceRuleSet);

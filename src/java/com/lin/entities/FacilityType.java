@@ -18,6 +18,7 @@ public class FacilityType  implements java.io.Serializable {
      private Integer id;
      private String name;
      private String description;
+     private boolean needsPayment;
      private Set limitRules = new HashSet(0);
      private Set advanceRules = new HashSet(0);
      private Set facilities = new HashSet(0);
@@ -29,11 +30,12 @@ public class FacilityType  implements java.io.Serializable {
     }
 
 	
-    public FacilityType(String name, String description) {
+    public FacilityType(String name, String description, boolean needsPayment) {
         this.name = name;
         this.description = description;
+        this.needsPayment = needsPayment;
     }
-    public FacilityType(String name, String description, Set limitRules, Set advanceRules, Set facilities, Set openRules, Set closeRules) {
+    public FacilityType(String name, String description, boolean needsPayment, Set limitRules, Set advanceRules, Set facilities, Set openRules, Set closeRules) {
        this.name = name;
        this.description = description;
        this.limitRules = limitRules;
@@ -43,7 +45,7 @@ public class FacilityType  implements java.io.Serializable {
        this.closeRules = closeRules;
     }
     
-     public FacilityType(String name, String description, Set limitRules, Set advanceRules, Set openRules, Set closeRules) {
+     public FacilityType(String name, String description, boolean needsPayment, Set limitRules, Set advanceRules, Set openRules, Set closeRules) {
        this.name = name;
        this.description = description;
        this.limitRules = limitRules;
@@ -72,6 +74,14 @@ public class FacilityType  implements java.io.Serializable {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isNeedsPayment() {
+        return needsPayment;
+    }
+
+    public void setNeedsPayment(boolean needsPayment) {
+        this.needsPayment = needsPayment;
     }
     
     @Fetch(FetchMode.JOIN)
@@ -115,7 +125,13 @@ public class FacilityType  implements java.io.Serializable {
         this.closeRules = closeRules;
     }
 
-
+    public String getNeedsPaymentString(){
+        if(needsPayment){
+            return "Yes";
+        }else{
+            return "No";
+        }
+    }
 
 
 }

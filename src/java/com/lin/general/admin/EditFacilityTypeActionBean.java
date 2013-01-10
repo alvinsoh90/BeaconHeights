@@ -47,6 +47,7 @@ public class EditFacilityTypeActionBean implements ActionBean {
     private int bookingOpenAdvance;
     private int bookingCloseAdvance;
     private int id;
+    private boolean needsPayment;
     
     
 
@@ -228,8 +229,6 @@ public class EditFacilityTypeActionBean implements ActionBean {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
 
     public String getDescription() {
         return description;
@@ -237,6 +236,14 @@ public class EditFacilityTypeActionBean implements ActionBean {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isNeedsPayment() {
+        return needsPayment;
+    }
+
+    public void setNeedsPayment(boolean needsPayment) {
+        this.needsPayment = needsPayment;
     }
 
  
@@ -359,7 +366,7 @@ public class EditFacilityTypeActionBean implements ActionBean {
             //System.out.println("NEW DESC FROM BEAN "+ newFT.getDescription());
           
             //insert into DB
-            if( tDAO.editFacilityType(id, name, description, monOne, monTwo, tueOne, tueTwo, wedOne, wedTwo, thuOne, thuTwo, friOne, friTwo, satOne, satTwo, sunOne, sunTwo, bookingSessions, bookingLimitFreq, bookingLimitUnit, bookingOpenAdvance, bookingCloseAdvance) != null ){                
+            if( tDAO.editFacilityType(id, name, description, needsPayment, monOne, monTwo, tueOne, tueTwo, wedOne, wedTwo, thuOne, thuTwo, friOne, friTwo, satOne, satTwo, sunOne, sunTwo, bookingSessions, bookingLimitFreq, bookingLimitUnit, bookingOpenAdvance, bookingCloseAdvance) != null ){                
                 success = true;
                 result = name;
                 System.out.println("successsssss");

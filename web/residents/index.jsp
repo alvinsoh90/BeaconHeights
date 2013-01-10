@@ -79,7 +79,7 @@
                             <h2>Now Booking</h2>
                             <select id ="facilityDropDown">
                                 <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
-                                    <option value="${facility.id}">${facility.facilityType.name} ${facility.id}</option>
+                                    <option value="${facility.id}">${facility.name}</option>
                                 </c:forEach>
                             </select>
 

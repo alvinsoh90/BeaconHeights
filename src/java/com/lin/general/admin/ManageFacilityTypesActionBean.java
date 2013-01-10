@@ -50,6 +50,7 @@ public class ManageFacilityTypesActionBean implements ActionBean {
     private char bookingLimitUnit;
     private int bookingOpenAdvance;
     private int bookingCloseAdvance;
+    private boolean needsPayment;
     
 
     public int getBookingCloseAdvance() {
@@ -222,14 +223,20 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         this.name = name;
     }
     
-    
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isNeedsPayment() {
+        return needsPayment;
+    }
+
+    public void setNeedsPayment(boolean needsPayment) {
+        this.needsPayment = needsPayment;
     }
 
  
@@ -269,9 +276,9 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             Date sunTwo = new Date(sundayTwo);
             
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
-            
+            System.out.println("TEST NEEDSPAYMENT: "+needsPayment);
 
-            FacilityType facilityType = new FacilityType(name, description);
+            FacilityType facilityType = new FacilityType(name, description, needsPayment);
 
             //HashSet declarations
 
@@ -340,6 +347,8 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             facilityType.setCloseRules(closeRuleSet);
             facilityType.setOpenRules(openRuleSet);
           
+            
+            
             //insert into DB
             if( tDAO.createFacilityType(facilityType) != null ){
                 success = true;

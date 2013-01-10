@@ -14,7 +14,9 @@
         <property name="description" type="string">
             <column name="description" length="400" not-null="true" />
         </property>
-              
+        <property name="needsPayment" type="boolean">
+            <column name="needs_payment" not-null="true" />
+        </property>      
         
         <set name="limitRules" inverse="true" cascade="all-delete-orphan" fetch="join">
             <key>
