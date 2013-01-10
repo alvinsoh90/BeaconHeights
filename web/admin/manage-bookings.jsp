@@ -14,6 +14,8 @@
              class="com.lin.general.admin.ApproveUserBean"/>
 <jsp:useBean id="manageBookingsActionBean" scope="page"
              class="com.lin.general.admin.ManageBookingsActionBean"/>
+<jsp:useBean id="manageFacilitiesActionBean" scope="page"
+             class="com.lin.general.admin.ManageFacilitiesActionBean"/>
 <%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -179,7 +181,7 @@
                 var tempArr = [];
                 
                 for(var i=0;i<bookingList.length;i++){
-                    console.log(name);
+                    console.log(facilityType);
                     if(bookingList[i].facilityType == facilityType){
                         tempArr.push(bookingList[i]);
                     }
@@ -299,8 +301,8 @@
                             <h5 class="inlineblock">or</h5>                                
                             <select id ="facilitySelect" onChange="filterByFacility()">
                                 <option>-Select Facility-</option>
-                                <c:forEach items="${manageBookingsActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
-                                    <option>${facilityType.name}</option>
+                                <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
+                                    <option value="${facility.name}">${facility.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
