@@ -9,6 +9,8 @@
                      class="com.lin.general.admin.ManageBookingsActionBean"/>
         <jsp:useBean id="manageFacilitiesActionBean" scope="page"
                      class="com.lin.general.admin.ManageFacilitiesActionBean"/>
+        <jsp:useBean id="manageFacilityTypesActionBean" scope="page"
+             class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -82,9 +84,78 @@
                                     <option value="${facility.id}">${facility.name}</option>
                                 </c:forEach>
                             </select>
-
+                            <a href="#viewFacilityTypeModal" role="button" data-toggle="modal" class="btn">View Facility Type Details</a>
                         </div> <!-- /account-container -->
-
+                        
+                        <!--Facility Details-->
+                        <div id="viewFacilityTypeModal" class="modal hide fade">
+                            <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                            <h3>Facility Type Details</h3>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table table-striped table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>Facility Type</th>
+                                <th>Description</th>
+                                <th>Opening Hours</th>
+                                <th>Booking Limit</th>
+                                <th>Advance Booking Limit</th>
+                                <th>Requires Payment?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
+                            <script>
+                                var facilityType = new Object();
+                                facilityType.id = "${facilityType.id}";
+                                facilityType.name = "${facilityType.name}";
+                                facilityType.description = "${facilityType.description}";
+                                facilityType.needsPaymentString = "${facilityType.needsPayment}";
+                                                        
+                                facilityTypeList.push(facilityType);
+                            </script>
+                            <tr>
+                                <td>
+                                    <div class="user-thumb">
+                                        <c:choose>
+                                            <c:when test="${facilityType.name=='BBQ Pit'}">
+                                                <img width="40" height="40" alt="" src="../img/lin/bbq.png"/>  
+                                            </c:when>
+                                            <c:when test="${facilityType.name=='Tennis Court'}">
+                                                <img width="40" height="40" alt="" src="../img/lin/tennis.png"/>  
+                                            </c:when>
+                                            <c:otherwise>
+                                                <!-- put placeholder image if no facility -->
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </td>
+                                <td><b>${facilityType.id}</b></td>
+                                <td><b>${facilityType.name}</b></td>
+                                <td>${facilityType.description}</td>
+                                <td><c:forEach items="${facilityType.openRules}" var="openRule" varStatus="loop">
+                                        ${openRule}<br>    
+                                    </c:forEach></td>
+                                <td><c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
+                                        ${limitRules}<br>    
+                                    </c:forEach></td>
+                                <td><c:forEach items="${facilityType.advanceRules}" var="advanceRules" varStatus="loop">
+                                        ${advanceRules}<br>    
+                                    </c:forEach></td>
+                                <td><b>${facilityType.needsPaymentString}</b></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                            </div>
+                            <div class="modal-footer">
+                                <a data-dismiss="modal" class="btn">Close</a>
+                            </div>
+                        </div>
                         <hr />
 
                         <ul id="main-nav" class="nav nav-tabs nav-stacked">
