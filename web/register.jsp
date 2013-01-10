@@ -156,7 +156,7 @@
                                         <stripes:text name="lastname" autocomplete="off"/> 
                                     </div>
                                 </div>
-                                    
+
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Email</label>
                                     <div class="controls">
@@ -171,7 +171,7 @@
                                         </div>
                                     </div>  
                                 </div>
-                                        
+
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Block</label>
                                     <div class="controls">
@@ -194,8 +194,9 @@
                                         <stripes:select name="unitnumber" id ="unitnumber">
                                         </stripes:select>                                     </div>
                                 </div>                              
-                                <div class="form-actions">
-                                    <input type="submit" name="registerTempUserAccount" value="Register" class="btn btn-info btn-large">
+                                <div class="form-actions" id="twoButtons">
+                                        <input type="submit" name="registerTempUserAccount" value="Register" class="btn btn-info btn-large">
+                                        <a href="/login.jsp" role ="button" class="btn btn-cancel btn-large" id="customCancelBut">Cancel</a>
                                 </div>                            
 
                             </stripes:form>

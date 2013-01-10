@@ -19,6 +19,7 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ManageFacilitiesActionBean implements ActionBean {
 

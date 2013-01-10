@@ -33,8 +33,8 @@
 
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/custom/lin.register.js"></script>
-        <script src="js/jquery.validate.js"></script>
+        <script src="/js/custom/lin.register.js"></script>
+        <script src="/js/jquery.validate.js"></script>
 
         <!-- Populates the Edit User form -->
         <script>
@@ -202,7 +202,9 @@
                 
                 }
             }
-            
+            function filterReset(){
+                showUsers(userList);
+            }
         </script>
         <%-- Load users from database into javascript array --%>
         <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
@@ -302,12 +304,14 @@
                         <div class="inlineblock filterOptions">
                             <select id ="orderSelect" onChange="sortByOrder()">
                                 <option>-Sort By-</option>
-                                <option>ID</option>
+                                <option>ID (Default)</option>
                                 <option>Username</option>
                                 <option>First Name</option>
                                 <option>Last Name</option>
                             </select>
                         </div>
+                        <div class="inlineblock filterOptions"><button class="btn" onClick="filterReset()">View All</button></div>                          
+
                     </div>
 
                     <table id="userTable" class="table table-striped table-bordered table-condensed">
@@ -367,13 +371,13 @@
                             <stripes:text id="edit_lastname" name="lastname"/> 
                         </div>
                     </div>
-                        <div class="control-group ${errorStyle}">
+                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Email</label>
                         <div class="controls">
                             <stripes:text id="edit_email" name="email"/> 
                         </div>
                     </div>
-                        <div class="control-group ${errorStyle}">
+                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Mobile No.</label>
                         <div class="controls">
                             <stripes:text id="edit_mobileno" name="mobileno"/> 

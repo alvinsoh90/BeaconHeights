@@ -109,6 +109,7 @@
     margin-left: 20px;
 }
 
+
 .widget-box .form-horizontal .control-label {
     padding-top: 15px;
     width: 18%;
@@ -159,4 +160,11 @@
     width:89%;
     font-size:14px;
     white-space:inherit;
+}
+
+
+#customCancelBut{
+    padding: 7px 60px;
+    font-size: 18px;
+    margin-left: 20px;
 }

@@ -14,6 +14,8 @@
              class="com.lin.general.admin.ApproveUserBean"/>
 <jsp:useBean id="manageBookingsActionBean" scope="page"
              class="com.lin.general.admin.ManageBookingsActionBean"/>
+<jsp:useBean id="manageFacilitiesActionBean" scope="page"
+             class="com.lin.general.admin.ManageFacilitiesActionBean"/>
 <%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,6 +102,7 @@
                 var tableHeaders = "<tr><th>ID</th><th>Username</th><th>Name</th><th>Facility</th><th>Start</th><th>End</th><th>Status</th><th>Paid</th><th>Transaction ID</th><th>Action</th></tr>"
                 
                 for (var i=bookingArr.length-1; i>=0; i--){
+                    console.log(booking.username);
                     r[++j] ='<tr><td>';
                     r[++j] = bookingArr[i].id;
                     r[++j] = '</td><td nowrap>';
@@ -107,7 +110,7 @@
                     r[++j] = '</td><td nowrap>';
                     r[++j] = bookingArr[i].firstName + " " + bookingArr[i].lastName;
                     r[++j] = '</td><td nowrap>';
-                    r[++j] = bookingArr[i].facilityType + " " + bookingArr[i].facilityId;
+                    r[++j] = bookingArr[i].facilityType
                     r[++j] = '</td><td >';
                     r[++j] = bookingArr[i].startDate;
                     r[++j] = '</td><td >';
@@ -118,12 +121,16 @@
                         r[++j] = "Deleted";
                         r[++j] = '</td><td >';
                         r[++j] = "-";
+                        r[++j] = '</td><td >';
+                        r[++j] = '-';
                         r[++j] = '</td><td nowrap >';
                         r[++j] ="<a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
                     }else if(bookingArr[i].isPaid == "true"){
                         r[++j] = "Confirmed";
                         r[++j] = '</td><td >';
                         r[++j] = "Revert";
+                        r[++j] = '</td><td >';
+                        r[++j] = bookingArr[i].transactionID;
                         r[++j] = '</td><td nowrap>';
                         r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingArr[i].id + ")'>Edit</a>\n\
                                <a href='#pendingBookingModal' role='button' data-toggle='modal' class='btn btn-info btn-mini' onclick='populatePendingBookingModal(" + bookingArr[i].id + ")'>Revert</a>\n\
@@ -131,118 +138,127 @@
                     }else{
                         r[++j] = "Confirmed";
                         r[++j] = '</td><td >';
-                        r[++j] = 'pending';
+                        r[++j] = 'Pending';
+                        r[++j] = '</td><td >';
+                        r[++j] = '-';
                         r[++j] = '</td><td nowrap>';
                         r[++j] = "<a href= '#editBookingModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditBookingModal("+ bookingArr[i].id + ")'>Edit</a>\n\
                                <a href='#payBookingModal' role='button' data-toggle='modal' class='btn btn-success btn-mini' onclick='populatePayBookingModal(" + bookingArr[i].id + ")'>Record</a>\n\
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
                     }
 
-        r[++j] = '</td></tr>';
-    }
-    $('#bookingTable').html(tableHeaders + r.join('')); 
-}
-            
-// This method is used to filter the booking list shown to admin
-// when the filter selection is chosen
-function filterByUsername(){
-    var username = $('#usernameSelect').val();
-                
-    var tempArr = [];
-                
-    for(var i=0;i<bookingList.length;i++){
-        console.log(name);
-        if(bookingList[i].username == username){
-            tempArr.push(bookingList[i]);
-        }
-    }
-                
-    if(tempArr.length == 0){
-        //show that nothing found
-        alert("No bookings found!");
-    }
-    else{
-        showBookings(tempArr);
-    }
-}
-            
-function filterByFacility(){
-    var facilityType = $('#facilitySelect').val();
-                
-    var tempArr = [];
-                
-    for(var i=0;i<bookingList.length;i++){
-        console.log(name);
-        if(bookingList[i].facilityType == facilityType){
-            tempArr.push(bookingList[i]);
-        }
-    }
-                
-    if(tempArr.length == 0){
-        //show that nothing found
-        alert("No bookings found!");
-    }
-    else{
-        showBookings(tempArr);
-    }
-}
-            
-function filterByStatus(){
-    var status = $('#statusSelect').val();
-                
-    var tempArr = [];
-                
-    if(status == "Paid"){
-                
-        for(var i=0;i<bookingList.length;i++){
-            console.log(name);
-            if(bookingList[i].isPaid == "true"){
-                tempArr.push(bookingList[i]);
+                    r[++j] = '</td></tr>';
+                }
+                $('#bookingTable').html(tableHeaders + r.join('')); 
             }
-        }
-                    
-    }else{
-        for(var i=0;i<bookingList.length;i++){
-            console.log(name);
-            if(bookingList[i].isPaid == "false"){
-                tempArr.push(bookingList[i]);
-            }
-        }
-                    
-    }
-                
-    if(tempArr.length == 0){
-        //show that nothing found
-        alert("No bookings found!");
-    }
-    else{
-        showBookings(tempArr);
-    }
-                
-                
-}
             
-function filterReset(){
-    showBookings(bookingList);
-}
+            // This method is used to filter the booking list shown to admin
+            // when the filter selection is chosen
+            function filterByUsername(){
+                var username = $('#usernameSelect').val();
+                
+                var tempArr = [];
+                
+                for(var i=0;i<bookingList.length;i++){
+                    console.log(name);
+                    if(bookingList[i].username == username){
+                        tempArr.push(bookingList[i]);
+                    }
+                }
+                
+                if(tempArr.length == 0){
+                    //show that nothing found
+                    alert("No bookings found!");
+                }
+                else{
+                    showBookings(tempArr);
+                }
+            }
+            
+            function filterByFacility(){
+                var facilityType = $('#facilitySelect').val();
+                
+                var tempArr = [];
+                
+                for(var i=0;i<bookingList.length;i++){
+                    console.log(facilityType);
+                    if(bookingList[i].facilityType == facilityType){
+                        tempArr.push(bookingList[i]);
+                    }
+                }
+                
+                if(tempArr.length == 0){
+                    //show that nothing found
+                    alert("No bookings found!");
+                }
+                else{
+                    showBookings(tempArr);
+                }
+            }
+            
+            function filterByStatus(){
+                var status = $('#statusSelect').val();
+                
+                var tempArr = [];
+                
+                if(status == "Paid"){
+                
+                    for(var i=0;i<bookingList.length;i++){
+                        console.log(name);
+                        if(bookingList[i].isDeleted == "false" && bookingList[i].isPaid == "true"){
+                            tempArr.push(bookingList[i]);
+                        }
+                    }
+                    
+                }else if (status == "Deleted"){
+                    for(var i=0;i<bookingList.length;i++){
+                        console.log(name);
+                        if(bookingList[i].isDeleted == "true"){
+                            tempArr.push(bookingList[i]);
+                        }
+                    }
+                    
+                }else{
+                    for(var i=0;i<bookingList.length;i++){
+                        console.log(name);
+                        if(bookingList[i].isDeleted == "false" && bookingList[i].isPaid == "false"){
+                            tempArr.push(bookingList[i]);
+                        }
+                    }
+                }
+                
+                if(tempArr.length == 0){
+                    //show that nothing found
+                    alert("No bookings found!");
+                }
+                else{
+                    showBookings(tempArr);
+                }
+                
+                
+            }
+            
+            function filterReset(){
+                showBookings(bookingList);
+            }
         </script>
         <%--Load up bookings --%>
         <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
                 <script>
-        var booking = new Object();
-        booking.id = '${booking.id}';
-        booking.username = '${booking.user.userName}';
-        booking.firstName = '${booking.user.firstname}';
-        booking.lastName = '${booking.user.lastname}';
-        booking.facilityType = '${booking.facility.facilityType.name}';
-        booking.facilityId = '${booking.facility.id}';
-        booking.startDate = '${booking.startDate}';
-        booking.endDate = '${booking.endDate}';
-        booking.isDeleted = '${booking.isDeleted}';
-        booking.isPaid = '${booking.isPaid}';
-        booking.transactionID = '${booking.transactionId}';
-        bookingList.push(booking);
+                    var booking = new Object();
+                    booking.id = '${booking.id}';
+                    booking.username = '${booking.user.userName}';
+                    booking.firstName = '${booking.user.firstname}';
+                    booking.lastName = '${booking.user.lastname}';
+                    booking.facilityType = '${booking.facility.name}';
+                    booking.facilityId = '${booking.facility.id}';
+                    booking.startDate = '${booking.startDate}';
+                    booking.endDate = '${booking.endDate}';
+                    booking.isDeleted = '${booking.isDeleted}';
+                    booking.isPaid = '${booking.isPaid}';
+                    booking.transactionID = '${booking.transactionId}';
+                    bookingList.push(booking);
                 </script>
             </c:forEach>
         </c:if>
@@ -278,14 +294,15 @@ function filterReset(){
                                 <option>-Select Status-</option>
                                 <option>Paid</option>
                                 <option>Pending</option>
+                                <option>Deleted</option>
                             </select>
                         </div>
                         <div class="inlineblock filterOptions">
                             <h5 class="inlineblock">or</h5>                                
                             <select id ="facilitySelect" onChange="filterByFacility()">
                                 <option>-Select Facility-</option>
-                                <c:forEach items="${manageBookingsActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
-                                    <option>${facilityType.name}</option>
+                                <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
+                                    <option value="${facility.name}">${facility.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -422,20 +439,20 @@ function filterReset(){
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
-$(document).ready(function() {
-$('.dropdown-menu li a').hover(
-function() {
-    $(this).children('i').addClass('icon-white');
-},
-function() {
-    $(this).children('i').removeClass('icon-white');
-});
+        $(document).ready(function() {
+            $('.dropdown-menu li a').hover(
+            function() {
+                $(this).children('i').addClass('icon-white');
+            },
+            function() {
+                $(this).children('i').removeClass('icon-white');
+            });
 		
-if($(window).width() > 760)
-{
-    $('tr.list-users td div ul').addClass('pull-right');
-}
-});
+            if($(window).width() > 760)
+            {
+                $('tr.list-users td div ul').addClass('pull-right');
+            }
+        });
     </script>
 </body>
 </html>

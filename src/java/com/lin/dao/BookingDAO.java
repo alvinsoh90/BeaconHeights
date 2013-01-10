@@ -305,7 +305,7 @@ public class BookingDAO {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking b where b.facility = :facility and b.start_date <= :start and b.end_date >= :start");
+            Query q = session.createQuery("from Booking b where b.facility = :facility and b.startDate <= :start and b.endDate >= :start");
             q.setParameter("facility",facility);
             q.setParameter("start",start);
             list = (ArrayList<Booking>) q.list();
