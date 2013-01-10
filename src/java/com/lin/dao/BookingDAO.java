@@ -206,13 +206,13 @@ public class BookingDAO {
         return currentList;
     }
     
-    public ArrayList<Booking> getBookingByDateAndFacility(Date start, int facilityId){
+    public ArrayList<Booking> getBookingByDateAndFacility(Date start, Facility facility){
         ArrayList<Booking> list = new ArrayList<Booking>();
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking b where b.facility_id = :id and b.start_date <= :start and b.end_date >= :start");
-            q.setString("id", facilityId + "");
+            Query q = session.createQuery("from Booking b where b.facility = :facility and b.start_date <= :start and b.end_date >= :start");
+            q.setParameter("facility",facility);
             q.setParameter("start",start);
             list = (ArrayList<Booking>) q.list();
             tx.commit();
