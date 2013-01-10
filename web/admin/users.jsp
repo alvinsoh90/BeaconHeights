@@ -86,7 +86,7 @@
                 
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th>Email</th><th>Mobile No</th><th colspan='3'>Address</th><th>Action</th></tr>"
+                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th>Email</th><th>Mobile No</th><th>Block</th><th>Level</th><th>Unit</th><th>Action</th></tr>"
                 
                 for (var i=userArr.length-1; i>=0; i--){
                     r[++j] ='<tr class="list-users"><td>';
