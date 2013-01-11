@@ -316,4 +316,27 @@ public class BookingDAO {
         
         return list;
     }
+    
+    public ArrayList<Booking> getBookingByPeriod (Date start, Date end, Facility facility){
+        ArrayList<Booking> list = new ArrayList<Booking>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking b where b.facility = :facility "
+                    + "and ((b.startDate <= :start and b.endDate >= :start) "
+                    + "or (b.startDate  <= :end and b.endDate >=:end) "
+                    + "or (:start <= b.startDate and :end >= b.startDate) "
+                    + "or (:start <= b.endDate and :end >= b.endDate)) and b.isDeleted is false");
+            q.setParameter("facility",facility);
+            q.setParameter("start",start);
+            q.setParameter("end", end);
+            list = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+    }
+    
 }
