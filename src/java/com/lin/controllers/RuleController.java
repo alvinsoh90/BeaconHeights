@@ -188,14 +188,7 @@ public class RuleController {
     
     private ArrayList<String> validateClash(Facility facility, Date startBookingTime, Date endBookingTime){
         ArrayList<String> clashErrors = new ArrayList<String>();
-
         ArrayList<Booking>bookings = bDAO.getBookingByPeriod(startBookingTime, endBookingTime, facility);
-        
-        System.out.println("BOOKIING LIST SIZE: " + bookings.size());
-        for (Booking b : bookings){
-            System.out.println("Start " + b.getStartDate() + " End: " + b.getEndDate());
-        }
-        
         
         if (!bookings.isEmpty()){
             clashErrors.add("Your booking clashes with another booking. Please try again.");
