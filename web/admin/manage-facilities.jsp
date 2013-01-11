@@ -154,13 +154,13 @@
                                 console.log(facility.type);
                                 facility.latitude = '${facility.facilityLat}';
                                 facility.longitude = '${facility.facilityLng}';
-                                facility.name = '${facility.escapedName}';
+                                facility.name = '${facility.name}';
                                 facilityList.push(facility);
                             </script>
                             <tr>
                   
                                 <td><b>${facility.id}</b></td>
-                                <td><b>${facility.unescapedName}</b></td>
+                                <td><b>${facility.name}</b></td>
                                 <td><b>${facility.facilityType.name}</b></td>
                                 <td>
                                     <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
