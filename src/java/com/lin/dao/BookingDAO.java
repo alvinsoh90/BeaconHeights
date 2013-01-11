@@ -323,10 +323,10 @@ public class BookingDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Booking b where b.facility = :facility "
-                    + "and ((b.startDate <= :start and b.endDate >= :start) "
-                    + "or (b.startDate  <= :end and b.endDate >=:end) "
-                    + "or (:start <= b.startDate and :end >= b.startDate) "
-                    + "or (:start <= b.endDate and :end >= b.endDate)) and b.isDeleted is false");
+                    + "and ((b.startDate <= :start and b.endDate > :start) "
+                    + "or (b.startDate  < :end and b.endDate >=:end) "
+                    + "or (:start <= b.startDate and :end > b.startDate) "
+                    + "or (:start < b.endDate and :end >= b.endDate)) and b.isDeleted is false");
             q.setParameter("facility",facility);
             q.setParameter("start",start);
             q.setParameter("end", end);
