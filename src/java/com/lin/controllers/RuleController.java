@@ -188,41 +188,18 @@ public class RuleController {
     
     private ArrayList<String> validateClash(Facility facility, Date startBookingTime, Date endBookingTime){
         ArrayList<String> clashErrors = new ArrayList<String>();
-        ArrayList<Booking> bookings = bDAO.getBookingByDateAndFacility (startBookingTime, facility);
-        for (Booking b : bookings){
-
-            Date startTime = b.getStartDate();
-            Date endTime = b.getEndDate();
-            
-            if (isOverlapping(startBookingTime, endBookingTime, startTime, endTime)){
-                clashErrors.add("Your booking clashes with another booking. Please try again.");
-            }
+        ArrayList<Booking>bookings = bDAO.getBookingByPeriod(startBookingTime, endBookingTime, facility);
+        
+        if (!bookings.isEmpty()){
+            clashErrors.add("Your booking clashes with another booking. Please try again.");
         }
+               
         
         return clashErrors;
         
     }
     
-    private boolean isOverlapping(Date checkStartTime, Date checkEndTime, Date startTime, Date endTime){
-        
-        if (checkStartTime.after(startTime) && checkStartTime.before(endTime)){
-            return true;
-        }
-        
-        if (checkEndTime.after(startTime) && checkEndTime.before(endTime)){
-            return true;
-        }
-        
-        if (startTime.after(checkStartTime) && startTime.before(checkEndTime)){
-            return true;
-        }
-        
-        if (endTime.after(checkStartTime) && endTime.before(checkEndTime)){
-            return true;
-        }
-        
-        return false;
-    }
+
     
     private long getDayToMilliseconds(int i) {
         return i * 1000 * 60 * 60 * 24;

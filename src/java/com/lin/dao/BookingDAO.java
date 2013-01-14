@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.transaction.Transaction;
+import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -26,6 +27,11 @@ public class BookingDAO {
 
     public BookingDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        
+        if(session == null){
+            System.out.println("Session was null, creating one");
+            this.session = HibernateUtil.getSessionFactory().openSession();
+        }
     }
 
     private void openSession() {
@@ -36,13 +42,31 @@ public class BookingDAO {
     public ArrayList<Booking> getAllBookings() {
         openSession();
         org.hibernate.Transaction tx;
+        
+        int id = -1;
+        boolean isDel = false;
+        
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking");
+            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType join fetch booking.user");
+            //Query q = session.createQuery("from Booking");
             allBookingList = (ArrayList<Booking>) q.list();
+            
+            Booking b = (Booking)q.list().get(0);
+            id = b.getId();
+            isDel = b.getIsDeleted();
+            
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("Closing Session...");
+            session.close();            
+            if(id != -1){
+                System.out.println("Forcing refresh...");
+                forceRefresh(id,isDel);
+            }
         }
+        System.out.println("test if facility retrieved...FT-DESC:" + allBookingList.get(1).getFacility().getFacilityType().getDescription());
         return allBookingList;
     }
 
@@ -126,18 +150,27 @@ public class BookingDAO {
         }
     }
 
-    public Booking updateBooking(int id, Date startDate, Date endDate) {
-
+    public Booking updateBooking(int id, Date startDate, Date endDate) {        
         openSession();
+        org.hibernate.Transaction tx = null;
+        Booking booking = null;
+        try {
+            tx = session.beginTransaction();
+            booking = (Booking) session.get(Booking.class, id);
 
-        Booking booking = (Booking) session.get(Booking.class, id);
+            booking.setStartDate(startDate);
+            booking.setEndDate(endDate);
 
-        booking.setStartDate(startDate);
-        booking.setEndDate(endDate);
-
-
-        return booking;
-
+            session.update(booking);
+            tx.commit();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+       return booking;
     }
 
     public void updateBookingPayment(int id, boolean b, String string) {
@@ -194,16 +227,55 @@ public class BookingDAO {
 
     public ArrayList<Booking> getAllBookingsByFacilityID(int facilityid) {
         ArrayList<Booking> currentList = new ArrayList<Booking>();
+        int id = -1;
+        boolean isDel = false;
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking where facility_id ='" + facilityid + "'");
+            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType where facility_id ='" + facilityid + "'");
             currentList = (ArrayList<Booking>) q.list();
+            
+            Booking b = (Booking)q.list().get(0);
+            id = b.getId();
+            isDel = b.getIsDeleted();
+    
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("Closing Session...");
+            session.close();   
+            if(id != -1){
+                System.out.println("Forcing refresh...");
+                forceRefresh(id,isDel);
+            }
         }
-       System.out.println("FROM DAO: NUM:" + currentList.size());
+        System.out.println("FROM DAO: NUM:" + currentList.size());
+        System.out.println("test if facility retrieved...FT-DESC:" + currentList.get(1).getFacility().getFacilityType().getDescription());
+
+
         return currentList;
+    }
+    
+    public void forceRefresh(int bookingID, boolean isDeleted){
+        openSession();
+        org.hibernate.Transaction tx = null;
+        int rowCount = 0;
+
+        try {            
+            tx = session.beginTransaction();
+            Booking booking = (Booking) session.get(Booking.class, bookingID);
+
+            booking.setIsDeleted(isDeleted);
+
+            session.update(booking);
+            tx.commit();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
     }
 
     public void switchToDelete(int id) {
@@ -245,14 +317,19 @@ public class BookingDAO {
         return list;
     }
     
-    public ArrayList<Booking> checkStartClash(Date start, Facility facility){
+    public ArrayList<Booking> getBookingByPeriod (Date start, Date end, Facility facility){
         ArrayList<Booking> list = new ArrayList<Booking>();
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking b where b.facility = :facility and b.startDate <= :start and b.endDate >= :start");
+            Query q = session.createQuery("from Booking b where b.facility = :facility "
+                    + "and ((b.startDate <= :start and b.endDate > :start) "
+                    + "or (b.startDate  < :end and b.endDate >=:end) "
+                    + "or (:start <= b.startDate and :end > b.startDate) "
+                    + "or (:start < b.endDate and :end >= b.endDate)) and b.isDeleted is false");
             q.setParameter("facility",facility);
             q.setParameter("start",start);
+            q.setParameter("end", end);
             list = (ArrayList<Booking>) q.list();
             tx.commit();
         } catch (Exception e) {
@@ -262,38 +339,4 @@ public class BookingDAO {
         return list;
     }
     
-    public ArrayList<Booking> checkOverlap(Date start, Date end, Facility facility){
-        ArrayList<Booking> list = new ArrayList<Booking>();
-        openSession();
-        try {
-            org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking b where b.facility = :facility and b.startDate >= :start and b.endDate <= :end");
-            q.setParameter("facility",facility);
-            q.setParameter("start",start);
-            q.setParameter("end",end);
-            list = (ArrayList<Booking>) q.list();
-            tx.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return list;
-    }
-    
-    public ArrayList<Booking> checkEndClash(Date end, Facility facility){
-        ArrayList<Booking> list = new ArrayList<Booking>();
-        openSession();
-        try {
-            org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking b where b.facility = :facility and b.startDate <= :end and b.endDate >= :end");
-            q.setParameter("facility",facility);
-            q.setParameter("end",end);
-            list = (ArrayList<Booking>) q.list();
-            tx.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return list;
-    }
 }

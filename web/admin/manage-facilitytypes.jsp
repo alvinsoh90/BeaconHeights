@@ -98,7 +98,6 @@
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>ID</th>
                                 <th>Facility Type</th>
                                 <th>Description</th>
@@ -106,6 +105,8 @@
                                 <th>Booking Limit</th>
                                 <th>Advance Booking Limit</th>
                                 <th>Requires Payment?</th>
+                                <th>Action</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -120,21 +121,7 @@
                                 facilityTypeList.push(facilityType);
                             </script>
                             <tr>
-                                <td>
-                                    <div class="user-thumb">
-                                        <c:choose>
-                                            <c:when test="${facilityType.name=='BBQ Pit'}">
-                                                <img width="40" height="40" alt="" src="../img/lin/bbq.png"/>  
-                                            </c:when>
-                                            <c:when test="${facilityType.name=='Tennis Court'}">
-                                                <img width="40" height="40" alt="" src="../img/lin/tennis.png"/>  
-                                            </c:when>
-                                            <c:otherwise>
-                                                <!-- put placeholder image if no facility -->
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                </td>
+
                                 <td><b>${facilityType.id}</b></td>
                                 <td><b>${facilityType.name}</b></td>
                                 <td>${facilityType.description}</td>
@@ -148,7 +135,7 @@
                                         ${advanceRules}<br>    
                                     </c:forEach></td>
                                 <td><b>${facilityType.needsPaymentString}</b></td>
-                                <td>
+                                <td nowrap>
                                     <a href="editfacilitytype.jsp?id=${facilityType.id}" role="button" class="btn btn-primary btn-mini">Edit</a> 
                                     <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>
                                 </td>
