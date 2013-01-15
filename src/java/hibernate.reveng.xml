@@ -13,4 +13,5 @@
   <table-filter match-name="facility"/>
   <table-filter match-name="role"/>
   <table-filter match-name="limit_rule"/>
+  <table-filter match-name="resource_categories"/>
 </hibernate-reverse-engineering>

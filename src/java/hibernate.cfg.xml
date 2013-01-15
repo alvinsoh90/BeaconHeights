@@ -22,5 +22,6 @@
     <mapping resource="com/lin/entities/AdvanceRule.hbm.xml"/>
     <mapping resource="com/lin/entities/CloseRule.hbm.xml"/>
     <mapping resource="com/lin/entities/LimitRule.hbm.xml"/>
+    <mapping resource="com/lin/entities/ResourceCategories.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

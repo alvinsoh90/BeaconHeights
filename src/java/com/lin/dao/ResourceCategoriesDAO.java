@@ -38,7 +38,7 @@ public class ResourceCategoriesDAO {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
-    public ArrayList<ResourceCategories> retrieveAllFacilityTypes() {
+    public ArrayList<ResourceCategories> retrieveAllResourceCategories() {
         openSession();
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
         
@@ -55,7 +55,7 @@ public class ResourceCategoriesDAO {
     }
 
     public ResourceCategories createResourceCategories(String name, String decription) {
-
+System.out.append("db test");
         ResourceCategories rCat = new ResourceCategories( name,  decription);
         
         Transaction tx = null;
