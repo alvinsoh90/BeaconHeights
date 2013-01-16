@@ -16,6 +16,15 @@
                 <li><a href="manage-facilitytypes.jsp">Manage Facility Types</a></li>
 
 
+                <li class="nav-header"><i class="icon-info-sign"></i> Services </li>
+                <li><a href="manage-onlineform.jsp">Online Forms</a></li>
+                <!--
+                <li><a href="manage-onlineform.jsp">Taxi Booking</a></li>
+                <li><a href="manage-onlineform.jsp">Nearby Amenities</a></li>
+                <li><a href="manage-onlineform.jsp">Useful Contacts</a></li>
+                -->
+
+                
                 <!--<li class="nav-header"><i class="icon-signal"></i> Statistics</li>
                 <li><a href="stats.html">General</a></li>
                 <li><a href="user-stats.html">Users</a></li>
