@@ -116,3 +116,11 @@
 .fc-view-month .fc-event-time, .fc-event-title{
     float:none !important;
 }
+
+.closedSlot{
+    background:#EEE;
+    pointer-events:none;
+}
+.closedSlot:hover{
+    cursor: not-allowed;
+}

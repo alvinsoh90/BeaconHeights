@@ -107,12 +107,31 @@ public class OpenRule  implements java.io.Serializable {
             return ""+this.endTime.getHours();
         }
     }
-
-//    @Override
-//    public String toString() {
-//        return "OpenRule{" + "facilityType=" + facilityType + ", startTime=" + startTime + ", endTime=" + endTime + ", dayOfWeek=" + dayOfWeek + '}';
-//    }
-
+    
+    public String getStartMinutes(){
+        if(this.startTime.getMinutes() < 10){
+            return "0"+this.startTime.getMinutes();
+        }else{
+            return ""+this.startTime.getMinutes();
+        }
+    }
+    
+    public String getEndMinutes(){
+        if(this.endTime.getMinutes() < 10){
+            return "0"+this.endTime.getMinutes();
+        }else{
+            return ""+this.endTime.getMinutes();
+        }
+    }
+    
+    public String getStartTimeIn24HourFormat(){
+        return getStartHours() + ":" + getStartMinutes();
+    }
+    
+    public String getEndTimeIn24HourFormat(){
+        return getEndHours() + ":" + getEndMinutes();
+    }
+   
     @Override
     public String toString() {
         return this.getDay()+ " " + startTime.getHours() + ":"+ startTime.getMinutes()+" - " + endTime.getHours() + ":"+ endTime.getMinutes();

@@ -5,7 +5,64 @@ $(document).ready(function(){
 	
   //addEvents();//trigger adding of events TRIGGERING NOW HAPPENS WITHIN PAGE ITSELF
   
+  //At this point, an array called openTimingsList of the current facility's open timings has already been
+  //populated. We will use it to select which slots are clickable and which are not
+  
+  paintCalendar();
 });
+
+function paintCalendar(){
+    console.log("open timing list" + openTimingsList)
+          if (openTimingsList !== undefined) {
+        slots = $("#fullcalendar").find('.fc-agenda-slots tr');
+      /* first add 'closed' class to all slots, and then remove class from 'open' slotts */
+        slots.addClass('closedSlot');
+        
+      if (jQuery.isArray(openTimingsList)) {
+        /* only in weekview and dayview */
+        currentView = $('#fullcalendar').fullCalendar('getView').name;
+        console.log("currentView: "+currentView);
+
+        if (currentView === 'agendaWeek' || currentView === 'agendaDay') {
+            console.log("entering slot eval block");
+          numberOfAvailablePeriods =  openTimingsList.length;
+
+          scheduleStartTime = timeToFloat($("#fullcalendar").fullCalendar( 'option', 'minTime'));            
+          scheduleSlotSize = $("#fullcalendar").fullCalendar( 'option', 'slotMinutes') /60;
+
+          /* function to calculate slotindex for a certain time (e.g. '8:00') */    
+          getSlotIndex = function(time) {
+            time = timeToFloat(time);            
+            return Math.round((time-scheduleStartTime)/scheduleSlotSize);
+          }
+          console.log("avail periods: "+numberOfAvailablePeriods)
+          
+          /* remove 'closed' class of open slots */                 
+          for (i=0; i<numberOfAvailablePeriods; i++) {            
+            startOfPeriodSlot = getSlotIndex(timeToFloat(openTimingsList[i][0]));
+            endOfPeriodSlot = getSlotIndex(timeToFloat(openTimingsList[i][1]));
+            
+            console.log("startperiod: "+startOfPeriodSlot);
+            console.log("endperiod: "+endOfPeriodSlot);
+            
+            for (j=startOfPeriodSlot; j<endOfPeriodSlot; j++) {
+              slots.eq(j).removeClass('closedSlot');
+            }
+          }          
+        }
+      }         
+    }
+    
+//    $(".closedSlot").click(function(){
+//      console.log("cliclcik");
+//      $("#fullcalendar").fullCalendar('unselect'); 
+//      toastr.alert("Sorry, this facility is closed at this time");
+//    });
+//    $(".closedSlot").hover(function(){
+//      $("#fullcalendar").fullCalendar('unselect'); 
+//      toastr.warning("Sorry, this facility is closed at this time");
+//    });
+}
 
 unicorn = {	
 	
@@ -19,6 +76,7 @@ unicorn = {
 		
         $('#fullcalendar').fullCalendar({
             dayClick: function(date, allDay, jsEvent, view) {
+                                        
                     var bookableDate = new Date();
                     
                     bookableDate.setDate(bookableDate.getDate() + 1);
@@ -31,9 +89,13 @@ unicorn = {
                         $("#date").text(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());   //SET DATE
               
                         if(view.name == "month"){
+                            
                             //if day is clicked, zoom to actual day with day view
                             $("#fullcalendar").fullCalendar( 'changeView', "agendaWeek" );
                             $("#fullcalendar").fullCalendar( 'gotoDate', date);
+                            
+                            paintCalendar(); console.log("painted");
+
                             
                             //scroll window to top
                             $("html, body").animate({ scrollTop: 30 }, "slow");
@@ -62,34 +124,46 @@ unicorn = {
 //                    var adjustedEndTime = start.getTime() + 3600 * 1000 * 2;
 //                    end = new Date(adjustedEndTime);
 //                }
-               
-               //check if clicked date is before today
+
+               var isOverlapper = false;
+               var thisEvent = new Object();
+               thisEvent.start = start;
+               thisEvent.end = end;
+               isEventOverlapping(thisEvent);
+               console.log("event is overlapping: " + isOverlapper);
+
                var bookableDate = new Date();                   
                bookableDate.setDate(bookableDate.getDate() + 1);
                
+                //check if clicked date is before today
                if (start < bookableDate) {
-                   //NOT OK to book
-                   $("#fullcalendar").fullCalendar('unselect');
+                   $("#fullcalendar").fullCalendar('unselect');  //reject selection
                }
+               //check if event is overlapping, if so, reject
+               else if(isOverlapper){
+                   $("#fullcalendar").fullCalendar('unselect');    //NOT WORKING... DUNNO WHY  --XY will fix later
+               }
+               //check if event is within open rules;
+               //else if()
                else{      
                    //OK to book
                    $("#time").text(start.customFormat("#h#:#mm# #ampm#") + " - " + end.customFormat("#h#:#mm# #ampm#"));   //SET TIME
                    $("#starttimemillis").val(start.getTime());
                    $("#endtimemillis").val(end.getTime());
 
-                    title = "test";
-                    if (title) {
-                        $("fullcalendar").fullCalendar('renderEvent',
-                        {
-                            title: title,
-                            start: start,
-                            end: end,
-                            allDay: allDay
-                        },
-                        true // make the event "stick"
-                        );
-
-                    }
+//                    title = "test";
+//                    if (title) {
+//                        $("fullcalendar").fullCalendar('renderEvent',
+//                        {
+//                            title: title,
+//                            start: start,
+//                            end: end,
+//                            allDay: allDay
+//                        },
+//                        true // make the event "stick"
+//                        );
+//
+//                    }
                     //$("fullcalendar").fullCalendar('unselect');
                     //$("fullcalendar").fullCalendar('render');
                }
@@ -204,4 +278,59 @@ Date.prototype.customFormat = function(formatString){
     mm=(m=dateObject.getMinutes())<10?('0'+m):m;
     ss=(s=dateObject.getSeconds())<10?('0'+s):s;
     return formatString.replace("#hhh#",hhh).replace("#hh#",hh).replace("#h#",h).replace("#mm#",mm).replace("#m#",m).replace("#ss#",ss).replace("#s#",s).replace("#ampm#",ampm).replace("#AMPM#",AMPM);
+}
+
+
+/**
+ * Helper function: Converts a given time to a float, e.g. '8:15' becomes 8.25
+ * @param mixed time A integer, float or a string. Valid strings: '8:15', '20:15', '8:15am', '8:15pm', '8.15', etc.
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @author Koos van der Kolk <koosvdkolk at gmail dot com>
+ * @return float
+ **/
+function timeToFloat(time) {      
+  var returnValue, timeAsArray, separator, i, timeSeparators = [':', '.'], numberOfSeparators;
+
+  /* is time an integer or a float? */
+  if (parseInt(time, 10) === time || parseFloat(time) === time) {
+    returnValue = time;
+  } else {
+    /* time will be considered a string, parse it */
+    time = time.toString();
+
+    numberOfSeparators = timeSeparators.length;
+
+    for (i = 0; i < numberOfSeparators; i = i + 1) {
+      separator = timeSeparators[i];
+
+      if (time.indexOf(separator) > 0) {
+        timeAsArray = time.split(separator);
+
+        returnValue = parseInt(timeAsArray[0], 10) + parseInt(timeAsArray[1], 10) / 60;
+
+        /* does string contain 'p' or 'pm'? */
+        if (time.indexOf('p') > 0 && returnValue <= 12) {
+          returnValue = returnValue + 12;
+        }
+      }
+    }
+  }
+  return returnValue;
+}
+
+/*
+ * Method to detect overlapping events
+ */
+function isEventOverlapping(event){
+    console.log("incoming event: "+ event.start + " --- " + event.end);
+    var array = $("#fullcalendar").fullCalendar('clientEvents');
+    console.log(array);
+    for(i in array){
+        if(array[i].id != event.id){
+            if(!(array[i].start >= event.end || array[i].end <= event.start)){
+                return true;
+            }
+        }
+    }
+    return false;
 }

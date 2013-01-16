@@ -39,13 +39,10 @@
         <script>
             // Retrieve booking events from DB
             var bookingList = [];
-            
+            var openTimingsList = [];
+
             function showFacilityBookingsByFacilityID(facilityID){
-                //this method is called when page is fully loaded, 
-                //bookingList is populated as page loads
-                
-                //                var eventSource = bookingList;
-                //                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );
+                //this method is called when page is fully loaded
                 
                 //clear previous events
                 $('#fullcalendar').fullCalendar( 'removeEvents');
@@ -113,8 +110,7 @@
                                 facilityType.id = "${facilityType.id}";
                                 facilityType.name = "${facilityType.name}";
                                 facilityType.description = "${facilityType.description}";
-                                facilityType.needsPaymentString = "${facilityType.needsPayment}";
-                                                        
+                                facilityType.needsPaymentString = "${facilityType.needsPayment}";                                                        
                                 facilityTypeList.push(facilityType);
                             </script>
                             <tr>
@@ -123,7 +119,15 @@
                                 <td><b>${facilityType.name}</b></td>
                                 <td>${facilityType.description}</td>
                                 <td><c:forEach items="${facilityType.openRules}" var="openRule" varStatus="loop">
-                                        ${openRule}<br>    
+                                        ${openRule}<br>
+                                        
+                                        <!-- Create Javascript objects that represent times at which this facility is bookable
+                                        For use in Generating the calendar -->
+                                        <script>
+                                            var ruleTimingArr = ["${openRule.startTimeIn24HourFormat}","${openRule.endTimeIn24HourFormat}"]
+                                            openTimingsList.push(ruleTimingArr);                                           
+                                        </script>
+
                                     </c:forEach></td>
                                 <td><c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
                                         ${limitRules}<br>    
