@@ -44,7 +44,7 @@
                         $("#resourceCategoryLabel").text(resourceCategory.name);
                         $("#editid").val(resourceCategory.id);
                         $("#edit_name").val(resourceCategory.name);
-                        $("#edit_description").val(resourceCategory.decription);
+                        $("#edit_description").val(resourceCategory.description);
 
                     }
                     
@@ -140,22 +140,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${manageResourceCategoriesActionBean.resourceCategoryList}" var="resourceCategories" varStatus="loop">
+                            <c:forEach items="${manageResourceCategoriesActionBean.resourceCategoryList}" var="resourceCategory" varStatus="loop">
                             <script>
-                                var resourceCategories = new Object();
-                                resourceCategories.id = '${resourceCategories.id}';
-                                resourceCategories.name = '${resourceCategories.name}';
-                                resourceCategories.decription = '${resourceCategories.decription}';
-                                resourceCategoryList.push(resourceCategories);
+                                var resourceCategory = new Object();
+                                resourceCategory.id = '${resourceCategory.id}';
+                                resourceCategory.name = '${resourceCategory.name}';
+                                resourceCategory.description = '${resourceCategory.description}';
+                                resourceCategoryList.push(resourceCategory);
                             </script>
                             <tr>
                   
-                                <td><b>${resourceCategories.id}</b></td>
-                                <td><b>${resourceCategories.name}</b></td>
-                                <td><b>${resourceCategories.decription}</b></td>
+                                <td><b>${resourceCategory.id}</b></td>
+                                <td><b>${resourceCategory.name}</b></td>
+                                <td><b>${resourceCategory.description}</b></td>
                                 <td>
-                                    <a href="#editResourceCategoryModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditResourceCategoryModal('${resourceCategories.id}')">Edit</a> 
-                                    <a href="#deleteResourceCategoryModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteResourceCategoryModal('${resourceCategories.id}')">Delete</a>
+                                    <a href="#editResourceCategoryModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditResourceCategoryModal('${resourceCategory.id}')">Edit</a> 
+                                    <a href="#deleteResourceCategoryModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteResourceCategoryModal('${resourceCategory.id}')">Delete</a>
                                 </td>
                             </tr>
                         </c:forEach>

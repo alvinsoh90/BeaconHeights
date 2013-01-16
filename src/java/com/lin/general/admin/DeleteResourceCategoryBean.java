@@ -4,7 +4,7 @@
  */
 package com.lin.general.admin;
 
-import com.lin.dao.ResourceCategoriesDAO;
+import com.lin.dao.ResourceCategoryDAO;
 import com.lin.entities.Facility;
 import com.lin.entities.FacilityType;
 import java.util.ArrayList;
@@ -25,14 +25,14 @@ public class DeleteResourceCategoryBean implements ActionBean {
     private boolean success = false;
     
     public Resolution deleteResourceCategory() {
-        ResourceCategoriesDAO rcdao = new ResourceCategoriesDAO();
+        ResourceCategoryDAO rcdao = new ResourceCategoryDAO();
         int rcId = Integer.parseInt(id);
         //Facility facility = fdao.getFacility(fId);
         //System.out.println(fId);
         //Facility facility = fdao.getFacility(fId);
         try {
-            rcdao.deleteResourceCategories(rcId);
-            rcdao = new ResourceCategoriesDAO();
+            rcdao.deleteResourceCategory(rcId);
+            rcdao = new ResourceCategoryDAO();
             return new RedirectResolution("/admin/manage-resourcecategories.jsp?deletesuccess=true&deletemsg=the resource category");
         } catch (Exception e) {
             e.printStackTrace();

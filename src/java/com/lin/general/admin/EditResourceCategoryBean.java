@@ -6,7 +6,7 @@ package com.lin.general.admin;
 
 import com.lin.dao.FacilityDAO;
 import com.lin.dao.FacilityTypeDAO;
-import com.lin.dao.ResourceCategoriesDAO;
+import com.lin.dao.ResourceCategoryDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
@@ -32,6 +32,14 @@ public class EditResourceCategoryBean implements ActionBean {
     private String result;
     private boolean success = false;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public String getDescription() {
         return description;
     }
@@ -58,21 +66,21 @@ public class EditResourceCategoryBean implements ActionBean {
 
     @DefaultHandler
     public Resolution editResourceCategory(){
-        ResourceCategoriesDAO rcDAO = new ResourceCategoriesDAO();
+        ResourceCategoryDAO rcDAO = new ResourceCategoryDAO();
         
         try{
-            rcDAO.updateResourceCategories
+            rcDAO.updateResourceCategory
                     (
                         Integer.parseInt(id),
                         name,
                         description
                     );
-            return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=true"+"&editmsg="+name+id);
+            return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=true"+"&editmsg="+name);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=false"+"&editmsg="+name+id);
+        return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=false"+"&editmsg="+name);
         
     }
 }
