@@ -173,6 +173,9 @@
                                         <stripes:file name="newAttachment"/>
                                         <p class="field-validation-valid" data-valmsg-for="input1" data-valmsg-replace="true">
                 </p>
+                <a href="/pdf_uploads/MOHAN SHAMUS MING.jpg">download image</a><br>
+                <a href="/pdf_uploads/Ethics Notes.docx">download word doc</a><br>
+                <a href="/pdf_uploads/Internship Poster - Shamus Ming Mohan shamusm.m.pdf">download pdf</a>
                                     </div>
                                         
                          </div>   
