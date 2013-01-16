@@ -6,7 +6,7 @@ package com.lin.general.admin;
 
 import com.lin.dao.FacilityDAO;
 import com.lin.dao.FacilityTypeDAO;
-import com.lin.dao.ResourceCategoriesDAO;
+import com.lin.dao.ResourceCategoryDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 
@@ -66,10 +66,10 @@ public class EditResourceCategoryBean implements ActionBean {
 
     @DefaultHandler
     public Resolution editResourceCategory(){
-        ResourceCategoriesDAO rcDAO = new ResourceCategoriesDAO();
+        ResourceCategoryDAO rcDAO = new ResourceCategoryDAO();
         
         try{
-            rcDAO.updateResourceCategories
+            rcDAO.updateResourceCategory
                     (
                         Integer.parseInt(id),
                         name,
