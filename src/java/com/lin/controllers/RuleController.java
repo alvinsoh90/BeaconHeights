@@ -75,28 +75,42 @@ public class RuleController {
     private ArrayList<String> validateOpenRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> openRuleErrors = new ArrayList<String>();
         ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
-
+        
+        boolean bookingValid = false;
+        
         for (Object o : openRuleList) {
             OpenRule openRule = (OpenRule) o;
             if (openRule.getDayOfWeek() == startBookingTime.getDay()) {
                 Date openStart = openRule.getStartTime();
-
-                if (openStart.getHours() > startBookingTime.getHours()) {
-                    openRuleErrors.add("Unable to book before facility opens!");
-                } else if (openStart.getHours() == startBookingTime.getHours() && openStart.getMinutes() > startBookingTime.getMinutes()) {
-                    openRuleErrors.add("Unable to book before facility opens! Check to the minute.");
-                }
-
                 Date openEnd = openRule.getEndTime();
-                if (openEnd.getHours() < endBookingTime.getHours()) {
-                    openRuleErrors.add("Unable to book after facility closes!");
-                } else if (openEnd.getHours() == endBookingTime.getHours() && openEnd.getMinutes() < endBookingTime.getMinutes()) {
-                    openRuleErrors.add("Unable to book after facility closes! Check to the minute.");
+                
+                boolean startValid = false;
+                boolean endValid = false;
+                
+                if (startBookingTime.getHours() > openStart.getHours()) {
+                    startValid = true;
+                } else if (openStart.getHours() == startBookingTime.getHours() && startBookingTime.getMinutes() >= openStart.getMinutes()) {
+                    startValid = true;
                 }
 
+                if (endBookingTime.getHours() < openEnd.getHours()) {
+                    endValid = true;
+                } else if (openEnd.getHours() == endBookingTime.getHours() && endBookingTime.getMinutes() < openEnd.getMinutes()) {
+                    endValid = true;
+                }
+                
+                if (startValid && endValid){
+                    bookingValid = true;
+                    break;
+                }
+                
             }
 
 
+        }
+        
+        if (!bookingValid){
+            openRuleErrors.add("The facility is closed at the time you have selected!");
         }
 
         return openRuleErrors;
