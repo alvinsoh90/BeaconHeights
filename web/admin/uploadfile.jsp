@@ -10,7 +10,7 @@
              class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
-<%@include file="/protectadmin.jsp"%>
+<%--<%@include file="/protectadmin.jsp"%>--%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -155,11 +155,11 @@
                     <%@include file="include/pageinfobar.jsp"%>
                     
                     <div class="page-header">
-				<h1>Create Facility Type <small></small></h1>
+				<h1>Upload File <small></small></h1>
 			</div>
                     
                     <!-- Create FT form start -->
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilityTypesActionBean" name="new_facility_validate" id="new_facility_validate">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.UploadBean" name="upload" id="new_facility_validate">
                         
                         <stripes:errors>
      <stripes:errors-header><div class="errorHeader">Validation Errors</div><ul></stripes:errors-header>
@@ -168,130 +168,18 @@
 </stripes:errors>
                         
                         <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Name</label>
+                                    <label class="control-label">File : </label>
                                     <div class="controls">
-                                        <stripes:text name="name" class="input-xxlarge"/>
+                                        <stripes:file name="newAttachment"/>
                                         <p class="field-validation-valid" data-valmsg-for="input1" data-valmsg-replace="true">
                 </p>
+                <a href="/pdf_uploads/MOHAN SHAMUS MING.jpg">download image</a><br>
+                <a href="/pdf_uploads/Ethics Notes.docx">download word doc</a><br>
+                <a href="/pdf_uploads/Internship Poster - Shamus Ming Mohan shamusm.m.pdf">download pdf</a>
                                     </div>
-                         </div>
-                                    
-                         <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Description</label>
-                                    <div class="controls">
-                                        <stripes:textarea name="description" class="input-xxlarge"/>
-                                   
-                                    </div>
-                         </div>
                                         
-                         <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Does Facility Require Payment?</label>
-                                    <div class="controls">
-                                        <stripes:checkbox name="needsPayment"/>
-                                   
-                                    </div>
-                         </div>
-                                    
-                         <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Facility Availability</label>
-                                    <div class="timepickerArea">
-                                        <span>Monday</span>
-                                        <input id="mon1" class="timepicker"/>
-                                        <stripes:hidden name="mondayOne" id="mondayOne" /> 
-                                        <span>to</span>
-                                        <input id="mon2" class="timepicker"/>
-                                        <stripes:hidden name="mondayTwo" id="mondayTwo" />
-                                        <a href="#copy" onclick="copyFirstRow()">  Copy first row downwards</a>
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Tuesday</span>
-                                        <input id="tue1" class="timepicker"/>
-                                        <stripes:hidden name="tuesdayOne" id="tuesdayOne" /> 
-                                        <span>to</span>
-                                        <input id="tue2" class="timepicker"/>
-                                        <stripes:hidden name="tuesdayTwo" id="tuesdayTwo" />
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Wednesday</span>
-                                        <input id="wed1" class="timepicker"/>
-                                        <stripes:hidden name="wednesdayOne" id="wednesdayOne" /> 
-                                        <span>to</span>
-                                        <input id="wed2" class="timepicker"/>
-                                        <stripes:hidden name="wednesdayTwo" id="wednesdayTwo" />
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Thursday</span>
-                                        <input id="thu1" class="timepicker"/>
-                                        <stripes:hidden name="thursdayOne" id="thursdayOne" /> 
-                                        <span>to</span>
-                                        <input id="thu2" class="timepicker"/>
-                                        <stripes:hidden name="thursdayTwo" id="thursdayTwo" />
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Friday</span>
-                                        <input id="fri1" class="timepicker"/>
-                                        <stripes:hidden name="fridayOne" id="fridayOne" /> 
-                                        <span>to</span>
-                                        <input id="fri2" class="timepicker"/>
-                                        <stripes:hidden name="fridayTwo" id="fridayTwo" />
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Saturday</span>
-                                        <input id="sat1" class="timepicker"/>
-                                        <stripes:hidden name="saturdayOne" id="saturdayOne" /> 
-                                        <span>to</span>
-                                        <input id="sat2" class="timepicker"/>
-                                        <stripes:hidden name="saturdayTwo" id="saturdayTwo" />
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Sunday</span>
-                                        <input id="sun1" class="timepicker"/>
-                                        <stripes:hidden name="sundayOne" id="sundayOne" /> 
-                                        <span>to</span>
-                                        <input id="sun2" class="timepicker"/>
-                                        <stripes:hidden name="sundayTwo" id="sundayTwo" />
-                                    </div> 
-                         </div>
-                                    
-                         <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Booking Limits</label>
-                                    <div id="bookingLimitArea" class="float_l">
-                                        <stripes:text class="span75" name="bookingSessions" id="bookingSessions"/> 
-                                        time(s) per
-                                        <stripes:text class="span75" name="bookingLimitFreq" id="bookingLimitFreq" />
-                                        <stripes:select name="bookingLimitUnit" class="span75">
-                                            <option value="d">Days</option>
-                                            <option value="w">Weeks</option>
-                                            <option value="m">Months</option>
-                                        </stripes:select>                                            
-                                        <a href="#blimit" id="disableBookingLimit" class="embeddedBtn" onclick="disableBookingLimitArea()">No Booking Limits</a>                               
-                                    </div>
-                               <a id="enableBookingLimit" href="#blimit" class="btn btn-info hide float_l" onclick="disableBookingLimitArea()">Enable Booking Limits</a>          
-                         </div>            
-                        
-                         <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Limitation on Booking in Advance</label>
-                                    <div class="timepickerArea">
-                                        <span>Booking Opens</span>
-                                        <stripes:text class="span75" name="bookingOpenAdvance" id="bookingOpenAdvance"/> 
-                                        <span>days in advance</span>
-                                    </div> 
-                                        
-                                    <div class="timepickerArea">
-                                        <span>Booking Closes</span>
-                                        <stripes:text class="span75" name="bookingCloseAdvance" id="bookingCloseAdvance"/> 
-                                        <span>days in advance</span>
-                                    </div>     
-                                        
-                                
-                         </div>  
-                                            <input type="submit" name="editFacilityType" value="Create Facility" class="btn btn-large btn-primary timepickerArea"/>    
+                         </div>   
+                        <input type="submit" name="UPLOAD" value="Upload File" class="btn btn-large btn-primary timepickerArea"/>
                     </stripes:form>
             
                    </div>
