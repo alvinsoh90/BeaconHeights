@@ -39,7 +39,16 @@
                             <li><a href="manage-facilities.jsp">Manage Facilities</a></li>
                             <li><a href="manage-facilitytypes.jsp">Manage Facilities Types</a></li>
                         </ul>
-                    </li>            
+                    </li> 
+                    
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manage-onlineform.jsp">Online Forms</a></li>
+                            <li><a href="manage-onlineform.jsp">Taxi Booking(N/A)</a></li>
+                            <li><a href="manage-onlineform.jsp">Nearby Amenities(N/A)</a></li>
+                            <li><a href="manage-onlineform.jsp">Useful Contacts(N/A)</a></li>
+                        </ul>
+                    </li>   
 <!--
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Roles <b class="caret"></b></a>
                         <ul class="dropdown-menu">
