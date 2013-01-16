@@ -32,6 +32,14 @@ public class EditResourceCategoryBean implements ActionBean {
     private String result;
     private boolean success = false;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public String getDescription() {
         return description;
     }
@@ -67,12 +75,12 @@ public class EditResourceCategoryBean implements ActionBean {
                         name,
                         description
                     );
-            return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=true"+"&editmsg="+name+id);
+            return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=true"+"&editmsg="+name);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=false"+"&editmsg="+name+id);
+        return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=false"+"&editmsg="+name);
         
     }
 }
