@@ -25,12 +25,12 @@ import org.hibernate.Transaction;
  *
  * @author Keffeine
  */
-public class ResourceCategoriesDAO {
+public class ResourceCategoryDAO {
 
-    ArrayList<ResourceCategories> rCat = null;
+    ArrayList<ResourceCategory> rCat = null;
     Session session = null;
 
-    public ResourceCategoriesDAO() {
+    public ResourceCategoryDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
@@ -38,15 +38,15 @@ public class ResourceCategoriesDAO {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
-    public ArrayList<ResourceCategories> retrieveAllFacilityTypes() {
+    public ArrayList<ResourceCategory> retrieveAllResourceCategory() {
         openSession();
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
         
-        rCat = new ArrayList<ResourceCategories>();
+        rCat = new ArrayList<ResourceCategory>();
         try {
             org.hibernate.Transaction tx = sess.beginTransaction();
-            Query q = sess.createQuery("from ResourceCategories");
-            rCat = (ArrayList<ResourceCategories>) q.list();
+            Query q = sess.createQuery("from ResourceCategory");
+            rCat = (ArrayList<ResourceCategory>) q.list();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,14 +54,14 @@ public class ResourceCategoriesDAO {
         return rCat;
     }
 
-    public ResourceCategories createResourceCategories(String name, String decription) {
-
-        ResourceCategories rCat = new ResourceCategories( name,  decription);
+    public ResourceCategory createResourceCategory(String name, String decription) {
+System.out.append("db test");
+        ResourceCategory rCat = new ResourceCategory( name,  decription);
         
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.save("ResourceCategories", rCat);
+            session.save("ResourceCategory", rCat);
             tx.commit();
 
             return rCat;
@@ -76,12 +76,12 @@ public class ResourceCategoriesDAO {
     }
     
     
-    public void deleteResourceCategories(int id) {
+    public void deleteResourceCategory(int id) {
 
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            ResourceCategories rCat = (ResourceCategories)session.get(ResourceCategories.class, id);
+            ResourceCategory rCat = (ResourceCategory)session.get(ResourceCategory.class, id);
             session.delete(rCat);
             tx.commit();
         } catch (Exception e) {
@@ -93,14 +93,14 @@ public class ResourceCategoriesDAO {
         
     }
     
-        public ResourceCategories updateResourceCategories(int id, String name, String decription) {
+        public ResourceCategory updateResourceCategory(int id, String name, String description) {
 
         Transaction tx = null;
-        ResourceCategories rCat = null;
+        ResourceCategory rCat = null;
         try {
             tx = session.beginTransaction();
-            rCat = (ResourceCategories)session.get(ResourceCategories.class, id);
-            rCat.setDecription(decription);
+            rCat = (ResourceCategory)session.get(ResourceCategory.class, id);
+            rCat.setDescription(description);
             rCat.setName(name);
             tx.commit();
             

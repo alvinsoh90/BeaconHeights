@@ -15,6 +15,9 @@
                 <li><a href="manage-facilities.jsp">Manage Facilities</a></li>
                 <li><a href="manage-facilitytypes.jsp">Manage Facility Types</a></li>
 
+                <li class="nav-header"><i class="icon-folder-open"></i> Resource Management</li>
+                <li><a href="#">Manage Resources</a></li>
+                <li><a href="manage-resourcecategories.jsp">Manage Resource Categories</a></li>
 
                 <li class="nav-header"><i class="icon-info-sign"></i> Services </li>
                 <li><a href="manage-onlineform.jsp">Online Forms</a></li>
