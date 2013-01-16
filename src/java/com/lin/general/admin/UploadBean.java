@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import net.sourceforge.stripes.action.*;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 
@@ -40,6 +41,8 @@ public class UploadBean implements ActionBean{
     @HandlesEvent("upload")
     @DefaultHandler
     public Resolution upload() {
+        long dateInt = new Date().getTime();
+        String fileName = dateInt+newAttachment.getFileName();
 //        String filename = newAttachment.getFileName();
 //        InputStream input = null;
 //        OutputStream output = null;
@@ -55,8 +58,11 @@ public class UploadBean implements ActionBean{
 //        }
         
         try{
+            File location = new File("../webapps/pdf_uploads/"+fileName);
             
-            File location = new File("../webapps/pdf_uploads/"+newAttachment.getFileName());
+            System.out.println("FILE NAME : "+fileName);
+            System.out.println("TYPE : "+newAttachment.getContentType());
+            System.out.println("DATE TIME NUMBER: "+dateInt);
             System.out.println("DOES FOLDER EXIST : "+location.getParentFile().exists());
             
             if(!location.getParentFile().exists()){
@@ -72,7 +78,7 @@ public class UploadBean implements ActionBean{
             e.printStackTrace();
         }
         
-        return new RedirectResolution("/pdf_uploads/"+newAttachment.getFileName());
+        return new RedirectResolution("/pdf_uploads/"+fileName);
     }
     
 
