@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 18, 2013 4:37:11 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lin.entities.Resource" table="resource" catalog="lin_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="200" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="400" not-null="true" />
+        </property>
+        <property name="category" type="string">
+            <column name="category" length="200" not-null="true" />
+        </property>
+        <property name="fileName" type="string">
+            <column name="file_name" length="400" not-null="true" />
+        </property>
+        <property name="timeCreated" type="timestamp">
+            <column name="time_created" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

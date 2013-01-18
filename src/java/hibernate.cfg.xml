@@ -23,5 +23,20 @@
     <mapping resource="com/lin/entities/CloseRule.hbm.xml"/>
     <mapping resource="com/lin/entities/LimitRule.hbm.xml"/>
     <mapping resource="com/lin/entities/ResourceCategory.hbm.xml"/>
+    <mapping resource="com/lin/entities/SubmittedForm.hbm.xml"/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping resource="com/lin/entities/ResourceCategories.hbm.xml"/>
+    <mapping/>
+    <mapping/>
+    <mapping/>
+    <mapping resource="com/lin/entities/Resource.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
