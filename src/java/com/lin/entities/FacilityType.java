@@ -2,7 +2,11 @@ package com.lin.entities;
 // Generated Dec 12, 2012 6:43:41 PM by Hibernate Tools 3.2.1.GA
 
 
+import com.lin.comparators.SortOpenRuleByDayOfWeekComparator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -96,6 +100,14 @@ public class FacilityType  implements java.io.Serializable {
     public Set getAdvanceRules() {
         return this.advanceRules;
     }
+    
+    public ArrayList<OpenRule> getSortedOpenRules(){
+        ArrayList<OpenRule> l = new ArrayList<OpenRule>();
+        l.addAll(getOpenRules());
+        Collections.sort(l,new SortOpenRuleByDayOfWeekComparator());
+        return l;
+    }
+    
     @Fetch(FetchMode.JOIN)
     public void setAdvanceRules(Set advanceRules) {
         this.advanceRules = advanceRules;

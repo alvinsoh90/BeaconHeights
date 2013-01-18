@@ -143,7 +143,7 @@ unicorn = {
                }
                //check if event is overlapping, if so, reject
                else if(isOverlapper){
-                   toastr.warning("Please select only vacant time slots")
+                   toastr.warning("Please select only vacant time slots");
                    $("#fullcalendar").fullCalendar('unselect');    
                }
                //check if event is within open rules;

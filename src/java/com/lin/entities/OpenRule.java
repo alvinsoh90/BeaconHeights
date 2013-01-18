@@ -2,6 +2,7 @@ package com.lin.entities;
 // Generated Dec 25, 2012 6:37:22 PM by Hibernate Tools 3.2.1.GA
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -134,11 +135,11 @@ public class OpenRule  implements java.io.Serializable {
    
     @Override
     public String toString() {
-        return this.getDay()+ " " + startTime.getHours() + ":"+ startTime.getMinutes()+" - " + endTime.getHours() + ":"+ endTime.getMinutes();
+        SimpleDateFormat df = new SimpleDateFormat("h:mma");
+        System.out.println(df.format(endTime));
+        System.out.println(endTime);
+        return this.getDay()+ " " + df.format(startTime).toLowerCase() + " - " + df.format(endTime).toLowerCase() ;
     }
-    
-
-
 }
 
 
