@@ -21,7 +21,7 @@
             <column name="file_name" length="400" not-null="true" />
         </property>
         <property name="timeCreated" type="timestamp">
-            <column name="time_created" length="19" not-null="true" />
+            <column name="time_created" length="19"  />
         </property>
     </class>
 </hibernate-mapping>

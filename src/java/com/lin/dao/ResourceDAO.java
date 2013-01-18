@@ -56,7 +56,7 @@ public class ResourceDAO {
     }
 
     public Resource createResource(String name, String decription, String category, String fileName) {
-System.out.append("db test");
+
         Resource resource = new Resource( name,  decription, category, fileName);
         
         Transaction tx = null;
@@ -117,6 +117,22 @@ System.out.append("db test");
         }
         
         return resource;
+    }
+
+    public ArrayList<String> getUniqueCategories() {
+        openSession();
+        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        
+        ArrayList<String> catList = new ArrayList<String>();
+        try {
+            org.hibernate.Transaction tx = sess.beginTransaction();
+            Query q = sess.createQuery("select distinct category from Resource");
+            catList = (ArrayList<String>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return catList;
     }
     
 }

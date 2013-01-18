@@ -45,7 +45,7 @@
                         $("#editid").val(resource.id);
                         $("#edit_name").val(resource.name);
                         $("#edit_description").val(resource.description);
-
+                        $("#edit_category").val(resource.category);
                     }
                     
                 });
@@ -160,7 +160,7 @@
                                 <td><b>${resource.name}</b></td>
                                 <td><b>${resource.description}</b></td>
                                 <td><b>${resource.category}</b></td>
-                                <td><b>${resource.fileName}</b></td>
+                                <td><b><a href="/pdf_uploads/${resource.fileName}">${resource.fileName}</a></b></td>
                                 <td><b>${resource.timeCreated}</b></td>
                                 <td>
                                     <a href="#editResourceModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditResourceModal('${resource.id}')">Edit</a> 
@@ -200,27 +200,30 @@
             <div class="modal-body">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageResourceActionBean" name="new_resource_validate" id="new_resource_validate">                 
                     <div class="control-group ${errorStyle}">
-                        <label class="control-label">Name</label>
+                        <label class="control-label">Name:</label>
                         <div class="controls">
                             <stripes:text name="name" />
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
-                        <label class="control-label">Description</label>
+                        <label class="control-label">Description:</label>
                         <div class="controls">
                             <stripes:text name="description" />
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
-                        <label class="control-label">Category</label>
+                        <label class="control-label">Category:</label>
                         <div class="controls">
-                            <stripes:text name="category" />
+                            Select <stripes:select name="category" >
+                                <stripes:options-collection collection="${manageResourceActionBean.uniqueCategories}" />        
+                            </stripes:select>
+                            <br>Or Create New <stripes:text name="category_new" />
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
-                        <label class="control-label">File Name</label>
+                        <label class="control-label">File:</label>
                         <div class="controls">
-                            <stripes:text name="fileName" />
+                            <stripes:file name="file"/>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -234,31 +237,42 @@
         <div id="editResourceModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Edit <span id="resourceLabel"></span></h3>
+                <h3>Create a Resource</h3>
             </div>
             <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditResourceBean" id="edit_resource_validate" name="edit_resource_validate">
-                    <stripes:text class="hide" name="id" id="editid" />
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageResourceActionBean" name="new_resource_validate" id="new_resource_validate">                 
                     <div class="control-group ${errorStyle}">
-                        <label class="control-label">Name</label>
+                        <label class="control-label">Name:</label>
                         <div class="controls">
-                            <stripes:text id="edit_name" name="name" />
+                            <stripes:text name="name" id="edit_name" />
                         </div>
                     </div>
-                        <div class="control-group ${errorStyle}">
-                        <label class="control-label">Description</label>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Description:</label>
                         <div class="controls">
-                            <stripes:text id="edit_description" name="description" />
+                            <stripes:text name="description" id="edit_description" />
                         </div>
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Category:</label>
+                        <div class="controls">
+                            Select <stripes:select name="category" id="edit_category">
+                                <stripes:options-collection collection="${manageResourceActionBean.uniqueCategories}" />        
+                            </stripes:select>
+                            <br>Or Create New <stripes:text name="category_new" />
                         </div>
-                    
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">File:</label>
+                        <div class="controls">
+                            <stripes:file name="file"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" name="createResource" value="Add this Resource" class="btn btn-info btn-large"/>                                                           
+                    </stripes:form>
                 </div>
-                <div class="modal-footer">
-                    <a data-dismiss="modal" class="btn">Close</a>
-                    <stripes:hidden id="editid" name="id"/>
-                    <input type="submit" name="editResource" value="Confirm Edit" class="btn btn-primary"/>
-                </div>
-            </stripes:form>
+            </div>      
         </div>
 
 
