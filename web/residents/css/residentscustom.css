@@ -124,3 +124,11 @@
 .closedSlot:hover{
     cursor: not-allowed;
 }
+
+.fc-minor{
+    cursor:pointer;
+}
+
+a.fc-event, .fc-event-draggable{
+    cursor:auto !important;
+}

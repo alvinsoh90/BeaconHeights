@@ -62,6 +62,9 @@ function paintCalendar(){
 //      $("#fullcalendar").fullCalendar('unselect'); 
 //      toastr.warning("Sorry, this facility is closed at this time");
 //    });
+//    console.log("unbinding...");
+//    var closedSlots = $("#fullcalendar").find('.closedSlot');
+//    closedSlots.unbind("click").click(function(){console.log("asd");toastr.warning("Sorry, this facility is closed at this time");});
 }
 
 unicorn = {	
@@ -129,8 +132,7 @@ unicorn = {
                var thisEvent = new Object();
                thisEvent.start = start;
                thisEvent.end = end;
-               isEventOverlapping(thisEvent);
-               console.log("event is overlapping: " + isOverlapper);
+               isOverlapper = isEventOverlapping(thisEvent);
 
                var bookableDate = new Date();                   
                bookableDate.setDate(bookableDate.getDate() + 1);
@@ -141,7 +143,8 @@ unicorn = {
                }
                //check if event is overlapping, if so, reject
                else if(isOverlapper){
-                   $("#fullcalendar").fullCalendar('unselect');    //NOT WORKING... DUNNO WHY  --XY will fix later
+                   toastr.warning("Please select only vacant time slots")
+                   $("#fullcalendar").fullCalendar('unselect');    
                }
                //check if event is within open rules;
                //else if()
