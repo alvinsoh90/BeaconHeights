@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Jan 18, 2013 5:46:16 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 18, 2013 6:22:15 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -15,23 +15,32 @@ public class SubmittedForm  implements java.io.Serializable {
      private Date timeSubmitted;
      private String fileName;
      private boolean processed;
+     private String comments;
 
     public SubmittedForm() {
     }
 
+	
     public SubmittedForm(User user, Date timeSubmitted, String fileName, boolean processed) {
+        this.user = user;
+        this.timeSubmitted = timeSubmitted;
+        this.fileName = fileName;
+        this.processed = processed;
+    }
+    public SubmittedForm(User user, Date timeSubmitted, String fileName, boolean processed, String comments) {
        this.user = user;
        this.timeSubmitted = timeSubmitted;
        this.fileName = fileName;
        this.processed = processed;
+       this.comments = comments;
     }
-   
-     public SubmittedForm(User user, String fileName, boolean processed) {
+    public SubmittedForm(User user, String fileName, boolean processed, String comments) {
        this.user = user;
        this.fileName = fileName;
        this.processed = processed;
+       this.comments = comments;
     }
-    
+   
     public Integer getId() {
         return this.id;
     }
@@ -66,6 +75,13 @@ public class SubmittedForm  implements java.io.Serializable {
     
     public void setProcessed(boolean processed) {
         this.processed = processed;
+    }
+    public String getComments() {
+        return this.comments;
+    }
+    
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
 

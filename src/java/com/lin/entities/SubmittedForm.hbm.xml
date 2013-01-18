@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 18, 2013 5:46:17 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Jan 18, 2013 6:22:15 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.SubmittedForm" table="submitted_form" catalog="lin_db">
         <id name="id" type="java.lang.Integer">
@@ -12,13 +12,16 @@
             <column name="user" not-null="true" />
         </many-to-one>
         <property name="timeSubmitted" type="timestamp">
-            <column name="time_submitted" length="19" not-null="true" />
+            <column name="time_submitted" length="19"  />
         </property>
         <property name="fileName" type="string">
             <column name="file_name" length="200" not-null="true" />
         </property>
         <property name="processed" type="boolean">
             <column name="processed" not-null="true" />
+        </property>
+        <property name="comments" type="string">
+            <column name="comments" length="600" />
         </property>
     </class>
 </hibernate-mapping>

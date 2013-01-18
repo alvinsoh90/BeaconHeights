@@ -10,8 +10,8 @@
 
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
-<jsp:useBean id="manageResourceCategoriesActionBean" scope="page"
-             class="com.lin.general.admin.ManageResourceCategoriesActionBean"/>
+<jsp:useBean id="manageResourceActionBean" scope="page"
+             class="com.lin.general.admin.ManageResourceActionBean"/>
 <jsp:useBean id="editResourceBean" scope="page"
              class="com.lin.general.admin.EditResourceBean"/>
 <jsp:useBean id="deleteResourceBean" scope="page"

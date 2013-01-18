@@ -75,8 +75,8 @@ public class ManageResourceActionBean implements ActionBean {
     }
 
     public ArrayList<Resource> getResourceList() {
-        ResourceDAO rcDAO = new ResourceDAO();
-        resourceList = rcDAO.retrieveAllResource();
+        ResourceDAO rDAO = new ResourceDAO();
+        resourceList = rDAO.retrieveAllResource();
         return resourceList;
     }
 
@@ -88,7 +88,7 @@ public class ManageResourceActionBean implements ActionBean {
     public Resolution createResource() {
         try {
             ResourceDAO rDAO = new ResourceDAO();
-            System.out.append(name + "" +description);
+            //System.out.append(name + "" +description);
             Resource rc = rDAO.createResource(name, description, category, fileName);
             result = rc.getName();
             success = true;
