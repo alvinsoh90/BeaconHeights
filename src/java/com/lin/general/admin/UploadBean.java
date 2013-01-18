@@ -43,34 +43,21 @@ public class UploadBean implements ActionBean{
     public Resolution upload() {
         long dateInt = new Date().getTime();
         String fileName = dateInt+newAttachment.getFileName();
-//        String filename = newAttachment.getFileName();
-//        InputStream input = null;
-//        OutputStream output = null;
-//        try {
-//            input = newAttachment.getInputStream();
-//            output = new FileOutputStream(new File("/", filename));
-//            IOUtils.copy(input, output);
-//        } catch(Exception e){
-//            e.printStackTrace();
-//        }finally {
-//            IOUtils.closeQuietly(input);
-//            //IOUtils.closeQuietly(output);
-//        }
         
         try{
             File location = new File("../webapps/pdf_uploads/"+fileName);
             
-            System.out.println("FILE NAME : "+fileName);
-            System.out.println("TYPE : "+newAttachment.getContentType());
-            System.out.println("DATE TIME NUMBER: "+dateInt);
-            System.out.println("DOES FOLDER EXIST : "+location.getParentFile().exists());
+//            System.out.println("FILE NAME : "+fileName);
+//            System.out.println("TYPE : "+newAttachment.getContentType());
+//            System.out.println("DATE TIME NUMBER: "+dateInt);
+//            System.out.println("DOES FOLDER EXIST : "+location.getParentFile().exists());
             
             if(!location.getParentFile().exists()){
                 location.getParentFile().mkdirs();
-                System.out.println("TRYING TO CREATE PARENT DIR");
+                //System.out.println("TRYING TO CREATE PARENT DIR");
             }
-            System.out.println("PARENT LOCATOIN :"+location.getParent());
-            System.out.println("SET WRITABLE SUCCES : "+location.setWritable(true));
+//            System.out.println("PARENT LOCATOIN :"+location.getParent());
+//            System.out.println("SET WRITABLE SUCCES : "+location.setWritable(true));
             
             newAttachment.save(location);
         
