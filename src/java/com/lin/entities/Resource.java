@@ -27,6 +27,13 @@ public class Resource  implements java.io.Serializable {
        this.fileName = fileName;
        this.timeCreated = timeCreated;
     }
+    
+    public Resource(String name, String description, String category, String fileName) {
+       this.name = name;
+       this.description = description;
+       this.category = category;
+       this.fileName = fileName;
+    }
    
     public Integer getId() {
         return this.id;
