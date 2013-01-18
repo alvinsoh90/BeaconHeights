@@ -8,6 +8,7 @@ import com.lin.dao.BlockDAO;
 import com.lin.dao.RoleDAO;
 import com.lin.dao.UserDAO;
 import com.lin.dao.BookingDAO;
+import com.lin.dao.FacilityDAO;
 import com.lin.dao.FacilityTypeDAO;
 import com.lin.entities.*;
 
@@ -62,7 +63,11 @@ public class ManageBookingsActionBean extends BaseActionBean {
     public void setBookingListForSingleFacility(ArrayList<Booking> bookingListForSingleFacility) {
         this.bookingListForSingleFacility = bookingListForSingleFacility;
     }
-
+    
+    public ArrayList<OpenRule> getOpenRulesByFacilityID(int fid){
+        FacilityDAO fDAO = new FacilityDAO();
+        return fDAO.getFacility(fid).getFacilityType().getSortedOpenRules();
+    }
     
     
     public Booking getBooking() {

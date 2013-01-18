@@ -66,7 +66,6 @@ public class BookingDAO {
                 forceRefresh(id,isDel);
             }
         }
-        System.out.println("test if facility retrieved...FT-DESC:" + allBookingList.get(1).getFacility().getFacilityType().getDescription());
         return allBookingList;
     }
 
@@ -249,8 +248,6 @@ public class BookingDAO {
                 forceRefresh(id,isDel);
             }
         }
-        System.out.println("FROM DAO: NUM:" + currentList.size());
-        System.out.println("test if facility retrieved...FT-DESC:" + currentList.get(1).getFacility().getFacilityType().getDescription());
 
 
         return currentList;

@@ -41,7 +41,7 @@
             var bookingList = [];
             var openTimingsList = [];
 
-            function showFacilityBookingsByFacilityID(facilityID){
+            function showFacilityBookingsByFacilityID(facilityID){ 
                 //this method is called when page is fully loaded
                 
                 //clear previous events
@@ -51,7 +51,22 @@
                 var eventSource = "/json/bookingevents.jsp?facilityid=" 
                     + facilityID +"&userid="+${sessionScope.user.userId};
                 
-                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );               
+                $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );  
+                
+                
+                //also load up this facility's open rules
+                
+                openTimingsList = [];  //clear previous timings, if any
+                                
+                $.get("/json/getopenrulesbyfacilityid.jsp?facilityid=" + facilityID, function(data){
+                    for(i = 0 ; i < data.length ; i++){
+                        openTimingsList.push([data[i].start,data[i].end])
+                    }
+                    
+                     paintCalendar();  //set timings to be greyed out
+                });
+                
+              
             }
         </script> 
 
@@ -120,14 +135,6 @@
                                 <td>${facilityType.description}</td>
                                 <td><c:forEach items="${facilityType.sortedOpenRules}" var="openRule" varStatus="loop">
                                         ${openRule}<br>
-                                        
-                                        <!-- Create Javascript objects that represent times at which this facility is bookable
-                                        For use in Generating the calendar -->
-                                        <script>
-                                            var ruleTimingArr = ["${openRule.startTimeIn24HourFormat}","${openRule.endTimeIn24HourFormat}"]
-                                            openTimingsList.push(ruleTimingArr);                                           
-                                        </script>
-
                                     </c:forEach></td>
                                 <td><c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
                                         ${limitRules}<br>    
@@ -222,6 +229,7 @@
                                 var currFacilityID = $("#facilityDropDown option:selected").val();
                                 showFacilityBookingsByFacilityID(currFacilityID);
                             }
+                            
                             //attach handler
                             $("#facilityDropDown").change(displayVals);
                             

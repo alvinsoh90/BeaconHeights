@@ -170,7 +170,7 @@ public class FacilityDAO {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Facility where id = :fId");
+            Query q = session.createQuery("from Facility as facility join fetch facility.facilityType join fetch facility.facilityType.openRules where facility.id = :fId");
             q.setInteger("fId", id);
             result = (ArrayList<Facility>) q.list();
             tx.commit();

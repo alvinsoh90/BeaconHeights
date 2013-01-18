@@ -136,9 +136,8 @@ public class OpenRule  implements java.io.Serializable {
     @Override
     public String toString() {
         SimpleDateFormat df = new SimpleDateFormat("h:mma");
-        System.out.println(df.format(endTime));
-        System.out.println(endTime);
-        return this.getDay()+ " " + df.format(startTime).toLowerCase() + " - " + df.format(endTime).toLowerCase() ;
+        return this.getDay()+ " " + df.format(startTime).toLowerCase() +
+                " - " + df.format(endTime).toLowerCase() ;
     }
 }
 
