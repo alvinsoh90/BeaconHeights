@@ -16,8 +16,8 @@
                 <li><a href="manage-facilitytypes.jsp">Manage Facility Types</a></li>
 
                 <li class="nav-header"><i class="icon-info-sign"></i> Services </li>
-                <li><a href="manage-onlineform.jsp">Online Forms</a></li>
-                <li><a href="manage-submittedforms.jsp">Manage Submitted Forms</a></li>
+                <li><a href="manage-onlineform.jsp">Manage Online Forms</a></li>
+<!--                <li><a href="manage-submittedforms.jsp">Manage Submitted Forms</a></li>-->
                 <li><a href="manage-resource.jsp">Manage Resources</a></li>
                 <li><a href="manage-resourcecategories.jsp">Manage Resource Categories</a></li>
                 

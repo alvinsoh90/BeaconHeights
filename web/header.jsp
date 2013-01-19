@@ -11,7 +11,7 @@
     <head>
         <meta charset="utf-8">
         <title>Make a Booking | Beacon Heights</title>
-        
+
     </head>
     <body>
         <div class="navbar navbar-fixed-top">
@@ -46,9 +46,31 @@
                                 <li>
                                     <a href="/residents/mybookings.jsp"> View My Bookings</a>
                                 </li>
+                            </ul>
 
+                        </li>
+                    </ul>
+                     <ul class="nav pull-left">
 
-                        </li> </ul></li></ul>
+                        <li class="dropdown">
+
+                            <a data-toggle="dropdown" class="dropdown-toggle ">
+                                Services
+                                <b class="caret"></b>							
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/residents/viewresources.jsp"> View Resources</a>
+                                </li>
+
+                                <li>
+                                    <a href="/residents/submitonlineforms.jsp"> Submit Online Forms</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
 
                     <div class="nav-collapse">
 
@@ -80,7 +102,7 @@
                                         <li>
                                             <a href="/admin/adminmain.jsp"><i class="icon-forward"></i>Go to Admin</a>
                                         </li>
-                                    <li class="divider"></li>
+                                        <li class="divider"></li>
                                     </c:if>
                                     <li>
                                     <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
