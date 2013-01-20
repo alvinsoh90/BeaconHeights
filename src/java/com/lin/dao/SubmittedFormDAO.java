@@ -50,9 +50,9 @@ public class SubmittedFormDAO {
         return sForms;
     }
 
-    public SubmittedForm createSubmittedForm(User user, String fileName, boolean processed, String comments) {
+    public SubmittedForm createSubmittedForm(User user, String fileName, boolean processed, String comments, String title) {
 
-        SubmittedForm sForm = new SubmittedForm(user, fileName, processed, comments);
+        SubmittedForm sForm = new SubmittedForm(user, fileName, processed, comments, title);
         
         Transaction tx = null;
         try {

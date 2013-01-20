@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Jan 18, 2013 6:22:15 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 20, 2013 12:52:18 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -16,29 +16,34 @@ public class SubmittedForm  implements java.io.Serializable {
      private String fileName;
      private boolean processed;
      private String comments;
+     private String title;
 
     public SubmittedForm() {
     }
 
 	
-    public SubmittedForm(User user, Date timeSubmitted, String fileName, boolean processed) {
+    public SubmittedForm(User user, Date timeSubmitted, String fileName, boolean processed, String title) {
         this.user = user;
         this.timeSubmitted = timeSubmitted;
         this.fileName = fileName;
         this.processed = processed;
+        this.title = title;
     }
-    public SubmittedForm(User user, Date timeSubmitted, String fileName, boolean processed, String comments) {
+    public SubmittedForm(User user, Date timeSubmitted, String fileName, boolean processed, String comments, String title) {
        this.user = user;
        this.timeSubmitted = timeSubmitted;
        this.fileName = fileName;
        this.processed = processed;
        this.comments = comments;
+       this.title = title;
     }
-    public SubmittedForm(User user, String fileName, boolean processed, String comments) {
-       this.user = user;
-       this.fileName = fileName;
-       this.processed = processed;
-       this.comments = comments;
+    
+    public SubmittedForm(User user, String fileName, boolean processed, String comments, String title) {
+        this.user = user;
+        this.comments = comments;
+        this.fileName = fileName;
+        this.processed = processed;
+        this.title = title;
     }
    
     public Integer getId() {
@@ -82,6 +87,13 @@ public class SubmittedForm  implements java.io.Serializable {
     
     public void setComments(String comments) {
         this.comments = comments;
+    }
+    public String getTitle() {
+        return this.title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 

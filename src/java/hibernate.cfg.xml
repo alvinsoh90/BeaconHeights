@@ -26,5 +26,6 @@
     <mapping resource="com/lin/entities/SubmittedForm.hbm.xml"/>
     <mapping resource="com/lin/entities/ResourceCategories.hbm.xml"/>
     <mapping resource="com/lin/entities/Resource.hbm.xml"/>
+    <mapping resource="com/lin/entities/FormTemplate.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

@@ -16,4 +16,5 @@
   <table-filter match-name="resource_category"/>
   <table-filter match-name="resource" />
   <table-filter match-name="submitted_form"/>
+  <table-filter match-name="form_template"/>
 </hibernate-reverse-engineering>
