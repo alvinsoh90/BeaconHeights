@@ -49,6 +49,33 @@
                 });
                 
             }
+            
+            function populateEditSubmittedFormModal(sfID){ 
+                sfList.forEach(function(submittedForm){
+                    if(submittedForm.id == sfID){
+                        $("#sfEditLabel").text(submittedForm.id);
+                        $("#edit_processed").text(submittedForm.processed);
+                        $("#edit_id").val(submittedForm.id);
+                        $("#edit_user").val(submittedForm.user);
+                        $("#edit_fileName").val(submittedForm.fileName);
+
+                    }
+                });
+                
+            }
+            function populateRevertSubmittedFormModal(sfID){ 
+                sfList.forEach(function(submittedForm){
+                    if(submittedForm.id == sfID){
+                        $("#sfRevertLabel").text(submittedForm.id);
+                        $("#revert_processed").text(submittedForm.processed);
+                        $("#revert_id").val(submittedForm.id);
+                        $("#revert_user").val(submittedForm.user);
+                        $("#revert_fileName").val(submittedForm.fileName);
+
+                    }
+                });
+                
+            }
         </script>
 
 
@@ -123,7 +150,7 @@
                                 <th>Form Title</th>
                                 <th>Time Submitted</th>
                                 <th>File Name</th>
-                                <th>Processed</th>
+                                <th>Status</th>
                                 <th>Comments</th>
                                 <th>Action</th>
                             </tr>
@@ -147,10 +174,20 @@
                                 <td><b>${submittedForm.title}</b></td>
                                 <td><b>${submittedForm.timeSubmitted}</b></td>
                                 <td><b><a href="/pdf_uploads/${submittedForm.fileName}">${submittedForm.fileName}</a></b></td>
-                                <td><b>${submittedForm.processed}</b></td>
+                                <td>
+                                    <b>
+                                        <c:if test="${submittedForm.processed=='false'}">Pending</c:if>
+                                        <c:if test="${submittedForm.processed=='true'}">Processed</c:if>
+                                    </b>
+                                </td>
                                 <td><b>${submittedForm.comments}</b></td>
                                 <td>
-                                    <a href="#editSubmittedFormModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditSubmittedFormModal('${submittedForm.id}')">Processed</a> 
+                                    <c:if test="${submittedForm.processed=='false'}">
+                                      <a href="#editSubmittedFormModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditSubmittedFormModal('${submittedForm.id}')">Processed</a>  
+                                    </c:if>
+                                    <c:if test="${submittedForm.processed=='true'}">
+                                          <a href="#revertSubmittedFormModal" role="button" data-toggle="modal" class="btn btn-info btn-mini" onclick="populateRevertSubmittedFormModal('${submittedForm.id}')">Revert</a> 
+                                    </c:if>
                                     <a href="#deleteSubmittedFormModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteSubmittedFormModal('${submittedForm.id}')">Delete</a>
                                 </td>
                             </tr>
@@ -178,6 +215,49 @@
 
         <%@include file="include/footer.jsp"%>
 
+        <!--Edit Submitted Form Modal -->
+        <div id="editSubmittedFormModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Processing submitted form id : <span id="sfEditLabel"></span></h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditSubmittedFormsBean" > 
+                   Are you sure you want to change the status to Processed?
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">No</a>
+
+                    <stripes:hidden id="edit_id" name="id"/>
+                    <stripes:hidden name="processed" value="true"/>
+                    <stripes:hidden id="edit_user" name="user"/>
+                    <stripes:hidden id="edit_fileName" name="fileName"/>
+                    <input type="submit" name="editSubmittedForm" value="Yes" class="btn btn-info"/>
+                </div>
+            </stripes:form>
+        </div>
+        
+        <!--Edit Submitted Form Modal -->
+        <div id="revertSubmittedFormModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Reverting submitted form id : <span id="sfRevertLabel"></span></h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditSubmittedFormsBean" > 
+                   Are you sure you want to revert the status to Pending?
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">No</a>
+
+                    <stripes:hidden id="revert_id" name="id"/>
+                    <stripes:hidden name="processed" value="false"/>
+                    <stripes:hidden id="revert_user" name="user"/>
+                    <stripes:hidden id="revert_fileName" name="fileName"/>
+                    <input type="submit" name="revertSubmittedForm" value="Yes" class="btn btn-info"/>
+                </div>
+            </stripes:form>
+        </div>
         
         <!--Delete Submitted Form Modal -->
         <div id="deleteSubmittedFormModal" class="modal hide fade">
