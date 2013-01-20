@@ -71,8 +71,49 @@ public class RuleController {
 
 
     }
-
+    
     private ArrayList<String> validateOpenRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
+        ArrayList<String> openRuleErrors = new ArrayList<String>();
+        ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
+        
+        boolean bookingValid = false;
+        
+        for (Object o : openRuleList) {
+            OpenRule openRule = (OpenRule) o;
+            if (openRule.getDayOfWeek() == startBookingTime.getDay()) {
+                Date openStart = openRule.getStartTime();
+                Date openEnd = openRule.getEndTime();
+                
+                boolean startValid = false;
+                boolean endValid = false;
+                
+                if (startBookingTime.getHours() == openStart.getHours() && startBookingTime.getMinutes() == openStart.getMinutes()) {
+                    startValid = true;
+                }
+
+                if (openEnd.getHours() == endBookingTime.getHours() && endBookingTime.getMinutes() == openEnd.getMinutes()) {
+                    endValid = true;
+                }
+                
+                if (startValid && endValid){
+                    bookingValid = true;
+                    break;
+                }
+                
+            }
+
+
+        }
+        
+        if (!bookingValid){
+            openRuleErrors.add("Please choose a valid slot!");
+        }
+
+        return openRuleErrors;
+    }
+    
+    //used to check if a booking is within the bounds set by the open rule
+    private ArrayList<String> withinOpenRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> openRuleErrors = new ArrayList<String>();
         ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
         
