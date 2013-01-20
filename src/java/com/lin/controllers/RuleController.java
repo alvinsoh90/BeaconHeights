@@ -10,6 +10,7 @@ import com.lin.dao.FacilityTypeDAO;
 import com.lin.dao.RuleDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
@@ -254,7 +255,21 @@ public class RuleController {
         
     }
     
-
+    public ArrayList<String> getFacilityOpeningTime(int facilityTypeID, int dayOfWeek){
+        ArrayList<String> openTimes = new ArrayList<String>();
+        ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        for (OpenRule o : openRuleList){
+            if (o.getDayOfWeek() == dayOfWeek){
+                String startString = sdf.format(o.getStartTime());
+                String endString = sdf.format(o.getEndTime());
+                openTimes.add(startString+","+endString);
+            }
+            
+        }
+        
+        return openTimes;
+    }
     
     private long getDayToMilliseconds(int i) {
         return i * 1000 * 60 * 60 * 24;
