@@ -29,59 +29,41 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
     private ActionBeanContext context;
     private ArrayList<SubmittedForm> sfList;
     private Log log = Log.getInstance(ManageSubmittedFormsActionBean.class);//in attempt to log what went wrong..
-    private String id;
-    private String user;
-    private String timeSubmitted;
-    private String fileName;
-    private String processed;
+    private String title;
+    private String user_id;
     private String comments;
+    private FileBean file;
 
-    public String getId() {
-        return id;
+    public FileBean getFile() {
+        return file;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setFile(FileBean file) {
+        this.file = file;
     }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getTimeSubmitted() {
-        return timeSubmitted;
-    }
-
-    public void setTimeSubmitted(String timeSubmitted) {
-        this.timeSubmitted = timeSubmitted;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String isProcessed() {
-        return processed;
-    }
-
-    public void setProcessed(String processed) {
-        this.processed = processed;
-    }
-
+    
     public String getComments() {
         return comments;
     }
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
     
     public ActionBeanContext getContext() {
@@ -102,25 +84,14 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
         this.sfList = sfList;
     }
     
-    public ArrayList<String> getUniqueCategories(){
-        ResourceDAO rDAO = new ResourceDAO();
-        ArrayList<String> result = rDAO.getUniqueCategories();
-        
-        return result;
-    }
-/*
+
     @DefaultHandler
-    public Resolution createResource() {
+    public Resolution submit() {
         String result;
         boolean success;
         String fileName = new Date().getTime()+file.getFileName();
         String category_input;
-        
-        if(category_new==null){
-            category_input=category;
-        }else{
-            category_input=category_new;
-        }
+        boolean processed = false;
         
         try {
             File location = new File("../webapps/pdf_uploads/"+fileName);
@@ -128,19 +99,20 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
                 location.getParentFile().mkdirs();
             }
             file.save(location);
-            
-            ResourceDAO rDAO = new ResourceDAO();
-            Resource rc = rDAO.createResource(name, description, category_input, fileName);
-            result = rc.getName();
+            UserDAO uDAO = new UserDAO();
+            User user = uDAO.getUser(Integer.parseInt(user_id));
+            SubmittedFormDAO sfDAO = new SubmittedFormDAO();
+            SubmittedForm sf = sfDAO.createSubmittedForm( user, fileName, processed, comments, title);
+            result = "form";
             success = true;
         } catch (Exception e) {
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/manage-resource.jsp?createsuccess=" + success
+        return new RedirectResolution("/residents/submitonlineforms.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
 
 
-    }*/
+    }
 }

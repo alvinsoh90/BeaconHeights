@@ -397,7 +397,7 @@
     <div id="editFormTemplateModal" class="modal hide fade">
         <div id="myModal" class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3>Edit a Resource</h3>
+            <h3>Edit an Online Form</h3>
         </div>
         <div class="modal-body">
             <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFormTemplateBean" name="new_resource_validate" id="new_resource_validate">                 

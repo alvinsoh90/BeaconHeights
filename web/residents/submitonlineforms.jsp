@@ -12,15 +12,12 @@
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-        <jsp:useBean id="manageResourceActionBean" scope="page"
-                     class="com.lin.general.admin.ManageResourceActionBean"/>
-        <jsp:useBean id="editResourceBean" scope="page"
-                     class="com.lin.general.admin.EditResourceBean"/>
-        <jsp:useBean id="deleteResourceBean" scope="page"
-                     class="com.lin.general.admin.DeleteResourceBean"/>
-        <jsp:useBean id="manageBookingsActionBean" scope="page"
-                     class="com.lin.general.admin.ManageBookingsActionBean"/>
-        <jsp:setProperty name = "manageBookingsActionBean"  property = "currentUser"  value = "${user}" />
+        <jsp:useBean id="manageFormTemplateActionBean" scope="page"
+                     class="com.lin.general.admin.ManageFormTemplateActionBean"/>
+        <jsp:useBean id="editFormTemplateBean" scope="page"
+                     class="com.lin.general.admin.EditFormTemplateBean"/>
+        <jsp:useBean id="deleteFormTemplateBean" scope="page"
+                     class="com.lin.general.admin.DeleteFormTemplateBean"/>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -51,35 +48,21 @@
         <![endif]-->
         <script>
             // Init an array of all rc shown on this page
-            var resourceList = [];
+            var formTemplateList = [];
             
-            //when this function is called, resourceList should already be populated
-            function populateEditResourceModal(resourceID){ 
-                resourceList.forEach(function(resource){
-                    if(resource.id == resourceID){
-                        $("#resourceLabel").text(resource.name);
-                        $("#editid").val(resource.id);
-                        $("#edit_name").val(resource.name);
-                        $("#edit_description").val(resource.description);
-                        $("#edit_category").val(resource.category);
+            //when this function is called, formTemplateList should already be populated
+            function populateSubmitFormModal(formTemplateID){ 
+                formTemplateList.forEach(function(formTemplate){
+                    if(formTemplate.id == formTemplateID){
+                        $("#formTemplateLabel").text(formTemplate.name);
+                        $("#submit_title").val(formTemplate.name);
                     }
                     
                 });
                 
             }
             
-            //when this function is called, resourceList should already be populated
-            function populateDeleteResourceModal(resourceID){ 
-                resourceList.forEach(function(resource){
-                    if(resource.id == resourceID){
-                        $("#resourceDeleteLabel").text(resource.name);
-                        $("#delete_name").text(resource.name);
-                        $("#delete_id").val(resource.id);
-
-                    }
-                });
-                
-            }
+           
         </script>
 
 
@@ -132,16 +115,7 @@
             }
         </script>
 
-        <!--populate user current bookings -->
-        <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
-            <script>
-                var booking = new Object();
-                booking.id = '${booking.id}';
-                booking.facilityType = '${booking.facility.facilityType.name}';
-                booking.startDate = '${booking.startDate}';
-                bookingList.push(booking);
-            </script>
-        </c:forEach>
+        
     </head>
 
     <body>
@@ -191,30 +165,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
+                                    <c:forEach items="${manageFormTemplateActionBean.formTemplateList}" var="formTemplate" varStatus="loop">
                                     <script>
                                            
-                                        var resource = new Object();
-                                        resource.id = '${resource.id}';
-                                        resource.name = '${resource.name}';
-                                        resource.description = '${resource.description}';
-                                        resource.category = '${resource.category}';
-                                        resource.fileName = '${resource.fileName}';
-                                        resource.timeCreated = '${resource.timeCreated}';
-                                        resourceList.push(resource);
+                                        var formTemplate = new Object();
+                                        formTemplate.id = '${formTemplate.id}';
+                                        formTemplate.name = '${formTemplate.name}';
+                                        formTemplate.description = '${formTemplate.description}';
+                                        formTemplate.category = '${formTemplate.category}';
+                                        formTemplate.fileName = '${formTemplate.fileName}';
+                                        formTemplate.timeModified = '${formTemplate.timeModified}';
+                                        formTemplateList.push(formTemplate);
                                             
                                      
                                     </script>
                                     <tr>
 
-                                        <td><b>${resource.id}</b></td>
-                                        <td><b>${resource.name}</b></td>
-                                        <td><b>${resource.description}</b></td>
-                                        <td><b>${resource.category}</b></td>
-                                        <td><b><a href="/pdf_uploads/${resource.fileName}">${resource.fileName}</a></b></td>
+                                        <td><b>${formTemplate.id}</b></td>
+                                        <td><b>${formTemplate.name}</b></td>
+                                        <td><b>${formTemplate.description}</b></td>
+                                        <td><b>${formTemplate.category}</b></td>
+                                        <td><b><a href="/pdf_uploads/${formTemplate.fileName}">${formTemplate.fileName}</a></b></td>
 
                                         <td>
-                                            <a href="#editResourceModal" role="button" data-toggle="modal" class="btn btn-success btn-mini" onclick="populateEditResourceModal('${resource.id}')">Submit</a> 
+                                            <a href="#submitFormModal" role="button" data-toggle="modal" class="btn btn-success btn-mini" onclick="populateSubmitFormModal('${formTemplate.id}')">Submit</a> 
 
                                         </td>
                                     </tr>
@@ -235,35 +209,21 @@
 
     </div> <!-- /content -->
 
-    <!-- Create Resource Modal Form -->
-    <div id="createResourceModal" class="modal hide fade">
+
+    <!-- Submit Form Modal Form -->
+    <div id="submitFormModal" class="modal hide fade">
         <div id="myModal" class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3>Upload Form Template</h3>
+            <h3>Submit <span id="formTemplateLabel"></span></h3>
         </div>
         <div class="modal-body">
-            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageOnlineFormsActionBean" name="new_resource_validate" id="new_resource_validate">                 
+            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageSubmittedFormsActionBean" name="new_resource_validate" id="new_resource_validate">                 
+                <stripes:hidden id="submit_title" name="title" />
+                <stripes:hidden name="user_id" value="${user.userId}" />
                 <div class="control-group ${errorStyle}">
-                    <label class="control-label">Name:</label>
+                    <label class="control-label">Comments:</label>
                     <div class="controls">
-                        <stripes:text name="name" />
-                    </div>
-                </div>
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label">Description:</label>
-                    <div class="controls">
-                        <stripes:text name="description" />
-                    </div>
-                </div>
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label">Category:</label>
-                    <div class="controls">
-
-                        Select <stripes:select name="category" id="edit_category">
-                            <stripes:options-collection collection="${manageResourceActionBean.uniqueCategories}" />        
-                        </stripes:select>
-                        <br>Or Create New <stripes:text name="category_new" />
-
+                        <stripes:textarea name="comments" value="${user.userId}" />
                     </div>
                 </div>
                 <div class="control-group ${errorStyle}">
@@ -273,49 +233,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" name="createResource" value="Add this Form" class="btn btn-info btn-large"/>                                                           
-                </stripes:form>
-            </div>
-        </div>      
-    </div>
-
-    <!-- Edit Resource Modal Form -->
-    <div id="editResourceModal" class="modal hide fade">
-        <div id="myModal" class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3>Submit A Form</h3>
-        </div>
-        <div class="modal-body">
-            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageResourceActionBean" name="new_resource_validate" id="new_resource_validate">                 
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label">Name:</label>
-                    <div class="controls">
-                        <stripes:text name="name" id="edit_name" />
-                    </div>
-                </div>
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label">Description:</label>
-                    <div class="controls">
-                        <stripes:text name="description" id="edit_description" />
-                    </div>
-                </div>
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label">Category:</label>
-                    <div class="controls">
-                        Select <stripes:select name="category" id="edit_category">
-                            <stripes:options-collection collection="${manageResourceActionBean.uniqueCategories}" />        
-                        </stripes:select>
-                        
-                    </div>
-                </div>
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label">File:</label>
-                    <div class="controls">
-                        <stripes:file name="file"/>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" name="createResource" value="Submit" class="btn btn-info btn-large"/>                                                           
+                    <input type="submit" name="submit" value="Submit" class="btn btn-info btn-large"/>                                                           
                 </stripes:form>
             </div>
         </div>      

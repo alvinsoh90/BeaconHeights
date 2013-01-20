@@ -56,6 +56,11 @@ public class SubmittedFormDAO {
         
         Transaction tx = null;
         try {
+            System.out.println("USER : "+user);
+            System.out.println("FILENAME : "+fileName);
+            System.out.println("PROCESSED : "+processed);
+            System.out.println("comments : "+comments);
+            System.out.println("title : "+title);
             tx = session.beginTransaction();
             session.save("SubmittedForm", sForm);
             tx.commit();
