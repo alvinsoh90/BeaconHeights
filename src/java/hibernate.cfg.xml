@@ -28,5 +28,6 @@
     <mapping resource="com/lin/entities/Resource.hbm.xml"/>
     <mapping resource="com/lin/entities/Amenity.hbm.xml"/>
     <mapping resource="com/lin/entities/AmenityCategory.hbm.xml"/>
+    <mapping resource="com/lin/entities/FormTemplate.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

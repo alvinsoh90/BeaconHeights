@@ -237,7 +237,7 @@
         <div id="editResourceModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Create a Resource</h3>
+                <h3>Edit a Resource</h3>
             </div>
             <div class="modal-body">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditResourceBean" name="edit" id="new_resource_validate">                 

@@ -10,12 +10,14 @@
 
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
-<jsp:useBean id="manageResourceActionBean" scope="page"
-             class="com.lin.general.admin.ManageResourceActionBean"/>
-<jsp:useBean id="editResourceBean" scope="page"
-             class="com.lin.general.admin.EditResourceBean"/>
-<jsp:useBean id="deleteResourceBean" scope="page"
-             class="com.lin.general.admin.DeleteResourceBean"/>
+<jsp:useBean id="manageFormTemplateActionBean" scope="page"
+             class="com.lin.general.admin.ManageFormTemplateActionBean"/>
+<jsp:useBean id="editFormTemplateBean" scope="page"
+             class="com.lin.general.admin.EditFormTemplateBean"/>
+<jsp:useBean id="deleteFormTemplateBean" scope="page"
+             class="com.lin.general.admin.DeleteFormTemplateBean"/>
+<jsp:useBean id="manageSubmittedFormsActionBean" scope="page"
+             class="com.lin.general.admin.ManageSubmittedFormsActionBean"/>
 <%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +39,7 @@
         <script>   
             
             // Init an array of all rc shown on this page
-            var resourceList = [];
+            var formTemplateList = [];
             
             
             
@@ -63,8 +65,8 @@
                     r[++j] = '</b></td><td ><b>';
                     r[++j] = submittedFormsArr[i].timeCreated;
                     r[++j] = '</b></td><td ><b>';
-                    r[++j] = "<a href='#editResourceModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditResourceModal(" + resource.id + ")'>Edit</a>\n\
-                                                <a href='#deleteResourceModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteResourceModal("+resource.id+")'>Delete</a>";
+                    r[++j] = "<a href='#editFormTemplateModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditFormTemplateModal(" + formTemplate.id + ")'>Edit</a>\n\
+                                                <a href='#deleteFormTemplateModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteFormTemplateModal("+formTemplate.id+")'>Delete</a>";
                     r[++j] = '</b></td></tr>';
                 }
                 $('#submittedFormTable').html(tableHeaders + r.join('')); 
@@ -76,10 +78,10 @@
                 
                 var tempArr = [];
                 
-                for(var i=0;i<resourceList.length;i++){
+                for(var i=0;i<formTemplateList.length;i++){
                     console.log(title);
-                    if(resourceList[i].name == title){
-                        tempArr.push(resourceList[i]);
+                    if(formTemplateList[i].name == title){
+                        tempArr.push(formTemplateList[i]);
                     }
                 }
                
@@ -87,34 +89,34 @@
                 
             }
             
-            //when this function is called, resourceList should already be populated
-            function populateEditResourceModal(resourceID){ 
-                resourceList.forEach(function(resource){
-                    if(resource.id == resourceID){
-                        $("#resourceLabel").text(resource.name);
-                        $("#editid").val(resource.id);
-                        $("#edit_name").val(resource.name);
-                        $("#edit_description").val(resource.description);
-                        $("#edit_category").val(resource.category);
+            //when this function is called, formTemplateList should already be populated
+            function populateEditFormTemplateModal(formTemplateID){ 
+                formTemplateList.forEach(function(formTemplate){
+                    if(formTemplate.id == formTemplateID){
+                        $("#formTemplateLabel").text(formTemplate.name);
+                        $("#edit_id").val(formTemplate.id);
+                        $("#edit_name").val(formTemplate.name);
+                        $("#edit_description").val(formTemplate.description);
+                        $("#edit_cat").val(formTemplate.category);
                     }
                     
                 });
                 
             }
             
-            //when this function is called, resourceList should already be populated
-            function populateDeleteResourceModal(resourceID){ 
-                resourceList.forEach(function(resource){
-                    if(resource.id == resourceID){
-                        $("#resourceDeleteLabel").text(resource.name);
-                        $("#delete_name").text(resource.name);
-                        $("#delete_id").val(resource.id);
+            //when this function is called, formTemplateList should already be populated
+            function populateDeleteFormTemplateModal(formTemplateID){ 
+                formTemplateList.forEach(function(formTemplate){
+                    if(formTemplate.id == formTemplateID){
+                        $("#formTemplateDeleteLabel").text(formTemplate.name);
+                        $("#delete_name").text(formTemplate.name);
+                        $("#delete_id").val(formTemplate.id);
                     }
                 });
                 
             }
             function filterReset(){
-                showSubmittedForms(resourceList);
+                showSubmittedForms(formTemplateList);
             }
         
             
@@ -127,7 +129,7 @@
 
                 $('select').chosen();
 
-                $("#new_resource_validate").validate({
+                $("#new_formTemplate_validate").validate({
                     rules:{
                         name:{
                             required:true
@@ -148,7 +150,7 @@
                     }
                 });
                 
-                $("#edit_resource_validate").validate({
+                $("#edit_formTemplate_validate").validate({
                     rules:{
                         name:{
                             required:true
@@ -170,19 +172,19 @@
             }
         </script>
 
-        <%--Load up resources --%>
+        <%--Load up formTemplates --%>
         <script>
-            <c:if test="${manageResourceActionBean.resourceList.size()!=0}"> 
-                <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
+            <c:if test="${manageFormTemplateActionBean.formTemplateList.size()!=0}"> 
+                <c:forEach items="${manageFormTemplateActionBean.formTemplateList}" var="formTemplate" varStatus="loop">
         
-                    var resource = new Object();
-                    resource.id = '${resource.id}';
-                    resource.name = '${resource.name}';
-                    resource.description = '${resource.description}';
-                    resource.category = '${resource.category}';
-                    resource.fileName = '${resource.fileName}';
-                    resource.timeCreated = '${resource.timeCreated}';
-                    resourceList.push(resource);
+                    var formTemplate = new Object();
+                    formTemplate.id = '${formTemplate.id}';
+                    formTemplate.name = '${formTemplate.name}';
+                    formTemplate.description = '${formTemplate.description}';
+                    formTemplate.category = '${formTemplate.category}';
+                    formTemplate.fileName = '${formTemplate.fileName}';
+                    formTemplate.timeModified = '${formTemplate.timeModified}';
+                    formTemplateList.push(formTemplate);
                 </c:forEach>
             </c:if>
         </script>                        
@@ -190,7 +192,7 @@
 
     </head>
 
-    <body onload="showSubmittedForms(resourceList)">
+    <body onload="showSubmittedForms(formTemplateList)">
         <%@include file="include/mainnavigationbar.jsp"%>
         <div class="container-fluid">
             <%@include file="include/sidemenu.jsp"%>
@@ -227,31 +229,31 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
+                                        <c:forEach items="${manageFormTemplateActionBean.formTemplateList}" var="formTemplate" varStatus="loop">
                                         <script>
                                            
-                                            var resource = new Object();
-                                            resource.id = '${resource.id}';
-                                            resource.name = '${resource.name}';
-                                            resource.description = '${resource.description}';
-                                            resource.category = '${resource.category}';
-                                            resource.fileName = '${resource.fileName}';
-                                            resource.timeCreated = '${resource.timeCreated}';
-                                            resourceList.push(resource);
+                                            var formTemplate = new Object();
+                                            formTemplate.id = '${formTemplate.id}';
+                                            formTemplate.name = '${formTemplate.name}';
+                                            formTemplate.description = '${formTemplate.description}';
+                                            formTemplate.category = '${formTemplate.category}';
+                                            formTemplate.fileName = '${formTemplate.fileName}';
+                                            formTemplate.timeModified = '${formTemplate.timeModified}';
+                                            formTemplateList.push(formTemplate);
                                             
                                      
                                         </script>
                                         <tr>
 
-                                            <td><b>${resource.id}</b></td>
-                                            <td><b>${resource.name}</b></td>
-                                            <td><b>${resource.description}</b></td>
-                                            <td><b>${resource.category}</b></td>
-                                            <td><b><a href="/pdf_uploads/${resource.fileName}">${resource.fileName}</a></b></td>
-                                            <td><b>${resource.timeCreated}</b></td>
+                                            <td><b>${formTemplate.id}</b></td>
+                                            <td><b>${formTemplate.name}</b></td>
+                                            <td><b>${formTemplate.description}</b></td>
+                                            <td><b>${formTemplate.category}</b></td>
+                                            <td><b><a href="/pdf_uploads/${formTemplate.fileName}">${formTemplate.fileName}</a></b></td>
+                                            <td><b>${formTemplate.timeModified}</b></td>
                                             <td>
-                                                <a href="#editResourceModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditResourceModal('${resource.id}')">Edit</a> 
-                                                <a href="#deleteResourceModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteResourceModal('${resource.id}')">Delete</a>
+                                                <a href="#editFormTemplateModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFormTemplateModal('${formTemplate.id}')">Edit</a> 
+                                                <a href="#deleteFormTemplateModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFormTemplateModal('${formTemplate.id}')">Delete</a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -273,7 +275,7 @@
                                     </ul>
                                 </div>
 
-                                <a href="#createResourceModal" role='button' data-toggle='modal' class="btn btn-success">Upload New Form</a>
+                                <a href="#createFormTemplateModal" role='button' data-toggle='modal' class="btn btn-success">Upload New Form</a>
 
                             </div>
 
@@ -281,17 +283,12 @@
                                 <h4>User Submitted Forms</h4>
 
                                 <script>
-                                    <c:if test="${manageResourceActionBean.resourceList.size()!=0}"> 
-                                        <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
+                                    <c:if test="${manageSubmittedFormsActionBean.sfList.size()!=0}"> 
+                                        <c:forEach items="${manageSubmittedFormsActionBean.sfList}" var="submittedForm" varStatus="loop">
                     
-                                            var resource = new Object();
-                                            resource.id = '${resource.id}';
-                                            resource.name = '${resource.name}';
-                                            resource.description = '${resource.description}';
-                                            resource.category = '${resource.category}';
-                                            resource.fileName = '${resource.fileName}';
-                                            resource.timeCreated = '${resource.timeCreated}';
-                                            resourceList.push(resource);
+                                            var submittedForm = new Object();
+                                            
+                                            submittedFormList.push(submittedForm);
                                         </c:forEach>
                                     </c:if>
                                 </script>     
@@ -302,8 +299,8 @@
                                     <div class="inlineblock filterOptions">
                                         <select id ="titleSelect" onChange="filterByTitle()">
                                             <option>-Select Form Title-</option>
-                                            <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
-                                                <option>${resource.name}</option>
+                                            <c:forEach items="${manageResourceActionBean.sfList}" var="submittedForm" varStatus="loop">
+                                                <option>${submittedForm.name}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
@@ -350,13 +347,13 @@
     <%@include file="include/footer.jsp"%>
 
     <!-- Create Resource Modal Form -->
-    <div id="createResourceModal" class="modal hide fade">
+    <div id="createFormTemplateModal" class="modal hide fade">
         <div id="myModal" class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
             <h3>Upload Form Template</h3>
         </div>
         <div class="modal-body">
-            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageOnlineFormsActionBean" name="new_resource_validate" id="new_resource_validate">                 
+            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFormTemplateActionBean" name="new_resource_validate" id="new_resource_validate">                 
                 <div class="control-group ${errorStyle}">
                     <label class="control-label">Name:</label>
                     <div class="controls">
@@ -373,8 +370,8 @@
                     <label class="control-label">Category:</label>
                     <div class="controls">
 
-                        Select <stripes:select name="category" id="edit_category">
-                            <stripes:options-collection collection="${manageResourceActionBean.uniqueCategories}" />        
+                        Select <stripes:select name="category">
+                            <stripes:options-collection collection="${manageFormTemplateActionBean.uniqueCategories}" />        
                         </stripes:select>
                         <br>Or Create New <stripes:text name="category_new" />
 
@@ -394,13 +391,14 @@
     </div>
 
     <!-- Edit Resource Modal Form -->
-    <div id="editResourceModal" class="modal hide fade">
+    <div id="editFormTemplateModal" class="modal hide fade">
         <div id="myModal" class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3>Create a Resource</h3>
+            <h3>Edit an Online Form</h3>
         </div>
         <div class="modal-body">
-            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageResourceActionBean" name="new_resource_validate" id="new_resource_validate">                 
+            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFormTemplateBean" name="new_resource_validate" id="new_resource_validate">                 
+                <stripes:hidden id="edit_id" name="id" />
                 <div class="control-group ${errorStyle}">
                     <label class="control-label">Name:</label>
                     <div class="controls">
@@ -416,8 +414,8 @@
                 <div class="control-group ${errorStyle}">
                     <label class="control-label">Category:</label>
                     <div class="controls">
-                        Select <stripes:select name="category" id="edit_category">
-                            <stripes:options-collection collection="${manageResourceActionBean.uniqueCategories}" />        
+                        Select <stripes:select name="category" id="edit_cat" >
+                            <stripes:options-collection collection="${manageFormTemplateActionBean.uniqueCategories}" />        
                         </stripes:select>
                         <br>Or Create New <stripes:text name="category_new" />
                     </div>
@@ -429,7 +427,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" name="createResource" value="Add this Resource" class="btn btn-info btn-large"/>                                                           
+                    <input type="submit" name="editFormTemplate" value="Edit this Resource" class="btn btn-info btn-large"/>                                                           
                 </stripes:form>
             </div>
         </div>      
@@ -437,20 +435,20 @@
 
 
     <!--Delete Resource Modal -->
-    <div id="deleteResourceModal" class="modal hide fade">
+    <div id="deleteFormTemplateModal" class="modal hide fade">
         <div id="myModal" class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3>Deletion of <span id="resourceDeleteLabel"></span></h3>
+            <h3>Deletion of <span id="formTemplateDeleteLabel"></span></h3>
         </div>
         <div class="modal-body">
-            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteResourceBean" > 
+            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteFormTemplateBean" > 
                 You are now deleting <span id="delete_name"></span>. Are you sure?
             </div>
             <div class="modal-footer">
                 <a data-dismiss="modal" class="btn">Close</a>
 
                 <stripes:hidden id="delete_id" name="id"/>
-                <input type="submit" name="deleteResource" value="Confirm Delete" class="btn btn-danger"/>
+                <input type="submit" name="deleteFormTemplate" value="Confirm Delete" class="btn btn-danger"/>
             </div>
         </stripes:form>
     </div>

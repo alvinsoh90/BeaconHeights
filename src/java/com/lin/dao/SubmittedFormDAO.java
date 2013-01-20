@@ -49,10 +49,26 @@ public class SubmittedFormDAO {
         }
         return sForms;
     }
+    
+    public ArrayList<SubmittedForm> retrieveAllSubmittedFormPlusUser() {
+        openSession();
+        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        
+        sForms = new ArrayList<SubmittedForm>();
+        try {
+            org.hibernate.Transaction tx = sess.beginTransaction();
+            Query q = sess.createQuery("from SubmittedForm as sf join fetch sf.user");
+            sForms = (ArrayList<SubmittedForm>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sForms;
+    }
 
-    public SubmittedForm createSubmittedForm(User user, String fileName, boolean processed, String comments) {
+    public SubmittedForm createSubmittedForm(User user, String fileName, boolean processed, String comments, String title) {
 
-        SubmittedForm sForm = new SubmittedForm(user, fileName, processed, comments);
+        SubmittedForm sForm = new SubmittedForm(user, fileName, processed, comments, title);
         
         Transaction tx = null;
         try {

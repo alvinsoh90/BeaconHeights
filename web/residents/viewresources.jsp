@@ -13,9 +13,8 @@
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-        <jsp:useBean id="manageBookingsActionBean" scope="page"
-                     class="com.lin.general.admin.ManageBookingsActionBean"/>
-        <jsp:setProperty name = "manageBookingsActionBean"  property = "currentUser"  value = "${user}" />
+        <jsp:useBean id="manageResourceActionBean" scope="page"
+                     class="com.lin.general.admin.ManageResourceActionBean"/>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -78,7 +77,54 @@
 
                                 
                             </div> <!-- /widget-header -->
+                            <table class="table table-striped table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Filename</th>
+                                    <th>Last Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
+                                <script>
+                                    var resource = new Object();
+                                    resource.id = '${resource.id}';
+                                    resource.name = '${resource.name}';
+                                    resource.description = '${resource.description}';
+                                    resource.category = '${resource.category}';
+                                    resource.fileName = '${resource.fileName}';
+                                    resource.timeCreated = '${resource.timeCreated}';
+                                    resourceList.push(resource);
+                                </script>
+                                <tr>
 
+                                    <td><b>${resource.id}</b></td>
+                                    <td><b>${resource.name}</b></td>
+                                    <td><b>${resource.description}</b></td>
+                                    <td><b>${resource.category}</b></td>
+                                    <td><b><a href="/pdf_uploads/${resource.fileName}">${resource.fileName}</a></b></td>
+                                    <td><b>${resource.timeCreated}</b></td>
+                                    
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <ul>
+                                <li><a href="#">Prev</a></li>
+                                <li class="active">
+                                    <a href="#">1</a>
+                                </li>
+                                <!--<li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>-->
+                                <li><a href="#">Next</a></li>
+                            </ul>
+                        </div>
                             
                             </div>
                         </div>
