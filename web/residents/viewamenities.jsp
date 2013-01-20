@@ -58,13 +58,13 @@
 
                         <div class="account-container" style="margin-left:20px">
 
-                            <h2>View Bookings</h2>
+                            <h2>View Amenities</h2>
                             <ul class="nav nav-list bs-docs-sidenav affix">
                                 <!-- for each category, Print out an LI!-->
                                 <c:forEach items = "${manageAmenityBean.categoryList}"
                                            var="category" varStatus="loop">
                                     <li>
-                                        <a href="#${category}">${category}</a> 
+                                        <a href="#${category.name}">${category.name}</a> 
                                     </li>
 
                                 </c:forEach>

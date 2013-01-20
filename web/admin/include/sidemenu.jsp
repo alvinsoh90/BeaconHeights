@@ -20,7 +20,7 @@
 <!--                <li><a href="manage-submittedforms.jsp">Manage Submitted Forms</a></li>-->
                 <li><a href="manage-resource.jsp">Manage Resources</a></li>
                 <li><a href="manage-resourcecategories.jsp">Manage Resource Categories</a></li>
-                
+                <li><a href="manage-amenitycategories.jsp">Manage Amenity Categories</a></li>
                 <!--
                 <li><a href="manage-onlineform.jsp">Taxi Booking</a></li>
                 <li><a href="manage-onlineform.jsp">Nearby Amenities</a></li>

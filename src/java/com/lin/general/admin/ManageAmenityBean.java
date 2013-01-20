@@ -5,17 +5,25 @@
 package com.lin.general.admin;
 
 import com.lin.dao.AmenityDAO;
-import com.lin.dao.AmenityTypeDAO;
+import com.lin.dao.AmenityCategoryDAO;
 import com.lin.entities.Amenity;
 import com.lin.entities.AmenityCategory;
 import java.util.ArrayList;
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.HandlesEvent;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.Resolution;
 
 /**
  *
  * @author fayannefoo
  */
-public class ManageAmenityBean {
+public class ManageAmenityBean implements ActionBean {
 
+    private ActionBeanContext context;
+    private int id;
     private String name;
     private String description;
     private String address;
@@ -26,6 +34,25 @@ public class ManageAmenityBean {
     private String category;
     private ArrayList<Amenity> amenityList;
     private ArrayList<AmenityCategory> categoryList;
+    boolean outcome = false;
+
+    @Override
+    public void setContext(ActionBeanContext context) {
+        this.context = context;
+    }
+
+    @Override
+    public ActionBeanContext getContext() {
+        return context;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getAddress() {
         return address;
@@ -103,13 +130,13 @@ public class ManageAmenityBean {
         return amenityList;
     }
 
-    public ArrayList<String> getCategoryList() {
-        ArrayList<String> catList = new ArrayList<String>();
-        AmenityTypeDAO aTypeDAO = new AmenityTypeDAO();
-        categoryList = aTypeDAO.retrieveAmenityCategories();
+    public ArrayList<AmenityCategory> getCategoryList() {
+        ArrayList<AmenityCategory> catList = new ArrayList<AmenityCategory>();
+        AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
+        categoryList = aCatDAO.retrieveAmenityCategories();
         try {
             for (AmenityCategory a : categoryList) {
-                catList.add(a.getName());
+                catList.add(a);
                 System.out.println(a.getName());
             }
         } catch (NullPointerException e) {
@@ -117,6 +144,30 @@ public class ManageAmenityBean {
         }
         return catList;
     }
-    
-    
+
+    @HandlesEvent("deleteAmenityCategory")
+    public Resolution deleteAmenityCategory() {
+        System.out.println(getId());
+        AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
+        outcome = aCatDAO.deleteAmenityType(getId());
+        return new RedirectResolution("/admin/manage-amenitycategories.jsp?deletesuccess=" +
+                outcome +"&createmsg="+getName());
+    }
+
+    @HandlesEvent("editAmenityCategory")
+    public Resolution editAmenityCategory() {
+        AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
+        outcome = aCatDAO.updateAmenityType(getId(), getName());
+        return new RedirectResolution("/admin/manage-amenitycategories.jsp?editsuccess=" +
+                outcome +"&createmsg="+getName());
+    }
+
+    @DefaultHandler
+    public Resolution addAmenityCategory() {
+        AmenityCategory aCat = new AmenityCategory(getName());
+        AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
+        outcome = aCatDAO.addAmenityCategory(aCat);
+        return new RedirectResolution("/admin/manage-amenitycategories.jsp?createsuccess=" +
+                outcome +"&createmsg="+getName());
+    }
 }
