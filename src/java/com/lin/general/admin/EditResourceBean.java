@@ -9,6 +9,7 @@ import com.lin.dao.FacilityTypeDAO;
 import com.lin.dao.ResourceDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
+import java.io.File;
 
 import java.util.Date;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
+import net.sourceforge.stripes.action.*;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class EditResourceBean implements ActionBean {
@@ -31,9 +33,9 @@ public class EditResourceBean implements ActionBean {
     private String id;
     private String description;
     private String category;
-    private String fileName;
-    private String result;
-    private boolean success = false;
+    private String category_new;
+    private FileBean file;
+    
 
     public String getId() {
         return id;
@@ -67,12 +69,20 @@ public class EditResourceBean implements ActionBean {
         this.category = category;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getCategory_new() {
+        return category_new;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setCategory_new(String category_new) {
+        this.category_new = category_new;
+    }
+
+    public FileBean getFile() {
+        return file;
+    }
+
+    public void setFile(FileBean file) {
+        this.file = file;
     }
     
     public ActionBeanContext getContext() {
@@ -85,24 +95,60 @@ public class EditResourceBean implements ActionBean {
 
     @DefaultHandler
     public Resolution editResource(){
+        String result;
+        boolean success = false;
         ResourceDAO rDAO = new ResourceDAO();
+        String category_input;
+        String fileName = null;
         
-        try{
-            rDAO.updateResource
-                    (
-                        Integer.parseInt(id),
-                        name,
-                        description,
-                        category,
-                        fileName,
-                        new Date()
-                    );
-            return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=true"+"&editmsg="+name);
+        
+        
+        if(category_new==null){
+            category_input=category;
+        }else{
+            category_input=category_new;
         }
-        catch(Exception e){
-            e.printStackTrace(); 
+        System.out.println("PRINTING ID : "+id);
+        
+        if(file!=null){
+            fileName = new Date().getTime()+file.getFileName();
+            try{
+                File location = new File("../webapps/pdf_uploads/"+fileName);
+                if(!location.getParentFile().exists()){
+                    location.getParentFile().mkdirs();
+                }
+                file.save(location);
+                rDAO.updateResource
+                        (
+                            Integer.parseInt(id),
+                            name,
+                            description,
+                            category_input,
+                            fileName,
+                            new Date()
+                        );
+                return new RedirectResolution("/admin/manage-resource.jsp?editsuccess=true"+"&editmsg="+name);
+            }
+            catch(Exception e){
+                e.printStackTrace(); 
+            }
+        }else{
+            try{
+                rDAO.updateResource
+                        (
+                            Integer.parseInt(id),
+                            name,
+                            description,
+                            category_input,
+                            new Date()
+                        );
+                return new RedirectResolution("/admin/manage-resource.jsp?editsuccess=true"+"&editmsg="+name);
+            }
+            catch(Exception e){
+                e.printStackTrace(); 
+            }
         }
-        return new RedirectResolution("/admin/manage-resourcecategories.jsp?editsuccess=false"+"&editmsg="+name);
+        return new RedirectResolution("/admin/manage-resource.jsp?editsuccess=false"+"&editmsg="+name);
         
     }
 }

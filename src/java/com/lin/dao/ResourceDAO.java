@@ -134,5 +134,28 @@ public class ResourceDAO {
         }
         return catList;
     }
+
+    public Resource updateResource(int id, String name, String description, String category_input, Date date) {
+        Transaction tx = null;
+        Resource resource = null;
+        try {
+            tx = session.beginTransaction();
+            resource = (Resource)session.get(Resource.class, id);
+            resource.setDescription(description);
+            resource.setName(name);
+            resource.setCategory(category_input);
+            resource.setTimeCreated(date);
+            tx.commit();
+            
+            return resource;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        return resource;
+    }
     
 }

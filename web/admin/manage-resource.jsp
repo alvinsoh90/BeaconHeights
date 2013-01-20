@@ -42,7 +42,7 @@
                 resourceList.forEach(function(resource){
                     if(resource.id == resourceID){
                         $("#resourceLabel").text(resource.name);
-                        $("#editid").val(resource.id);
+                        $("#edit_id").val(resource.id);
                         $("#edit_name").val(resource.name);
                         $("#edit_description").val(resource.description);
                         $("#edit_category").val(resource.category);
@@ -240,7 +240,8 @@
                 <h3>Create a Resource</h3>
             </div>
             <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageResourceActionBean" name="new_resource_validate" id="new_resource_validate">                 
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditResourceBean" name="edit" id="new_resource_validate">                 
+                    <stripes:hidden id="edit_id" name="id" />
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Name:</label>
                         <div class="controls">
@@ -269,7 +270,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" name="createResource" value="Add this Resource" class="btn btn-info btn-large"/>                                                           
+                        <input type="submit" name="createResource" value="Edit this Resource" class="btn btn-info btn-large"/>                                                           
                     </stripes:form>
                 </div>
             </div>      

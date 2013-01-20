@@ -33,11 +33,11 @@ public class DeleteResourceBean implements ActionBean {
         try {
             rdao.deleteResource(rId);
             rdao = new ResourceDAO();
-            return new RedirectResolution("/admin/manage-resourcecategories.jsp?deletesuccess=true&deletemsg=the resource");
+            return new RedirectResolution("/admin/manage-resource.jsp?deletesuccess=true&deletemsg=the resource");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new RedirectResolution("/admin/manage-resourcecategories.jsp?deletesuccess=false");
+        return new RedirectResolution("/admin/manage-resource.jsp?deletesuccess=false");
 
     }
 
