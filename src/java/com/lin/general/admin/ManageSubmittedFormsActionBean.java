@@ -79,6 +79,12 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
         sfList = sfDAO.retrieveAllSubmittedForm();
         return sfList;
     }
+    
+    public ArrayList<SubmittedForm> getUserSfList() {
+        SubmittedFormDAO sfDAO = new SubmittedFormDAO();
+        sfList = sfDAO.retrieveAllSubmittedFormPlusUser();
+        return sfList;
+    }
 
     public void setSfList(ArrayList<SubmittedForm> sfList) {
         this.sfList = sfList;

@@ -35,26 +35,13 @@
             // Init an array of all rc shown on this page
             var sfList = [];
            
-            //when this function is called, sfList should already be populated
-            function populateEditSubmittedFormModal(sfID){ 
-                sfList.forEach(function(submittedForm){
-                    if(submittedForm.id == sfID){
-                        $("#sfEditLabel").text(submittedForm.fileName);
-                        $("#editid").val(submittedForm.id);
-                        $("#edit_user").val(submittedForm.user);
-                        $("#edit_fileName").val(submittedForm.fileName);
-                        $("#edit_processed").val("true");
-                    }
-                    
-                });
-                
-            }
+            
             
             //when this function is called, sfList should already be populated
             function populateDeleteSubmittedFormModal(sfID){ 
                 sfList.forEach(function(submittedForm){
                     if(submittedForm.id == sfID){
-                        $("#sfDeleteLabel").text(submittedForm.fileName);
+                        $("#sfDeleteLabel").text(submittedForm.id);
                         $("#delete_name").text(submittedForm.fileName);
                         $("#delete_id").val(submittedForm.id);
 
@@ -132,7 +119,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Username</th>
+                                <th>Submitted By</th>
+                                <th>Form Title</th>
                                 <th>Time Submitted</th>
                                 <th>File Name</th>
                                 <th>Processed</th>
@@ -141,7 +129,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${manageSubmittedFormsActionBean.sfList}" var="submittedForm" varStatus="loop">
+                            <c:forEach items="${manageSubmittedFormsActionBean.userSfList}" var="submittedForm" varStatus="loop">
                             <script>
                                 var submittedForm = new Object();
                                 submittedForm.id = '${submittedForm.id}';
@@ -156,8 +144,9 @@
                   
                                 <td><b>${submittedForm.id}</b></td>
                                 <td><b>${submittedForm.user.userName}</b></td>
+                                <td><b>${submittedForm.title}</b></td>
                                 <td><b>${submittedForm.timeSubmitted}</b></td>
-                                <td><b>${submittedForm.fileName}</b></td>
+                                <td><b><a href="/pdf_uploads/${submittedForm.fileName}">${submittedForm.fileName}</a></b></td>
                                 <td><b>${submittedForm.processed}</b></td>
                                 <td><b>${submittedForm.comments}</b></td>
                                 <td>
@@ -189,79 +178,16 @@
 
         <%@include file="include/footer.jsp"%>
 
-        <!-- Create Resource Modal Form -->
-        <div id="createResourceModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Create a Resource</h3>
-            </div>
-            <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageResourceActionBean" name="new_resource_validate" id="new_resource_validate">                 
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Name:</label>
-                        <div class="controls">
-                            <stripes:text name="name" />
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Description:</label>
-                        <div class="controls">
-                            <stripes:text name="description" />
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Category:</label>
-                        <div class="controls">
-                            Select <stripes:select name="category" >
-                                <stripes:options-collection collection="${manageResourceActionBean.uniqueCategories}" />        
-                            </stripes:select>
-                            <br>Or Create New <stripes:text name="category_new" />
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">File:</label>
-                        <div class="controls">
-                            <stripes:file name="file"/>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" name="createResource" value="Add this Resource" class="btn btn-info btn-large"/>                                                           
-                    </stripes:form>
-                </div>
-            </div>      
-        </div>
-
-        <!-- Edit Submitted Form Modal Form -->
-        <div id="editSubmittedFormModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Process Submitted Form</h3>
-            </div>
-            <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditSubmittedFormsActionBean" name="new_submittedform_validate" id="new_submittedform_validate">                 
-                    Have you processed this form?
-                    <stripes:hidden id="editid" name="id"/>
-                    <stripes:hidden id="edit_user" name="user"/>
-                    <stripes:hidden id="edit_fileName" name="fileName"/>
-                    <stripes:hidden id="edit_processed" name="processed"/>
-                    <div class="modal-footer">
-                        <a data-dismiss="modal" class="btn">No</a>
-                        <input type="submit" name="editSubmittedForm" value="Yes" class="btn btn-info btn-large"/>                                                           
-                    </stripes:form>
-                </div>
-            </div>      
-        </div>
-
-
+        
         <!--Delete Submitted Form Modal -->
         <div id="deleteSubmittedFormModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Deletion of <span id="sfDeleteLabel"></span></h3>
+                <h3>Deletion submitted form id : <span id="sfDeleteLabel"></span></h3>
             </div>
             <div class="modal-body">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.DeleteSubmittedFormBean" > 
-                    You are now deleting <span id="delete_fileName"></span>. Are you sure?
+                   Are you sure you want to delete?
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>

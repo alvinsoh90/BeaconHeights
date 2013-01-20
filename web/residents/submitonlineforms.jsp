@@ -123,6 +123,7 @@
         <div id="content">
 
             <div class="container">
+                
 
                 <div class="row">
                     <div class="span3">
@@ -223,7 +224,7 @@
                 <div class="control-group ${errorStyle}">
                     <label class="control-label">Comments:</label>
                     <div class="controls">
-                        <stripes:textarea name="comments" value="${user.userId}" />
+                        <stripes:textarea name="comments" />
                     </div>
                 </div>
                 <div class="control-group ${errorStyle}">

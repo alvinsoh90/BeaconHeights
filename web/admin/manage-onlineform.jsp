@@ -16,6 +16,8 @@
              class="com.lin.general.admin.EditFormTemplateBean"/>
 <jsp:useBean id="deleteFormTemplateBean" scope="page"
              class="com.lin.general.admin.DeleteFormTemplateBean"/>
+<jsp:useBean id="manageSubmittedFormsActionBean" scope="page"
+             class="com.lin.general.admin.ManageSubmittedFormsActionBean"/>
 <%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -281,17 +283,12 @@
                                 <h4>User Submitted Forms</h4>
 
                                 <script>
-                                    <c:if test="${manageResourceActionBean.resourceList.size()!=0}"> 
-                                        <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
+                                    <c:if test="${manageSubmittedFormsActionBean.sfList.size()!=0}"> 
+                                        <c:forEach items="${manageSubmittedFormsActionBean.sfList}" var="submittedForm" varStatus="loop">
                     
-                                            var resource = new Object();
-                                            resource.id = '${resource.id}';
-                                            resource.name = '${resource.name}';
-                                            resource.description = '${resource.description}';
-                                            resource.category = '${resource.category}';
-                                            resource.fileName = '${resource.fileName}';
-                                            resource.timeCreated = '${resource.timeCreated}';
-                                            resourceList.push(resource);
+                                            var submittedForm = new Object();
+                                            
+                                            submittedFormList.push(submittedForm);
                                         </c:forEach>
                                     </c:if>
                                 </script>     
@@ -302,8 +299,8 @@
                                     <div class="inlineblock filterOptions">
                                         <select id ="titleSelect" onChange="filterByTitle()">
                                             <option>-Select Form Title-</option>
-                                            <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
-                                                <option>${resource.name}</option>
+                                            <c:forEach items="${manageResourceActionBean.sfList}" var="submittedForm" varStatus="loop">
+                                                <option>${submittedForm.name}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
