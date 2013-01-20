@@ -38,16 +38,6 @@
                                 <b class="caret"></b>							
                             </a>
 
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="/residents/index.jsp"> Book Facilities</a>
-                                </li>
-
-                                <li>
-                                    <a href="/residents/mybookings.jsp"> View My Bookings</a>
-                                </li>
-                            </ul>
-
                         </li>
                     </ul>
                      <ul class="nav pull-left">
@@ -66,6 +56,10 @@
 
                                 <li>
                                     <a href="/residents/submitonlineforms.jsp"> Submit Online Forms</a>
+                                </li>
+                                
+                                <li>
+                                    <a href="/residents/viewamenities.jsp"> View Amenities</a>
                                 </li>
                             </ul>
 

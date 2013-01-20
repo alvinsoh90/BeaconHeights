@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
-  <schema-selection match-catalog="lin_db"/>
-  <table-filter match-name="block"/>
-  <table-filter match-name="advance_rule"/>
-  <table-filter match-name="user_temp"/>
-  <table-filter match-name="facility_type"/>
-  <table-filter match-name="booking"/>
-  <table-filter match-name="open_rule"/>
-  <table-filter match-name="user"/>
-  <table-filter match-name="close_rule"/>
-  <table-filter match-name="facility"/>
-  <table-filter match-name="role"/>
-  <table-filter match-name="limit_rule"/>
-  <table-filter match-name="resource_category"/>
-  <table-filter match-name="resource" />
-  <table-filter match-name="submitted_form"/>
+    <schema-selection match-catalog="lin_db"/>
+    <table-filter match-name="block"/>
+    <table-filter match-name="advance_rule"/>
+    <table-filter match-name="user_temp"/>
+    <table-filter match-name="facility_type"/>
+    <table-filter match-name="booking"/>
+    <table-filter match-name="open_rule"/>
+    <table-filter match-name="user"/>
+    <table-filter match-name="close_rule"/>
+    <table-filter match-name="facility"/>
+    <table-filter match-name="role"/>
+    <table-filter match-name="limit_rule"/>
+    <table-filter match-name="resource_category"/>
+    <table-filter match-name="resource" />
+    <table-filter match-name="submitted_form"/>
+    <table-filter match-name="amenity"/>
+    <table-filter match-name="amenity_category"/>
 </hibernate-reverse-engineering>
