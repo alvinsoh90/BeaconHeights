@@ -114,6 +114,105 @@
                 });
             }
         </script>
+        
+        
+                <script>
+            // Init an array of all rc shown on this page
+            var sfList = [];
+           
+            
+            
+            //when this function is called, sfList should already be populated
+            function populateDeleteSubmittedFormModal(sfID){ 
+                sfList.forEach(function(submittedForm){
+                    if(submittedForm.id == sfID){
+                        $("#sfDeleteLabel").text(submittedForm.id);
+                        $("#delete_name").text(submittedForm.fileName);
+                        $("#delete_id").val(submittedForm.id);
+
+                    }
+                });
+                
+            }
+            
+            function populateEditSubmittedFormModal(sfID){ 
+                sfList.forEach(function(submittedForm){
+                    if(submittedForm.id == sfID){
+                        $("#sfEditLabel").text(submittedForm.id);
+                        $("#edit_processed").text(submittedForm.processed);
+                        $("#edit_id").val(submittedForm.id);
+                        $("#edit_user").val(submittedForm.user);
+                        $("#edit_fileName").val(submittedForm.fileName);
+
+                    }
+                });
+                
+            }
+            function populateRevertSubmittedFormModal(sfID){ 
+                sfList.forEach(function(submittedForm){
+                    if(submittedForm.id == sfID){
+                        $("#sfRevertLabel").text(submittedForm.id);
+                        $("#revert_processed").text(submittedForm.processed);
+                        $("#revert_id").val(submittedForm.id);
+                        $("#revert_user").val(submittedForm.user);
+                        $("#revert_fileName").val(submittedForm.fileName);
+
+                    }
+                });
+                
+            }
+        </script>
+
+
+        <script>
+            function loadValidate(){
+                $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+
+                $('select').chosen();
+
+                $("#new_submittedform_validate").validate({
+                    rules:{
+                        name:{
+                            required:true
+                        },
+                        description:{
+                            required:true
+                        }
+                       
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                });
+                
+                $("#edit_submittedform_validate").validate({
+                    rules:{
+                        name:{
+                            required:true
+                        },
+                        description:{
+                            required:true
+                        }
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                });
+            }
+        </script>
+        
 
         
     </head>
@@ -166,6 +265,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    
                                     <c:forEach items="${manageFormTemplateActionBean.formTemplateList}" var="formTemplate" varStatus="loop">
                                     <script>
                                            

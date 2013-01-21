@@ -122,12 +122,12 @@ public class EditSubmittedFormsBean implements ActionBean {
                         fileName,
                         bProcessed
                     );
-            return new RedirectResolution("/admin/manage-submittedforms.jsp?editsuccess=true"+"&editmsg="+user + "'s " + fileName);
+            return new RedirectResolution("/admin/manage-onlineform.jsp?editsuccess=true"+"&editmsg="+user + "'s " + fileName);
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/manage-submittedforms.jsp?editsuccess=false"+"&editmsg="+user + "'s " + fileName);
+        return new RedirectResolution("/admin/manage-onlineform.jsp?editsuccess=false"+"&editmsg="+user + "'s " + fileName);
         
     }
 }
