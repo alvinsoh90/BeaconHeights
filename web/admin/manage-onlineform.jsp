@@ -190,8 +190,8 @@
                 sfList.forEach(function(submittedForm){
                     if(submittedForm.id == sfID){
                         $("#sfDeleteLabel").text(submittedForm.id);
-                        $("#delete_name").text(submittedForm.fileName);
-                        $("#delete_id").val(submittedForm.id);
+                        $("#delete_submitted_name").text(submittedForm.fileName);
+                        $("#delete_submitted_id").val(submittedForm.id);
 
                     }
                 });
@@ -203,9 +203,9 @@
                     if(submittedForm.id == sfID){
                         $("#sfEditLabel").text(submittedForm.id);
                         $("#edit_processed").text(submittedForm.processed);
-                        $("#edit_id").val(submittedForm.id);
-                        $("#edit_user").val(submittedForm.user);
-                        $("#edit_fileName").val(submittedForm.fileName);
+                        $("#edit_submitted_id").val(submittedForm.id);
+                        $("#edit_submitted_user").val(submittedForm.user);
+                        $("#edit_submitted_fileName").val(submittedForm.fileName);
 
                     }
                 });
@@ -231,52 +231,7 @@
         
             
         </script>
-        <script>
-            // Init an array of all rc shown on this page
-            var sfList = [];
-           
-            
-            
-            //when this function is called, sfList should already be populated
-            function populateDeleteSubmittedFormModal(sfID){ 
-                sfList.forEach(function(submittedForm){
-                    if(submittedForm.id == sfID){
-                        $("#sfDeleteLabel").text(submittedForm.id);
-                        $("#delete_name").text(submittedForm.fileName);
-                        $("#delete_id").val(submittedForm.id);
-
-                    }
-                });
-                
-            }
-            
-            function populateEditSubmittedFormModal(sfID){ 
-                sfList.forEach(function(submittedForm){
-                    if(submittedForm.id == sfID){
-                        $("#sfEditLabel").text(submittedForm.id);
-                        $("#edit_processed").text(submittedForm.processed);
-                        $("#edit_id").val(submittedForm.id);
-                        $("#edit_user").val(submittedForm.user);
-                        $("#edit_fileName").val(submittedForm.fileName);
-
-                    }
-                });
-                
-            }
-            function populateRevertSubmittedFormModal(sfID){ 
-                sfList.forEach(function(submittedForm){
-                    if(submittedForm.id == sfID){
-                        $("#sfRevertLabel").text(submittedForm.id);
-                        $("#revert_processed").text(submittedForm.processed);
-                        $("#revert_id").val(submittedForm.id);
-                        $("#revert_user").val(submittedForm.user);
-                        $("#revert_fileName").val(submittedForm.fileName);
-
-                    }
-                });
-                
-            }
-        </script>
+        
 
 
         <script>
@@ -691,10 +646,10 @@
             <div class="modal-footer">
                 <a data-dismiss="modal" class="btn">No</a>
 
-                <stripes:hidden id="edit_id" name="id"/>
+                <stripes:hidden id="edit_submitted_id" name="id"/>
                 <stripes:hidden name="processed" value="true"/>
-                <stripes:hidden id="edit_user" name="user"/>
-                <stripes:hidden id="edit_fileName" name="fileName"/>
+                <stripes:hidden id="edit_submitted_user" name="user"/>
+                <stripes:hidden id="edit_submitted_fileName" name="fileName"/>
                 <input type="submit" name="editSubmittedForm" value="Yes" class="btn btn-info"/>
             </div>
         </stripes:form>
@@ -735,7 +690,7 @@
             <div class="modal-footer">
                 <a data-dismiss="modal" class="btn">Close</a>
 
-                <stripes:hidden id="delete_id" name="id"/>
+                <stripes:hidden id="delete_submitted_id" name="id"/>
                 <input type="submit" name="deleteSubmittedForm" value="Confirm Delete" class="btn btn-danger"/>
             </div>
         </stripes:form>
