@@ -23,15 +23,16 @@ import net.sourceforge.stripes.action.Resolution;
 public class ManageAmenityBean implements ActionBean {
 
     private ActionBeanContext context;
-    private int id;
+    private String id;
     private String name;
     private String description;
-    private String address;
-    private int postalCode;
+    private String postalCode;
     private String contactNo;
-    private int lat;
-    private int lng;
+    private String lat;
+    private String lng;
     private String category;
+    private String unitNo;
+    private String streetName;
     private ArrayList<Amenity> amenityList;
     private ArrayList<AmenityCategory> categoryList;
     boolean outcome = false;
@@ -46,20 +47,28 @@ public class ManageAmenityBean implements ActionBean {
         return context;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getAddress() {
-        return address;
+    public String getUnitNo() {
+        return unitNo;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setUnitNo(String unitNo) {
+        this.unitNo = unitNo;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
     public String getCategory() {
@@ -86,19 +95,19 @@ public class ManageAmenityBean implements ActionBean {
         this.description = description;
     }
 
-    public int getLat() {
+    public String getLat() {
         return lat;
     }
 
-    public void setLat(int lat) {
+    public void setLat(String lat) {
         this.lat = lat;
     }
 
-    public int getLng() {
+    public String getLng() {
         return lng;
     }
 
-    public void setLng(int lng) {
+    public void setLng(String lng) {
         this.lng = lng;
     }
 
@@ -110,11 +119,11 @@ public class ManageAmenityBean implements ActionBean {
         this.name = name;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -149,7 +158,7 @@ public class ManageAmenityBean implements ActionBean {
     public Resolution deleteAmenityCategory() {
         System.out.println(getId());
         AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
-        outcome = aCatDAO.deleteAmenityType(getId());
+        outcome = aCatDAO.deleteAmenityType(Integer.parseInt(id));
         return new RedirectResolution("/admin/manage-amenitycategories.jsp?deletesuccess=" +
                 outcome +"&createmsg="+getName());
     }
@@ -157,7 +166,7 @@ public class ManageAmenityBean implements ActionBean {
     @HandlesEvent("editAmenityCategory")
     public Resolution editAmenityCategory() {
         AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
-        outcome = aCatDAO.updateAmenityType(getId(), getName());
+        outcome = aCatDAO.updateAmenityType(Integer.parseInt(id), getName());
         return new RedirectResolution("/admin/manage-amenitycategories.jsp?editsuccess=" +
                 outcome +"&createmsg="+getName());
     }
@@ -168,6 +177,32 @@ public class ManageAmenityBean implements ActionBean {
         AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
         outcome = aCatDAO.addAmenityCategory(aCat);
         return new RedirectResolution("/admin/manage-amenitycategories.jsp?createsuccess=" +
+                outcome +"&createmsg="+getName());
+    }
+    
+    @HandlesEvent("deleteAmenity")
+    public Resolution deleteAmenity() {
+        System.out.println(getId());
+        AmenityDAO aDAO = new AmenityDAO();
+        outcome = aDAO.deleteAmenity(Integer.parseInt(id));
+        return new RedirectResolution("/admin/manage-amenities.jsp?deletesuccess=" +
+                outcome +"&createmsg="+getName());
+    }
+
+    @HandlesEvent("editAmenity")
+    public Resolution editAmenity() {
+        AmenityDAO aDAO = new AmenityDAO();
+        outcome = aDAO.updateAmenity(Integer.parseInt(id), name, description,Integer.parseInt(postalCode), contactNo, Integer.parseInt(lat), Integer.parseInt(lng), category, unitNo, streetName);
+        return new RedirectResolution("/admin/manage-amenities.jsp?editsuccess=" +
+                outcome +"&createmsg="+getName());
+    }
+
+    @HandlesEvent("addAmenity")
+    public Resolution addAmenity() {
+        Amenity a = new Amenity(name, description, Integer.parseInt(postalCode), contactNo, Integer.parseInt(lat), Integer.parseInt(lng), category, unitNo, streetName);
+        AmenityDAO aDAO = new AmenityDAO();
+        outcome = aDAO.addAmenity(a);
+        return new RedirectResolution("/admin/manage-amenities.jsp?createsuccess=" +
                 outcome +"&createmsg="+getName());
     }
 }

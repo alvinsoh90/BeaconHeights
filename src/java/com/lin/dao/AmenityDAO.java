@@ -116,23 +116,35 @@ public class AmenityDAO {
         return amenityList.get(0);
     }
 
-    public Amenity updateAmenity(int amenityId, String name, String description, String address,
-            int postalCode, String contactNo, int lat, int lng, String category) {
+    public boolean updateAmenity(int amenityId, String name, String description, 
+            int postalCode, String contactNo, int lat, int lng, String category, String unitNo, String streetName) {
         openSession();
+        Transaction tx = null;
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
-        System.out.println("AmenityUpdate : " + name + " " + description + " "
-                + address + " " + postalCode + " " + contactNo + " " + lat
+        System.out.println("AmenityUpdate : " + name + " " + description + " " + postalCode + " " + contactNo + " " + lat
                 + " " + lng + " " + category);
         //session.update("User",user);
+        try {
         Amenity a = (Amenity) session.get(Amenity.class, amenityId);
-        a.setName(name);
-        a.setDescription(description);
-        a.setAddress(address);
-        a.setPostalCode(postalCode);
-        a.setContactNo(contactNo);
-        a.setLat(lat);
-        a.setLng(lng);
-        a.setCategory(category);
-        return a;
+            a.setName(name);
+            a.setDescription(description);
+            a.setUnitNo(unitNo);
+            a.setUnitNo(streetName);
+            a.setPostalCode(postalCode);
+            a.setContactNo(contactNo);
+            a.setLat(lat);
+            a.setLng(lng);
+            a.setCategory(category);
+            session.update(a);
+            tx.commit();
+        return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return false;
+        
     }
 }
