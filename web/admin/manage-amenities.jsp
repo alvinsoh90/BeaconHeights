@@ -39,7 +39,7 @@
                         $("#edit_contactNo").val(amenity.contactNo);
                         $("#edit_lat").val(amenity.lat);
                         $("#edit_lng").val(amenity.lng);
-                        $("#edit_category").val(amenity.category);
+                        $("#edit_cat").val(amenity.amenityCategory.name);
                     }
                 });
                 
@@ -131,7 +131,7 @@
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Category</label>
                                 <div class="controls">
-                                    <stripes:select name="category" id ="edit_category">
+                                    <stripes:select name="category" id ="edit_cat">
                                         <stripes:options-collection collection="${manageAmenityBean.categoryList}" value="id" label="name"/>        
                                     </stripes:select>
                                 </div>
@@ -195,7 +195,7 @@
                                 amenity.contactNo = "${amenity.contactNo}";
                                 amenity.lat = "${amenity.lat}"; 
                                 amenity.lng = "${amenity.lng}";
-                                amenity.category = "${amenity.amenityCategory}"; 
+                                amenity.amenityCategory = "${amenity.amenityCategory}"; 
                                 amenityList.push(amenity);
                             </script>
                             <tr>
