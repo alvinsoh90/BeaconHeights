@@ -37,8 +37,6 @@
                         $("#edit_streetName").val(amenity.streetName);
                         $("#edit_postalCode").val(amenity.postalCode);
                         $("#edit_contactNo").val(amenity.contactNo);
-                        $("#edit_lat").val(amenity.lat);
-                        $("#edit_lng").val(amenity.lng);
                         $("#edit_cat").val(amenity.amenityCategory.name);
                     }
                 });
@@ -116,18 +114,6 @@
                                     <stripes:text id="edit_contactNo" name="contactNo"/>
                                 </div>
                             </div>
-                                <div class="control-group ${errorStyle}">
-                                <label class="control-label">Latitude</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_lat" name="lat"/>
-                                </div>
-                            </div>
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Longitude</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_lng" name="lng"/>
-                                </div>
-                            </div>
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Category</label>
                                 <div class="controls">
@@ -164,7 +150,7 @@
                     </div>    
 
                     <div class="page-header">
-                        <h1>Amenities<small>Manage amenities</small></h1>
+                        <h1>Amenities<small> Manage amenities</small></h1>
                     </div>
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
@@ -176,8 +162,6 @@
                                 <th>Street Name</th>
                                 <th>Postal Code</th>
                                 <th>Contact No</th>
-                                <th>lat</th>
-                                <th>lng</th>
                                 <th>Category</th>
                                 <th>Action</th>
                             </tr>
@@ -193,23 +177,19 @@
                                 amenity.streetName = "${amenity.streetName}";
                                 amenity.postalCode = "${amenity.postalCode}";
                                 amenity.contactNo = "${amenity.contactNo}";
-                                amenity.lat = "${amenity.lat}"; 
-                                amenity.lng = "${amenity.lng}";
                                 amenity.amenityCategory = "${amenity.amenityCategory}"; 
                                 amenityList.push(amenity);
                             </script>
                             <tr>
 
-                                <td><b>${amenity.id}</b></td>
-                                <td><b>${amenity.name}</b></td>
-                                <td><b>${amenity.description}</b></td>
-                                <td><b>${amenity.unitNo}</b></td>
-                                <td><b>${amenity.streetName}</b></td>
-                                <td><b>${amenity.postalCode}</b></td>
-                                <td><b>${amenity.contactNo}</b></td>
-                                <td><b>${amenity.lat}</b></td>
-                                <td><b>${amenity.lng}</b></td>
-                                <td><b>${amenity.amenityCategory.name}</b></td>
+                                <td>${amenity.id}</td>
+                                <td>${amenity.name}</td>
+                                <td>${amenity.description}</td>
+                                <td>${amenity.unitNo}</td>
+                                <td>${amenity.streetName}</td>
+                                <td>${amenity.postalCode}</td>
+                                <td>${amenity.contactNo}</td>
+                                <td>${amenity.amenityCategory.name}</td>
 
                                 <td nowrap>
                                     <a href="#editAmenityModal" role="button" data-toggle="modal"class="btn btn-primary btn-mini" onclick="populateEditAmenityModal('${amenity.id}')">Edit</a> 
@@ -284,18 +264,7 @@
                             <stripes:text name="contactNo"/>
                         </div>
                     </div>
-                        <div class="control-group ${errorStyle}">
-                        <label class="control-label">Latitude</label>
-                        <div class="controls">
-                            <stripes:text name="lat"/>
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Longitude</label>
-                        <div class="controls">
-                            <stripes:text name="lng"/>
-                        </div>
-                    </div>
+                   
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Category</label>
                         <div class="controls">

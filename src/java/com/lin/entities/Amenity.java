@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Jan 21, 2013 5:22:33 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 21, 2013 7:21:56 PM by Hibernate Tools 3.2.1.GA
 
 
 
@@ -15,8 +15,6 @@ public class Amenity  implements java.io.Serializable {
      private String description;
      private int postalCode;
      private String contactNo;
-     private int lat;
-     private int lng;
      private String unitNo;
      private String streetName;
 
@@ -24,21 +22,17 @@ public class Amenity  implements java.io.Serializable {
     }
 
 	
-    public Amenity(AmenityCategory amenityCategory, String name, int postalCode, int lat, int lng) {
+    public Amenity(AmenityCategory amenityCategory, String name, int postalCode) {
         this.amenityCategory = amenityCategory;
         this.name = name;
         this.postalCode = postalCode;
-        this.lat = lat;
-        this.lng = lng;
     }
-    public Amenity(AmenityCategory amenityCategory, String name, String description, int postalCode, String contactNo, int lat, int lng, String unitNo, String streetName) {
+    public Amenity(AmenityCategory amenityCategory, String name, String description, int postalCode, String contactNo, String unitNo, String streetName) {
        this.amenityCategory = amenityCategory;
        this.name = name;
        this.description = description;
        this.postalCode = postalCode;
        this.contactNo = contactNo;
-       this.lat = lat;
-       this.lng = lng;
        this.unitNo = unitNo;
        this.streetName = streetName;
     }
@@ -84,20 +78,6 @@ public class Amenity  implements java.io.Serializable {
     
     public void setContactNo(String contactNo) {
         this.contactNo = contactNo;
-    }
-    public int getLat() {
-        return this.lat;
-    }
-    
-    public void setLat(int lat) {
-        this.lat = lat;
-    }
-    public int getLng() {
-        return this.lng;
-    }
-    
-    public void setLng(int lng) {
-        this.lng = lng;
     }
     public String getUnitNo() {
         return this.unitNo;

@@ -28,8 +28,6 @@ public class ManageAmenityBean implements ActionBean {
     private String description;
     private String postalCode;
     private String contactNo;
-    private String lat;
-    private String lng;
     private String category;
     private String unitNo;
     private String streetName;
@@ -93,22 +91,6 @@ public class ManageAmenityBean implements ActionBean {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getLat() {
-        return lat;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLng() {
-        return lng;
-    }
-
-    public void setLng(String lng) {
-        this.lng = lng;
     }
 
     public String getName() {
@@ -192,7 +174,8 @@ public class ManageAmenityBean implements ActionBean {
     @HandlesEvent("editAmenity")
     public Resolution editAmenity() {
         AmenityDAO aDAO = new AmenityDAO();
-        outcome = aDAO.updateAmenity(Integer.parseInt(id), name, description,Integer.parseInt(postalCode), contactNo, Integer.parseInt(lat), Integer.parseInt(lng), Integer.parseInt(category), unitNo, streetName);
+        outcome = aDAO.updateAmenity(Integer.parseInt(id), name, description,
+                Integer.parseInt(postalCode),contactNo, Integer.parseInt(category), unitNo, streetName);
         return new RedirectResolution("/admin/manage-amenities.jsp?editsuccess=" +
                 outcome +"&createmsg="+getName());
     }
@@ -201,7 +184,7 @@ public class ManageAmenityBean implements ActionBean {
     public Resolution addAmenity() {
         AmenityCategoryDAO acDAO = new AmenityCategoryDAO();
         AmenityCategory ac = acDAO.getAmenityCategory(Integer.parseInt(category));
-        Amenity a = new Amenity(ac, name, description, Integer.parseInt(postalCode), contactNo, Integer.parseInt(lat), Integer.parseInt(lng), unitNo, streetName);
+        Amenity a = new Amenity(ac, name, description, Integer.parseInt(postalCode), contactNo, unitNo, streetName);
         AmenityDAO aDAO = new AmenityDAO();
         outcome = aDAO.addAmenity(a);
         return new RedirectResolution("/admin/manage-amenities.jsp?createsuccess=" +

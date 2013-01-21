@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-                <meta charset="utf-8">
+        <meta charset="utf-8">
 
         <title>View Amenities | Beacon Heights</title>
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
@@ -30,24 +30,135 @@
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
 
         <script src="./js/jquery-1.7.2.min.js"></script>
-        
-        <script type="text/javascript"
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcheNxGqIFkGkl_P1eXnTDoWh1n7Pfbak&sensor=false">
-        </script>
+
+        <script type="text/javascript" src="http://gothere.sg/jsapi?sensor=false"> </script>
         <script type="text/javascript">
+            
+            gothere.load("maps");
+            var amenityList = [];
+            var map;
+            var amenities;
+            var geocoder;
+            var latlng;
             function initialize() {
-                var mapOptions = {
-                    center: new google.maps.LatLng(1.326401, 103.862254),
-                    zoom: 16,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                var map = new google.maps.Map(document.getElementById("map_canvas"),
-                mapOptions);
+                if (GBrowserIsCompatible()) {
+                    
+                    // Create the Gothere map object.
+                    map = new GMap2(document.getElementById("map_canvas"));
+                    geocoder = new GClientGeocoder();
+                    latlng = new GLatLng(1.326401, 103.862253);
+    
+                    // Set the center of the map.
+                    map.setCenter(latlng, 15);
+                    // Add zoom controls on the top left of the map.
+                    map.addControl(new GSmallMapControl());
+                    // Add a scale bar at the bottom left of the map.
+                    map.addControl(new GScaleControl());
+                }
+                
+                amenities = new GAmenities(map, document.getElementById("panel"));
+            }
+            gothere.setOnLoadCallback(initialize);
+            
+            function getAmenities(category) {
+                map.closeInfoWindow();
+                amenities.clear();
+                map.clearOverlays();
+                var categoryToRequest;
+                switch(category) {
+                    case "Supermarkets":
+                        categoryToRequest = GAmenities.AMENITY_SUPERMARKET;
+                        placeMarkers(category);
+                        break;
+                    case "Clinics":
+                        categoryToRequest = GAmenities.AMENITY_CLINIC;
+                        placeMarkers(category);
+                        break;
+                    case "Post Offices":
+                        categoryToRequest = GAmenities.AMENITY_POST_OFFICE;
+                        placeMarkers(category);
+                        break;
+                    case "Schools":
+                        categoryToRequest = GAmenities.AMENITY_SCHOOL;
+                        placeMarkers(category);
+                        break;
+                    case "ATMs":
+                        categoryToRequest = GAmenities.AMENITY_ATM;
+                        placeMarkers(category);
+                        break;
+                    case "Banks":
+                        categoryToRequest = GAmenities.AMENITY_BANK;
+                        placeMarkers(category);
+                        break;
+                    case "Petrol Kiosks":
+                        categoryToRequest = GAmenities.AMENITY_PETROL_KIOSK;
+                        placeMarkers(category);
+                        break;
+                    case "Bus Stops":
+                        categoryToRequest = GAmenities.AMENITY_BUS_STOP;
+                        placeMarkers(category);
+                        break;
+                    case "-":
+                    default:
+                        placeMarkers(category);
+                        break;
+                }
+                amenities.clearCategories();
+                amenities.addCategory(categoryToRequest, GAmenities.LARGE_RESULTSET);
+                amenities.load(latlng);
+                
+                var homeMarker = new GMarker(latlng);
+                map.addOverlay(homeMarker);
+
+            }
+        
+            gothere.setOnLoadCallback(initialize);
+            
+            function placeMarkers(category){
+                
+                // Create a geocoder.
+                var geocoder = new GClientGeocoder();
+                for(var i = 0;i<amenityList.length;i++){
+
+                    if(category == amenityList[i].category){
+                        
+                        var name = amenityList[i].name;
+                        var streetName = amenityList[i].streetName;
+                        var unitNo = amenityList[i].unitNo;
+                        var description = amenityList[i].description;
+                        var contactNo = amenityList[i].contactNo;
+                        
+                        // Send a geocoding request.
+                        geocoder.getLatLng(streetName, function(latlng) {
+                            if (latlng) {
+                                // Add a marker to the map.
+                                var marker = new GMarker(latlng);
+                                marker.bindInfoWindowHtml("<b>"+name+"</b></br>"+
+                                    description+"</br>"+unitNo+" "+streetName+ 
+                                    "</br>Tel: " + contactNo);
+                                map.addOverlay(marker);
+                                
+                            }
+                        })
+                    }
+                }
             }
         </script>
+
     </head>
     <body onload="initialize()">
-
+        <c:forEach items="${manageAmenityBean.amenityList}" var="amenity" varStatus="loop">
+            <script>
+                var amenity = new Object();
+                amenity.name = '${amenity.name}';
+                amenity.description = '${amenity.description}';
+                amenity.unitNo = '${amenity.unitNo}';
+                amenity.streetName = '${amenity.streetName}';
+                amenity.contactNo = '${amenity.contactNo}';
+                amenity.category = '${amenity.amenityCategory.name}';
+                amenityList.push(amenity);
+            </script>
+        </c:forEach>
         <div id="content" style="width:100%; height:100%">
 
             <div class="container" style="width:100%; height:100%">
@@ -64,7 +175,7 @@
                                 <c:forEach items = "${manageAmenityBean.categoryList}"
                                            var="category" varStatus="loop">
                                     <li>
-                                        <a href="#${category.name}">${category.name}</a> 
+                                        <a href="#${category.name}" onclick="getAmenities('${category.name}');">${category.name}</a> 
                                     </li>
 
                                 </c:forEach>
@@ -100,15 +211,15 @@
                 </div> <!-- /container -->
 
             </div> <!-- /content -->
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
+            <script src="./js/excanvas.min.js"></script>
+            <script src="./js/jquery.flot.js"></script>
+            <script src="./js/jquery.flot.pie.js"></script>
+            <script src="./js/jquery.flot.orderBars.js"></script>
+            <script src="./js/jquery.flot.resize.js"></script>
+            <script src="./js/fullcalendar.min.js"></script>
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+            <script src="./js/bootstrap.js"></script>
+            <script src="./js/charts/bar.js"></script>
 
     </body>
 </html>
