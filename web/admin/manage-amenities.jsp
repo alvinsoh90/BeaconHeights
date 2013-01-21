@@ -131,7 +131,9 @@
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Category</label>
                                 <div class="controls">
-                                    <stripes:text id="edit_category" name="category"/>
+                                    <stripes:select name="category" id ="edit_category">
+                                        <stripes:options-collection collection="${manageAmenityBean.categoryList}" value="id" label="name"/>        
+                                    </stripes:select>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -193,7 +195,7 @@
                                 amenity.contactNo = "${amenity.contactNo}";
                                 amenity.lat = "${amenity.lat}"; 
                                 amenity.lng = "${amenity.lng}";
-                                amenity.category = "${amenity.category}"; 
+                                amenity.category = "${amenity.amenityCategory}"; 
                                 amenityList.push(amenity);
                             </script>
                             <tr>
@@ -207,7 +209,7 @@
                                 <td><b>${amenity.contactNo}</b></td>
                                 <td><b>${amenity.lat}</b></td>
                                 <td><b>${amenity.lng}</b></td>
-                                <td><b>${amenity.category}</b></td>
+                                <td><b>${amenity.amenityCategory.name}</b></td>
 
                                 <td nowrap>
                                     <a href="#editAmenityModal" role="button" data-toggle="modal"class="btn btn-primary btn-mini" onclick="populateEditAmenityModal('${amenity.id}')">Edit</a> 
@@ -297,7 +299,9 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Category</label>
                         <div class="controls">
-                            <stripes:text name="category"/>
+                            <stripes:select name="category" id ="category">
+                                <stripes:options-collection collection="${manageAmenityBean.categoryList}" value="id" label="name"/>        
+                            </stripes:select>
                         </div>
                     </div>
 

@@ -40,6 +40,19 @@ public class AmenityCategoryDAO {
         }
         return categoryList;
     }
+    
+    public AmenityCategory getAmenityCategory(int id) {
+        openSession();
+        AmenityCategory result = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            result = (AmenityCategory) session.createQuery("from AmenityCategory where id = :id").setString("id", id + "").uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public boolean addAmenityCategory(AmenityCategory amenityCategory) {
         openSession();

@@ -117,16 +117,17 @@ public class AmenityDAO {
     }
 
     public boolean updateAmenity(int amenityId, String name, String description, 
-            int postalCode, String contactNo, int lat, int lng, String category, String unitNo, String streetName) {
+            int postalCode, String contactNo, int lat, int lng, int category_id, String unitNo, String streetName) {
         openSession();
         Transaction tx = null;
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
         System.out.println("AmenityUpdate : " + name + " " + description + " " + postalCode + " " + contactNo + " " + lat
-                + " " + lng + " " + category + " " + unitNo);
+                + " " + lng + " " + category_id + " " + unitNo);
         //session.update("User",user);
         try {
             tx = session.beginTransaction();
-        Amenity a = (Amenity) session.get(Amenity.class, amenityId);
+            AmenityCategory ac = (AmenityCategory)session.get(AmenityCategory.class, category_id);
+            Amenity a = (Amenity) session.get(Amenity.class, amenityId);
             a.setName(name);
             a.setDescription(description);
             a.setUnitNo(unitNo);
@@ -135,7 +136,7 @@ public class AmenityDAO {
             a.setContactNo(contactNo);
             a.setLat(lat);
             a.setLng(lng);
-            a.setCategory(category);
+            a.setAmenityCategory(ac);
             session.update(a);
             tx.commit();
         return true;

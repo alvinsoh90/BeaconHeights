@@ -19,5 +19,4 @@
     <table-filter match-name="amenity"/>
     <table-filter match-name="amenity_category"/>
     <table-filter match-name="form_template"/>
-
 </hibernate-reverse-engineering>

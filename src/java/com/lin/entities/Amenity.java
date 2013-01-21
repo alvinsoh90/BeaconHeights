@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Jan 21, 2013 3:29:34 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 21, 2013 5:22:33 PM by Hibernate Tools 3.2.1.GA
 
 
 
@@ -10,13 +10,13 @@ public class Amenity  implements java.io.Serializable {
 
 
      private Integer id;
+     private AmenityCategory amenityCategory;
      private String name;
      private String description;
      private int postalCode;
      private String contactNo;
      private int lat;
      private int lng;
-     private String category;
      private String unitNo;
      private String streetName;
 
@@ -24,21 +24,21 @@ public class Amenity  implements java.io.Serializable {
     }
 
 	
-    public Amenity(String name, int postalCode, int lat, int lng, String category) {
+    public Amenity(AmenityCategory amenityCategory, String name, int postalCode, int lat, int lng) {
+        this.amenityCategory = amenityCategory;
         this.name = name;
         this.postalCode = postalCode;
         this.lat = lat;
         this.lng = lng;
-        this.category = category;
     }
-    public Amenity(String name, String description, int postalCode, String contactNo, int lat, int lng, String category, String unitNo, String streetName) {
+    public Amenity(AmenityCategory amenityCategory, String name, String description, int postalCode, String contactNo, int lat, int lng, String unitNo, String streetName) {
+       this.amenityCategory = amenityCategory;
        this.name = name;
        this.description = description;
        this.postalCode = postalCode;
        this.contactNo = contactNo;
        this.lat = lat;
        this.lng = lng;
-       this.category = category;
        this.unitNo = unitNo;
        this.streetName = streetName;
     }
@@ -49,6 +49,13 @@ public class Amenity  implements java.io.Serializable {
     
     public void setId(Integer id) {
         this.id = id;
+    }
+    public AmenityCategory getAmenityCategory() {
+        return this.amenityCategory;
+    }
+    
+    public void setAmenityCategory(AmenityCategory amenityCategory) {
+        this.amenityCategory = amenityCategory;
     }
     public String getName() {
         return this.name;
@@ -91,13 +98,6 @@ public class Amenity  implements java.io.Serializable {
     
     public void setLng(int lng) {
         this.lng = lng;
-    }
-    public String getCategory() {
-        return this.category;
-    }
-    
-    public void setCategory(String category) {
-        this.category = category;
     }
     public String getUnitNo() {
         return this.unitNo;

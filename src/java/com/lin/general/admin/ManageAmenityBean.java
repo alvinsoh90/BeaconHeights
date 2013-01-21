@@ -192,14 +192,16 @@ public class ManageAmenityBean implements ActionBean {
     @HandlesEvent("editAmenity")
     public Resolution editAmenity() {
         AmenityDAO aDAO = new AmenityDAO();
-        outcome = aDAO.updateAmenity(Integer.parseInt(id), name, description,Integer.parseInt(postalCode), contactNo, Integer.parseInt(lat), Integer.parseInt(lng), category, unitNo, streetName);
+        outcome = aDAO.updateAmenity(Integer.parseInt(id), name, description,Integer.parseInt(postalCode), contactNo, Integer.parseInt(lat), Integer.parseInt(lng), Integer.parseInt(category), unitNo, streetName);
         return new RedirectResolution("/admin/manage-amenities.jsp?editsuccess=" +
                 outcome +"&createmsg="+getName());
     }
 
     @HandlesEvent("addAmenity")
     public Resolution addAmenity() {
-        Amenity a = new Amenity(name, description, Integer.parseInt(postalCode), contactNo, Integer.parseInt(lat), Integer.parseInt(lng), category, unitNo, streetName);
+        AmenityCategoryDAO acDAO = new AmenityCategoryDAO();
+        AmenityCategory ac = acDAO.getAmenityCategory(Integer.parseInt(category));
+        Amenity a = new Amenity(ac, name, description, Integer.parseInt(postalCode), contactNo, Integer.parseInt(lat), Integer.parseInt(lng), unitNo, streetName);
         AmenityDAO aDAO = new AmenityDAO();
         outcome = aDAO.addAmenity(a);
         return new RedirectResolution("/admin/manage-amenities.jsp?createsuccess=" +
