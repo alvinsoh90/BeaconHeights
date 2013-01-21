@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Jan 20, 2013 6:53:45 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 21, 2013 3:29:34 PM by Hibernate Tools 3.2.1.GA
 
 
 
@@ -12,34 +12,35 @@ public class Amenity  implements java.io.Serializable {
      private Integer id;
      private String name;
      private String description;
-     private String address;
      private int postalCode;
      private String contactNo;
      private int lat;
      private int lng;
      private String category;
+     private String unitNo;
+     private String streetName;
 
     public Amenity() {
     }
 
 	
-    public Amenity(String name, String address, int postalCode, int lat, int lng, String category) {
+    public Amenity(String name, int postalCode, int lat, int lng, String category) {
         this.name = name;
-        this.address = address;
         this.postalCode = postalCode;
         this.lat = lat;
         this.lng = lng;
         this.category = category;
     }
-    public Amenity(String name, String description, String address, int postalCode, String contactNo, int lat, int lng, String category) {
+    public Amenity(String name, String description, int postalCode, String contactNo, int lat, int lng, String category, String unitNo, String streetName) {
        this.name = name;
        this.description = description;
-       this.address = address;
        this.postalCode = postalCode;
        this.contactNo = contactNo;
        this.lat = lat;
        this.lng = lng;
        this.category = category;
+       this.unitNo = unitNo;
+       this.streetName = streetName;
     }
    
     public Integer getId() {
@@ -62,13 +63,6 @@ public class Amenity  implements java.io.Serializable {
     
     public void setDescription(String description) {
         this.description = description;
-    }
-    public String getAddress() {
-        return this.address;
-    }
-    
-    public void setAddress(String address) {
-        this.address = address;
     }
     public int getPostalCode() {
         return this.postalCode;
@@ -104,6 +98,20 @@ public class Amenity  implements java.io.Serializable {
     
     public void setCategory(String category) {
         this.category = category;
+    }
+    public String getUnitNo() {
+        return this.unitNo;
+    }
+    
+    public void setUnitNo(String unitNo) {
+        this.unitNo = unitNo;
+    }
+    public String getStreetName() {
+        return this.streetName;
+    }
+    
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
 
