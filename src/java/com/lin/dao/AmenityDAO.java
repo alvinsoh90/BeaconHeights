@@ -82,7 +82,7 @@ public class AmenityDAO {
 
         try {
             tx = session.beginTransaction();
-            String hql = "delete from Amenity where amenityId = :id";
+            String hql = "delete from Amenity where id = :id";
             Query query = session.createQuery(hql);
             query.setString("id", amenityId + "");
             rowCount = query.executeUpdate();
@@ -122,14 +122,15 @@ public class AmenityDAO {
         Transaction tx = null;
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
         System.out.println("AmenityUpdate : " + name + " " + description + " " + postalCode + " " + contactNo + " " + lat
-                + " " + lng + " " + category);
+                + " " + lng + " " + category + " " + unitNo);
         //session.update("User",user);
         try {
+            tx = session.beginTransaction();
         Amenity a = (Amenity) session.get(Amenity.class, amenityId);
             a.setName(name);
             a.setDescription(description);
             a.setUnitNo(unitNo);
-            a.setUnitNo(streetName);
+            a.setStreetName(streetName);
             a.setPostalCode(postalCode);
             a.setContactNo(contactNo);
             a.setLat(lat);

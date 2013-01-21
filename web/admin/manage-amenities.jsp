@@ -74,16 +74,11 @@
                     <div id="editAmenityModal" class="modal hide fade">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                            <h3>Edit <span id="amenityEditLabel"></span>
+                            <h3>Editing <span id="amenityEditLabel"></span>
                         </div>
                         <div class="modal-body">
                             <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean" focus="">
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">ID</label>
-                                    <div class="controls">
-                                        <stripes:text id="edit_id" name="id"/> 
-                                    </div>
-                                </div>   
+                                <stripes:hidden id="edit_id" name="id"/> 
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Amenity Name</label>
                                     <div class="controls">
