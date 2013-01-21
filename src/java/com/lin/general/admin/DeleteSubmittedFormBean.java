@@ -33,11 +33,11 @@ public class DeleteSubmittedFormBean implements ActionBean {
         try {
             dao.deleteSubmittedForm(rId);
             dao = new SubmittedFormDAO();
-            return new RedirectResolution("/admin/manage-submittedforms.jsp?deletesuccess=true&deletemsg=the form");
+            return new RedirectResolution("/admin/manage-onlineform.jsp?deletesuccess=true&deletemsg=the form");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new RedirectResolution("/admin/manage-submittedforms.jsp?deletesuccess=false");
+        return new RedirectResolution("/admin/manage-onlineform.jsp?deletesuccess=false");
 
     }
 
