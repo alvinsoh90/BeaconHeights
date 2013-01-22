@@ -108,3 +108,7 @@ td.day{
 span.spacing{
     margin: 0 12px;
 }
+
+.slotRow.error input.timepicker{
+    border:1px solid darkred;
+}

@@ -259,7 +259,9 @@
             }
             
             //this object is updated everytime user changes the date picker
-            var slotDataJSON = new Object(); 
+            var slotDataJSON = new Object();
+             //will be true if validation finds error ie timeAfter is timeBefore
+            var slotDataHasError = false;
             
             function retrieveOverallJSONSlotData(){
                 slotDataJSON.mondaySlots = getJSONSlotDataForDay(1);
@@ -282,7 +284,15 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
-                            data.push(slot);
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
+                            
                         });                        
                     break;
                     case 2:                        
@@ -290,7 +300,14 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
-                            data.push(slot);
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
                         });                        
                     break;
                     case 3:                        
@@ -298,7 +315,14 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
-                            data.push(slot);
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
                         });                        
                     break;
                     case 4:                        
@@ -306,7 +330,14 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
-                            data.push(slot);
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
                         });                        
                     break;
                     case 5:                        
@@ -314,7 +345,14 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
-                            data.push(slot);
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
                         });                        
                     break;
                     case 6:                        
@@ -322,7 +360,14 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
-                            data.push(slot);
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
                         });                        
                     break;
                     case 7:                        
@@ -330,7 +375,14 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
-                            data.push(slot);
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
                         });                        
                     break;
                 }
@@ -443,7 +495,7 @@
                                                 <td class="day">Monday</td>
                                                 <td>
                                                     <table id="mondaySlotHolder">
-                                                        <tr class="mondaySlot"><td>
+                                                        <tr class="mondaySlot slotRow"><td>
                                                             <input id="a-mon1" class="timepicker"/>
                                                             <input class="hide mondaySlotData start" id="a-monday1" /> 
                                                             <span class="spacing">to</span>
@@ -475,7 +527,7 @@
                                                 <td class="day">Tuesday</td>
                                                 <td>
                                                     <table id="tuesdaySlotHolder">
-                                                        <tr class="tuesdaySlot"><td>
+                                                        <tr class="tuesdaySlot slotRow"><td>
                                                             <input id="a-tues1" class="timepicker"/>
                                                             <input class="hide tuesdaySlotData start" id="a-tuesday1" /> 
                                                             <span class="spacing">to</span>
@@ -507,7 +559,7 @@
                                                 <td class="day">Wednesday</td>
                                                 <td>
                                                     <table id="wednesdaySlotHolder">
-                                                        <tr class="wednesdaySlot"><td>
+                                                        <tr class="wednesdaySlot slotRow"><td>
                                                             <input id="a-wednes1" class="timepicker"/>
                                                             <input class="hide wednesdaySlotData start" id="a-wednesday1" /> 
                                                             <span class="spacing">to</span>
@@ -539,7 +591,7 @@
                                                 <td class="day">Thursday</td>
                                                 <td>
                                                     <table id="thursdaySlotHolder">
-                                                        <tr class="thursdaySlot"><td>
+                                                        <tr class="thursdaySlot slotRow"><td>
                                                             <input id="a-thurs1" class="timepicker"/>
                                                             <input class="hide thursdaySlotData start" id="a-thursday1" /> 
                                                             <span class="spacing">to</span>
@@ -571,7 +623,7 @@
                                                 <td class="day">Friday</td>
                                                 <td>
                                                     <table id="fridaySlotHolder">
-                                                        <tr class="fridaySlot"><td>
+                                                        <tr class="fridaySlot slotRow"><td>
                                                             <input id="a-fri1" class="timepicker"/>
                                                             <input class="hide fridaySlotData start" id="a-friday1" /> 
                                                             <span class="spacing">to</span>
@@ -603,7 +655,7 @@
                                                 <td class="day">Saturday</td>
                                                 <td>
                                                     <table id="saturdaySlotHolder">
-                                                        <tr class="saturdaySlot"><td>
+                                                        <tr class="saturdaySlot slotRow"><td>
                                                             <input id="a-satur1" class="timepicker"/>
                                                             <input class="hide saturdaySlotData start" id="a-saturday1" /> 
                                                             <span class="spacing">to</span>
@@ -635,7 +687,7 @@
                                                 <td class="day">Sunday</td>
                                                 <td>
                                                     <table id="sundaySlotHolder">
-                                                        <tr class="sundaySlot"><td>
+                                                        <tr class="sundaySlot slotRow"><td>
                                                             <input id="a-sun1" class="timepicker"/>
                                                             <input class="hide sundaySlotData start" id="a-sunday1" /> 
                                                             <span class="spacing">to</span>
@@ -772,25 +824,12 @@
             });
             
             
-            //RETURNS TRUE IF TIMEBEFORE is after TIMEAFTER
+            //RETURNS TRUE IF timeBefore is after timeAfter
             //ALSO RETURNS TRUE IF ANY DATES CANNOT BE PARSED
             function isAfter(timeBefore,timeAfter){
-                
-                var dBefore = getDateFromString(timeBefore.val());
-                var dAfter = getDateFromString(timeAfter.val());
-                                
-                if(isNaN(dBefore) || isNaN(dAfter)){
-                    return true;
-                }
-                else {
-                    if(dBefore >= dAfter){
-                    return true;
-                }
-                    else{
-                        return false;
-                    }
-                }
-                
+                var dBefore = new Date(parseInt(timeBefore));
+                var dAfter = new Date(parseInt(timeAfter));                
+                return dBefore >= dAfter;                  
             }
         </script>
         
