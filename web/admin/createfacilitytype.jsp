@@ -36,11 +36,8 @@
         
         <script>
             function loadTimePickers(){
-                $('.timepicker').timepicker();   
-                
-                $('.timepicker').change( function(){
-                    //loadTimepickerInput();
-                });     
+                $('.timepicker').timepicker();                  
+                $('.timepicker').change( function(){retrieveOverallJSONSlotData()});     
             }
            
           function getDateFromString(inputString){
@@ -85,7 +82,7 @@
                         attachChangeHandlers("mon",numMonSlots);
                         
                         //refresh timepicker plugin
-                        setTimeout("$('.timepicker').timepicker()",500);
+                        setTimeout("loadTimePickers()",500);
                         
                         //increment counter
                         numMonSlots++;
@@ -113,7 +110,7 @@
                         attachChangeHandlers("tues",numTuesSlots);
                         
                         //refresh timepicker plugin
-                        setTimeout("$('.timepicker').timepicker()",500);
+                        setTimeout("loadTimePickers()",500);
                         
                         //increment counter
                         numTuesSlots++;
@@ -138,7 +135,7 @@
                         attachChangeHandlers("wednes",numWednesSlots);
                         
                         //refresh timepicker plugin
-                        setTimeout("$('.timepicker').timepicker()",500);
+                        setTimeout("loadTimePickers()",500);
                         
                         //increment counter
                         numWednesSlots++;
@@ -163,7 +160,7 @@
                         attachChangeHandlers("thurs",numThursSlots);
                         
                         //refresh timepicker plugin
-                        setTimeout("$('.timepicker').timepicker()",500);
+                        setTimeout("loadTimePickers()",500);
                         
                         //increment counter
                         numThursSlots++;
@@ -188,7 +185,7 @@
                         attachChangeHandlers("fri",numFriSlots);
                         
                         //refresh timepicker plugin
-                        setTimeout("$('.timepicker').timepicker()",500);
+                        setTimeout("loadTimePickers()",500);
                         
                         //increment counter
                         numFriSlots++;
@@ -212,7 +209,7 @@
                         attachChangeHandlers("satur",numSaturSlots);
                         
                         //refresh timepicker plugin
-                        setTimeout("$('.timepicker').timepicker()",500);
+                        setTimeout("loadTimePickers()",500);
                         
                         //increment counter
                         numSaturSlots++;
@@ -236,7 +233,7 @@
                         attachChangeHandlers("sun",numSunSlots);
                         
                         //refresh timepicker plugin
-                        setTimeout("$('.timepicker').timepicker()",500);
+                        setTimeout("loadTimePickers()",500);
                         
                         //increment counter
                         numSunSlots++;
@@ -260,6 +257,86 @@
                     $("#b-"+dayString+"day" + (num + 1)).val( getDateFromString($("#b-"+dayString + (num + 1)).val()) ); 
                 });
             }
+            
+            //this object is updated everytime user changes the date picker
+            var slotDataJSON = new Object(); 
+            
+            function retrieveOverallJSONSlotData(){
+                slotDataJSON.mondaySlots = getJSONSlotDataForDay(1);
+                slotDataJSON.tuesdaySlots = getJSONSlotDataForDay(2);
+                slotDataJSON.wednesdaySlots = getJSONSlotDataForDay(3);
+                slotDataJSON.thursdaySlots = getJSONSlotDataForDay(4);
+                slotDataJSON.fridaySlots = getJSONSlotDataForDay(5);
+                slotDataJSON.saturdaySlots = getJSONSlotDataForDay(6);
+                slotDataJSON.sundaySlots = getJSONSlotDataForDay(7);
+                
+                //return slotDataJSON;
+            }
+            
+            function getJSONSlotDataForDay(day){
+                var data = [];
+
+                switch(day){
+                    case 1:                        
+                        $("#mondaySlotHolder .mondaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            data.push(slot);
+                        });                        
+                    break;
+                    case 2:                        
+                        $("#tuesdaySlotHolder .tuesdaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            data.push(slot);
+                        });                        
+                    break;
+                    case 3:                        
+                        $("#wednesdaySlotHolder .wednesdaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            data.push(slot);
+                        });                        
+                    break;
+                    case 4:                        
+                        $("#thursdaySlotHolder .thursdaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            data.push(slot);
+                        });                        
+                    break;
+                    case 5:                        
+                        $("#fridaySlotHolder .fridaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            data.push(slot);
+                        });                        
+                    break;
+                    case 6:                        
+                        $("#saturdaySlotHolder .saturdaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            data.push(slot);
+                        });                        
+                    break;
+                    case 7:                        
+                        $("#sundaySlotHolder .sundaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            data.push(slot);
+                        });                        
+                    break;
+                }
+                return data;
+            }
+            
             
         </script>
         
@@ -368,10 +445,10 @@
                                                     <table id="mondaySlotHolder">
                                                         <tr class="mondaySlot"><td>
                                                             <input id="a-mon1" class="timepicker"/>
-                                                            <input class="hide mondaySlotData" id="a-monday1" /> 
+                                                            <input class="hide mondaySlotData start" id="a-monday1" /> 
                                                             <span class="spacing">to</span>
                                                             <input id="b-mon1" class="timepicker"/>
-                                                            <input class="hide mondaySlotData" id="b-monday1" />
+                                                            <input class="hide mondaySlotData end" id="b-monday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
                                                                onclick="removeSlot('mon',1)">x</a>
@@ -400,10 +477,10 @@
                                                     <table id="tuesdaySlotHolder">
                                                         <tr class="tuesdaySlot"><td>
                                                             <input id="a-tues1" class="timepicker"/>
-                                                            <input class="hide tuesdaySlotData" id="a-tuesday1" /> 
+                                                            <input class="hide tuesdaySlotData start" id="a-tuesday1" /> 
                                                             <span class="spacing">to</span>
                                                             <input id="b-tues1" class="timepicker"/>
-                                                            <input class="hide tuesdaySlotData" id="b-tuesday1" />
+                                                            <input class="hide tuesdaySlotData end" id="b-tuesday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
                                                                onclick="removeSlot('tues',1)">x</a>
@@ -432,10 +509,10 @@
                                                     <table id="wednesdaySlotHolder">
                                                         <tr class="wednesdaySlot"><td>
                                                             <input id="a-wednes1" class="timepicker"/>
-                                                            <input class="hide wednesdaySlotData" id="a-wednesday1" /> 
+                                                            <input class="hide wednesdaySlotData start" id="a-wednesday1" /> 
                                                             <span class="spacing">to</span>
                                                             <input id="b-wednes1" class="timepicker"/>
-                                                            <input class="hide wednesdaySlotData" id="b-wednesday1" />
+                                                            <input class="hide wednesdaySlotData end" id="b-wednesday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
                                                                onclick="removeSlot('wednes',1)">x</a>
@@ -464,10 +541,10 @@
                                                     <table id="thursdaySlotHolder">
                                                         <tr class="thursdaySlot"><td>
                                                             <input id="a-thurs1" class="timepicker"/>
-                                                            <input class="hide thursdaySlotData" id="a-thursday1" /> 
+                                                            <input class="hide thursdaySlotData start" id="a-thursday1" /> 
                                                             <span class="spacing">to</span>
                                                             <input id="b-thurs1" class="timepicker"/>
-                                                            <input class="hide thursdaySlotData" id="b-thursday1" />
+                                                            <input class="hide thursdaySlotData end" id="b-thursday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
                                                                onclick="removeSlot('thurs',1)">x</a>
@@ -496,10 +573,10 @@
                                                     <table id="fridaySlotHolder">
                                                         <tr class="fridaySlot"><td>
                                                             <input id="a-fri1" class="timepicker"/>
-                                                            <input class="hide fridaySlotData" id="a-friday1" /> 
+                                                            <input class="hide fridaySlotData start" id="a-friday1" /> 
                                                             <span class="spacing">to</span>
                                                             <input id="b-fri1" class="timepicker"/>
-                                                            <input class="hide fridaySlotData" id="b-friday1" />
+                                                            <input class="hide fridaySlotData end" id="b-friday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
                                                                onclick="removeSlot('fri',1)">x</a>
@@ -528,10 +605,10 @@
                                                     <table id="saturdaySlotHolder">
                                                         <tr class="saturdaySlot"><td>
                                                             <input id="a-satur1" class="timepicker"/>
-                                                            <input class="hide saturdaySlotData" id="a-saturday1" /> 
+                                                            <input class="hide saturdaySlotData start" id="a-saturday1" /> 
                                                             <span class="spacing">to</span>
                                                             <input id="b-satur1" class="timepicker"/>
-                                                            <input class="hide saturdaySlotData" id="b-saturday1" />
+                                                            <input class="hide saturdaySlotData end" id="b-saturday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
                                                                onclick="removeSlot('satur',1)">x</a>
@@ -560,10 +637,10 @@
                                                     <table id="sundaySlotHolder">
                                                         <tr class="sundaySlot"><td>
                                                             <input id="a-sun1" class="timepicker"/>
-                                                            <input class="hide sundaySlotData" id="a-sunday1" /> 
+                                                            <input class="hide sundaySlotData start" id="a-sunday1" /> 
                                                             <span class="spacing">to</span>
                                                             <input id="b-sun1" class="timepicker"/>
-                                                            <input class="hide sundaySlotData" id="b-sunday1" />
+                                                            <input class="hide sundaySlotData end" id="b-sunday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
                                                                onclick="removeSlot('sun',1)">x</a>
