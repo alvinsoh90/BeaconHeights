@@ -56,11 +56,11 @@
             
             //Init vars. they will be incremented as new slots are added
             var numMonSlots = 1;
-            var numTueSlots = 1;
-            var numWedSlots = 1;
-            var numThuSlots = 1;
+            var numTuesSlots = 1;
+            var numWednesSlots = 1;
+            var numThursSlots = 1;
             var numFriSlots = 1;
-            var numSatSlots = 1;
+            var numSaturSlots = 1;
             var numSunSlots = 1;
             
             //Function for adding new slots. day is 1-7 where 1=monday
@@ -78,7 +78,7 @@
                         $(c.children().children()[3]).attr("class","timepicker");
                         $(c.children().children()[4]).attr("id","b-monday" + (numMonSlots + 1));
                         $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('mon',"+ (numMonSlots + 1) +")");
-                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        $(c.children()[1]).find(".embeddedBtn.hide").attr("class","embeddedBtn");
                         
                         $("#mondaySlotHolder").append(c);
                         
@@ -93,7 +93,156 @@
                         break;
                         
                     case 2:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".tuesdaySlot:first-of-type").clone();
+                        $(c).attr("id","tuesday"+ (numTuesSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-tues" + (numTuesSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-tuesday" + (numTuesSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-tues" + (numTuesSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-tuesday" + (numTuesSlots + 1));
+                        var val = numTuesSlots + 1;
+                        console.log(val);
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('tues',"+ val +")");
+                        $(c.children()[1]).find(".embeddedBtn.hide").attr("class","embeddedBtn");
+                        
+                        $("#tuesdaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("tues",numTuesSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("$('.timepicker').timepicker()",500);
+                        
+                        //increment counter
+                        numTuesSlots++;
                         break;
+                        
+                    case 3:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".wednesdaySlot:first-of-type").clone();
+                        $(c).attr("id","wednesday"+ (numWednesSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-wednes" + (numWednesSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-wednesday" + (numWednesSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-wednes" + (numWednesSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-wednesday" + (numWednesSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('wednes',"+ (numWednesSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#wednesdaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("wednes",numWednesSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("$('.timepicker').timepicker()",500);
+                        
+                        //increment counter
+                        numWednesSlots++;
+                        break;
+                    
+                    case 4:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".thursdaySlot:first-of-type").clone();
+                        $(c).attr("id","thursday"+ (numThursSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-thurs" + (numThursSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-thursday" + (numThursSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-thurs" + (numThursSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-thursday" + (numThursSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('thurs',"+ (numThursSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#thursdaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("thurs",numThursSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("$('.timepicker').timepicker()",500);
+                        
+                        //increment counter
+                        numThursSlots++;
+                        break;
+                        
+                    case 5:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".fridaySlot:first-of-type").clone();
+                        $(c).attr("id","friday"+ (numFriSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-fri" + (numFriSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-friday" + (numFriSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-fri" + (numFriSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-friday" + (numFriSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('fri',"+ (numFriSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#fridaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("fri",numFriSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("$('.timepicker').timepicker()",500);
+                        
+                        //increment counter
+                        numFriSlots++;
+                        break;
+                    case 6:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".saturdaySlot:first-of-type").clone();
+                        $(c).attr("id","saturday"+ (numSaturSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-satur" + (numSaturSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-saturday" + (numSaturSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-satur" + (numSaturSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-saturday" + (numSaturSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('satur',"+ (numSaturSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#saturdaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("satur",numSaturSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("$('.timepicker').timepicker()",500);
+                        
+                        //increment counter
+                        numSaturSlots++;
+                        break;
+                     case 7:
+                         //append new inputs and set appropriate ID on element
+                        var c = $(".sundaySlot:first-of-type").clone();
+                        $(c).attr("id","sunday"+ (numSunSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-sun" + (numSunSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-sunday" + (numSunSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-sun" + (numSunSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-sunday" + (numSunSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('sun',"+ (numSunSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#sundaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("sun",numSunSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("$('.timepicker').timepicker()",500);
+                        
+                        //increment counter
+                        numSunSlots++;
+                        
+                         break;
+                         
                 }
             }
             
@@ -245,6 +394,197 @@
                                                 
                                             </tr>
                                             
+                                            <tr>
+                                                <td class="day">Tuesday</td>
+                                                <td>
+                                                    <table id="tuesdaySlotHolder">
+                                                        <tr class="tuesdaySlot"><td>
+                                                            <input id="a-tues1" class="timepicker"/>
+                                                            <input class="hide tuesdaySlotData" id="a-tuesday1" /> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-tues1" class="timepicker"/>
+                                                            <input class="hide tuesdaySlotData" id="b-tuesday1" />
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
+                                                               onclick="removeSlot('tues',1)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(2)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-tues1").change(function(){
+                                                                $("#a-tuesday1").val( getDateFromString($("#a-tues1").val()) ); 
+                                                            });
+                                                            $("#b-tues1").change(function(){
+                                                                $("#b-tuesday1").val( getDateFromString($("#b-tues1").val()) ); 
+                                                            });
+                                                        </script>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="day">Wednesday</td>
+                                                <td>
+                                                    <table id="wednesdaySlotHolder">
+                                                        <tr class="wednesdaySlot"><td>
+                                                            <input id="a-wednes1" class="timepicker"/>
+                                                            <input class="hide wednesdaySlotData" id="a-wednesday1" /> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-wednes1" class="timepicker"/>
+                                                            <input class="hide wednesdaySlotData" id="b-wednesday1" />
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
+                                                               onclick="removeSlot('wednes',1)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(3)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-wednes1").change(function(){
+                                                                $("#a-wednesday1").val( getDateFromString($("#a-wednes1").val()) ); 
+                                                            });
+                                                            $("#b-wednes1").change(function(){
+                                                                $("#b-wednesday1").val( getDateFromString($("#b-wednes1").val()) ); 
+                                                            });
+                                                        </script>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="day">Thursday</td>
+                                                <td>
+                                                    <table id="thursdaySlotHolder">
+                                                        <tr class="thursdaySlot"><td>
+                                                            <input id="a-thurs1" class="timepicker"/>
+                                                            <input class="hide thursdaySlotData" id="a-thursday1" /> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-thurs1" class="timepicker"/>
+                                                            <input class="hide thursdaySlotData" id="b-thursday1" />
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
+                                                               onclick="removeSlot('thurs',1)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(4)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-thurs1").change(function(){
+                                                                $("#a-thursday1").val( getDateFromString($("#a-thurs1").val()) ); 
+                                                            });
+                                                            $("#b-thurs1").change(function(){
+                                                                $("#b-thursday1").val( getDateFromString($("#b-thurs1").val()) ); 
+                                                            });
+                                                        </script>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="day">Friday</td>
+                                                <td>
+                                                    <table id="fridaySlotHolder">
+                                                        <tr class="fridaySlot"><td>
+                                                            <input id="a-fri1" class="timepicker"/>
+                                                            <input class="hide fridaySlotData" id="a-friday1" /> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-fri1" class="timepicker"/>
+                                                            <input class="hide fridaySlotData" id="b-friday1" />
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
+                                                               onclick="removeSlot('fri',1)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(5)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-fri1").change(function(){
+                                                                $("#a-friday1").val( getDateFromString($("#a-fri1").val()) ); 
+                                                            });
+                                                            $("#b-fri1").change(function(){
+                                                                $("#b-friday1").val( getDateFromString($("#b-fri1").val()) ); 
+                                                            });
+                                                        </script>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>  
+                                            
+                                            <tr>
+                                                <td class="day">Saturday</td>
+                                                <td>
+                                                    <table id="saturdaySlotHolder">
+                                                        <tr class="saturdaySlot"><td>
+                                                            <input id="a-satur1" class="timepicker"/>
+                                                            <input class="hide saturdaySlotData" id="a-saturday1" /> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-satur1" class="timepicker"/>
+                                                            <input class="hide saturdaySlotData" id="b-saturday1" />
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
+                                                               onclick="removeSlot('satur',1)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(6)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-satur1").change(function(){
+                                                                $("#a-saturday1").val( getDateFromString($("#a-satur1").val()) ); 
+                                                            });
+                                                            $("#b-satur1").change(function(){
+                                                                $("#b-saturday1").val( getDateFromString($("#b-satur1").val()) ); 
+                                                            });
+                                                        </script>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>   
+                                            
+                                            <tr>
+                                                <td class="day">Sunday</td>
+                                                <td>
+                                                    <table id="sundaySlotHolder">
+                                                        <tr class="sundaySlot"><td>
+                                                            <input id="a-sun1" class="timepicker"/>
+                                                            <input class="hide sundaySlotData" id="a-sunday1" /> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-sun1" class="timepicker"/>
+                                                            <input class="hide sundaySlotData" id="b-sunday1" />
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
+                                                               onclick="removeSlot('sun',1)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(1)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-sun1").change(function(){
+                                                                $("#a-sunday1").val( getDateFromString($("#a-sun1").val()) ); 
+                                                            });
+                                                            $("#b-sun1").change(function(){
+                                                                $("#b-sunday1").val( getDateFromString($("#b-sun1").val()) ); 
+                                                            });
+                                                        </script>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>                        
                                           
                                         </table>
                                     
