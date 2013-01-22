@@ -389,6 +389,11 @@
                 return data;
             }
             
+            function copyFirstRow(){
+                $(".slotRow .startTime").val( $(".firstStart").val() );
+                $(".slotRow .endTime").val( $(".firstEnd").val() );
+            }
+            
             
         </script>
         
@@ -489,17 +494,19 @@
                                    
                                     </div>
                          </div>
-                                        <label class="control-label">Facility Availability</label>
-                                        <table class='timeSlotsTable'>
+                                        <label class="control-label">Facility Availability<br/>
+                                        <a href="#copy" onclick="copyFirstRow()">Copy first row down</a></label>
+                                        
+                                        <table class='timeSlotsTable' cellpadding="7">
                                             <tr>
                                                 <td class="day">Monday</td>
                                                 <td>
                                                     <table id="mondaySlotHolder">
                                                         <tr class="mondaySlot slotRow"><td>
-                                                            <input id="a-mon1" class="timepicker"/>
+                                                            <input id="a-mon1" class="timepicker startTime firstStart"/>
                                                             <input class="hide mondaySlotData start" id="a-monday1" /> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-mon1" class="timepicker"/>
+                                                            <input id="b-mon1" class="timepicker endTime firstEnd"/>
                                                             <input class="hide mondaySlotData end" id="b-monday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
@@ -528,10 +535,10 @@
                                                 <td>
                                                     <table id="tuesdaySlotHolder">
                                                         <tr class="tuesdaySlot slotRow"><td>
-                                                            <input id="a-tues1" class="timepicker"/>
+                                                            <input id="a-tues1" class="timepicker startTime"/>
                                                             <input class="hide tuesdaySlotData start" id="a-tuesday1" /> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-tues1" class="timepicker"/>
+                                                            <input id="b-tues1" class="timepicker endTime"/>
                                                             <input class="hide tuesdaySlotData end" id="b-tuesday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
@@ -560,10 +567,10 @@
                                                 <td>
                                                     <table id="wednesdaySlotHolder">
                                                         <tr class="wednesdaySlot slotRow"><td>
-                                                            <input id="a-wednes1" class="timepicker"/>
+                                                            <input id="a-wednes1" class="timepicker startTime"/>
                                                             <input class="hide wednesdaySlotData start" id="a-wednesday1" /> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-wednes1" class="timepicker"/>
+                                                            <input id="b-wednes1" class="timepicker endTime"/>
                                                             <input class="hide wednesdaySlotData end" id="b-wednesday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
@@ -592,10 +599,10 @@
                                                 <td>
                                                     <table id="thursdaySlotHolder">
                                                         <tr class="thursdaySlot slotRow"><td>
-                                                            <input id="a-thurs1" class="timepicker"/>
+                                                            <input id="a-thurs1" class="timepicker startTime"/>
                                                             <input class="hide thursdaySlotData start" id="a-thursday1" /> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-thurs1" class="timepicker"/>
+                                                            <input id="b-thurs1" class="timepicker endTime"/>
                                                             <input class="hide thursdaySlotData end" id="b-thursday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
@@ -624,10 +631,10 @@
                                                 <td>
                                                     <table id="fridaySlotHolder">
                                                         <tr class="fridaySlot slotRow"><td>
-                                                            <input id="a-fri1" class="timepicker"/>
+                                                            <input id="a-fri1" class="timepicker startTime"/>
                                                             <input class="hide fridaySlotData start" id="a-friday1" /> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-fri1" class="timepicker"/>
+                                                            <input id="b-fri1" class="timepicker endTime"/>
                                                             <input class="hide fridaySlotData end" id="b-friday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
@@ -656,10 +663,10 @@
                                                 <td>
                                                     <table id="saturdaySlotHolder">
                                                         <tr class="saturdaySlot slotRow"><td>
-                                                            <input id="a-satur1" class="timepicker"/>
+                                                            <input id="a-satur1" class="timepicker startTime"/>
                                                             <input class="hide saturdaySlotData start" id="a-saturday1" /> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-satur1" class="timepicker"/>
+                                                            <input id="b-satur1" class="timepicker endTime"/>
                                                             <input class="hide saturdaySlotData end" id="b-saturday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
@@ -688,10 +695,10 @@
                                                 <td>
                                                     <table id="sundaySlotHolder">
                                                         <tr class="sundaySlot slotRow"><td>
-                                                            <input id="a-sun1" class="timepicker"/>
+                                                            <input id="a-sun1" class="timepicker startTime"/>
                                                             <input class="hide sundaySlotData start" id="a-sunday1" /> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-sun1" class="timepicker"/>
+                                                            <input id="b-sun1" class="timepicker endTime"/>
                                                             <input class="hide sundaySlotData end" id="b-sunday1" />
                                                         </td>
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 

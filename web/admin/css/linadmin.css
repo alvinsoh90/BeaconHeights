@@ -100,10 +100,13 @@
 table.timeSlotsTable{
     position: relative;
     left: 20px;
+    background: none;
+}
+.timeSlotsTable tr{
+    border-bottom: 1px solid #EEE;
 }
 td.day{
     padding:0 60px 0 0;
-    vertical-align: top;
 }
 span.spacing{
     margin: 0 12px;
