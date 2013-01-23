@@ -46,6 +46,9 @@
                 var hour = inputString.substring(0,2);
                 var d = new Date();
                 var d1 = new Date(d.getFullYear(),d.getMonth(),d.getDay(),hour,mins,0,0);
+                
+                retrieveOverallJSONSlotData(); //refresh model
+                
                 return d1.getTime();
             }
             
@@ -246,6 +249,8 @@
             function removeSlot(day,index){
                 console.log("remove: "+ day + "day" + index);
                 $("#" + day + "day" + index).remove();
+                
+                retrieveOverallJSONSlotData(); //refresh data
             }
             
             function attachChangeHandlers(dayString,num){ //daystring like "mon", "thu", etc
@@ -256,22 +261,26 @@
                 $("#b-"+dayString + (num + 1)).change(function(){
                     $("#b-"+dayString+"day" + (num + 1)).val( getDateFromString($("#b-"+dayString + (num + 1)).val()) ); 
                 });
+                
+                $("#btnCopyFirstRow").click(function(){
+                    $("#a-"+dayString+"day" + (num + 1)).val( getDateFromString($("#a-"+ dayString + (num + 1)).val()) );
+                    $("#b-"+dayString+"day" + (num + 1)).val( getDateFromString($("#b-"+dayString + (num + 1)).val()) );
+                });
             }
             
             //this object is updated everytime user changes the date picker
-            var slotDataJSON = new Object();
+            var slotDataJSON = [];
              //will be true if validation finds error ie timeAfter is timeBefore
             var slotDataHasError = false;
             
             function retrieveOverallJSONSlotData(){
-                slotDataJSON.mondaySlots = getJSONSlotDataForDay(1);
-                slotDataJSON.tuesdaySlots = getJSONSlotDataForDay(2);
-                slotDataJSON.wednesdaySlots = getJSONSlotDataForDay(3);
-                slotDataJSON.thursdaySlots = getJSONSlotDataForDay(4);
-                slotDataJSON.fridaySlots = getJSONSlotDataForDay(5);
-                slotDataJSON.saturdaySlots = getJSONSlotDataForDay(6);
-                slotDataJSON.sundaySlots = getJSONSlotDataForDay(7);
-                
+                slotDataJSON = getJSONSlotDataForDay(1); //clear anything previously
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(2));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(3));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(4));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(5));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(6));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(7));                               
                 //return slotDataJSON;
             }
             
@@ -284,6 +293,7 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 1;
                             if(isAfter(slot.start,slot.end)){ //will return true if wrong
                                 $(this).addClass("error");
                                 slotDataHasError = true;
@@ -300,6 +310,8 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
+                            console.log("s:" + slot.start + ", e:"+slot.end);
+                            slot.dayIndex = 2;
                             if(isAfter(slot.start,slot.end)){ //will return true if wrong
                                 $(this).addClass("error");
                                 slotDataHasError = true;
@@ -307,6 +319,7 @@
                                 $(this).removeClass("error");
                                 //only add data if no error
                                 data.push(slot);
+                                console.log("pushed tue: " + JSON.stringify(slot));
                             }
                         });                        
                     break;
@@ -315,6 +328,7 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 3;
                             if(isAfter(slot.start,slot.end)){ //will return true if wrong
                                 $(this).addClass("error");
                                 slotDataHasError = true;
@@ -330,6 +344,7 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 4;
                             if(isAfter(slot.start,slot.end)){ //will return true if wrong
                                 $(this).addClass("error");
                                 slotDataHasError = true;
@@ -345,6 +360,7 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 5;
                             if(isAfter(slot.start,slot.end)){ //will return true if wrong
                                 $(this).addClass("error");
                                 slotDataHasError = true;
@@ -360,6 +376,7 @@
                             var slot = new Object();
                             slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 6;
                             if(isAfter(slot.start,slot.end)){ //will return true if wrong
                                 $(this).addClass("error");
                                 slotDataHasError = true;
@@ -373,8 +390,10 @@
                     case 7:                        
                         $("#sundaySlotHolder .sundaySlot").each(function(){
                             var slot = new Object();
-                            slot.start =  $(this).find(".start").val();
                             slot.end =  $(this).find(".end").val();
+                            slot.start =  $(this).find(".start").val();
+                            
+                            slot.dayIndex = 0;
                             if(isAfter(slot.start,slot.end)){ //will return true if wrong
                                 $(this).addClass("error");
                                 slotDataHasError = true;
@@ -392,11 +411,39 @@
             function copyFirstRow(){
                 $(".slotRow .startTime").val( $(".firstStart").val() );
                 $(".slotRow .endTime").val( $(".firstEnd").val() );
+                                
             }
             
+            function formAjaxSubmit(){
+                retrieveOverallJSONSlotData();
+                
+                var dat = new Object();
+                
+                dat.name = $("#name").val();
+                dat.desc = $("#desc").val();
+                dat.needsPayment = $('input[type=checkbox]#needsPayment').is(':checked');
+                dat.bookableSlots = slotDataJSON;
+                dat.bookingSessionsLimit = $("#bookingSessions").val();
+                dat.bookingFreqLimit = $("#bookingLimitFreq").val();
+                dat.bookingLimitPeriod = $('select#period option:selected').val();
+                dat.bookingOpensDaysInAdvance = $("#bookingOpenAdvance").val();
+                dat.bookingClosesDaysInAdvance = $("#bookingCloseAdvance").val();                                
+                var req = new Object();
+                req.data = JSON.stringify(dat);
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/admin/createfacility.jsp",
+                    data: req,
+                    success: function(data){
+                        console.log(data.responseText);
+                    }
+                });
+                
+                return dat;
+            }
             
         </script>
-        
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -473,7 +520,7 @@
                         <div class="control-group ${errorStyle}">
                                     <label class="control-label">Name</label>
                                     <div class="controls">
-                                        <stripes:text name="name" class="input-xxlarge"/>
+                                        <stripes:text name="name" class="input-xxlarge" id="name"/>
                                         <p class="field-validation-valid" data-valmsg-for="input1" data-valmsg-replace="true">
                 </p>
                                     </div>
@@ -482,7 +529,7 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Description</label>
                                     <div class="controls">
-                                        <stripes:textarea name="description" class="input-xxlarge"/>
+                                        <stripes:textarea id="desc" name="description" class="input-xxlarge"/>
                                    
                                     </div>
                          </div>
@@ -490,12 +537,12 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Does Facility Require Payment?</label>
                                     <div class="controls">
-                                        <stripes:checkbox name="needsPayment"/>
+                                        <stripes:checkbox id="needsPayment" name="needsPayment"/>
                                    
                                     </div>
                          </div>
                                         <label class="control-label">Facility Availability<br/>
-                                        <a href="#copy" onclick="copyFirstRow()">Copy first row down</a></label>
+                                        <a id="btnCopyFirstRow" href="#copy" onclick="copyFirstRow()">Copy first row down</a></label>
                                         
                                         <table class='timeSlotsTable' cellpadding="7">
                                             <tr>
@@ -522,6 +569,10 @@
                                                             });
                                                             $("#b-mon1").change(function(){
                                                                 $("#b-monday1").val( getDateFromString($("#b-mon1").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-monday1").val( getDateFromString($("#a-mon1").val()) ); 
+                                                               $("#b-monday1").val( getDateFromString($("#b-mon1").val()) );
                                                             });
                                                         </script>
                                                         
@@ -555,6 +606,10 @@
                                                             $("#b-tues1").change(function(){
                                                                 $("#b-tuesday1").val( getDateFromString($("#b-tues1").val()) ); 
                                                             });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-tuesday1").val( getDateFromString($("#a-tues1").val()) ); 
+                                                               $("#b-tuesday1").val( getDateFromString($("#b-tues1").val()) );
+                                                            });
                                                         </script>
                                                         
                                                     </table>
@@ -586,6 +641,10 @@
                                                             });
                                                             $("#b-wednes1").change(function(){
                                                                 $("#b-wednesday1").val( getDateFromString($("#b-wednes1").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-wednesday1").val( getDateFromString($("#a-wednes1").val()) ); 
+                                                               $("#b-wednesday1").val( getDateFromString($("#b-wednes1").val()) );
                                                             });
                                                         </script>
                                                         
@@ -619,6 +678,10 @@
                                                             $("#b-thurs1").change(function(){
                                                                 $("#b-thursday1").val( getDateFromString($("#b-thurs1").val()) ); 
                                                             });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-thursday1").val( getDateFromString($("#a-thurs1").val()) ); 
+                                                               $("#b-thursday1").val( getDateFromString($("#b-thurs1").val()) );
+                                                            });
                                                         </script>
                                                         
                                                     </table>
@@ -650,6 +713,10 @@
                                                             });
                                                             $("#b-fri1").change(function(){
                                                                 $("#b-friday1").val( getDateFromString($("#b-fri1").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-friday1").val( getDateFromString($("#a-fri1").val()) ); 
+                                                               $("#b-friday1").val( getDateFromString($("#b-fri1").val()) );
                                                             });
                                                         </script>
                                                         
@@ -683,6 +750,10 @@
                                                             $("#b-satur1").change(function(){
                                                                 $("#b-saturday1").val( getDateFromString($("#b-satur1").val()) ); 
                                                             });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-saturday1").val( getDateFromString($("#a-satur1").val()) ); 
+                                                               $("#b-saturday1").val( getDateFromString($("#b-satur1").val()) );
+                                                            });
                                                         </script>
                                                         
                                                     </table>
@@ -704,7 +775,7 @@
                                                         <td><a href="#removeSlot" class="embeddedBtn delBtn hide" 
                                                                onclick="removeSlot('sun',1)">x</a>
                                                             <a href="#addSlot" class="embeddedBtn" 
-                                                               onclick="addSlotForDay(1)">+</a>
+                                                               onclick="addSlotForDay(7)">+</a>
                                                         </td>
                                                         </tr>
                                                         
@@ -714,6 +785,10 @@
                                                             });
                                                             $("#b-sun1").change(function(){
                                                                 $("#b-sunday1").val( getDateFromString($("#b-sun1").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-sunday1").val( getDateFromString($("#a-sun1").val()) ); 
+                                                               $("#b-sunday1").val( getDateFromString($("#b-sun1").val()) );
                                                             });
                                                         </script>
                                                         
@@ -729,13 +804,13 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Limits</label>
                                     <div id="bookingLimitArea" class="float_l">
-                                        <stripes:text class="span75" name="bookingSessions" id="bookingSessions"/> 
+                                        <input type="number" class="span75 numbersOnly" name="bookingSessions" id="bookingSessions"/> 
                                         time(s) per
-                                        <stripes:text class="span75" name="bookingLimitFreq" id="bookingLimitFreq" />
-                                        <stripes:select name="bookingLimitUnit" class="span75">
-                                            <option value="d">Days</option>
-                                            <option value="w">Weeks</option>
-                                            <option value="m">Months</option>
+                                        <input type="number" class="span75 numbersOnly" name="bookingLimitFreq" id="bookingLimitFreq" />
+                                        <stripes:select name="bookingLimitUnit" id="period" class="span75">
+                                            <option value="days">Days</option>
+                                            <option value="weeks">Weeks</option>
+                                            <option value="months">Months</option>
                                         </stripes:select>                                            
                                         <a href="#blimit" id="disableBookingLimit" class="embeddedBtn" onclick="disableBookingLimitArea()">No Booking Limits</a>                               
                                     </div>
@@ -746,19 +821,21 @@
                                     <label class="control-label">Limitation on Booking in Advance</label>
                                     <div class="timepickerArea">
                                         <span>Booking Opens</span>
-                                        <stripes:text class="span75" name="bookingOpenAdvance" id="bookingOpenAdvance"/> 
+                                        <input type="number" class="span75 numbersOnly" name="bookingOpenAdvance" id="bookingOpenAdvance"/> 
                                         <span>days in advance</span>
                                     </div> 
                                         
                                     <div class="timepickerArea">
                                         <span>Booking Closes</span>
-                                        <stripes:text class="span75" name="bookingCloseAdvance" id="bookingCloseAdvance"/> 
+                                        <input type="number" class="span75 numbersOnly" name="bookingCloseAdvance" id="bookingCloseAdvance"/> 
                                         <span>days in advance</span>
                                     </div>     
                                         
                                 
                          </div>  
-                                            <input type="submit" name="editFacilityType" value="Create Facility" class="btn btn-large btn-primary timepickerArea"/>    
+                                            <input type="submit" class="btn btn-large btn-primary timepickerArea" value="Create Facility" /> 
+                                     
+
                     </stripes:form>
             
                    </div>
@@ -819,15 +896,19 @@
                         },
                         
                         submitHandler: function(form) {
-                            if(!timePickerHasError){
-                                form.submit();
-                            }
-                            
+                            formAjaxSubmit();     
+                            //slotDataHasError
                         }
                         
                 });
                 loadTimePickers();
                 //validateTimePickerInput();
+                
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
             });
             
             

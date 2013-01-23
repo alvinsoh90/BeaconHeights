@@ -278,4 +278,25 @@ public class RuleController {
     private long getMillisecondsToDay(long i) {
         return i / 1000 / 60 / 60 / 24;
     }
+    
+    public OpenRule.DAY_OF_WEEK getOpenRuleDayOfWeekByDayIndex(int index){
+        switch(index){
+            case 0:
+                return OpenRule.DAY_OF_WEEK.SUNDAY;
+            case 1:
+                return OpenRule.DAY_OF_WEEK.MONDAY;
+            case 2:
+                return OpenRule.DAY_OF_WEEK.TUESDAY;
+            case 3:
+                return OpenRule.DAY_OF_WEEK.WEDNESDAY;
+            case 4:
+                return OpenRule.DAY_OF_WEEK.THURSDAY;
+            case 5:
+                return OpenRule.DAY_OF_WEEK.FRIDAY;
+            case 6:
+                return OpenRule.DAY_OF_WEEK.SATURDAY;
+        }
+      return null;
+    }
+    
 }
