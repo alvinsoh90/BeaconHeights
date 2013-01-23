@@ -80,15 +80,15 @@ for (int i = 0 ; i < openSlots.length() ; i++){
 /*
  *  Create Limit Rule
  */
-if ("day".equals(bLimitPeriod)){
+if ("days".equals(bLimitPeriod)){
     LimitRule limitRuleD = new LimitRule(facilityType, bSessionsLimit, 
             bFreqLimit, LimitRule.TimeFrameType.DAY);
                     limitRuleSet.add(limitRuleD);
-} else if("week".equals(bLimitPeriod)){
+} else if("weeks".equals(bLimitPeriod)){
     LimitRule limitRuleW = new LimitRule(facilityType, bSessionsLimit, 
             bFreqLimit, LimitRule.TimeFrameType.WEEK);
                     limitRuleSet.add(limitRuleW);
-} else if("month".equals(bLimitPeriod)){
+} else if("months".equals(bLimitPeriod)){
     LimitRule limitRuleM = new LimitRule(facilityType, bSessionsLimit, 
             bFreqLimit, LimitRule.TimeFrameType.MONTH);
                     limitRuleSet.add(limitRuleM);

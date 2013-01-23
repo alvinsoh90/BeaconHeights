@@ -32,7 +32,9 @@
         <script src="js/jquery.ui.tabs.min.js"></script>
         <script src="js/jquery.ui.widget.min.js"></script>
         <link href="css/linadmin.css" rel="stylesheet">
-       
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
         
         <script>
             function loadTimePickers(){
@@ -433,11 +435,20 @@
                 
                 $.ajax({
                     type: "POST",
-                    url: "/json/admin/createfacility.jsp",
+                    url: "/json/admin/createfacilitytype.jsp",
                     data: req,
-                    success: function(data){
-                        console.log(data.responseText);
-                    }
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                     },
+                    complete: function(xhr, textStatus) {
+                            if(xhr.status === 200){
+                                toastr.success("Facility Type Successfully Created!")
+                                setTimeout('window.location.href="/admin/manage-facilitytypes.jsp"',1300);
+                            }
+                            else{
+                                toastr.error("Unable to create Facility Type. Please check your entry");
+                            }
+                    } 
                 });
                 
                 return dat;
