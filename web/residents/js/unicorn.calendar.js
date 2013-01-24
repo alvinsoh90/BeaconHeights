@@ -184,6 +184,7 @@ unicorn = {
                 day: ''                  // Tuesday, Sep 8, 2009
             },
             editable: true,
+            slotMinutes: 15,            
             droppable: true, // this allows things to be dropped onto the calendar !!!
             drop: function(date, allDay) { // this function is called when something is dropped
 				

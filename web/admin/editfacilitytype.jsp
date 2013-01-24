@@ -24,7 +24,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Users | Strass</title>
+    <title>Edit Facility Type | LivingNet Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
     <meta name="author" content="travis">
@@ -41,68 +41,443 @@
         <script src="js/jquery.ui.tabs.min.js"></script>
         <script src="js/jquery.ui.widget.min.js"></script>
         <link href="css/linadmin.css" rel="stylesheet">
-       
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
+        
         <script>
-            //Handle timepickers
-            function loadTimepickerInput(){
-                $("#mondayOne").val( getDateFromString($("#mon1").val()) );
-                $("#mondayTwo").val( getDateFromString($("#mon2").val()) );
-                $("#tuesdayOne").val( getDateFromString($("#tue1").val()) );
-                $("#tuesdayTwo").val( getDateFromString($("#tue2").val()) );
-                $("#wednesdayOne").val( getDateFromString($("#wed1").val()) );
-                $("#wednesdayTwo").val( getDateFromString($("#wed2").val()) );
-                $("#thursdayOne").val( getDateFromString($("#thu1").val()) );
-                $("#thursdayTwo").val( getDateFromString($("#thu2").val()) );
-                $("#fridayOne").val( getDateFromString($("#fri1").val()) );
-                $("#fridayTwo").val( getDateFromString($("#fri2").val()) );
-                $("#saturdayOne").val( getDateFromString($("#sat1").val()) );
-                $("#saturdayTwo").val( getDateFromString($("#sat2").val()) );
-                $("#sundayOne").val( getDateFromString($("#sun1").val()) );
-                $("#sundayTwo").val( getDateFromString($("#sun2").val()) );                
+            function loadTimePickers(){
+                $('.timepicker').timepicker();                  
+                $('.timepicker').change( function(){retrieveOverallJSONSlotData()});     
             }
-            
-            function getDateFromString(inputString){
+           
+          function getDateFromString(inputString){
+              console.log(inputString);
                 var mins = inputString.substring(3,5);
                 var hour = inputString.substring(0,2);
                 var d = new Date();
                 var d1 = new Date(d.getFullYear(),d.getMonth(),d.getDay(),hour,mins,0,0);
+                
+                retrieveOverallJSONSlotData(); //refresh model
+                
                 return d1.getTime();
             }
             
-        </script>
-        <script>
-            function loadTimePickers(){
-                $('.timepicker').timepicker({
-                    onSelect: loadTimepickerInput()
-                });   
+            //BRAINS & LOGIC
+            
+            //Init vars. they will be incremented as new slots are added
+                var numMonSlots = $(".mondaySlot").length;
+                var numTuesSlots = $(".tuesdaySlot").length;
+                var numWednesSlots = $(".wednesdaySlot").length;
+                var numThursSlots = $(".thursdaySlot").length;
+                var numFriSlots = $(".fridaySlot").length;
+                var numSaturSlots = $(".saturdaySlot").length;
+                var numSunSlots = $(".sundaySlot").length;
+            
+            $(document).ready(function() {
+                //Init vars. they will be incremented as new slots are added
+                 numMonSlots = $(".mondaySlot").length;
+                 numTuesSlots = $(".tuesdaySlot").length;
+                 numWednesSlots = $(".wednesdaySlot").length;
+                 numThursSlots = $(".thursdaySlot").length;
+                 numFriSlots = $(".fridaySlot").length;
+                 numSaturSlots = $(".saturdaySlot").length;
+                 numSunSlots = $(".sundaySlot").length;
+                 
+                 retrieveOverallJSONSlotData();
+            });
+            
+            
+            //Function for adding new slots. day is 1-7 where 1=monday
+            function addSlotForDay(day){
+                switch(day){
+                    case 1:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".mondaySlot:first-of-type").clone();
+                        $(c).attr("id","monday"+ (numMonSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-mon" + (numMonSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-monday" + (numMonSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-mon" + (numMonSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-monday" + (numMonSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('mon',"+ (numMonSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn.hide").attr("class","embeddedBtn");
+                        
+                        $("#mondaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("mon",numMonSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("loadTimePickers()",500);
+                        
+                        //increment counter
+                        numMonSlots++;
+                        
+                        break;
+                        
+                    case 2:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".tuesdaySlot:first-of-type").clone();
+                        $(c).attr("id","tuesday"+ (numTuesSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-tues" + (numTuesSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-tuesday" + (numTuesSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-tues" + (numTuesSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-tuesday" + (numTuesSlots + 1));
+                        var val = numTuesSlots + 1;
+                        console.log(val);
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('tues',"+ val +")");
+                        $(c.children()[1]).find(".embeddedBtn.hide").attr("class","embeddedBtn");
+                        
+                        $("#tuesdaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("tues",numTuesSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("loadTimePickers()",500);
+                        
+                        //increment counter
+                        numTuesSlots++;
+                        break;
+                        
+                    case 3:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".wednesdaySlot:first-of-type").clone();
+                        $(c).attr("id","wednesday"+ (numWednesSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-wednes" + (numWednesSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-wednesday" + (numWednesSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-wednes" + (numWednesSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-wednesday" + (numWednesSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('wednes',"+ (numWednesSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#wednesdaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("wednes",numWednesSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("loadTimePickers()",500);
+                        
+                        //increment counter
+                        numWednesSlots++;
+                        break;
+                    
+                    case 4:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".thursdaySlot:first-of-type").clone();
+                        $(c).attr("id","thursday"+ (numThursSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-thurs" + (numThursSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-thursday" + (numThursSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-thurs" + (numThursSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-thursday" + (numThursSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('thurs',"+ (numThursSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#thursdaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("thurs",numThursSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("loadTimePickers()",500);
+                        
+                        //increment counter
+                        numThursSlots++;
+                        break;
+                        
+                    case 5:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".fridaySlot:first-of-type").clone();
+                        $(c).attr("id","friday"+ (numFriSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-fri" + (numFriSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-friday" + (numFriSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-fri" + (numFriSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-friday" + (numFriSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('fri',"+ (numFriSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#fridaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("fri",numFriSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("loadTimePickers()",500);
+                        
+                        //increment counter
+                        numFriSlots++;
+                        break;
+                    case 6:
+                        //append new inputs and set appropriate ID on element
+                        var c = $(".saturdaySlot:first-of-type").clone();
+                        $(c).attr("id","saturday"+ (numSaturSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-satur" + (numSaturSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-saturday" + (numSaturSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-satur" + (numSaturSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-saturday" + (numSaturSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('satur',"+ (numSaturSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#saturdaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("satur",numSaturSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("loadTimePickers()",500);
+                        
+                        //increment counter
+                        numSaturSlots++;
+                        break;
+                     case 7:
+                         //append new inputs and set appropriate ID on element
+                        var c = $(".sundaySlot:first-of-type").clone();
+                        $(c).attr("id","sunday"+ (numSunSlots + 1));
+                        //change children elements
+                        $(c.children().children()[0]).attr("id","a-sun" + (numSunSlots + 1));
+                        $(c.children().children()[0]).attr("class","timepicker");
+                        $(c.children().children()[1]).attr("id","a-sunday" + (numSunSlots + 1));
+                        $(c.children().children()[3]).attr("id","b-sun" + (numSunSlots + 1));
+                        $(c.children().children()[3]).attr("class","timepicker");
+                        $(c.children().children()[4]).attr("id","b-sunday" + (numSunSlots + 1));
+                        $(c.children()[1]).find(".embeddedBtn.delBtn").attr("onclick","removeSlot('sun',"+ (numSunSlots + 1) +")");
+                        $(c.children()[1]).find(".embeddedBtn").attr("class","embeddedBtn");
+                        
+                        $("#sundaySlotHolder").append(c);
+                        
+                        attachChangeHandlers("sun",numSunSlots);
+                        
+                        //refresh timepicker plugin
+                        setTimeout("loadTimePickers()",500);
+                        
+                        //increment counter
+                        numSunSlots++;
+                        
+                         break;
+                         
+                }
+            }
+            
+            function removeSlot(day,index){
+                console.log("remove: "+ day + "day" + index);
+                $("#" + day + "day" + index).remove();
                 
-                $('.timepicker').change( function(){
-                    loadTimepickerInput();
+                retrieveOverallJSONSlotData(); //refresh data
+            }
+            
+            function attachChangeHandlers(dayString,num){ //daystring like "mon", "thu", etc
+                $("#a-"+ dayString + (num + 1)).change(function(){
+                    $("#a-"+dayString+"day" + (num + 1)).val( getDateFromString($("#a-"+ dayString + (num + 1)).val()) ); 
                 });
-                  
+                console.log("#a-"+dayString + (num + 1) +", "+ "#a-"+dayString+"day" + (num + 1));
+                $("#b-"+dayString + (num + 1)).change(function(){
+                    $("#b-"+dayString+"day" + (num + 1)).val( getDateFromString($("#b-"+dayString + (num + 1)).val()) ); 
+                });
+                
+                $("#btnCopyFirstRow").click(function(){
+                    $("#a-"+dayString+"day" + (num + 1)).val( getDateFromString($("#a-"+ dayString + (num + 1)).val()) );
+                    $("#b-"+dayString+"day" + (num + 1)).val( getDateFromString($("#b-"+dayString + (num + 1)).val()) );
+                });
+            }
+            
+            //this object is updated everytime user changes the date picker
+            var slotDataJSON = [];
+             //will be true if validation finds error ie timeAfter is timeBefore
+            var slotDataHasError = false;
+            
+            function retrieveOverallJSONSlotData(){
+                slotDataJSON = getJSONSlotDataForDay(1); //clear anything previously
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(2));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(3));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(4));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(5));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(6));
+                slotDataJSON = slotDataJSON.concat(getJSONSlotDataForDay(7));                               
+                //return slotDataJSON;
+            }
+            
+            function getJSONSlotDataForDay(day){
+                var data = [];
+
+                switch(day){
+                    case 1:                        
+                        $("#mondaySlotHolder .mondaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 1;
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
+                            
+                        });                        
+                    break;
+                    case 2:                        
+                        $("#tuesdaySlotHolder .tuesdaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            console.log("s:" + slot.start + ", e:"+slot.end);
+                            slot.dayIndex = 2;
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                                console.log("pushed tue: " + JSON.stringify(slot));
+                            }
+                        });                        
+                    break;
+                    case 3:                        
+                        $("#wednesdaySlotHolder .wednesdaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 3;
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
+                        });                        
+                    break;
+                    case 4:                        
+                        $("#thursdaySlotHolder .thursdaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 4;
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
+                        });                        
+                    break;
+                    case 5:                        
+                        $("#fridaySlotHolder .fridaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 5;
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
+                        });                        
+                    break;
+                    case 6:                        
+                        $("#saturdaySlotHolder .saturdaySlot").each(function(){
+                            var slot = new Object();
+                            slot.start =  $(this).find(".start").val();
+                            slot.end =  $(this).find(".end").val();
+                            slot.dayIndex = 6;
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
+                        });                        
+                    break;
+                    case 7:                        
+                        $("#sundaySlotHolder .sundaySlot").each(function(){
+                            var slot = new Object();
+                            slot.end =  $(this).find(".end").val();
+                            slot.start =  $(this).find(".start").val();
+                            
+                            slot.dayIndex = 0;
+                            if(isAfter(slot.start,slot.end)){ //will return true if wrong
+                                $(this).addClass("error");
+                                slotDataHasError = true;
+                            }else{
+                                $(this).removeClass("error");
+                                //only add data if no error
+                                data.push(slot);
+                            }
+                        });                        
+                    break;
+                }
+                return data;
             }
             
             function copyFirstRow(){
-                $("#tue1").val( $("#mon1").val() );
-                $("#wed1").val( $("#mon1").val() );
-                $("#thu1").val( $("#mon1").val() );
-                $("#fri1").val( $("#mon1").val() );
-                $("#sat1").val( $("#mon1").val() );
-                $("#sun1").val( $("#mon1").val() );
-                
-                $("#tue2").val( $("#mon2").val() );
-                $("#wed2").val( $("#mon2").val() );
-                $("#thu2").val( $("#mon2").val() );
-                $("#fri2").val( $("#mon2").val() );
-                $("#sat2").val( $("#mon2").val() );
-                $("#sun2").val( $("#mon2").val() );
-                
-                loadTimepickerInput();
-                
-                validateTimePickerInput();
+                $(".slotRow .startTime").val( $(".firstStart").val() );
+                $(".slotRow .endTime").val( $(".firstEnd").val() );
+                                
             }
+            
+            function formAjaxSubmit(){
+                retrieveOverallJSONSlotData();
+                
+                var dat = new Object();
+                
+                dat.name = $("#name").val();
+                dat.desc = $("#desc").val();
+                dat.needsPayment = $('input[type=checkbox]#needsPayment').is(':checked');
+                dat.bookableSlots = slotDataJSON;
+                dat.bookingSessionsLimit = $("#bookingSessions").val();
+                dat.bookingFreqLimit = $("#bookingLimitFreq").val();
+                dat.bookingLimitPeriod = $('select#period option:selected').val();
+                dat.bookingOpensDaysInAdvance = $("#bookingOpenAdvance").val();
+                dat.bookingClosesDaysInAdvance = $("#bookingCloseAdvance").val();                                
+                var req = new Object();
+                req.data = JSON.stringify(dat);
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/admin/createfacilitytype.jsp?edit=true&ftid=" + ${param.id},
+                    data: req,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                     },
+                    complete: function(xhr, textStatus) {
+                            if(xhr.status === 200){
+                                toastr.success("Facility Type Successfully Edited!")
+                                setTimeout('window.location.href="/admin/manage-facilitytypes.jsp"',1300);
+                            }
+                            else{
+                                toastr.error("Unable to edit Facility Type. Please check your entry");
+                            }
+                    } 
+                });
+                
+                return dat;
+            }
+            
         </script>
-        
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -150,7 +525,25 @@
         }    
         </script>
         
-    <% 
+    
+  </head>
+  <body onload="loadTimePickers()">
+      
+    <%@include file="include/mainnavigationbar.jsp"%>
+    <div class="container-fluid">
+       <%@include file="include/sidemenu.jsp"%>   
+       
+        <div class="span9">
+		  <div class="row-fluid">
+                        <!-- Info Messages -->
+                    <%@include file="include/pageinfobar.jsp"%>
+                    
+                    <div class="page-header">
+				<h1>Create Facility Type <small></small></h1>
+			</div>
+                    
+                    
+                        <% 
         int id = Integer.parseInt(request.getParameter("id"));
         FacilityTypeDAO fDAO = new FacilityTypeDAO();
         FacilityType fType = fDAO.getFacilityType(id);
@@ -172,66 +565,71 @@
         String timeFrameType = "";
         String timeFrameValue = "";
         if(lRule.getTimeframeType().equals("DAY")){
-            timeFrameType = "d";
+            timeFrameType = "days";
             timeFrameValue = "Days";
         }else if(lRule.getTimeframeType().equals("WEEK")){
-            timeFrameType = "w";
+            timeFrameType = "weeks";
             timeFrameValue = "Weeks";
         }else if(lRule.getTimeframeType().equals("MONTH")){
-            timeFrameType = "m";
+            timeFrameType = "months";
             timeFrameValue = "Months";
         }  
         
         //AdvanceRule aRule = rDAO.getAllAdvanceRule(id).get(0);
         AdvanceRule aRule =  fDAO.getFacilityTypeAdvanceRules(id);
         ArrayList<OpenRule> oRules = fDAO.getFacilityTypeOpenRules(id);
-        OpenRule openRuleMon = null;
-        OpenRule openRuleTue = null;
-        OpenRule openRuleWed = null;
-        OpenRule openRuleThu = null;
-        OpenRule openRuleFri = null;
-        OpenRule openRuleSat = null;
-        OpenRule openRuleSun = null;
+        ArrayList<OpenRule> openRuleMon = new ArrayList<OpenRule>();
+        ArrayList<OpenRule> openRuleTue = new ArrayList<OpenRule>();
+        ArrayList<OpenRule> openRuleWed = new ArrayList<OpenRule>();
+        ArrayList<OpenRule> openRuleThu = new ArrayList<OpenRule>();
+        ArrayList<OpenRule> openRuleFri = new ArrayList<OpenRule>();
+        ArrayList<OpenRule> openRuleSat = new ArrayList<OpenRule>();
+        ArrayList<OpenRule> openRuleSun = new ArrayList<OpenRule>();
+        
+        
         
         for(OpenRule or : oRules){
             switch(or.getDayOfWeek()){
-                case 0:
-                    openRuleMon = or;
                 case 1:
-                    openRuleTue = or;
+                    openRuleMon.add(or);
+                    pageContext.setAttribute("openRuleMon", openRuleMon);
+                    break;
                 case 2:
-                    openRuleWed = or;
+                    openRuleTue.add(or);
+                    pageContext.setAttribute("openRuleTue", openRuleMon);
+                    break;
                 case 3:
-                    openRuleThu = or;
+                    openRuleWed.add(or);
+                    pageContext.setAttribute("openRuleWed", openRuleMon);
+                    break;
                 case 4:
-                    openRuleFri = or;
+                    openRuleThu.add(or);
+                    pageContext.setAttribute("openRuleThu", openRuleMon);
+                    break;
                 case 5:
-                    openRuleSat = or;
+                    openRuleFri.add(or);
+                    pageContext.setAttribute("openRuleFri", openRuleMon);
+                    break;
                 case 6:
-                    openRuleSun = or;
+                    openRuleSat.add(or);
+                    pageContext.setAttribute("openRuleSat", openRuleMon);
+                    break;
+                case 0:
+                    openRuleSun.add(or);
+                    pageContext.setAttribute("openRuleSun", openRuleMon);
+                    break;
             }
         }
+        System.out.println("monrules: " + openRuleMon.size());
+        System.out.println("tuerules " + openRuleTue.size());
+        System.out.println("wedrules: " + openRuleWed.size());
+        
+        
     %>
-  </head>
-  <body onload="loadTimePickers()">
-      
-    <%@include file="include/mainnavigationbar.jsp"%>
-    <div class="container-fluid">
-       <%@include file="include/sidemenu.jsp"%>   
-       
-        <div class="span9">
-		  <div class="row-fluid">
-                        <!-- Info Messages -->
-                    <%@include file="include/pageinfobar.jsp"%>
-                    
-                    <div class="page-header">
-				<h1>Edit Facility Type <small></small></h1>
-			</div>
                     
                     <!-- Create FT form start -->
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditFacilityTypeActionBean" name="new_facility_validate" id="new_facility_validate">
-                        <stripes:hidden name="id" id="id" value="<%= fType.getId() %>" />
-                     
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilityTypesActionBean" name="new_facility_validate" id="new_facility_validate">
+                        
                         <stripes:errors>
      <stripes:errors-header><div class="errorHeader">Validation Errors</div><ul></stripes:errors-header>
      <li><stripes:individual-error/></li>
@@ -241,7 +639,7 @@
                         <div class="control-group ${errorStyle}">
                                     <label class="control-label">Name</label>
                                     <div class="controls">
-                                        <stripes:text name="name" class="input-xxlarge" value="<%= fType.getName() %>"/>
+                                        <stripes:text name="name" class="input-xxlarge" id="name" value="<%= fType.getName() %>"/>
                                         <p class="field-validation-valid" data-valmsg-for="input1" data-valmsg-replace="true">
                 </p>
                                     </div>
@@ -250,7 +648,7 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Description</label>
                                     <div class="controls">
-                                        <stripes:textarea name="description" class="input-xxlarge" value="<%= fType.getDescription() %>"/>
+                                        <stripes:textarea id="desc" name="description" class="input-xxlarge" value="<%= fType.getDescription() %>"/>
                                    
                                     </div>
                          </div>
@@ -258,89 +656,338 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Does Facility Require Payment?</label>
                                     <div class="controls">
-                                        <stripes:checkbox name="needsPayment" checked="<%= fType.isNeedsPayment() %>"/>
+                                        <stripes:checkbox id="needsPayment" name="needsPayment" checked="<%= fType.isNeedsPayment() %>"/>
                                    
                                     </div>
                          </div>
+                                        <label class="control-label">Facility Availability<br/>
+                                        <a id="btnCopyFirstRow" href="#copy" onclick="copyFirstRow()">Copy first row down</a></label>
+                                        
+                                        <table class='timeSlotsTable' cellpadding="7">
+                                            <!--populate user current bookings -->
+
+                                            
+                                            <tr>
+                                                <td class="day">Monday</td>
+                                                <td>
+                                                    <table id="mondaySlotHolder">
+                                                    <% for (int i = 1 ; i < openRuleMon.size()+1 ; i++) { OpenRule o = openRuleMon.get(i-1);%>
+                                                        
+                                                        <tr class="mondaySlot slotRow" id="monday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-mon<%= i %>" class="timepicker startTime firstStart"
+                                                                   value="<%= o.getStartTimeIn24HourFormat() %>"/>
+                                                            <input class="hide mondaySlotData start" id="a-monday<%= i %>"
+                                                                   value="<%= o.getStartTime().getTime() %>"/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-mon<%= i %>" class="timepicker endTime firstEnd" 
+                                                                   value="<%= o.getEndTimeIn24HourFormat() %>"/>
+                                                            <input class="hide mondaySlotData end" id="b-monday<%= i %>" 
+                                                                   value="<%= o.getEndTime().getTime() %>"/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('mon',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(1)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-mon<%= i %>").change(function(){
+                                                                $("#a-monday<%= i %>").val( getDateFromString($("#a-mon<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-mon<%= i %>").change(function(){
+                                                                $("#b-monday<%= i %>").val( getDateFromString($("#b-mon<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-monday<%= i %>").val( getDateFromString($("#a-mon<%= i %>").val()) ); 
+                                                               $("#b-monday<%= i %>").val( getDateFromString($("#b-mon<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        
+                                                    <%   } %>    
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="day">Tuesday</td>
+                                                <td>
+                                                    <table id="tuesdaySlotHolder">
+                                                        <% for (int i = 1 ; i < openRuleTue.size()+1 ; i++) { OpenRule o = openRuleTue.get(i-1);%>
+                                                        <tr class="tuesdaySlot slotRow" id="tuesday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-tues<%= i %>" class="timepicker startTime firstStart"
+                                                                   value="<%= o.getStartTimeIn24HourFormat() %>"/>
+                                                            <input class="hide tuesdaySlotData start" id="a-tuesday<%= i %>"
+                                                                   value="<%= o.getStartTime().getTime() %>"/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-tues<%= i %>" class="timepicker endTime firstEnd" 
+                                                                   value="<%= o.getEndTimeIn24HourFormat() %>"/>
+                                                            <input class="hide tuesdaySlotData end" id="b-tuesday<%= i %>" 
+                                                                   value="<%= o.getEndTime().getTime() %>"/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <%if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('tues',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(2)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-tues<%= i %>").change(function(){
+                                                                $("#a-tuesday<%= i %>").val( getDateFromString($("#a-tues<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-tues<%= i %>").change(function(){
+                                                                $("#b-tuesday<%= i %>").val( getDateFromString($("#b-tues<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-tuesday<%= i %>").val( getDateFromString($("#a-tues<%= i %>").val()) ); 
+                                                               $("#b-tuesday<%= i %>").val( getDateFromString($("#b-tues<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        
+                                                   <%  }%>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="day">Wednesday</td>
+                                                <td>
+                                                    <table id="wednesdaySlotHolder">
+                                                            <% for (int i = 1 ; i < openRuleWed.size()+1 ; i++) { OpenRule o = openRuleWed.get(i-1);%>
+                                                        
+                                                        <tr class="wednesdaySlot slotRow" id="wednesday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-wednes<%= i %>" class="timepicker startTime firstStart"
+                                                                   value="<%= o.getStartTimeIn24HourFormat() %>"/>
+                                                            <input class="hide wednesdaySlotData start" id="a-wednesday<%= i %>"
+                                                                   value="<%= o.getStartTime().getTime() %>"/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-wednes<%= i %>" class="timepicker endTime firstEnd" 
+                                                                   value="<%= o.getEndTimeIn24HourFormat() %>"/>
+                                                            <input class="hide wednesdaySlotData end" id="b-wednesday<%= i %>" 
+                                                                   value="<%= o.getEndTime().getTime() %>"/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('wednes',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(3)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-wednes<%= i %>").change(function(){
+                                                                $("#a-wednesday<%= i %>").val( getDateFromString($("#a-wednes<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-wednes<%= i %>").change(function(){
+                                                                $("#b-wednesday<%= i %>").val( getDateFromString($("#b-wednes<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-wednesday<%= i %>").val( getDateFromString($("#a-wednes<%= i %>").val()) ); 
+                                                               $("#b-wednesday<%= i %>").val( getDateFromString($("#b-wednes<%= i %>").val()) );
+                                                            });
+                                                            
+                                                        </script>
+                                                        
+                                                    <% i ++; } %>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="day">Thursday</td>
+                                                <td>
+                                                    <table id="thursdaySlotHolder">
+                                                       <% for (int i = 1 ; i < openRuleThu.size()+1 ; i++) { OpenRule o = openRuleThu.get(i-1);%>
+                                                        
+                                                        <tr class="thursdaySlot slotRow" id="thursday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-thurs<%= i %>" class="timepicker startTime firstStart"
+                                                                   value="<%= o.getStartTimeIn24HourFormat() %>"/>
+                                                            <input class="hide thursdaySlotData start" id="a-thursday<%= i %>"
+                                                                   value="<%= o.getStartTime().getTime() %>"/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-thurs<%= i %>" class="timepicker endTime firstEnd" 
+                                                                   value="<%= o.getEndTimeIn24HourFormat() %>"/>
+                                                            <input class="hide thursdaySlotData end" id="b-thursday<%= i %>" 
+                                                                   value="<%= o.getEndTime().getTime() %>"/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('thurs',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(4)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-thurs<%= i %>").change(function(){
+                                                                $("#a-thursday<%= i %>").val( getDateFromString($("#a-thurs<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-thurs<%= i %>").change(function(){
+                                                                $("#b-thursday<%= i %>").val( getDateFromString($("#b-thurs<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-thursday<%= i %>").val( getDateFromString($("#a-thurs<%= i %>").val()) ); 
+                                                               $("#b-thursday<%= i %>").val( getDateFromString($("#b-thurs<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        
+                                                    <%   }%>
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="day">Friday</td>
+                                                <td>
+                                                    <table id="fridaySlotHolder">
+                                                       <% for (int i = 1 ; i < openRuleFri.size()+1 ; i++) { OpenRule o = openRuleFri.get(i-1);%>
+                                                        
+                                                        <tr class="fridaySlot slotRow" id="friday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-fri<%= i %>" class="timepicker startTime firstStart"
+                                                                   value="<%= o.getStartTimeIn24HourFormat() %>"/>
+                                                            <input class="hide fridaySlotData start" id="a-friday<%= i %>"
+                                                                   value="<%= o.getStartTime().getTime() %>"/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-fri<%= i %>" class="timepicker endTime firstEnd" 
+                                                                   value="<%= o.getEndTimeIn24HourFormat() %>"/>
+                                                            <input class="hide fridaySlotData end" id="b-friday<%= i %>" 
+                                                                   value="<%= o.getEndTime().getTime() %>"/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('fri',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(5)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-fri<%= i %>").change(function(){
+                                                                $("#a-friday<%= i %>").val( getDateFromString($("#a-fri<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-fri<%= i %>").change(function(){
+                                                                $("#b-friday<%= i %>").val( getDateFromString($("#b-fri<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-friday<%= i %>").val( getDateFromString($("#a-fri<%= i %>").val()) ); 
+                                                               $("#b-friday<%= i %>").val( getDateFromString($("#b-fri<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        
+                                                    <%   }%>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>  
+                                            
+                                            <tr>
+                                                <td class="day">Saturday</td>
+                                                <td>
+                                                    <table id="saturdaySlotHolder">
+                                                        <% for (int i = 1 ; i < openRuleSat.size()+1 ; i++) { OpenRule o = openRuleSat.get(i-1);%>
+                                                        
+                                                        <tr class="saturdaySlot slotRow" id="saturday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-satur<%= i %>" class="timepicker startTime firstStart"
+                                                                   value="<%= o.getStartTimeIn24HourFormat() %>"/>
+                                                            <input class="hide saturdaySlotData start" id="a-saturday<%= i %>"
+                                                                   value="<%= o.getStartTime().getTime() %>"/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-satur<%= i %>" class="timepicker endTime firstEnd" 
+                                                                   value="<%= o.getEndTimeIn24HourFormat() %>"/>
+                                                            <input class="hide saturdaySlotData end" id="b-saturday<%= i %>" 
+                                                                   value="<%= o.getEndTime().getTime() %>"/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('satur',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(6)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-satur<%= i %>").change(function(){
+                                                                $("#a-saturday<%= i %>").val( getDateFromString($("#a-satur<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-satur<%= i %>").change(function(){
+                                                                $("#b-saturday<%= i %>").val( getDateFromString($("#b-satur<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-saturday<%= i %>").val( getDateFromString($("#a-satur<%= i %>").val()) ); 
+                                                               $("#b-saturday<%= i %>").val( getDateFromString($("#b-satur<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        
+                                                    <%   }%>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>   
+                                            
+                                            <tr>
+                                                <td class="day">Sunday</td>
+                                                <td>
+                                                    <table id="sundaySlotHolder">
+                                                        <% for (int i = 1 ; i < openRuleSun.size()+1 ; i++) { OpenRule o = openRuleSun.get(i-1);%>
+                                                        
+                                                        <tr class="sundaySlot slotRow" id="sunday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-sun<%= i %>" class="timepicker startTime firstStart"
+                                                                   value="<%= o.getStartTimeIn24HourFormat() %>"/>
+                                                            <input class="hide sundaySlotData start" id="a-sunday<%= i %>"
+                                                                   value="<%= o.getStartTime().getTime() %>"/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-sun<%= i %>" class="timepicker endTime firstEnd" 
+                                                                   value="<%= o.getEndTimeIn24HourFormat() %>"/>
+                                                            <input class="hide sundaySlotData end" id="b-sunday<%= i %>" 
+                                                                   value="<%= o.getEndTime().getTime() %>"/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('sun',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(7)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-sun<%= i %>").change(function(){
+                                                                $("#a-sunday<%= i %>").val( getDateFromString($("#a-sun<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-sun<%= i %>").change(function(){
+                                                                $("#b-sunday<%= i %>").val( getDateFromString($("#b-sun<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-sunday<%= i %>").val( getDateFromString($("#a-sun<%= i %>").val()) ); 
+                                                               $("#b-sunday<%= i %>").val( getDateFromString($("#b-sun<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        
+                                                    <% }%>
+                                                        
+                                                    </table>
+                                                </td>
+                                                
+                                            </tr>                        
+                                          
+                                        </table>
                                     
-                         <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Facility Availability</label>
-                                    <div class="timepickerArea">
-                                        <span>Monday</span>
-                                        <input id="mon1" class="timepicker" value="<%= openRuleMon.getStartHours()+":"+openRuleMon.getStartTime().getMinutes() %>"/>
-                                        <stripes:hidden name="mondayOne" id="mondayOne" value="<%= openRuleMon.getStartTime().getTime() %>"/> 
-                                        <span>to</span>
-                                        <input id="mon2" class="timepicker" value="<%= openRuleMon.getEndHours()+":"+openRuleMon.getEndTime().getMinutes() %>"/>
-                                        <stripes:hidden name="mondayTwo" id="mondayTwo" value="<%= openRuleMon.getEndTime().getTime() %>"/>
-                                        <a href="#copy" onclick="copyFirstRow()">  Copy first row downwards</a>
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Tuesday</span>
-                                        <input id="tue1" class="timepicker" value="<%= openRuleTue.getStartHours()+":"+openRuleTue.getStartTime().getMinutes() %>"/>
-                                        <stripes:hidden name="tuesdayOne" id="tuesdayOne" value="<%= openRuleTue.getStartTime().getTime() %>"/> 
-                                        <span>to</span>
-                                        <input id="tue2" class="timepicker" value="<%= openRuleTue.getEndHours()+":"+openRuleTue.getEndTime().getMinutes() %>"/>
-                                        <stripes:hidden name="tuesdayTwo" id="tuesdayTwo" value="<%= openRuleTue.getEndTime().getTime() %>"/>
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Wednesday</span>
-                                        <input id="wed1" class="timepicker" value="<%= openRuleWed.getStartHours()+":"+openRuleWed.getStartTime().getMinutes() %>"/>
-                                        <stripes:hidden name="wednesdayOne" id="wednesdayOne" value="<%= openRuleWed.getStartTime().getTime() %>"/> 
-                                        <span>to</span>
-                                        <input id="wed2" class="timepicker" value="<%= openRuleWed.getEndHours()+":"+openRuleWed.getEndTime().getMinutes() %>"/>
-                                        <stripes:hidden name="wednesdayTwo" id="wednesdayTwo" value="<%= openRuleWed.getEndTime().getTime() %>"/>
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Thursday</span>
-                                        <input id="thu1" class="timepicker" value="<%= openRuleThu.getStartHours()+":"+openRuleThu.getStartTime().getMinutes() %>"/>
-                                        <stripes:hidden name="thursdayOne" id="thursdayOne" value="<%= openRuleThu.getStartTime().getTime() %>"/> 
-                                        <span>to</span>
-                                        <input id="thu2" class="timepicker" value="<%= openRuleThu.getEndHours()+":"+openRuleThu.getEndTime().getMinutes() %>"/>
-                                        <stripes:hidden name="thursdayTwo" id="thursdayTwo" value="<%= openRuleThu.getEndTime().getTime() %>"/>
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Friday</span>
-                                        <input id="fri1" class="timepicker" value="<%= openRuleFri.getStartHours()+":"+openRuleFri.getStartTime().getMinutes() %>"/>
-                                        <stripes:hidden name="fridayOne" id="fridayOne" value="<%= openRuleFri.getStartTime().getTime() %>"/> 
-                                        <span>to</span>
-                                        <input id="fri2" class="timepicker" value="<%= openRuleFri.getEndHours()+":"+openRuleFri.getEndTime().getMinutes() %>"/>
-                                        <stripes:hidden name="fridayTwo" id="fridayTwo" value="<%= openRuleFri.getEndTime().getTime() %>"/>
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Saturday</span>
-                                        <input id="sat1" class="timepicker" value="<%= openRuleSat.getStartHours()+":"+openRuleSat.getStartTime().getMinutes() %>"/>
-                                        <stripes:hidden name="saturdayOne" id="saturdayOne" value="<%= openRuleSat.getStartTime().getTime() %>"/> 
-                                        <span>to</span>
-                                        <input id="sat2" class="timepicker" value="<%= openRuleSat.getEndHours()+":"+openRuleSat.getEndTime().getMinutes() %>"/>
-                                        <stripes:hidden name="saturdayTwo" id="saturdayTwo" value="<%= openRuleSat.getEndTime().getTime() %>"/>
-                                    </div>
-                                    
-                                    <div class="timepickerArea">
-                                        <span>Sunday</span>
-                                        <input id="sun1" class="timepicker" value="<%= openRuleSun.getStartHours()+":"+openRuleSun.getStartTime().getMinutes() %>"/>
-                                        <stripes:hidden name="sundayOne" id="sundayOne" value="<%= openRuleSun.getStartTime().getTime() %>"/> 
-                                        <span>to</span>
-                                        <input id="sun2" class="timepicker" value="<%= openRuleSun.getEndHours()+":"+openRuleSun.getEndTime().getMinutes() %>"/>
-                                        <stripes:hidden name="sundayTwo" id="sundayTwo" value="<%= openRuleSun.getEndTime().getTime() %>"/>
-                                    </div> 
-                         </div>
+                                        <br/><br/>
                                     
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Limits</label>
                                     <div id="bookingLimitArea" class="float_l">
-                                        <stripes:text class="span75" name="bookingSessions" id="bookingSessions" value="<%= lRule.getSessions() %>"/> 
+                                        <input type="number" class="span75 numbersOnly" name="bookingSessions" value="<%= lRule.getSessions() %>" id="bookingSessions"/> 
                                         time(s) per
-                                        <stripes:text class="span75" name="bookingLimitFreq" id="bookingLimitFreq" value="<%= lRule.getNumberOfTimeframe() %>"/>
-                                        <stripes:select name="bookingLimitUnit" class="span75">
-                                            <option SELECTED value="<%= timeFrameType %>"><%= timeFrameValue %></option>
-                                            <option value="d">Days</option>
-                                            <option value="w">Weeks</option>
-                                            <option value="m">Months</option>
+                                        <input type="number" class="span75 numbersOnly" name="bookingLimitFreq" value="<%= lRule.getNumberOfTimeframe() %>" id="bookingLimitFreq" />
+                                        <stripes:select name="bookingLimitUnit" id="period" class="span75">
+                                            <option SELECTED value="<%= timeFrameType.toLowerCase() %>"><%= timeFrameValue %></option>
+                                            <option value="days">Days</option>
+                                            <option value="weeks">Weeks</option>
+                                            <option value="months">Months</option>
                                         </stripes:select>                                            
                                         <a href="#blimit" id="disableBookingLimit" class="embeddedBtn" onclick="disableBookingLimitArea()">No Booking Limits</a>                               
                                     </div>
@@ -351,19 +998,21 @@
                                     <label class="control-label">Limitation on Booking in Advance</label>
                                     <div class="timepickerArea">
                                         <span>Booking Opens</span>
-                                        <stripes:text class="span75" name="bookingOpenAdvance" id="bookingOpenAdvance" value="<%= aRule.getMinDays() %>" /> 
+                                        <input type="number" class="span75 numbersOnly" name="bookingOpenAdvance" value="<%= aRule.getMinDays() %>" id="bookingOpenAdvance"/> 
                                         <span>days in advance</span>
                                     </div> 
                                         
                                     <div class="timepickerArea">
                                         <span>Booking Closes</span>
-                                        <stripes:text class="span75" name="bookingCloseAdvance" id="bookingCloseAdvance" value="<%= aRule.getMaxDays() %>"/> 
+                                        <input type="number" class="span75 numbersOnly" name="bookingCloseAdvance" value="<%= aRule.getMaxDays() %>" id="bookingCloseAdvance"/> 
                                         <span>days in advance</span>
                                     </div>     
                                         
                                 
                          </div>  
-                                            <input type="submit" name="editFacilityType" value="Edit Facility" class="btn btn-large btn-primary timepickerArea"/>    
+                                            <input type="submit" class="btn btn-large btn-primary timepickerArea" value="Edit Facility" /> 
+                                     
+
                     </stripes:form>
             
                    </div>
@@ -424,122 +1073,28 @@
                         },
                         
                         submitHandler: function(form) {
-                            if(!timePickerHasError){
-                                form.submit();
-                            }
-                            
+                            formAjaxSubmit();     
+                            //slotDataHasError
                         }
                         
                 });
+                loadTimePickers();
+                //validateTimePickerInput();
                 
-                validateTimePickerInput();
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
             });
             
-            var timePickerHasError = false;
             
-            function validateTimePickerInput(){
-                //validate first
-                checkTimeAndSetStyles($("#mon1"),$("#mon2"));
-                checkTimeAndSetStyles($("#tue1"),$("#tue2"));
-                checkTimeAndSetStyles($("#wed1"),$("#wed2"));
-                checkTimeAndSetStyles($("#thu1"),$("#thu2"));
-                checkTimeAndSetStyles($("#fri1"),$("#fri2"));
-                checkTimeAndSetStyles($("#sat1"),$("#sat2"));
-                checkTimeAndSetStyles($("#sun1"),$("#sun2"));
-                
-                //add change listeners
-                $("#mon2").change(function() {
-                    checkTimeAndSetStyles($("#mon1"),$(this));
-                });
-                
-                $("#tue2").change(function() {
-                    checkTimeAndSetStyles($("#tue1"),$(this));
-                });
-                
-                $("#wed2").change(function() {
-                    checkTimeAndSetStyles($("#wed1"),$(this));
-                });
-                
-                $("#thu2").change(function() {
-                    checkTimeAndSetStyles($("#thu1"),$(this));
-                });
-                
-                $("#fri2").change(function() {
-                    checkTimeAndSetStyles($("#fri1"),$(this));
-                });
-                
-                $("#sat2").change(function() {
-                    checkTimeAndSetStyles($("#sat1"),$(this));
-                });
-                
-                $("#sun2").change(function() {
-                    checkTimeAndSetStyles($("#sun1"),$(this));
-                });
-                // more listeners!
-                $("#mon1").change(function() {
-                    checkTimeAndSetStyles($("#mon1"),$("#mon2"));
-                });
-                
-                $("#tue1").change(function() {
-                    checkTimeAndSetStyles($("#tue1"),$("#tue2"));
-                });
-                
-                $("#wed1").change(function() {
-                    checkTimeAndSetStyles($("#wed1"),$("#wed2"));
-                });
-                
-                $("#thu1").change(function() {
-                    checkTimeAndSetStyles($("#thu1"),$("#thu2"));
-                });
-                
-                $("#fri1").change(function() {
-                    checkTimeAndSetStyles($("#fri1"),$("#fri2"));
-                });
-                
-                $("#sat1").change(function() {
-                    checkTimeAndSetStyles($("#sat1"),$("#sat2"));
-                });
-                
-                $("#sun1").change(function() {
-                    checkTimeAndSetStyles($("#sun1"),$("#sun2"));
-                });                
-                
-            }
-            
-            function checkTimeAndSetStyles(time1,time2){
-                if((isAfter(time1,time2))) {
-                    time2.addClass("error");
-                    time2.removeClass("success");
-                    time1.removeClass("success");
-                    timePickerHasError = true;
-                  }
-                  else {
-                    time2.removeClass("error");
-                    time2.addClass("success");
-                    time1.addClass("success");
-                    timePickerHasError = false;
-                  }
-            }
-            //RETURNS TRUE IF TIMEBEFORE is after TIMEAFTER
+            //RETURNS TRUE IF timeBefore is after timeAfter
             //ALSO RETURNS TRUE IF ANY DATES CANNOT BE PARSED
             function isAfter(timeBefore,timeAfter){
-                console.log(timeBefore.val());
-                
-                var dBefore = getDateFromString(timeBefore.val());
-                var dAfter = getDateFromString(timeAfter.val());
-                                
-                if(isNaN(dBefore) || isNaN(dAfter)){
-                    return true;
-                }
-                else {
-                    if(dBefore >= dAfter){
-                    return true;
-                }
-                    else{
-                        return false;
-                    }
-                }
-                
+                var dBefore = new Date(parseInt(timeBefore));
+                var dAfter = new Date(parseInt(timeAfter));                
+                return dBefore >= dAfter;                  
             }
         </script>
         

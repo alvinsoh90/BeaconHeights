@@ -34,6 +34,11 @@ public class FacilityTypeDAO {
 
     public FacilityTypeDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        
+        if(session == null){
+            System.out.println("Session was null, creating one");
+            this.session = HibernateUtil.getSessionFactory().openSession();
+        }
     }
 
     private void openSession() {
@@ -336,140 +341,28 @@ public class FacilityTypeDAO {
         return null;
 
     }
-    //NOT IN USE
-//    public FacilityType editFacilityType(FacilityType facilityType) {
-//        openSession();
-//        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-//        String name = facilityType.getName();
-//        String desc = facilityType.getDescription();
-//        Set ars = facilityType.getAdvanceRules();
-//        Set crs = facilityType.getCloseRules();
-//        Set lrs = facilityType.getLimitRules();
-//        Set ors = facilityType.getOpenRules();
-//        
-//        
-//        
-//        org.hibernate.Transaction tx = session.beginTransaction();
-//        FacilityType fT = (FacilityType) session.get(FacilityType.class, facilityType.getId());
-//        
-//        fT.setName(name);
-//        fT.setDescription(desc);
-////        fT.setAdvanceRules(ars);
-////        fT.setCloseRules(crs);
-////        fT.setLimitRules(lrs);
-////        fT.setOpenRules(ors);
-////        
-//        tx.commit();
-//        
-////        System.out.println("NEW FT NAME HERE : "+fT.getDescription());
-////        System.out.println("OLD FT NAME HERE : "+facilityType.getDescription());
-//        
-//       
-//        
-//        return fT;
-//    }
-
+ 
     
-    //NOT IN USE
-//    public FacilityType editFacilityType(int id, FacilityType newFT) {
-//        openSession();
-//        ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
-//        org.hibernate.Transaction tx = null;
-//        try {
-//            tx = session.beginTransaction();
-//            FacilityType fT = (FacilityType) session.get(FacilityType.class, id);
-//            fT.setName(newFT.getName());
-//            fT.setDescription(newFT.getDescription());
-//            fT.setAdvanceRules(newFT.getAdvanceRules());
-//            fT.setCloseRules(newFT.getCloseRules());
-//            fT.setLimitRules(newFT.getLimitRules());
-//            fT.setOpenRules(newFT.getOpenRules());
-//            tx.commit();
-//            
-//            return fT;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if(tx!=null){
-//                tx.rollback();
-//            }
-//        }
-//        return null;
-//    }
-    
-    
-    public FacilityType editFacilityType(int id, String name, String description, boolean needsPayment, Date monOne, Date monTwo, Date tueOne, Date tueTwo, Date wedOne, Date wedTwo, Date thuOne, Date thuTwo, Date friOne, Date friTwo, Date satOne, Date satTwo, Date sunOne, Date sunTwo, int bookingSessions, int bookingLimitFreq, char bookingLimitUnit, int bookingOpenAdvance, int bookingCloseAdvance){
+    public FacilityType editFacilityType(FacilityType fType){
         openSession();
         ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            FacilityType fT = (FacilityType) session.get(FacilityType.class, id);
-            //HashSet declarations
-
-            HashSet openRuleSet = new HashSet();
-            HashSet closeRuleSet = new HashSet();
-            HashSet limitRuleSet = new HashSet();
-            HashSet advanceRuleSet = new HashSet();
-
-            //Create open rules and store to DB          
-            OpenRule openRule1 = new OpenRule(fT, monOne, monTwo, 
-                    OpenRule.DAY_OF_WEEK.MONDAY);
-            OpenRule openRule2 = new OpenRule(fT, tueOne, tueTwo, 
-                    OpenRule.DAY_OF_WEEK.TUESDAY);
-            OpenRule openRule3 = new OpenRule(fT, wedOne, wedTwo, 
-                    OpenRule.DAY_OF_WEEK.WEDNESDAY);
-            OpenRule openRule4 = new OpenRule(fT, thuOne, thuTwo, 
-                    OpenRule.DAY_OF_WEEK.THURSDAY);
-            OpenRule openRule5 = new OpenRule(fT, friOne, friTwo, 
-                    OpenRule.DAY_OF_WEEK.FRIDAY);
-            OpenRule openRule6 = new OpenRule(fT, satOne, satTwo, 
-                    OpenRule.DAY_OF_WEEK.SATURDAY);
-            OpenRule openRule7 = new OpenRule(fT, sunOne, sunTwo, 
-                    OpenRule.DAY_OF_WEEK.SUNDAY);
+            FacilityType fT = (FacilityType) session.get(FacilityType.class, fType.getId());
             
-            //add these rules to set
-            openRuleSet.add(openRule1);
-            openRuleSet.add(openRule2);
-            openRuleSet.add(openRule3);
-            openRuleSet.add(openRule4);
-            openRuleSet.add(openRule5);
-            openRuleSet.add(openRule6);
-            openRuleSet.add(openRule7);
-            
-//            limitation on booking in advance            
-            AdvanceRule advanceRule = new AdvanceRule(fT, bookingOpenAdvance, bookingCloseAdvance);
-            advanceRuleSet.add(advanceRule);
-            
-            //create limit rule
-            //evaluate timeframe type entered
-            switch(bookingLimitUnit){
-                case 'd':
-                    LimitRule limitRuleD = new LimitRule(fT, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.DAY);
-                    limitRuleSet.add(limitRuleD);
-                    System.out.println(limitRuleD);
-                    break;    
-                case 'w':
-                    LimitRule limitRuleW = new LimitRule(fT, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.WEEK);
-                    limitRuleSet.add(limitRuleW);
-                    break;
-                case 'm':
-                    LimitRule limitRuleM = new LimitRule(fT, bookingSessions, bookingLimitFreq, LimitRule.TimeFrameType.MONTH);
-                    limitRuleSet.add(limitRuleM);
-                    break;
-            }
-            
-            fT.setName(name);
-            fT.setDescription(description);
-            fT.setNeedsPayment(needsPayment);
+            fT.setName(fType.getName());
+            fT.setDescription(fType.getDescription());
+            fT.setNeedsPayment(fType.isNeedsPayment());
             
             fT.getAdvanceRules().clear();
-            fT.getAdvanceRules().addAll(advanceRuleSet);
+            fT.getAdvanceRules().addAll(fType.getAdvanceRules());
             fT.getCloseRules().clear();
-            fT.getCloseRules().addAll(closeRuleSet);
+            fT.getCloseRules().addAll(fType.getCloseRules());
             fT.getLimitRules().clear();
-            fT.getLimitRules().addAll(limitRuleSet);
+            fT.getLimitRules().addAll(fType.getLimitRules());
             fT.getOpenRules().clear();
-            fT.getOpenRules().addAll(openRuleSet);
+            fT.getOpenRules().addAll(fType.getOpenRules());
             
             tx.commit();
             

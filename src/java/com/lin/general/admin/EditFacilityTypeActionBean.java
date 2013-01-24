@@ -262,30 +262,30 @@ public class EditFacilityTypeActionBean implements ActionBean {
         return facilityTypeList;
     }
 
-    @DefaultHandler
-    public Resolution editFacility() {
-        boolean success;
-        String result;
-        try {
-            Date monOne = new Date(mondayOne); 
-            Date monTwo = new Date(mondayTwo);
-            Date tueOne = new Date(tuesdayOne);
-            Date tueTwo = new Date(tuesdayTwo);
-            Date wedOne = new Date(wednesdayOne);
-            Date wedTwo = new Date(wednesdayTwo);
-            Date thuOne = new Date(thursdayOne);
-            Date thuTwo = new Date(thursdayTwo);
-            Date friOne = new Date(fridayOne);
-            Date friTwo = new Date(fridayTwo);
-            Date satOne = new Date(saturdayOne);
-            Date satTwo = new Date(saturdayTwo);
-            Date sunOne = new Date(sundayOne);
-            Date sunTwo = new Date(sundayTwo);
-            
-            
-            
-            FacilityTypeDAO tDAO = new FacilityTypeDAO();
-            
+//    @DefaultHandler
+//    public Resolution editFacility() {
+//        boolean success;
+//        String result;
+//        try {
+//            Date monOne = new Date(mondayOne); 
+//            Date monTwo = new Date(mondayTwo);
+//            Date tueOne = new Date(tuesdayOne);
+//            Date tueTwo = new Date(tuesdayTwo);
+//            Date wedOne = new Date(wednesdayOne);
+//            Date wedTwo = new Date(wednesdayTwo);
+//            Date thuOne = new Date(thursdayOne);
+//            Date thuTwo = new Date(thursdayTwo);
+//            Date friOne = new Date(fridayOne);
+//            Date friTwo = new Date(fridayTwo);
+//            Date satOne = new Date(saturdayOne);
+//            Date satTwo = new Date(saturdayTwo);
+//            Date sunOne = new Date(sundayOne);
+//            Date sunTwo = new Date(sundayTwo);
+//            
+//            
+//            
+//            FacilityTypeDAO tDAO = new FacilityTypeDAO();
+//            
 
             //FacilityType facilityType = tDAO.getFacilityType(id);
 
@@ -366,25 +366,25 @@ public class EditFacilityTypeActionBean implements ActionBean {
             //System.out.println("NEW DESC FROM BEAN "+ newFT.getDescription());
           
             //insert into DB
-            if( tDAO.editFacilityType(id, name, description, needsPayment, monOne, monTwo, tueOne, tueTwo, wedOne, wedTwo, thuOne, thuTwo, friOne, friTwo, satOne, satTwo, sunOne, sunTwo, bookingSessions, bookingLimitFreq, bookingLimitUnit, bookingOpenAdvance, bookingCloseAdvance) != null ){                
-                success = true;
-                result = name;
-                System.out.println("successsssss");
-            }
-            else{
-                result = "fail";
-                success = false;
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = "fail";
-            success = false;
-        }
-        return new RedirectResolution("/admin/manage-facilitytypes.jsp?editsuccess=" + success
-                + "&editmsg=" + result);
+//            if( tDAO.editFacilityType(id, name, description, needsPayment, monOne, monTwo, tueOne, tueTwo, wedOne, wedTwo, thuOne, thuTwo, friOne, friTwo, satOne, satTwo, sunOne, sunTwo, bookingSessions, bookingLimitFreq, bookingLimitUnit, bookingOpenAdvance, bookingCloseAdvance) != null ){                
+//                success = true;
+//                result = name;
+//                System.out.println("successsssss");
+//            }
+//            else{
+//                result = "fail";
+//                success = false;
+//            }
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result = "fail";
+//            success = false;
+//        }
+//        return new RedirectResolution("/admin/manage-facilitytypes.jsp?editsuccess=" + success
+//                + "&editmsg=" + result);
 
 
 
-    }
+    
 }

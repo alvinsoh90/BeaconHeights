@@ -1,3 +1,4 @@
+<%@page import="com.lin.controllers.FacilityTypeController"%>
 <%@page import="com.lin.entities.AdvanceRule"%>
 <%@page import="com.lin.entities.LimitRule"%>
 <%@page import="com.lin.controllers.RuleController"%>
@@ -27,9 +28,12 @@
 
 <!--{"name":"thisismyname","desc":"thisismydescription","needsPayment":false,"bookableSlots":{},"bookingSessionsLimit":"","bookingFreqLimit":"","bookingLimitPeriod":"days","bookingOpensDaysInAdvance":"","bookingClosesDaysInAdvance":""}: **/ -->
 
-<%  
+<%
 //get posted data
 String jsonStringData = request.getParameter("data");
+System.out.println("data received: "+ jsonStringData);
+
+
 JSONObject data = new JSONObject(jsonStringData);
 
 String name = data.getString("name");
@@ -107,12 +111,23 @@ if ("days".equals(bLimitPeriod)){
             facilityType.setAdvanceRules(advanceRuleSet);
             facilityType.setCloseRules(closeRuleSet);
             facilityType.setOpenRules(openRuleSet);
-                        
-            FacilityType ft = tDAO.createFacilityType(facilityType);
-            if( ft != null ){
-                System.out.println("facility saved, id: " +  ft.getId());
+            
+
+/*
+ * Check if we are creating or editing a facility
+ */         
+            FacilityTypeController ftCtrl = new FacilityTypeController();
+            if(request.getParameter("ftid") == null ||
+                    "".equals(request.getParameter("ftid"))){
+                
+                    //Create a spanking new facility
+                    ftCtrl.createFacilityType(facilityType);
+                
+            }else{
+                    //Edit an existing facility
+                    facilityType.setId(Integer.parseInt(request.getParameter("ftid")));
+                    ftCtrl.editFacilityType(facilityType);
             }
-            else{
-                System.out.println("Failed to save facility!");
-            }
+            
+            
 %>
