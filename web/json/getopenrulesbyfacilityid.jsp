@@ -25,7 +25,9 @@
             JSONObject rule = new JSONObject();
             rule.put("start", r.getStartTimeIn24HourFormat());
             rule.put("end", r.getEndTimeIn24HourFormat());
-            
+            rule.put("dayIndex", r.getDayOfWeek());
+            rule.put("startFormattedTime",r.getStartTime().getTime());
+            rule.put("endFormattedTime",r.getEndTime().getTime());
             arr.put(rule);
     }
     

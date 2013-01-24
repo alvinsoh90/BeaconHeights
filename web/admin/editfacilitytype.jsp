@@ -674,12 +674,12 @@
                                                     <% for (int i = 1 ; i < openRuleMon.size()+1 ; i++) { OpenRule o = openRuleMon.get(i-1);%>
                                                         
                                                         <tr class="mondaySlot slotRow" id="monday<%if(i!=1)out.print(i);%>"><td>
-                                                            <input id="a-mon<%= i %>" class="timepicker startTime firstStart"
+                                                            <input id="a-mon<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
                                                                    value="<%= o.getStartTimeIn24HourFormat() %>"/>
                                                             <input class="hide mondaySlotData start" id="a-monday<%= i %>"
                                                                    value="<%= o.getStartTime().getTime() %>"/> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-mon<%= i %>" class="timepicker endTime firstEnd" 
+                                                            <input id="b-mon<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
                                                                    value="<%= o.getEndTimeIn24HourFormat() %>"/>
                                                             <input class="hide mondaySlotData end" id="b-monday<%= i %>" 
                                                                    value="<%= o.getEndTime().getTime() %>"/>
@@ -716,12 +716,12 @@
                                                     <table id="tuesdaySlotHolder">
                                                         <% for (int i = 1 ; i < openRuleTue.size()+1 ; i++) { OpenRule o = openRuleTue.get(i-1);%>
                                                         <tr class="tuesdaySlot slotRow" id="tuesday<%if(i!=1)out.print(i);%>"><td>
-                                                            <input id="a-tues<%= i %>" class="timepicker startTime firstStart"
+                                                            <input id="a-tues<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
                                                                    value="<%= o.getStartTimeIn24HourFormat() %>"/>
                                                             <input class="hide tuesdaySlotData start" id="a-tuesday<%= i %>"
                                                                    value="<%= o.getStartTime().getTime() %>"/> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-tues<%= i %>" class="timepicker endTime firstEnd" 
+                                                            <input id="b-tues<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
                                                                    value="<%= o.getEndTimeIn24HourFormat() %>"/>
                                                             <input class="hide tuesdaySlotData end" id="b-tuesday<%= i %>" 
                                                                    value="<%= o.getEndTime().getTime() %>"/>
@@ -760,12 +760,12 @@
                                                             <% for (int i = 1 ; i < openRuleWed.size()+1 ; i++) { OpenRule o = openRuleWed.get(i-1);%>
                                                         
                                                         <tr class="wednesdaySlot slotRow" id="wednesday<%if(i!=1)out.print(i);%>"><td>
-                                                            <input id="a-wednes<%= i %>" class="timepicker startTime firstStart"
+                                                            <input id="a-wednes<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
                                                                    value="<%= o.getStartTimeIn24HourFormat() %>"/>
                                                             <input class="hide wednesdaySlotData start" id="a-wednesday<%= i %>"
                                                                    value="<%= o.getStartTime().getTime() %>"/> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-wednes<%= i %>" class="timepicker endTime firstEnd" 
+                                                            <input id="b-wednes<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
                                                                    value="<%= o.getEndTimeIn24HourFormat() %>"/>
                                                             <input class="hide wednesdaySlotData end" id="b-wednesday<%= i %>" 
                                                                    value="<%= o.getEndTime().getTime() %>"/>
@@ -805,12 +805,12 @@
                                                        <% for (int i = 1 ; i < openRuleThu.size()+1 ; i++) { OpenRule o = openRuleThu.get(i-1);%>
                                                         
                                                         <tr class="thursdaySlot slotRow" id="thursday<%if(i!=1)out.print(i);%>"><td>
-                                                            <input id="a-thurs<%= i %>" class="timepicker startTime firstStart"
+                                                            <input id="a-thurs<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
                                                                    value="<%= o.getStartTimeIn24HourFormat() %>"/>
                                                             <input class="hide thursdaySlotData start" id="a-thursday<%= i %>"
                                                                    value="<%= o.getStartTime().getTime() %>"/> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-thurs<%= i %>" class="timepicker endTime firstEnd" 
+                                                            <input id="b-thurs<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
                                                                    value="<%= o.getEndTimeIn24HourFormat() %>"/>
                                                             <input class="hide thursdaySlotData end" id="b-thursday<%= i %>" 
                                                                    value="<%= o.getEndTime().getTime() %>"/>
@@ -848,12 +848,12 @@
                                                        <% for (int i = 1 ; i < openRuleFri.size()+1 ; i++) { OpenRule o = openRuleFri.get(i-1);%>
                                                         
                                                         <tr class="fridaySlot slotRow" id="friday<%if(i!=1)out.print(i);%>"><td>
-                                                            <input id="a-fri<%= i %>" class="timepicker startTime firstStart"
+                                                            <input id="a-fri<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
                                                                    value="<%= o.getStartTimeIn24HourFormat() %>"/>
                                                             <input class="hide fridaySlotData start" id="a-friday<%= i %>"
                                                                    value="<%= o.getStartTime().getTime() %>"/> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-fri<%= i %>" class="timepicker endTime firstEnd" 
+                                                            <input id="b-fri<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
                                                                    value="<%= o.getEndTimeIn24HourFormat() %>"/>
                                                             <input class="hide fridaySlotData end" id="b-friday<%= i %>" 
                                                                    value="<%= o.getEndTime().getTime() %>"/>
@@ -892,12 +892,12 @@
                                                         <% for (int i = 1 ; i < openRuleSat.size()+1 ; i++) { OpenRule o = openRuleSat.get(i-1);%>
                                                         
                                                         <tr class="saturdaySlot slotRow" id="saturday<%if(i!=1)out.print(i);%>"><td>
-                                                            <input id="a-satur<%= i %>" class="timepicker startTime firstStart"
+                                                            <input id="a-satur<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
                                                                    value="<%= o.getStartTimeIn24HourFormat() %>"/>
                                                             <input class="hide saturdaySlotData start" id="a-saturday<%= i %>"
                                                                    value="<%= o.getStartTime().getTime() %>"/> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-satur<%= i %>" class="timepicker endTime firstEnd" 
+                                                            <input id="b-satur<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
                                                                    value="<%= o.getEndTimeIn24HourFormat() %>"/>
                                                             <input class="hide saturdaySlotData end" id="b-saturday<%= i %>" 
                                                                    value="<%= o.getEndTime().getTime() %>"/>
@@ -936,12 +936,12 @@
                                                         <% for (int i = 1 ; i < openRuleSun.size()+1 ; i++) { OpenRule o = openRuleSun.get(i-1);%>
                                                         
                                                         <tr class="sundaySlot slotRow" id="sunday<%if(i!=1)out.print(i);%>"><td>
-                                                            <input id="a-sun<%= i %>" class="timepicker startTime firstStart"
+                                                            <input id="a-sun<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
                                                                    value="<%= o.getStartTimeIn24HourFormat() %>"/>
                                                             <input class="hide sundaySlotData start" id="a-sunday<%= i %>"
                                                                    value="<%= o.getStartTime().getTime() %>"/> 
                                                             <span class="spacing">to</span>
-                                                            <input id="b-sun<%= i %>" class="timepicker endTime firstEnd" 
+                                                            <input id="b-sun<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
                                                                    value="<%= o.getEndTimeIn24HourFormat() %>"/>
                                                             <input class="hide sundaySlotData end" id="b-sunday<%= i %>" 
                                                                    value="<%= o.getEndTime().getTime() %>"/>

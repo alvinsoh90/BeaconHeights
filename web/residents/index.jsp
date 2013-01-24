@@ -60,7 +60,13 @@
                                 
                 $.get("/json/getopenrulesbyfacilityid.jsp?facilityid=" + facilityID, function(data){
                     for(i = 0 ; i < data.length ; i++){
-                        openTimingsList.push([data[i].start,data[i].end])
+                        openTimingsList.push([
+                            data[i].start,
+                            data[i].end,
+                            data[i].dayIndex,
+                            data[i].startFormattedTime,
+                            data[i].endFormattedTime
+                        ]);
                     }
                     
                      paintCalendar();  //set timings to be greyed out

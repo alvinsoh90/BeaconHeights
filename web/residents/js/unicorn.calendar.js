@@ -66,6 +66,7 @@ function paintCalendar(){
 //    var closedSlots = $("#fullcalendar").find('.closedSlot');
 //    closedSlots.unbind("click").click(function(){console.log("asd");toastr.warning("Sorry, this facility is closed at this time");});
 }
+var placeholderID = 9999999999;
 
 unicorn = {	
 	
@@ -97,11 +98,11 @@ unicorn = {
                             $("#fullcalendar").fullCalendar( 'changeView', "agendaWeek" );
                             $("#fullcalendar").fullCalendar( 'gotoDate', date);
                             
-                            paintCalendar(); console.log("painted");
+                            paintCalendar();console.log("painted");
 
                             
                             //scroll window to top
-                            $("html, body").animate({ scrollTop: 30 }, "slow");
+                            $("html, body").animate({scrollTop: 30}, "slow");
                         }
                     }   
             },
@@ -150,25 +151,67 @@ unicorn = {
                //else if()
                else{      
                    //OK to book
-                   $("#time").text(start.customFormat("#h#:#mm# #ampm#") + " - " + end.customFormat("#h#:#mm# #ampm#"));   //SET TIME
+                   
+                    //remove previous added event, if any
+                   $("#fullcalendar").fullCalendar('removeEvents',[placeholderID]);
+                   
+                //if end date is longer than 2 hours, snap back to only two hours 
+//                if(end.getTime() - start.getTime() > 3600 * 1000 * 2){
+//                    var adjustedEndTime = start.getTime() + 3600 * 1000 * 2;
+//                    end = new Date(adjustedEndTime);
+//                }
+                   
+                   //snap event timings to closest matching open rule
+                   $("#fullcalendar").fullCalendar('unselect');
+                   
+                   var slotFound = false;
+                   
+                   var currDayIndex = start.getDay();
+                   for(var i=0;i<openTimingsList.length;i++){
+                       //find slots for current day
+                       if(currDayIndex === openTimingsList[i][2]){
+                           console.log("found a date");
+                           //find slot that wraps current time period
+                           var thisStartTime = new Date(openTimingsList[i][3]);
+                           var thisEndTime = new Date(openTimingsList[i][4]);
+                           
+                           thisStartTime.setMonth(start.getMonth(),start.getDate());
+                           thisEndTime.setMonth(end.getMonth(),end.getDate());
+                           
+                           if(thisStartTime <= start && thisEndTime >= end){
+                               start = thisStartTime;
+                               end = thisEndTime;
+                               slotFound = true;
+                           }
+                       }
+                       
+                   }
+                   
+                   if(slotFound){
+                       //set labels
+                    $("#time").text(start.customFormat("#h#:#mm# #ampm#") + " - " + end.customFormat("#h#:#mm# #ampm#"));   //SET TIME
                    $("#starttimemillis").val(start.getTime());
                    $("#endtimemillis").val(end.getTime());
 
-//                    title = "test";
-//                    if (title) {
-//                        $("fullcalendar").fullCalendar('renderEvent',
-//                        {
-//                            title: title,
-//                            start: start,
-//                            end: end,
-//                            allDay: allDay
-//                        },
-//                        true // make the event "stick"
-//                        );
-//
-//                    }
-                    //$("fullcalendar").fullCalendar('unselect');
-                    //$("fullcalendar").fullCalendar('render');
+                    title = "Your current booking";
+                    if (title) {
+                        $("#fullcalendar").fullCalendar('renderEvent',
+                        {
+                            id: placeholderID,
+                            title: title,
+                            start: start,
+                            end: end,
+                            allDay: false,
+                            backgroundColor:"#236123"
+                        },
+                        false // make the event "stick"
+                        );
+
+                    }
+                   }
+                   else if (!slotFound && !allDay) {
+                       toastr.warning("The facility is not open during your selected time");
+                   }                    
                }
             },
 
@@ -184,7 +227,8 @@ unicorn = {
                 day: ''                  // Tuesday, Sep 8, 2009
             },
             editable: true,
-            slotMinutes: 15,            
+            slotMinutes: 15,
+            minTime: 6,
             droppable: true, // this allows things to be dropped onto the calendar !!!
             drop: function(date, allDay) { // this function is called when something is dropped
 				
