@@ -54,7 +54,8 @@ public class LoginActionBean extends BaseActionBean {
             return new RedirectResolution("/login.jsp?err=true&user="+username);
         }else{ 
             //retrieve hash from DB
-            storedHash = userDAO.getUserHash(username);
+            //storedHash = userDAO.getUserHash(username);
+            storedHash = user.getPassword();
             //check if hash is same as user input        
             if(plaintext !=null && !storedHash.isEmpty()){
                success = BCrypt.checkpw(plaintext,storedHash);
