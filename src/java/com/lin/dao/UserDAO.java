@@ -62,9 +62,9 @@ public class UserDAO {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from User");
+            Query q = session.createQuery("from User as u join fetch u.role join fetch u.block");
             userList = (ArrayList<User>) q.list();
-            //tx.commit();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,9 +76,9 @@ public class UserDAO {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from UserTemp");
+            Query q = session.createQuery("from UserTemp as u join fetch u.role join fetch u.block");
             userTempList = (ArrayList<UserTemp>) q.list();
-            //tx.commit();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

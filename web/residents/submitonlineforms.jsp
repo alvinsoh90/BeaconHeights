@@ -260,7 +260,7 @@
                                         <th>Title</th>
                                         <th>Description</th>
                                         <th>Category</th>
-                                        <th>Filename</th>
+                                        <th>Download File</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -286,7 +286,7 @@
                                         <td><b>${formTemplate.name}</b></td>
                                         <td><b>${formTemplate.description}</b></td>
                                         <td><b>${formTemplate.category}</b></td>
-                                        <td><b><a href="/pdf_uploads/${formTemplate.fileName}">${formTemplate.fileName}</a></b></td>
+                                        <td><b><a href="/pdf_uploads/${formTemplate.fileName}">Download File</a></b></td>
 
                                         <td>
                                             <a href="#submitFormModal" role="button" data-toggle="modal" class="btn btn-success btn-mini" onclick="populateSubmitFormModal('${formTemplate.id}')">Submit</a> 

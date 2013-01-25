@@ -137,7 +137,7 @@
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Category</th>
-                                <th>Filename</th>
+                                <th>Download File</th>
                                 <th>Last Updated</th>
                                 <th>Action</th>
                             </tr>
@@ -160,7 +160,7 @@
                                 <td><b>${resource.name}</b></td>
                                 <td><b>${resource.description}</b></td>
                                 <td><b>${resource.category}</b></td>
-                                <td><b><a href="/pdf_uploads/${resource.fileName}">${resource.fileName}</a></b></td>
+                                <td><b><a href="/pdf_uploads/${resource.fileName}">Download File</a></b></td>
                                 <td><b>${resource.timeCreated}</b></td>
                                 <td>
                                     <a href="#editResourceModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditResourceModal('${resource.id}')">Edit</a> 

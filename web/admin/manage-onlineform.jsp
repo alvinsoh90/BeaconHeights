@@ -49,7 +49,7 @@
    
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>ID</th><th>Submitted By</th><th>Form Title</th><th>Time Submitted</th><th>Filename</th><th>Status</th><th>Comments</th><th>Action</th></tr>"
+                var tableHeaders = "<tr><th>ID</th><th>Submitted By</th><th>Form Title</th><th>Time Submitted</th><th>Download File</th><th>Status</th><th>Comments</th><th>Action</th></tr>"
                 
                 for (var i=0; i<submittedFormsArr.length; i++){
                     //console.log(booking.username);
@@ -62,7 +62,7 @@
                     r[++j] = '</b></td><td nowrap><b>';
                     r[++j] = submittedFormsArr[i].timeSubmitted;
                     r[++j] = '</b></td><td ><b>';
-                    r[++j] = "<a href='/pdf_uploads/"+submittedFormsArr[i].fileName+"'>"+submittedFormsArr[i].fileName+"</a>";
+                    r[++j] = "<a href='/pdf_uploads/"+submittedFormsArr[i].fileName+"'>Download File</a>";
                     r[++j] = '</b></td><td ><b>';
                     
                     if(submittedFormsArr[i].processed=="false"){
@@ -455,7 +455,7 @@
                                             <th>Title</th>
                                             <th>Description</th>
                                             <th>Category</th>
-                                            <th>Filename</th>
+                                            <th>Download File</th>
                                             <th>Last Updated</th>
                                             <th>Action</th>
                                         </tr>
@@ -481,7 +481,7 @@
                                             <td><b>${formTemplate.name}</b></td>
                                             <td><b>${formTemplate.description}</b></td>
                                             <td><b>${formTemplate.category}</b></td>
-                                            <td><b><a href="/pdf_uploads/${formTemplate.fileName}">${formTemplate.fileName}</a></b></td>
+                                            <td><b><a href="/pdf_uploads/${formTemplate.fileName}">Download File</a></b></td>
                                             <td><b>${formTemplate.timeModified}</b></td>
                                             <td>
                                                 <a href="#editFormTemplateModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFormTemplateModal('${formTemplate.id}')">Edit</a> 
