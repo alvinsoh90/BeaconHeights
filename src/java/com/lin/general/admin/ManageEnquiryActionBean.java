@@ -140,7 +140,7 @@ public class ManageEnquiryActionBean implements ActionBean{
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/residents/enquiry.jsp?createsuccess=" + success
+        return new RedirectResolution("/residents/myenquiries.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
 
