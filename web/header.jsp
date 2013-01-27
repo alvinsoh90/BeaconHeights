@@ -61,13 +61,17 @@
                                 <li>
                                     <a href="/residents/viewresources.jsp"> View Resources</a>
                                 </li>
+                                
+                                <li>
+                                    <a href="/residents/viewamenities.jsp"> View Amenities</a>
+                                </li>
 
                                 <li>
                                     <a href="/residents/submitonlineforms.jsp"> Submit Online Forms</a>
                                 </li>
-
+                                
                                 <li>
-                                    <a href="/residents/viewamenities.jsp"> View Amenities</a>
+                                    <a href="/residents/myenquiries.jsp"> Submit Feedback</a>
                                 </li>
                             </ul>
 

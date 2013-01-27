@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lin.general.admin;
+package com.lin.resident;
 
 import com.lin.dao.UserDAO;
 import com.lin.dao.EnquiryDAO;
@@ -120,7 +120,7 @@ public class ManageEnquiryActionBean implements ActionBean{
     }
     
     @DefaultHandler
-    public Resolution submit() {
+    public Resolution createEnquiry() {
         String result;
         boolean success;
         
@@ -133,7 +133,7 @@ public class ManageEnquiryActionBean implements ActionBean{
             User user = uDAO.getUser(Integer.parseInt(user_id));
             
             EnquiryDAO enDAO = new EnquiryDAO();
-            Enquiry en = enDAO.createEnquiry(user, isResolved, title, text);
+            Enquiry en = enDAO.createEnquiry(user, false, title, text);
             result = "enquiry";
             success = true;
         } catch (Exception e) {

@@ -8,7 +8,7 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="manageEnquiryActionBean" scope="page"
                      class="com.lin.resident.ManageEnquiryActionBean"/>
-        <jsp:setProperty name = "manageEnquiryActionBean"  property = "currentUser"  value = "${user}" />
+        <jsp:setProperty name = "manageEnquiryActionBean"  property = "user"  value = "${user}" />
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -140,6 +140,8 @@
 
 
                             </div>
+                            
+                            <a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>
                         </div>
                     </div>
 
@@ -149,12 +151,45 @@
             </div> <!-- /container -->
 
         </div> <!-- /content -->
+        
+        <!-- Enquiry creation -->
+        <div id="createEnquiryModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Submit an Enquiry</h3>
+                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" id="new_enquiry_validate" name="new_enquiry_validate">
+                    <div class="control-group ${errorStyle}">
+                        <div class="controls">
+                            <stripes:hidden id="create_id" name="id"/>
+                        </div>
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Title</label>
+                        <div class="controls">
+                            <stripes:text id="create_title" name="title"/> 
+                        </div>
+                    </div>    
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Content</label>
+                        <div class="controls">
+                            <stripes:textarea id="create_text" name="text"/> 
+                        </div>
+                    </div>                              
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <input type="submit" name="createEnquiry" value="Submit" class="btn btn-primary"/>
+                </div>
+            </stripes:form>
 
+        </div>
+        
+        <!-- View and update enquiries -->
         <div id="viewEnquiryModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <h3>Your Enquiry</h3>
-                <stripes:form class="form-horizontal" beanclass="com.lin.resident.EditEnquiryActionBean" focus="" id="edit_enquiry_validate" name="edit_enquiry_validate">
+                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" id="edit_enquiry_validate" name="edit_enquiry_validate">
                     <div class="control-group ${errorStyle}">
                         <div class="controls">
                             <stripes:hidden id="view_id" name="id"/>
@@ -180,6 +215,9 @@
             </stripes:form>
 
         </div>
+        
+       
+        
         <div class="modal-body">
 
         </div>
