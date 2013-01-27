@@ -28,6 +28,14 @@ public class Enquiry  implements java.io.Serializable {
        this.text = text;
        this.isResolved = isResolved;
     }
+    public Enquiry(User user, String title, String text, boolean isResolved) {
+       //this.id = id;
+       this.user = user;
+       //this.enquiryTimeStamp = enquiryTimeStamp;
+       this.title = title;
+       this.text = text;
+       this.isResolved = isResolved;
+    }
    
     public int getId() {
         return this.id;

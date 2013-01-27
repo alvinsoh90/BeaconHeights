@@ -78,7 +78,7 @@ public class EnquiryDAO {
         return userEnquiryList;
     }
 
-    public Enquiry getBooking(int id) {
+    public Enquiry getEnquiry(int id) {
         ArrayList<Enquiry> userEnquiryList = new ArrayList<Enquiry>();
         try {
             ArrayList<Enquiry> tempList = getAllEnquiries();
@@ -93,7 +93,7 @@ public class EnquiryDAO {
         return null;
     }
 
-    //Add bookings
+    //Add Enquiry
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
     public Enquiry addEnquiry(Enquiry enquiry) {
 
@@ -114,6 +114,31 @@ public class EnquiryDAO {
         // if txn fails, return null
         return null;
     }
+    public Enquiry createEnquiry(User user, boolean isResolved, String title, String text) throws IllegalStateException {
+        
+        openSession();
+        org.hibernate.Transaction tx = null;
+        
+        Enquiry en = new Enquiry(user, title, text,isResolved);
+       
+        try {
+            tx = session.beginTransaction();
+            session.save("Enquiry", en);
+            tx.commit();
+
+            return en;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        return null;
+    }
+    
+    
+    
 
     // Delete Booking
     public boolean deleteEnquiry(int id) {
