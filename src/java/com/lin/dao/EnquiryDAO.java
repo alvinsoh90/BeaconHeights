@@ -38,7 +38,7 @@ public class EnquiryDAO {
     }
 
     // Get all bookings made by all users
-    public ArrayList<Booking> getAllBookings() {
+    public ArrayList<Enquiry> getAllEnquiries() {
         openSession();
         org.hibernate.Transaction tx;
         
@@ -47,50 +47,44 @@ public class EnquiryDAO {
         
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType join fetch booking.user");
+            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.user");
             //Query q = session.createQuery("from Booking");
-            allBookingList = (ArrayList<Booking>) q.list();
+            enquiryList = (ArrayList<Enquiry>) q.list();
             
-            Booking b = (Booking)q.list().get(0);
-            id = b.getId();
-            isDel = b.getIsDeleted();
             
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             System.out.println("Closing Session...");
             session.close();            
-            if(id != -1){
-                System.out.println("Forcing refresh...");
-                forceRefresh(id,isDel);
-            }
+        
         }
-        return allBookingList;
+        return enquiryList;
     }
 
     // Get bookings made by a specific user
-    public ArrayList<Booking> getUserBookings(int userID) {
-        ArrayList<Booking> userBookingList = new ArrayList<Booking>();
+    public ArrayList<Enquiry> getUserEnquiries(int userID) {
+        ArrayList<Enquiry> userEnquiryList = new ArrayList<Enquiry>();
         try {
-            ArrayList<Booking> tempList = getAllBookings();
-            for (Booking b : tempList) {
-                if (userID == b.getUser().getUserId()) {
-                    userBookingList.add(b);
+            ArrayList<Enquiry> tempList = getAllEnquiries();
+            for (Enquiry e : tempList) {
+                if (userID == e.getUser().getUserId()) {
+                    userEnquiryList.add(e);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return userBookingList;
+        return userEnquiryList;
     }
 
-    public Booking getBooking(int id) {
-        ArrayList<Booking> userBookingList = new ArrayList<Booking>();
+    public Enquiry getBooking(int id) {
+        ArrayList<Enquiry> userEnquiryList = new ArrayList<Enquiry>();
         try {
-            ArrayList<Booking> tempList = getAllBookings();
-            for (Booking b : tempList) {
-                if (id == b.getId()) {
-                    return b;
+            ArrayList<Enquiry> tempList = getAllEnquiries();
+            for (Enquiry e : tempList) {
+                if (id == e.getId()) {
+                    return e;
                 }
             }
         } catch (Exception e) {
@@ -101,16 +95,16 @@ public class EnquiryDAO {
 
     //Add bookings
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp
-    public Booking addBooking(Booking booking) {
+    public Enquiry addEnquiry(Enquiry enquiry) {
 
         openSession();
 
         org.hibernate.Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.save("Booking", booking);
+            session.save("Enquiry", enquiry);
             tx.commit();
-            return booking;
+            return enquiry;
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {
@@ -122,16 +116,16 @@ public class EnquiryDAO {
     }
 
     // Delete Booking
-    public boolean deleteBooking(int bookingID) {
+    public boolean deleteEnquiry(int id) {
         openSession();
         org.hibernate.Transaction tx = null;
         int rowCount = 0;
 
         try {
             tx = session.beginTransaction();
-            String hql = "delete from Booking where id = :id";
+            String hql = "delete from Enquiry where id = :id";
             Query query = session.createQuery(hql);
-            query.setString("id", bookingID + "");
+            query.setString("id", id + "");
             rowCount = query.executeUpdate();
             tx.commit();
         } catch (Exception e) {
@@ -148,18 +142,18 @@ public class EnquiryDAO {
         }
     }
 
-    public Booking updateBooking(int id, Date startDate, Date endDate) {        
+    public Enquiry updateEnquiry(int id, String title, String text) {        
         openSession();
         org.hibernate.Transaction tx = null;
-        Booking booking = null;
+        Enquiry enquiry = null;
         try {
             tx = session.beginTransaction();
-            booking = (Booking) session.get(Booking.class, id);
+            enquiry = (Enquiry) session.get(Enquiry.class, id);
 
-            booking.setStartDate(startDate);
-            booking.setEndDate(endDate);
+            enquiry.setTitle(title);
+            enquiry.setText(text);
 
-            session.update(booking);
+            session.update(enquiry);
             tx.commit();
             
         } catch (Exception e) {
@@ -168,59 +162,8 @@ public class EnquiryDAO {
                 tx.rollback();
             }
         }
-       return booking;
+       return enquiry;
     }
 
-    public void updateBookingPayment(int id, boolean b, String string) {
-        openSession();
-        org.hibernate.Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            Booking booking = (Booking) session.get(Booking.class, id);
-
-            booking.setIsPaid(b);
-            booking.setTransactionId(string);
-
-            session.update(booking);
-            tx.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (tx != null) {
-                tx.rollback();
-            }
-        }
-    }
-
-    public ArrayList<Booking> getUserHistoricalBookings(User u) {
-        int userID = u.getUserId();
-        ArrayList<Booking> histList = new ArrayList<Booking>();
-        try {
-            ArrayList<Booking> temp = getUserBookings(userID);
-            for (Booking b : temp) {
-                if (b.getEndDate().compareTo(new Date()) < 0 && !b.getIsDeleted()) {
-                    histList.add(b);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return histList;
-    }
-
-    public ArrayList<Booking> getUserCurrentBookings(User u) {
-        int userID = u.getUserId();
-        ArrayList<Booking> currentList = new ArrayList<Booking>();
-        try {
-            ArrayList<Booking> temp = getUserBookings(userID);
-            for (Booking b : temp) {
-                if (b.getEndDate().compareTo(new Date()) > 0) {
-                    currentList.add(b);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return currentList;
-    }
 
 }
