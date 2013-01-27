@@ -34,6 +34,21 @@
                         <li class="dropdown">
 
                             <a data-toggle="dropdown" class="dropdown-toggle ">
+                                Community
+                                <b class="caret"></b>							
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/residents/communitywall.jsp"> Community Wall</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav pull-left">
+
+                        <li class="dropdown">
+
+                            <a data-toggle="dropdown" class="dropdown-toggle ">
                                 Facility Booking
                                 <b class="caret"></b>							
                             </a>
