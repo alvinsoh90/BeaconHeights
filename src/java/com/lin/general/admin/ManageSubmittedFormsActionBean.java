@@ -100,7 +100,7 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
         boolean processed = false;
         
         try {
-            File location = new File("../webapps/pdf_uploads/"+fileName);
+            File location = new File("../webapps/uploads/submitted_forms/"+fileName);
             if(!location.getParentFile().exists()){
                 location.getParentFile().mkdirs();
             }

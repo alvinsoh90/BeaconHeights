@@ -118,7 +118,7 @@ public class ManageResourceActionBean implements ActionBean {
         }
         
         try {
-            File location = new File("../webapps/pdf_uploads/"+fileName);
+            File location = new File("../webapps/uploads/resources/"+fileName);
             if(!location.getParentFile().exists()){
                 location.getParentFile().mkdirs();
             }
