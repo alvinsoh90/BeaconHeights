@@ -98,15 +98,17 @@
                         <ul class="nav pull-right">
                             <li class="divider-vertical"></li>
                             <li>
-                                <img class="profilePic" src="http://png.findicons.com/files/icons/756/ginux/64/user.png"/>
+                                
+                                <img class="profilePic" src="http://png.findicons.com/files/icons/756/ginux/64/user.png" />
                             </li>
-
-
+                            <li>
+                                <a href="profile.jsp">${user.firstname}</a>
+                            </li>
 
                             <li class="dropdown">
 
                                 <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                                    ${user.firstname}
+                                    <i class="icon-cog"></i>
                                     <b class="caret"></b>							
                                 </a>
 

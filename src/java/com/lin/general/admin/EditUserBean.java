@@ -10,10 +10,12 @@ import com.lin.entities.User;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
+import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
 import java.util.Date;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 
@@ -21,7 +23,7 @@ import net.sourceforge.stripes.action.Resolution;
  *
  * @author Yangsta
  */
-public class EditUserBean implements ActionBean{
+public class EditUserBean extends BaseActionBean{
   private ActionBeanContext context;
   private ArrayList<User> userList;
   private ArrayList<Role> roleList;
@@ -71,6 +73,43 @@ public class EditUserBean implements ActionBean{
         
     }
 
+    @HandlesEvent("editUserProfile")
+    public Resolution editUserProfile(){
+        this.getRoleList();
+        UserDAO dao = new UserDAO();
+        BlockDAO blockDao = new BlockDAO();
+        RoleDAO roleDao = new RoleDAO();
+        //System.out.println("ROLE ID "+ role);
+        Role roleObj = roleDao.getRoleById(Integer.parseInt(role));
+        Block blockObj = blockDao.getBlockByName(block);
+        //System.out.println("BLOCK NAME : "+block);
+        try{
+            User u = dao.updateUser
+                    (
+                        Integer.parseInt(id),
+                        roleObj,
+                        blockObj,
+                        username,
+                        firstname,
+                        lastname,
+                        email,
+                        mobileno,
+                        Integer.parseInt(level),
+                        Integer.parseInt(unitnumber)
+                    );
+            
+            getContext().setUser(u);
+            return new RedirectResolution("/residents/profile.jsp?editsuccess=true&editmsg="+username);
+            
+        }
+        catch(Exception e){
+            e.printStackTrace(); 
+        }
+        return new RedirectResolution("/residents/profile.jsp?editsuccess=false");
+        
+    }
+
+    
     public String getId() {
         return id;
     }
@@ -87,13 +126,7 @@ public class EditUserBean implements ActionBean{
         this.block = block;
     }
 
-    public ActionBeanContext getContext() {
-        return context;
-    }
-
-    public void setContext(ActionBeanContext context) {
-        this.context = context;
-    }
+    
 
     public String getFirstname() {
         return firstname;

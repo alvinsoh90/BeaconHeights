@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 10, 2013 2:18:24 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Jan 28, 2013 3:05:34 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.UserTemp" table="user_temp" catalog="lin_db">
         <id name="userId" type="java.lang.Integer">
@@ -43,6 +43,18 @@
         </property>
         <property name="email" type="string">
             <column name="email" length="50" />
+        </property>
+        <property name="birthday" type="date">
+            <column name="birthday" length="10" />
+        </property>
+        <property name="studiedAt" type="string">
+            <column name="studied_at" length="50" />
+        </property>
+        <property name="worksAt" type="string">
+            <column name="works_at" length="50" />
+        </property>
+        <property name="aboutMe" type="string">
+            <column name="about_me" length="250" />
         </property>
     </class>
 </hibernate-mapping>
