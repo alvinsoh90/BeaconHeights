@@ -8,6 +8,11 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="manageEnquiryActionBean" scope="page"
                      class="com.lin.resident.ManageEnquiryActionBean"/>
+        <jsp:useBean id="registerActionBean" scope="page"
+                     class="com.lin.general.login.RegisterActionBean"/>
+        
+        
+        
         <jsp:setProperty name = "manageEnquiryActionBean"  property = "user"  value = "${user}" />
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
@@ -36,7 +41,7 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-        <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
+        <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
             <script>
                 var enquiry = new Object();
                 enquiry.id = '${enquiry.id}';
@@ -109,7 +114,7 @@
                             <div class="widget-content">
 
                                 <table class="table table-striped table-bordered" id="current">
-                                    <c:if test="${manageEnquiryActionBean.userEnquiryList.size()!=0}">     
+                                    <c:if test="${manageEnquiryActionBean.enquiryList.size()!=0}">     
                                         <thead>
                                         <th>No.</th>
                                         <th>Title</th>
@@ -119,7 +124,7 @@
                                         </thead>
                                         <tbody style="font-size: 11px">
                                             <%int count = 1;%>
-                                            <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
+                                            <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
                                                 <tr>
                                                     <td><%= count++%></td>
                                                     <td nowrap>${enquiry.title}</td>
@@ -130,7 +135,7 @@
                                                 </tr>
                                             </c:forEach>
                                         </c:if>
-                                        <c:if test="${manageEnquiryActionBean.userEnquiryList.size()==0}">
+                                        <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
                                         <thead>
                                         <th> You have no enquiries or feedback at the moment. Would you like to make one?</th>
                                         </thead>
@@ -178,7 +183,7 @@
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>
-                    <input type="submit" name="createEnquiry" value="Submit" class="btn btn-primary"/>
+                    <input type="submit" name="submit" value="Submit" class="btn btn-primary"/>
                 </div>
             </stripes:form>
 
@@ -189,6 +194,34 @@
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <h3>Your Enquiry</h3>
+                
+                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" name="edit_enquiry_validate" id="edit_enquiry_validate">
+                   <div class="control-group ${errorStyle}">
+                        <div class="controls">
+                            <stripes:hidden id="view_id" name="id"/>
+                        </div>
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Title</label>
+                        <div class="controls">
+                            <stripes:text id="view_title" name="title"/> 
+                        </div>
+                    </div>    
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Content</label>
+                        <div class="controls">
+                            <stripes:text id="view_text" name="text"/> 
+                        </div>
+                    </div>                              
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
+                </div>  
+                    
+                </stripes:form>
+                
+                <!--
                 <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" id="edit_enquiry_validate" name="edit_enquiry_validate">
                     <div class="control-group ${errorStyle}">
                         <div class="controls">
@@ -213,6 +246,8 @@
                     <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
                 </div>
             </stripes:form>
+                
+                -->
 
         </div>
         

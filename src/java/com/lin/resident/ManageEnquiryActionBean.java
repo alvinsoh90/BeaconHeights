@@ -31,6 +31,7 @@ public class ManageEnquiryActionBean implements ActionBean{
     
      private ActionBeanContext context;
      private ArrayList<Enquiry> enquiryList;
+     private ArrayList<Enquiry> userEnquiryList;
      private int id;
      private User user;
      private String user_id;
@@ -91,10 +92,7 @@ public class ManageEnquiryActionBean implements ActionBean{
     public void setIsResolved(boolean isResolved) {
         this.isResolved = isResolved;
     }
-     
-    public void setContext(ActionBeanContext context) {
-        this.context = context;
-    }
+    
     
     public ArrayList<Enquiry> getEnquiryList() {
         EnquiryDAO enDAO = new EnquiryDAO();
@@ -113,14 +111,19 @@ public class ManageEnquiryActionBean implements ActionBean{
     }
     
     
+    @Override
+    public void setContext(ActionBeanContext abc) {
+        this.context = context;
+    }
 
     @Override
-    public ActionBeanContext getContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        public ActionBeanContext getContext() {
+        return context;
     }
     
+    
     @DefaultHandler
-    public Resolution createEnquiry() {
+    public Resolution submit() {
         String result;
         boolean success;
         
@@ -130,11 +133,11 @@ public class ManageEnquiryActionBean implements ActionBean{
         try {
          
             UserDAO uDAO = new UserDAO();
-            User user = uDAO.getUser(Integer.parseInt(user_id));
+            User user1 = uDAO.getUser(Integer.parseInt(user_id));
             
             EnquiryDAO enDAO = new EnquiryDAO();
-            Enquiry en = enDAO.createEnquiry(user, false, title, text);
-            result = "enquiry";
+            Enquiry enquiry = enDAO.createEnquiry(user1, false, title, text);
+            result = "Enquiry";
             success = true;
         } catch (Exception e) {
             result = "fail";
@@ -147,6 +150,5 @@ public class ManageEnquiryActionBean implements ActionBean{
 
     }
 
-    
     
 }
