@@ -61,13 +61,12 @@
             
             var enquiryList = [];
             
-            function populateViewEnquiryModal(id){ 
+            function populateViewEnquiryModal(enquiryId){ 
                 enquiryList.forEach(function(enquiry){
-                    if(enquiry.id == id){
-                        console.log(enquiry.id);
-                        $("#view_title").text(enquiry.title);
-                        $("#view_date").text(enquiry.date);
-                        $("#view_text").text(enquiry.text);
+                    if(enquiry.id == enquiryId){
+                        $("#view_title").val(enquiry.title);
+                        $("#view_date").val(enquiry.enquiryTimeStamp);
+                        $("#view_text").val(enquiry.text);
                         $("#view_id").val(enquiry.id);
                     }
                 });
@@ -127,7 +126,7 @@
                                             <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
                                                 <tr>
                                                     <td><%= count++%></td>
-                                                    <td nowrap>${enquiry.title}</td>
+                                                    <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${enquiry.enquiryTimeStamp}"/></td>
                                                     <td nowrap>${enquiry.isResolved}</td>
@@ -166,6 +165,7 @@
                     <div class="control-group ${errorStyle}">
                         <div class="controls">
                             <stripes:hidden id="create_id" name="id"/>
+                            <stripes:hidden id="create_user" name="userId" value="${user.userId}"/>
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
@@ -210,7 +210,7 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Content</label>
                         <div class="controls">
-                            <stripes:text id="view_text" name="text"/> 
+                            <stripes:textarea id="view_text" name="text"/> 
                         </div>
                     </div>                              
                 </div>
@@ -221,33 +221,6 @@
                     
                 </stripes:form>
                 
-                <!--
-                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" id="edit_enquiry_validate" name="edit_enquiry_validate">
-                    <div class="control-group ${errorStyle}">
-                        <div class="controls">
-                            <stripes:hidden id="view_id" name="id"/>
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Title</label>
-                        <div class="controls">
-                            <stripes:text id="view_title" name="title"/> 
-                        </div>
-                    </div>    
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Content</label>
-                        <div class="controls">
-                            <stripes:text id="view_text" name="text"/> 
-                        </div>
-                    </div>                              
-                </div>
-                <div class="modal-footer">
-                    <a data-dismiss="modal" class="btn">Close</a>
-                    <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
-                </div>
-            </stripes:form>
-                
-                -->
 
         </div>
         

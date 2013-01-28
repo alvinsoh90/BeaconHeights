@@ -21,8 +21,7 @@ public class Enquiry  implements java.io.Serializable {
 
     public Enquiry() {
     }
-
-	
+    
     public Enquiry(User userByUserId, User userByResponderId, String title, String text, String response, boolean isResolved) {
         this.userByUserId = userByUserId;
         this.userByResponderId = userByResponderId;
@@ -30,6 +29,7 @@ public class Enquiry  implements java.io.Serializable {
         this.text = text;
         this.response = response;
         this.isResolved = isResolved;
+        enquiryTimeStamp = new Date();
     }
     public Enquiry(User userByUserId, User userByResponderId, Date enquiryTimeStamp, String title, String text, String response, boolean isResolved) {
        this.userByUserId = userByUserId;
@@ -39,6 +39,17 @@ public class Enquiry  implements java.io.Serializable {
        this.text = text;
        this.response = response;
        this.isResolved = isResolved;
+    }
+    
+    //for creating a fresh enquiry
+    public Enquiry(User userByUserId, String title, String text) {
+       this.userByUserId = userByUserId;
+       this.userByResponderId = null;
+       this.enquiryTimeStamp = new Date();
+       this.title = title;
+       this.text = text;
+       this.response = null;
+       this.isResolved = false;
     }
    
     public Integer getId() {

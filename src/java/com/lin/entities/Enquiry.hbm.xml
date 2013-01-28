@@ -12,7 +12,7 @@
             <column name="user_id" not-null="true" />
         </many-to-one>
         <many-to-one name="userByResponderId" class="com.lin.entities.User" fetch="select">
-            <column name="responder_id" not-null="true" />
+            <column name="responder_id" />
         </many-to-one>
         <property name="enquiryTimeStamp" type="timestamp">
             <column name="enquiry_time_stamp" length="19" />
@@ -24,7 +24,7 @@
             <column name="text" length="5000" not-null="true" />
         </property>
         <property name="response" type="string">
-            <column name="response" length="5000" not-null="true" />
+            <column name="response" length="5000" />
         </property>
         <property name="isResolved" type="boolean">
             <column name="is_resolved" not-null="true" />
