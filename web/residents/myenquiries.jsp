@@ -70,7 +70,7 @@
                 enquiry.text = '${enquiry.text}';
                 enquiry.date = '${enquiry.enquiryTimeStamp}';
                 enquiry.isResolved = '${enquiry.isResolved}';
-                enquiry.responder = '${enquiry.responder}';
+                enquiry.responder = '${enquiry.userByResponderId}';
                 enquiry.response = '${enquiry.response}';
                 enquiryList.push(enquiry);
 
