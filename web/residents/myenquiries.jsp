@@ -10,9 +10,9 @@
                      class="com.lin.resident.ManageEnquiryActionBean"/>
         <jsp:useBean id="registerActionBean" scope="page"
                      class="com.lin.general.login.RegisterActionBean"/>
-        
-        
-        
+
+
+
         <jsp:setProperty name = "manageEnquiryActionBean"  property = "user"  value = "${user}" />
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
@@ -40,38 +40,47 @@
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        <script>
+                
+            var enquiryList = [];
+            
+            function populateViewEnquiryModal(enquiryId){ 
+                enquiryList.forEach(function(enquiry){
+                    if(enquiry.id == enquiryId){
+                        
+                        $("#view_title").val(enquiry.title);
+                        $("#view_date").val(enquiry.date);
+                        $("#view_text").val(enquiry.text);
+                        $("#view_id").val(enquiry.id);
+                        $("#view_responder").val(enquiry.responder);
+                        $("#view_response").val(enquiry.response);
+                    }
+                });
+            }
+        </script>
+
 
         <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
             <script>
+                
+                
                 var enquiry = new Object();
                 enquiry.id = '${enquiry.id}';
-                enquiry.title = ${enquiry.title};
-                enquiry.text = ${enquiry.title};
-                enquiry.date = ${enquiry.enquiryTimeStamp};
-                enquiry.isResolved = ${enquiry.isResolved};
+                enquiry.title = '${enquiry.title}';
+                enquiry.text = '${enquiry.text}';
+                enquiry.date = '${enquiry.enquiryTimeStamp}';
+                enquiry.isResolved = '${enquiry.isResolved}';
+                enquiry.responder = '${enquiry.responder}';
+                enquiry.response = '${enquiry.response}';
                 enquiryList.push(enquiry);
-                
+
                 
             </script>
 
 
         </c:forEach>
 
-        <script>
-            
-            var enquiryList = [];
-            
-            function populateViewEnquiryModal(enquiryId){ 
-                enquiryList.forEach(function(enquiry){
-                    if(enquiry.id == enquiryId){
-                        $("#view_title").val(enquiry.title);
-                        $("#view_date").val(enquiry.enquiryTimeStamp);
-                        $("#view_text").val(enquiry.text);
-                        $("#view_id").val(enquiry.id);
-                    }
-                });
-            }
-        </script>
+
     </head>
 
     <body>
@@ -129,7 +138,17 @@
                                                     <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${enquiry.enquiryTimeStamp}"/></td>
-                                                    <td nowrap>${enquiry.isResolved}</td>
+                                                    <td nowrap>
+                                                        <script>
+                                                            
+                                                            if (${enquiry.isResolved}){
+                                                                document.write("Resolved");
+                                                            }else {
+                                                                document.write("Unresolved");
+                                                            }
+                                                      
+                                                        </script>
+                                                    </td>
 
                                                 </tr>
                                             </c:forEach>
@@ -144,7 +163,7 @@
 
 
                             </div>
-                            
+
                             <a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>
                         </div>
                     </div>
@@ -155,7 +174,7 @@
             </div> <!-- /container -->
 
         </div> <!-- /content -->
-        
+
         <!-- Enquiry creation -->
         <div id="createEnquiryModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
@@ -188,15 +207,15 @@
             </stripes:form>
 
         </div>
-        
+
         <!-- View and update enquiries -->
         <div id="viewEnquiryModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <h3>Your Enquiry</h3>
-                
+
                 <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" name="edit_enquiry_validate" id="edit_enquiry_validate">
-                   <div class="control-group ${errorStyle}">
+                    <div class="control-group ${errorStyle}">
                         <div class="controls">
                             <stripes:hidden id="view_id" name="id"/>
                         </div>
@@ -212,20 +231,32 @@
                         <div class="controls">
                             <stripes:textarea id="view_text" name="text"/> 
                         </div>
-                    </div>                              
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Responder</label>
+                        <div class="controls">
+                            <stripes:text id="view_responder" name="responder" disabled="true"/> 
+                        </div>
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Response</label>
+                        <div class="controls">
+                            <stripes:textarea id="view_response" name="responder" disabled="true"/> 
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>
                     <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
                 </div>  
-                    
-                </stripes:form>
-                
+
+            </stripes:form>
+
 
         </div>
-        
-       
-        
+
+
+
         <div class="modal-body">
 
         </div>
