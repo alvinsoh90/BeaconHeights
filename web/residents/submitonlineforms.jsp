@@ -222,7 +222,7 @@
         <div id="content">
 
             <div class="container">
-                
+             
 
                 <div class="row">
                     <div class="span3">
@@ -237,6 +237,8 @@
                         </div> <!-- /account-container -->
                     </div>
                     <div class="span9">
+                        <!-- Info Messages -->
+                        <%@include file="pageinfobar.jsp"%>
 
                         <h1 class="page-title">
 
