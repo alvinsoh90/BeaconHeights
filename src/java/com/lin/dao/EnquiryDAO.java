@@ -47,7 +47,7 @@ public class EnquiryDAO {
         
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.user");
+            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.userByUserId");
             //Query q = session.createQuery("from Booking");
             enquiryList = (ArrayList<Enquiry>) q.list();
             
@@ -68,7 +68,7 @@ public class EnquiryDAO {
         try {
             ArrayList<Enquiry> tempList = getAllEnquiries();
             for (Enquiry e : tempList) {
-                if (userID == e.getUser().getUserId()) {
+                if (userID == e.getUserByUserId().getUserId()) {
                     userEnquiryList.add(e);
                 }
             }
@@ -114,13 +114,16 @@ public class EnquiryDAO {
         // if txn fails, return null
         return null;
     }
-    public Enquiry createEnquiry(User user, boolean isResolved, String title, String text) throws IllegalStateException {
+    public Enquiry createEnquiry(User user, String title, String text) throws IllegalStateException {
         
         openSession();
         org.hibernate.Transaction tx = null;
         
-        Enquiry en = new Enquiry(user, title, text,isResolved);
+        Enquiry en = new Enquiry(user, title, text);
        
+        System.out.print("DEBUG FROM HERE I MANAGED TO REACH" + en.toString());
+        
+        
         try {
             tx = session.beginTransaction();
             session.save("Enquiry", en);

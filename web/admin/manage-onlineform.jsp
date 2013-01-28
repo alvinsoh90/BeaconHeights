@@ -62,7 +62,7 @@
                     r[++j] = '</b></td><td nowrap><b>';
                     r[++j] = submittedFormsArr[i].timeSubmitted;
                     r[++j] = '</b></td><td ><b>';
-                    r[++j] = "<a href='/pdf_uploads/"+submittedFormsArr[i].fileName+"'>Download File</a>";
+                    r[++j] = "<a href='/uploads/submitted_forms/"+submittedFormsArr[i].fileName+"'>Download File</a>";
                     r[++j] = '</b></td><td ><b>';
                     
                     if(submittedFormsArr[i].processed=="false"){
@@ -481,7 +481,7 @@
                                             <td><b>${formTemplate.name}</b></td>
                                             <td><b>${formTemplate.description}</b></td>
                                             <td><b>${formTemplate.category}</b></td>
-                                            <td><b><a href="/pdf_uploads/${formTemplate.fileName}">Download File</a></b></td>
+                                            <td><b><a href="/uploads/form_templates/${formTemplate.fileName}">Download File</a></b></td>
                                             <td><b>${formTemplate.timeModified}</b></td>
                                             <td>
                                                 <a href="#editFormTemplateModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFormTemplateModal('${formTemplate.id}')">Edit</a> 

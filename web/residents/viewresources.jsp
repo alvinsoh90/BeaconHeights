@@ -106,7 +106,7 @@
                                     <td><b>${resource.name}</b></td>
                                     <td><b>${resource.description}</b></td>
                                     <td><b>${resource.category}</b></td>
-                                    <td><b><a href="/pdf_uploads/${resource.fileName}">Download File</a></b></td>
+                                    <td><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
                                     <td><b>${resource.timeCreated}</b></td>
                                     
                                 </tr>

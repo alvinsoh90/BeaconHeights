@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Jan 27, 2013 3:26:59 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 28, 2013 4:01:27 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -10,46 +10,68 @@ import java.util.Date;
 public class Enquiry  implements java.io.Serializable {
 
 
-     private int id;
-     private User user;
+     private Integer id;
+     private User userByUserId;
+     private User userByResponderId;
      private Date enquiryTimeStamp;
      private String title;
      private String text;
+     private String response;
      private boolean isResolved;
 
     public Enquiry() {
     }
-
-    public Enquiry(int id, User user, Date enquiryTimeStamp, String title, String text, boolean isResolved) {
-       this.id = id;
-       this.user = user;
+    
+    public Enquiry(User userByUserId, User userByResponderId, String title, String text, String response, boolean isResolved) {
+        this.userByUserId = userByUserId;
+        this.userByResponderId = userByResponderId;
+        this.title = title;
+        this.text = text;
+        this.response = response;
+        this.isResolved = isResolved;
+        enquiryTimeStamp = new Date();
+    }
+    public Enquiry(User userByUserId, User userByResponderId, Date enquiryTimeStamp, String title, String text, String response, boolean isResolved) {
+       this.userByUserId = userByUserId;
+       this.userByResponderId = userByResponderId;
        this.enquiryTimeStamp = enquiryTimeStamp;
        this.title = title;
        this.text = text;
+       this.response = response;
        this.isResolved = isResolved;
     }
-    public Enquiry(User user, String title, String text, boolean isResolved) {
-       //this.id = id;
-       this.user = user;
-       //this.enquiryTimeStamp = enquiryTimeStamp;
+    
+    //for creating a fresh enquiry
+    public Enquiry(User userByUserId, String title, String text) {
+       this.userByUserId = userByUserId;
+       this.userByResponderId = null;
+       this.enquiryTimeStamp = new Date();
        this.title = title;
        this.text = text;
-       this.isResolved = isResolved;
+       this.response = null;
+       this.isResolved = false;
     }
    
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-    public User getUser() {
-        return this.user;
+    public User getUserByUserId() {
+        return this.userByUserId;
     }
     
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserByUserId(User userByUserId) {
+        this.userByUserId = userByUserId;
+    }
+    public User getUserByResponderId() {
+        return this.userByResponderId;
+    }
+    
+    public void setUserByResponderId(User userByResponderId) {
+        this.userByResponderId = userByResponderId;
     }
     public Date getEnquiryTimeStamp() {
         return this.enquiryTimeStamp;
@@ -71,6 +93,13 @@ public class Enquiry  implements java.io.Serializable {
     
     public void setText(String text) {
         this.text = text;
+    }
+    public String getResponse() {
+        return this.response;
+    }
+    
+    public void setResponse(String response) {
+        this.response = response;
     }
     public boolean isIsResolved() {
         return this.isResolved;

@@ -173,7 +173,7 @@
                                 <td><b>${submittedForm.user.userName}</b></td>
                                 <td><b>${submittedForm.title}</b></td>
                                 <td><b>${submittedForm.timeSubmitted}</b></td>
-                                <td><b><a href="/pdf_uploads/${submittedForm.fileName}">${submittedForm.fileName}</a></b></td>
+                                <td><b><a href="/uploads/submitted_forms/${submittedForm.fileName}">${submittedForm.fileName}</a></b></td>
                                 <td>
                                     <b>
                                         <c:if test="${submittedForm.processed=='false'}">Pending</c:if>

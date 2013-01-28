@@ -113,7 +113,7 @@ public class EditResourceBean implements ActionBean {
         if(file!=null){
             fileName = new Date().getTime()+file.getFileName();
             try{
-                File location = new File("../webapps/pdf_uploads/"+fileName);
+                File location = new File("../webapps/uploads/resources/"+fileName);
                 if(!location.getParentFile().exists()){
                     location.getParentFile().mkdirs();
                 }

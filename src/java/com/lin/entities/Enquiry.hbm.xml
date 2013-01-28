@@ -1,24 +1,30 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 27, 2013 3:26:59 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Jan 28, 2013 4:01:28 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Enquiry" table="enquiry" catalog="lin_db">
-        <id name="id" type="int">
+        <id name="id" type="java.lang.Integer">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="user" class="com.lin.entities.User" fetch="select">
+        <many-to-one name="userByUserId" class="com.lin.entities.User" fetch="select">
             <column name="user_id" not-null="true" />
         </many-to-one>
-        <property name="enquiryTimeStamp" type="date">
-            <column name="enquiry_time_stamp" length="10" not-null="true" />
+        <many-to-one name="userByResponderId" class="com.lin.entities.User" fetch="select">
+            <column name="responder_id" />
+        </many-to-one>
+        <property name="enquiryTimeStamp" type="timestamp">
+            <column name="enquiry_time_stamp" length="19" />
         </property>
         <property name="title" type="string">
             <column name="title" length="50" not-null="true" />
         </property>
         <property name="text" type="string">
-            <column name="text" length="2000" not-null="true" />
+            <column name="text" length="5000" not-null="true" />
+        </property>
+        <property name="response" type="string">
+            <column name="response" length="5000" />
         </property>
         <property name="isResolved" type="boolean">
             <column name="is_resolved" not-null="true" />

@@ -7,7 +7,6 @@ package com.lin.resident;
 import com.lin.dao.UserDAO;
 import com.lin.dao.EnquiryDAO;
 import com.lin.entities.*;
-import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +33,7 @@ public class ManageEnquiryActionBean implements ActionBean{
      private ArrayList<Enquiry> userEnquiryList;
      private int id;
      private User user;
-     private String user_id;
+     private String userId;
      private Date enquiryTimeStamp;
      private String title;
      private String text;
@@ -54,12 +53,12 @@ public class ManageEnquiryActionBean implements ActionBean{
     public void setUser(User user) {
         this.user = user;
     }
-    public String getUser_id() {
-        return user_id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     
     
@@ -112,7 +111,7 @@ public class ManageEnquiryActionBean implements ActionBean{
     
     
     @Override
-    public void setContext(ActionBeanContext abc) {
+    public void setContext(ActionBeanContext context) {
         this.context = context;
     }
 
@@ -133,10 +132,10 @@ public class ManageEnquiryActionBean implements ActionBean{
         try {
          
             UserDAO uDAO = new UserDAO();
-            User user1 = uDAO.getUser(Integer.parseInt(user_id));
+            User enquiryUser = uDAO.getUser(Integer.parseInt(userId));
             
             EnquiryDAO enDAO = new EnquiryDAO();
-            Enquiry enquiry = enDAO.createEnquiry(user1, false, title, text);
+            Enquiry enquiry = enDAO.createEnquiry(enquiryUser, title, text);
             result = "Enquiry";
             success = true;
         } catch (Exception e) {
