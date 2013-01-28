@@ -18,6 +18,7 @@ public class MyAppActionBeanContext extends ActionBeanContext {
 
     public void setUser(User user) {
         getRequest().getSession().setAttribute("user", user);
+        System.out.println("NEW USER SET IN CONTEXT!");
     }
 
     public User getUser() {

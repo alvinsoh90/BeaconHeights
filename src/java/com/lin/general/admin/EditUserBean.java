@@ -10,10 +10,12 @@ import com.lin.entities.User;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Block;
 import com.lin.entities.Role;
+import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
 import java.util.Date;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 
@@ -21,7 +23,7 @@ import net.sourceforge.stripes.action.Resolution;
  *
  * @author Yangsta
  */
-public class EditUserBean implements ActionBean{
+public class EditUserBean extends BaseActionBean{
   private ActionBeanContext context;
   private ArrayList<User> userList;
   private ArrayList<Role> roleList;
@@ -37,7 +39,12 @@ public class EditUserBean implements ActionBean{
   private String mobileno;
   private String level;
   private String unitnumber;
+  private String facebookId;
   private String role;
+  private String birthday;
+  private String studiedAt;
+  private String worksAt;
+  private String aboutMe;
 
     public Resolution editUser(){
         this.getRoleList();
@@ -71,6 +78,48 @@ public class EditUserBean implements ActionBean{
         
     }
 
+    @HandlesEvent("editUserProfile")
+    public Resolution editUserProfile(){
+        this.getRoleList();
+        UserDAO dao = new UserDAO();
+        BlockDAO blockDao = new BlockDAO();
+        RoleDAO roleDao = new RoleDAO();
+        //System.out.println("ROLE ID "+ role);
+        Role roleObj = roleDao.getRoleById(Integer.parseInt(role));
+        Block blockObj = blockDao.getBlockByName(block);
+        //System.out.println("BLOCK NAME : "+block);
+        try{
+            User u = dao.updateUser
+                    (
+                        Integer.parseInt(id),
+                        roleObj,
+                        blockObj,
+                        username,
+                        firstname,
+                        lastname,
+                        email,
+                        mobileno,
+                        Integer.parseInt(level),
+                        Integer.parseInt(unitnumber),
+                        facebookId,
+                        new Date(),
+                        studiedAt,
+                        worksAt,
+                        aboutMe                       
+                    );
+            
+            getContext().setUser(u);
+            return new RedirectResolution("/residents/profile.jsp?profileId="+id+"&editsuccess=true&editmsg="+username);
+            
+        }
+        catch(Exception e){
+            e.printStackTrace(); 
+        }
+        return new RedirectResolution("/residents/profile.jsp?profileId="+id+"&editsuccess=false");
+        
+    }
+
+    
     public String getId() {
         return id;
     }
@@ -85,14 +134,6 @@ public class EditUserBean implements ActionBean{
 
     public void setBlock(String block) {
         this.block = block;
-    }
-
-    public ActionBeanContext getContext() {
-        return context;
-    }
-
-    public void setContext(ActionBeanContext context) {
-        this.context = context;
     }
 
     public String getFirstname() {
@@ -174,7 +215,46 @@ public class EditUserBean implements ActionBean{
     public void setMobileno(String mobileno) {
         this.mobileno = mobileno;
     }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
     
+    public void setDate(String date) {
+        this.birthday = birthday;
+    }
+
+    public String getStudiedAt() {
+        return studiedAt;
+    }
+
+    public void setStudiedAt(String studiedAt) {
+        this.studiedAt = studiedAt;
+    }
+
+    public String getWorksAt() {
+        return worksAt;
+    }
+
+    public void setWorksAt(String worksAt) {
+        this.worksAt = worksAt;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
     
     public ArrayList<Role> getRoleList(){
         RoleDAO roleDAO = new RoleDAO(); 
