@@ -85,26 +85,31 @@
 
     <body>
 
-
-
-
         <div id="content">
 
             <div class="container">
 
+
                 <div class="row">
+
                     <div class="span3">
 
+
                         <div class="account-container">
+
                             <h2>View Enquiries and Feedback</h2>
                             <select id ="view">
                                 <option value="Current Enquiries">Current Enquiries</option>
                             </select>
 
                         </div> <!-- /account-container -->
+
                     </div>
+
                     <div class="span9">
 
+                        <!-- Info Messages -->
+                        <%@include file="pageinfobar.jsp"%>
                         <h1 class="page-title">
                             <i class="icon-calendar"></i>
                             My Enquiries and Feedback					
@@ -249,8 +254,8 @@
                     <a data-dismiss="modal" class="btn">Close</a>
                     <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
                 </div>  
-                        
-                        
+
+
 
             </stripes:form>
 

@@ -138,13 +138,13 @@ public class EditEnquiryActionBean  implements ActionBean{
                             title,
                             text
                         );
-                return new RedirectResolution("/residents/myenquiries.jsp?editsuccess=true"+"&editmsg="+title);
+                return new RedirectResolution("/residents/myenquiries.jsp?editsuccess=true"+"&editmsg=Your enquiry");
             }
             catch(Exception e){
                 e.printStackTrace(); 
             }
         
-        return new RedirectResolution("/residents/myenquiries.jsp?editsuccess=false"+"&editmsg="+title);
+        return new RedirectResolution("/residents/myenquiries.jsp?editsuccess=false"+"&editmsg=Your enquiry");
         
 
     }

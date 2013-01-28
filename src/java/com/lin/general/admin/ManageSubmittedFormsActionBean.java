@@ -109,10 +109,10 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
             User user = uDAO.getUser(Integer.parseInt(user_id));
             SubmittedFormDAO sfDAO = new SubmittedFormDAO();
             SubmittedForm sf = sfDAO.createSubmittedForm( user, fileName, processed, comments, title);
-            result = "form";
+            result = file.getFileName();
             success = true;
         } catch (Exception e) {
-            result = "fail";
+            result = file.getFileName();
             success = false;
         }
         return new RedirectResolution("/residents/submitonlineforms.jsp?createsuccess=" + success
