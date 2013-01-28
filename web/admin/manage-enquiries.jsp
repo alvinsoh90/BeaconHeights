@@ -52,7 +52,7 @@
                         $("#view_date").val(enquiry.date);
                         $("#view_text").val(enquiry.text);
                         $("#view_id").val(enquiry.id);
-                        $("#view_responder").val(enquiry.responder);
+                        $("#view_responder").val(enquiry.responder.userName);
                         $("#view_response").val(enquiry.response);
                     }
                 });
@@ -152,7 +152,7 @@
                             <li><a href="#">Next</a></li>
                         </ul>
                     </div>
-                    <a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>
+                    <!--<a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>-->
                 </div>
             </div>
         </div>
@@ -161,49 +161,17 @@
 
         <%@include file="include/footer.jsp"%>
 
-        <!-- Enquiry creation -->
-        <div id="createEnquiryModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Submit an Enquiry</h3>
-                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" id="new_enquiry_validate" name="new_enquiry_validate">
-                    <div class="control-group ${errorStyle}">
-                        <div class="controls">
-                            <stripes:hidden id="create_id" name="id"/>
-                            <stripes:hidden id="create_user" name="userId" value="${user.userId}"/>
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Title</label>
-                        <div class="controls">
-                            <stripes:text id="create_title" name="title"/> 
-                        </div>
-                    </div>    
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Content</label>
-                        <div class="controls">
-                            <stripes:textarea id="create_text" name="text"/> 
-                        </div>
-                    </div>                              
-                </div>
-                <div class="modal-footer">
-                    <a data-dismiss="modal" class="btn">Close</a>
-                    <input type="submit" name="submit" value="Submit" class="btn btn-primary"/>
-                </div>
-            </stripes:form>
-
-        </div>
-
         <!-- View and update enquiries -->
         <div id="viewEnquiryModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <h3>Your Enquiry</h3>
 
-                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" name="edit_enquiry_validate" id="edit_enquiry_validate">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditEnquiryAdminActionBean" focus="" name="edit_enquiry_validate" id="edit_enquiry_validate">
                     <div class="control-group ${errorStyle}">
                         <div class="controls">
                             <stripes:hidden id="view_id" name="id"/>
+                            <stripes:hidden id="view_user_id" name="responderId" value="${user.userId}"/>
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
@@ -221,13 +189,13 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Responder</label>
                         <div class="controls">
-                            <stripes:text id="view_responder" name="responder" /> 
+                            <stripes:text id="view_responder" name="responder"/> 
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Response</label>
                         <div class="controls">
-                            <stripes:textarea id="view_response" name="responder"/> 
+                            <stripes:textarea id="view_response" name="response"/> 
                         </div>
                     </div>
                 </div>

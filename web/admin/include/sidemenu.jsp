@@ -21,7 +21,7 @@
                 <li><a href="manage-resource.jsp">Manage Resources</a></li>
                 <li><a href="manage-amenities.jsp">Manage Amenities</a></li>
                 <li><a href="manage-amenitycategories.jsp">Manage Amenity Categories</a></li>
-                <li><a href="manage-enquiry.jsp">Manage Enquiries</a></li>
+                <li><a href="manage-enquiries.jsp">Manage Enquiries</a></li>
                 <!--
                 <li><a href="manage-onlineform.jsp">Taxi Booking</a></li>
                 <li><a href="manage-onlineform.jsp">Nearby Amenities</a></li>

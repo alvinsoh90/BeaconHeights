@@ -170,6 +170,7 @@ public class EnquiryDAO {
         }
     }
 
+    //resident update
     public Enquiry updateEnquiry(int id, String title, String text) {        
         openSession();
         org.hibernate.Transaction tx = null;
@@ -191,6 +192,35 @@ public class EnquiryDAO {
             }
         }
        return enquiry;
+    }
+    
+    //admin update and reply
+    public Enquiry updateEnquiry(int id, String title, String text, User responder, String response, boolean isResolved){
+        
+        openSession();
+        org.hibernate.Transaction tx = null;
+        Enquiry enquiry = null;
+        try {
+            tx = session.beginTransaction();
+            enquiry = (Enquiry) session.get(Enquiry.class, id);
+
+            enquiry.setTitle(title);
+            enquiry.setText(text);
+            enquiry.setUserByResponderId(responder);
+            enquiry.setResponse(response);
+            enquiry.setIsResolved(isResolved);
+
+            session.update(enquiry);
+            tx.commit();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+       return enquiry;
+        
     }
  
 
