@@ -112,7 +112,7 @@ public class EditFormTemplateBean implements ActionBean {
         if(file!=null){
             fileName = new Date().getTime()+file.getFileName();
             try{
-                File location = new File("../webapps/pdf_uploads/"+fileName);
+                File location = new File("../webapps/uploads/form_templates/"+fileName);
                 if(!location.getParentFile().exists()){
                     location.getParentFile().mkdirs();
                 }
