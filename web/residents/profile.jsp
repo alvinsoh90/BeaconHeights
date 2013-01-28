@@ -16,6 +16,8 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="managePostBean" scope="page"
                      class="com.lin.general.admin.ManagePostBean"/>
+        <jsp:useBean id="manageUsersActionBean" scope="page"
+                     class="com.lin.general.admin.ManageUsersActionBean"/>
         <jsp:useBean id="editUserBean" scope="page"
                      class="com.lin.general.admin.EditUserBean"/>
         <jsp:useBean id="registerActionBean" scope="page"
@@ -70,19 +72,31 @@
                 });
             };  
         </script>
-        <!-- Populates the Edit User form -->
+        <!-- Populates the Edit User form -->       
         <script>
+            var userList = [];
+            
             //when this function is called, userList should already be populated
             function populateEditUserModal(userID){ 
-                $("#usernameLabel").text(user.username);
-                $("#editid").val(user.id);
-                $("#edit_username").val(user.username);
-                $("#edit_firstname").val(user.firstName);
-                $("#edit_lastname").val(user.lastName);
-                $("#edit_block").val(user.blockName);
-                $("#edit_role").val(user.roleName);
-                $("#edit_level").val(user.level);
-                $("#edit_unit").val(user.unit);
+                userList.forEach(function(user){
+                    if(user.id == userID){
+                        $("#usernameLabel").text(user.username);
+                        $("#editid").val(user.id);
+                        $("#edit_username").val(user.username);
+                        $("#edit_firstname").val(user.firstName);
+                        $("#edit_lastname").val(user.lastName);
+                        $("#edit_block").val(user.blockName);
+                        $("#edit_role").val(user.roleName);
+                        $("#edit_level").val(user.level);
+                        $("#edit_unit").val(user.unit);
+                        $("#edit_mobileno").val(user.mobileNo);
+                        $("#edit_email").val(user.email);
+                        $("#edit_birthday").val(user.birthday);
+                        $("#edit_studiedAt").val(user.studiedAt);
+                        $("#edit_worksAt").val(user.worksAt);
+                        $("#edit_aboutMe").val(user.aboutMe);
+                    }
+                });
                 
             }
         </script>
@@ -98,28 +112,54 @@
                         <div class="span1">
                             <img src="http://png.findicons.com/files/icons/756/ginux/64/user.png" />
                         </div>
-                        <div class="span3">
-                            <h3>${user.firstname} ${user.lastname}</h3>
-                            ${user.role.name}<br/>
-                            <!-- give user the option to show these details -->
-                            <b>Member Since:</b> ${user.dob}<br/>
-                            <b>Mobile No. :</b> ${user.mobileNo}<br/>
-                            <b>Email:</b> ${user.email}<br/>
-                            <b>Birthday:</b> ${user.birthday}<br/>
-                            <b>Studied at:</b> ${user.studiedAt}<br/>
-                            <b>Works at:</b> ${user.worksAt}<br/>
-                            <b>About me:</b> ${user.aboutMe}<br/>
-                        </div>
-                        <div class="span2">
-                            <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick='populateEditUserModal(${user.userId});loadValidate()'><i class="icon-pencil"></i> Update Info</a>
-                        </div>
+                        <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                            <script>
+                                var user = new Object();
+                                user.id = '${user.userId}';
+                                user.username = '${user.userName}';
+                                user.firstName = '${user.firstname}';
+                                user.lastName = '${user.lastname}';
+                                user.roleName = '${user.role.name}';
+                                user.blockName = '${user.block.blockName}';
+                                user.level = '${user.level}';
+                                user.unit = '${user.unit}';
+                                user.mobileNo = '${user.mobileNo}';
+                                user.birthday = '${user.birthday}';
+                                user.email = '${user.email}';
+                                user.studiedAt = '${user.studiedAt}';
+                                user.worksAt = '${user.worksAt}';
+                                user.aboutMe = '${user.aboutMe}';
+                                userList.push(user);
+                            </script>
+                            <c:if test="${user.userId==param.profileId}">
+                                <div class="span3">
+                                    <h3>${user.firstname} ${user.lastname}</h3>
+                                    <!-- give user the option to show these details -->
+                                    <b>Member Since:</b> ${user.dob}<br/>
+                                    <b>Mobile No. :</b> ${user.mobileNo}<br/>
+                                    <b>Email:</b> ${user.email}<br/>
+                                    <b>Birthday:</b> ${user.birthday}<br/>
+                                    <b>Studied at:</b> ${user.studiedAt}<br/>
+                                    <b>Works at:</b> ${user.worksAt}<br/>
+                                    <b>About me:</b> ${user.aboutMe}<br/>
+                                </div>
+                            </c:if>
+                        
+                        </c:forEach>
+                        <c:if test="${user.userId==param.profileId}">
+                            <div class="span2">
+                            <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick='populateEditUserModal(${param.profileId});loadValidate()'><i class="icon-pencil"></i> Update Info</a>
+                            </div>
+                        </c:if>
+                        <c:if test="${user.userId!=param.profileId}">
                         <div class="span2">
                             <!-- should only appear if is not current user and is not if friends list-->
                             <div id="addFriend"><a href="#" class="btn btn-info"><i class="icon-user"></i> Friend This User</a></div>
                         </div>
+                        </c:if>
                     </div>
                 </div>
-
+                        
                         
             <!-- Edit User Modal Form -->
             <div id="editUserModal" class="modal hide fade">
@@ -133,13 +173,13 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">First Name</label>
                             <div class="controls">
-                                <stripes:text id="edit_firstname" name="firstname" value="${user.firstname}"/> 
+                                <stripes:text id="edit_firstname" name="firstname"/> 
                             </div>
                         </div>                              
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Last Name</label>
                             <div class="controls">
-                                <stripes:text id="edit_lastname" name="lastname" value="${user.lastname}"/> 
+                                <stripes:text id="edit_lastname" name="lastname"/> 
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
@@ -153,32 +193,60 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Level</label>
                             <div class="controls">
-                                <stripes:select name="level" id="level" value="${user.level}">
+                                <stripes:select name="level" id="level">
                                 </stripes:select>                            </div>
                         </div>     
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Unit Number</label>
                             <div class="controls">
-                                <stripes:select name="unitnumber" id ="unitnumber" value="${user.unit}">
+                                <stripes:select name="unitnumber" id ="unitnumber">
                                 </stripes:select>                             </div>
                         </div>    
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Mobile Number</label>
                             <div class="controls">
-                                <stripes:text id="mobileno" name="mobileno" value="${user.mobileNo}"/>                            </div>
+                                <stripes:text id="edit_mobileno" name="mobileno"/>   
+                            </div>
                         </div>  
-                            <div class="control-group ${errorStyle}">
+                        <div class="control-group ${errorStyle}">
                             <label class="control-label">Email</label>
                             <div class="controls">
-                                <stripes:text id="email" name="email" value="${user.email}"/>                           </div>
+                                <stripes:text id="edit_email" name="email"/> 
+                            </div>
                         </div>  
-
-                    </div>
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Birthday</label>
+                            <div class="controls">
+                                <stripes:text id="edit_birthday" name="birthday"/>
+                            </div>
+                        </div>
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Studied At</label>
+                            <div class="controls">
+                                <stripes:text id="edit_studiedAt" name="studiedAt"/>
+                            </div>
+                        </div>
+                         
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Works At</label>
+                            <div class="controls">
+                                <stripes:text id="edit_worksAt" name="worksAt"/>
+                            </div>
+                        </div> 
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">About Me</label>
+                            <div class="controls">
+                                <stripes:textarea id="edit_aboutMe" name="aboutMe"/>
+                            </div>
+                        </div>
+                    </div> 
+                    
                     <div class="modal-footer">
                         <a data-dismiss="modal" class="btn">Close</a>
                         <stripes:hidden id="role" name="role" value="${user.role.id}"/>
                         <stripes:hidden id="username" name="username" value="${user.userName}"/>
                         <stripes:hidden id="id" name="id" value="${user.userId}"/>
+                        <stripes:hidden id="facebookId" name="facebookId" value="${user.facebookId}"/>
                         <input type="submit" name="editUserProfile" value="Confirm Edit" class="btn btn-primary"/>
                     </div>
                 </stripes:form>

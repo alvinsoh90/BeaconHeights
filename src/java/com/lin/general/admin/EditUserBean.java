@@ -39,7 +39,12 @@ public class EditUserBean extends BaseActionBean{
   private String mobileno;
   private String level;
   private String unitnumber;
+  private String facebookId;
   private String role;
+  private String birthday;
+  private String studiedAt;
+  private String worksAt;
+  private String aboutMe;
 
     public Resolution editUser(){
         this.getRoleList();
@@ -95,17 +100,22 @@ public class EditUserBean extends BaseActionBean{
                         email,
                         mobileno,
                         Integer.parseInt(level),
-                        Integer.parseInt(unitnumber)
+                        Integer.parseInt(unitnumber),
+                        facebookId,
+                        new Date(),
+                        studiedAt,
+                        worksAt,
+                        aboutMe                       
                     );
             
             getContext().setUser(u);
-            return new RedirectResolution("/residents/profile.jsp?editsuccess=true&editmsg="+username);
+            return new RedirectResolution("/residents/profile.jsp?profileId="+id+"&editsuccess=true&editmsg="+username);
             
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/residents/profile.jsp?editsuccess=false");
+        return new RedirectResolution("/residents/profile.jsp?profileId="+id+"&editsuccess=false");
         
     }
 
@@ -125,8 +135,6 @@ public class EditUserBean extends BaseActionBean{
     public void setBlock(String block) {
         this.block = block;
     }
-
-    
 
     public String getFirstname() {
         return firstname;
@@ -207,7 +215,46 @@ public class EditUserBean extends BaseActionBean{
     public void setMobileno(String mobileno) {
         this.mobileno = mobileno;
     }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
     
+    public void setDate(String date) {
+        this.birthday = birthday;
+    }
+
+    public String getStudiedAt() {
+        return studiedAt;
+    }
+
+    public void setStudiedAt(String studiedAt) {
+        this.studiedAt = studiedAt;
+    }
+
+    public String getWorksAt() {
+        return worksAt;
+    }
+
+    public void setWorksAt(String worksAt) {
+        this.worksAt = worksAt;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
     
     public ArrayList<Role> getRoleList(){
         RoleDAO roleDAO = new RoleDAO(); 

@@ -292,25 +292,35 @@ public class UserDAO {
     
         public User updateUser(int userId, Role role, Block block, String userName, String firstname, String lastname,String email,String mobileNo, Integer level, Integer unit, String facebookId, Date birthday, String studiedAt, String worksAt, String aboutMe) {
         openSession();
+        Transaction tx = null;
         //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
         System.out.println("USER INFO : " + userId + " " + role + " " + block + " " + userName + " " + firstname + " " + lastname + " " + level + " " + unit);
         //session.update("User",user);
-        User u = (User) session.get(User.class, userId);
-        u.setRole(role);
-        u.setBlock(block);
-        u.setUserName(userName);
-        u.setFirstname(firstname);
-        u.setLastname(lastname);
-        u.setEmail(email);
-        u.setMobileNo(mobileNo);
-        u.setLevel(level);
-        u.setUnit(unit);
-        u.setFacebookId(facebookId);
-        u.setBirthday(birthday);
-        u.setStudiedAt(studiedAt);
-        u.setWorksAt(worksAt);
-        u.setAboutMe(aboutMe);
-
+        User u = null;
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, userId);
+            u.setRole(role);
+            u.setBlock(block);
+            u.setUserName(userName);
+            u.setFirstname(firstname);
+            u.setLastname(lastname);
+            u.setEmail(email);
+            u.setMobileNo(mobileNo);
+            u.setLevel(level);
+            u.setUnit(unit);
+            u.setFacebookId(facebookId);
+            u.setBirthday(birthday);
+            u.setStudiedAt(studiedAt);
+            u.setWorksAt(worksAt);
+            u.setAboutMe(aboutMe);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
         return u;
     }
 
