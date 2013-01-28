@@ -130,7 +130,7 @@
                                         <th>Status</th>
 
                                         </thead>
-                                        <tbody style="font-size: 11px">
+                                        <tbody>
                                             <%int count = 1;%>
                                             <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
                                                 <tr>
@@ -214,7 +214,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <h3>Your Enquiry</h3>
 
-                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEnquiryActionBean" focus="" name="edit_enquiry_validate" id="edit_enquiry_validate">
+                <stripes:form class="form-horizontal" beanclass="com.lin.resident.EditEnquiryActionBean" focus="" name="edit" id="edit_enquiry_validate">
                     <div class="control-group ${errorStyle}">
                         <div class="controls">
                             <stripes:hidden id="view_id" name="id"/>
@@ -249,6 +249,8 @@
                     <a data-dismiss="modal" class="btn">Close</a>
                     <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
                 </div>  
+                        
+                        
 
             </stripes:form>
 
