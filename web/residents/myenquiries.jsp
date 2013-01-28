@@ -47,7 +47,7 @@
                 enquiry.id = '${enquiry.id}';
                 enquiry.title = ${enquiry.title};
                 enquiry.text = ${enquiry.title};
-                enquiry.date = ${enquiry.date};
+                enquiry.date = ${enquiry.enquiryTimeStamp};
                 enquiry.isResolved = ${enquiry.isResolved};
                 enquiryList.push(enquiry);
                 
