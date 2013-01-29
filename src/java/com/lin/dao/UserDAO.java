@@ -174,6 +174,29 @@ public class UserDAO {
         //return null if failed
         return null;
     }
+    
+    public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob,String mobileno,String email,  Integer level, Integer unit, String profilePicFilename) {
+        openSession();
+
+        //String salt = BCrypt.gensalt();
+        //String passwordHash = BCrypt.hashpw(password, salt);
+        User user = new User(role, block, password, userName, firstname, lastname,dob,mobileno,email,level, unit, profilePicFilename);
+
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save("User", user);
+            tx.commit();
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        //return null if failed
+        return null;
+    }
 
     public boolean deleteUser(int userId) {
         openSession();

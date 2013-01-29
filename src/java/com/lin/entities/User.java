@@ -29,6 +29,9 @@ public class User  implements java.io.Serializable {
      private String studiedAt;
      private String worksAt;
      private String aboutMe;
+     private String vehicleNumberPlate;
+     private String vehicleType;
+     private String profilePicFilename;
      private Set submittedForms = new HashSet(0);
      private Set posts = new HashSet(0);
      private Set bookings = new HashSet(0);
@@ -62,7 +65,24 @@ public class User  implements java.io.Serializable {
         this.unit = unit;
     }
     
-    public User(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit, String facebookId, String mobileNo, String email, Date birthday, String studiedAt, String worksAt, String aboutMe, Set submittedForms, Set posts, Set bookings) {
+    public User(Role role, Block block, String password, String userName,
+            String firstname, String lastname, Date dob, String email,
+            String mobileNo, Integer level, Integer unit, String profilePicFilename) {
+        this.role = role;
+        this.block = block;
+        this.password = password;
+        this.userName = userName;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.dob = dob;
+        this.email = email;
+        this.mobileNo = mobileNo;
+        this.level = level;
+        this.unit = unit;
+        this.profilePicFilename = profilePicFilename;
+    }
+    
+    public User(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit, String facebookId, String mobileNo, String email, Date birthday, String studiedAt, String worksAt, String aboutMe, String vehicleNumberPlate, String vehicleType, String profilePicFilename, Set submittedForms, Set posts, Set bookings) {
        this.role = role;
        this.block = block;
        this.password = password;
@@ -79,9 +99,36 @@ public class User  implements java.io.Serializable {
        this.studiedAt = studiedAt;
        this.worksAt = worksAt;
        this.aboutMe = aboutMe;
+       this.vehicleNumberPlate = vehicleNumberPlate;
+       this.vehicleType = vehicleType;
+       this.profilePicFilename = profilePicFilename;
        this.submittedForms = submittedForms;
        this.posts = posts;
        this.bookings = bookings;
+    }
+
+    public String getProfilePicFilename() {
+        return profilePicFilename;
+    }
+
+    public void setProfilePicFilename(String profilePicFilename) {
+        this.profilePicFilename = profilePicFilename;
+    }
+
+    public String getVehicleNumberPlate() {
+        return vehicleNumberPlate;
+    }
+
+    public void setVehicleNumberPlate(String vehicleNumberPlate) {
+        this.vehicleNumberPlate = vehicleNumberPlate;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
    
     public Integer getUserId() {

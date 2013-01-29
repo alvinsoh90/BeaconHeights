@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Jan 28, 2013 1:35:36 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.lin.entities.Post" table="post" catalog="lin_db">
+    <class name="com.lin.entities.Post" table="post" catalog="lin_staging_db">
         <id name="postId" type="int">
             <column name="post_id" />
             <generator class="assigned" />

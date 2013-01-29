@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Jan 28, 2013 3:05:34 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.lin.entities.User" table="user" catalog="lin_db">
+    <class name="com.lin.entities.User" table="user" catalog="lin_staging_db">
         <id name="userId" type="java.lang.Integer">
             <column name="user_id" />
             <generator class="identity" />
@@ -55,6 +55,15 @@
         </property>
         <property name="aboutMe" type="string">
             <column name="about_me" length="250" />
+        </property>
+        <property name="vehicleNumberPlate" type="string">
+            <column name="vehicle_number_plate" length="15" />
+        </property>
+        <property name="vehicleType" type="string">
+            <column name="vehicle_type" length="50" />
+        </property>
+        <property name="profilePicFilename" type="string">
+            <column name="profile_pic_filename" length="80" />
         </property>
         <set name="submittedForms" inverse="true">
             <key>
