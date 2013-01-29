@@ -47,7 +47,7 @@ public class EnquiryDAO {
         
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.userByUserId");
+            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.userByUserId join fetch enquiry.userByResponderId");
             //Query q = session.createQuery("from Booking");
             enquiryList = (ArrayList<Enquiry>) q.list();
             
@@ -121,9 +121,6 @@ public class EnquiryDAO {
         
         Enquiry en = new Enquiry(user, title, text);
        
-        System.out.print("DEBUG FROM HERE I MANAGED TO REACH" + en.toString());
-        
-        
         try {
             tx = session.beginTransaction();
             session.save("Enquiry", en);
