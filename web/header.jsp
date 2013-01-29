@@ -102,7 +102,7 @@
                                 <img class="profilePic" src="http://png.findicons.com/files/icons/756/ginux/64/user.png" />
                             </li>
                             <li>
-                                <a href="profile.jsp?profileId=${user.userId}">${user.firstname}</a>
+                                <a href="profile.jsp?profileid=${user.userId}">${user.firstname}</a>
                             </li>
 
                             <li class="dropdown">

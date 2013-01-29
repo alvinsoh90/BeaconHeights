@@ -131,7 +131,7 @@
                                 user.aboutMe = '${user.aboutMe}';
                                 userList.push(user);
                             </script>
-                            <c:if test="${user.userId==param.profileId}">
+                            <c:if test="${user.userId==param.profileid}">
                                 <div class="span3">
                                     <h3>${user.firstname} ${user.lastname}</h3>
                                     <!-- give user the option to show these details -->
@@ -146,12 +146,12 @@
                             </c:if>
                         
                         </c:forEach>
-                        <c:if test="${user.userId==param.profileId}">
+                        <c:if test="${user.userId==param.profileid}">
                             <div class="span2">
-                            <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick='populateEditUserModal(${param.profileId});loadValidate()'><i class="icon-pencil"></i> Update Info</a>
+                            <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick='populateEditUserModal(${param.profileid});loadValidate()'><i class="icon-pencil"></i> Update Info</a>
                             </div>
                         </c:if>
-                        <c:if test="${user.userId!=param.profileId}">
+                        <c:if test="${user.userId!=param.profileid}">
                         <div class="span2">
                             <!-- should only appear if is not current user and is not if friends list-->
                             <div id="addFriend"><a href="#" class="btn btn-info"><i class="icon-user"></i> Friend This User</a></div>
