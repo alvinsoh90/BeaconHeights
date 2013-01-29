@@ -47,12 +47,16 @@
             function populateViewEnquiryModal(enquiryId){ 
                 enquiryList.forEach(function(enquiry){
                     if(enquiry.id == enquiryId){
+                        var responder = enquiry.responder;
+                        if (!enquiry.isResolved){
+                            responder=user;
+                        }
                         
                         $("#view_title").val(enquiry.title);
                         $("#view_date").val(enquiry.date);
                         $("#view_text").val(enquiry.text);
                         $("#view_id").val(enquiry.id);
-                        $("#view_responder").val(enquiry.responder.userName);
+                        $("#view_responder").val(responder.userName);
                         $("#view_response").val(enquiry.response);
                     }
                 });
