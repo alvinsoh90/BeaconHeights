@@ -471,4 +471,25 @@ public class UserDAO {
         }
         return u;
     }
+
+    public boolean changePasword(int user_id, String newpassword2) {
+        openSession();
+        Transaction tx = null;
+        User u = null;
+        String salt = BCrypt.gensalt();
+        String newHash = BCrypt.hashpw(newpassword2, salt);
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, user_id);
+            u.setPassword(newHash);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return false;
+        }
+        return true;
+    }
 }

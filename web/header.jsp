@@ -125,12 +125,14 @@
                                         <li>
                                             <a href="/admin/adminmain.jsp"><i class="icon-forward"></i>Go to Admin</a>
                                         </li>
-                                        <li class="divider"></li>
                                     </c:if>
+                                        <li>
+                                            <a href="/residents/changepassword.jsp"><i class="icon-forward"></i>Change Password</a>
+                                        </li>
+                                        <li class="divider"></li>
                                     <li>
                                     <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
-
-                            </li>
+                                    </li>
                         </ul>
                         </li>
 
