@@ -68,6 +68,42 @@ public class ChangePasswordActionBean implements ActionBean {
         return new RedirectResolution("/residents/index.jsp?success=" + success);
 
     }
+    
+    @HandlesEvent("admin_change_password")
+    public Resolution changeAdminpassword() {
+        UserDAO uDAO = new UserDAO();
+        User user = uDAO.getUser(Integer.parseInt(user_id));
+        boolean success = false;
+        String storedHash = "";
+        
+        if(user==null){
+            return new RedirectResolution("/residents/index.jsp?success=" + success);
+        }else{ 
+            //retrieve hash from DB
+            //storedHash = userDAO.getUserHash(username);
+            storedHash = user.getPassword();
+            //check if hash is same as user input        
+            if(oldpassword !=null && !storedHash.isEmpty()){
+               success = BCrypt.checkpw(oldpassword,storedHash);
+            }
+            else{
+               success = false;
+            }
+        }  
+        
+        if(success){
+            try {
+                success = uDAO.changePasword(Integer.parseInt(user_id), newpassword2);
+            } catch (Exception e) {
+                success = false;
+                return new RedirectResolution("/admin/adminmain.jsp?success=" + success);
+            }
+        }
+        return new RedirectResolution("/admin/adminmain.jsp?success=" + success);
+
+    }
+    
+    
 
     public String getNewpassword() {
         return newpassword;
