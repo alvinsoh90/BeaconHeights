@@ -82,6 +82,24 @@ public class User  implements java.io.Serializable {
         this.profilePicFilename = profilePicFilename;
     }
     
+    public User(Role role, Block block, String password, String userName,
+            String firstname, String lastname, Date dob, String email,
+            String mobileNo, Integer level, Integer unit, String vehicleNumberPlate, String vehicleType) {
+        this.role = role;
+        this.block = block;
+        this.password = password;
+        this.userName = userName;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.dob = dob;
+        this.email = email;
+        this.mobileNo = mobileNo;
+        this.level = level;
+        this.unit = unit;
+        this.vehicleNumberPlate = vehicleNumberPlate;
+        this.vehicleNumberPlate = vehicleType;
+    }
+    
     public User(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit, String facebookId, String mobileNo, String email, Date birthday, String studiedAt, String worksAt, String aboutMe, String vehicleNumberPlate, String vehicleType, String profilePicFilename, Set submittedForms, Set posts, Set bookings) {
        this.role = role;
        this.block = block;

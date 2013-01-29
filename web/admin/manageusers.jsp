@@ -75,6 +75,8 @@
                         $("#edit_role").val(user.roleName);
                         $("#edit_level").val(user.level);
                         $("#edit_unit").val(user.unit);
+                        $("#edit_vehicleType").val(user.vehicleType);
+                        $("#edit_vehicleNumberPlate").val(user.vehicleNumberPlate);
                     }
                 });
                 
@@ -421,6 +423,8 @@
                                 user.blockName = '${user.block.blockName}';
                                 user.level = '${user.level}';
                                 user.unit = '${user.unit}';
+                                user.vehicleType = '${user.vehicleType}';
+                                user.vehicleNumberPlate = '${user.vehicleNumberPlate}';
                                 userList.push(user);
                             </script>
 
@@ -503,15 +507,27 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Level</label>
                             <div class="controls">
-                                <stripes:select name="level" id="level">
+                                <stripes:select name="level" id="edit_level">
                                 </stripes:select>                            </div>
                         </div>     
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Unit Number</label>
                             <div class="controls">
-                                <stripes:select name="unitnumber" id ="unitnumber">
+                                <stripes:select name="unitnumber" id ="edit_unitnumber">
                                 </stripes:select>                             </div>
-                        </div>                     
+                        </div>
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Vehicle Number Plate</label>
+                            <div class="controls">
+                                <stripes:select name="vehicleNumberPlate" id ="edit_vehicleNumberPlate">
+                                </stripes:select>                             </div>
+                        </div> 
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Vehicle Type</label>
+                            <div class="controls">
+                                <stripes:select name="vehicleType" id ="edit_vehicleType">
+                                </stripes:select>                             </div>
+                        </div> 
 
                     </div>
                     <div class="modal-footer">

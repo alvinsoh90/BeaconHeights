@@ -45,7 +45,9 @@ public class EditUserBean extends BaseActionBean{
   private String studiedAt;
   private String worksAt;
   private String aboutMe;
-
+  private String vehicleNumberPlate;
+  private String vehicleType;
+  
     public Resolution editUser(){
         this.getRoleList();
         UserDAO dao = new UserDAO();
@@ -67,7 +69,9 @@ public class EditUserBean extends BaseActionBean{
                         email,
                         mobileno,
                         Integer.parseInt(level),
-                        Integer.parseInt(unitnumber)
+                        Integer.parseInt(unitnumber),
+                        vehicleNumberPlate,
+                        vehicleType
                     );
             return new RedirectResolution("/admin/users.jsp?editsuccess=true&editmsg="+username);
         }
@@ -105,7 +109,7 @@ public class EditUserBean extends BaseActionBean{
                         new Date(),
                         studiedAt,
                         worksAt,
-                        aboutMe                       
+                        aboutMe
                     );
             
             getContext().setUser(u);
@@ -119,7 +123,22 @@ public class EditUserBean extends BaseActionBean{
         
     }
 
-    
+    public String getVehicleNumberPlate() {
+        return vehicleNumberPlate;
+    }
+
+    public void setVehicleNumberPlate(String vehicleNumberPlate) {
+        this.vehicleNumberPlate = vehicleNumberPlate;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
     public String getId() {
         return id;
     }
