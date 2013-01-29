@@ -453,4 +453,22 @@ public class UserDAO {
         System.out.println("RETRIEVED USER:" + result);
         return result;
     }
+
+    public User uploadProfilePic(int user_id, String fileName) {
+        openSession();
+        Transaction tx = null;
+        User u = null;
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, user_id);
+            u.setProfilePicFilename(fileName);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return u;
+    }
 }

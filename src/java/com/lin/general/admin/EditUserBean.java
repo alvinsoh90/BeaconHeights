@@ -113,13 +113,13 @@ public class EditUserBean extends BaseActionBean{
                     );
             
             getContext().setUser(u);
-            return new RedirectResolution("/residents/profile.jsp?profileId="+id+"&editsuccess=true&editmsg="+username);
+            return new RedirectResolution("/residents/profile.jsp?profileid="+id+"&editsuccess=true&editmsg="+username);
             
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/residents/profile.jsp?profileId="+id+"&editsuccess=false");
+        return new RedirectResolution("/residents/profile.jsp?profileid="+id+"&editsuccess=false");
         
     }
 

@@ -20,8 +20,6 @@
                      class="com.lin.general.admin.ManageUsersActionBean"/>
         <jsp:useBean id="editUserBean" scope="page"
                      class="com.lin.general.admin.EditUserBean"/>
-        <jsp:useBean id="registerActionBean" scope="page"
-             class="com.lin.general.login.RegisterActionBean"/>
         
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
@@ -99,6 +97,8 @@
                 });
                 
             }
+            
+            
         </script>
     </head>
     <body>
@@ -109,43 +109,68 @@
             <div class="container">
                 <div class="span9">
                     <div id="personaldetails">
-                        <div class="span1">
-                            <img src="http://png.findicons.com/files/icons/756/ginux/64/user.png" />
-                        </div>
-                        <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                        
+                        <c:forEach items="${manageUsersActionBean.userList}" var="userObj" varStatus="loop">
                             <script>
                                 var user = new Object();
-                                user.id = '${user.userId}';
-                                user.username = '${user.userName}';
-                                user.firstName = '${user.firstname}';
-                                user.lastName = '${user.lastname}';
-                                user.roleName = '${user.role.name}';
-                                user.blockName = '${user.block.blockName}';
-                                user.level = '${user.level}';
-                                user.unit = '${user.unit}';
-                                user.mobileNo = '${user.mobileNo}';
-                                user.birthday = '${user.birthday}';
-                                user.email = '${user.email}';
-                                user.studiedAt = '${user.studiedAt}';
-                                user.worksAt = '${user.worksAt}';
-                                user.aboutMe = '${user.aboutMe}';
+                                user.id = '${userObj.userId}';
+                                user.username = '${userObj.userName}';
+                                user.firstName = '${userObj.firstname}';
+                                user.lastName = '${userObj.lastname}';
+                                user.roleName = '${userObj.role.name}';
+                                user.blockName = '${userObj.block.blockName}';
+                                user.level = '${userObj.level}';
+                                user.unit = '${userObj.unit}';
+                                user.mobileNo = '${userObj.mobileNo}';
+                                user.birthday = '${userObj.birthday}';
+                                user.email = '${userObj.email}';
+                                user.studiedAt = '${userObj.studiedAt}';
+                                user.worksAt = '${userObj.worksAt}';
+                                user.aboutMe = '${userObj.aboutMe}';
+                                user.profilePicFilename = '${userObj.profilePicFilename}';
                                 userList.push(user);
                             </script>
-                            <c:if test="${user.userId==param.profileid}">
-                                <div class="span3">
-                                    <h3>${user.firstname} ${user.lastname}</h3>
-                                    <!-- give user the option to show these details -->
-                                    <b>Member Since:</b> ${user.dob}<br/>
-                                    <b>Mobile No. :</b> ${user.mobileNo}<br/>
-                                    <b>Email:</b> ${user.email}<br/>
-                                    <b>Birthday:</b> ${user.birthday}<br/>
-                                    <b>Studied at:</b> ${user.studiedAt}<br/>
-                                    <b>Works at:</b> ${user.worksAt}<br/>
-                                    <b>About me:</b> ${user.aboutMe}<br/>
-                                </div>
+                            <c:if test="${userObj.userId==param.profileid}">
+                                <c:if test="${param.profileid!=null}">
+                                    <div class="span4">
+                                        <img src="/uploads/profile_pics/${userObj.profilePicFilename}" />
+                                        <c:if test="${user.userId==param.profileid}">
+                                        <a href='#editPicModal' role="button" data-toggle='modal' onclick='loadValidate()' class="btn btn-primary btn-mini">Upload New Picture</a> 
+                                        </c:if>
+                                    </div>
+
+                                    <div class="span4">
+                                        <h3>${userObj.firstname} ${userObj.lastname}</h3>
+                                        <!-- give user the option to show these details -->
+                                        <b>Member Since:</b> ${userObj.dob}<br/>
+                                        <b>Mobile No. :</b> ${userObj.mobileNo}<br/>
+                                        <b>Email:</b> ${userObj.email}<br/>
+                                        <b>Birthday:</b> ${userObj.birthday}<br/>
+                                        <b>Studied at:</b> ${userObj.studiedAt}<br/>
+                                        <b>Works at:</b> ${userObj.worksAt}<br/>
+                                        <b>About me:</b> ${userObj.aboutMe}<br/>
+                                    </div>
+                                </c:if>
                             </c:if>
-                        
                         </c:forEach>
+                        <c:if test="${param.profileid==null}">
+                            <div class="span4">
+                                <img src="/uploads/profile_pics/${user.profilePicFilename}" />
+                                <a href='#editPicModal' role="button" data-toggle='modal' onclick='loadValidate()' class="btn btn-primary btn-mini">Upload New Picture</a> 
+                            </div>
+
+                            <div class="span4">
+                                <h3>${user.firstname} ${user.lastname}</h3>
+                                <!-- give user the option to show these details -->
+                                <b>Member Since:</b> ${user.dob}<br/>
+                                <b>Mobile No. :</b> ${user.mobileNo}<br/>
+                                <b>Email:</b> ${user.email}<br/>
+                                <b>Birthday:</b> ${user.birthday}<br/>
+                                <b>Studied at:</b> ${user.studiedAt}<br/>
+                                <b>Works at:</b> ${user.worksAt}<br/>
+                                <b>About me:</b> ${user.aboutMe}<br/>
+                            </div>
+                        </c:if>
                         <c:if test="${user.userId==param.profileid}">
                             <div class="span2">
                             <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick='populateEditUserModal(${param.profileid});loadValidate()'><i class="icon-pencil"></i> Update Info</a>
@@ -251,6 +276,29 @@
                     </div>
                 </stripes:form>
             </div>
+            <!-- Submit Form Modal Form -->
+            <div id="editPicModal" class="modal hide fade">
+                <div id="myModal" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3>Upload A New Profile Picture</h3>
+                </div>
+                <div class="modal-body">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.UploadProfilePicActionBean" name="new_resource_validate" id="new_resource_validate">                 
+                        <stripes:hidden name="user_id" value="${user.userId}" />
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">File:</label>
+                            <div class="controls">
+                                <stripes:file name="file"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" name="upload" value="Upload" class="btn btn-info btn-large"/>                                                           
+                        </stripes:form>
+                    </div>
+                </div>      
+            </div>
+
+             
 
 
 
