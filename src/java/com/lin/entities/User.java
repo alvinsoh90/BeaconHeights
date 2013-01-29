@@ -97,7 +97,7 @@ public class User  implements java.io.Serializable {
         this.level = level;
         this.unit = unit;
         this.vehicleNumberPlate = vehicleNumberPlate;
-        this.vehicleNumberPlate = vehicleType;
+        this.vehicleType = vehicleType;
     }
     
     public User(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob, Integer level, Integer unit, String facebookId, String mobileNo, String email, Date birthday, String studiedAt, String worksAt, String aboutMe, String vehicleNumberPlate, String vehicleType, String profilePicFilename, Set submittedForms, Set posts, Set bookings) {
