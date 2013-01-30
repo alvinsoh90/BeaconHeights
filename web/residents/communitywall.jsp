@@ -46,17 +46,77 @@
 
             <div class="container">
 
-                <div class="span9">
+                <!--<div class="span9">
                     <div class="widget widget-table">
 
-                        <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
-                            <b>${post.user.userName}</b></br>
-                            ${post.message}</br>
-                            ${post.date}
-                            <hr>
-                        </c:forEach>
+                <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
+                    <b>${post.user.userName}</b></br>
+                    ${post.message}</br>
+                    ${post.date}
+                    <hr>
+                </c:forEach>
+            </div>
+        </div> -->
+
+                <div class="postWrapper">
+                    <div class="leftContent">
+                        <div class="posterInfo">
+                            <img style="height:75px;width:75px;border-radius:3px;background:black;"/>
+                            <div class="name">Jocelyn Tan</div>
+                            <div class="timestamp">about 23 minutes ago</div>
+                        </div>
+                        <div class="postIcon" style="height:60px;width:60px;background:green;border-radius:100px;"></div>
+                    </div>
+                    <div class="post">
+                        <div class="baseContent">
+                            <div class="title"><b>Jocelyn Tan</b> is looking for 2 more players for a tennis game</div>
+                            <div class="content">"My boyfriend and i are looking for 2 more players to form a doubles team! Feel free to join us. We'll be there for a few hours this evening."</div>
+                            <div class="attachment event">
+                                <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
+                                <div class="eventMeta">
+                                    <b>Venue:</b> Beacon Heights Tennis Court 2 <br/>
+                                    <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
+                                </div>
+                            </div>
+                            <div class="linkBar">
+                                <a class="btn"><i class="icon-check"></i> I'm going!</a>
+                                <a class="btn"><i class="icon-heart"></i> Like</a>
+                                <a class="btn"><i class="icon-eye-open"></i> View Event</a>
+                                <a href="#" class="float_r flagPost"><i class="icon-flag"></i> Flag as inappropriate</a>
+                            </div>
+                        </div>
+
+                        <div class="commentArea">
+                            <div class="comment">
+                                <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                <div class="content float_r">
+                                    <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
+                                </div>
+                                <br class="clearfix"/>
+                            </div>
+                            <div class="comment">
+                                <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                <div class="content float_r">
+                                    <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
+                                </div>
+                                <br class="clearfix"/>
+                            </div>
+                            <div class="comment">
+                                <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                <div class="content float_r">
+                                    <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
+                                </div>
+                                <br class="clearfix"/>
+                            </div>
+                            <div class="comment replyArea">
+                                <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                <input class="float_l" placeholder="Say something here..."/>
+                                <br class="clearfix"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
         </div>

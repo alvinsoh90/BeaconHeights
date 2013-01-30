@@ -205,3 +205,83 @@ a.fc-event, .fc-event-draggable{
     top: auto;
     bottom: 270px;
 }
+
+/** Community Wall Styles **/
+.postWrapper{
+    
+}
+.postWrapper .leftContent{
+    float:left;
+    width: 230px;
+}
+.postWrapper .leftContent .posterInfo{
+    float:left;
+    height: 100px;
+    width:80px;
+    color:#777;
+    text-align: center;
+}
+.postWrapper .leftContent .postIcon{
+    float:left;
+    margin: 7px 45px;
+}
+.posterInfo .name{
+    font-weight:bold;
+}
+.posterInfo .timestamp{
+    font-size: 11px;
+    line-height: 1em;
+}
+
+.post{
+    float:left;
+    width: 500px;
+}
+.post .baseContent{
+    background: white;
+    padding: 9px 12px;
+    color:#555555;
+}
+.post .title{
+    font-size: 15px;
+    margin-bottom: 3px;
+}
+.attachment .eventMeta{
+    font-weight:300;
+}
+.attachment.event{
+    border-left: 5px solid #E8ECEF;
+    padding: 0 8px;
+    margin: 11px 0;
+}
+.eventTitle a{
+    color:#597448;
+    font-weight: bold;
+    font-size: 14px;
+}
+.flagPost{
+    font-size: 11px;
+    position: relative;
+    top: 13px;
+}
+.comment{
+    margin-top: 3px;
+    background: white;
+    padding: 2px 5px;
+}
+.comment .content{
+    width:448px;
+}
+.commentArea .replyArea input{
+    width: 430px;
+    margin: 7px 7px;
+}
+.float_r{
+    float:right;
+}
+.float_l{
+    float:left;
+}
+.clearfix{
+    clear:both;
+}
