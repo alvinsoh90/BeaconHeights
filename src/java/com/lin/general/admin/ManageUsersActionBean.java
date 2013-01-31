@@ -42,7 +42,66 @@ public class ManageUsersActionBean implements ActionBean {
     private boolean success = false;
     private String email;
     private String mobileno;
+    private String vehicleNumberPlate;
+    private String vehicleType;
+    
+    @DefaultHandler
+    public Resolution createUserAccount() {
+        try {
+            UserDAO uDAO = new UserDAO();
+            RoleDAO roleDao = new RoleDAO();
+            BlockDAO blockDao = new BlockDAO();
+            //temp code while we sort out how to insert address info like block, unit etc.
+            Role roleObj = roleDao.getRoleByName(role);
+            Block blockObj = blockDao.getBlockByName(block);
 
+            int levelInt = Integer.parseInt(level);
+            int unitInt = Integer.parseInt(unitnumber);
+            Date dob = new Date();
+
+            // salt password here, as uDAO method requires a salted password
+            String salt = BCrypt.gensalt();
+            String passwordHash = BCrypt.hashpw(password, salt);
+            User user1 = uDAO.createUser(roleObj, blockObj, passwordHash, username,
+                    firstname, lastname, dob,email,mobileno, levelInt, unitInt, vehicleNumberPlate, vehicleType);
+
+            result = user1.getFirstname();
+            success = true;
+            System.out.println(user1);
+        } catch (Exception e) {
+            result = "";
+            success = false;
+        }
+        return new RedirectResolution("/admin/users.jsp?createsuccess=" + success
+                + "&createmsg=" + result);
+
+
+
+    }
+
+    public boolean deleteUser() {
+        UserDAO uDAO = new UserDAO();
+        boolean success = uDAO.deleteUser(user.getUserId());
+
+        return success;
+    }
+
+    public String getVehicleNumberPlate() {
+        return vehicleNumberPlate;
+    }
+
+    public void setVehicleNumberPlate(String vehicleNumberPlate) {
+        this.vehicleNumberPlate = vehicleNumberPlate;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+    
     public String getBlock() {
         return block;
     }
@@ -188,44 +247,5 @@ public class ManageUsersActionBean implements ActionBean {
         this.mobileno = mobileno;
     }
 
-    @DefaultHandler
-    public Resolution createUserAccount() {
-        try {
-            UserDAO uDAO = new UserDAO();
-            RoleDAO roleDao = new RoleDAO();
-            BlockDAO blockDao = new BlockDAO();
-            //temp code while we sort out how to insert address info like block, unit etc.
-            Role roleObj = roleDao.getRoleByName(role);
-            Block blockObj = blockDao.getBlockByName(block);
-
-            int levelInt = Integer.parseInt(level);
-            int unitInt = Integer.parseInt(unitnumber);
-            Date dob = new Date();
-
-            // salt password here, as uDAO method requires a salted password
-            String salt = BCrypt.gensalt();
-            String passwordHash = BCrypt.hashpw(password, salt);
-            User user1 = uDAO.createUser(roleObj, blockObj, passwordHash, username,
-                    firstname, lastname, dob,email,mobileno, levelInt, unitInt);
-
-            result = user1.getFirstname();
-            success = true;
-            System.out.println(user1);
-        } catch (Exception e) {
-            result = "";
-            success = false;
-        }
-        return new RedirectResolution("/admin/users.jsp?createsuccess=" + success
-                + "&createmsg=" + result);
-
-
-
-    }
-
-    public boolean deleteUser() {
-        UserDAO uDAO = new UserDAO();
-        boolean success = uDAO.deleteUser(user.getUserId());
-
-        return success;
-    }
+    
 }

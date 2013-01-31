@@ -16,6 +16,9 @@
                     <li>
                         <a href="/residents/index.jsp"><i class="icon-forward"></i> Go to Resident View</a>
                     </li>
+                    <li>
+                        <a href="/admin/changepassword.jsp"><i class="icon-forward"></i> Change Password</a>
+                    </li>
                     <li class="divider"></li>
                     <li>
                     <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i> Logout</stripes:link>

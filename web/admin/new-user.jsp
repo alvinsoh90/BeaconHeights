@@ -186,7 +186,19 @@
                             <div class="controls">
                                 <stripes:select name="unitnumber" id ="unitnumber">
                                 </stripes:select>                                        </div>
+                        </div>
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Vehicle Number Plate</label>
+                            <div class="controls">
+                                <stripes:text name="vehicleNumberPlate"/> 
+                            </div>
                         </div> 
+                        <div class="control-group ${errorStyle}">
+                            <label class="control-label">Vehicle Type</label>
+                            <div class="controls">
+                                <stripes:text name="vehicleType"/> 
+                            </div>
+                        </div>
 
                         <div class="form-actions">
                             <input type="submit" name="createUserAccount" value="Add this user" class="btn btn-info btn-large">

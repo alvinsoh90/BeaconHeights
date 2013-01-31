@@ -102,7 +102,7 @@
                                 <img class="profilePic" src="http://png.findicons.com/files/icons/756/ginux/64/user.png" />
                             </li>
                             <li>
-                                <a href="profile.jsp?profileId=${user.userId}">${user.firstname}</a>
+                                <a href="profile.jsp?profileid=${user.userId}">${user.firstname}</a>
                             </li>
 
                             <li class="dropdown">
@@ -125,12 +125,14 @@
                                         <li>
                                             <a href="/admin/adminmain.jsp"><i class="icon-forward"></i>Go to Admin</a>
                                         </li>
-                                        <li class="divider"></li>
                                     </c:if>
+                                        <li>
+                                            <a href="/residents/changepassword.jsp"><i class="icon-forward"></i>Change Password</a>
+                                        </li>
+                                        <li class="divider"></li>
                                     <li>
                                     <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
-
-                            </li>
+                                    </li>
                         </ul>
                         </li>
 

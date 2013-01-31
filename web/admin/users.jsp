@@ -56,6 +56,8 @@
                         $("#edit_role").val(user.roleName);
                         $("#edit_level").val(user.level);
                         $("#edit_unit").val(user.unit);
+                        $("#edit_vehicleType").val(user.vehicleType);
+                        $("#edit_vehicleNumberPlate").val(user.vehicleNumberPlate);
                     }
                 });
                 
@@ -221,6 +223,8 @@
                 user.blockName = '${user.block.blockName}';
                 user.level = '${user.level}';
                 user.unit = '${user.unit}';
+                user.vehicleNumberPlate = '${user.vehicleNumberPlate}';
+                user.vehicleType = '${user.vehicleType}';
                 userList.push(user);
             </script>
         </c:forEach>
@@ -402,7 +406,19 @@
                         <div class="controls">
                             <stripes:select name="unitnumber" id ="unitnumber">
                             </stripes:select>                        </div>
-                    </div>                     
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Vehicle Number Plate</label>
+                        <div class="controls">
+                            <stripes:text id="edit_vehicleNumberPlate" name="vehicleNumberPlate"/> 
+                        </div>
+                    </div> 
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Vehicle Type</label>
+                        <div class="controls">
+                            <stripes:text id="edit_vehicleType" name="vehicleType"/> 
+                        </div>
+                    </div>
 
                 </div>
                 <div class="modal-footer">

@@ -174,6 +174,52 @@ public class UserDAO {
         //return null if failed
         return null;
     }
+    
+    public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob,String mobileno,String email,  Integer level, Integer unit, String profilePicFilename) {
+        openSession();
+
+        //String salt = BCrypt.gensalt();
+        //String passwordHash = BCrypt.hashpw(password, salt);
+        User user = new User(role, block, password, userName, firstname, lastname,dob,mobileno,email,level, unit, profilePicFilename);
+
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save("User", user);
+            tx.commit();
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        //return null if failed
+        return null;
+    }
+    
+    public User createUser(Role role, Block block, String password, String userName, String firstname, String lastname, Date dob,String mobileno,String email,  Integer level, Integer unit, String vehicleNumberPlate, String vehicleType) {
+        openSession();
+
+        //String salt = BCrypt.gensalt();
+        //String passwordHash = BCrypt.hashpw(password, salt);
+        User user = new User(role, block, password, userName, firstname, lastname,dob,mobileno,email,level, unit, vehicleNumberPlate, vehicleType);
+
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save("User", user);
+            tx.commit();
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        //return null if failed
+        return null;
+    }
 
     public boolean deleteUser(int userId) {
         openSession();
@@ -290,6 +336,40 @@ public class UserDAO {
         return u;
     }
     
+    public User updateUser(int userId, Role role, Block block, String userName, String firstname, String lastname,String email,String mobileNo, Integer level, Integer unit, String vehicleNumberPlate, String vehicleType) {
+        openSession();
+        Transaction tx = null;
+        //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
+        System.out.println("USER INFO : " + userId + " " + role + " " + block + " " + userName + " " + firstname + " " + lastname + " " + level + " " + unit);
+        //session.update("User",user);
+        User u = null;
+        try {
+        tx = session.beginTransaction();
+        u = (User) session.get(User.class, userId);
+        u.setRole(role);
+        u.setBlock(block);
+        u.setUserName(userName);
+        u.setFirstname(firstname);
+        u.setLastname(lastname);
+        u.setEmail(email);
+        u.setMobileNo(mobileNo);
+        u.setLevel(level);
+        u.setUnit(unit);
+        u.setVehicleNumberPlate(vehicleNumberPlate);
+        u.setVehicleType(vehicleType);
+        tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        System.out.println("PRINTING CONENTS OF USER FROM DAO : "+u);
+        return u;
+    }
+    
+    
+    
         public User updateUser(int userId, Role role, Block block, String userName, String firstname, String lastname,String email,String mobileNo, Integer level, Integer unit, String facebookId, Date birthday, String studiedAt, String worksAt, String aboutMe) {
         openSession();
         Transaction tx = null;
@@ -324,6 +404,42 @@ public class UserDAO {
         return u;
     }
 
+     public User updateUser(int userId, Role role, Block block, String userName, String firstname, String lastname,String email,String mobileNo, Integer level, Integer unit, String facebookId, Date birthday, String studiedAt, String worksAt, String aboutMe, String vehicleNumberPlate, String vehicleType) {
+        openSession();
+        Transaction tx = null;
+        //User user = new User(userId,role, block, userName, firstname, lastname, level, unit);
+        //System.out.println("USER INFO : " + userId + " " + role + " " + block + " " + userName + " " + firstname + " " + lastname + " " + level + " " + unit);
+        //session.update("User",user);
+        User u = null;
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, userId);
+            u.setRole(role);
+            u.setBlock(block);
+            u.setUserName(userName);
+            u.setFirstname(firstname);
+            u.setLastname(lastname);
+            u.setEmail(email);
+            u.setMobileNo(mobileNo);
+            u.setLevel(level);
+            u.setUnit(unit);
+            u.setFacebookId(facebookId);
+            u.setBirthday(birthday);
+            u.setStudiedAt(studiedAt);
+            u.setWorksAt(worksAt);
+            u.setAboutMe(aboutMe);
+            u.setVehicleNumberPlate(vehicleNumberPlate);
+            u.setVehicleType(vehicleType);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return u;
+    }
+        
     public User getUser(String username) {
         openSession();
         User result = null;
@@ -336,5 +452,44 @@ public class UserDAO {
         }
         System.out.println("RETRIEVED USER:" + result);
         return result;
+    }
+
+    public User uploadProfilePic(int user_id, String fileName) {
+        openSession();
+        Transaction tx = null;
+        User u = null;
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, user_id);
+            u.setProfilePicFilename(fileName);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return u;
+    }
+
+    public boolean changePasword(int user_id, String newpassword2) {
+        openSession();
+        Transaction tx = null;
+        User u = null;
+        String salt = BCrypt.gensalt();
+        String newHash = BCrypt.hashpw(newpassword2, salt);
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, user_id);
+            u.setPassword(newHash);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return false;
+        }
+        return true;
     }
 }
