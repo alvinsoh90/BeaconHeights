@@ -47,7 +47,7 @@ public class EnquiryDAO {
         
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.userByUserId join fetch enquiry.userByResponderId");
+            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.userByUserId left join fetch enquiry.userByResponderId");
             //Query q = session.createQuery("from Booking");
             enquiryList = (ArrayList<Enquiry>) q.list();
             
