@@ -212,18 +212,17 @@ a.fc-event, .fc-event-draggable{
 }
 .postWrapper .leftContent{
     float:left;
-    width: 230px;
 }
 .postWrapper .leftContent .posterInfo{
     float:left;
     height: 100px;
-    width:80px;
+    width: 44%;
     color:#777;
     text-align: center;
 }
 .postWrapper .leftContent .postIcon{
     float:left;
-    margin: 7px 45px;
+    margin: 1em 0 0 19%
 }
 .posterInfo .name{
     font-weight:bold;
@@ -235,7 +234,6 @@ a.fc-event, .fc-event-draggable{
 
 .post{
     float:left;
-    width: 500px;
 }
 .post .baseContent{
     background: white;
@@ -270,11 +268,12 @@ a.fc-event, .fc-event-draggable{
     padding: 2px 5px;
 }
 .comment .content{
-    width:448px;
+    width:85%;
+    margin-left:1%;
 }
 .commentArea .replyArea input{
-    width: 430px;
-    margin: 7px 7px;
+    width: 90%;
+    margin: 0.4em 0 0 0.5em;
 }
 .float_r{
     float:right;
@@ -284,4 +283,55 @@ a.fc-event, .fc-event-draggable{
 }
 .clearfix{
     clear:both;
+}
+
+/** Profile Page **/
+.profileTopWrapper{
+    background:white;
+    padding: 1em 0;
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.13);
+    -moz-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.13);
+    -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.13);
+}
+.newProfilePicLink{
+    margin:-35em 0 0 7.3em;
+}
+.profileMainImgArea{
+    width:200px !important;
+}
+.profileContent{
+    font-size: 14px;
+    line-height: 1.6em;
+    font-weight: 300;
+}
+.profileContent b{
+    font-weight:400;
+}
+.timeline{
+    width: 3px;
+    height: 800px;
+    background: #67AFB9;
+    display: inline-block;
+    position: relative;
+    left: 28px;
+    top: -65px;
+    z-index: -10000;
+    border-left: 1px solid green;
+    border-right: 1px solid green;
+}
+h1{
+    color:#597448;
+    text-shadow: 0px 1px 0px #0C4B0C
+}
+
+.wallicon{
+    height:60px;
+    width:60px;
+    border-radius:100px;
+}
+.wallicon.shoe{
+    background:url("../img/wall_shoeicon.png");
 }

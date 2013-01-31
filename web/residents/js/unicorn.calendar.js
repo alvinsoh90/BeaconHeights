@@ -79,6 +79,9 @@ unicorn = {
         var y = date.getFullYear();	
 		
         $('#fullcalendar').fullCalendar({
+            viewDisplay: function(view) {
+                paintCalendar();
+            },
             dayClick: function(date, allDay, jsEvent, view) {
                                         
                     var bookableDate = new Date();
@@ -210,7 +213,7 @@ unicorn = {
                     }
                    }
                    else if (!slotFound && !allDay) {
-                       toastr.warning("The facility is not open during your selected time");
+                       toastr.warning("Your selected booking time is invalid");
                    }                    
                }
             },
