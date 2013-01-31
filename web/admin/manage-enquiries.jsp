@@ -40,7 +40,7 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <!-- Populates the Edit RC form -->
-       <script>
+        <script>
                 
             var enquiryList = [];
             
@@ -48,7 +48,7 @@
                 enquiryList.forEach(function(enquiry){
                     if(enquiry.id == enquiryId){
                         var responder = enquiry.responder;
-                        if (!enquiry.isResolved){
+                        if (enquiry.isResolved==false){
                             responder=user;
                         }
                         
@@ -56,7 +56,8 @@
                         $("#view_date").val(enquiry.date);
                         $("#view_text").val(enquiry.text);
                         $("#view_id").val(enquiry.id);
-                        $("#view_responder").val(responder.userName);
+                        $("#view_responder").val(enquiry.responderName);
+                        $("#view_responder_id").val(enquiry.responderId);
                         $("#view_response").val(enquiry.response);
                     }
                 });
@@ -74,7 +75,8 @@
                 enquiry.text = '${enquiry.text}';
                 enquiry.date = '${enquiry.enquiryTimeStamp}';
                 enquiry.isResolved = '${enquiry.isResolved}';
-                enquiry.responder = '${enquiry.userByResponderId}';
+                enquiry.responderId = '${enquiry.userByResponderId.userId}'
+                enquiry.responderName = '${enquiry.userByResponderId.userName}';
                 enquiry.response = '${enquiry.response}';
                 enquiryList.push(enquiry);
 
@@ -101,139 +103,140 @@
                         <h1>Enquiries <small>Manage Enquiries</small></h1>
                     </div>
 
-                
 
-                        <table class="table table-striped table-bordered table-condensed" id="current">
-                            <c:if test="${manageEnquiryActionBean.enquiryList.size()!=0}">     
-                                <thead>
-                                <th>No.</th>
-                                <th>Title</th>
-                                <th>Date</th>
-                                <th>Status</th>
 
-                                </thead>
-                                <tbody>
-                                    <%int count = 1;%>
-                                    <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
-                                        <tr>
-                                            <td><%= count++%></td>
-                                            <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
-                                            <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
-                                                               value="${enquiry.enquiryTimeStamp}"/></td>
-                                    <td nowrap>
-                                        <script>
+                    <table class="table table-striped table-bordered table-condensed" id="current">
+                        <c:if test="${manageEnquiryActionBean.enquiryList.size()!=0}">     
+                            <thead>
+                            <th>No.</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Status</th>
+
+                            </thead>
+                            <tbody>
+                                <%int count = 1;%>
+                                <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
+                                    <tr>
+                                        <td><%= count++%></td>
+                                        <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
+                                        <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                           value="${enquiry.enquiryTimeStamp}"/></td>
+                                <td nowrap>
+                                    <script>
                                                             
-                                            if (${enquiry.isResolved}){
-                                                document.write("Resolved");
-                                            }else {
-                                                document.write("Unresolved");
-                                            }
+                                        if (${enquiry.isResolved}){
+                                            document.write("Resolved");
+                                        }else {
+                                            document.write("Unresolved");
+                                        }
                                                       
-                                        </script>
-                                    </td>
+                                    </script>
+                                </td>
 
-                                    </tr>
-                                </c:forEach>
-                            </c:if>
-                            <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
-                                <thead>
-                                <th> You have no enquiries or feedback at the moment. Would you like to make one?</th>
-                                </thead>
-                            </c:if>
-                        </table>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
+                        <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
+                            <thead>
+                            <th> You have no enquiries or feedback at the moment. Would you like to make one?</th>
+                            </thead>
+                        </c:if>
+                    </table>
 
-                    </div>
-
-                    <div class="pagination">
-                        <ul>
-                            <li><a href="#">Prev</a></li>
-                            <li class="active">
-                                <a href="#">1</a>
-                            </li>
-                            <!--<li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>-->
-                            <li><a href="#">Next</a></li>
-                        </ul>
-                    </div>
-                    <!--<a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>-->
                 </div>
+
+                <div class="pagination">
+                    <ul>
+                        <li><a href="#">Prev</a></li>
+                        <li class="active">
+                            <a href="#">1</a>
+                        </li>
+                        <!--<li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>-->
+                        <li><a href="#">Next</a></li>
+                    </ul>
+                </div>
+                <!--<a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>-->
             </div>
         </div>
+    </div>
 
-        <hr>
+    <hr>
 
-        <%@include file="include/footer.jsp"%>
+    <%@include file="include/footer.jsp"%>
 
-        <!-- View and update enquiries -->
-        <div id="viewEnquiryModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Your Enquiry</h3>
+    <!-- View and update enquiries -->
+    <div id="viewEnquiryModal" class="modal hide fade">
+        <div id="myModal" class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Your Enquiry</h3>
 
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditEnquiryAdminActionBean" focus="" name="edit_enquiry_validate" id="edit_enquiry_validate">
-                    <div class="control-group ${errorStyle}">
-                        <div class="controls">
-                            <stripes:hidden id="view_id" name="id"/>
-                            <stripes:hidden id="view_user_id" name="responderId" value="${user.userId}"/>
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Title</label>
-                        <div class="controls">
-                            <stripes:text id="view_title" name="title"/> 
-                        </div>
-                    </div>    
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Content</label>
-                        <div class="controls">
-                            <stripes:textarea id="view_text" name="text"/> 
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Responder</label>
-                        <div class="controls">
-                            <stripes:text id="view_responder" name="responder"/> 
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Response</label>
-                        <div class="controls">
-                            <stripes:textarea id="view_response" name="response"/> 
-                        </div>
+            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditEnquiryAdminActionBean" focus="" name="edit_enquiry_validate" id="edit_enquiry_validate">
+                <div class="control-group ${errorStyle}">
+                    <div class="controls">
+                        <stripes:hidden id="view_id" name="id"/>
+                        <stripes:hidden id="view_user_id" name="responderId" value="${user.userId}"/>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <a data-dismiss="modal" class="btn">Close</a>
-                    <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
-                </div>  
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Title</label>
+                    <div class="controls">
+                        <stripes:text id="view_title" name="title"/> 
+                    </div>
+                </div>    
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Content</label>
+                    <div class="controls">
+                        <stripes:textarea id="view_text" name="text"/> 
+                    </div>
+                </div>
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Responder</label>
+                    <div class="controls">
+                        <stripes:text id="view_responder" name="responder" disabled="true"/> 
+                        <stripes:hidden id="view_responder_id" name="responderId"/>
+                    </div>
+                </div>
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Response</label>
+                    <div class="controls">
+                        <stripes:textarea id="view_response" name="response"/> 
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn">Close</a>
+                <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
+            </div>  
 
-            </stripes:form>
+        </stripes:form>
 
 
-        </div>
+    </div>
 
 
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('.dropdown-menu li a').hover(
-                function() {
-                    $(this).children('i').addClass('icon-white');
-                },
-                function() {
-                    $(this).children('i').removeClass('icon-white');
-                });
-		
-                if($(window).width() > 760)
-                {
-                    $('tr.list-users td div ul').addClass('pull-right');
-                }
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-menu li a').hover(
+            function() {
+                $(this).children('i').addClass('icon-white');
+            },
+            function() {
+                $(this).children('i').removeClass('icon-white');
             });
-        </script>
+		
+            if($(window).width() > 760)
+            {
+                $('tr.list-users td div ul').addClass('pull-right');
+            }
+        });
+    </script>
 
-        <script src="../js/jquery.validate.js"></script>
+    <script src="../js/jquery.validate.js"></script>
 
-    </body>
+</body>
 </html>
