@@ -123,9 +123,12 @@
 
                                     <c:if test= "${user.role.id==1}">
                                         <li>
-                                            <a href="/admin/adminmain.jsp"><i class="icon-forward"></i>Go to Admin</a>
+                                            <a href="/admin/adminmain.jsp"><i class="icon-forward"></i>Admin Page</a>
                                         </li>
                                     </c:if>
+                                        <li>
+                                            <a href="profile.jsp?profileid=${user.userId}"><i class="icon-forward"></i>Profile</a>
+                                        </li>
                                         <li>
                                             <a href="/residents/changepassword.jsp"><i class="icon-forward"></i>Change Password</a>
                                         </li>

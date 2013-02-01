@@ -20,6 +20,8 @@
                      class="com.lin.general.admin.ManageUsersActionBean"/>
         <jsp:useBean id="editUserBean" scope="page"
                      class="com.lin.general.admin.EditUserBean"/>
+        <jsp:useBean id="registerActionBean" scope="page"
+                     class="com.lin.general.login.RegisterActionBean"/>
         
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>

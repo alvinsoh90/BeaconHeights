@@ -14,7 +14,10 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="/residents/index.jsp"><i class="icon-forward"></i> Go to Resident View</a>
+                        <a href="/residents/index.jsp"><i class="icon-forward"></i>Resident View</a>
+                    </li>
+                    <li>
+                        <a href="/residents/profile.jsp?profileid=${user.userId}"><i class="icon-forward"></i>Profile</a>
                     </li>
                     <li>
                         <a href="/admin/changepassword.jsp"><i class="icon-forward"></i> Change Password</a>
