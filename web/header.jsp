@@ -40,6 +40,7 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="/residents/communitywall.jsp"> Community Wall</a>
+                                    <a href="/residents/usersearch.jsp"> Search Friends</a>
                                 </li>
                             </ul>
                         </li>
