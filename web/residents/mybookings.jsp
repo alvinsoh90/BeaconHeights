@@ -150,7 +150,7 @@
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.bookingTimeStamp}"/></td>
                                                     <td nowrap>${booking.title}</td>
-                                                    <td nowrap>${booking.facility.facilityType.name} ${booking.facility.id}</td>
+                                                    <td nowrap>${booking.facility.facilityType.name}</td>
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.startDate}"/></td>
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
@@ -162,7 +162,13 @@
                                                             -
                                                         </c:if>
                                                         <c:if test= "${booking.isDeleted == 'false'}">
-                                                            <c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
+                                                            <c:if test= "${booking.facility.facilityType.needsPayment == 'true'}">
+                                                                <c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
+                                                            </c:if>
+                                                            <c:if test= "${booking.facility.facilityType.needsPayment == 'false'}">
+                                                                N/A
+                                                            </c:if>
+
                                                         </c:if>
                                                         </td>
                                                         <td class="action-td">
@@ -207,7 +213,7 @@
                                                 <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                 value="${booking.bookingTimeStamp}"/></td>
                                                 <td>${booking.title}</td>
-                                                <td>${booking.facility.facilityType.name} ${booking.facility.id}</td>
+                                                <td>${booking.facility.facilityType.name} </td>
                                                 <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                 value="${booking.startDate}"/></td>
                                                 <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 

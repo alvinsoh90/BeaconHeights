@@ -115,8 +115,6 @@
                             <table class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Facility Type</th>
                                 <th>Description</th>
                                 <th>Opening Hours</th>
                                 <th>Booking Limit</th>
@@ -136,7 +134,6 @@
                             </script>
                             <tr>
                 
-                                <td><b>${facilityType.id}</b></td>
                                 <td><b>${facilityType.name}</b></td>
                                 <td>${facilityType.description}</td>
                                 <td><c:forEach items="${facilityType.sortedOpenRules}" var="openRule" varStatus="loop">
@@ -184,7 +181,7 @@
                                     <stripes:hidden name="facilityID" id="facilityid" />
                                     <stripes:hidden name="startDateString" id="starttimemillis"  />   
                                     <stripes:hidden name="endDateString" id="endtimemillis"   /> 
-                                    <stripes:text name="title" id="title" value="Enter an optional event name"/>
+                                    <stripes:text name="title" id="title" onclick= "this.value=''" value="Enter an optional event name"/>
                                     <stripes:hidden name="currentUserID" id="userID" value='${sessionScope.user.userId}'/> 
                                  
                                     <div class="centerText">
