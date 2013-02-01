@@ -1,9 +1,3 @@
-<%-- 
-    Document   : communitywall
-    Created on : Jan 27, 2013, 11:36:07 PM
-    Author     : fayannefoo
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!DOCTYPE html>
@@ -45,7 +39,6 @@
         <script src="./js/jquery-1.7.2.min.js"></script>
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="/js/custom/lin.register.js"></script>
         <script src="/js/jquery.validate.js"></script>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
 
@@ -62,12 +55,10 @@
                 
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Profile</th></tr>"
+                var tableHeaders = "<tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Profile</th></tr>"
                 
                 for (var i=userArr.length-1; i>=0; i--){
                     r[++j] ='<tr class="list-users"><td>';
-                    r[++j] = userArr[i].username;
-                    r[++j] = '</td><td >';
                     r[++j] = userArr[i].firstName;
                     r[++j] = '</td><td >';
                     r[++j] = userArr[i].lastName;
@@ -114,26 +105,22 @@
 
         <div class="container-fluid">
 
-
-            <!-- Info Messages -->
-
             <div class="page-header">
                 <h1>Search <small>Users</small></h1>
             </div>
             
-            <input id="searchterm" value="Search for a friends first name, last name or email" onfocus="this.value = this.value=='Search for a friends first name, last name or email'?'':this.value;" onblur="this.value = this.value==''?'Search for a friends first name, last name or email':this.value;" style="width:350px;"/>
+            <input id="searchterm" class="input-medium search-query" value="Search for friends via first name, last name, or email" onfocus="this.value = this.value=='Search for friends via first name, last name, or email'?'':this.value;" onblur="this.value = this.value==''?'Search for friends via first name, last name, or email':this.value;" style="width:350px;"/>
                    
-            <button id="search">search</button>
-           
+                 
+            <button id="seach" type="submit" class="btn"><i class="icon-search"></i> Search</button> 
+            <br></br>
+                    
             <script>
                 $("#searchterm").keyup(function(e){
                     var q = $("#searchterm").val();
-                        
-             
-                
+                                      
                     var tempArr = [];
-                
-               
+                          
                     for(var i=0;i<userList.length;i++){
                         console.log(name);
                         var firstName = userList[i].firstName.toLowerCase();
@@ -150,31 +137,14 @@
                                 }
                         }
                             
-                        
-                  
                     }
-                
-                    if(tempArr.length == 0){
-                        //show that nothing found
-                        //alert("No users found!");
-                        showUsers(tempArr);
-                    }
-                    else{
-                        showUsers(tempArr);
                     
-                    }
-                
-                        
-                        
-                        
-                       
+                    showUsers(tempArr);
+  
                 });
             </script>
 
-
-
-
-
+            <!-- table to display user info -->
             <table id="userTable" class="table table-striped table-bordered table-condensed">
 
             </table>
@@ -221,60 +191,7 @@
         });
     </script>
 
-    <script>
-        function loadValidate(){
-            $('select').chosen();
-         
-            $("#edit_user_validate").validate({
-                rules:{
-                    username:{
-                        required: true,
-                        minlength:5,
-                        maxlength:20
-                    },
-                    password:{
-                        required: true,
-                        minlength:6,
-                        maxlength:20
-                    },
-                    passwordconfirm:{
-                        required:true,
-                        minlength:6,
-                        maxlength:20,
-                        equalTo:"#password"
-                    },firstname:{
-                        required: true
-                    },lastname:{
-                        required: true
-                    },block:{
-                        required: true
-                    },level:{
-                        required: true,
-                        digits:true
-                    },unitnumber:{
-                        required: true,
-                        digits:true
-                    }
-                },
-                errorClass: "help-inline",
-                errorElement: "span",
-                highlight:function(element, errorClass, validClass) {
-                    $(element).parents('.control-group').addClass('error');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).parents('.control-group').removeClass('error');
-                    $(element).parents('.control-group').addClass('success');
-                }
-            });
-        }
-    </script>
-
-
-
-
-
-
-
+  
 
     <script src="./js/excanvas.min.js"></script>
     <script src="./js/jquery.flot.js"></script>
