@@ -52,7 +52,8 @@
                         $("#view_date").val(enquiry.date);
                         $("#view_text").val(enquiry.text);
                         $("#view_id").val(enquiry.id);
-                        $("#view_responder").val(enquiry.responder);
+                        $("#view_responder").val(enquiry.responderName); 
+                        $("#view_responder_id").val(enquiry.responderId);
                         $("#view_response").val(enquiry.response);
                     }
                 });
@@ -70,7 +71,8 @@
                 enquiry.text = '${enquiry.text}';
                 enquiry.date = '${enquiry.enquiryTimeStamp}';
                 enquiry.isResolved = '${enquiry.isResolved}';
-                enquiry.responder = '${enquiry.userByResponderId}';
+                enquiry.responderId = '${enquiry.userByResponderId.userId}'
+                enquiry.responderName = '${enquiry.userByResponderId.userName}';
                 enquiry.response = '${enquiry.response}';
                 enquiryList.push(enquiry);
 
@@ -240,7 +242,9 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Responder</label>
                         <div class="controls">
-                            <stripes:text id="view_responder" name="responder" disabled="true"/> 
+                            <stripes:text id="view_responder" name="responder" disabled="true"/>
+                            <stripes:hidden id="view_responder_id" name="responderId"/>
+                            
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">

@@ -20,9 +20,7 @@
                      class="com.lin.general.admin.ManageUsersActionBean"/>
         <jsp:useBean id="editUserBean" scope="page"
                      class="com.lin.general.admin.EditUserBean"/>
-        <jsp:useBean id="registerActionBean" scope="page"
-                     class="com.lin.general.login.RegisterActionBean"/>
-        
+
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -105,227 +103,304 @@
     </head>
     <body>
 
-        
+
         <div id="content">
 
             <div class="container">
-                <div class="span9">
-                    <div id="personaldetails">
-                        
-                        <c:forEach items="${manageUsersActionBean.userList}" var="userObj" varStatus="loop">
-                            <script>
-                                var user = new Object();
-                                user.id = '${userObj.userId}';
-                                user.username = '${userObj.userName}';
-                                user.firstName = '${userObj.firstname}';
-                                user.lastName = '${userObj.lastname}';
-                                user.roleName = '${userObj.role.name}';
-                                user.blockName = '${userObj.block.blockName}';
-                                user.level = '${userObj.level}';
-                                user.unit = '${userObj.unit}';
-                                user.mobileNo = '${userObj.mobileNo}';
-                                user.birthday = '${userObj.birthday}';
-                                user.email = '${userObj.email}';
-                                user.studiedAt = '${userObj.studiedAt}';
-                                user.worksAt = '${userObj.worksAt}';
-                                user.aboutMe = '${userObj.aboutMe}';
-                                user.profilePicFilename = '${userObj.profilePicFilename}';
-                                userList.push(user);
-                            </script>
-                            <c:if test="${userObj.userId==param.profileid}">
-                                <c:if test="${param.profileid!=null}">
-                                    <div class="span4">
-                                        <img src="/uploads/profile_pics/${userObj.profilePicFilename}" />
-                                        <c:if test="${user.userId==param.profileid}">
-                                        <a href='#editPicModal' role="button" data-toggle='modal' onclick='loadValidate()' class="btn btn-primary btn-mini">Upload New Picture</a> 
-                                        </c:if>
-                                    </div>
+                <div class="row-fluid">
+                    <div class="span"/>
+                    <div class="span10 offset1">
+                        <div id="personaldetails" class="profileTopWrapper">
 
-                                    <div class="span4">
-                                        <h3>${userObj.firstname} ${userObj.lastname}</h3>
-                                        <!-- give user the option to show these details -->
-                                        <b>Member Since:</b> ${userObj.dob}<br/>
-                                        <b>Mobile No. :</b> ${userObj.mobileNo}<br/>
-                                        <b>Email:</b> ${userObj.email}<br/>
-                                        <b>Birthday:</b> ${userObj.birthday}<br/>
-                                        <b>Studied at:</b> ${userObj.studiedAt}<br/>
-                                        <b>Works at:</b> ${userObj.worksAt}<br/>
-                                        <b>About me:</b> ${userObj.aboutMe}<br/>
-                                    </div>
+                            <c:forEach items="${manageUsersActionBean.userList}" var="userObj" varStatus="loop">
+                                <script>
+                                    var user = new Object();
+                                    user.id = '${userObj.userId}';
+                                    user.username = '${userObj.userName}';
+                                    user.firstName = '${userObj.firstname}';
+                                    user.lastName = '${userObj.lastname}';
+                                    user.roleName = '${userObj.role.name}';
+                                    user.blockName = '${userObj.block.blockName}';
+                                    user.level = '${userObj.level}';
+                                    user.unit = '${userObj.unit}';
+                                    user.mobileNo = '${userObj.mobileNo}';
+                                    user.birthday = '${userObj.birthday}';
+                                    user.email = '${userObj.email}';
+                                    user.studiedAt = '${userObj.studiedAt}';
+                                    user.worksAt = '${userObj.worksAt}';
+                                    user.aboutMe = '${userObj.aboutMe}';
+                                    user.profilePicFilename = '${userObj.profilePicFilename}';
+                                    userList.push(user);
+                                </script>
+                                <c:if test="${userObj.userId==param.profileid}">
+                                    <c:if test="${param.profileid!=null}">
+                                        <div class="profileMainImgArea span3">
+                                            <img style="background:gray;width:200px;height:200px;" src="/uploads/profile_pics/${userObj.profilePicFilename}" />
+                                            <c:if test="${user.userId==param.profileid}">
+                                                <a href='#editPicModal' role="button" data-toggle='modal' onclick='loadValidate()' class="btn btn-info btn-mini newProfilePicLink">Upload New Picture</a> 
+                                            </c:if>
+                                        </div>
+
+                                        <div class="span4 profileContent">
+                                            <h1>${userObj.firstname} ${userObj.lastname}</h3>
+                                            <!-- give user the option to show these details -->
+                                            <b>Member Since:</b> ${userObj.dob}<br/>
+                                            <b>Mobile No. :</b> ${userObj.mobileNo}<br/>
+                                            <b>Email:</b> ${userObj.email}<br/>
+                                            <b>Birthday:</b> ${userObj.birthday}<br/>
+                                            <b>Studied at:</b> ${userObj.studiedAt}<br/>
+                                            <b>Works at:</b> ${userObj.worksAt}<br/>
+                                            <b>About me:</b> ${userObj.aboutMe}<br/>
+                                        </div>
+                                    </c:if>
                                 </c:if>
+                            </c:forEach>
+                            <c:if test="${param.profileid==null}">
+                                <div class="span4">
+                                    <img src="/uploads/profile_pics/${user.profilePicFilename}" />
+                                    <a href='#editPicModal' role="button" data-toggle='modal' onclick='loadValidate()' id="newProfilePicLink" class="btn btn-info btn-mini">Upload New Picture</a> 
+                                </div>
+
+                                <div class="span4">
+                                    <h3>${user.firstname} ${user.lastname}</h3>
+                                    <!-- give user the option to show these details -->
+                                    <b>Member Since:</b> ${user.dob}<br/>
+                                    <b>Mobile No. :</b> ${user.mobileNo}<br/>
+                                    <b>Email:</b> ${user.email}<br/>
+                                    <b>Birthday:</b> ${user.birthday}<br/>
+                                    <b>Studied at:</b> ${user.studiedAt}<br/>
+                                    <b>Works at:</b> ${user.worksAt}<br/>
+                                    <b>About me:</b> ${user.aboutMe}<br/>
+                                </div>
                             </c:if>
-                        </c:forEach>
-                        <c:if test="${param.profileid==null}">
-                            <div class="span4">
-                                <img src="/uploads/profile_pics/${user.profilePicFilename}" />
-                                <a href='#editPicModal' role="button" data-toggle='modal' onclick='loadValidate()' class="btn btn-primary btn-mini">Upload New Picture</a> 
-                            </div>
-
-                            <div class="span4">
-                                <h3>${user.firstname} ${user.lastname}</h3>
-                                <!-- give user the option to show these details -->
-                                <b>Member Since:</b> ${user.dob}<br/>
-                                <b>Mobile No. :</b> ${user.mobileNo}<br/>
-                                <b>Email:</b> ${user.email}<br/>
-                                <b>Birthday:</b> ${user.birthday}<br/>
-                                <b>Studied at:</b> ${user.studiedAt}<br/>
-                                <b>Works at:</b> ${user.worksAt}<br/>
-                                <b>About me:</b> ${user.aboutMe}<br/>
-                            </div>
-                        </c:if>
-                        <c:if test="${user.userId==param.profileid}">
-                            <div class="span2">
-                            <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick='populateEditUserModal(${param.profileid});loadValidate()'><i class="icon-pencil"></i> Update Info</a>
-                            </div>
-                        </c:if>
-                        <c:if test="${user.userId!=param.profileid}">
-                        <div class="span2">
-                            <!-- should only appear if is not current user and is not if friends list-->
-                            <div id="addFriend"><a href="#" class="btn btn-info"><i class="icon-user"></i> Friend This User</a></div>
+                            <c:if test="${user.userId==param.profileid}">
+                                <div class="span2">
+                                    <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick='populateEditUserModal(${param.profileid});loadValidate()'><i class="icon-pencil"></i> Update Info</a>
+                                </div>
+                            </c:if>
+                            <c:if test="${user.userId!=param.profileid}">
+                                <div class="span2">
+                                    <!-- should only appear if is not current user and is not if friends list-->
+                                    <div id="addFriend"><a href="#" class="btn btn-info"><i class="icon-user"></i> Friend This User</a></div>
+                                </div>
+                            </c:if>
+                            <br class="clearfix"/>
                         </div>
-                        </c:if>
                     </div>
-                </div>
-                        
-                        
-            <!-- Edit User Modal Form -->
-            <div id="editUserModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Edit <span id="usernameLabel"></span>'s information</h3>
-                </div>
-                <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="editUserProfile" id="edit_user_validate">
-
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">First Name</label>
-                            <div class="controls">
-                                <stripes:text id="edit_firstname" name="firstname"/> 
-                            </div>
-                        </div>                              
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Last Name</label>
-                            <div class="controls">
-                                <stripes:text id="edit_lastname" name="lastname"/> 
-                            </div>
-                        </div>
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Block</label>
-                            <div class="controls">
-                                <stripes:select name="block">
-                                    <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
-                                </stripes:select>
-                            </div>
-                        </div> 
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Level</label>
-                            <div class="controls">
-                                <stripes:select name="level" id="level">
-                                </stripes:select>                            </div>
-                        </div>     
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Unit Number</label>
-                            <div class="controls">
-                                <stripes:select name="unitnumber" id ="unitnumber">
-                                </stripes:select>                             </div>
-                        </div>    
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Mobile Number</label>
-                            <div class="controls">
-                                <stripes:text id="edit_mobileno" name="mobileno"/>   
-                            </div>
-                        </div>  
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Email</label>
-                            <div class="controls">
-                                <stripes:text id="edit_email" name="email"/> 
-                            </div>
-                        </div>  
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Birthday</label>
-                            <div class="controls">
-                                <stripes:text id="edit_birthday" name="birthday"/>
-                            </div>
-                        </div>
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Studied At</label>
-                            <div class="controls">
-                                <stripes:text id="edit_studiedAt" name="studiedAt"/>
-                            </div>
-                        </div>
-                         
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">Works At</label>
-                            <div class="controls">
-                                <stripes:text id="edit_worksAt" name="worksAt"/>
-                            </div>
-                        </div> 
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">About Me</label>
-                            <div class="controls">
-                                <stripes:textarea id="edit_aboutMe" name="aboutMe"/>
-                            </div>
-                        </div>
-                    </div> 
                     
-                    <div class="modal-footer">
-                        <a data-dismiss="modal" class="btn">Close</a>
-                        <stripes:hidden id="role" name="role" value="${user.role.id}"/>
-                        <stripes:hidden id="username" name="username" value="${user.userName}"/>
-                        <stripes:hidden id="id" name="id" value="${user.userId}"/>
-                        <stripes:hidden id="facebookId" name="facebookId" value="${user.facebookId}"/>
-                        <input type="submit" name="editUserProfile" value="Confirm Edit" class="btn btn-primary"/>
-                    </div>
-                </stripes:form>
-            </div>
-            <!-- Submit Form Modal Form -->
-            <div id="editPicModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Upload A New Profile Picture</h3>
-                </div>
-                <div class="modal-body">
-                    <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.UploadProfilePicActionBean" name="new_resource_validate" id="new_resource_validate">                 
-                        <stripes:hidden name="user_id" value="${user.userId}" />
-                        <div class="control-group ${errorStyle}">
-                            <label class="control-label">File:</label>
-                            <div class="controls">
-                                <stripes:file name="file"/>
+                    <br class="clearfix"/>
+                    <br class="clearfix"/>
+                    <br class="clearfix"/>
+                    <!-- Profile Wall -->
+                   
+                    <div class="postWrapper offset1">
+                        <div class="leftContent span2">
+                            <div class="posterInfo">
+                                <img style="height:75px;width:75px;border-radius:3px;background:black;"/>
+                                <div class="name">Jocelyn Tan</div>
+                                
+                            </div>
+                            
+                            <div class="postIcon wallicon shoe">
+                                <div class="timeline"/></div>
                             </div>
                         </div>
+                        <div class="post span6">
+                            <div class="baseContent">
+                                <div class="title"><b>Jocelyn Tan</b> is looking for 2 more players for a tennis game</div>
+                                <div class="content">"My boyfriend and i are looking for 2 more players to form a doubles team! Feel free to join us. We'll be there for a few hours this evening."</div>
+                                <div class="attachment event">
+                                    <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
+                                    <div class="eventMeta">
+                                        <b>Venue:</b> Beacon Heights Tennis Court 2 <br/>
+                                        <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
+                                    </div>
+                                </div>
+                                <div class="linkBar">
+                                    <a class="btn"><i class="icon-check"></i> I'm going!</a>
+                                    <a class="btn"><i class="icon-heart"></i> Like</a>
+                                    <a class="btn"><i class="icon-eye-open"></i> View Event</a>
+                                    <a href="#" class="float_r flagPost"><i class="icon-flag"></i> Flag as inappropriate</a>
+                                </div>
+                            </div>
+
+                            <div class="commentArea">
+                                <div class="comment">
+                                    <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                    <div class="content float_l">
+                                        <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
+                                    </div>
+                                    <br class="clearfix"/>
+                                </div>
+                                <div class="comment">
+                                    <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                    <div class="content float_l">
+                                        <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
+                                    </div>
+                                    <br class="clearfix"/>
+                                </div>
+                                <div class="comment">
+                                    <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                    <div class="content float_l">
+                                        <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
+                                    </div>
+                                    <br class="clearfix"/>
+                                </div>
+                                <div class="comment">
+                                    <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                    <div class="content float_l">
+                                        <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
+                                    </div>
+                                    <br class="clearfix"/>
+                                </div>
+                                <div class="comment replyArea">
+                                <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                <input class="float_l" placeholder="Say something here..."/>
+                                <br class="clearfix"/>
+                            </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>            
+
+                <!-- Edit User Modal Form -->
+                <div id="editUserModal" class="modal hide fade">
+                    <div id="myModal" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3>Edit <span id="usernameLabel"></span>'s information</h3>
+                    </div>
+                    <div class="modal-body">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="editUserProfile" id="edit_user_validate">
+
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">First Name</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_firstname" name="firstname"/> 
+                                </div>
+                            </div>                              
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Last Name</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_lastname" name="lastname"/> 
+                                </div>
+                            </div>
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Block</label>
+                                <div class="controls">
+                                    <stripes:select name="block">
+                                        <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
+                                    </stripes:select>
+                                </div>
+                            </div> 
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Level</label>
+                                <div class="controls">
+                                    <stripes:select name="level" id="level">
+                                    </stripes:select>                            </div>
+                            </div>     
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Unit Number</label>
+                                <div class="controls">
+                                    <stripes:select name="unitnumber" id ="unitnumber">
+                                    </stripes:select>                             </div>
+                            </div>    
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Mobile Number</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_mobileno" name="mobileno"/>   
+                                </div>
+                            </div>  
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Email</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_email" name="email"/> 
+                                </div>
+                            </div>  
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Birthday</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_birthday" name="birthday"/>
+                                </div>
+                            </div>
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Studied At</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_studiedAt" name="studiedAt"/>
+                                </div>
+                            </div>
+
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">Works At</label>
+                                <div class="controls">
+                                    <stripes:text id="edit_worksAt" name="worksAt"/>
+                                </div>
+                            </div> 
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">About Me</label>
+                                <div class="controls">
+                                    <stripes:textarea id="edit_aboutMe" name="aboutMe"/>
+                                </div>
+                            </div>
+                        </div> 
+
                         <div class="modal-footer">
-                            <input type="submit" name="upload" value="Upload" class="btn btn-info btn-large"/>                                                           
-                        </stripes:form>
-                    </div>
-                </div>      
-            </div>
-
-             
-
-
-
-                <div class="span9">
-                    <div class="widget widget-table">
-                        <!-- should be the same as community wall's posts, except it only has user's posts -->
-                        <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
-                            <b>${post.user.userName}</b></br>
-                            ${post.message}</br>
-                            ${post.date}
-                            <hr>
-                        </c:forEach>
-                    </div>
+                            <a data-dismiss="modal" class="btn">Close</a>
+                            <stripes:hidden id="role" name="role" value="${user.role.id}"/>
+                            <stripes:hidden id="username" name="username" value="${user.userName}"/>
+                            <stripes:hidden id="id" name="id" value="${user.userId}"/>
+                            <stripes:hidden id="facebookId" name="facebookId" value="${user.facebookId}"/>
+                            <input type="submit" name="editUserProfile" value="Confirm Edit" class="btn btn-info"/>
+                        </div>
+                    </stripes:form>
                 </div>
+                <!-- Submit Form Modal Form -->
+                <div id="editPicModal" class="modal hide fade">
+                    <div id="myModal" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3>Upload A New Profile Picture</h3>
+                    </div>
+                    <div class="modal-body">
+                        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.UploadProfilePicActionBean" name="new_resource_validate" id="new_resource_validate">                 
+                            <stripes:hidden name="user_id" value="${user.userId}" />
+                            <div class="control-group ${errorStyle}">
+                                <label class="control-label">File:</label>
+                                <div class="controls">
+                                    <stripes:file name="file"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" name="upload" value="Upload" class="btn btn-info btn-large"/>                                                           
+                            </stripes:form>
+                        </div>
+                    </div>      
+                </div>
+
+
+
+
+
+                <!--<div class="span9">
+                    <div class="widget widget-table">
+                <!-- should be the same as community wall's posts, except it only has user's posts 
+                <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
+                    <b>${post.user.userName}</b></br>
+                    ${post.message}</br>
+                    ${post.date}
+                    <hr>
+                </c:forEach>
             </div>
-
         </div>
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
+    </div> -->
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+
+            </div>
+                
+                <br/>
+                <br/>
+
+            <script src="./js/bootstrap.js"></script>
     </body>
 </html>

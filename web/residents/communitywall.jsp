@@ -58,16 +58,18 @@
             </div>
         </div> -->
 
-                <div class="postWrapper">
-                    <div class="leftContent">
+                <div class="postWrapper row-fluid">
+                    <div class="leftContent span2">
                         <div class="posterInfo">
                             <img style="height:75px;width:75px;border-radius:3px;background:black;"/>
                             <div class="name">Jocelyn Tan</div>
                             <div class="timestamp">about 23 minutes ago</div>
                         </div>
-                        <div class="postIcon" style="height:60px;width:60px;background:green;border-radius:100px;"></div>
+                        <div class="postIcon wallicon shoe">
+                                <div class="timeline"/></div>
+                            </div>
                     </div>
-                    <div class="post">
+                    <div class="post span6">
                         <div class="baseContent">
                             <div class="title"><b>Jocelyn Tan</b> is looking for 2 more players for a tennis game</div>
                             <div class="content">"My boyfriend and i are looking for 2 more players to form a doubles team! Feel free to join us. We'll be there for a few hours this evening."</div>
@@ -89,21 +91,28 @@
                         <div class="commentArea">
                             <div class="comment">
                                 <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
-                                <div class="content float_r">
+                                <div class="content float_l">
                                     <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
                                 </div>
                                 <br class="clearfix"/>
                             </div>
                             <div class="comment">
                                 <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
-                                <div class="content float_r">
+                                <div class="content float_l">
                                     <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
                                 </div>
                                 <br class="clearfix"/>
                             </div>
                             <div class="comment">
                                 <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
-                                <div class="content float_r">
+                                <div class="content float_l">
+                                    <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
+                                </div>
+                                <br class="clearfix"/>
+                            </div>
+                            <div class="comment">
+                                <img style="margin-top: 3px;background:blue;height:35px;width:35px;" class="float_l"/>
+                                <div class="content float_l">
                                     <b>Shamus Ming: </b>hey jocelyn! my gf is over at my place again but we're really bored, so this is perfect! what's is your skill level? We're not so great but will come anyway!
                                 </div>
                                 <br class="clearfix"/>
@@ -113,12 +122,13 @@
                                 <input class="float_l" placeholder="Say something here..."/>
                                 <br class="clearfix"/>
                             </div>
-                        </div>
+                                 
+                            
                     </div>
                 </div>
 
             </div>
-
+                  
         </div>
         <script src="./js/excanvas.min.js"></script>
         <script src="./js/jquery.flot.js"></script>
