@@ -154,8 +154,8 @@
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Category</th>
-                                <th>Download File</th>
-                                <th>Last Updated</th>
+                                <th nowrap>Download File</th>
+                                <th nowrap>Last Updated</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -172,13 +172,12 @@
                                 resourceList.push(resource);
                             </script>
                             <tr>
-
-                                <td><b>${resource.id}</b></td>
-                                <td><b>${resource.name}</b></td>
-                                <td><b>${resource.description}</b></td>
-                                <td><b>${resource.category}</b></td>
-                                <td><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
-                                <td><b>${resource.timeCreated}</b></td>
+                                <td>${resource.id}</td>
+                                <td>${resource.name}</td>
+                                <td>${resource.description}</td>
+                                <td>${resource.category}</td>
+                                <td><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
+                                <td nowrap>${resource.timeCreated}</td>
                                 <td nowrap>
                                     <a href="#editResourceModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditResourceModal('${resource.id}')">Edit</a> 
                                     <a href="#deleteResourceModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteResourceModal('${resource.id}')">Delete</a>

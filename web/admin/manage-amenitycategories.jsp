@@ -150,8 +150,8 @@
                             </script>
                             <tr>
 
-                                <td><b>${amenityCategory.id}</b></td>
-                                <td><b>${amenityCategory.name}</b></td>
+                                <td>${amenityCategory.id}</td>
+                                <td>${amenityCategory.name}</td>
 
                                 <td nowrap>
                                     <a href="#editAmenityCategoryModal" role="button" data-toggle="modal"class="btn btn-primary btn-mini" onclick="populateEditAmenityCategoryModal('${amenityCategory.id}')">Edit</a> 

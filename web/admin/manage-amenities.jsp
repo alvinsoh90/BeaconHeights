@@ -174,10 +174,10 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Unit No</th>
-                                <th>Street Name</th>
-                                <th>Postal Code</th>
-                                <th>Contact No</th>
+                                <th nowrap>Unit No</th>
+                                <th nowrap>Street Name</th>
+                                <th nowrap>Postal Code</th>
+                                <th nowrap>Contact No</th>
                                 <th>Category</th>
                                 <th>Action</th>
                             </tr>
@@ -205,7 +205,7 @@
                                 <td>${amenity.streetName}</td>
                                 <td>${amenity.postalCode}</td>
                                 <td>${amenity.contactNo}</td>
-                                <td>${amenity.amenityCategory.name}</td>
+                                <td nowrap>${amenity.amenityCategory.name}</td>
 
                                 <td nowrap>
                                     <a href="#editAmenityModal" role="button" data-toggle="modal"class="btn btn-primary btn-mini" onclick="populateEditAmenityModal('${amenity.id}')">Edit</a> 

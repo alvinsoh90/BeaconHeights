@@ -23,6 +23,9 @@
         <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
         <meta name="author" content="travis">
 
+        <script src="js/jquery.js"></script>  
+        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+        <script src="/datatables/media/js/jquery.dataTables.js"></script>
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/linadmin.css" rel="stylesheet">
@@ -31,10 +34,10 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
         <script src="/js/custom/lin.register.js"></script>
         <script src="/js/jquery.validate.js"></script>
+
+        
 
         <!-- Populates the Edit User form -->
         <script>
@@ -69,26 +72,12 @@
             // Init an array of all users shown on this page
             var userList = [];
             
-            //when this function is called, userList should already be populated
-            function populateDeleteUserModal(userID){ 
-                userList.forEach(function(user){
-                    if(user.id == userID){
-                        $("#usernameDeleteLabel").text(user.username);
-                        $("#delete_username").val(user.username);
-                        $("#delete_firstname").text(user.firstName);
-                        $("#delete_lastname").text(user.lastName);
-                        $("#delete_id").val(user.id);
-                    }
-                });
-                
-            }
-            
             //Loop through userList and output all into table for display
             function showUsers(userArr){           
                 
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th>Email</th><th>Mobile No</th><th>Block</th><th>Level</th><th>Unit</th><th>Action</th></tr>"
+                var tableHeaders = "<thead><tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th>Unit No.</th><th>Email</th><th>Mobile No</th><th>Block</th><th>Level</th><th>Unit</th><th>Action</th></tr></thead><tbody>"
                 
                 for (var i=userArr.length-1; i>=0; i--){
                     r[++j] ='<tr class="list-users"><td>';
@@ -100,7 +89,9 @@
                     r[++j] = '</td><td >';
                     r[++j] = userArr[i].lastName;
                     r[++j] = '</td><td >';
-                    r[++j] = userArr[i].roleName;
+                    r[++j] = userArr[i].lastName;
+                    r[++j] = '</td><td >';
+                    r[++j] = "#" + userArr[i].level + "-" +userArr[i].unit  ;
                     r[++j] = '</td><td >';
                     r[++j] = userArr[i].email;
                     r[++j] = '</td><td >';
@@ -126,87 +117,36 @@
                     r[++j] =				'</ul>'
                     r[++j] =			'</div>'                     
                                         
-                    r[++j] = '</td></tr>';
+                    r[++j] = '</td></tr></tbody>';
                 }
+                
                 $('#userTable').html(tableHeaders + r.join('')); 
+                
+                $('#userTable').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
             }
             
-            // This method is used to filter the user list shown to admin
-            // when the filter selection is chosen
-            function sortByOrder(){
+            //when this function is called, userList should already be populated
+            function populateDeleteUserModal(userID){ 
+                userList.forEach(function(user){
+                    if(user.id == userID){
+                        $("#usernameDeleteLabel").text(user.username);
+                        $("#delete_username").val(user.username);
+                        $("#delete_firstname").text(user.firstName);
+                        $("#delete_lastname").text(user.lastName);
+                        $("#delete_id").val(user.id);
+                    }
+                });
                 
-                var order = $('#orderSelect').val();
-                //var tempArr = [];
-                if(order.toString()=="Username"){
-                    userList.sort(function(a, b){
-                        var nameA=a.username.toLowerCase(), nameB=b.username.toLowerCase()
-                        if (nameA < nameB) //sort string ascending
-                            return -1 
-                        if (nameA > nameB)
-                            return 1
-                        return 0 
-                    })
-                }else if(order.toString()=="First Name"){
-                    userList.sort(function(a, b){
-                        var nameA=a.firstName.toLowerCase(), nameB=b.firstName.toLowerCase()
-                        if (nameA < nameB) //sort string ascending
-                            return -1 
-                        if (nameA > nameB)
-                            return 1
-                        return 0 
-                    });
-                }else if(order.toString()=="Last Name"){
-                    userList.sort(function(a, b){
-                        var nameA=a.lastName.toLowerCase(), nameB=b.lastName.toLowerCase()
-                        if (nameA < nameB) //sort string ascending
-                            return -1 
-                        if (nameA > nameB)
-                            return 1
-                        return 0
-                    });
-                }else{
-                    userList.sort(function(a, b){
-                        var idA=a.id, idB=b.id;
-                        if (idA < idB) //sort string ascending
-                            return -1 
-                        if (idA > idB)
-                            return 1
-                        return 0
-                    });                
-                }
-                showUsers(userList);                
             }
             
-            function filterByRole(){
-                var role = $('#roleSelect').val();
-                
-                var tempArr = [];
-                
-                if (role == "All"){
-                    showUsers(userList);
-                }else {
-                    
-                    for(var i=0;i<userList.length;i++){
-                        console.log(name);
-                        if(userList[i].roleName == role){
-                            tempArr.push(userList[i]);
-                        }
-                    }
-                
-                    if(tempArr.length == 0){
-                        //show that nothing found
-                        alert("No users found!");
-                    }
-                    else{
-                        showUsers(tempArr);
-                    
-                    }
-                
-                }
-            }
-            function filterReset(){
-                showUsers(userList);
-            }
         </script>
         <%-- Load users from database into javascript array --%>
         <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
@@ -291,48 +231,11 @@
                     <div class="page-header">
                         <h1>Users <small>All users</small></h1>
                     </div>
-                    <!-- User Filter Dropdown Boxes -->
-                    <div class="userFilterBar float_r">
-                        <div class="inlineblock filterOptions">
-                            <h5 class="inlineblock"> Filter By: </h5>
-
-                            <select id ="roleSelect" onChange="filterByRole()">
-                                <option>All</option>
-                                <c:forEach items="${manageUsersActionBean.roleList}" var="role" varStatus="loop">
-                                    <option>${role.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <h5 class="inlineblock">or Sort By:</h5>
-
-                        <div class="inlineblock filterOptions">
-                            <select id ="orderSelect" onChange="sortByOrder()">
-                                <option>-Sort By-</option>
-                                <option>ID (Default)</option>
-                                <option>Username</option>
-                                <option>First Name</option>
-                                <option>Last Name</option>
-                            </select>
-                        </div>
-                        <div class="inlineblock filterOptions"><button class="btn" onClick="filterReset()">View All</button></div>                          
-
-                    </div>
 
                     <table id="userTable" class="table table-striped table-bordered table-condensed">
 
                     </table>
-                    <div class="pagination">
-                        <ul>
-                            <li><a href="#">Prev</a></li>
-                            <li class="active">
-                                <a href="#">1</a>
-                            </li>
-                            <!--<li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>-->
-                            <li><a href="#">Next</a></li>
-                        </ul>
-                    </div>
+
                     <a href="new-user.jsp" class="btn btn-success">New User</a>
                 </div>
             </div>
@@ -451,72 +354,72 @@
             &copy; Charis
         </footer>
 
-    </div>
 
 
-    <script>
-        $(document).ready(function() {
-            $('.dropdown-menu li a').hover(
-            function() {
-                $(this).children('i').addClass('icon-white');
-            },
-            function() {
-                $(this).children('i').removeClass('icon-white');
-            });
+        <script>
+            $(document).ready(function() {
+                $('.dropdown-menu li a').hover(
+                function() {
+                    $(this).children('i').addClass('icon-white');
+                },
+                function() {
+                    $(this).children('i').removeClass('icon-white');
+                });
 		
-            if($(window).width() > 760)
-            {
-                $('tr.list-users td div ul').addClass('pull-right');
-            }
-        });
-    </script>
-
-    <script>
-        function loadValidate(){
-            $('select').chosen();
-         
-            $("#edit_user_validate").validate({
-                rules:{
-                    username:{
-                        required: true,
-                        minlength:5,
-                        maxlength:20
-                    },
-                    password:{
-                        required: true,
-                        minlength:6,
-                        maxlength:20
-                    },
-                    passwordconfirm:{
-                        required:true,
-                        minlength:6,
-                        maxlength:20,
-                        equalTo:"#password"
-                    },firstname:{
-                        required: true
-                    },lastname:{
-                        required: true
-                    },block:{
-                        required: true
-                    },level:{
-                        required: true,
-                        digits:true
-                    },unitnumber:{
-                        required: true,
-                        digits:true
-                    }
-                },
-                errorClass: "help-inline",
-                errorElement: "span",
-                highlight:function(element, errorClass, validClass) {
-                    $(element).parents('.control-group').addClass('error');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).parents('.control-group').removeClass('error');
-                    $(element).parents('.control-group').addClass('success');
+                if($(window).width() > 760)
+                {
+                    $('tr.list-users td div ul').addClass('pull-right');
                 }
             });
-        }
-    </script>
-</body>
+        </script>
+        <script src="js/bootstrap.min.js"></script>
+
+        <script>
+            function loadValidate(){
+                $('select').chosen();
+         
+                $("#edit_user_validate").validate({
+                    rules:{
+                        username:{
+                            required: true,
+                            minlength:5,
+                            maxlength:20
+                        },
+                        password:{
+                            required: true,
+                            minlength:6,
+                            maxlength:20
+                        },
+                        passwordconfirm:{
+                            required:true,
+                            minlength:6,
+                            maxlength:20,
+                            equalTo:"#password"
+                        },firstname:{
+                            required: true
+                        },lastname:{
+                            required: true
+                        },block:{
+                            required: true
+                        },level:{
+                            required: true,
+                            digits:true
+                        },unitnumber:{
+                            required: true,
+                            digits:true
+                        }
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                });
+            }
+        </script>
+    </body>
 </html>

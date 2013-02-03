@@ -25,11 +25,27 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+        <script src="js/jquery.js"></script>        
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
+        
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <!-- Populates the Edit Facilities form -->
         <script>
+            $(document).ready(function() {
+                $('#facilityTable').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
+            });
             // Init an array of all facilities shown on this page
             var facilityList = [];
             
@@ -136,7 +152,7 @@
                     <div class="page-header">
                         <h1>Facilities <small>Manage existing estate facilities</small></h1>
                     </div>
-                    <table class="table table-striped table-bordered table-condensed">
+                    <table id="facilityTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -158,7 +174,7 @@
                                 facilityList.push(facility);
                             </script>
                             <tr>
-                  
+
                                 <td><b>${facility.id}</b></td>
                                 <td><b>${facility.name}</b></td>
                                 <td><b>${facility.facilityType.name}</b></td>
@@ -170,18 +186,6 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        <ul>
-                            <li><a href="#">Prev</a></li>
-                            <li class="active">
-                                <a href="#">1</a>
-                            </li>
-                            <!--<li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>-->
-                            <li><a href="#">Next</a></li>
-                        </ul>
-                    </div>
                     <a href="#createFacilityModal" role='button' data-toggle='modal' class="btn btn-success">Create New Facility</a>
                 </div>
             </div>
@@ -298,7 +302,6 @@
         </div>
 
 
-        <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script>
             $(document).ready(function() {
@@ -318,6 +321,5 @@
         </script>
 
         <script src="../js/jquery.validate.js"></script>
-
     </body>
 </html>
