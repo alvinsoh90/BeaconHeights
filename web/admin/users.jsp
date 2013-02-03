@@ -23,7 +23,8 @@
         <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
         <meta name="author" content="travis">
 
-        <script src="js/jquery.js"></script>  
+        <script src="js/jquery.js"></script>
+                <script src="js/bootstrap.min.js"></script>
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
         <script src="/datatables/media/js/jquery.dataTables.js"></script>
         <link href="css/bootstrap.css" rel="stylesheet">
@@ -71,67 +72,6 @@
         <script>
             // Init an array of all users shown on this page
             var userList = [];
-            
-            //Loop through userList and output all into table for display
-            function showUsers(userArr){           
-                
-                var r = new Array(), j = -1;
-                
-                var tableHeaders = "<thead><tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Role</th><th>Unit No.</th><th>Email</th><th>Mobile No</th><th>Block</th><th>Level</th><th>Unit</th><th>Action</th></tr></thead><tbody>"
-                
-                for (var i=userArr.length-1; i>=0; i--){
-                    r[++j] ='<tr class="list-users"><td>';
-                    r[++j] = userArr[i].id;
-                    r[++j] = '</td><td>';
-                    r[++j] = userArr[i].username;
-                    r[++j] = '</td><td >';
-                    r[++j] = userArr[i].firstName;
-                    r[++j] = '</td><td >';
-                    r[++j] = userArr[i].lastName;
-                    r[++j] = '</td><td >';
-                    r[++j] = userArr[i].lastName;
-                    r[++j] = '</td><td >';
-                    r[++j] = "#" + userArr[i].level + "-" +userArr[i].unit  ;
-                    r[++j] = '</td><td >';
-                    r[++j] = userArr[i].email;
-                    r[++j] = '</td><td >';
-                    r[++j] = userArr[i].mobileNo;
-                    r[++j] = '</td><td >';
-                    r[++j] = userArr[i].blockName;
-                    r[++j] = '</td><td >';
-                    r[++j] = userArr[i].level;
-                    r[++j] = '</td><td >';
-                    r[++j] = userArr[i].unit;
-                    r[++j] = '</td><td >';
-                                        
-                    r[++j] = '<div class="btn-group" style="visibility:visible !important;">'
-                    r[++j] =      '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>'
-                    r[++j] =					'<ul class="dropdown-menu">'
-                    r[++j] =						"<li><a href='#editUserModal' role='button' data-toggle='modal' onclick='populateEditUserModal(" + userArr[i].id + ");loadValidate()'><i class='icon-pencil'></i> Edit</a></li>"
-                    r[++j] =					"<li><a href='#deleteUserModal' role='button' data-toggle='modal' onclick='populateDeleteUserModal(" + userArr[i].id + ")'><i class='icon-trash'></i> Delete</a></li>"
-                    //                    r[++j] =					'<li><a href="#"><i class="icon-user"></i> Details</a></li>'
-                    //                    r[++j] =					'<li class="nav-header">Permissions</li>'
-                    //                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Admin</strong></a></li>'
-                    //                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>Moderator</strong></a></li>'
-                    //                    r[++j] =					'<li><a href="#"><i class="icon-lock"></i> Make <strong>User</strong></a></li>'
-                    r[++j] =				'</ul>'
-                    r[++j] =			'</div>'                     
-                                        
-                    r[++j] = '</td></tr></tbody>';
-                }
-                
-                $('#userTable').html(tableHeaders + r.join('')); 
-                
-                $('#userTable').dataTable( {
-                    "bJQueryUI": true,
-                    "sPaginationType": "full_numbers",
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bSort": true,
-                    "bInfo": false,
-                    "bAutoWidth": false
-                } );
-            }
             
             //when this function is called, userList should already be populated
             function populateDeleteUserModal(userID){ 
@@ -211,6 +151,17 @@
                 $("#block").change(function(){
                     loadLevelsAndUnits();
                 });
+                
+                 $('#userDataTable').dataTable({
+                     "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                 });
+
             });
             
         </script>
@@ -231,10 +182,52 @@
                     <div class="page-header">
                         <h1>Users <small>All users</small></h1>
                     </div>
+                    
+                    <table id="userDataTable" class="table table-striped table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Mobile No.</th>
+                            <th>Block</th>
+                            <th>Level</th>
+                            <th>Unit</th>
+                            <th>Action</th>
+                            </tr>
+                        </thead>
+                         <tbody>
+                    <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
 
-                    <table id="userTable" class="table table-striped table-bordered table-condensed">
+                        <tr>
+                        <td>${user.userId}</td>
+                        <td>${user.userName}</td>
+                        <td>${user.firstname}</td>
+                        <td>${user.lastname}</td>
+                        <td>${user.role.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.mobileNo}</td>
+                        <td>${user.block.blockName}</td>
+                        <td>${user.level}</td>
+                        <td>${user.unit}</td>
+                        <td>
+                            <div class="btn-group" style="visibility:visible !important;">
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a href="#editUserModal" role="button" data-toggle="modal" onclick="populateEditUserModal(${user.userId});loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
+                                    <li><a href="#deleteUserModal" role="button" data-toggle="modal" onclick="populateDeleteUserModal(${user.userId})"><i class="icon-trash"></i> Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
 
-                    </table>
+                        </tr>
+
+                    </c:forEach>
+                        </tbody>
+                    </table>    
 
                     <a href="new-user.jsp" class="btn btn-success">New User</a>
                 </div>
@@ -349,6 +342,9 @@
                 </div>
             </stripes:form>
         </div>
+        
+        
+        
 
         <footer class="well">
             &copy; Charis
@@ -371,8 +367,9 @@
                     $('tr.list-users td div ul').addClass('pull-right');
                 }
             });
+            
         </script>
-        <script src="js/bootstrap.min.js"></script>
+
 
         <script>
             function loadValidate(){
