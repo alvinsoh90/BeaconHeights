@@ -36,14 +36,22 @@
             jBooking.put("start", df.format(new Date(b.getStartTimeInSeconds())));
             jBooking.put("end", df.format(new Date(b.getEndTimeInSeconds())));
             jBooking.put("title", "Booking ID: " + b.getId());
+            //booking belongs to user and is confirmed
             if (Integer.parseInt(
                     request.getParameter("userid")) == b.getUser().getUserId()) {
                 jBooking.put("backgroundColor", "#206F77");
             }
-
+            
+            //booking belongs to user and is not paid
             if (Integer.parseInt(
                     request.getParameter("userid")) == b.getUser().getUserId() && !b.isIsPaid()) {
                 jBooking.put("backgroundColor", "#E0BEC1");
+            }
+            
+            //booking belongs to user, is not paid and does not require payment
+            if (Integer.parseInt(
+                    request.getParameter("userid")) == b.getUser().getUserId()&& !b.isIsPaid() && !b.getFacility().getFacilityType().isNeedsPayment() ) {
+                jBooking.put("backgroundColor", "#99CC99");
             }
             arr.put(jBooking);
         }

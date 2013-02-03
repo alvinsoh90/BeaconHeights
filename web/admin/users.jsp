@@ -188,10 +188,18 @@
                         var levelOptions="";
                         var unitOptions = "";
                         for (var i=1;i<levels+1;i++){
-                            levelOptions += '<option value="' + i + '">' + i + '</option>';
+                            if(i<10){
+                                levelOptions += '<option value="' + i + '">0' + i + '</option>';
+                            }else{
+                                levelOptions += '<option value="' + i + '">' + i + '</option>';
+                            }
                         };
                         for (var i=1;i<units+1;i++){
-                            unitOptions += '<option value="' + i + '">' + i + '</option>';
+                            if(i<10){
+                                unitOptions += '<option value="' + i + '">0' + i + '</option>';
+                            }else{
+                                unitOptions += '<option value="' + i + '">' + i + '</option>';
+                            }
                         };
                         $("select#level").html(levelOptions);
                         $("select#unitnumber").html(unitOptions);

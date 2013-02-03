@@ -73,7 +73,7 @@
                         r[++j] = '</td><td >';
                         r[++j] = '-';
                         r[++j] = '</td><td nowrap >';
-                        r[++j] ="<a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
+                        r[++j] ='</td>';
                     }else if(bookingArr[i].isPaid == "true"){
                         r[++j] = "Confirmed";
                         r[++j] = '</td><td >';
