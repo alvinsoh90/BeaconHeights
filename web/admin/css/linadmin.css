@@ -115,3 +115,8 @@ span.spacing{
 .slotRow.error input.timepicker{
     border:1px solid darkred;
 }
+
+/** Manage Users **/
+#userDataTable .dropdown-menu{
+    min-width:85px;
+}
