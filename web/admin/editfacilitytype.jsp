@@ -446,6 +446,8 @@
                 
                 dat.name = $("#name").val();
                 dat.desc = $("#desc").val();
+                dat.bookingFees = $("#bookingFees").val();
+                dat.bookingDeposit = $("#bookingDeposit").val();
                 dat.needsPayment = $('input[type=checkbox]#needsPayment').is(':checked');
                 dat.bookableSlots = slotDataJSON;
                 dat.bookingSessionsLimit = $("#bookingSessions").val();
@@ -458,7 +460,7 @@
                 
                 $.ajax({
                     type: "POST",
-                    url: "/json/admin/createfacilitytype.jsp?edit=true&ftid=" + ${param.id},
+                    url: "/json/admin/createEditFacilityTypeJSON.jsp?edit=true&ftid=" + ${param.id},
                     data: req,
                     success: function(data, textStatus, xhr) {
                         console.log(xhr.status);
@@ -653,11 +655,17 @@
                                     </div>
                          </div>
                                         
+                         <stripes:hidden id="needsPayment" value="true" name="needsPayment" />       
                          <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Does Facility Require Payment?</label>
+                                    <label class="control-label">Booking Fees:</label>
                                     <div class="controls">
-                                        <stripes:checkbox id="needsPayment" name="needsPayment" checked="<%= fType.isNeedsPayment() %>"/>
-                                   
+                                        <stripes:text name="bookingFees" class="input-xxlarge" id="bookingFees" value="<%= fType.getBookingFees() %>" />
+                                    </div>
+                         </div>
+                         <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Booking Deposit:</label>
+                                    <div class="controls">
+                                        <stripes:text name="bookingDeposit" class="input-xxlarge" id="bookingDeposit" value="<%= fType.getBookingDeposit() %>" />
                                     </div>
                          </div>
                                         <label class="control-label">Facility Availability<br/>

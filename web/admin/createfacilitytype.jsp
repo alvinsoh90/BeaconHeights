@@ -423,6 +423,8 @@
                 
                 dat.name = $("#name").val();
                 dat.desc = $("#desc").val();
+                dat.bookingFees = $("#bookingFees").val();
+                dat.bookingDeposit = $("#bookingDeposit").val();
                 dat.needsPayment = $('input[type=checkbox]#needsPayment').is(':checked');
                 dat.bookableSlots = slotDataJSON;
                 dat.bookingSessionsLimit = $("#bookingSessions").val();
@@ -435,7 +437,7 @@
                 
                 $.ajax({
                     type: "POST",
-                    url: "/json/admin/createfacilitytype.jsp",
+                    url: "/json/admin/createEditFacilityTypeJSON.jsp",
                     data: req,
                     success: function(data, textStatus, xhr) {
                         console.log(xhr.status);
@@ -532,8 +534,7 @@
                                     <label class="control-label">Name</label>
                                     <div class="controls">
                                         <stripes:text name="name" class="input-xxlarge" id="name"/>
-                                        <p class="field-validation-valid" data-valmsg-for="input1" data-valmsg-replace="true">
-                </p>
+                                        <p class="field-validation-valid" data-valmsg-for="input1" data-valmsg-replace="true"></p>
                                     </div>
                          </div>
                                     
@@ -544,12 +545,18 @@
                                    
                                     </div>
                          </div>
-                                        
+                         <stripes:hidden id="needsPayment" value="true" name="needsPayment" />       
+
                          <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Does Facility Require Payment?</label>
+                                    <label class="control-label">Booking Fees:</label>
                                     <div class="controls">
-                                        <stripes:checkbox id="needsPayment" name="needsPayment"/>
-                                   
+                                        <stripes:text name="bookingFees" class="input-xxlarge" id="bookingFees"/>
+                                    </div>
+                         </div>
+                         <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Booking Deposit:</label>
+                                    <div class="controls">
+                                        <stripes:text name="bookingDeposit" class="input-xxlarge" id="bookingDeposit"/>
                                     </div>
                          </div>
                                         <label class="control-label">Facility Availability<br/>
