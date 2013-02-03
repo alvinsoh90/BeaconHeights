@@ -30,12 +30,30 @@
         <link href="css/site.css" rel="stylesheet">
         <link href="css/linadmin.css" rel="stylesheet">        
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="/datatables/media/css/demo_table.css" rel="stylesheet">
+
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
+
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <!-- Populates the Booking Modals-->
         <script>
-            // Init an array of all bookings shown on this page
+            
+            $(document).ready(function() {
+                $('#bookingTable').dataTable( {
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": false,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
+            });
+            
+            //an array of all bookings shown on this page
             var bookingList = [];
             
             //when this function is called, bookingList should already be populated
@@ -99,7 +117,7 @@
    
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>ID</th><th>Username</th><th>Name</th><th>Facility</th><th>Start</th><th>End</th><th>Status</th><th>Paid</th><th>Transaction ID</th><th>Action</th></tr>"
+                var tableHeaders = "<thead><tr><th>ID</th><th>Username</th><th>Name</th><th>Facility</th><th>Start</th><th>End</th><th>Status</th><th>Paid</th><th>Transaction ID</th><th>Action</th></tr></thead><tbody>"
                 
                 for (var i=bookingArr.length-1; i>=0; i--){
                     console.log(booking.username);
@@ -147,7 +165,7 @@
                                <a href='#deleteBookingModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'>Delete</a>";
                     }
 
-                    r[++j] = '</td></tr>';
+                    r[++j] = '</td></tr></tbody>';
                 }
                 $('#bookingTable').html(tableHeaders + r.join('')); 
             }
@@ -436,10 +454,12 @@
 
     </div>
 
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
+        
+          
+      
+            // Init
             $('.dropdown-menu li a').hover(
             function() {
                 $(this).children('i').addClass('icon-white');

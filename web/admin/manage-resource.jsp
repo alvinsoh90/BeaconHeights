@@ -29,11 +29,28 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+        <script src="js/jquery.js"></script>        
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
+
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <!-- Populates the Edit RC form -->
         <script>
+            
+            $(document).ready(function() {
+                $('#table_id').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
+            });
             // Init an array of all rc shown on this page
             var resourceList = [];
             
@@ -130,7 +147,7 @@
                     <div class="page-header">
                         <h1>Resources <small>Manage Resources</small></h1>
                     </div>
-                    <table class="table table-striped table-bordered table-condensed">
+                    <table id ="table_id" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -155,14 +172,14 @@
                                 resourceList.push(resource);
                             </script>
                             <tr>
-                  
+
                                 <td><b>${resource.id}</b></td>
                                 <td><b>${resource.name}</b></td>
                                 <td><b>${resource.description}</b></td>
                                 <td><b>${resource.category}</b></td>
                                 <td><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
                                 <td><b>${resource.timeCreated}</b></td>
-                                <td>
+                                <td nowrap>
                                     <a href="#editResourceModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditResourceModal('${resource.id}')">Edit</a> 
                                     <a href="#deleteResourceModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteResourceModal('${resource.id}')">Delete</a>
                                 </td>
@@ -170,18 +187,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        <ul>
-                            <li><a href="#">Prev</a></li>
-                            <li class="active">
-                                <a href="#">1</a>
-                            </li>
-                            <!--<li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>-->
-                            <li><a href="#">Next</a></li>
-                        </ul>
-                    </div>
+          
                     <a href="#createResourceModal" role='button' data-toggle='modal' class="btn btn-success">Create New Resource</a>
                 </div>
             </div>
@@ -297,7 +303,6 @@
         </div>
 
 
-        <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script>
             $(document).ready(function() {
