@@ -120,7 +120,7 @@
                                 <th>Opening Hours</th>
                                 <th>Booking Limit</th>
                                 <th>Advance Booking Limit</th>
-                                <th>Requires Payment?</th>
+                                <th>Booking Fees/Deposit:</th>
                                 <th>Action</th>
 
                             </tr>
@@ -150,7 +150,7 @@
                                 <td><c:forEach items="${facilityType.advanceRules}" var="advanceRules" varStatus="loop">
                                         ${advanceRules}<br>    
                                     </c:forEach></td>
-                                <td><b>${facilityType.needsPaymentString}</b></td>
+                                <td><b>Booking Fees: $${facilityType.bookingFees}<br>Booking Deposit: $${facilityType.bookingDeposit}</b></td>
                                 <td nowrap>
                                     <a href="editfacilitytype.jsp?id=${facilityType.id}" role="button" class="btn btn-primary btn-mini">Edit</a> 
                                     <a href="#deleteFacilityTypeModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityTypeModal('${facilityType.id}')">Delete</a>

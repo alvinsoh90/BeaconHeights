@@ -31,6 +31,8 @@ public class ManageFacilityTypesActionBean implements ActionBean {
     private Log log = Log.getInstance(ManageFacilityTypesActionBean.class);
     private String name;
     private String description;
+    private String bookingFees;
+    private String bookingDeposit;
     private Long mondayOne;
     private Long mondayTwo;
     private Long tuesdayOne;
@@ -51,8 +53,24 @@ public class ManageFacilityTypesActionBean implements ActionBean {
     private int bookingOpenAdvance;
     private int bookingCloseAdvance;
     private boolean needsPayment;
-    
 
+    public String getBookingDeposit() {
+        return bookingDeposit;
+    }
+
+    public void setBookingDeposit(String bookingDeposit) {
+        this.bookingDeposit = bookingDeposit;
+    }
+
+    public String getBookingFees() {
+        return bookingFees;
+    }
+
+    public void setBookingFees(String bookingFees) {
+        this.bookingFees = bookingFees;
+    }
+    
+    
     public int getBookingCloseAdvance() {
         return bookingCloseAdvance;
     }
@@ -278,8 +296,10 @@ public class ManageFacilityTypesActionBean implements ActionBean {
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
             System.out.println("TEST NEEDSPAYMENT: "+needsPayment);
 
-            FacilityType facilityType = new FacilityType(name, description, needsPayment);
-
+            FacilityType facilityType = new FacilityType(name, description, needsPayment, Double.parseDouble(bookingFees), Double.parseDouble(bookingDeposit));
+            
+            System.out.println("BOOIKING FEES : "+facilityType.getBookingFees());
+            
             //HashSet declarations
 
             HashSet openRuleSet = new HashSet();

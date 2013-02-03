@@ -17,7 +17,12 @@
         <property name="needsPayment" type="boolean">
             <column name="needs_payment" not-null="true" />
         </property>      
-        
+        <property name="bookingFees" type="java.lang.Double">
+            <column name="booking_fees" precision="10" />
+        </property>
+        <property name="bookingDeposit" type="java.lang.Double">
+            <column name="booking_deposit" precision="10" />
+        </property>
         <set name="limitRules" inverse="true" cascade="all-delete-orphan" fetch="join">
             <key>
                 <column name="facility_type_id" not-null="true"  />

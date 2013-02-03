@@ -39,6 +39,8 @@ JSONObject data = new JSONObject(jsonStringData);
 String name = data.getString("name");
 String desc = data.getString("desc");
 boolean needsPayment = data.getBoolean("needsPayment");
+double bookingFees = Double.parseDouble(data.get("bookingFees")+"");
+double bookingDeposit = Double.parseDouble(data.get("bookingDeposit")+"");
 int bSessionsLimit = Integer.parseInt(data.getString("bookingSessionsLimit"));
 int bFreqLimit = Integer.parseInt(data.getString("bookingFreqLimit"));
 String bLimitPeriod = data.getString("bookingLimitPeriod"); //'day', 'week', 'month'
@@ -47,7 +49,7 @@ int bClosesDaysInAdvance = Integer.parseInt(data.getString("bookingClosesDaysInA
 
 RuleController ruleCtrl = new RuleController();
 FacilityTypeDAO tDAO = new FacilityTypeDAO();
-FacilityType facilityType = new FacilityType(name, desc, needsPayment);
+FacilityType facilityType = new FacilityType(name, desc, needsPayment, bookingFees, bookingDeposit);
 
 //HashSet declarations
 HashSet openRuleSet = new HashSet();

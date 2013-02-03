@@ -82,6 +82,26 @@ public class FacilityTypeDAO {
         return null;
     }
     
+    public FacilityType createFacilityType(String name, String description, boolean needsPayment, double bookingFees, double bookingDeposit) {
+
+        FacilityType facilityType = new FacilityType(name, description, needsPayment, bookingFees, bookingDeposit);
+        
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save("FacilityType", facilityType);
+            tx.commit();
+
+            return facilityType;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        //return null if failed
+        return null;
+    }
     
     public FacilityType createFacilityType(FacilityType ftype) {
         openSession();
@@ -354,6 +374,8 @@ public class FacilityTypeDAO {
             fT.setName(fType.getName());
             fT.setDescription(fType.getDescription());
             fT.setNeedsPayment(fType.isNeedsPayment());
+            fT.setBookingFees(fType.getBookingFees());
+            fT.setBookingDeposit(fType.getBookingDeposit());
             
             fT.getAdvanceRules().clear();
             fT.getAdvanceRules().addAll(fType.getAdvanceRules());
