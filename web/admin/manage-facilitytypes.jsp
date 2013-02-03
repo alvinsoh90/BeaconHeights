@@ -23,10 +23,26 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        
+        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+        <script src="js/jquery.js"></script>        
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
+        
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <script>
+            $(document).ready(function() {
+                $('#facilityTypeTable').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
+            });
             <!-- Populates the Edit Facilities form -->
             // Init an array of all facilities shown on this page
             var facilityTypeList = [];
@@ -95,7 +111,7 @@
                     <div class="page-header">
                         <h1>Facility Types <small>Manage estate facility types</small></h1>
                     </div>
-                    <table class="table table-striped table-bordered table-condensed">
+                    <table id ="facilityTypeTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -143,18 +159,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        <ul>
-                            <li><a href="#">Prev</a></li>
-                            <li class="active">
-                                <a href="#">1</a>
-                            </li>
-                            <!--<li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>-->
-                            <li><a href="#">Next</a></li>
-                        </ul>
-                    </div>
+
                     <a href="createfacilitytype.jsp" class="btn btn-success">Create New Facility Type</a>
                 </div>
             </div>
@@ -227,7 +232,6 @@
             </div>
 
 
-            <script src="js/jquery.js"></script>
             <script src="js/bootstrap.min.js"></script>
             <script>
                 $(document).ready(function() {

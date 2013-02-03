@@ -33,7 +33,11 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="css/linadmin.css" rel="stylesheet">        
+        <link href="css/linadmin.css" rel="stylesheet"> 
+
+        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+        <script src="js/jquery.js"></script>        
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -49,7 +53,7 @@
    
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<tr><th>ID</th><th>Submitted By</th><th>Form Title</th><th>Time Submitted</th><th>Download File</th><th>Status</th><th>Comments</th><th>Action</th></tr>"
+                var tableHeaders = "<thead><tr><th>ID</th><th>Submitted By</th><th>Form Title</th><th>Time Submitted</th><th>Download File</th><th>Status</th><th>Comments</th><th>Action</th></tr></thead><tbody>"
                 
                 for (var i=0; i<submittedFormsArr.length; i++){
                     //console.log(booking.username);
@@ -92,72 +96,30 @@
                     }
                     
                     
-                    r[++j] = '</b></td></tr>';
+                    r[++j] = '</b></td></tr></tbody>';
                 }
                 $('#submittedFormTable').html(tableHeaders + r.join('')); 
-            
+                $('#submittedFormTable').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
+                
+                $('#templateTable').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
             }
-            //this function filters by form templates. 
-            function filterByTitle(){
-                var title = $('#titleSelect').val();
-                
-                var tempArr = [];
-                if(title=="-Select Form Title-"){
-                    
-                    showSubmittedForms(sfList);
-                } else {
-                    
-                    for(var i=0;i<sfList.length;i++){
-                        console.log(title);
-                        if(sfList[i].title == title){
-                            tempArr.push(sfList[i]);
-                        }
-                    }
-               
-                    showSubmittedForms(tempArr);
-                    
-                }
-          
-                
-            }
-            function filterByStatus(){
-                var status = $('#statusSelect').val();
-                
-                var tempArr = [];
-                
-                if(status == "Processed"){
-                
-                    for(var i=0;i<sfList.length;i++){
-                        console.log(status);
-                        if(sfList[i].processed == 'true'){
-                            tempArr.push(sfList[i]);
-                        }
-                    }
-                    
-                } else if (status == "Pending"){
-                    for(var i=0;i<sfList.length;i++){
-                        console.log(status);
-                        if(sfList[i].processed == 'false'){
-                            tempArr.push(sfList[i]);
-                        }
-                    }
-                    
-                } else {
-                    
-                    tempArr = sfList;
-                }
-                
-                if(tempArr.length == 0){
-                    //show that nothing found
-                    alert("No forms found!");
-                }
-                else{
-                    showSubmittedForms(tempArr);
-                }
-                
-                
-            }
-            
+        
             //when this function is called, formTemplateList should already be populated
             function populateEditFormTemplateModal(formTemplateID){ 
                 formTemplateList.forEach(function(formTemplate){
@@ -225,13 +187,9 @@
                 
             }
             
-            function filterReset(){
-                showSubmittedForms(sfList);
-            }
-        
             
         </script>
-        
+
 
 
         <script>
@@ -389,73 +347,37 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#pane1" data-toggle="tab">Manage User Submitted Forms</a></li>
                             <li><a href="#pane2" data-toggle="tab">View Form Templates</a></li>
-                            
+
                         </ul>
                         <div class="tab-content">
                             <!-- Tab 1 -->
-                            
+
 
                             <div id="pane1" class="tab-pane active">
                                 <h4>User Submitted Forms</h4>
 
                                 <!-- Populate base on form template title -->
-                                <div class='userFilterBar float_r'>
-                                    <h5 class="inlineblock"> Filter By: </h5>
-                                    <div class="inlineblock filterOptions">
-                                        <select id ="titleSelect" onChange="filterByTitle()">
-                                            <option>-Select Form Title-</option>
-                                            <c:forEach items="${manageFormTemplateActionBean.formTemplateList}" var="formTemplate" varStatus="loop">
-                                                <option>${formTemplate.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="inlineblock filterOptions">
-                                        <h5 class="inlineblock">or</h5>
-                                        <select id ="statusSelect" onChange="filterByStatus()">
-                                            <option>-Select Status-</option>
-                                            <option>Pending</option>
-                                            <option>Processed</option>
-
-                                        </select>
-                                    </div>
-
-
-                                    <div class="inlineblock filterOptions"><button class="btn" onClick="filterReset()">View All</button></div>                          
-                                </div>
-
-
+   
                                 <table id="submittedFormTable" class="table table-striped table-bordered table-condensed">
 
                                 </table>
 
-                                <div class="pagination">
-                                    <ul>
-                                        <li><a href="#">Prev</a></li>
-                                        <li class="active">
-                                            <a href="#">1</a>
-                                        </li>
-                                        <!--<li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>-->
-                                        <li><a href="#">Next</a></li>
-                                    </ul>
-                                </div>
 
                             </div> 
-                            
+
                             <!-- Tab 2 -->
                             <div id="pane2" class="tab-pane">
                                 <h4>Form Templates</h4>
 
 
-                                <table class="table table-striped table-bordered table-condensed">
+                                <table id="templateTable"  class="table table-striped table-bordered table-condensed">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Title</th>
                                             <th>Description</th>
                                             <th>Category</th>
-                                            <th>Download File</th>
+                                            <th nowrap>Download File</th>
                                             <th>Last Updated</th>
                                             <th>Action</th>
                                         </tr>
@@ -481,9 +403,9 @@
                                             <td><b>${formTemplate.name}</b></td>
                                             <td><b>${formTemplate.description}</b></td>
                                             <td><b>${formTemplate.category}</b></td>
-                                            <td><b><a href="/uploads/form_templates/${formTemplate.fileName}">Download File</a></b></td>
-                                            <td><b>${formTemplate.timeModified}</b></td>
-                                            <td>
+                                            <td nowrap><b><a href="/uploads/form_templates/${formTemplate.fileName}">Download File</a></b></td>
+                                            <td nowrap><b>${formTemplate.timeModified}</b></td>
+                                            <td nowrap>
                                                 <a href="#editFormTemplateModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFormTemplateModal('${formTemplate.id}')">Edit</a> 
                                                 <a href="#deleteFormTemplateModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFormTemplateModal('${formTemplate.id}')">Delete</a>
                                             </td>
@@ -491,21 +413,6 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
-
-
-
-                                <div class="pagination">
-                                    <ul>
-                                        <li><a href="#">Prev</a></li>
-                                        <li class="active">
-                                            <a href="#">1</a>
-                                        </li>
-                                        <!--<li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>-->
-                                        <li><a href="#">Next</a></li>
-                                    </ul>
-                                </div>
 
                                 <a href="#createFormTemplateModal" role='button' data-toggle='modal' class="btn btn-success">Upload New Form</a>
 
@@ -697,7 +604,6 @@
     </div>
 
 
-    <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {

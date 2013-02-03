@@ -36,12 +36,28 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+        <script src="js/jquery.js"></script>        
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <!-- Populates the Edit RC form -->
         <script>
-                
+            $(document).ready(function() {
+                $('#enquiryTable').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
+            });
+            
+            
             var enquiryList = [];
             
             function populateViewEnquiryModal(enquiryId){ 
@@ -105,7 +121,7 @@
 
 
 
-                    <table class="table table-striped table-bordered table-condensed" id="current">
+                    <table id ="enquiryTable" class="table table-striped table-bordered table-condensed" id="current">
                         <c:if test="${manageEnquiryActionBean.enquiryList.size()!=0}">     
                             <thead>
                             <th>No.</th>
@@ -146,18 +162,7 @@
 
                 </div>
 
-                <div class="pagination">
-                    <ul>
-                        <li><a href="#">Prev</a></li>
-                        <li class="active">
-                            <a href="#">1</a>
-                        </li>
-                        <!--<li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>-->
-                        <li><a href="#">Next</a></li>
-                    </ul>
-                </div>
+               
                 <!--<a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>-->
             </div>
         </div>
@@ -217,7 +222,6 @@
     </div>
 
 
-    <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {

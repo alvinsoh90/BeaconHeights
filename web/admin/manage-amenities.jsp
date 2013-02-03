@@ -18,10 +18,26 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        
+        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+        <script src="js/jquery.js"></script>        
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
+
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <script>
+            $(document).ready(function() {
+                $('#table_id').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                } );
+            });
             <!-- Populates the Edit Facilities form -->
             // Init an array of all facilities shown on this page
             var amenityList = [];
@@ -83,52 +99,52 @@
                                         <stripes:text id="edit_name" name="name"/> 
                                     </div>
                                 </div>  
-                            
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Description</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_description" name="description"/>
+
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Description</label>
+                                    <div class="controls">
+                                        <stripes:text id="edit_description" name="description"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Unit No</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_unitNo" name="unitNo"/>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Unit No</label>
+                                    <div class="controls">
+                                        <stripes:text id="edit_unitNo" name="unitNo"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Street Name</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_streetName" name="streetName"/>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Street Name</label>
+                                    <div class="controls">
+                                        <stripes:text id="edit_streetName" name="streetName"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Postal Code</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_postalCode" name="postalCode"/>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Postal Code</label>
+                                    <div class="controls">
+                                        <stripes:text id="edit_postalCode" name="postalCode"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Contact No</label>
-                                <div class="controls">
-                                    <stripes:text id="edit_contactNo" name="contactNo"/>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Contact No</label>
+                                    <div class="controls">
+                                        <stripes:text id="edit_contactNo" name="contactNo"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group ${errorStyle}">
-                                <label class="control-label">Category</label>
-                                <div class="controls">
-                                    <stripes:select name="category" id ="edit_cat">
-                                        <stripes:options-collection collection="${manageAmenityBean.categoryList}" value="id" label="name"/>        
-                                    </stripes:select>
+                                <div class="control-group ${errorStyle}">
+                                    <label class="control-label">Category</label>
+                                    <div class="controls">
+                                        <stripes:select name="category" id ="edit_cat">
+                                            <stripes:options-collection collection="${manageAmenityBean.categoryList}" value="id" label="name"/>        
+                                        </stripes:select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <a data-dismiss="modal" class="btn">Close</a>
-                                <input type="submit" name="editAmenity" value="Confirm Edit" class="btn btn-primary"/>
-                            </div>
-                        </stripes:form>
+                                <div class="modal-footer">
+                                    <a data-dismiss="modal" class="btn">Close</a>
+                                    <input type="submit" name="editAmenity" value="Confirm Edit" class="btn btn-primary"/>
+                                </div>
+                            </stripes:form>
+                        </div>
                     </div>
-                </div>
                     <!--Delete Amenity Modal Form -->
                     <div id="deleteAmenityModal" class="modal hide fade">
                         <div class="modal-header">
@@ -152,16 +168,16 @@
                     <div class="page-header">
                         <h1>Amenities<small> Manage amenities</small></h1>
                     </div>
-                    <table class="table table-striped table-bordered table-condensed">
+                    <table id ="table_id" class ="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Unit No</th>
-                                <th>Street Name</th>
-                                <th>Postal Code</th>
-                                <th>Contact No</th>
+                                <th nowrap>Unit No</th>
+                                <th nowrap>Street Name</th>
+                                <th nowrap>Postal Code</th>
+                                <th nowrap>Contact No</th>
                                 <th>Category</th>
                                 <th>Action</th>
                             </tr>
@@ -189,7 +205,7 @@
                                 <td>${amenity.streetName}</td>
                                 <td>${amenity.postalCode}</td>
                                 <td>${amenity.contactNo}</td>
-                                <td>${amenity.amenityCategory.name}</td>
+                                <td nowrap>${amenity.amenityCategory.name}</td>
 
                                 <td nowrap>
                                     <a href="#editAmenityModal" role="button" data-toggle="modal"class="btn btn-primary btn-mini" onclick="populateEditAmenityModal('${amenity.id}')">Edit</a> 
@@ -199,18 +215,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        <ul>
-                            <li><a href="#">Prev</a></li>
-                            <li class="active">
-                                <a href="#">1</a>
-                            </li>
-                            <!--<li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>-->
-                            <li><a href="#">Next</a></li>
-                        </ul>
-                    </div>
+                    
                     <a href="#createAmenityModal" role="button" data-toggle="modal" class="btn btn-success">Create New Amenity</a>
                 </div>
             </div>
@@ -264,7 +269,7 @@
                             <stripes:text name="contactNo"/>
                         </div>
                     </div>
-                   
+
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Category</label>
                         <div class="controls">
@@ -284,8 +289,6 @@
 
 
 
-
-        <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script>
             $(document).ready(function() {
