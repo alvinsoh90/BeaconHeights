@@ -20,8 +20,7 @@ public class Friendship  implements java.io.Serializable {
     public Friendship() {
     }
 
-    public Friendship(int id, User userByUserIdTwo, User userByUserIdOne, Date date, String relationshipOneTwo, String relationshipTwoOne) {
-       this.id = id;
+    public Friendship(User userByUserIdTwo, User userByUserIdOne, Date date, String relationshipOneTwo, String relationshipTwoOne) {
        this.userByUserIdTwo = userByUserIdTwo;
        this.userByUserIdOne = userByUserIdOne;
        this.date = date;
