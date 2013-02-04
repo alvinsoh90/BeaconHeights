@@ -42,17 +42,12 @@
                 jBooking.put("backgroundColor", "#206F77");
             }
             
-            //booking belongs to user and is not paid
+            //booking belongs to user and requires payment and is not paid
             if (Integer.parseInt(
-                    request.getParameter("userid")) == b.getUser().getUserId() && !b.isIsPaid()) {
+                    request.getParameter("userid")) == b.getUser().getUserId() && !b.isIsPaid() && b.getFacility().getFacilityType().isNeedsPayment()) {
                 jBooking.put("backgroundColor", "#E0BEC1");
             }
-            
-            //booking belongs to user, is not paid and does not require payment
-            if (Integer.parseInt(
-                    request.getParameter("userid")) == b.getUser().getUserId()&& !b.isIsPaid() && !b.getFacility().getFacilityType().isNeedsPayment() ) {
-                jBooking.put("backgroundColor", "#99CC99");
-            }
+           
             arr.put(jBooking);
         }
     }

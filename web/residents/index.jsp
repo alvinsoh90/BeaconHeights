@@ -211,7 +211,6 @@
                             Bookings
                             <span id ="legend">
                                 <i class="icon-stop" style="color: #E0BEC1"></i> Your booking (awaiting payment) &nbsp;
-                                <i class="icon-stop" style="color: #99CC99"></i> Your booking (pending confirmation) &nbsp;
                                 <i class="icon-stop" style="color: #206F77"></i> Your booking (confirmed)</span>
 
                         </h1>
