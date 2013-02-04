@@ -7,6 +7,7 @@ package com.lin.controllers;
 import com.lin.dao.FriendshipDAO;
 import com.lin.entities.Friendship;
 import com.lin.entities.User;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,6 +24,20 @@ public class FriendshipController {
         return friendship;
         
     }
+    
+    public boolean isFriend(User userOne, User userTwo){
+        fDAO = new FriendshipDAO();
+        try {
+            Friendship f = fDAO.getFriendship(userOne, userTwo);
+            if (f != null){
+                return true;
+            }
+        } catch (Exception e){
+            return false;
+        }
+        return false;
+    }
+    
     
     
     

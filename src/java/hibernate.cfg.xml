@@ -26,6 +26,7 @@
     <mapping resource="com/lin/entities/FacilityType.hbm.xml"/>
     <mapping resource="com/lin/entities/Role.hbm.xml"/>
     <mapping resource="com/lin/entities/User.hbm.xml"/>
+    <mapping resource="com/lin/entities/Friendship.hbm.xml"/>
     <mapping resource="com/lin/entities/OpenRule.hbm.xml"/>
     <mapping resource="com/lin/entities/AdvanceRule.hbm.xml"/>
     <mapping resource="com/lin/entities/CloseRule.hbm.xml"/>
