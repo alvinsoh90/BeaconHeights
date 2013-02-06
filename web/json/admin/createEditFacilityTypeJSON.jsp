@@ -41,8 +41,6 @@ String desc = data.getString("desc");
 boolean needsPayment = data.getBoolean("needsPayment");
 double bookingFees = Double.parseDouble(data.get("bookingFees")+"");
 double bookingDeposit = Double.parseDouble(data.get("bookingDeposit")+"");
-int bSessionsLimit = Integer.parseInt(data.getString("bookingSessionsLimit"));
-int bFreqLimit = Integer.parseInt(data.getString("bookingFreqLimit"));
 String bLimitPeriod = data.getString("bookingLimitPeriod"); //'day', 'week', 'month'
 int bOpensDaysInAdvance = Integer.parseInt(data.getString("bookingOpensDaysInAdvance"));
 int bClosesDaysInAdvance = Integer.parseInt(data.getString("bookingClosesDaysInAdvance"));
@@ -86,19 +84,33 @@ for (int i = 0 ; i < openSlots.length() ; i++){
 /*
  *  Create Limit Rule
  */
-if ("days".equals(bLimitPeriod)){
-    LimitRule limitRuleD = new LimitRule(facilityType, bSessionsLimit, 
-            bFreqLimit, LimitRule.TimeFrameType.DAY);
-                    limitRuleSet.add(limitRuleD);
-} else if("weeks".equals(bLimitPeriod)){
-    LimitRule limitRuleW = new LimitRule(facilityType, bSessionsLimit, 
-            bFreqLimit, LimitRule.TimeFrameType.WEEK);
-                    limitRuleSet.add(limitRuleW);
-} else if("months".equals(bLimitPeriod)){
-    LimitRule limitRuleM = new LimitRule(facilityType, bSessionsLimit, 
-            bFreqLimit, LimitRule.TimeFrameType.MONTH);
-                    limitRuleSet.add(limitRuleM);
+try{
+    int bSessionsLimit = Integer.parseInt(data.getString("bookingSessionsLimit"));
+    int bFreqLimit = Integer.parseInt(data.getString("bookingFreqLimit"));
+    
+    if (bSessionsLimit <= 0) throw new NumberFormatException();  //check if digits less than 1
+    if (bFreqLimit <= 0) throw new NumberFormatException();  //check if digits less than 1
+    
+    if ("days".equals(bLimitPeriod)){
+        LimitRule limitRuleD = new LimitRule(facilityType, bSessionsLimit, 
+                bFreqLimit, LimitRule.TimeFrameType.DAY);
+                        limitRuleSet.add(limitRuleD);
+    } else if("weeks".equals(bLimitPeriod)){
+        LimitRule limitRuleW = new LimitRule(facilityType, bSessionsLimit, 
+                bFreqLimit, LimitRule.TimeFrameType.WEEK);
+                        limitRuleSet.add(limitRuleW);
+    } else if("months".equals(bLimitPeriod)){
+        LimitRule limitRuleM = new LimitRule(facilityType, bSessionsLimit, 
+                bFreqLimit, LimitRule.TimeFrameType.MONTH);
+                        limitRuleSet.add(limitRuleM);
+    }
+    
+    System.out.println("Created limit rule: session-" + bSessionsLimit + "  freq-" + bFreqLimit);
+
+} catch (NumberFormatException e){
+    System.out.println("Not creating limit rule");
 }
+
 
  /*
   * Create Advance Rules
@@ -109,10 +121,10 @@ if ("days".equals(bLimitPeriod)){
             
             System.out.println(advanceRule);
             
-            facilityType.setLimitRules(limitRuleSet);
-            facilityType.setAdvanceRules(advanceRuleSet);
-            facilityType.setCloseRules(closeRuleSet);
-            facilityType.setOpenRules(openRuleSet);
+            if(!limitRuleSet.isEmpty()) facilityType.setLimitRules(limitRuleSet);
+            if(!advanceRuleSet.isEmpty()) facilityType.setAdvanceRules(advanceRuleSet);
+            if(!closeRuleSet.isEmpty()) facilityType.setCloseRules(closeRuleSet);
+            if(!openRuleSet.isEmpty()) facilityType.setOpenRules(openRuleSet);
             
 
 /*
