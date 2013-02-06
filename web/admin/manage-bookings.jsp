@@ -187,10 +187,10 @@
                 <script>
                     var booking = new Object();
                     booking.id = '${booking.id}';
-                    booking.username = '${booking.user.userName}';
-                    booking.firstName = '${booking.user.firstname}';
-                    booking.lastName = '${booking.user.lastname}';
-                    booking.facilityType = '${booking.facility.name}';
+                    booking.username = '${booking.user.escapedUserName}';
+                    booking.firstName = '${booking.user.escapedFirstName}';
+                    booking.lastName = '${booking.user.escapedLastName}';
+                    booking.facilityType = '${booking.facility.escapedName}';
                     booking.facilityId = '${booking.facility.id}';
                     booking.startDate = '${booking.startDate}';
                     booking.endDate = '${booking.endDate}';

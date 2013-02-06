@@ -562,20 +562,22 @@
         //LimitRule lRule = rDAO.getAllLimitRule(id).get(0);
         LimitRule lRule =  fDAO.getFacilityTypeLimitRules(id);
         
+        String timeFrameType = "days";  //default
+            String timeFrameValue = "Days";  //default
+        if (lRule != null){
+            System.out.println("SUCCESS GET LimitRUle");
+            if(lRule.getTimeframeType().equals("DAY")){
+                timeFrameType = "days";
+                timeFrameValue = "Days";
+            }else if(lRule.getTimeframeType().equals("WEEK")){
+                timeFrameType = "weeks";
+                timeFrameValue = "Weeks";
+            }else if(lRule.getTimeframeType().equals("MONTH")){
+                timeFrameType = "months";
+                timeFrameValue = "Months";
+            }   
+        }
         
-        System.out.println("SUCCESS GET LimitRUle");
-        String timeFrameType = "";
-        String timeFrameValue = "";
-        if(lRule.getTimeframeType().equals("DAY")){
-            timeFrameType = "days";
-            timeFrameValue = "Days";
-        }else if(lRule.getTimeframeType().equals("WEEK")){
-            timeFrameType = "weeks";
-            timeFrameValue = "Weeks";
-        }else if(lRule.getTimeframeType().equals("MONTH")){
-            timeFrameType = "months";
-            timeFrameValue = "Months";
-        }  
         
         //AdvanceRule aRule = rDAO.getAllAdvanceRule(id).get(0);
         AdvanceRule aRule =  fDAO.getFacilityTypeAdvanceRules(id);
@@ -988,9 +990,9 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Limits</label>
                                     <div id="bookingLimitArea" class="float_l">
-                                        <input type="number" class="span75 numbersOnly" name="bookingSessions" value="<%= lRule.getSessions() %>" id="bookingSessions"/> 
+                                        <input type="number" class="span75 numbersOnly" name="bookingSessions" value="<% if(lRule!=null) lRule.getSessions(); %>" id="bookingSessions"/> 
                                         time(s) per
-                                        <input type="number" class="span75 numbersOnly" name="bookingLimitFreq" value="<%= lRule.getNumberOfTimeframe() %>" id="bookingLimitFreq" />
+                                        <input type="number" class="span75 numbersOnly" name="bookingLimitFreq" value="<% if(lRule!=null) lRule.getNumberOfTimeframe(); %>" id="bookingLimitFreq" />
                                         <stripes:select name="bookingLimitUnit" id="period" class="span75">
                                             <option SELECTED value="<%= timeFrameType.toLowerCase() %>"><%= timeFrameValue %></option>
                                             <option value="days">Days</option>
@@ -1103,6 +1105,11 @@
                 var dBefore = new Date(parseInt(timeBefore));
                 var dAfter = new Date(parseInt(timeAfter));                
                 return dBefore >= dAfter;                  
+            }
+            
+            //if booking limits fields are empty, trigger no limits button
+            if( $("#bookingSessions").val() == '' || $("#bookingLimitFreq").val() == ''){
+                $("#enableBookingLimit").click();
             }
         </script>
         

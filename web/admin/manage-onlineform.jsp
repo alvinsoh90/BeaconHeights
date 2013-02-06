@@ -249,8 +249,8 @@
         
                     var formTemplate = new Object();
                     formTemplate.id = '${formTemplate.id}';
-                    formTemplate.name = '${formTemplate.name}';
-                    formTemplate.description = '${formTemplate.description}';
+                    formTemplate.name = '${formTemplate.escapedName}';
+                    formTemplate.description = '${formTemplate.escapedDescription}';
                     formTemplate.category = '${formTemplate.category}';
                     formTemplate.fileName = '${formTemplate.fileName}';
                     formTemplate.timeModified = '${formTemplate.timeModified}';
@@ -265,12 +265,12 @@
                 <script>
                     var submittedForm = new Object();
                     submittedForm.id = '${submittedForm.id}';
-                    submittedForm.user = '${submittedForm.user.userName}';
-                    submittedForm.title = '${submittedForm.title}';
+                    submittedForm.user = '${submittedForm.user.escapedUserName}';
+                    submittedForm.title = '${submittedForm.escapedTitle}';
                     submittedForm.timeSubmitted = '${submittedForm.timeSubmitted}';
                     submittedForm.fileName = '${submittedForm.fileName}';
                     submittedForm.processed = '${submittedForm.processed}';
-                    submittedForm.comments = '${submittedForm.comments}';
+                    submittedForm.comments = '${submittedForm.escapedComments}';
                     sfList.push(submittedForm);  
                 </script> 
             </c:forEach>
@@ -391,7 +391,7 @@
                                             formTemplate.name = '${formTemplate.name}';
                                             formTemplate.description = '${formTemplate.description}';
                                             formTemplate.category = '${formTemplate.category}';
-                                            formTemplate.fileName = '${formTemplate.fileName}';
+                                            formTemplate.fileName = '${formTemplate.escapedFileName}';
                                             formTemplate.timeModified = '${formTemplate.timeModified}';
                                             formTemplateList.push(formTemplate);
                                             

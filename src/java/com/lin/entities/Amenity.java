@@ -1,6 +1,9 @@
 package com.lin.entities;
 // Generated Jan 21, 2013 7:21:56 PM by Hibernate Tools 3.2.1.GA
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
+
 
 
 /**
@@ -94,8 +97,25 @@ public class Amenity  implements java.io.Serializable {
         this.streetName = streetName;
     }
 
+     public String getEscapedName() {
+        name = StringEscapeUtils.escapeEcmaScript(name);
+        return this.name;
+    }
+     
+     public String getEscapedDescription() {
+        description = StringEscapeUtils.escapeEcmaScript(description);
+        return this.description;
+    }    
 
-
+     public String getUnescapedName() {
+        name = StringEscapeUtils.unescapeEcmaScript(name);
+        return this.name;
+    }
+     
+     public String getUnescapedDescription() {
+        description = StringEscapeUtils.unescapeEcmaScript(description);
+        return this.description;
+    }    
 
 }
 

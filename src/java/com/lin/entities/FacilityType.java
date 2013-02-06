@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -165,6 +166,11 @@ public class FacilityType  implements java.io.Serializable {
         }else{
             return "No";
         }
+    }
+    
+    public String getEscapedName() {
+        name = StringEscapeUtils.escapeEcmaScript(name);
+        return this.name;
     }
 
 
