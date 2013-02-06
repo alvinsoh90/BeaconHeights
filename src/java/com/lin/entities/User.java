@@ -31,7 +31,7 @@ public class User  implements java.io.Serializable {
      private String aboutMe;
      private String vehicleNumberPlate;
      private String vehicleType;
-     private String profilePicFilename;
+     private String profilePicFilename = "default.jpg";
      private Set submittedForms = new HashSet(0);
      private Set posts = new HashSet(0);
      private Set bookings = new HashSet(0);
