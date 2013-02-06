@@ -12,6 +12,7 @@ import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -48,46 +49,46 @@ public class RuleController {
         ArrayList<String> limitRuleErrors = validateLimitRule(userID, facilityTypeID, startBookingTime, endBookingTime);
         ArrayList<String> advanceRuleErrors = validateAdvanceRule(userID, facilityTypeID, startBookingTime, endBookingTime);
         ArrayList<String> clashErrors = validateClash(facility, startBookingTime, endBookingTime);
-        
-        
-        if (!openRuleErrors.isEmpty()){
+
+
+        if (!openRuleErrors.isEmpty()) {
             errorMsg.addAll(openRuleErrors);
         }
-        if (!closeRuleErrors.isEmpty()){
+        if (!closeRuleErrors.isEmpty()) {
             errorMsg.addAll(closeRuleErrors);
         }
-        if (!limitRuleErrors.isEmpty()){
+        if (!limitRuleErrors.isEmpty()) {
             errorMsg.addAll(limitRuleErrors);
         }
-        if (!advanceRuleErrors.isEmpty()){
+        if (!advanceRuleErrors.isEmpty()) {
             errorMsg.addAll(advanceRuleErrors);
         }
-        if (!clashErrors.isEmpty()){
+        if (!clashErrors.isEmpty()) {
             errorMsg.addAll(clashErrors);
         }
-       
-        
-        
+
+
+
         return errorMsg;
 
 
     }
-    
+
     private ArrayList<String> validateOpenRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> openRuleErrors = new ArrayList<String>();
         ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
-        
+
         boolean bookingValid = false;
-        
+
         for (Object o : openRuleList) {
             OpenRule openRule = (OpenRule) o;
             if (openRule.getDayOfWeek() == startBookingTime.getDay()) {
                 Date openStart = openRule.getStartTime();
                 Date openEnd = openRule.getEndTime();
-                
+
                 boolean startValid = false;
                 boolean endValid = false;
-                
+
                 if (startBookingTime.getHours() == openStart.getHours() && startBookingTime.getMinutes() == openStart.getMinutes()) {
                     startValid = true;
                 }
@@ -95,40 +96,40 @@ public class RuleController {
                 if (openEnd.getHours() == endBookingTime.getHours() && endBookingTime.getMinutes() == openEnd.getMinutes()) {
                     endValid = true;
                 }
-                
-                if (startValid && endValid){
+
+                if (startValid && endValid) {
                     bookingValid = true;
                     break;
                 }
-                
+
             }
 
 
         }
-        
-        if (!bookingValid){
+
+        if (!bookingValid) {
             openRuleErrors.add("Please choose a valid slot!");
         }
 
         return openRuleErrors;
     }
-    
+
     //used to check if a booking is within the bounds set by the open rule
     private ArrayList<String> withinOpenRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> openRuleErrors = new ArrayList<String>();
         ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
-        
+
         boolean bookingValid = false;
-        
+
         for (Object o : openRuleList) {
             OpenRule openRule = (OpenRule) o;
             if (openRule.getDayOfWeek() == startBookingTime.getDay()) {
                 Date openStart = openRule.getStartTime();
                 Date openEnd = openRule.getEndTime();
-                
+
                 boolean startValid = false;
                 boolean endValid = false;
-                
+
                 if (startBookingTime.getHours() > openStart.getHours()) {
                     startValid = true;
                 } else if (openStart.getHours() == startBookingTime.getHours() && startBookingTime.getMinutes() >= openStart.getMinutes()) {
@@ -140,25 +141,23 @@ public class RuleController {
                 } else if (openEnd.getHours() == endBookingTime.getHours() && endBookingTime.getMinutes() < openEnd.getMinutes()) {
                     endValid = true;
                 }
-                
-                if (startValid && endValid){
+
+                if (startValid && endValid) {
                     bookingValid = true;
                     break;
                 }
-                
+
             }
 
 
         }
-        
-        if (!bookingValid){
+
+        if (!bookingValid) {
             openRuleErrors.add("The facility is closed at the time you have selected!");
         }
 
         return openRuleErrors;
     }
-    
-    
 
     private ArrayList<String> validateCloseRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> closeRuleErrors = new ArrayList<String>();
@@ -190,26 +189,49 @@ public class RuleController {
             String timeFrametype = limitRule.getTimeframeType();
             int numberOfTimeframe = limitRule.getNumberOfTimeframe();
             int count = 0;
+            Date bookingDate;
+            Date limitDate;
+            SimpleDateFormat sdf = new SimpleDateFormat();
+
             if (timeFrametype.equals("DAY")) {
-                for (Booking booking : userBookingList) {
-                    Date bookingDate = booking.getStartDate();
-                    if (bookingDate.getYear() == startBookingTime.getYear()) {
 
-                        Facility bookingFacility = booking.getFacility();
-                        FacilityType bookingFacilityType = bookingFacility.getFacilityType();
-                        if (bookingFacilityType.getId() == facilityTypeID) {
-                            count++;
-                        }
-
-                    }
-                }
+                sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             } else if (timeFrametype.equals("MONTH")) {
+
+                sdf = new SimpleDateFormat("yyyy-MM");
+
             } else if (timeFrametype.equals("YEAR")) {
+
+                sdf = new SimpleDateFormat("yyyy");
+
             }
+            
+            for (Booking booking : userBookingList) {
 
-            //basic check booking code without time
+                bookingDate = booking.getStartDate();
 
+                //looks weird but this is to remove the time for comparison.
+                String plainExistingBookingDate = sdf.format(bookingDate);
+                String plainNewBookingDate = sdf.format(startBookingTime);
+
+                //now convert them back fresh
+                try {
+                    bookingDate = sdf.parse(plainExistingBookingDate);
+                    startBookingTime = sdf.parse(plainNewBookingDate);
+                } catch (Exception e) {
+                    System.out.println("ERROR IN PARSING");
+                }
+
+                if (bookingDate.equals(startBookingTime)) {
+                    count++;
+                }
+            }
+            
+            if (count >= numberOfTimeframe) {
+                limitRuleErrors.add("You have reached the maximum booking limit for the duration.");
+                break;
+            }
 
         }
 
@@ -241,36 +263,36 @@ public class RuleController {
         return advanceRuleErrors;
 
     }
-    
-    private ArrayList<String> validateClash(Facility facility, Date startBookingTime, Date endBookingTime){
+
+    private ArrayList<String> validateClash(Facility facility, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> clashErrors = new ArrayList<String>();
-        ArrayList<Booking>bookings = bDAO.getBookingByPeriod(startBookingTime, endBookingTime, facility);
-        
-        if (!bookings.isEmpty()){
+        ArrayList<Booking> bookings = bDAO.getBookingByPeriod(startBookingTime, endBookingTime, facility);
+
+        if (!bookings.isEmpty()) {
             clashErrors.add("Your booking clashes with another booking. Please try again.");
         }
-               
-        
+
+
         return clashErrors;
-        
+
     }
-    
-    public ArrayList<String> getFacilityOpeningTime(int facilityTypeID, int dayOfWeek){
+
+    public ArrayList<String> getFacilityOpeningTime(int facilityTypeID, int dayOfWeek) {
         ArrayList<String> openTimes = new ArrayList<String>();
         ArrayList<OpenRule> openRuleList = rDAO.getAllOpenRule(facilityTypeID);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        for (OpenRule o : openRuleList){
-            if (o.getDayOfWeek() == dayOfWeek){
+        for (OpenRule o : openRuleList) {
+            if (o.getDayOfWeek() == dayOfWeek) {
                 String startString = sdf.format(o.getStartTime());
                 String endString = sdf.format(o.getEndTime());
-                openTimes.add(startString+","+endString);
+                openTimes.add(startString + "," + endString);
             }
-            
+
         }
-        
+
         return openTimes;
     }
-    
+
     private long getDayToMilliseconds(int i) {
         return i * 1000 * 60 * 60 * 24;
     }
@@ -278,9 +300,9 @@ public class RuleController {
     private long getMillisecondsToDay(long i) {
         return i / 1000 / 60 / 60 / 24;
     }
-    
-    public OpenRule.DAY_OF_WEEK getOpenRuleDayOfWeekByDayIndex(int index){
-        switch(index){
+
+    public OpenRule.DAY_OF_WEEK getOpenRuleDayOfWeekByDayIndex(int index) {
+        switch (index) {
             case 0:
                 return OpenRule.DAY_OF_WEEK.SUNDAY;
             case 1:
@@ -296,7 +318,6 @@ public class RuleController {
             case 6:
                 return OpenRule.DAY_OF_WEEK.SATURDAY;
         }
-      return null;
+        return null;
     }
-    
 }
