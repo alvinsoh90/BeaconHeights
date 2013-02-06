@@ -183,7 +183,7 @@ public class RuleController {
         ArrayList<String> limitRuleErrors = new ArrayList<String>();
         ArrayList<LimitRule> limitRuleList = rDAO.getAllLimitRule(facilityTypeID);
         ArrayList<Booking> userBookingList = bDAO.getUserBookings(userID);
-
+        
         for (Object o : limitRuleList) {
             LimitRule limitRule = (LimitRule) o;
             String timeFrametype = limitRule.getTimeframeType();
@@ -206,28 +206,31 @@ public class RuleController {
                 sdf = new SimpleDateFormat("yyyy");
 
             }
-            
+
             for (Booking booking : userBookingList) {
+                if (!booking.getIsDeleted()) {
+                    bookingDate = booking.getStartDate();
 
-                bookingDate = booking.getStartDate();
+                    //looks weird but this is to remove the time for comparison.
+                    String plainExistingBookingDate = sdf.format(bookingDate);
+                    String plainNewBookingDate = sdf.format(startBookingTime);
 
-                //looks weird but this is to remove the time for comparison.
-                String plainExistingBookingDate = sdf.format(bookingDate);
-                String plainNewBookingDate = sdf.format(startBookingTime);
+                    //now convert them back fresh
+                    try {
+                        bookingDate = sdf.parse(plainExistingBookingDate);
+                        startBookingTime = sdf.parse(plainNewBookingDate);
+                    } catch (Exception e) {
+                        System.out.println("ERROR IN PARSING");
+                    }
 
-                //now convert them back fresh
-                try {
-                    bookingDate = sdf.parse(plainExistingBookingDate);
-                    startBookingTime = sdf.parse(plainNewBookingDate);
-                } catch (Exception e) {
-                    System.out.println("ERROR IN PARSING");
-                }
-
-                if (bookingDate.equals(startBookingTime)) {
-                    count++;
+                    if (bookingDate.equals(startBookingTime)) {
+                        System.out.println(plainExistingBookingDate);
+                        System.out.println(plainNewBookingDate);
+                        count++;
+                    }
                 }
             }
-            
+
             if (count >= numberOfTimeframe) {
                 limitRuleErrors.add("You have reached the maximum booking limit for the duration.");
                 break;
