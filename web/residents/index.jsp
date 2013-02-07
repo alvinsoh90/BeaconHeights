@@ -37,6 +37,60 @@
 
         <!-- Scripts -->
         <script>
+            var levels="";
+            var units = "";
+            
+            function loadLevelsAndUnits() {
+                console.log("loading");
+                var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
+                $.ajax({
+                    url: "/json/loadblockproperties.jsp",
+                    type: "GET",
+                    data:"blockName="+$('select#block').val(),
+                    dataType: 'text',
+                    success: function (data) {
+                        var obj = jQuery.parseJSON(data);
+                        levels = obj.levels;
+                        units = obj.units;
+                        
+                        var levelOptions="";
+                        var unitOptions = "";
+                        for (var i=1;i<levels+1;i++){
+                            if(i<10){
+                                levelOptions += '<option value="' + i + '">0' + i + '</option>';
+                            }else{
+                                levelOptions += '<option value="' + i + '">' + i + '</option>';
+                            }
+                        };
+                        for (var i=1;i<units+1;i++){
+                            if(i<10){
+                                unitOptions += '<option value="' + i + '">0' + i + '</option>';
+                            }else{
+                                unitOptions += '<option value="' + i + '">' + i + '</option>';
+                            }
+                        };
+                        $("select#level").html(levelOptions);
+                        $("select#unit").html(unitOptions);
+                        
+                        // only after successful loading should we load this 'sexy chosen' plugin	
+                        $('select').chosen();
+                    }
+                });
+            };
+            
+            $(document).ready(function(){    
+            
+                // When document loads fully, load level and unit options via AJAX
+                loadLevelsAndUnits();
+
+                // if dropdown changes, we want to reload the unit and level options.
+                $("#block").change(function(){
+                    loadLevelsAndUnits();
+                });
+            });
+            
+        </script>
+        <script>
             // Retrieve booking events from DB
             var bookingList = [];
             var openTimingsList = [];
@@ -129,7 +183,32 @@
                                 <h4>Share this event with your friends</h4>-->
                                 <!--<button class="socialIcons iconFacebook icon-facebook"></button>
                             </div>-->
+                                
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
+                                    
+                                     
+                                    <br/>
+                                    <c:if test= "${user.role.id ==1}">
+                                        <div class="bookingDetails">
+                                            <div class="control-group ${errorStyle}">
+                                                Level:
+                                                <div class="controls">
+                                                    <stripes:select name="level" id="level">
+                                                    </stripes:select>                                    </div>
+                                            </div>     
+                                            <div class="control-group ${errorStyle}">
+                                                Unit Number:
+                                                <div class="controls">
+                                                    <stripes:select name="unit" id ="unit">
+                                                    </stripes:select>                                     </div>
+                                            </div> 
+                                        </div>
+                                    </c:if> 
+                                     
+                                    <c:if test= "${user.role.id !=1}">
+                                         <stripes:hidden name="level" value="${user.level}" />
+                                         <stripes:hidden name="unit" value="${user.unit}" />
+                                    </c:if>
                                     <stripes:hidden name="facilityID" id="facilityid" />
                                     <stripes:hidden name="startDateString" id="starttimemillis"  />   
                                     <stripes:hidden name="endDateString" id="endtimemillis"   /> 
