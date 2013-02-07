@@ -38,6 +38,10 @@
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/unicorn.calendar.js"></script>
         <script src="./js/jquery-1.7.2.min.js"></script>
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
+        
         
         
         <!-- Scripts -->
@@ -113,6 +117,21 @@
                     }
                 });
             }
+            
+            var successBookingID = "${SUCCESS}";
+            var failure = "${FAILURE}";
+            if(successBookingID != ""){
+                toastr.success("Your booking is confirmed. Booking ID: " + successBookingID);
+            }
+            else if(failure){
+                var msg = "<b>There was an error with your booking.</b><br/>";
+                msg += "<ol>"
+            <c:forEach var="message" items="${MESSAGES}">
+                    msg += "<li>${message}</li>";
+            </c:forEach>
+                    msg += "</ol>";    
+                    toastr.errorSticky(msg);
+                }
         </script>
         
         
@@ -197,6 +216,9 @@
                             required:true
                         },
                         description:{
+                            required:true
+                        },
+                        agree:{
                             required:true
                         }
                     },
@@ -333,6 +355,12 @@
                     <label class="control-label">File:</label>
                     <div class="controls">
                         <stripes:file name="file"/>
+                    </div>
+                </div>
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label"><stripes:checkbox name="agree"/></label>
+                    <div class="controls">
+                        Agree to terms and conditions
                     </div>
                 </div>
                 <div class="modal-footer">

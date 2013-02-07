@@ -249,7 +249,7 @@
                                 msg += "<li>${message}</li>";
                         </c:forEach>
                                 msg += "</ol>";    
-                                toastr.errorSticky(msg);
+                                    toastr.errorSticky(msg);
                             }
                         
                     </script>

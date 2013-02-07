@@ -22,6 +22,7 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
 import net.sourceforge.stripes.action.*;
+import net.sourceforge.stripes.controller.FlashScope;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ManageSubmittedFormsActionBean implements ActionBean {
@@ -32,8 +33,17 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
     private String title;
     private String user_id;
     private String comments;
+    private boolean agree;
     private FileBean file;
 
+    public boolean isAgree() {
+        return agree;
+    }
+
+    public void setAgree(boolean agree) {
+        this.agree = agree;
+    }
+    
     public FileBean getFile() {
         return file;
     }
@@ -98,6 +108,19 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
         String fileName = new Date().getTime()+file.getFileName();
         String category_input;
         boolean processed = false;
+        
+        if(!agree){
+             // get flash scope instance
+            FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+
+            // put shit inside       
+            fs.put("FAIL","You must agree to the terms and conditions.");
+
+            // redirect as normal        
+
+            return new RedirectResolution("/residents/submitonlineforms.jsp");
+        
+        }
         
         try {
             File location = new File("../webapps/uploads/submitted_forms/"+fileName);
