@@ -129,7 +129,7 @@
                     <div class="span"/>
                     <div class="span10 offset1">
                         <div id="personaldetails" class="profileTopWrapper">
-
+                            <c:if test="${param.profileid!=null}">
                             <c:forEach items="${manageUsersActionBean.userList}" var="userObj" varStatus="loop">
                                 <script>
                                     var user = new Object();
@@ -151,7 +151,7 @@
                                     userList.push(user);
                                 </script>
                                 <c:if test="${userObj.userId==param.profileid}">
-                                    <c:if test="${param.profileid!=null}">
+                                    
                                         <div class="profileMainImgArea span3">
                                             <img style="background:gray;width:200px;height:200px;" src="/uploads/profile_pics/${userObj.profilePicFilename}" />
                                             <c:if test="${user.userId==param.profileid}">
@@ -162,6 +162,7 @@
                                         <div class="span4 profileContent">
                                             <h1>${userObj.firstname} ${userObj.lastname}</h3>
                                                 <!-- give user the option to show these details -->
+                                                <c:if test="${user.userId==param.profileid || addFriendActionBean.isFriend(user.userId,param.profileid)}">
                                                 <b>Member Since:</b> ${userObj.dob}<br/>
                                                 <b>Mobile No. :</b> ${userObj.mobileNo}<br/>
                                                 <b>Email:</b> ${userObj.email}<br/>
@@ -169,10 +170,11 @@
                                                 <b>Studied at:</b> ${userObj.studiedAt}<br/>
                                                 <b>Works at:</b> ${userObj.worksAt}<br/>
                                                 <b>About me:</b> ${userObj.aboutMe}<br/>
+                                                </c:if>
                                         </div>
                                     </c:if>
-                                </c:if>
                             </c:forEach>
+                            </c:if>    
                             <c:if test="${param.profileid==null}">
                                 <div class="span4">
                                     <img src="/uploads/profile_pics/${user.profilePicFilename}" />
@@ -214,7 +216,7 @@
                     <br class="clearfix"/>
                     <br class="clearfix"/>
                     <!-- Profile Wall -->
-
+                    <c:if test="${user.userId==param.profileid || addFriendActionBean.isFriend(user.userId,param.profileid)}">
                     <div class="postWrapper offset1">
                         <div class="leftContent span2">
                             <div class="posterInfo">
@@ -285,6 +287,7 @@
                     </div>
 
                 </div>
+                </c:if>
 
             </div>            
 
