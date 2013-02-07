@@ -7,6 +7,7 @@ package com.lin.resident;
 import com.lin.controllers.FriendshipController;
 import com.lin.dao.UserDAO;
 import com.lin.dao.EnquiryDAO;
+import com.lin.dao.FriendshipDAO;
 import com.lin.entities.*;
 
 import java.util.ArrayList;
@@ -65,6 +66,16 @@ public class AddFriendActionBean implements ActionBean {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+    
+    public boolean isFriend(String user, String friend){
+        FriendshipDAO fDAO = new FriendshipDAO();
+        UserDAO uDAO = new UserDAO();
+        User userObj = uDAO.getUser(Integer.parseInt(user));
+        User friendObj = uDAO.getUser(Integer.parseInt(friend));
+        System.out.println("USER :"+user + "FRIEND : "+friend);
+        //Friendship friendship = fDAO.getFriendship(userObj, friendObj);
+        return false;
     }
 
     @Override
