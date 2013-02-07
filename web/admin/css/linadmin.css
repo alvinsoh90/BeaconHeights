@@ -120,3 +120,7 @@ span.spacing{
 #userDataTable .dropdown-menu{
     min-width:85px;
 }
+
+.btn.disabled{
+    pointer-events: none;
+}

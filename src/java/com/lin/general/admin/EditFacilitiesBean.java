@@ -41,6 +41,7 @@ public class EditFacilitiesBean implements ActionBean{
         FacilityType facilityType = tDAO.getFacilityType(type);
         
         try{
+            System.out.println("F-ID: " + id);
             fDAO.updateFacility
                     (
                         Integer.parseInt(id),

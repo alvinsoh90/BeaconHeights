@@ -94,9 +94,9 @@
                                 
                 var user = new Object();
                 user.id = '${user.userId}';
-                user.username = '${user.userName}';
-                user.firstName = '${user.firstname}';
-                user.lastName = '${user.lastname}';
+                user.username = '${user.escapedUserName}';
+                user.firstName = '${user.escapedFirstName}';
+                user.lastName = '${user.escapedLastName}';
                 user.roleName = '${user.role.name}';
                 user.email = '${user.email}';
                 user.mobileNo= '${user.mobileNo}';

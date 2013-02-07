@@ -166,17 +166,17 @@
                             <script>
                                 var facility = new Object();
                                 facility.id = '${facility.id}';
-                                facility.type = '${facility.facilityType.name}';
+                                facility.type = '${facility.facilityType.escapedName}';
                                 console.log(facility.type);
                                 facility.latitude = '${facility.facilityLat}';
                                 facility.longitude = '${facility.facilityLng}';
-                                facility.name = '${facility.name}';
+                                facility.name = '${facility.escapedName}';
                                 facilityList.push(facility);
                             </script>
                             <tr>
 
                                 <td><b>${facility.id}</b></td>
-                                <td><b>${facility.name}</b></td>
+                                <td><b>${facility.unescapedName}</b></td>
                                 <td><b>${facility.facilityType.name}</b></td>
                                 <td>
                                     <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
@@ -199,7 +199,7 @@
         <div id="createFacilityModal" class="modal hide fade">
             <div id="myModal" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Edit <span id="usernameLabel"></span>'s information</h3>
+                <h3>Create a new Facility</h3>
             </div>
             <div class="modal-body">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageFacilitiesActionBean" name="new_facility_validate" id="new_facility_validate">

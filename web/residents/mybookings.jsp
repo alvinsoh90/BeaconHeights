@@ -150,7 +150,7 @@
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.bookingTimeStamp}"/></td>
                                                     <td nowrap>${booking.title}</td>
-                                                    <td nowrap>${booking.facility.facilityType.name}</td>
+                                                    <td nowrap>${booking.facility.name}</td>
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
                                                                     value="${booking.startDate}"/></td>
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 

@@ -416,44 +416,70 @@
                                 
             }
             
+            function isEntriesValid(){
+                var isValid = true;
+                if( parseInt($("#bookingOpenAdvance").val()) <= parseInt($("#bookingCloseAdvance").val())) {
+                    toastr.error("Please check settings for 'Limitation on Booking in Advance'");
+                    isValid = false;
+                }
+                return isValid;
+            }
+            
             function formAjaxSubmit(){
-                retrieveOverallJSONSlotData();
                 
-                var dat = new Object();
+                if(isEntriesValid()){
+                    retrieveOverallJSONSlotData();
                 
-                dat.name = $("#name").val();
-                dat.desc = $("#desc").val();
-                dat.bookingFees = $("#bookingFees").val();
-                dat.bookingDeposit = $("#bookingDeposit").val();
-                dat.needsPayment = $('input[type=checkbox]#needsPayment').is(':checked');
-                dat.bookableSlots = slotDataJSON;
-                dat.bookingSessionsLimit = $("#bookingSessions").val();
-                dat.bookingFreqLimit = $("#bookingLimitFreq").val();
-                dat.bookingLimitPeriod = $('select#period option:selected').val();
-                dat.bookingOpensDaysInAdvance = $("#bookingOpenAdvance").val();
-                dat.bookingClosesDaysInAdvance = $("#bookingCloseAdvance").val();                                
-                var req = new Object();
-                req.data = JSON.stringify(dat);
-                
-                $.ajax({
-                    type: "POST",
-                    url: "/json/admin/createEditFacilityTypeJSON.jsp",
-                    data: req,
-                    success: function(data, textStatus, xhr) {
-                        console.log(xhr.status);
-                     },
-                    complete: function(xhr, textStatus) {
-                            if(xhr.status === 200){
-                                toastr.success("Facility Type Successfully Created!")
-                                setTimeout('window.location.href="/admin/manage-facilitytypes.jsp"',1300);
-                            }
-                            else{
-                                toastr.error("Unable to create Facility Type. Please check your entry");
-                            }
-                    } 
-                });
-                
-                return dat;
+                    var dat = new Object();
+
+                    dat.name = $("#name").val();
+                    dat.desc = $("#desc").val();
+                    dat.bookingFees = $("#bookingFees").val();
+                    dat.bookingDeposit = $("#bookingDeposit").val();
+                    dat.needsPayment = $('input[type=checkbox]#needsPayment').is(':checked');
+                    dat.bookableSlots = slotDataJSON;
+                    dat.bookingSessionsLimit = $("#bookingSessions").val();
+                    dat.bookingFreqLimit = $("#bookingLimitFreq").val();
+                    dat.bookingLimitPeriod = $('select#period option:selected').val();
+                    dat.bookingOpensDaysInAdvance = $("#bookingOpenAdvance").val();
+                    dat.bookingClosesDaysInAdvance = $("#bookingCloseAdvance").val();                                
+                    var req = new Object();
+                    req.data = JSON.stringify(dat);
+                    console.log(req.data);
+                    
+                    disableSubmitButton(true);
+                    $.ajax({
+                        type: "POST",
+                        url: "/json/admin/createEditFacilityTypeJSON.jsp",
+                        data: req,
+                        success: function(data, textStatus, xhr) {
+                            console.log(xhr.status);
+                         },
+                        complete: function(xhr, textStatus) {
+                                if(xhr.status === 200){
+                                    toastr.success("Facility Type Successfully Created!")
+                                    setTimeout('window.location.href="/admin/manage-facilitytypes.jsp"',1300);
+                                }
+                                else{
+                                    toastr.error("Unable to create Facility Type. Please check your entry");
+                                }
+                                
+                                disableSubmitButton(false);
+                        } 
+                    });
+
+                    return dat;
+                }
+                                
+            }
+            
+            function disableSubmitButton(disable){
+                if(disable){
+                    $("#submitBtn").addClass("disabled");
+                }
+                else{
+                    $("#submitBtn").removeClass("disabled");
+                }
             }
             
         </script>
@@ -550,13 +576,13 @@
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Fees:</label>
                                     <div class="controls">
-                                        <stripes:text name="bookingFees" class="input-xxlarge" id="bookingFees"/>
+                                        $ <input type="number" class="span75 numbersOnly" name="bookingFees" class="input-xxlarge" id="bookingFees"/>
                                     </div>
                          </div>
                          <div class="control-group ${errorStyle}">
                                     <label class="control-label">Booking Deposit:</label>
                                     <div class="controls">
-                                        <stripes:text name="bookingDeposit" class="input-xxlarge" id="bookingDeposit"/>
+                                        $ <input type="number" class="span75 numbersOnly" name="bookingDeposit" class="input-xxlarge" id="bookingDeposit"/>
                                     </div>
                          </div>
                                         <label class="control-label">Facility Availability<br/>
@@ -851,7 +877,7 @@
                                         
                                 
                          </div>  
-                                            <input type="submit" class="btn btn-large btn-primary timepickerArea" value="Create Facility" /> 
+                                            <input id="submitBtn" type="submit" class="btn btn-large btn-primary timepickerArea" value="Create Facility" /> 
                                      
 
                     </stripes:form>
@@ -893,7 +919,7 @@
                           description: "required",
                           bookingSessions: {
                               digits:true
-                          },
+                          },                        
                           bookingLimitFreq: {
                               digits:true
                           },
@@ -907,10 +933,10 @@
                         messages :{
                             name: "Please enter a facility name",
                             description: "Please enter a description for the facility",
-                            bookingSessions: "(only digits)",
-                            bookingLimitFreq: "(only digits)",
-                            bookingOpenAdvance: "(only digits)",
-                            bookingCloseAdvance: "(only digits)"
+                            bookingSessions: "(invalid entry)",
+                            bookingLimitFreq: "(invalid entry)",
+                            bookingOpenAdvance: "(invalid entry)",
+                            bookingCloseAdvance: "(invalid entry)"
                         },
                         
                         submitHandler: function(form) {
