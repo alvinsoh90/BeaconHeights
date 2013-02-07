@@ -251,7 +251,7 @@ public class UserDAO {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from User where userId = :id");
+            Query q = session.createQuery("from User as u join fetch u.role join fetch u.block where userId = :id");
             q.setString("id", userId + "");
             userList = (ArrayList<User>) q.list();
             tx.commit();
@@ -445,7 +445,7 @@ public class UserDAO {
         User result = null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            result = (User) session.createQuery("from User where userName = :username").setString("username", username + "").uniqueResult();
+            result = (User) session.createQuery("from User as u join fetch u.role join fetch u.block where u.userName = :username").setString("username", username + "").uniqueResult();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -492,4 +492,33 @@ public class UserDAO {
         }
         return true;
     }
+    
+    public String getUsername(int id){
+        openSession();
+        String result = "";
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            result = session.createQuery("select userName from User where userId = :id").setString("id", id + "").uniqueResult().toString();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("RETRIEVED USER:" + result);
+        return result;
+    }
+
+    public String getFirstname(int id) {
+        openSession();
+        String result = "";
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            result = session.createQuery("select firstname from User where userId = :id").setString("id", id + "").uniqueResult().toString();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("RETRIEVED USER:" + result);
+        return result;
+    }
+    
 }
