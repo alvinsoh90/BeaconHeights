@@ -118,13 +118,13 @@
                 });
             }
             
-            var successBookingID = "${SUCCESS}";
+            var success = "${SUCCESS}";
             var failure = "${FAILURE}";
-            if(successBookingID != ""){
-                toastr.success("Your booking is confirmed. Booking ID: " + successBookingID);
+            if(success != ""){
+                toastr.success("Your form has been submitted successfully.");
             }
             else if(failure){
-                var msg = "<b>There was an error with your booking.</b><br/>";
+                var msg = "<b>There was an error with submitting your form.</b><br/>";
                 msg += "<ol>"
             <c:forEach var="message" items="${MESSAGES}">
                     msg += "<li>${message}</li>";

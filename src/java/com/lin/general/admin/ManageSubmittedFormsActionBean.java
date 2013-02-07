@@ -103,24 +103,40 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
 
     @DefaultHandler
     public Resolution submit() {
-        String result;
-        boolean success;
-        String fileName = new Date().getTime()+file.getFileName();
-        String category_input;
-        boolean processed = false;
-        
+        if(file==null){
+            FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+
+            // put shit inside       
+            fs.put("FAILURE","You must agree to the terms and conditions.");
+            fs.put("MESSAGES","You forgot to attach a file.");
+
+            // redirect as normal        
+
+            return new RedirectResolution("/residents/submitonlineforms.jsp");
+        }
         if(!agree){
              // get flash scope instance
             FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
 
             // put shit inside       
-            fs.put("FAIL","You must agree to the terms and conditions.");
+            fs.put("FAILURE","You must agree to the terms and conditions.");
+            fs.put("MESSAGES","You must agree to the terms and conditions.");
 
             // redirect as normal        
 
             return new RedirectResolution("/residents/submitonlineforms.jsp");
         
         }
+        
+        String result;
+        boolean success;
+        String fileName = new Date().getTime()+file.getFileName();
+        String category_input;
+        boolean processed = false;
+        
+        
+        
+        
         
         try {
             File location = new File("../webapps/uploads/submitted_forms/"+fileName);
@@ -138,8 +154,13 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
             result = file.getFileName();
             success = false;
         }
-        return new RedirectResolution("/residents/submitonlineforms.jsp?createsuccess=" + success
-                + "&createmsg=" + result);
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+
+        // put shit inside       
+        fs.put("SUCCESS","You must agree to the terms and conditions.");
+        fs.put("MESSAGES","You must agree to the terms and conditions.");
+        
+        return new RedirectResolution("/residents/submitonlineforms.jsp");
 
 
 
