@@ -44,6 +44,7 @@ public class ManageUsersActionBean implements ActionBean {
     private String mobileno;
     private String vehicleNumberPlate;
     private String vehicleType;
+    private String currentlyViewUser;
     
     @DefaultHandler
     public Resolution createUserAccount() {
@@ -75,8 +76,14 @@ public class ManageUsersActionBean implements ActionBean {
         return new RedirectResolution("/admin/users.jsp?createsuccess=" + success
                 + "&createmsg=" + result);
 
+    }
 
+    public String getCurrentlyViewUser() {
+        return currentlyViewUser;
+    }
 
+    public void setCurrentlyViewUser(String currentlyViewUser) {
+        this.currentlyViewUser = currentlyViewUser;
     }
 
     public boolean deleteUser() {
