@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
-  <schema-selection match-catalog="lin_staging_db"/>
-  <table-filter match-name="user"/>
-  <table-filter match-name="facility_type"/>
-  <table-filter match-name="amenity"/>
-  <table-filter match-name="close_rule"/>
-  <table-filter match-name="resource_category"/>
-  <table-filter match-name="resource"/>
-  <table-filter match-name="enquiry"/>
-  <table-filter match-name="friendship"/>
-  <table-filter match-name="facility"/>
-  <table-filter match-name="limit_rule"/>
-  <table-filter match-name="open_rule"/>
-  <table-filter match-name="advance_rule"/>
-  <table-filter match-name="block"/>
-  <table-filter match-name="role"/>
-  <table-filter match-name="submitted_form"/>
-  <table-filter match-name="booking"/>
-  <table-filter match-name="amenity_category"/>
-  <table-filter match-name="user_temp"/>
-  <table-filter match-name="post"/>
-  <table-filter match-name="form_template"/>
+    <schema-selection match-catalog="lin_staging_db"/>
+    <table-filter match-name="user"/>
+    <table-filter match-name="facility_type"/>
+    <table-filter match-name="amenity"/>
+    <table-filter match-name="close_rule"/>
+    <table-filter match-name="resource_category"/>
+    <table-filter match-name="resource"/>
+    <table-filter match-name="enquiry"/>
+    <table-filter match-name="friendship"/>
+    <table-filter match-name="facility"/>
+    <table-filter match-name="limit_rule"/>
+    <table-filter match-name="open_rule"/>
+    <table-filter match-name="advance_rule"/>
+    <table-filter match-name="block"/>
+    <table-filter match-name="role"/>
+    <table-filter match-name="submitted_form"/>
+    <table-filter match-name="booking"/>
+    <table-filter match-name="amenity_category"/>
+    <table-filter match-name="user_temp"/>
+    <table-filter match-name="post"/>
+    <table-filter match-name="form_template"/>
+    <table-filter match-name="comment"/>
 </hibernate-reverse-engineering>

@@ -1,18 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 28, 2013 1:35:36 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Feb 7, 2013 9:01:43 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Post" table="post" catalog="lin_staging_db">
         <id name="postId" type="int">
             <column name="post_id" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="post" class="com.lin.entities.Post" fetch="select">
-            <column name="reply_to" />
-        </many-to-one>
         <many-to-one name="user" class="com.lin.entities.User" fetch="select">
-            <column name="user_id" not-null="true" unique="true" />
+            <column name="user_id" not-null="true" />
         </many-to-one>
         <property name="message" type="string">
             <column name="message" length="300" />
@@ -23,11 +20,23 @@
         <property name="noOfLikes" type="java.lang.Integer">
             <column name="no_of_likes" />
         </property>
-        <set name="posts" inverse="true">
+        <property name="title" type="string">
+            <column name="title" length="100" />
+        </property>
+        <property name="category" type="string">
+            <column name="category" length="30" />
+        </property>
+        <property name="isInappropriate" type="java.lang.Boolean">
+            <column name="is_inappropriate" />
+        </property>
+        <property name="eventId" type="java.lang.Integer">
+            <column name="event_id" />
+        </property>
+        <set name="comments" inverse="true">
             <key>
-                <column name="reply_to" />
+                <column name="post_id" not-null="true" />
             </key>
-            <one-to-many class="com.lin.entities.Post" />
+            <one-to-many class="com.lin.entities.Comment" />
         </set>
     </class>
 </hibernate-mapping>

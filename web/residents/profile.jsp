@@ -24,7 +24,7 @@
                      class="com.lin.general.login.RegisterActionBean"/>
         <jsp:useBean id="addFriendActionBean" scope="page"
                      class="com.lin.resident.AddFriendActionBean"/>
-        
+
 
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
@@ -46,6 +46,7 @@
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/unicorn.calendar.js"></script>
         <script src="./js/jquery-1.7.2.min.js"></script>
+
         <script>
             var levels="";
             var units = "";
@@ -202,7 +203,7 @@
                                     <!-- else 
                                     <a href='' role="button" class="btn"><i class="icon-user"></i> Friends</a>
                                     -->
-                                    
+
                                 </div>
                             </c:if>
                             <br class="clearfix"/>
@@ -436,10 +437,16 @@
 
 
     </div>
+</div>
 
-    <br/>
-    <br/>
+<script src="./js/excanvas.min.js"></script>
+<script src="./js/jquery.flot.js"></script>
+<script src="./js/jquery.flot.pie.js"></script>
+<script src="./js/jquery.flot.orderBars.js"></script>
+<script src="./js/jquery.flot.resize.js"></script>
+<script src="./js/fullcalendar.min.js"></script>
 
-    <script src="./js/bootstrap.js"></script>
+<script src="./js/bootstrap.js"></script>
+<script src="./js/charts/bar.js"></script>
 </body>
 </html>
