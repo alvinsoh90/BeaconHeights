@@ -210,7 +210,45 @@
                                                 var currFacilityType = facilityTypeList[i];
                                                 if(data.facilityTypeID == currFacilityType.id){
                                                     //print description
-                                                    $("#facilitytypedescription").html("<b>Description: </b><br/>" + currFacilityType.description+"<br/><br/>");
+                                                    //$("#facilitytypedescription").html("<b>Description: </b><br/>" + currFacilityType.description+"<br/><br/>");
+                                                    
+                                                    var toPrint = "<b>Description: </b><br/>" + currFacilityType.description+"<br/>";
+                                                    
+                                                    toPrint = toPrint + "<br/><b>Limit Rule: </b><br/>";
+                                                    var limitRuleArr = currFacilityType.limitRuleArr;
+                                                    if(0<currFacilityType.limitRuleArr.length){
+                                                        for(j=0;j<currFacilityType.limitRuleArr.length;j++){
+                                                            toPrint = toPrint + limitRuleArr[j] + "<br/>";
+                                                        }   
+                                                    }else{
+                                                        toPrint = toPrint + "None<br/>";
+                                                    }
+                                                    
+                                                    toPrint = toPrint + "<br/><b>Advance Booking Rule: </b><br/>";
+                                                    var advanceRulesArr = currFacilityType.advanceRulesArr;
+                                                    if(0<currFacilityType.advanceRulesArr.length){
+                                                        for(j=0;j<currFacilityType.advanceRulesArr.length;j++){
+                                                            toPrint = toPrint + advanceRulesArr[j] + "<br/>";
+                                                        }
+                                                    }else{
+                                                        toPrint = toPrint + "None<br/>";
+                                                    }
+                                                    
+                                                    toPrint = toPrint + "<br/><b>Booking Fees: </b>";
+                                                    if(null != currFacilityType.bookingFees){
+                                                        toPrint = toPrint + "$" + currFacilityType.bookingFees + "<br/>";
+                                                    }else{
+                                                        toPrint = toPrint + "None<br/>";
+                                                    }
+                                                    
+                                                    toPrint = toPrint + "<br/><b>Booking Deposit: </b>";
+                                                    if(null != currFacilityType.bookingDeposit){
+                                                        toPrint = toPrint + "$" + currFacilityType.bookingDeposit + "<br/>";
+                                                        
+                                                    }else{
+                                                        toPrint = toPrint + "None<br/>";
+                                                    }
+                                                    $("#facilitytypedescription").html(toPrint);
                                                 }  
                                             }
                                     }
@@ -323,6 +361,8 @@
                         facilityType.advanceRulesArr.push('${advanceRules}');
                     </c:forEach>
                         facilityType.needsPayment = "${facilityType.needsPaymentString}";
+                        facilityType.bookingFees = "${facilityType.bookingFees}";
+                        facilityType.bookingFees = "${facilityType.bookingDeposit}";
                         facilityTypeList.push(facilityType);
             </c:forEach>
             </script>
