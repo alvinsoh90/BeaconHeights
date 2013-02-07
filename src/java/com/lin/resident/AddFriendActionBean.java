@@ -70,12 +70,20 @@ public class AddFriendActionBean implements ActionBean {
     
     public boolean isFriend(String user, String friend){
         FriendshipDAO fDAO = new FriendshipDAO();
-        UserDAO uDAO = new UserDAO();
-        User userObj = uDAO.getUser(Integer.parseInt(user));
-        User friendObj = uDAO.getUser(Integer.parseInt(friend));
+        int userID = Integer.parseInt(user);
+        int friendID = Integer.parseInt(friend);
+        //User userObj = uDAO.getUser(Integer.parseInt(user));
+        //User friendObj = uDAO.getUser(Integer.parseInt(friend));
         System.out.println("USER :"+user + "FRIEND : "+friend);
-        //Friendship friendship = fDAO.getFriendship(userObj, friendObj);
-        return false;
+        Friendship friendship1 = fDAO.getFriendship(userID, friendID);
+        System.out.println("FRIEND1 : "+friendship1);
+        Friendship friendship2 = fDAO.getFriendship(friendID, userID);
+        System.out.println("FRIEND2 : "+friendship2);
+        if(friendship1!=null || friendship2!=null){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
