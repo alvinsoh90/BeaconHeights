@@ -10,7 +10,7 @@
         <jsp:useBean id="manageFacilitiesActionBean" scope="page"
                      class="com.lin.general.admin.ManageFacilitiesActionBean"/>
         <jsp:useBean id="manageFacilityTypesActionBean" scope="page"
-             class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
+                     class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -69,7 +69,7 @@
                         ]);
                     }
                     
-                     paintCalendar();  //set timings to be greyed out
+                    paintCalendar();  //set timings to be greyed out
                 });
                 
               
@@ -102,60 +102,11 @@
                                     <option value="${facility.id}">${facility.name}</option>
                                 </c:forEach>
                             </select>
-                            <a href="#viewFacilityTypeModal" role="button" data-toggle="modal" class="btn">View Facility Type Details</a>
+                            <br/>
+                            <div id="facilitytypedescription"></div>
                         </div> <!-- /account-container -->
-                        
-                        <!--Facility Details-->
-                        <div id="viewFacilityTypeModal" class="modal hide fade">
-                            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                            <h3>Facility Type Details</h3>
-                            </div>
-                            <div class="modal-body">
-                            <table class="table table-striped table-bordered table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Facility Type</th>
-                                <th>Description</th>
-                                <th>Opening Hours</th>
-                                <th>Booking Limit</th>
-                                <th>Advance Booking Limit</th>
-                                <th>Requires Payment?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
-                            <script>
-                                var facilityType = new Object();
-                                facilityType.id = "${facilityType.id}";
-                                facilityType.name = "${facilityType.name}";
-                                facilityType.description = "${facilityType.description}";
-                                facilityType.needsPaymentString = "${facilityType.needsPayment}";                                                        
-                                facilityTypeList.push(facilityType);
-                            </script>
-                            <tr>
-                
-                                <td><b>${facilityType.name}</b></td>
-                                <td>${facilityType.description}</td>
-                                <td><c:forEach items="${facilityType.sortedOpenRules}" var="openRule" varStatus="loop">
-                                        ${openRule}<br>
-                                    </c:forEach></td>
-                                <td><c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
-                                        ${limitRules}<br>    
-                                    </c:forEach></td>
-                                <td><c:forEach items="${facilityType.advanceRules}" var="advanceRules" varStatus="loop">
-                                        ${advanceRules}<br>    
-                                    </c:forEach></td>
-                                <td><b>${facilityType.needsPaymentString}</b></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                            </div>
-                            <div class="modal-footer">
-                                <a data-dismiss="modal" class="btn">Close</a>
-                            </div>
-                        </div>
+
+                       
                         <hr />
 
                         <ul id="main-nav" class="nav nav-tabs nav-stacked">
@@ -184,7 +135,7 @@
                                     <stripes:hidden name="endDateString" id="endtimemillis"   /> 
                                     <stripes:text name="title" id="title" onclick= "this.value=''" value="Enter an optional event name"/>
                                     <stripes:hidden name="currentUserID" id="userID" value='${sessionScope.user.userId}'/> 
-                                 
+
                                     <div class="centerText">
                                         <stripes:submit class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>
                                     </div>
@@ -194,14 +145,13 @@
                             <hr />
 
                             <div class="sidebar-extra">
-                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>-->
-                            </div>  <!-- .sidebar-extra -->
+
+                            </div>  
 
                             <br />
 
                     </div> <!-- /span3 -->
-
-
+                    
                     <div class="span9">
 
                         <h1 class="page-title">
@@ -218,6 +168,14 @@
                     </div>	
 
                     <script>
+                        Object.size = function(obj) {
+                            var size = 0, key;
+                            for (key in obj) {
+                                if (obj.hasOwnProperty(key)) size++;
+                            }
+                            return size;
+                        };
+                        
                         $(document).ready(function(){
                             // To display facility selected in the dropdown box, in the booking details
                             function displayVals() {
@@ -232,6 +190,34 @@
                                 //reload calendar when dropdown is changed
                                 var currFacilityID = $("#facilityDropDown option:selected").val();
                                 showFacilityBookingsByFacilityID(currFacilityID);
+                                
+                                 //show selected facility's rules
+                            console.log("List : " + JSON.stringify(facilityTypeList));
+                            console.log("CurrFacID : " + currFacilityID);
+
+                                var payload = new Object();
+                                payload.id = currFacilityID; 
+                                
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/json/admin/getFacilityTypeIdFromFacilityIdJSON.jsp",
+                                    data: payload,
+                                    success: function(data, textStatus, xhr) {
+                                        console.log(xhr.status);
+                                        console.log("RETURNED1::" + data.facilityTypeID);
+                                        
+                                        for(i=0;i<facilityTypeList.length;i++){
+                                                var currFacilityType = facilityTypeList[i];
+                                                if(data.facilityTypeID == currFacilityType.id){
+                                                    //print description
+                                                    $("#facilitytypedescription").html("<b>Description: </b><br/>" + currFacilityType.description+"<br/><br/>");
+                                                }  
+                                            }
+                                    }
+                                });
+
+
+
                             }
                             
                             //attach handler
@@ -246,6 +232,8 @@
                             }
                             //  display default bookings as per whats in the dropdown
                             displayVals();
+                            
+                           
                         });
                         
                         //if successful booking, show message
@@ -257,16 +245,16 @@
                         else if(failure){
                             var msg = "<b>There was an error with your booking.</b><br/>";
                             msg += "<ol>"
-                            <c:forEach var="message" items="${MESSAGES}">
+                        <c:forEach var="message" items="${MESSAGES}">
                                 msg += "<li>${message}</li>";
-                            </c:forEach>
-                            msg += "</ol>";    
-                            toastr.errorSticky(msg);
-                        }
+                        </c:forEach>
+                                msg += "</ol>";    
+                                toastr.errorSticky(msg);
+                            }
                         
                     </script>
-                       
-                    
+
+
                     <div class="span9">
                         <div class="widget-content nopadding calendarContainer">
                             <div id="ajax-spinner" class="ajaxSpinner hide"></div>
@@ -317,6 +305,31 @@
 
             <script src="./js/bootstrap.js"></script>
             <script src="./js/charts/bar.js"></script>
-
+            
+            <script>
+                var facilityTypeList = [];
+            <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
+                
+                    var facilityType = new Object();
+                    facilityType.id = "${facilityType.id}";
+                    facilityType.name = "${facilityType.name}";
+                    facilityType.description = "${facilityType.description}";
+                    facilityType.limitRuleArr = [];
+                    <c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
+                        facilityType.limitRuleArr.push('${limitRules}');
+                    </c:forEach>    
+                        facilityType.advanceRulesArr = [];
+                    <c:forEach items="${facilityType.advanceRules}" var="advanceRules" varStatus="loop">
+                        facilityType.advanceRulesArr.push('${advanceRules}');
+                    </c:forEach>
+                        facilityType.needsPayment = "${facilityType.needsPaymentString}";
+                        facilityTypeList.push(facilityType);
+            </c:forEach>
+            </script>
+            
+            
     </body>
 </html>
+
+
+                
