@@ -46,24 +46,25 @@
                             <li><a href="manage-facilitytypes.jsp">Manage Facilities Types</a></li>
                         </ul>
                     </li> 
-                    
+
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="manage-onlineform.jsp">Online Forms</a></li>
-                            <li><a href="manage-onlineform.jsp">Taxi Booking(N/A)</a></li>
-                            <li><a href="manage-onlineform.jsp">Nearby Amenities(N/A)</a></li>
-                            <li><a href="manage-onlineform.jsp">Useful Contacts(N/A)</a></li>
+                            <li><a href="manage-resource.jsp">Manage Resources</a></li>
+                            <li><a href="manage-amenities.jsp">Manage Amenities</a></li>
+                            <li><a href="manage-amenitycategories.jsp">Manage Amenity Categories</a></li>
+                            <li><a href="manage-enquiries.jsp">Manage Enquiries</a></li>
                         </ul>
                     </li>   
-<!--
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Roles <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="new-role.html">New Role</a></li>
-                            <li class="divider"></li>
-                            <li><a href="roles.html">Manage Roles</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="stats.html">Stats</a></li>-->
+                    <!--
+                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Roles <b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="new-role.html">New Role</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="roles.html">Manage Roles</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="stats.html">Stats</a></li>-->
                 </ul>
             </div>
         </div>

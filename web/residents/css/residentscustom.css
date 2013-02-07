@@ -335,3 +335,11 @@ h1{
 .wallicon.shoe{
     background:url("../img/wall_shoeicon.png");
 }
+
+#facilitytypedescription{
+    width:auto;
+}
+
+#facilityDropDown{
+    width:100%;
+}
