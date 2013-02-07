@@ -101,8 +101,8 @@ public class ManageEnquiryActionBean implements ActionBean{
     
     public ArrayList<Enquiry> getUserEnquiryList() {
         EnquiryDAO enDAO = new EnquiryDAO();
-        enquiryList = enDAO.getUserEnquiries(user.getUserId());
-        return enquiryList;
+        userEnquiryList = enDAO.getUserEnquiries(user.getUserId());
+        return userEnquiryList;
     }
     
     public void setEnquiryList(ArrayList<Enquiry> enquiryList) {

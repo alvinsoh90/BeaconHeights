@@ -44,6 +44,8 @@
                 
             var enquiryList = [];
             
+            
+            
             function populateViewEnquiryModal(enquiryId){ 
                 enquiryList.forEach(function(enquiry){
                     if(enquiry.id == enquiryId){
@@ -61,20 +63,23 @@
         </script>
 
 
-        <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
+        <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
             <script>
                 
-                
-                var enquiry = new Object();
-                enquiry.id = '${enquiry.id}';
-                enquiry.title = '${enquiry.title}';
-                enquiry.text = '${enquiry.text}';
-                enquiry.date = '${enquiry.enquiryTimeStamp}';
-                enquiry.isResolved = '${enquiry.isResolved}';
-                enquiry.responderId = '${enquiry.userByResponderId.userId}'
-                enquiry.responderName = '${enquiry.userByResponderId.userName}';
-                enquiry.response = '${enquiry.response}';
-                enquiryList.push(enquiry);
+               
+                    var enquiry = new Object();
+                    enquiry.id = '${enquiry.id}';
+                    enquiry.title = '${enquiry.title}';
+                    enquiry.text = '${enquiry.text}';
+                    enquiry.date = '${enquiry.enquiryTimeStamp}';
+                    enquiry.isResolved = '${enquiry.isResolved}';
+                    enquiry.responderId = '${enquiry.userByResponderId.userId}'
+                    enquiry.responderName = '${enquiry.userByResponderId.userName}';
+                    enquiry.response = '${enquiry.response}';
+                    enquiryList.push(enquiry);
+                    
+               
+
 
                 
             </script>
@@ -129,7 +134,7 @@
                             <div class="widget-content">
 
                                 <table class="table table-striped table-bordered" id="current">
-                                    <c:if test="${manageEnquiryActionBean.enquiryList.size()!=0}">     
+                                    <c:if test="${manageEnquiryActionBean.userEnquiryList.size()!=0}">     
                                         <thead>
                                         <th>No.</th>
                                         <th>Title</th>
@@ -139,7 +144,7 @@
                                         </thead>
                                         <tbody>
                                             <%int count = 1;%>
-                                            <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
+                                            <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
                                                 <tr>
                                                     <td><%= count++%></td>
                                                     <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
@@ -160,7 +165,7 @@
                                                 </tr>
                                             </c:forEach>
                                         </c:if>
-                                        <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
+                                        <c:if test="${manageEnquiryActionBean.userEnquiryList.size()==0}">
                                         <thead>
                                         <th> You have no enquiries or feedback at the moment. Would you like to make one?</th>
                                         </thead>
@@ -244,7 +249,7 @@
                         <div class="controls">
                             <stripes:text id="view_responder" name="responder" disabled="true"/>
                             <stripes:hidden id="view_responder_id" name="responderId"/>
-                            
+
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">

@@ -89,14 +89,14 @@
                 user.username = '${user.userName}';
                 user.firstName = '${user.firstname}';
                 user.lastName = '${user.lastname}';
-                //user.roleName = '${user.role.name}';
+                user.roleName = '${user.role.name}';
                 user.email = '${user.email}';
-                //user.mobileNo= '${user.mobileNo}';
-                //user.blockName = '${user.block.blockName}';
-                //user.level = '${user.level}';
-                //user.unit = '${user.unit}';
-                //user.vehicleNumberPlate = '${user.vehicleNumberPlate}';
-                //user.vehicleType = '${user.vehicleType}';
+                user.mobileNo= '${user.mobileNo}';
+                user.blockName = '${user.block.blockName}';
+                user.level = '${user.level}';
+                user.unit = '${user.unit}';
+                user.vehicleNumberPlate = '${user.vehicleNumberPlate}';
+                user.vehicleType = '${user.vehicleType}';
                 userList.push(user);
             </script>
         </c:forEach>
@@ -117,24 +117,30 @@
                     
             <script>
                 $("#searchterm").keyup(function(e){
-                    var q = $("#searchterm").val();
+                    var q = $("#searchterm").val().toLowerCase();
                                       
                     var tempArr = [];
                           
                     for(var i=0;i<userList.length;i++){
                         console.log(name);
-                        var firstName = userList[i].firstName.toLowerCase();
-                        var lastName = userList[i].lastName.toLowerCase()
+                        var fName = userList[i].firstName.toLowerCase();
+                        var lName = userList[i].lastName.toLowerCase()
                         var userEmail = userList[i].email;
-                        
+                        var fullname = fName + " " + lName;
                         if(!q==''){
-                                if(firstName.contains(q)){
+                            
+                                
+                                if(fName.indexOf(q) !== -1){
                                     tempArr.push(userList[i]);
-                                } else if (lastName.contains(q)){
+                                } else if (lName.indexOf(q)!== -1){
                                     tempArr.push(userList[i]);
-                                } else if (userEmail.contains(q)){
+                                } else if (userEmail.indexOf(q)!== -1){
+                                    tempArr.push(userList[i]);
+                                } else if (fullname.indexOf(q)!== -1){
                                     tempArr.push(userList[i]);
                                 }
+                                
+                                
                         }
                             
                     }
