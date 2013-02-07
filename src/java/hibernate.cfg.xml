@@ -40,5 +40,6 @@
     <mapping resource="com/lin/entities/FormTemplate.hbm.xml"/>
     <mapping resource="com/lin/entities/Post.hbm.xml"/>
     <mapping resource="com/lin/entities/Enquiry.hbm.xml"/>
+    <mapping resource="com/lin/entities/Comment.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
