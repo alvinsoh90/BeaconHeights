@@ -201,7 +201,6 @@
                             <th>Role</th>
                             <th>Email</th>
                             <th>Mobile No.</th>
-                            <th>Block</th>
                             <th>Level</th>
                             <th>Unit</th>
                             <th>Action</th>
@@ -218,7 +217,6 @@
                         <td>${user.role.name}</td>
                         <td>${user.email}</td>
                         <td>${user.mobileNo}</td>
-                        <td>${user.block.blockName}</td>
                         <td>${user.level}</td>
                         <td>${user.unit}</td>
                         <td>

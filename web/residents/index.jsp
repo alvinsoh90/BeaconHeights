@@ -37,7 +37,62 @@
 
         <!-- Scripts -->
         <script>
+            var levels="";
+            var units = "";
+            
+            function loadLevelsAndUnits() {
+                console.log("loading");
+                var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
+                $.ajax({
+                    url: "/json/loadblockproperties.jsp",
+                    type: "GET",
+                    data:"blockName="+$('select#block').val(),
+                    dataType: 'text',
+                    success: function (data) {
+                        var obj = jQuery.parseJSON(data);
+                        levels = obj.levels;
+                        units = obj.units;
+                        
+                        var levelOptions="";
+                        var unitOptions = "";
+                        for (var i=1;i<levels+1;i++){
+                            if(i<10){
+                                levelOptions += '<option value="' + i + '">0' + i + '</option>';
+                            }else{
+                                levelOptions += '<option value="' + i + '">' + i + '</option>';
+                            }
+                        };
+                        for (var i=1;i<units+1;i++){
+                            if(i<10){
+                                unitOptions += '<option value="' + i + '">0' + i + '</option>';
+                            }else{
+                                unitOptions += '<option value="' + i + '">' + i + '</option>';
+                            }
+                        };
+                        $("select#level").html(levelOptions);
+                        $("select#unit").html(unitOptions);
+                        
+                        // only after successful loading should we load this 'sexy chosen' plugin	
+                        $('select').chosen();
+                    }
+                });
+            };
+            
+            $(document).ready(function(){    
+            
+                // When document loads fully, load level and unit options via AJAX
+                loadLevelsAndUnits();
+
+                // if dropdown changes, we want to reload the unit and level options.
+                $("#block").change(function(){
+                    loadLevelsAndUnits();
+                });
+            });
+            
+        </script>
+        <script>
             // Retrieve booking events from DB
+            var facilityList =[];
             var bookingList = [];
             var openTimingsList = [];
 
@@ -72,8 +127,20 @@
                     paintCalendar();  //set timings to be greyed out
                 });
                 
-              
+            } 
+               
+            function alphabetical(a, b)
+            {
+                if (a.name < b.name){
+                    return -1;
+                }else if (a.name > b.name){
+                    return  1;
+                }else{
+                    return 0;
+                }
             }
+              
+            
         </script> 
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -84,7 +151,14 @@
     </head>
 
     <body>
-
+        <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
+            <script>
+                var facility = new Object();
+                facility.id = '${facility.id}';
+                facility.name = '${facility.name}';
+                facilityList.push(facility);
+            </script>
+        </c:forEach>
 
 
         <div id="content">
@@ -97,16 +171,24 @@
 
                         <div class="account-container">
                             <h2>Now Booking</h2>
-                            <select id ="facilityDropDown">
-                                <c:forEach items="${manageFacilitiesActionBean.facilityList}" var="facility" varStatus="loop">
-                                    <option value="${facility.id}">${facility.name}</option>
-                                </c:forEach>
-                            </select>
-                            <br/>
-                            <div id="facilitytypedescription"></div>
-                        </div> <!-- /account-container -->
+                            
 
-                       
+                        </div> <!-- /account-container -->
+                        <select id ="facilityDropDown">
+                                <script>
+                                    var print;
+                                    facilityList.sort(alphabetical);
+                                    for(var i = 0;i<facilityList.length;i++){
+                                        console.log(facilityList[i].name);
+                                        print+= "<option value="+facilityList[i].id+">"+ facilityList[i].name+ "</option>";
+                                    }
+                                    $('#facilityDropDown').html(print);
+                                </script>
+                            </select>
+                        <div class="widget-content widget-nopad">
+                            <div id="facilitytypedescription"></div>
+                        </div>
+
                         <hr />
 
                         <ul id="main-nav" class="nav nav-tabs nav-stacked">
@@ -129,7 +211,32 @@
                                 <h4>Share this event with your friends</h4>-->
                                 <!--<button class="socialIcons iconFacebook icon-facebook"></button>
                             </div>-->
+                                
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
+                                    
+                                     
+                                    <br/>
+                                    <c:if test= "${user.role.id ==1}">
+                                        <div class="bookingDetails">
+                                            <div class="control-group ${errorStyle}">
+                                                Level:
+                                                <div class="controls">
+                                                    <stripes:select name="level" id="level">
+                                                    </stripes:select>                                    </div>
+                                            </div>     
+                                            <div class="control-group ${errorStyle}">
+                                                Unit Number:
+                                                <div class="controls">
+                                                    <stripes:select name="unit" id ="unit">
+                                                    </stripes:select>                                     </div>
+                                            </div> 
+                                        </div>
+                                    </c:if> 
+                                     
+                                    <c:if test= "${user.role.id !=1}">
+                                         <stripes:hidden name="level" value="${user.level}" />
+                                         <stripes:hidden name="unit" value="${user.unit}" />
+                                    </c:if>
                                     <stripes:hidden name="facilityID" id="facilityid" />
                                     <stripes:hidden name="startDateString" id="starttimemillis"  />   
                                     <stripes:hidden name="endDateString" id="endtimemillis"   /> 
@@ -151,7 +258,7 @@
                             <br />
 
                     </div> <!-- /span3 -->
-                    
+
                     <div class="span9">
 
                         <h1 class="page-title">
@@ -191,9 +298,9 @@
                                 var currFacilityID = $("#facilityDropDown option:selected").val();
                                 showFacilityBookingsByFacilityID(currFacilityID);
                                 
-                                 //show selected facility's rules
-                            console.log("List : " + JSON.stringify(facilityTypeList));
-                            console.log("CurrFacID : " + currFacilityID);
+                                //show selected facility's rules
+                                console.log("List : " + JSON.stringify(facilityTypeList));
+                                console.log("CurrFacID : " + currFacilityID);
 
                                 var payload = new Object();
                                 payload.id = currFacilityID; 
@@ -207,12 +314,50 @@
                                         console.log("RETURNED1::" + data.facilityTypeID);
                                         
                                         for(i=0;i<facilityTypeList.length;i++){
-                                                var currFacilityType = facilityTypeList[i];
-                                                if(data.facilityTypeID == currFacilityType.id){
-                                                    //print description
-                                                    $("#facilitytypedescription").html("<b>Description: </b><br/>" + currFacilityType.description+"<br/><br/>");
-                                                }  
-                                            }
+                                            var currFacilityType = facilityTypeList[i];
+                                            if(data.facilityTypeID == currFacilityType.id){
+                                                //print description
+                                                //$("#facilitytypedescription").html("<b>Description: </b><br/>" + currFacilityType.description+"<br/><br/>");
+                                                    
+                                                var toPrint = "<b>Description: </b><br/>" + currFacilityType.description+"<br/>";
+                                                    
+                                                toPrint = toPrint + "<br/><b>Limit Rule: </b><br/>";
+                                                var limitRuleArr = currFacilityType.limitRuleArr;
+                                                if(0<currFacilityType.limitRuleArr.length){
+                                                    for(j=0;j<currFacilityType.limitRuleArr.length;j++){
+                                                        toPrint = toPrint + limitRuleArr[j] + "<br/>";
+                                                    }   
+                                                }else{
+                                                    toPrint = toPrint + "None<br/>";
+                                                }
+                                                    
+                                                toPrint = toPrint + "<br/><b>Advance Booking Rule: </b><br/>";
+                                                var advanceRulesArr = currFacilityType.advanceRulesArr;
+                                                if(0<currFacilityType.advanceRulesArr.length){
+                                                    for(j=0;j<currFacilityType.advanceRulesArr.length;j++){
+                                                        toPrint = toPrint + advanceRulesArr[j] + "<br/>";
+                                                    }
+                                                }else{
+                                                    toPrint = toPrint + "None<br/>";
+                                                }
+                                                    
+                                                toPrint = toPrint + "<br/><b>Booking Fees: </b>";
+                                                if(null != currFacilityType.bookingFees){
+                                                    toPrint = toPrint + "$" + currFacilityType.bookingFees + "<br/>";
+                                                }else{
+                                                    toPrint = toPrint + "None<br/>";
+                                                }
+                                                    
+                                                toPrint = toPrint + "<br/><b>Booking Deposit: </b>";
+                                                if(null != currFacilityType.bookingDeposit){
+                                                    toPrint = toPrint + "$" + currFacilityType.bookingDeposit + "<br/>";
+                                                        
+                                                }else{
+                                                    toPrint = toPrint + "None<br/>";
+                                                }
+                                                $("#facilitytypedescription").html(toPrint);
+                                            }  
+                                        }
                                     }
                                 });
 
@@ -249,7 +394,7 @@
                                 msg += "<li>${message}</li>";
                         </c:forEach>
                                 msg += "</ol>";    
-                                    toastr.errorSticky(msg);
+                                toastr.errorSticky(msg);
                             }
                         
                     </script>
@@ -305,10 +450,10 @@
 
             <script src="./js/bootstrap.js"></script>
             <script src="./js/charts/bar.js"></script>
-            
+
             <script>
                 var facilityTypeList = [];
-            <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
+                <c:forEach items="${manageFacilityTypesActionBean.facilityTypeList}" var="facilityType" varStatus="loop">
                 
                     var facilityType = new Object();
                     facilityType.id = "${facilityType.id}";
@@ -323,13 +468,14 @@
                         facilityType.advanceRulesArr.push('${advanceRules}');
                     </c:forEach>
                         facilityType.needsPayment = "${facilityType.needsPaymentString}";
+                        facilityType.bookingFees = "${facilityType.bookingFees}";
+                        facilityType.bookingFees = "${facilityType.bookingDeposit}";
                         facilityTypeList.push(facilityType);
-            </c:forEach>
+                </c:forEach>
             </script>
-            
-            
+
+
     </body>
 </html>
 
 
-                

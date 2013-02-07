@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/lin_staging_db</property>
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">Charisfyp!</property>
-    <property name="hibernate.show_sql">true</property>
-    <property name="hibernate.current_session_context_class">thread</property>
-    <property name="hibernate.cache.use_second_level_cache">false</property>
-    <property name="org.hibernate.hql.ast.ASTQueryTranslatorFactory">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/lin_staging_db</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">Charisfyp!</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+        <property name="org.hibernate.hql.ast.ASTQueryTranslatorFactory">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
     <!-- no "connection.pool_size" entry! -->
-    <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>    
-    <property name="hibernate.c3p0.min_size">5</property>
-    <property name="hibernate.c3p0.max_size">20</property>
-    <property name="hibernate.c3p0.timeout">300</property>
-    <property name="hibernate.c3p0.max_statements">50</property>
-    <property name="hibernate.c3p0.idle_test_period">3000</property>
+        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>    
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
     <!-- no "connection.pool_size" entry! -->
-    <mapping resource="com/lin/entities/Facility.hbm.xml"/>
-    <mapping resource="com/lin/entities/Booking.hbm.xml"/>
-    <mapping resource="com/lin/entities/Block.hbm.xml"/>
-    <mapping resource="com/lin/entities/UserTemp.hbm.xml"/>
-    <mapping resource="com/lin/entities/FacilityType.hbm.xml"/>
-    <mapping resource="com/lin/entities/Role.hbm.xml"/>
-    <mapping resource="com/lin/entities/User.hbm.xml"/>
-    <mapping resource="com/lin/entities/Friendship.hbm.xml"/>
-    <mapping resource="com/lin/entities/OpenRule.hbm.xml"/>
-    <mapping resource="com/lin/entities/AdvanceRule.hbm.xml"/>
-    <mapping resource="com/lin/entities/CloseRule.hbm.xml"/>
-    <mapping resource="com/lin/entities/LimitRule.hbm.xml"/>
-    <mapping resource="com/lin/entities/ResourceCategory.hbm.xml"/>
-    <mapping resource="com/lin/entities/SubmittedForm.hbm.xml"/>
-    <mapping resource="com/lin/entities/ResourceCategories.hbm.xml"/>
-    <mapping resource="com/lin/entities/Resource.hbm.xml"/>
-    <mapping resource="com/lin/entities/Amenity.hbm.xml"/>
-    <mapping resource="com/lin/entities/AmenityCategory.hbm.xml"/>
-    <mapping resource="com/lin/entities/FormTemplate.hbm.xml"/>
-    <mapping resource="com/lin/entities/Post.hbm.xml"/>
-    <mapping resource="com/lin/entities/Enquiry.hbm.xml"/>
-  </session-factory>
+        <mapping resource="com/lin/entities/Facility.hbm.xml"/>
+        <mapping resource="com/lin/entities/Booking.hbm.xml"/>
+        <mapping resource="com/lin/entities/Block.hbm.xml"/>
+        <mapping resource="com/lin/entities/UserTemp.hbm.xml"/>
+        <mapping resource="com/lin/entities/FacilityType.hbm.xml"/>
+        <mapping resource="com/lin/entities/Role.hbm.xml"/>
+        <mapping resource="com/lin/entities/User.hbm.xml"/>
+        <mapping resource="com/lin/entities/Friendship.hbm.xml"/>
+        <mapping resource="com/lin/entities/OpenRule.hbm.xml"/>
+        <mapping resource="com/lin/entities/AdvanceRule.hbm.xml"/>
+        <mapping resource="com/lin/entities/CloseRule.hbm.xml"/>
+        <mapping resource="com/lin/entities/LimitRule.hbm.xml"/>
+        <mapping resource="com/lin/entities/ResourceCategory.hbm.xml"/>
+        <mapping resource="com/lin/entities/SubmittedForm.hbm.xml"/>
+        <mapping resource="com/lin/entities/ResourceCategories.hbm.xml"/>
+        <mapping resource="com/lin/entities/Resource.hbm.xml"/>
+        <mapping resource="com/lin/entities/Amenity.hbm.xml"/>
+        <mapping resource="com/lin/entities/AmenityCategory.hbm.xml"/>
+        <mapping resource="com/lin/entities/FormTemplate.hbm.xml"/>
+        <mapping resource="com/lin/entities/Post.hbm.xml"/>
+        <mapping resource="com/lin/entities/Enquiry.hbm.xml"/>
+        <mapping resource="com/lin/entities/Comment.hbm.xml"/>
+    </session-factory>
 </hibernate-configuration>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 10, 2013 9:37:55 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Feb 8, 2013 1:00:08 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Booking" table="booking" catalog="lin_staging_db">
         <id name="id" type="java.lang.Integer">
@@ -37,6 +37,12 @@
         </property>
         <property name="isDeleted" type="java.lang.Boolean">
             <column name="is_deleted" />
+        </property>
+        <property name="level" type="string">
+            <column name="level" length="10" />
+        </property>
+        <property name="unit" type="string">
+            <column name="unit" length="10" />
         </property>
     </class>
 </hibernate-mapping>

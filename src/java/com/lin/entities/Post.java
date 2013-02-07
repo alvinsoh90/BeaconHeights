@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Jan 28, 2013 1:35:35 AM by Hibernate Tools 3.2.1.GA
+// Generated Feb 7, 2013 9:01:41 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -13,12 +13,15 @@ public class Post  implements java.io.Serializable {
 
 
      private int postId;
-     private Post post;
      private User user;
      private String message;
      private Date date;
      private Integer noOfLikes;
-     private Set posts = new HashSet(0);
+     private String title;
+     private String category;
+     private Boolean isInappropriate;
+     private Integer eventId;
+     private Set comments = new HashSet(0);
 
     public Post() {
     }
@@ -28,16 +31,17 @@ public class Post  implements java.io.Serializable {
         this.postId = postId;
         this.user = user;
     }
-    
-    
-    public Post(int postId, Post post, User user, String message, Date date, Integer noOfLikes, Set posts) {
+    public Post(int postId, User user, String message, Date date, Integer noOfLikes, String title, String category, Boolean isInappropriate, Integer eventId, Set comments) {
        this.postId = postId;
-       this.post = post;
        this.user = user;
        this.message = message;
        this.date = date;
        this.noOfLikes = noOfLikes;
-       this.posts = posts;
+       this.title = title;
+       this.category = category;
+       this.isInappropriate = isInappropriate;
+       this.eventId = eventId;
+       this.comments = comments;
     }
    
     public int getPostId() {
@@ -46,13 +50,6 @@ public class Post  implements java.io.Serializable {
     
     public void setPostId(int postId) {
         this.postId = postId;
-    }
-    public Post getPost() {
-        return this.post;
-    }
-    
-    public void setPost(Post post) {
-        this.post = post;
     }
     public User getUser() {
         return this.user;
@@ -82,12 +79,40 @@ public class Post  implements java.io.Serializable {
     public void setNoOfLikes(Integer noOfLikes) {
         this.noOfLikes = noOfLikes;
     }
-    public Set getPosts() {
-        return this.posts;
+    public String getTitle() {
+        return this.title;
     }
     
-    public void setPosts(Set posts) {
-        this.posts = posts;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public String getCategory() {
+        return this.category;
+    }
+    
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    public Boolean getIsInappropriate() {
+        return this.isInappropriate;
+    }
+    
+    public void setIsInappropriate(Boolean isInappropriate) {
+        this.isInappropriate = isInappropriate;
+    }
+    public Integer getEventId() {
+        return this.eventId;
+    }
+    
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
+    }
+    public Set getComments() {
+        return this.comments;
+    }
+    
+    public void setComments(Set comments) {
+        this.comments = comments;
     }
 
 
