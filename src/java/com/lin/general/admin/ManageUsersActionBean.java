@@ -85,6 +85,12 @@ public class ManageUsersActionBean implements ActionBean {
     public void setCurrentlyViewUser(String currentlyViewUser) {
         this.currentlyViewUser = currentlyViewUser;
     }
+    
+    public String getFirstnameFromId(int id){
+        UserDAO uDAO = new UserDAO();
+        return uDAO.getFirstname(id);
+    
+    }
 
     public boolean deleteUser() {
         UserDAO uDAO = new UserDAO();
