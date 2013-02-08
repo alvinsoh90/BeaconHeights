@@ -381,8 +381,18 @@ h1{
     border-radius:100px;
 }
 .wallicon.INVITE{
-    background:url("../img/wall_shoeicon.png");
+    background:url("../img/wall_inviteicon.png");
 }
+.wallicon.REQUEST{
+    background:url("../img/wall_requesticon.png");
+}
+.wallicon.ANNOUNCEMENT{
+    background:url("../img/wall_announcementicon.png");
+}
+.wallicon.SHOUTOUT{
+    background:url("../img/wall_shoutouticon.png");
+}
+
 
 #facilitytypedescription{
     width:auto;

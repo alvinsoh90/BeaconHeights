@@ -16,14 +16,16 @@
         <jsp:useBean id="managePostBean" scope="page"
                      class="com.lin.resident.ManagePostBean"/>
         <%@include file="/protect.jsp"%>
-        <%@include file="/header.jsp"%>
+        
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">    
 
         <link href="./css/bootstrap.min.css" rel="stylesheet">
         <link href="./css/bootstrap-responsive.min.css" rel="stylesheet">
-
+        
+        <%@include file="/header.jsp"%>
+        
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
         <link href="./css/font-awesome.css" rel="stylesheet">
 
@@ -252,7 +254,7 @@
                                     <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
                                 </div>
                             </div>
-                            <div class="linkBar">
+                            <div class="linkBar hide">
                                 <a class="btn"><i class="icon-check"></i> I'm going!</a>
                                 <a class="btn"><i class="icon-heart"></i> Like</a>
                                 <a class="btn"><i class="icon-eye-open"></i> View Event</a>
