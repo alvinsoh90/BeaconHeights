@@ -47,9 +47,11 @@ public class PostDAO {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Post");
+            Query q = session.createQuery("from Post as p join fetch p.user order by p.postId DESC");
             postList = (ArrayList<Post>) q.list();
-            //tx.commit();
+            // join fetch p.comments 
+            
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,21 +73,24 @@ public class PostDAO {
         return postList;
     }
 
-    public boolean addPost(Post post) {
+    public Post addPost(Post post) {
         openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             session.save("Post", post);
+            session.flush();
+            System.out.println("PostIDinserted: "+post.getPostId());
+            
             tx.commit();
-            return true;
+            return post;
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {
                 tx.rollback();
             }
         }
-        return false;
+        return null;
     }
 
     public boolean deletePost(int postId) {

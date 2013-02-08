@@ -2,12 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lin.general.admin;
+package com.lin.resident;
 
+import com.lin.controllers.CommunityWallController;
+import com.lin.dao.CommunityWallCommentDAO;
 import com.lin.dao.PostDAO;
+import com.lin.entities.Comment;
 import com.lin.entities.Post;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 
@@ -88,6 +93,15 @@ public class ManagePostBean implements ActionBean {
         PostDAO pDAO = new PostDAO();
         postList = pDAO.retrieveAllPosts();
         System.out.println("postList size: "+postList.size());
+        
+        CommunityWallController wallCtrl = new CommunityWallController();
+        //get associated comments
+        for(Post p : postList){
+            ArrayList<Comment> l = wallCtrl.getCommentsForPostSortedByDate(p.getPostId());
+            Set<Comment> relatedComments = new HashSet<Comment>(l);
+            p.setComments(relatedComments);
+        }
+        
         return postList;
     }
 }

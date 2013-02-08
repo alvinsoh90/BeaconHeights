@@ -6,14 +6,12 @@
 
 <%@page import="com.lin.entities.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Make a Booking | Beacon Heights</title>
-
-    </head>
-    <body>
+<head>
+        <link href="./css/adminia.css" rel="stylesheet"> 
+        <link href="./css/adminia-responsive.css" rel="stylesheet"> 
+        <link href="./css/residentscustom.css" rel="stylesheet"> 
+</head>
+   
         <div class="navbar navbar-fixed-top">
 
             <div class="navbar-inner">
@@ -149,7 +147,6 @@
             </div> <!-- /navbar-inner -->
 
         </div> <!-- /navbar -->
-    </body>
-</html>
+
 
 <!-- XY IS AWESOME! --->

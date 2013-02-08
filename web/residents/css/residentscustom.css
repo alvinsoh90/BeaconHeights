@@ -104,6 +104,14 @@
     width: 31px;
     position: absolute;
 }
+
+.ajaxSpinnerSmall{
+    background: url("../img/ajax-loader-small.gif");
+    height: 16px;
+    width: 16px;
+    position: relative;
+}
+
 .calendarContainer .ajaxSpinner{
     top: 35em;
     left: 65em;
@@ -208,7 +216,7 @@ a.fc-event, .fc-event-draggable{
 
 /** Community Wall Styles **/
 .postWrapper{
-    
+    margin-bottom: 3em;
 }
 .postWrapper .leftContent{
     float:left;
@@ -227,9 +235,13 @@ a.fc-event, .fc-event-draggable{
 .posterInfo .name{
     font-weight:bold;
 }
-.posterInfo .timestamp{
+.posterInfo .timestamp, .comment .timestamp{
     font-size: 11px;
     line-height: 1em;
+}
+.comment .timestamp{
+    margin-top: 0.3em;
+    color: #888;
 }
 
 .post{
@@ -239,6 +251,15 @@ a.fc-event, .fc-event-draggable{
     background: white;
     padding: 9px 12px;
     color:#555555;
+}
+.post .baseContent.newPost{
+    padding-bottom: 0px;
+}
+.newPost .name{
+    font-weight: bold;
+    position: relative;
+    top: -0.12em;
+    font-size: 14px;
 }
 .post .title{
     font-size: 15px;
@@ -272,8 +293,11 @@ a.fc-event, .fc-event-draggable{
     margin-left:1%;
 }
 .commentArea .replyArea input{
-    width: 90%;
+    width:87%;
     margin: 0.4em 0 0 0.5em;
+}
+.commentArea .ajaxSpinnerSmall{
+    margin-top: 11px;
 }
 .float_r{
     float:right;
@@ -283,6 +307,30 @@ a.fc-event, .fc-event-draggable{
 }
 .clearfix{
     clear:both;
+}
+.postWrapper .profilePic{
+    height:75px;
+    width:75px;
+}
+.comment .profilePic{
+    margin-top: 3px;
+    height:35px;
+    width:35px;
+}
+.makePost{
+    width: 98%;
+    height: 3em;
+}
+.optionsBar{
+    border-top: 1px solid #CCC;
+    padding-top: 4px;
+}
+.optionsBar select{
+    width:130px;
+}
+.optionsBar span{
+    position: relative;
+    top: -4px;
 }
 
 /** Profile Page **/
@@ -332,6 +380,6 @@ h1{
     width:60px;
     border-radius:100px;
 }
-.wallicon.shoe{
+.wallicon.INVITE{
     background:url("../img/wall_shoeicon.png");
 }

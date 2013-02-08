@@ -14,7 +14,7 @@
         <property name="message" type="string">
             <column name="message" length="300" />
         </property>
-        <property name="date" type="timestamp">
+        <property name="postedDate" type="timestamp">
             <column name="date" length="19" />
         </property>
         <property name="noOfLikes" type="java.lang.Integer">
@@ -32,7 +32,7 @@
         <property name="eventId" type="java.lang.Integer">
             <column name="event_id" />
         </property>
-        <set name="comments" inverse="true">
+        <set name="comments" inverse="true" cascade="all-delete-orphan" fetch="join">
             <key>
                 <column name="post_id" not-null="true" />
             </key>

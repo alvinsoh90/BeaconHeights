@@ -15,7 +15,7 @@
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="managePostBean" scope="page"
-                     class="com.lin.general.admin.ManagePostBean"/>
+                     class="com.lin.resident.ManagePostBean"/>
         <jsp:useBean id="manageUsersActionBean" scope="page"
                      class="com.lin.general.admin.ManageUsersActionBean"/>
         <jsp:useBean id="editUserBean" scope="page"
