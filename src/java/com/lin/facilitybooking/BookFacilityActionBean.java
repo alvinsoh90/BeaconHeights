@@ -38,7 +38,25 @@ public class BookFacilityActionBean implements ActionBean{
     private boolean isPaid;//check if user has paid
     private boolean isDeleted;//check if user has deleted
     private boolean needPayment;//check if facility requires payment
+    private String level;
+    private String unit;
 
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+    
     public Integer getCurrentUserID() {
         return currentUserID;
     }
@@ -144,8 +162,8 @@ public class BookFacilityActionBean implements ActionBean{
          */
         isDeleted = false;
         Booking booking = new Booking(user, facility,bookingTimeStamp,
-                startDate,endDate,title,isPaid,isDeleted);
-        
+                startDate,endDate,title,isPaid,isDeleted, level, unit);
+        System.out.println("hereeeee!" + level + unit);
         //add booking into DB, returns booking with ID
         booking = bDAO.addBooking(booking);
         

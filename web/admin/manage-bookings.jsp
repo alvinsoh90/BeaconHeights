@@ -30,8 +30,8 @@
         <link href="css/site.css" rel="stylesheet">
         <link href="css/linadmin.css" rel="stylesheet">        
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
 
+        <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
         <script src="js/jquery.js"></script>        
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
 
@@ -44,72 +44,8 @@
             //an array of all bookings shown on this page
             var bookingList = [];
             
-            //Loop through bookingList and output all into table for display
-            function showBookings(bookingArr){
-   
-                var r = new Array(), j = -1;
-                
-                var tableHeaders = "<thead><tr><th>ID</th><th>Username</th><th>Name</th><th>Facility</th><th>Start</th><th>End</th><th>Status</th><th>Paid</th><th>Transaction ID</th><th>Action</th></tr></thead><tbody>"
-                
-                for (var i=bookingArr.length-1; i>=0; i--){
-                    r[++j] ='<tr><td>';
-                    r[++j] = bookingArr[i].id;
-                    r[++j] = '</td><td nowrap>';
-                    r[++j] = bookingArr[i].username;
-                    r[++j] = '</td><td nowrap>';
-                    r[++j] = bookingArr[i].firstName + " " + bookingArr[i].lastName;
-                    r[++j] = '</td><td nowrap>';
-                    r[++j] = bookingArr[i].facilityType
-                    r[++j] = '</td><td >';
-                    r[++j] = bookingArr[i].startDate;
-                    r[++j] = '</td><td >';
-                    r[++j] = bookingArr[i].endDate;
-                    r[++j] = '</td><td >';
+            $(document).ready(function() {
 
-                    if(bookingArr[i].isDeleted == "true"){
-                        r[++j] = "Deleted";
-                        r[++j] = '</td><td >';
-                        r[++j] = "-";
-                        r[++j] = '</td><td >';
-                        r[++j] = '-';
-                        r[++j] = '</td><td nowrap >';
-                        r[++j] ='</td>';
-                    }else if(bookingArr[i].isPaid == "true"){
-                        r[++j] = "Confirmed";
-                        r[++j] = '</td><td >';
-                        r[++j] = "Revert";
-                        r[++j] = '</td><td >';
-                        r[++j] = bookingArr[i].transactionID;
-                        r[++j] = '</td><td nowrap>';
-                        r[++j] = '<div class="btn-group" style="visibility:visible !important;">'
-                        r[++j] =      '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>'
-                        r[++j] =					'<ul class="dropdown-menu">'
-                        r[++j] =						"<li><a href='#editBookingModal' role='button' data-toggle='modal' onclick='populateEditBoookingModal(" + bookingArr[i].id + ");loadValidate()'><i class='icon-pencil'></i> Edit</a></li>"
-                        r[++j] =					"<li><a href='#pendingBookingModal' role='button' data-toggle='modal' onclick='populatePendingBookingModal(" + bookingArr[i].id + ")'><i class='icon-refresh'></i> Revert</a></li>"
-                        r[++j] =					"<li><a href='#deleteBookingModal' role='button' data-toggle='modal' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'><i class='icon-trash'></i> Delete</a></li>"
-                        r[++j] =				'</ul>'
-                        r[++j] =			'</div>'   
-                    }else{
-                        r[++j] = "Confirmed";
-                        r[++j] = '</td><td >';
-                        r[++j] = 'Pending';
-                        r[++j] = '</td><td >';
-                        r[++j] = '-';
-                        r[++j] = '</td><td nowrap>';
-                        
-                        r[++j] = '<div class="btn-group" style="visibility:visible !important;">'
-                        r[++j] =      '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>'
-                        r[++j] =					'<ul class="dropdown-menu">'
-                        r[++j] =						"<li><a href='#editBookingModal' role='button' data-toggle='modal' onclick='populateEditBoookingModal(" + bookingArr[i].id + ");loadValidate()'><i class='icon-pencil'></i> Edit</a></li>"
-                        r[++j] =					"<li><a href='#payBookingModal' role='button' data-toggle='modal' onclick='populatePayBookingModal(" + bookingArr[i].id + ")'><i class='icon-check'></i> Record</a></li>"
-                        r[++j] =					"<li><a href='#deleteBookingModal' role='button' data-toggle='modal' onclick='populateDeleteBookingModal(" + bookingArr[i].id + ")'><i class='icon-trash'></i> Delete</a></li>"
-                        r[++j] =				'</ul>'
-                        r[++j] =			'</div>'          
-                    }
-
-                    r[++j] = '</td></tr></tbody>';
-                }
-                $('#bookingTable').html(tableHeaders + r.join('')); 
                 $('#bookingTable').dataTable( {
                     "bJQueryUI": true,
                     "sPaginationType": "full_numbers",
@@ -119,7 +55,8 @@
                     "bInfo": false,
                     "bAutoWidth": false
                 } );
-            } 
+            });
+ 
                 
             //when this function is called, bookingList should already be populated
             function populateDeleteBookingModal(bookingID){ 
@@ -220,8 +157,89 @@
                     </div>
 
                     <table id="bookingTable" class="table table-striped table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Facility</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Status</th>
+                                <th>Paid</th>
+                                <th>Transaction ID</th>
+                                <th nowrap>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
+                                <tr>
+                                    <td>${booking.id}</td>
+                                    <td nowrap>${booking.user.escapedUserName}</td>
+                                    <td >${booking.user.escapedFirstName} ${booking.user.escapedLastName}</td>
+                                    <td nowrap>${booking.facility.escapedName}</td>
+                                    <td>${booking.startDate}</td>
+                                    <td>${booking.endDate}</td>
 
+                                    <c:choose>
+                                        <c:when test="${booking.isDeleted == 'true'}">
+                                            <td><font color="red">Deleted</font></td>
+                                            <td>-</td>
+                                            <td >-</td>
+                                            <td>-</td>
+                                        </c:when>
+                                            
+                                        <c:when test="${booking.facility.facilityType.needsPayment == 'false'}">
+                                            <td><font color="green">Confirmed</font></td>
+                                            <td>NA</td>
+                                            <td >NA</td>
+                                            <td>
+                                                <div class="btn-group" style="visibility:visible !important;">
+                                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBoookingModal('${booking.id}');loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
+                                                       <li><a href="#deleteBookingModal" role="button" data-toggle="modal" onclick="populateDeleteBookingModal('${booking.id}')"><i class="icon-trash"></i> Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </c:when>
+                                        <c:when test="${booking.isPaid=='true'}">
+                                            <td><font color="green">Confirmed</font></td>
+                                            <td>Revert</td>
+                                            <td>${booking.transactionId}</td>
+                                            <td>
+                                                <div class="btn-group" style="visibility:visible !important;">
+                                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBoookingModal('${booking.id}');loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
+                                                        <li><a href="#pendingBookingModal" role="button" data-toggle="modal" onclick="populatePendingBookingModal('${booking.id}')"><i class="icon-refresh"></i> Revert</a></li>
+                                                        <li><a href="#deleteBookingModal" role="button" data-toggle="modal" onclick="populateDeleteBookingModal('${booking.id}')"><i class="icon-trash"></i> Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td><font color="green">Confirmed</font></td>
+                                            <td>Pending</td>
+                                            <td>-</td>
+                                            <td>
+                                                <div class="btn-group" style="visibility:visible !important;">
+                                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBoookingModal('${booking.id}');loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
+                                                        <li><a href="#payBookingModal" role="button" data-toggle="modal" onclick="populatePayBookingModal('${booking.id}')"><i class="icon-check"></i> Record</a></li>
+                                                        <li><a href="#deleteBookingModal" role="button" data-toggle="modal" onclick="populateDeleteBookingModal('${booking.id}')"><i class="icon-trash"></i> Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </c:otherwise> 
+                                    </c:choose>
+
+                                </tr>
+                            </c:forEach>
+                        </tbody>
                     </table>
+
                     <a href="#" class="btn btn-success">New Booking</a>
                 </div>
             </div>
@@ -352,5 +370,8 @@
                 }
             });
         </script>
+
+        <script src="../js/jquery.validate.js"></script>
+
     </body>
 </html>

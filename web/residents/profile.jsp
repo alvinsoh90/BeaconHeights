@@ -50,6 +50,7 @@
         <script>
             var levels="";
             var units = "";
+            var currentlyViewedUserName = ${manageUsersActionBean.getFirstnameFromId(param.profileid)};
             window.onload = function() {
                 var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
                 $.ajax({
@@ -67,56 +68,16 @@
                         for (var i=1;i<levels+1;i++){
                             levelOptions += '<option value="' + i + '">' + i + '</option>';
                         };
+                        levelOptions+='<option value="${user.level}" selected>${user.level}</option>';
                         for (var i=1;i<units+1;i++){
                             unitOptions += '<option value="' + i + '">' + i + '</option>';
                         };
+                        unitOptions+='<option value="${user.unit}" selected>${user.unit}</option>';
                         $("select#level").html(levelOptions);
                         $("select#unitnumber").html(unitOptions);
                     }
                 });
             };  
-        </script>
-        <!-- Populates the Edit User form -->       
-        <script>
-            var userList = [];
-            
-            //when this function is called, userList should already be populated
-            function populateEditUserModal(userID){ 
-                userList.forEach(function(user){
-                    if(user.id == userID){
-                        $("#usernameLabel").text(user.username);
-                        $("#editid").val(user.id);
-                        $("#edit_username").val(user.username);
-                        $("#edit_firstname").val(user.firstName);
-                        $("#edit_lastname").val(user.lastName);
-                        $("#edit_block").val(user.blockName);
-                        $("#edit_role").val(user.roleName);
-                        $("#edit_level").val(user.level);
-                        $("#edit_unit").val(user.unit);
-                        $("#edit_mobileno").val(user.mobileNo);
-                        $("#edit_email").val(user.email);
-                        $("#edit_birthday").val(user.birthday);
-                        $("#edit_studiedAt").val(user.studiedAt);
-                        $("#edit_worksAt").val(user.worksAt);
-                        $("#edit_aboutMe").val(user.aboutMe);
-                    }
-                });
-                
-            }
-            
-            function populateAddFriendModal(userID){ 
-                userList.forEach(function(user){
-                    if(user.id == userID){
-                        $("#friend_username").text(user.username);
-                        $("#friend_id").val(user.id);
-                        $("#friend_username").val(user.username);
-                        $("#friend_name").text(user.firstName + " " + user.lastName);
-                    }
-                });
-                
-            }
-            
-            
         </script>
     </head>
     <body>
@@ -131,25 +92,7 @@
                         <div id="personaldetails" class="profileTopWrapper">
                             <c:if test="${param.profileid!=null}">
                             <c:forEach items="${manageUsersActionBean.userList}" var="userObj" varStatus="loop">
-                                <script>
-                                    var user = new Object();
-                                    user.id = '${userObj.userId}';
-                                    user.username = '${userObj.userName}';
-                                    user.firstName = '${userObj.firstname}';
-                                    user.lastName = '${userObj.lastname}';
-                                    user.roleName = '${userObj.role.name}';
-                                    user.blockName = '${userObj.block.blockName}';
-                                    user.level = '${userObj.level}';
-                                    user.unit = '${userObj.unit}';
-                                    user.mobileNo = '${userObj.mobileNo}';
-                                    user.birthday = '${userObj.birthday}';
-                                    user.email = '${userObj.email}';
-                                    user.studiedAt = '${userObj.studiedAt}';
-                                    user.worksAt = '${userObj.worksAt}';
-                                    user.aboutMe = '${userObj.aboutMe}';
-                                    user.profilePicFilename = '${userObj.profilePicFilename}';
-                                    userList.push(user);
-                                </script>
+                               
                                 <c:if test="${userObj.userId==param.profileid}">
                                     
                                         <div class="profileMainImgArea span3">
@@ -195,13 +138,13 @@
                             </c:if>
                             <c:if test="${user.userId==param.profileid}">
                                 <div class="span2">
-                                    <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick='populateEditUserModal(${param.profileid});loadValidate()'><i class="icon-pencil"></i> Update Info</a>
+                                    <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick=''><i class="icon-pencil"></i> Update Info</a>
                                 </div>
                             </c:if>
                             <c:if test="${user.userId!=param.profileid}">
                                 <div class="span2">
                                     <!-- if friendController.isFriend() -->
-                                    <div id="addFriend"><a href="#addFriendModal" role="button" data-toggle="modal" class="btn btn-info" onclick='populateAddFriendModal(${param.profileid});loadValidate()'><i class="icon-user"></i> Friend This User</a></div>
+                                    <div id="addFriend"><a href="#addFriendModal" role="button" data-toggle="modal" class="btn btn-info" onclick=''><i class="icon-user"></i> Friend This User</a></div>
                                     <!-- else 
                                     <a href='' role="button" class="btn"><i class="icon-user"></i> Friends</a>
                                     -->
@@ -303,70 +246,70 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">First Name</label>
                             <div class="controls">
-                                <stripes:text id="edit_firstname" name="firstname"/> 
+                                <stripes:text id="edit_firstname" name="firstname" value="${user.firstname}"/> 
                             </div>
                         </div>                              
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Last Name</label>
                             <div class="controls">
-                                <stripes:text id="edit_lastname" name="lastname"/> 
+                                <stripes:text id="edit_lastname" name="lastname" value="${user.lastname}"/> 
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Block</label>
                             <div class="controls">
-                                <stripes:select name="block">
-                                    <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName"/>        
+                                <stripes:select name="block" value="${user.block.blockName}">
+                                    <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName" />        
                                 </stripes:select>
                             </div>
                         </div> 
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Level</label>
                             <div class="controls">
-                                <stripes:select name="level" id="level">
+                                <stripes:select name="level" id="level" value="${user.level}">
                                 </stripes:select>                            </div>
                         </div>     
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Unit Number</label>
                             <div class="controls">
-                                <stripes:select name="unitnumber" id ="unitnumber">
+                                <stripes:select name="unitnumber" id ="unitnumber" value="${user.unit}">
                                 </stripes:select>                             </div>
                         </div>    
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Mobile Number</label>
                             <div class="controls">
-                                <stripes:text id="edit_mobileno" name="mobileno"/>   
+                                <stripes:text id="edit_mobileno" name="mobileno" value="${user.mobileNo}" />   
                             </div>
                         </div>  
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Email</label>
                             <div class="controls">
-                                <stripes:text id="edit_email" name="email"/> 
+                                <stripes:text id="edit_email" name="email" value="${user.email}" /> 
                             </div>
                         </div>  
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Birthday</label>
                             <div class="controls">
-                                <stripes:text id="edit_birthday" name="birthday"/>
+                                <stripes:text id="edit_birthday" name="birthday" value="${user.birthday}" />
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Studied At</label>
                             <div class="controls">
-                                <stripes:text id="edit_studiedAt" name="studiedAt"/>
+                                <stripes:text id="edit_studiedAt" name="studiedAt" value="${user.studiedAt}" />
                             </div>
                         </div>
 
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Works At</label>
                             <div class="controls">
-                                <stripes:text id="edit_worksAt" name="worksAt"/>
+                                <stripes:text id="edit_worksAt" name="worksAt" value="${user.worksAt}" />
                             </div>
                         </div> 
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">About Me</label>
                             <div class="controls">
-                                <stripes:textarea id="edit_aboutMe" name="aboutMe"/>
+                                <stripes:textarea id="edit_aboutMe" name="aboutMe" value="${user.aboutMe}"/>
                             </div>
                         </div>
                     </div> 
@@ -407,13 +350,13 @@
             <div id="addFriendModal" class="modal hide fade">
                 <div id="myModal" class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Add <span id="friend_username" name=""></span></h3>
+                    <h3>Add ${manageUsersActionBean.getFirstnameFromId(param.profileid)}</span></h3>
                 </div>
                 <div class="modal-body">
                     <stripes:form class="form-horizontal" beanclass="com.lin.resident.AddFriendActionBean" name="addFriend" id="addFriend">                 
-                        <stripes:hidden id="friend_id" name="friendId" />
+                        <stripes:hidden id="friend_id" name="friendId" value="${param.profileid}"/>
                         <stripes:hidden id="userId" name="userId" value="${user.userId}"/>
-                        Add <span id="friend_name"></span> as a friend?
+                        Add ${manageUsersActionBean.getFirstnameFromId(param.profileid)} as a friend?
                         <br/>
                         <input type="submit" name="add" value="Add Friend" class="btn btn-info btn-large"/>                                                          
                     </stripes:form>

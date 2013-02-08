@@ -94,20 +94,31 @@ public class FriendshipDAO {
         
         int userIdOne = userOne.getUserId();
         int userIdTwo = userTwo.getUserId();
-        
+        Friendship friendship=null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Friendship where userIdOne = :idOne and userIdTwo = :idTwo");
-            q.setString("idOne", userIdOne + "");
-            q.setString("idTwo", userIdTwo + "");
-            friendshipList = (ArrayList<Friendship>) q.list();
+            friendship = (Friendship)session.createQuery("from Friendship where user_id_one = :idOne and user_id_two = :idTwo").setString("idOne", userIdOne + "").setString("idTwo", userIdTwo + "").uniqueResult();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return friendshipList.get(0);
+        return friendship;
     }
-
+    
+    public Friendship getFriendship(int userOne, int userTwo) {
+        openSession();
+             
+        Friendship friendship=null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            friendship = (Friendship)session.createQuery("from Friendship where user_id_one = :idOne and user_id_two = :idTwo").setString("idOne", userOne + "").setString("idTwo", userTwo + "").uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return friendship;
+    }
+    
     public Friendship updateFriendship(int friendshipId, User userOne, User userTwo, String relationshipOneTwo, String relationshipTwoOne) {
         openSession();
         Transaction tx = null;

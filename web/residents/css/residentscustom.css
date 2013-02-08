@@ -383,3 +383,11 @@ h1{
 .wallicon.INVITE{
     background:url("../img/wall_shoeicon.png");
 }
+
+#facilitytypedescription{
+    width:auto;
+}
+
+#facilityDropDown{
+    width:100%;
+}
