@@ -101,10 +101,6 @@ public class AddPostActionBean implements ActionBean{
             if(pDAO.addPost(aPost) != null){               
                 fs.put("SUCCESS","true");
                 
-                // temp hack - must add comment to this post
-                System.out.println("new post id" + aPost.getPostId());
-                CommunityWallController wallCtrl = new CommunityWallController();
-                wallCtrl.addCommentOnPost(83, aPost.getPostId(), getPostContent());
             }
             
         } catch (Exception e) {

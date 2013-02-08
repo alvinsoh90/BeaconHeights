@@ -14,8 +14,7 @@
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-        <jsp:useBean id="managePostBean" scope="page"
-                     class="com.lin.resident.ManagePostBean"/>
+
         <jsp:useBean id="manageUsersActionBean" scope="page"
                      class="com.lin.general.admin.ManageUsersActionBean"/>
         <jsp:useBean id="editUserBean" scope="page"
@@ -46,11 +45,11 @@
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/unicorn.calendar.js"></script>
         <script src="./js/jquery-1.7.2.min.js"></script>
-
+        
+        <script src="./js/bootstrap.js"></script>
         <script>
             var levels="";
             var units = "";
-            var currentlyViewedUserName = ${manageUsersActionBean.getFirstnameFromId(param.profileid)};
             window.onload = function() {
                 var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
                 $.ajax({
@@ -98,7 +97,7 @@
                                         <div class="profileMainImgArea span3">
                                             <img style="background:gray;width:200px;height:200px;" src="/uploads/profile_pics/${userObj.profilePicFilename}" />
                                             <c:if test="${user.userId==param.profileid}">
-                                                <a href='#editPicModal' role="button" data-toggle='modal' onclick='loadValidate()' class="btn btn-info btn-mini newProfilePicLink">Upload New Picture</a> 
+                                                <a href='#editPicModal' role="button" data-toggle='modal' class="btn btn-info btn-mini newProfilePicLink">Upload New Picture</a> 
                                             </c:if>
                                         </div>
 
@@ -138,7 +137,7 @@
                             </c:if>
                             <c:if test="${user.userId==param.profileid}">
                                 <div class="span2">
-                                    <a href= '#editUserModal' role='button' data-toggle='modal' class='btn' onclick=''><i class="icon-pencil"></i> Update Info</a>
+                                    <a href= '#editUserModal' role='button' data-toggle='modal' class='btn'><i class="icon-pencil"></i> Update Info</a>
                                 </div>
                             </c:if>
                             <c:if test="${user.userId!=param.profileid}">
@@ -159,7 +158,7 @@
                     <br class="clearfix"/>
                     <br class="clearfix"/>
                     <!-- Profile Wall -->
-                    <c:if test="${user.userId==param.profileid || addFriendActionBean.isFriend(user.userId,param.profileid)}">
+                  <!--  <c:if test="${user.userId==param.profileid || addFriendActionBean.isFriend(user.userId,param.profileid)}">
                     <div class="postWrapper offset1">
                         <div class="leftContent span2">
                             <div class="posterInfo">
@@ -230,15 +229,15 @@
                     </div>
 
                 </div>
-                </c:if>
+                </c:if> -->
 
             </div>            
 
             <!-- Edit User Modal Form -->
             <div id="editUserModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
+                <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3>Edit <span id="usernameLabel"></span>'s information</h3>
+                    <h3>Edit <span id="usernameLabel">${user.firstname}</span>'s information</h3>
                 </div>
                 <div class="modal-body">
                     <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="editUserProfile" id="edit_user_validate">
@@ -258,7 +257,7 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Block</label>
                             <div class="controls">
-                                <stripes:select name="block" value="${user.block.blockName}">
+                                <stripes:select id="block" name="block" value="${user.block.blockName}">
                                     <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName" />        
                                 </stripes:select>
                             </div>
@@ -326,7 +325,7 @@
             </div>
             <!-- Edit Pic Modal Form -->
             <div id="editPicModal" class="modal hide fade">
-                <div id="myModal" class="modal-header">
+                <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                     <h3>Upload A New Profile Picture</h3>
                 </div>
@@ -385,14 +384,5 @@
     </div>
 </div>
 
-<script src="./js/excanvas.min.js"></script>
-<script src="./js/jquery.flot.js"></script>
-<script src="./js/jquery.flot.pie.js"></script>
-<script src="./js/jquery.flot.orderBars.js"></script>
-<script src="./js/jquery.flot.resize.js"></script>
-<script src="./js/fullcalendar.min.js"></script>
-
-<script src="./js/bootstrap.js"></script>
-<script src="./js/charts/bar.js"></script>
 </body>
 </html>

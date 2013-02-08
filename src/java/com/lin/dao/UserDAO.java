@@ -251,7 +251,7 @@ public class UserDAO {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from User as u join fetch u.role join fetch u.block where userId = :id");
+            Query q = session.createQuery("from User as u join fetch u.role join fetch u.block where u.userId = :id");
             q.setString("id", userId + "");
             userList = (ArrayList<User>) q.list();
             tx.commit();

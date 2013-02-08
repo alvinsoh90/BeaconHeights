@@ -165,7 +165,7 @@
                             for(var i=0;i<data.comments[0].length;i++){
                                 var c = data.comments[0][i];
                                 $("#post-" + postId + " .commentArea .comments").append(
-                                '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'.jpg" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedUserName+': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
+                                '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedUserName+': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
                                 )
                             }
 
