@@ -68,6 +68,9 @@
                         var responder = enquiry.responder;
                         if (enquiry.isResolved==false){
                             responder=user;
+                        }else{
+                            $("#view_response").attr("disabled", "disabled");
+
                         }
                         
                         $("#view_title").val(enquiry.title);
@@ -76,6 +79,7 @@
                         $("#view_id").val(enquiry.id);
                         $("#view_responder").val(enquiry.responderName);
                         $("#view_responder_id").val(enquiry.responderId);
+                        
                         $("#view_response").val(enquiry.response);
                     }
                 });
@@ -138,23 +142,23 @@
                                         <td>${loop.index + 1}</td>
                                         <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
                                         <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
-                                <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
-                                <td nowrap>
-                                    <script>
+                                        <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+                                        <td nowrap>
+                                            <script>
                                                             
-                                        if (${enquiry.isResolved}){
-                                            document.write("Resolved");
-                                        }else {
-                                            document.write("Unresolved");
-                                        }
+                                                if (${enquiry.isResolved}){
+                                                    document.write("Resolved");
+                                                }else {
+                                                    document.write("Unresolved");
+                                                }
                                                       
-                                    </script>
-                                </td>
+                                            </script>
+                                        </td>
 
-                                </tr>
-                            </c:forEach>
-                        </c:if>
-                        <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
                             <thead>
                             <th> You have no enquiries or feedback at the moment. Would you like to make one?</th>
                             </thead>
