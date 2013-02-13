@@ -176,7 +176,7 @@
                                 resourceList.push(resource);
                             </script>
                             <tr>
-                                <td>${resource.id}</td>
+                                <td>${loop.index + 1}</td>
                                 <td>${resource.name}</td>
                                 <td>${resource.description}</td>
                                 <td>${resource.category}</td>

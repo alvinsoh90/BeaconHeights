@@ -210,7 +210,7 @@
                     <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
 
                         <tr>
-                        <td>${user.userId}</td>
+                        <td>${loop.index + 1}</td>
                         <td>${user.userName}</td>
                         <td>${user.firstname}</td>
                         <td>${user.lastname}</td>

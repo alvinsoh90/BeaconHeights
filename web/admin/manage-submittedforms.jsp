@@ -169,7 +169,7 @@
                             </script>
                             <tr>
                   
-                                <td><b>${submittedForm.id}</b></td>
+                                <td><b>${loop.index + 1}</b></td>
                                 <td><b>${submittedForm.user.userName}</b></td>
                                 <td><b>${submittedForm.title}</b></td>
                                 <td><b>${submittedForm.timeSubmitted}</b></td>

@@ -138,7 +138,7 @@
                             </script>
                             <tr>
 
-                                <td><b>${facilityType.id}</b></td>
+                                <td><b>${loop.index + 1}</b></td>
                                 <td><b>${facilityType.name}</b></td>
                                 <td>${facilityType.description}</td>
                                 <td><c:forEach items="${facilityType.sortedOpenRules}" var="openRule" varStatus="loop">

@@ -175,7 +175,7 @@
                             </script>
                             <tr>
 
-                                <td>${facility.id}</td>
+                                <td>${loop.index + 1}</td>
                                 <td>${facility.unescapedName}</td>
                                 <td>${facility.facilityType.name}</td>
                                 <td>

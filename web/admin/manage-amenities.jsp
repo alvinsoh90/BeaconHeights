@@ -198,7 +198,7 @@
                             </script>
                             <tr>
 
-                                <td>${amenity.id}</td>
+                                <td>${loop.index + 1}</td>
                                 <td>${amenity.name}</td>
                                 <td>${amenity.description}</td>
                                 <td>${amenity.unitNo}</td>

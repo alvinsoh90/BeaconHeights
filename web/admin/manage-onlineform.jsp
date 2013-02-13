@@ -61,7 +61,7 @@
                 for (var i=0; i<submittedFormsArr.length; i++){
                     //console.log(booking.username);
                     r[++j] ='<tr><td>';
-                    r[++j] = submittedFormsArr[i].id;
+                    r[++j] = i + 1
                     r[++j] = '</td><td nowrap>';
                     r[++j] = submittedFormsArr[i].user;
                     r[++j] = '</td><td>';
@@ -403,7 +403,7 @@
                                         </script>
                                         <tr>
 
-                                            <td>${formTemplate.id}</td>
+                                            <td>${loop.index + 1}</td>
                                             <td>${formTemplate.name}</td>
                                             <td>${formTemplate.description}</td>
                                             <td>${formTemplate.category}</td>

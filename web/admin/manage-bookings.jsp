@@ -80,6 +80,7 @@
             }
             
             function populateEditBookingModal(bookingID){ 
+                console.log("REACHED");
                 bookingList.forEach(function(booking){
                     if(booking.id == bookingID){
                         $("#usernameEditLabel").text(booking.username);
@@ -122,7 +123,7 @@
         </script>
 
         <%--Load up bookings --%>
-        <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
+        <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">   
             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
                 <script>
                     var booking = new Object();
@@ -145,7 +146,7 @@
 
     </head>
 
-    <body onload="showBookings(bookingList)">
+    <body >
         <%@include file="include/mainnavigationbar.jsp"%>
         <div class="container-fluid">
             <%@include file="include/sidemenu.jsp"%>   

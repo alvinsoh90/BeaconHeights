@@ -150,7 +150,7 @@
                             </script>
                             <tr>
 
-                                <td>${amenityCategory.id}</td>
+                                <td>${loop.index + 1}</td>
                                 <td>${amenityCategory.name}</td>
 
                                 <td nowrap>

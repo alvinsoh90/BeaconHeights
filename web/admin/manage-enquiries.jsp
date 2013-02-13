@@ -133,10 +133,9 @@
 
                             </thead>
                             <tbody>
-                                <%int count = 1;%>
                                 <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
                                     <tr>
-                                        <td><%= count++%></td>
+                                        <td>${loop.index + 1}</td>
                                         <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
                                         <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
                                 <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
