@@ -7,6 +7,8 @@
 
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
@@ -16,6 +18,8 @@
              class="com.lin.general.admin.EditResourceBean"/>
 <jsp:useBean id="deleteResourceBean" scope="page"
              class="com.lin.general.admin.DeleteResourceBean"/>
+<jsp:useBean id="newsDate" class="java.util.Date" />
+
 <%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -177,7 +181,8 @@
                                 <td>${resource.description}</td>
                                 <td>${resource.category}</td>
                                 <td><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
-                                <td nowrap>${resource.timeCreated}</td>
+                                <jsp:setProperty name="newsDate" property="time" value="${resource.timeCreated.time}" />
+                                <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
                                 <td nowrap>
                                     <a href="#editResourceModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditResourceModal('${resource.id}')">Edit</a> 
                                     <a href="#deleteResourceModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteResourceModal('${resource.id}')">Delete</a>

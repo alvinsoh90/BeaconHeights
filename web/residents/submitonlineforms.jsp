@@ -41,9 +41,9 @@
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
-        
-        
-        
+
+
+
         <!-- Scripts -->
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -133,9 +133,9 @@
                     toastr.errorSticky(msg);
                 }
         </script>
-        
-        
-                <script>
+
+
+        <script>
             // Init an array of all rc shown on this page
             var sfList = [];
            
@@ -234,9 +234,9 @@
                 });
             }
         </script>
-        
 
-        
+
+
     </head>
 
     <body>
@@ -244,7 +244,7 @@
         <div id="content">
 
             <div class="container">
-             
+
 
                 <div class="row">
                     <div class="span3">
@@ -268,133 +268,134 @@
                         </h1>
                         <br/>
 
-                        <div class="widget widget-table">
+                            <div class="widget widget-table">
 
-                            <div class="widget-header">
-                                <i class="icon-th-list"></i>
-                                <h3> List of Forms </h3>
+                                <div class="widget-header">
+                                    <i class="icon-th-list"></i>
+                                    <h3> List of Forms </h3>
 
 
-                            </div> <!-- /widget-header -->
+                                </div> <!-- /widget-header -->
+                        <div class="widget-content">
 
-                            <table class="table table-striped table-bordered table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Category</th>
-                                        <th>Download File</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                    <c:forEach items="${manageFormTemplateActionBean.formTemplateList}" var="formTemplate" varStatus="loop">
-                                    <script>
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Category</th>
+                                            <th>Download File</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <c:forEach items="${manageFormTemplateActionBean.formTemplateList}" var="formTemplate" varStatus="loop">
+                                        <script>
                                            
-                                        var formTemplate = new Object();
-                                        formTemplate.id = '${formTemplate.id}';
-                                        formTemplate.name = '${formTemplate.name}';
-                                        formTemplate.description = '${formTemplate.description}';
-                                        formTemplate.category = '${formTemplate.category}';
-                                        formTemplate.fileName = '${formTemplate.fileName}';
-                                        formTemplate.timeModified = '${formTemplate.timeModified}';
-                                        formTemplateList.push(formTemplate);
+                                            var formTemplate = new Object();
+                                            formTemplate.id = '${formTemplate.id}';
+                                            formTemplate.name = '${formTemplate.name}';
+                                            formTemplate.description = '${formTemplate.description}';
+                                            formTemplate.category = '${formTemplate.category}';
+                                            formTemplate.fileName = '${formTemplate.fileName}';
+                                            formTemplate.timeModified = '${formTemplate.timeModified}';
+                                            formTemplateList.push(formTemplate);
                                             
                                      
-                                    </script>
-                                    <tr>
+                                        </script>
+                                        <tr>
 
-                                        <td><b>${formTemplate.id}</b></td>
-                                        <td><b>${formTemplate.name}</b></td>
-                                        <td><b>${formTemplate.description}</b></td>
-                                        <td><b>${formTemplate.category}</b></td>
-                                        <td><b><a href="/uploads/form_templates/${formTemplate.fileName}">Download File</a></b></td>
+                                            <td>${formTemplate.id}</td>
+                                            <td>${formTemplate.name}</td>
+                                            <td>${formTemplate.description}</td>
+                                            <td>${formTemplate.category}</td>
+                                            <td><b><a href="/uploads/form_templates/${formTemplate.fileName}">Download File</a></b></td>
 
-                                        <td>
-                                            <a href="#submitFormModal" role="button" data-toggle="modal" class="btn btn-success btn-mini" onclick="populateSubmitFormModal('${formTemplate.id}')">Submit</a> 
+                                            <td>
+                                                <a href="#submitFormModal" role="button" data-toggle="modal" class="btn btn-success btn-mini" onclick="populateSubmitFormModal('${formTemplate.id}')">Submit</a> 
 
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-
-
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
 
                         </div>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
 
 
-            </div> <!-- /row -->
+                </div> <!-- /row -->
 
-        </div> <!-- /container -->
+            </div> <!-- /container -->
 
-    </div> <!-- /content -->
+        </div> <!-- /content -->
 
 
-    <!-- Submit Form Modal Form -->
-    <div id="submitFormModal" class="modal hide fade">
-        <div id="myModal" class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3>Submit <span id="formTemplateLabel"></span></h3>
-        </div>
-        <div class="modal-body">
-            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageSubmittedFormsActionBean" name="new_resource_validate" id="new_resource_validate">                 
-                <stripes:hidden id="submit_title" name="title" />
-                <stripes:hidden name="user_id" value="${user.userId}" />
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label">Comments:</label>
-                    <div class="controls">
-                        <stripes:textarea name="comments" />
-                    </div>
-                </div>
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label">File:</label>
-                    <div class="controls">
-                        <stripes:file name="file"/>
-                    </div>
-                </div>
-                <div class="control-group ${errorStyle}">
-                    <label class="control-label"><stripes:checkbox name="agree"/></label>
-                    <div class="controls">
-                        Agree to terms and conditions
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" name="submit" value="Submit" class="btn btn-info btn-large"/>                                                           
-                </stripes:form>
+        <!-- Submit Form Modal Form -->
+        <div id="submitFormModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Submit <span id="formTemplateLabel"></span></h3>
             </div>
-        </div>      
-    </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageSubmittedFormsActionBean" name="new_resource_validate" id="new_resource_validate">                 
+                    <stripes:hidden id="submit_title" name="title" />
+                    <stripes:hidden name="user_id" value="${user.userId}" />
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Comments:</label>
+                        <div class="controls">
+                            <stripes:textarea name="comments" />
+                        </div>
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">File:</label>
+                        <div class="controls">
+                            <stripes:file name="file"/>
+                        </div>
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label"><stripes:checkbox name="agree"/></label>
+                        <div class="controls">
+                            Agree to terms and conditions
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" name="submit" value="Submit" class="btn btn-info btn-large"/>                                                           
+                    </stripes:form>
+                </div>
+            </div>      
+        </div>
 
 
 
 
-    <div id="footer">
+        <div id="footer">
 
-        <div class="container">				
-            <hr>
-            <p>Beacon Heights Condominium</p>
-        </div> <!-- /container -->
+            <div class="container">				
+                <hr>
+                <p>Beacon Heights Condominium</p>
+            </div> <!-- /container -->
 
-    </div> <!-- /footer -->
+        </div> <!-- /footer -->
 
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./js/excanvas.min.js"></script>
-    <script src="./js/jquery.flot.js"></script>
-    <script src="./js/jquery.flot.pie.js"></script>
-    <script src="./js/jquery.flot.orderBars.js"></script>
-    <script src="./js/jquery.flot.resize.js"></script>
-    <script src="./js/fullcalendar.min.js"></script>
+        <!-- Le javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="./js/excanvas.min.js"></script>
+        <script src="./js/jquery.flot.js"></script>
+        <script src="./js/jquery.flot.pie.js"></script>
+        <script src="./js/jquery.flot.orderBars.js"></script>
+        <script src="./js/jquery.flot.resize.js"></script>
+        <script src="./js/fullcalendar.min.js"></script>
 
-    <script src="./js/bootstrap.js"></script>
-    <script src="./js/charts/bar.js"></script>
+        <script src="./js/bootstrap.js"></script>
+        <script src="./js/charts/bar.js"></script>
 
-</body>
+    </body>
 </html>

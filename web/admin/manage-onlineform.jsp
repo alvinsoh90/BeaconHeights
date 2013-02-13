@@ -7,6 +7,7 @@
 
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
@@ -20,6 +21,8 @@
              class="com.lin.general.admin.ManageSubmittedFormsActionBean"/>
 <jsp:useBean id="editSubmittedFormsBean" scope="page"
              class="com.lin.general.admin.EditSubmittedFormsBean"/>
+<jsp:useBean id="newsDate" class="java.util.Date" />
+
 <%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,19 +56,19 @@
    
                 var r = new Array(), j = -1;
                 
-                var tableHeaders = "<thead><tr><th>ID</th><th>Submitted By</th><th>Form Title</th><th>Time Submitted</th><th>Download File</th><th>Status</th><th>Comments</th><th>Action</th></tr></thead><tbody>"
+                var tableHeaders = "<thead><tr><th>ID</th><th>Submitted By</th><th>Form Title</th><th>Time Submitted</th><th>Download</th><th>Status</th><th>Comments</th><th>Action</th></tr></thead><tbody>"
                 
                 for (var i=0; i<submittedFormsArr.length; i++){
                     //console.log(booking.username);
-                    r[++j] ='<tr><td><b>';
+                    r[++j] ='<tr><td>';
                     r[++j] = submittedFormsArr[i].id;
-                    r[++j] = '</b></td><td nowrap><b>';
+                    r[++j] = '</td><td nowrap>';
                     r[++j] = submittedFormsArr[i].user;
-                    r[++j] = '</b></td><td nowrap><b>';
+                    r[++j] = '</td><td>';
                     r[++j] = submittedFormsArr[i].title;
-                    r[++j] = '</b></td><td nowrap><b>';
+                    r[++j] = '</td><td>';
                     r[++j] = submittedFormsArr[i].timeSubmitted;
-                    r[++j] = '</b></td><td ><b>';
+                    r[++j] = '</td><td ><b>';
                     r[++j] = "<a href='/uploads/submitted_forms/"+submittedFormsArr[i].fileName+"'>Download File</a>";
                     r[++j] = '</b></td><td ><b>';
                     
@@ -77,13 +80,13 @@
                     }
                     
                          
-                    r[++j] = '</b></td><td ><b>';
+                    r[++j] = '</b></td><td >';
                     r[++j] = submittedFormsArr[i].comments;
-                    r[++j] = '</b></td><td ><b>';
+                    r[++j] = '</td><td >';
                     
                     if(submittedFormsArr[i].processed == "false"){
                     
-                        r[++j] = "<a href='#editSubmittedFormModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditSubmittedFormModal("+submittedFormsArr[i].id+")'>Processed</a> \n\
+                        r[++j] = "<a href='#editSubmittedFormModal' role='button' data-toggle='modal' class='btn btn-primary btn-mini' onclick='populateEditSubmittedFormModal("+submittedFormsArr[i].id+")'>Process</a> \n\
                                 <a href='#deleteSubmittedFormModal' role='button' data-toggle='modal' class='btn btn-danger btn-mini' onclick='populateDeleteSubmittedFormModal("+submittedFormsArr[i].id+")'>Delete</a>";
                                    
                     }
@@ -96,7 +99,7 @@
                     }
                     
                     
-                    r[++j] = '</b></td></tr></tbody>';
+                    r[++j] = '</td></tr></tbody>';
                 }
                 $('#submittedFormTable').html(tableHeaders + r.join('')); 
                 $('#submittedFormTable').dataTable( {
@@ -262,12 +265,13 @@
 
         <c:if test="${manageSubmittedFormsActionBean.sfList.size()!=0}"> 
             <c:forEach items="${manageSubmittedFormsActionBean.userSfList}" var="submittedForm" varStatus="loop">
+                <jsp:setProperty name="newsDate" property="time" value="${submittedForm.timeSubmitted.time}" />
                 <script>
                     var submittedForm = new Object();
                     submittedForm.id = '${submittedForm.id}';
                     submittedForm.user = '${submittedForm.user.escapedUserName}';
                     submittedForm.title = '${submittedForm.escapedTitle}';
-                    submittedForm.timeSubmitted = '${submittedForm.timeSubmitted}';
+                    submittedForm.timeSubmitted = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" />';
                     submittedForm.fileName = '${submittedForm.fileName}';
                     submittedForm.processed = '${submittedForm.processed}';
                     submittedForm.comments = '${submittedForm.escapedComments}';
@@ -357,7 +361,7 @@
                                 <h4>User Submitted Forms</h4>
 
                                 <!-- Populate base on form template title -->
-   
+
                                 <table id="submittedFormTable" class="table table-striped table-bordered table-condensed">
 
                                 </table>
@@ -399,12 +403,13 @@
                                         </script>
                                         <tr>
 
-                                            <td><b>${formTemplate.id}</b></td>
-                                            <td><b>${formTemplate.name}</b></td>
-                                            <td><b>${formTemplate.description}</b></td>
-                                            <td><b>${formTemplate.category}</b></td>
+                                            <td>${formTemplate.id}</td>
+                                            <td>${formTemplate.name}</td>
+                                            <td>${formTemplate.description}</td>
+                                            <td>${formTemplate.category}</td>
                                             <td nowrap><b><a href="/uploads/form_templates/${formTemplate.fileName}">Download File</a></b></td>
-                                            <td nowrap><b>${formTemplate.timeModified}</b></td>
+                                            <jsp:setProperty name="newsDate" property="time" value="${formTemplate.timeModified.time}" />
+                                            <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
                                             <td nowrap>
                                                 <a href="#editFormTemplateModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFormTemplateModal('${formTemplate.id}')">Edit</a> 
                                                 <a href="#deleteFormTemplateModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFormTemplateModal('${formTemplate.id}')">Delete</a>
