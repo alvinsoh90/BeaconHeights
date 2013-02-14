@@ -30,8 +30,6 @@
         <meta charset="utf-8">
         <title>Admin | Online Forms</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
-        <meta name="author" content="travis">
 
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
@@ -41,6 +39,9 @@
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
         <script src="js/jquery.js"></script>        
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -189,8 +190,23 @@
                 });
                 
             }
-            
-            
+            $(document).ready(function(){
+                var success = "${SUCCESS}";
+                var failure = "${FAILURE}";
+                if(success != ""){
+                    toastr.success(success);
+                }
+                else if(failure){
+                    var msg = "<b>There was an error processing your request.</b><br/>";
+                    msg += "<ol>"
+                <c:forEach var="message" items="${MESSAGES}">
+                        msg += "<li>${message}</li>";
+                </c:forEach>
+                        msg += "</ol>";    
+                        toastr.errorSticky(msg);
+                    }
+
+            });
         </script>
 
 

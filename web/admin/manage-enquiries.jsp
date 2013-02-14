@@ -32,9 +32,6 @@
         <meta charset="utf-8">
         <title>Admin | Manage Resources</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
-        <meta name="author" content="travis">
-
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -62,24 +59,26 @@
             
             var enquiryList = [];
             
-            function populateViewEnquiryModal(enquiryId){ 
+            function populateViewEnquiryModal(enquiryId){
                 enquiryList.forEach(function(enquiry){
                     if(enquiry.id == enquiryId){
-                        var responder = enquiry.responder;
-                        if (enquiry.isResolved==false){
-                            responder=user;
-                        }else{
-                            $("#view_response").attr("disabled", "disabled");
-
+                        var responder = enquiry.responderName;
+                        console.log(enquiry.isResolved);
+                        var status = enquiry.isResolved;
+                        if (status == "false"){
+                            responder = '${user.userName}';
+                            $('#view_response').removeAttr('disabled', 'disabled');
+                        } else {
+                            $('#view_response').attr('disabled', 'disabled');
                         }
-                        
+
                         $("#view_title").val(enquiry.title);
                         $("#view_date").val(enquiry.date);
                         $("#view_text").val(enquiry.text);
                         $("#view_id").val(enquiry.id);
-                        $("#view_responder").val(enquiry.responderName);
+                        $('#view_responder').attr('disabled', 'disabled');
+                        $("#view_responder").val(responder);
                         $("#view_responder_id").val(enquiry.responderId);
-                        
                         $("#view_response").val(enquiry.response);
                     }
                 });
@@ -93,8 +92,8 @@
                 
                 var enquiry = new Object();
                 enquiry.id = '${enquiry.id}';
-                enquiry.title = '${enquiry.title}';
-                enquiry.text = '${enquiry.text}';
+                enquiry.title = '${enquiry.escapedTitle}';
+                enquiry.text = '${enquiry.escapedText}';
                 enquiry.date = '${enquiry.enquiryTimeStamp}';
                 enquiry.isResolved = '${enquiry.isResolved}';
                 enquiry.responderId = '${enquiry.userByResponderId.userId}'
@@ -205,7 +204,7 @@
                 <div class="control-group ${errorStyle}">
                     <label class="control-label">Responder</label>
                     <div class="controls">
-                        <stripes:text id="view_responder" name="responder" disabled="true"/> 
+                        <stripes:text id="view_responder" name="responder"/> 
                         <stripes:hidden id="view_responder_id" name="responderId"/>
                     </div>
                 </div>

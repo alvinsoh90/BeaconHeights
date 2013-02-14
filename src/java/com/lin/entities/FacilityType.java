@@ -169,8 +169,7 @@ public class FacilityType  implements java.io.Serializable {
     }
     
     public String getEscapedName() {
-        name = StringEscapeUtils.escapeEcmaScript(name);
-        return this.name;
+        return StringEscapeUtils.escapeEcmaScript(name);
     }
 
 

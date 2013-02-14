@@ -18,8 +18,6 @@
 
         <title>Admin | New User</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
-        <meta name="author" content="travis">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
                 <link href="css/linadmin.css" rel="stylesheet">
@@ -198,13 +196,13 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Vehicle Number Plate</label>
                             <div class="controls">
-                                <stripes:text name="vehicleNumberPlate"/> 
+                                <stripes:text name="vehicleNumberPlate" id="vehicleNumberPlate" /> 
                             </div>
                         </div> 
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Vehicle Type</label>
                             <div class="controls">
-                                <stripes:text name="vehicleType"/> 
+                                <stripes:text name="vehicleType" id="vehicleType" /> 
                             </div>
                         </div>
 

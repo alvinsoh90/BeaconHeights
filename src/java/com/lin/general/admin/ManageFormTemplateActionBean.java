@@ -22,6 +22,54 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
 import net.sourceforge.stripes.action.*;
+import net.sourceforge.stripes.controller.FlashScope;
+import org.apache.commons.lang3.StringEscapeUtils;
+import com.lin.entities.*;
+import com.lin.utils.FileUploadUtils;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.util.Log;
+import javax.persistence.*;
+import net.sourceforge.stripes.action.*;
+import org.apache.commons.lang3.StringEscapeUtils;
+import com.lin.entities.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.util.Log;
+import javax.persistence.*;
+import net.sourceforge.stripes.action.*;
+import net.sourceforge.stripes.controller.FlashScope;
+import org.apache.commons.lang3.StringEscapeUtils;
+import com.lin.entities.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.util.Log;
+import javax.persistence.*;
+import net.sourceforge.stripes.action.*;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ManageFormTemplateActionBean implements ActionBean {
@@ -105,6 +153,30 @@ public class ManageFormTemplateActionBean implements ActionBean {
 
     @DefaultHandler
     public Resolution createFormTemplate() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        if(file==null){
+            // put shit inside       
+            fs.put("FAILURE","this message is not used");
+            fs.put("MESSAGES","You forgot to attach a file.");
+
+            // redirect as normal        
+
+            return new RedirectResolution("/admin/manage-onlineform.jsp");
+        }else{
+            ArrayList<String> list = new ArrayList<String>();
+            list.add("doc");
+            list.add("docx");
+            list.add("txt");
+            list.add("pdf");
+            String extension = FileUploadUtils.getExtension(file);
+            System.out.println("EXTENSION : "+extension);
+            if(!list.contains(extension)){
+                fs.put("FAILURE","This value is not used");
+                fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .doc .docx .txt .pdf");
+                return new RedirectResolution("/admin/manage-onlineform.jsp");
+            }
+        }
+        
         String result;
         boolean success;
         String fileName = new Date().getTime()+file.getFileName();
@@ -131,10 +203,11 @@ public class ManageFormTemplateActionBean implements ActionBean {
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/admin/manage-onlineform.jsp?createsuccess=" + success
-                + "&createmsg=" + result);
+        
 
-
+        // put shit inside       
+        fs.put("SUCCESS","You have successfullu uploaded a new Form Template.");
+        return new RedirectResolution("/admin/manage-onlineform.jsp");
 
     }
     

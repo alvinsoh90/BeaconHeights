@@ -681,7 +681,42 @@
                                                 <td class="day">Monday</td>
                                                 <td>
                                                     <table id="mondaySlotHolder">
-                                                    <% for (int i = 1 ; i < openRuleMon.size()+1 ; i++) { OpenRule o = openRuleMon.get(i-1);%>
+                                                        <% //IF NO RULES FOR THIS DAY
+                                                            if(openRuleMon.isEmpty()) { int i = 1;%>
+                                                            <tr class="mondaySlot slotRow" id="monday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-mon<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
+                                                                   value=""/>
+                                                            <input class="hide mondaySlotData start" id="a-monday<%= i %>"
+                                                                   value=""/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-mon<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
+                                                                   value=""/>
+                                                            <input class="hide mondaySlotData end" id="b-monday<%= i %>" 
+                                                                   value=""/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('mon',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(1)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-mon<%= i %>").change(function(){
+                                                                $("#a-monday<%= i %>").val( getDateFromString($("#a-mon<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-mon<%= i %>").change(function(){
+                                                                $("#b-monday<%= i %>").val( getDateFromString($("#b-mon<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-monday<%= i %>").val( getDateFromString($("#a-mon<%= i %>").val()) ); 
+                                                               $("#b-monday<%= i %>").val( getDateFromString($("#b-mon<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        <%}%>
+                                                        
+                                                    <%  //IF THERE ARE RULES, LOOP AND PRINT
+                                                        for (int i = 1 ; i < openRuleMon.size()+1 ; i++) { OpenRule o = openRuleMon.get(i-1);%>
                                                         
                                                         <tr class="mondaySlot slotRow" id="monday<%if(i!=1)out.print(i);%>"><td>
                                                             <input id="a-mon<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
@@ -724,6 +759,40 @@
                                                 <td class="day">Tuesday</td>
                                                 <td>
                                                     <table id="tuesdaySlotHolder">
+                                                        <% //IF NO RULES FOR THIS DAY
+                                                            if(openRuleTue.isEmpty()) { int i = 1;%>
+                                                            <tr class="tuesdaySlot slotRow" id="tuesday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-tues<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
+                                                                   value=""/>
+                                                            <input class="hide tuesdaySlotData start" id="a-tuesday<%= i %>"
+                                                                   value=""/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-tues<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
+                                                                   value=""/>
+                                                            <input class="hide tuesdaySlotData end" id="b-tuesday<%= i %>" 
+                                                                   value=""/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <%if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('tues',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(2)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-tues<%= i %>").change(function(){
+                                                                $("#a-tuesday<%= i %>").val( getDateFromString($("#a-tues<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-tues<%= i %>").change(function(){
+                                                                $("#b-tuesday<%= i %>").val( getDateFromString($("#b-tues<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-tuesday<%= i %>").val( getDateFromString($("#a-tues<%= i %>").val()) ); 
+                                                               $("#b-tuesday<%= i %>").val( getDateFromString($("#b-tues<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        <%}%>
+                                                        
                                                         <% for (int i = 1 ; i < openRuleTue.size()+1 ; i++) { OpenRule o = openRuleTue.get(i-1);%>
                                                         <tr class="tuesdaySlot slotRow" id="tuesday<%if(i!=1)out.print(i);%>"><td>
                                                             <input id="a-tues<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
@@ -767,6 +836,41 @@
                                                 <td class="day">Wednesday</td>
                                                 <td>
                                                     <table id="wednesdaySlotHolder">
+                                                        <% //IF NO RULES FOR THIS DAY
+                                                            if(openRuleWed.isEmpty()) { int i = 1;%>
+                                                            <tr class="wednesdaySlot slotRow" id="wednesday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-wednes<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
+                                                                   value=""/>
+                                                            <input class="hide wednesdaySlotData start" id="a-wednesday<%= i %>"
+                                                                   value=">"/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-wednes<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
+                                                                   value=""/>
+                                                            <input class="hide wednesdaySlotData end" id="b-wednesday<%= i %>" 
+                                                                   value=""/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('wednes',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(3)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-wednes<%= i %>").change(function(){
+                                                                $("#a-wednesday<%= i %>").val( getDateFromString($("#a-wednes<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-wednes<%= i %>").change(function(){
+                                                                $("#b-wednesday<%= i %>").val( getDateFromString($("#b-wednes<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-wednesday<%= i %>").val( getDateFromString($("#a-wednes<%= i %>").val()) ); 
+                                                               $("#b-wednesday<%= i %>").val( getDateFromString($("#b-wednes<%= i %>").val()) );
+                                                            });
+                                                            
+                                                        </script>
+                                                        <%}%>
+                                                        
                                                             <% for (int i = 1 ; i < openRuleWed.size()+1 ; i++) { OpenRule o = openRuleWed.get(i-1);%>
                                                         
                                                         <tr class="wednesdaySlot slotRow" id="wednesday<%if(i!=1)out.print(i);%>"><td>
@@ -812,6 +916,40 @@
                                                 <td class="day">Thursday</td>
                                                 <td>
                                                     <table id="thursdaySlotHolder">
+                                                        <% //IF NO RULES FOR THIS DAY
+                                                            if(openRuleThu.isEmpty()) { int i = 1;%>
+                                                            <tr class="thursdaySlot slotRow" id="thursday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-thurs<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
+                                                                   value=""/>
+                                                            <input class="hide thursdaySlotData start" id="a-thursday<%= i %>"
+                                                                   value=""/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-thurs<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
+                                                                   value=""/>
+                                                            <input class="hide thursdaySlotData end" id="b-thursday<%= i %>" 
+                                                                   value=">"/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('thurs',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(4)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-thurs<%= i %>").change(function(){
+                                                                $("#a-thursday<%= i %>").val( getDateFromString($("#a-thurs<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-thurs<%= i %>").change(function(){
+                                                                $("#b-thursday<%= i %>").val( getDateFromString($("#b-thurs<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-thursday<%= i %>").val( getDateFromString($("#a-thurs<%= i %>").val()) ); 
+                                                               $("#b-thursday<%= i %>").val( getDateFromString($("#b-thurs<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        <%}%>
+                                                        
                                                        <% for (int i = 1 ; i < openRuleThu.size()+1 ; i++) { OpenRule o = openRuleThu.get(i-1);%>
                                                         
                                                         <tr class="thursdaySlot slotRow" id="thursday<%if(i!=1)out.print(i);%>"><td>
@@ -855,6 +993,40 @@
                                                 <td class="day">Friday</td>
                                                 <td>
                                                     <table id="fridaySlotHolder">
+                                                        <% //IF NO RULES FOR THIS DAY
+                                                            if(openRuleFri.isEmpty()) { int i = 1;%>
+                                                            <tr class="fridaySlot slotRow" id="friday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-fri<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
+                                                                   value=""/>
+                                                            <input class="hide fridaySlotData start" id="a-friday<%= i %>"
+                                                                   value=""/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-fri<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
+                                                                   value=""/>
+                                                            <input class="hide fridaySlotData end" id="b-friday<%= i %>" 
+                                                                   value=""/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('fri',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(5)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-fri<%= i %>").change(function(){
+                                                                $("#a-friday<%= i %>").val( getDateFromString($("#a-fri<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-fri<%= i %>").change(function(){
+                                                                $("#b-friday<%= i %>").val( getDateFromString($("#b-fri<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-friday<%= i %>").val( getDateFromString($("#a-fri<%= i %>").val()) ); 
+                                                               $("#b-friday<%= i %>").val( getDateFromString($("#b-fri<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        <%}%>
+                                                        
                                                        <% for (int i = 1 ; i < openRuleFri.size()+1 ; i++) { OpenRule o = openRuleFri.get(i-1);%>
                                                         
                                                         <tr class="fridaySlot slotRow" id="friday<%if(i!=1)out.print(i);%>"><td>
@@ -899,6 +1071,40 @@
                                                 <td class="day">Saturday</td>
                                                 <td>
                                                     <table id="saturdaySlotHolder">
+                                                        <% //IF NO RULES FOR THIS DAY
+                                                            if(openRuleSat.isEmpty()) { int i = 1;%>
+                                                            <tr class="saturdaySlot slotRow" id="saturday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-satur<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
+                                                                   value=""/>
+                                                            <input class="hide saturdaySlotData start" id="a-saturday<%= i %>"
+                                                                   value=""/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-satur<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
+                                                                   value=""/>
+                                                            <input class="hide saturdaySlotData end" id="b-saturday<%= i %>" 
+                                                                   value=""/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('satur',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(6)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-satur<%= i %>").change(function(){
+                                                                $("#a-saturday<%= i %>").val( getDateFromString($("#a-satur<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-satur<%= i %>").change(function(){
+                                                                $("#b-saturday<%= i %>").val( getDateFromString($("#b-satur<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-saturday<%= i %>").val( getDateFromString($("#a-satur<%= i %>").val()) ); 
+                                                               $("#b-saturday<%= i %>").val( getDateFromString($("#b-satur<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        <%}%>
+                                                        
                                                         <% for (int i = 1 ; i < openRuleSat.size()+1 ; i++) { OpenRule o = openRuleSat.get(i-1);%>
                                                         
                                                         <tr class="saturdaySlot slotRow" id="saturday<%if(i!=1)out.print(i);%>"><td>
@@ -943,6 +1149,40 @@
                                                 <td class="day">Sunday</td>
                                                 <td>
                                                     <table id="sundaySlotHolder">
+                                                        <% //IF NO RULES FOR THIS DAY
+                                                            if(openRuleSun.isEmpty()) { int i = 1;%>
+                                                            <tr class="sundaySlot slotRow" id="sunday<%if(i!=1)out.print(i);%>"><td>
+                                                            <input id="a-sun<%= i %>" class="timepicker startTime <%if(i==1)out.print("firstStart");%>"
+                                                                   value=""/>
+                                                            <input class="hide sundaySlotData start" id="a-sunday<%= i %>"
+                                                                   value=""/> 
+                                                            <span class="spacing">to</span>
+                                                            <input id="b-sun<%= i %>" class="timepicker endTime <%if(i==1)out.print("firstEnd");%>" 
+                                                                   value=""/>
+                                                            <input class="hide sundaySlotData end" id="b-sunday<%= i %>" 
+                                                                   value=""/>
+                                                        </td>
+                                                        <td><a href="#removeSlot" class="embeddedBtn delBtn <% if(i==1)out.println("hide");%>" 
+                                                               onclick="removeSlot('sun',<%= i %>)">x</a>
+                                                            <a href="#addSlot" class="embeddedBtn" 
+                                                               onclick="addSlotForDay(7)">+</a>
+                                                        </td>
+                                                        </tr>
+                                                        
+                                                        <script>
+                                                            $("#a-sun<%= i %>").change(function(){
+                                                                $("#a-sunday<%= i %>").val( getDateFromString($("#a-sun<%= i %>").val()) ); 
+                                                            });
+                                                            $("#b-sun<%= i %>").change(function(){
+                                                                $("#b-sunday<%= i %>").val( getDateFromString($("#b-sun<%= i %>").val()) ); 
+                                                            });
+                                                            $("#btnCopyFirstRow").click(function(){
+                                                               $("#a-sunday<%= i %>").val( getDateFromString($("#a-sun<%= i %>").val()) ); 
+                                                               $("#b-sunday<%= i %>").val( getDateFromString($("#b-sun<%= i %>").val()) );
+                                                            });
+                                                        </script>
+                                                        <%}%>
+                                                        
                                                         <% for (int i = 1 ; i < openRuleSun.size()+1 ; i++) { OpenRule o = openRuleSun.get(i-1);%>
                                                         
                                                         <tr class="sundaySlot slotRow" id="sunday<%if(i!=1)out.print(i);%>"><td>

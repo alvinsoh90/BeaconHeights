@@ -8,6 +8,7 @@ import com.lin.dao.ResourceDAO;
 import com.lin.dao.SubmittedFormDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
+import com.lin.utils.FileUploadUtils;
 import java.io.File;
 
 import java.util.ArrayList;
@@ -103,21 +104,31 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
 
     @DefaultHandler
     public Resolution submit() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
         if(file==null){
-            FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
-
             // put shit inside       
-            fs.put("FAILURE","You must agree to the terms and conditions.");
+            fs.put("FAILURE","this message is not used");
             fs.put("MESSAGES","You forgot to attach a file.");
 
             // redirect as normal        
 
             return new RedirectResolution("/residents/submitonlineforms.jsp");
+        }else{
+            ArrayList<String> list = new ArrayList<String>();
+            list.add("doc");
+            list.add("docx");
+            list.add("txt");
+            list.add("pdf");
+            String extension = FileUploadUtils.getExtension(file);
+            System.out.println("EXTENSION : "+extension);
+            if(!list.contains(extension)){
+                fs.put("FAILURE","This value is not used");
+                fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .doc .docx .txt .pdf");
+                return new RedirectResolution("/residents/submitonlineforms.jsp");
+            }
         }
         if(!agree){
              // get flash scope instance
-            FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
-
             // put shit inside       
             fs.put("FAILURE","You must agree to the terms and conditions.");
             fs.put("MESSAGES","You must agree to the terms and conditions.");
@@ -154,11 +165,10 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
             result = file.getFileName();
             success = false;
         }
-        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
-
+        
         // put shit inside       
         fs.put("SUCCESS","You must agree to the terms and conditions.");
-        fs.put("MESSAGES","You must agree to the terms and conditions.");
+        //fs.put("MESSAGES","You must agree to the terms and conditions.");
         
         return new RedirectResolution("/residents/submitonlineforms.jsp");
 

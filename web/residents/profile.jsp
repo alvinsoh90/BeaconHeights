@@ -47,7 +47,24 @@
         <script src="./js/jquery-1.7.2.min.js"></script>
         
         <script src="./js/bootstrap.js"></script>
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
         <script>
+            var success = "${SUCCESS}";
+            var failure = "${FAILURE}";
+            if(success != ""){
+                toastr.success(success);
+            }
+            else if(failure){
+                var msg = "<b>There was an error with submitting your form.</b><br/>";
+                msg += "<ol>"
+            <c:forEach var="message" items="${MESSAGES}">
+                    msg += "<li>${message}</li>";
+            </c:forEach>
+                    msg += "</ol>";    
+                    toastr.errorSticky(msg);
+                }
             var levels="";
             var units = "";
             window.onload = function() {

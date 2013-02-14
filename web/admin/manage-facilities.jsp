@@ -19,9 +19,6 @@
         <meta charset="utf-8">
         <title>Admin | Manage Facilities</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
-        <meta name="author" content="travis">
-
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -206,8 +203,8 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Type</label>
                         <div class="controls">
-                            <stripes:select name="type">
-                                <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name" value="name"/>        
+                            <stripes:select name="id">
+                                <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" label="name" value="id"/>        
                             </stripes:select>
                         </div>
                     </div>
@@ -249,7 +246,7 @@
                         <label class="control-label">Type</label>
                         <div class="controls">
                             <stripes:select id="edit_type" name="type">
-                                <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="name" label="name"/>        
+                                <stripes:options-collection collection="${manageFacilitiesActionBean.facilityTypeList}" value="id" label="name"/>        
                             </stripes:select>
                         </div>
                     </div> 
@@ -259,7 +256,6 @@
                             <stripes:text id="edit_facility_name" name="facility_name" />
                         </div>
                     </div>
-                    <stripes:text class="hide" name="id" id="editid" />
 <!--                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Latitude</label>
                         <div class="controls">
@@ -272,12 +268,13 @@
                     <stripes:text id="edit_longitude" name="longitude"/> 
                 </div>
             </div>                              -->
-                    <stripes:hidden id="editid" name="id"/>
+                    
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>
                     <input type="submit" name="editFacility" value="Confirm Edit" class="btn btn-primary"/>
                 </div>
+                <stripes:hidden id="editid" name="id"/>
             </stripes:form>
         </div>
 
