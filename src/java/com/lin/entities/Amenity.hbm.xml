@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 21, 2013 7:21:58 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Feb 15, 2013 4:09:19 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Amenity" table="amenity" catalog="lin_staging_db">
         <id name="id" type="java.lang.Integer">
@@ -17,8 +17,8 @@
         <property name="description" type="string">
             <column name="description" length="200" />
         </property>
-        <property name="postalCode" type="int">
-            <column name="postal_code" not-null="true" />
+        <property name="postalCode" type="string">
+            <column name="postal_code" length="6" not-null="true" />
         </property>
         <property name="contactNo" type="string">
             <column name="contact_no" length="100" />

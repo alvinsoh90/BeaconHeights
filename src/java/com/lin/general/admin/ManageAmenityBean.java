@@ -9,6 +9,7 @@ import com.lin.dao.AmenityCategoryDAO;
 import com.lin.entities.Amenity;
 import com.lin.entities.AmenityCategory;
 import java.util.ArrayList;
+import java.util.Collections;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -125,6 +126,7 @@ public class ManageAmenityBean implements ActionBean {
         ArrayList<AmenityCategory> catList = new ArrayList<AmenityCategory>();
         AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
         categoryList = aCatDAO.retrieveAmenityCategories();
+
         try {
             for (AmenityCategory a : categoryList) {
                 catList.add(a);
@@ -135,22 +137,39 @@ public class ManageAmenityBean implements ActionBean {
         }
         return catList;
     }
+    
+    public ArrayList<String> getCategoryListNames() {
+        ArrayList<String> catList = new ArrayList<String>();
+        AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
+        categoryList = aCatDAO.retrieveAmenityCategories();
+
+        try {
+            for (AmenityCategory a : categoryList) {
+                catList.add(a.getName());
+                System.out.println(a.getName());
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(catList);
+        return catList;
+    }
 
     @HandlesEvent("deleteAmenityCategory")
     public Resolution deleteAmenityCategory() {
         System.out.println(getId());
         AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
         outcome = aCatDAO.deleteAmenityType(Integer.parseInt(id));
-        return new RedirectResolution("/admin/manage-amenitycategories.jsp?deletesuccess=" +
-                outcome +"&deletemsg="+getName());
+        return new RedirectResolution("/admin/manage-amenitycategories.jsp?deletesuccess="
+                + outcome + "&deletemsg=" + getName());
     }
 
     @HandlesEvent("editAmenityCategory")
     public Resolution editAmenityCategory() {
         AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
         outcome = aCatDAO.updateAmenityType(Integer.parseInt(id), getName());
-        return new RedirectResolution("/admin/manage-amenitycategories.jsp?editsuccess=" +
-                outcome +"&createmsg="+getName());
+        return new RedirectResolution("/admin/manage-amenitycategories.jsp?editsuccess="
+                + outcome + "&editmsg=" + getName());
     }
 
     @DefaultHandler
@@ -158,36 +177,36 @@ public class ManageAmenityBean implements ActionBean {
         AmenityCategory aCat = new AmenityCategory(getName());
         AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
         outcome = aCatDAO.addAmenityCategory(aCat);
-        return new RedirectResolution("/admin/manage-amenitycategories.jsp?createsuccess=" +
-                outcome +"&createmsg="+getName());
+        return new RedirectResolution("/admin/manage-amenitycategories.jsp?createsuccess="
+                + outcome + "&createmsg=" + getName());
     }
-    
+
     @HandlesEvent("deleteAmenity")
     public Resolution deleteAmenity() {
         System.out.println(getId());
         AmenityDAO aDAO = new AmenityDAO();
         outcome = aDAO.deleteAmenity(Integer.parseInt(id));
-        return new RedirectResolution("/admin/manage-amenities.jsp?deletesuccess=" +
-                outcome +"&deletemsg="+getName());
+        return new RedirectResolution("/admin/manage-amenities.jsp?deletesuccess="
+                + outcome + "&deletemsg=" + getName());
     }
 
     @HandlesEvent("editAmenity")
     public Resolution editAmenity() {
         AmenityDAO aDAO = new AmenityDAO();
         outcome = aDAO.updateAmenity(Integer.parseInt(id), name, description,
-                Integer.parseInt(postalCode),contactNo, Integer.parseInt(category), unitNo, streetName);
-        return new RedirectResolution("/admin/manage-amenities.jsp?editsuccess=" +
-                outcome +"&createmsg="+getName());
+                postalCode, contactNo, Integer.parseInt(category), unitNo, streetName);
+        return new RedirectResolution("/admin/manage-amenities.jsp?editsuccess="
+                + outcome + "&editmsg=" + getName());
     }
 
     @HandlesEvent("addAmenity")
     public Resolution addAmenity() {
         AmenityCategoryDAO acDAO = new AmenityCategoryDAO();
         AmenityCategory ac = acDAO.getAmenityCategory(Integer.parseInt(category));
-        Amenity a = new Amenity(ac, name, description, Integer.parseInt(postalCode), contactNo, unitNo, streetName);
+        Amenity a = new Amenity(ac, name, description, postalCode, contactNo, unitNo, streetName);
         AmenityDAO aDAO = new AmenityDAO();
         outcome = aDAO.addAmenity(a);
-        return new RedirectResolution("/admin/manage-amenities.jsp?createsuccess=" +
-                outcome +"&createmsg="+getName());
+        return new RedirectResolution("/admin/manage-amenities.jsp?createsuccess="
+                + outcome + "&createmsg=" + getName());
     }
 }

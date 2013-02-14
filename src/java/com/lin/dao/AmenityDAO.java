@@ -117,7 +117,7 @@ public class AmenityDAO {
     }
 
     public boolean updateAmenity(int amenityId, String name, String description,
-            int postalCode, String contactNo, int category_id, String unitNo, String streetName) {
+            String postalCode, String contactNo, int category_id, String unitNo, String streetName) {
         openSession();
         Transaction tx = null;
        

@@ -178,10 +178,10 @@
                             <h2>View Amenities</h2>
                             <ul class="nav nav-list bs-docs-sidenav affix">
                                 <!-- for each category, Print out an LI!-->
-                                <c:forEach items = "${manageAmenityBean.categoryList}"
+                                <c:forEach items = "${manageAmenityBean.categoryListNames}"
                                            var="category" varStatus="loop">
                                     <li>
-                                        <a href="#${category.name}" onclick="getAmenities('${category.name}');">${category.name}</a> 
+                                        <a href="#${category}" onclick="getAmenities('${category}');">${category}</a> 
                                     </li>
 
                                 </c:forEach>

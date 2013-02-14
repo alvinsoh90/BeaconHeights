@@ -49,6 +49,7 @@
                         $("#amenityCategoryEditLabel").text(amenityCategory.name);
                         $("#edit_name").val(amenityCategory.name);
                         $("#edit_id").val(amenityCategory.id);
+                        $("#hidden_id").val(amenityCategory.id);
                     }
                 });
                 
@@ -91,7 +92,8 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">ID</label>
                                     <div class="controls">
-                                        <stripes:text id="edit_id" name="id" disabled="true"/> 
+                                        <stripes:text id="edit_id" name ="" disabled="true"/> 
+                                        <stripes:hidden id="hidden_id" name="id"/> 
                                     </div>
                                 </div>   
                                 <div class="control-group ${errorStyle}">
