@@ -16,12 +16,12 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
-        
+
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
         <script src="js/jquery.js"></script>        
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
-        
-        
+
+
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -58,7 +58,8 @@
                 amenityCategoryList.forEach(function(amenityCategory){
                     if(amenityCategory.id == catID){
                         $("#amenityCategoryDeleteLabel").text(amenityCategory.name);
-                        $("#delete_name").text(amenityCategory.name);
+                        $("#delete_label").text(amenityCategory.name);
+                        $("#delete_name").val(amenityCategory.name);
                         $("#delete_id").val(amenityCategory.id);
                     }
                 }); 
@@ -90,7 +91,7 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">ID</label>
                                     <div class="controls">
-                                        <stripes:text id="edit_id" name="id"/> 
+                                        <stripes:text id="edit_id" name="id" disabled="true"/> 
                                     </div>
                                 </div>   
                                 <div class="control-group ${errorStyle}">
@@ -115,7 +116,7 @@
                         </div>
                         <div class="modal-body">
                             <stripes:form  class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean"> 
-                                You are now deleting <span id="delete_name"></span>. Are you sure?
+                                You are now deleting <span id="delete_label"></span>. Are you sure?
                             </div>
                             <div class="modal-footer">
                                 <a data-dismiss="modal" class="btn">Close</a>
@@ -159,7 +160,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    
+
                     <a href="#createAmenityCategoryModal" role="button" data-toggle="modal" class="btn btn-success">Create New Category</a>
                 </div>
             </div>

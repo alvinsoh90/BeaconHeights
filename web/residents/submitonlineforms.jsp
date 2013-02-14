@@ -253,10 +253,7 @@
 
                         <div class="account-container">
                             <h2>View Online Forms</h2>
-                            <select id ="view">
-                                <option value="Current Bookings">List of Forms</option>
-                                <option value="Booking History">My Submitted Forms</option>
-                            </select>
+                            
 
                         </div> <!-- /account-container -->
                     </div>

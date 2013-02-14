@@ -106,8 +106,12 @@
                 amenities.clearCategories();
                 amenities.addCategory(categoryToRequest, GAmenities.LARGE_RESULTSET);
                 amenities.load(latlng);
-                
-                var homeMarker = new GMarker(latlng);
+
+                var pinkIcon = new GIcon(G_DEFAULT_ICON);
+                pinkIcon.image = "/img/lin/m_pink.png";
+                var markerOptions = { icon:pinkIcon };
+                var homeMarker = new GMarker(latlng,markerOptions);
+
                 map.addOverlay(homeMarker);
 
             }
@@ -115,13 +119,13 @@
             gothere.setOnLoadCallback(initialize);
             
             function placeMarkers(category){
-                
+                console.log(category);
                 // Create a geocoder.
                 var geocoder = new GClientGeocoder();
                 for(var i = 0;i<amenityList.length;i++){
-
+                    console.log(amenityList.length);
+                    console.log(amenityList[i].category + "YIPPE");
                     if(category == amenityList[i].category){
-                        
                         var name = amenityList[i].name;
                         var streetName = amenityList[i].streetName;
                         var unitNo = amenityList[i].unitNo;
@@ -132,6 +136,8 @@
                         geocoder.getLatLng(streetName, function(latlng) {
                             if (latlng) {
                                 // Add a marker to the map.
+                                var greenIcon = new GIcon(G_DEFAULT_ICON);
+                                var markerOptions = { icon:greenIcon };
                                 var marker = new GMarker(latlng);
                                 marker.bindInfoWindowHtml("<b>"+name+"</b></br>"+
                                     description+"</br>"+unitNo+" "+streetName+ 
@@ -150,8 +156,8 @@
         <c:forEach items="${manageAmenityBean.amenityList}" var="amenity" varStatus="loop">
             <script>
                 var amenity = new Object();
-                amenity.name = '${amenity.name}';
-                amenity.description = '${amenity.description}';
+                amenity.name = '${amenity.escapedName}';
+                amenity.description = '${amenity.escapedDescription}';
                 amenity.unitNo = '${amenity.unitNo}';
                 amenity.streetName = '${amenity.streetName}';
                 amenity.contactNo = '${amenity.contactNo}';

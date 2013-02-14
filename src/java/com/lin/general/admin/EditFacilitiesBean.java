@@ -28,7 +28,7 @@ public class EditFacilitiesBean implements ActionBean{
   private Facility facility;
   
   private String id;
-  private String type;
+  private Integer type;
   private String latitude;
   private String longitude;
   private String facility_name;
@@ -93,11 +93,11 @@ public class EditFacilitiesBean implements ActionBean{
         this.longitude = longitude;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

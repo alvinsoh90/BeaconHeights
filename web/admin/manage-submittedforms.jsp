@@ -174,8 +174,8 @@
                                 <td><b><a href="/uploads/submitted_forms/${submittedForm.fileName}">${submittedForm.fileName}</a></b></td>
                                 <td>
                                     <b>
-                                        <c:if test="${submittedForm.processed=='false'}">Pending</c:if>
-                                        <c:if test="${submittedForm.processed=='true'}">Processed</c:if>
+                                        ${submittedForm.processed}
+                                      
                                     </b>
                                 </td>
                                 <td><b>${submittedForm.comments}</b></td>

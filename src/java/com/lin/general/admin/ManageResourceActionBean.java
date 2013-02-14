@@ -31,6 +31,7 @@ public class ManageResourceActionBean implements ActionBean {
 
     private ActionBeanContext context;
     private ArrayList<Resource> resourceList;
+    private ArrayList<String> uniqueCategories;
     private Log log = Log.getInstance(ManageResourceActionBean.class);//in attempt to log what went wrong..
     private String name;
     private String description;
@@ -101,9 +102,9 @@ public class ManageResourceActionBean implements ActionBean {
     
     public ArrayList<String> getUniqueCategories(){
         ResourceDAO rDAO = new ResourceDAO();
-        ArrayList<String> result = rDAO.getUniqueCategories();
+        uniqueCategories = rDAO.getUniqueCategories();
         
-        return result;
+        return uniqueCategories;
     }
 
     @DefaultHandler

@@ -92,8 +92,8 @@
                 
                 var enquiry = new Object();
                 enquiry.id = '${enquiry.id}';
-                enquiry.title = '${enquiry.title}';
-                enquiry.text = '${enquiry.text}';
+                enquiry.title = '${enquiry.escapedTitle}';
+                enquiry.text = '${enquiry.escapedText}';
                 enquiry.date = '${enquiry.enquiryTimeStamp}';
                 enquiry.isResolved = '${enquiry.isResolved}';
                 enquiry.responderId = '${enquiry.userByResponderId.userId}'

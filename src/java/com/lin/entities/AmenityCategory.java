@@ -1,6 +1,9 @@
 package com.lin.entities;
 // Generated Jan 20, 2013 6:53:45 PM by Hibernate Tools 3.2.1.GA
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
+
 
 
 /**
@@ -27,7 +30,7 @@ public class AmenityCategory  implements java.io.Serializable {
         this.id = id;
     }
     public String getName() {
-        return this.name;
+        return StringEscapeUtils.escapeEcmaScript(name);
     }
     
     public void setName(String name) {
