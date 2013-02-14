@@ -6,7 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -44,7 +43,7 @@
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/unicorn.calendar.js"></script>
-        <script src="./js/jquery-1.7.2.min.js"></script>
+        <script src="/js/jquery-1.9.1.min.js"></script>
         
         <script src="./js/bootstrap.js"></script>
         <script src="/js/toastr.js"></script>
