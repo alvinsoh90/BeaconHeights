@@ -166,10 +166,10 @@
                             <script>
                                 var resource = new Object();
                                 resource.id = '${resource.id}';
-                                resource.name = '${resource.name}';
-                                resource.description = '${resource.description}';
-                                resource.category = '${resource.category}';
-                                resource.fileName = '${resource.fileName}';
+                                resource.name = '${resource.escapedName}';
+                                resource.description = '${resource.escapedDescription}';
+                                resource.category = '${resource.escapedCategory}';
+                                resource.fileName = '${resource.escapedFileName}';
                                 resource.timeCreated = '${resource.timeCreated}';
                                 resourceList.push(resource);
                             </script>
