@@ -22,6 +22,7 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
+import net.sourceforge.stripes.controller.FlashScope;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class EditSubmittedFormsBean implements ActionBean {
@@ -102,6 +103,7 @@ public class EditSubmittedFormsBean implements ActionBean {
 
     @DefaultHandler
     public Resolution editResource(){
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
         SubmittedFormDAO sfDAO = new SubmittedFormDAO();
         
         UserDAO uDAO = new UserDAO();
@@ -122,12 +124,15 @@ public class EditSubmittedFormsBean implements ActionBean {
                         fileName,
                         bProcessed
                     );
-            return new RedirectResolution("/admin/manage-onlineform.jsp?editsuccess=true"+"&editmsg="+user + "'s " + fileName);
+            //System.out.println("bProcessed!!!!!!!" + bProcessed);
+            fs.put("SUCCESS","Successfully updated User Submitted Form Status.");
+            return new RedirectResolution("/admin/manage-onlineform.jsp");
         }
         catch(Exception e){
             e.printStackTrace(); 
         }
-        return new RedirectResolution("/admin/manage-onlineform.jsp?editsuccess=false"+"&editmsg="+user + "'s " + fileName);
+        fs.put("FAILURE","This value is not used");
+        return new RedirectResolution("/admin/manage-onlineform.jsp");
         
     }
 }
