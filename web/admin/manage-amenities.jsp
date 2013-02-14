@@ -69,7 +69,8 @@
                 amenityList.forEach(function(amenity){
                     if(amenity.id == aID){
                         $("#amenityDeleteLabel").text(amenity.name);
-                        $("#delete_name").text(amenity.name);
+                        $("#delete_label").text(amenity.name);
+                        $("#delete_name").val(amenity.name);
                         $("#delete_id").val(amenity.id);
                     }
                 }); 
@@ -159,7 +160,7 @@
                         </div>
                         <div class="modal-body">
                             <stripes:form  class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean"> 
-                                You are now deleting <span id="delete_name"></span>. Are you sure?
+                                You are now deleting <span id="delete_label"></span>. Are you sure?
                             </div>
                             <div class="modal-footer">
                                 <a data-dismiss="modal" class="btn">Close</a>
@@ -312,9 +313,6 @@
                 }
             });
         </script>
-        <script>
-            
-        
-        </script>
+
     </body>
 </html>

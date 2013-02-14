@@ -183,11 +183,11 @@
                                             </script>
                                             <tr>
 
-                                                <td>${resource.id}</td>
+                                                <td>${loop.index + 1}</td>
                                                 <td>${resource.name}</td>
                                                 <td>${resource.description}</td>
-                                                <td>${resource.category}</td>
-                                                <td><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
+                                                <td nowrap>${resource.category}</td>
+                                                <td nowrap><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
                                                 <jsp:setProperty name="newsDate" property="time" value="${resource.timeCreated.time}" />
                                                 <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
 

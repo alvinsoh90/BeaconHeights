@@ -142,7 +142,7 @@ public class ManageAmenityBean implements ActionBean {
         AmenityCategoryDAO aCatDAO = new AmenityCategoryDAO();
         outcome = aCatDAO.deleteAmenityType(Integer.parseInt(id));
         return new RedirectResolution("/admin/manage-amenitycategories.jsp?deletesuccess=" +
-                outcome +"&createmsg="+getName());
+                outcome +"&deletemsg="+getName());
     }
 
     @HandlesEvent("editAmenityCategory")
@@ -168,7 +168,7 @@ public class ManageAmenityBean implements ActionBean {
         AmenityDAO aDAO = new AmenityDAO();
         outcome = aDAO.deleteAmenity(Integer.parseInt(id));
         return new RedirectResolution("/admin/manage-amenities.jsp?deletesuccess=" +
-                outcome +"&createmsg="+getName());
+                outcome +"&deletemsg="+getName());
     }
 
     @HandlesEvent("editAmenity")

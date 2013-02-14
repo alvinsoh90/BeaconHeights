@@ -176,7 +176,7 @@
                         <tbody>
                             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
                                 <tr>
-                                    <td>${booking.id}</td>
+                                    <td>${loop.index + 1}</td>
                                     <td nowrap>${booking.user.escapedUserName}</td>
                                     <td >${booking.user.escapedFirstName} ${booking.user.escapedLastName}</td>
                                     <td nowrap>${booking.facility.escapedName}</td>
