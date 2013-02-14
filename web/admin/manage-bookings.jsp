@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <jsp:useBean id="manageUsersActionBean" scope="page"
              class="com.lin.general.admin.ManageUsersActionBean"/>
@@ -16,6 +17,8 @@
              class="com.lin.general.admin.ManageBookingsActionBean"/>
 <jsp:useBean id="manageFacilitiesActionBean" scope="page"
              class="com.lin.general.admin.ManageFacilitiesActionBean"/>
+
+
 <%@include file="/protectadmin.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,6 +80,7 @@
             }
             
             function populateEditBookingModal(bookingID){ 
+                console.log("REACHED");
                 bookingList.forEach(function(booking){
                     if(booking.id == bookingID){
                         $("#usernameEditLabel").text(booking.username);
@@ -119,7 +123,7 @@
         </script>
 
         <%--Load up bookings --%>
-        <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">     
+        <c:if test="${manageBookingsActionBean.bookingList.size()!=0}">   
             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
                 <script>
                     var booking = new Object();
@@ -142,7 +146,7 @@
 
     </head>
 
-    <body onload="showBookings(bookingList)">
+    <body >
         <%@include file="include/mainnavigationbar.jsp"%>
         <div class="container-fluid">
             <%@include file="include/sidemenu.jsp"%>   
@@ -178,8 +182,11 @@
                                     <td nowrap>${booking.user.escapedUserName}</td>
                                     <td >${booking.user.escapedFirstName} ${booking.user.escapedLastName}</td>
                                     <td nowrap>${booking.facility.escapedName}</td>
-                                    <td>${booking.startDate}</td>
-                                    <td>${booking.endDate}</td>
+
+                                    <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                                    value="${booking.startDate}"/></td>
+                                    <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                                    value="${booking.endDate}"/></td>
 
                                     <c:choose>
                                         <c:when test="${booking.isDeleted == 'true'}">
@@ -188,7 +195,7 @@
                                             <td >-</td>
                                             <td>-</td>
                                         </c:when>
-                                            
+
                                         <c:when test="${booking.facility.facilityType.needsPayment == 'false'}">
                                             <td><font color="green">Confirmed</font></td>
                                             <td>NA</td>
@@ -198,7 +205,7 @@
                                                     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
                                                     <ul class="dropdown-menu">
                                                         <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBoookingModal('${booking.id}');loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
-                                                       <li><a href="#deleteBookingModal" role="button" data-toggle="modal" onclick="populateDeleteBookingModal('${booking.id}')"><i class="icon-trash"></i> Delete</a></li>
+                                                        <li><a href="#deleteBookingModal" role="button" data-toggle="modal" onclick="populateDeleteBookingModal('${booking.id}')"><i class="icon-trash"></i> Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>

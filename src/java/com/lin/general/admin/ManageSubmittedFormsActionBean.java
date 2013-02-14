@@ -107,7 +107,7 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
             FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
 
             // put shit inside       
-            fs.put("FAILURE","You must agree to the terms and conditions.");
+            fs.put("FAILURE","this message is not used");
             fs.put("MESSAGES","You forgot to attach a file.");
 
             // redirect as normal        
@@ -158,7 +158,7 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
 
         // put shit inside       
         fs.put("SUCCESS","You must agree to the terms and conditions.");
-        fs.put("MESSAGES","You must agree to the terms and conditions.");
+        //fs.put("MESSAGES","You must agree to the terms and conditions.");
         
         return new RedirectResolution("/residents/submitonlineforms.jsp");
 

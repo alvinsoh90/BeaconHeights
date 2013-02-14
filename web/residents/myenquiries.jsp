@@ -6,11 +6,12 @@
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
         <jsp:useBean id="manageEnquiryActionBean" scope="page"
                      class="com.lin.resident.ManageEnquiryActionBean"/>
         <jsp:useBean id="registerActionBean" scope="page"
                      class="com.lin.general.login.RegisterActionBean"/>
-
+        <jsp:useBean id="newsDate" class="java.util.Date" />
 
 
         <jsp:setProperty name = "manageEnquiryActionBean"  property = "user"  value = "${user}" />
@@ -67,16 +68,16 @@
             <script>
                 
                
-                    var enquiry = new Object();
-                    enquiry.id = '${enquiry.id}';
-                    enquiry.title = '${enquiry.title}';
-                    enquiry.text = '${enquiry.text}';
-                    enquiry.date = '${enquiry.enquiryTimeStamp}';
-                    enquiry.isResolved = '${enquiry.isResolved}';
-                    enquiry.responderId = '${enquiry.userByResponderId.userId}'
-                    enquiry.responderName = '${enquiry.userByResponderId.userName}';
-                    enquiry.response = '${enquiry.response}';
-                    enquiryList.push(enquiry);
+                var enquiry = new Object();
+                enquiry.id = '${enquiry.id}';
+                enquiry.title = '${enquiry.title}';
+                enquiry.text = '${enquiry.text}';
+                enquiry.date = '${enquiry.enquiryTimeStamp}';
+                enquiry.isResolved = '${enquiry.isResolved}';
+                enquiry.responderId = '${enquiry.userByResponderId.userId}'
+                enquiry.responderName = '${enquiry.userByResponderId.userName}';
+                enquiry.response = '${enquiry.response}';
+                enquiryList.push(enquiry);
                     
                
 
@@ -148,8 +149,8 @@
                                                 <tr>
                                                     <td><%= count++%></td>
                                                     <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
-                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
-                                                                    value="${enquiry.enquiryTimeStamp}"/></td>
+                                                    <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
                                                     <td nowrap>
                                                         <script>
                                                             
@@ -175,7 +176,7 @@
 
 
                             </div>
-
+                            <br/>
                             <a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>
                         </div>
                     </div>

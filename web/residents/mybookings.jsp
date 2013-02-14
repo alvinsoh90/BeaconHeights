@@ -147,13 +147,13 @@
                                             <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
                                                 <tr>
                                                     <td><%= count++%></td>
-                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                                                                     value="${booking.bookingTimeStamp}"/></td>
                                                     <td nowrap>${booking.title}</td>
                                                     <td nowrap>${booking.facility.name}</td>
-                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                                                                     value="${booking.startDate}"/></td>
-                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                                                                     value="${booking.endDate}"/></td> 
                                                     <td><c:if test= "${booking.isDeleted == 'true'}"><font color="red">Deleted</font></c:if>
                                                         <c:if test= "${booking.isDeleted == 'false'}"><font color="green">Confirmed</font></c:if>
@@ -210,13 +210,13 @@
                                         <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
                                             <tr>
                                                 <td><%=countHistory++%></td>
-                                                <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                                                                 value="${booking.bookingTimeStamp}"/></td>
                                                 <td>${booking.title}</td>
                                                 <td>${booking.facility.facilityType.name} </td>
-                                                <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                                                                 value="${booking.startDate}"/></td>
-                                                <td><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
+                                                <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                                                                 value="${booking.endDate}"/></td>            
                                             </tr>
                                         </c:forEach>

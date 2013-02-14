@@ -13,11 +13,13 @@
 
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <jsp:useBean id="manageEnquiryActionBean" scope="page"
              class="com.lin.resident.ManageEnquiryActionBean"/>
 <jsp:useBean id="registerActionBean" scope="page"
              class="com.lin.general.login.RegisterActionBean"/>
+<jsp:useBean id="newsDate" class="java.util.Date" />
 
 
 
@@ -60,19 +62,25 @@
             
             var enquiryList = [];
             
-            function populateViewEnquiryModal(enquiryId){ 
+            function populateViewEnquiryModal(enquiryId){
                 enquiryList.forEach(function(enquiry){
                     if(enquiry.id == enquiryId){
-                        var responder = enquiry.responder;
-                        if (enquiry.isResolved==false){
-                            responder=user;
+                        var responder = enquiry.responderName;
+                        console.log(enquiry.isResolved);
+                        var status = enquiry.isResolved;
+                        if (status == "false"){
+                            responder = '${user.userName}';
+                            $('#view_response').removeAttr('disabled', 'disabled');
+                        } else {
+                            $('#view_response').attr('disabled', 'disabled');
                         }
-                        
+
                         $("#view_title").val(enquiry.title);
                         $("#view_date").val(enquiry.date);
                         $("#view_text").val(enquiry.text);
                         $("#view_id").val(enquiry.id);
-                        $("#view_responder").val(enquiry.responderName);
+                        $('#view_responder').attr('disabled', 'disabled');
+                        $("#view_responder").val(responder);
                         $("#view_responder_id").val(enquiry.responderId);
                         $("#view_response").val(enquiry.response);
                     }
@@ -131,29 +139,28 @@
 
                             </thead>
                             <tbody>
-                                <%int count = 1;%>
                                 <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
                                     <tr>
-                                        <td><%= count++%></td>
+                                        <td>${loop.index + 1}</td>
                                         <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
-                                        <td nowrap><fmt:formatDate pattern="dd-MM-yyyy HH:mma" 
-                                                           value="${enquiry.enquiryTimeStamp}"/></td>
-                                <td nowrap>
-                                    <script>
+                                        <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
+                                        <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+                                        <td nowrap>
+                                            <script>
                                                             
-                                        if (${enquiry.isResolved}){
-                                            document.write("Resolved");
-                                        }else {
-                                            document.write("Unresolved");
-                                        }
+                                                if (${enquiry.isResolved}){
+                                                    document.write("Resolved");
+                                                }else {
+                                                    document.write("Unresolved");
+                                                }
                                                       
-                                    </script>
-                                </td>
+                                            </script>
+                                        </td>
 
-                                </tr>
-                            </c:forEach>
-                        </c:if>
-                        <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
                             <thead>
                             <th> You have no enquiries or feedback at the moment. Would you like to make one?</th>
                             </thead>
@@ -162,7 +169,7 @@
 
                 </div>
 
-               
+
                 <!--<a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>-->
             </div>
         </div>
@@ -200,7 +207,7 @@
                 <div class="control-group ${errorStyle}">
                     <label class="control-label">Responder</label>
                     <div class="controls">
-                        <stripes:text id="view_responder" name="responder" disabled="true"/> 
+                        <stripes:text id="view_responder" name="responder"/> 
                         <stripes:hidden id="view_responder_id" name="responderId"/>
                     </div>
                 </div>

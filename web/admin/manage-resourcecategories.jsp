@@ -150,7 +150,7 @@
                             </script>
                             <tr>
                   
-                                <td><b>${resourceCategory.id}</b></td>
+                                <td><b>${loop.index + 1}</b></td>
                                 <td><b>${resourceCategory.name}</b></td>
                                 <td><b>${resourceCategory.description}</b></td>
                                 <td>

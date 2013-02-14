@@ -15,6 +15,8 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="manageResourceActionBean" scope="page"
                      class="com.lin.general.admin.ManageResourceActionBean"/>
+        <jsp:useBean id="newsDate" class="java.util.Date" />
+
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
 
@@ -43,7 +45,7 @@
         <![endif]-->
 
     </head>
-       <body>
+    <body>
 
         <div id="content">
 
@@ -64,7 +66,7 @@
                     <div class="span9">
 
                         <h1 class="page-title">
-                           
+
                             Resources			
                         </h1>
                         <br/>
@@ -75,92 +77,96 @@
                                 <i class="icon-th-list"></i>
                                 <h3> List of Resources </h3>
 
-                                
-                            </div> <!-- /widget-header -->
-                            <table class="table table-striped table-bordered table-condensed">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Download File</th>
-                                    <th>Last Updated</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
-                                <script>
-                                    var resource = new Object();
-                                    resource.id = '${resource.id}';
-                                    resource.name = '${resource.name}';
-                                    resource.description = '${resource.description}';
-                                    resource.category = '${resource.category}';
-                                    resource.fileName = '${resource.fileName}';
-                                    resource.timeCreated = '${resource.timeCreated}';
-                                    resourceList.push(resource);
-                                </script>
-                                <tr>
 
-                                    <td><b>${resource.id}</b></td>
-                                    <td><b>${resource.name}</b></td>
-                                    <td><b>${resource.description}</b></td>
-                                    <td><b>${resource.category}</b></td>
-                                    <td><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
-                                    <td><b>${resource.timeCreated}</b></td>
-                                    
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                        <div class="pagination">
-                            <ul>
-                                <li><a href="#">Prev</a></li>
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-                                <!--<li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>-->
-                                <li><a href="#">Next</a></li>
-                            </ul>
-                        </div>
-                            
+                            </div> <!-- /widget-header -->
+                            <div class="widget-content">
+
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Category</th>
+                                            <th>Download File</th>
+                                            <th>Last Updated</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
+                                        <script>
+                                            var resource = new Object();
+                                            resource.id = '${resource.id}';
+                                            resource.name = '${resource.name}';
+                                            resource.description = '${resource.description}';
+                                            resource.category = '${resource.category}';
+                                            resource.fileName = '${resource.fileName}';
+                                            resource.timeCreated = '${resource.timeCreated}';
+                                            resourceList.push(resource);
+                                        </script>
+                                        <tr>
+
+                                            <td>${resource.id}</td>
+                                            <td>${resource.name}</td>
+                                            <td>${resource.description}</td>
+                                            <td>${resource.category}</td>
+                                            <td><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
+                                            <jsp:setProperty name="newsDate" property="time" value="${resource.timeCreated.time}" />
+                                            <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
+                            <div class="pagination">
+                                <ul>
+                                    <li><a href="#">Prev</a></li>
+                                    <li class="active">
+                                        <a href="#">1</a>
+                                    </li>
+                                    <!--<li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>-->
+                                    <li><a href="#">Next</a></li>
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
+                </div>
 
 
-                </div> <!-- /row -->
+            </div> <!-- /row -->
 
-            </div> <!-- /container -->
+        </div> <!-- /container -->
 
-        </div> <!-- /content -->
-
-       
-
-        <div id="footer">
-
-            <div class="container">				
-                <hr>
-                <p>Beacon Heights Condominium</p>
-            </div> <!-- /container -->
-
-        </div> <!-- /footer -->
+    </div> <!-- /content -->
 
 
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+    <div id="footer">
 
-    </body>
+        <div class="container">				
+            <hr>
+            <p>Beacon Heights Condominium</p>
+        </div> <!-- /container -->
+
+    </div> <!-- /footer -->
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./js/excanvas.min.js"></script>
+    <script src="./js/jquery.flot.js"></script>
+    <script src="./js/jquery.flot.pie.js"></script>
+    <script src="./js/jquery.flot.orderBars.js"></script>
+    <script src="./js/jquery.flot.resize.js"></script>
+    <script src="./js/fullcalendar.min.js"></script>
+
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/charts/bar.js"></script>
+
+</body>
 </html>

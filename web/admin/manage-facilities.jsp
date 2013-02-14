@@ -175,9 +175,9 @@
                             </script>
                             <tr>
 
-                                <td><b>${facility.id}</b></td>
-                                <td><b>${facility.unescapedName}</b></td>
-                                <td><b>${facility.facilityType.name}</b></td>
+                                <td>${loop.index + 1}</td>
+                                <td>${facility.unescapedName}</td>
+                                <td>${facility.facilityType.name}</td>
                                 <td>
                                     <a href="#editFacilityModal" role="button" data-toggle="modal" class="btn btn-primary btn-mini" onclick="populateEditFacilityModal('${facility.id}');loadValidate()">Edit</a> 
                                     <a href="#deleteFacilityModal" role="button" data-toggle="modal" class="btn btn-danger btn-mini" onclick="populateDeleteFacilityModal('${facility.id}')">Delete</a>
