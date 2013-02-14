@@ -110,7 +110,7 @@
             
         </script>
         
-
+                                            
       
 
         </head>
@@ -155,34 +155,7 @@
 
 
                                 </div> <!-- /widget-header -->
-                                <input type="text" id="search" placeholder="Type to search"></input>
-                                
-                                        <script>
-            var $rows = $('#table tr');
-$('#search').keyup(function() {
-    var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-    
-    $rows.show().filter(function() {
-        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-        return !~text.indexOf(val);
-    }).hide();
-});
-            
-            </script>
-                                <table id="table">
-   <tr>
-      <td>Apple</td>
-      <td>Green</td>
-   </tr>
-   <tr>
-      <td>Grapes</td>
-      <td>Green</td>
-   </tr>
-   <tr>
-      <td>Orange</td>
-      <td>Orange</td>
-   </tr>
-</table>
+                                 
                                 <div class="widget-content">
 
                                     <table class="table table-striped table-bordered">
