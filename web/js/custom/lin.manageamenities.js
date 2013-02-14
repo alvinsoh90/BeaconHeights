@@ -41,10 +41,6 @@ function setupValidation() {
                         }
 
                     },
-                   submitHandler: function(form) {
-                    alert("Test");
-
-                    },
                     errorClass: "help-inline",
                     errorElement: "span",
                     highlight:function(element, errorClass, validClass) {
@@ -101,10 +97,6 @@ $(document).ready(function(){
                         category:{
                             required: true
                         }
-
-                    },
-                   submitHandler: function(form) {
-                    alert("Test");
 
                     },
                     errorClass: "help-inline",
