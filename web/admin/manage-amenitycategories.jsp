@@ -90,7 +90,7 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">ID</label>
                                     <div class="controls">
-                                        <stripes:text id="edit_id" name="id"/> 
+                                        <stripes:text id="edit_id" name="id" disabled="true"/> 
                                     </div>
                                 </div>   
                                 <div class="control-group ${errorStyle}">
