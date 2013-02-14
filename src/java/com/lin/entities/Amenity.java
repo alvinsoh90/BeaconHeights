@@ -98,23 +98,19 @@ public class Amenity  implements java.io.Serializable {
     }
 
      public String getEscapedName() {
-        name = StringEscapeUtils.escapeEcmaScript(name);
-        return this.name;
+        return StringEscapeUtils.escapeEcmaScript(name);
     }
      
      public String getEscapedDescription() {
-        description = StringEscapeUtils.escapeEcmaScript(description);
-        return this.description;
+        return StringEscapeUtils.escapeEcmaScript(description);
     }    
 
      public String getUnescapedName() {
-        name = StringEscapeUtils.unescapeEcmaScript(name);
-        return this.name;
+        return StringEscapeUtils.unescapeEcmaScript(name);
     }
      
      public String getUnescapedDescription() {
-        description = StringEscapeUtils.unescapeEcmaScript(description);
-        return this.description;
+        return StringEscapeUtils.unescapeEcmaScript(description);
     }    
 
 }

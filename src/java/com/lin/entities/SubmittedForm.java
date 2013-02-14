@@ -98,18 +98,15 @@ public class SubmittedForm  implements java.io.Serializable {
     }
 
      public String getEscapedTitle() {
-        title = StringEscapeUtils.escapeEcmaScript(title);
-        return this.title;
+        return StringEscapeUtils.escapeEcmaScript(title);
     }    
 
      public String getEscapedComments() {
-        comments = StringEscapeUtils.escapeEcmaScript(comments);
-        return this.comments;
+        return StringEscapeUtils.escapeEcmaScript(comments);
     }   
      
      public String getEscapedFileName() {
-        fileName = StringEscapeUtils.escapeEcmaScript(fileName);
-        return this.fileName;
+        return StringEscapeUtils.escapeEcmaScript(fileName);
     }  
 
 

@@ -56,15 +56,11 @@ public class Facility implements java.io.Serializable {
     }
 
      public String getEscapedName() {
-        name = StringEscapeUtils.escapeEcmaScript(name);
-        System.out.println("FACILITY_NAME:" + name);
-        return this.name;
+        return StringEscapeUtils.escapeEcmaScript(name);
     }
      
      public String getUnescapedName() {
-        name = StringEscapeUtils.unescapeEcmaScript(name);
-        System.out.println("FACILITY_NAME:" + name);
-        return this.name;
+        return StringEscapeUtils.unescapeEcmaScript(name);
     }
     public void setName(String name) {
         this.name = name;

@@ -292,18 +292,15 @@ public class User  implements java.io.Serializable {
     }
 
     public String getEscapedUserName() {
-        userName = StringEscapeUtils.escapeEcmaScript(userName);
-        return this.userName;
+        return StringEscapeUtils.escapeEcmaScript(userName);
     }
 
     public String getEscapedFirstName() {
-        firstname = StringEscapeUtils.escapeEcmaScript(firstname);
-        return this.firstname;
+        return StringEscapeUtils.escapeEcmaScript(firstname);
     }
 
     public String getEscapedLastName() {
-        lastname = StringEscapeUtils.escapeEcmaScript(lastname);
-        return this.lastname;
+        return StringEscapeUtils.escapeEcmaScript(lastname);
     }
 
 
