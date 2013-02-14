@@ -29,6 +29,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
     private Log log = Log.getInstance(ManageFacilitiesActionBean.class);//in attempt to log what went wrong..
     private String type;
     private String name;
+    private String id;
     private String description;
     private String latitude;
     private String longitude;
@@ -36,6 +37,15 @@ public class ManageFacilitiesActionBean implements ActionBean {
     private String facility_name;
     private boolean success = false;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    
     public String getDescription() {
         return description;
     }
@@ -129,7 +139,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
         try {
             FacilityDAO fDAO = new FacilityDAO();
             FacilityTypeDAO tDAO = new FacilityTypeDAO();
-            FacilityType facilityType = tDAO.getFacilityType(type);
+            FacilityType facilityType = tDAO.getFacilityType(Integer.parseInt(getId()));
             //Facility facility = fDAO.createFacility(facilityType, Integer.parseInt(longitude), Integer.parseInt(latitude));
             Facility facility = fDAO.createFacility(facilityType, facility_name, 12345, 12345);
             result = facility.getFacilityType().getName() + " " + facility.getName();
@@ -137,6 +147,7 @@ public class ManageFacilitiesActionBean implements ActionBean {
         } catch (Exception e) {
             result = "fail";
             success = false;
+            e.printStackTrace();
         }
         return new RedirectResolution("/admin/manage-facilities.jsp?createsuccess=" + success
                 + "&createmsg=" + result);

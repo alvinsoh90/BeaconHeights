@@ -225,6 +225,7 @@ public class FacilityTypeDAO {
         ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
+            System.out.println("Ftyename: " + name);
             Query q = session.createQuery("from FacilityType where name ='" + name + "'");
             typeList = (ArrayList<FacilityType>) q.list();
             tx.commit();
@@ -239,6 +240,7 @@ public class FacilityTypeDAO {
     
     @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     public FacilityType getFacilityType(int id) {
+        System.out.println("Serching for facility id: " + id);
         //openSession();
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<FacilityType> typeList = new ArrayList<FacilityType>();
