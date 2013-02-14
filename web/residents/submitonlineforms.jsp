@@ -118,20 +118,7 @@
                 });
             }
             
-            var success = "${SUCCESS}";
-            var failure = "${FAILURE}";
-            if(success != ""){
-                toastr.success("Your form has been submitted successfully.");
-            }
-            else if(failure){
-                var msg = "<b>There was an error with submitting your form.</b><br/>";
-                msg += "<ol>"
-            <c:forEach var="message" items="${MESSAGES}">
-                    msg += "<li>${message}</li>";
-            </c:forEach>
-                    msg += "</ol>";    
-                    toastr.errorSticky(msg);
-                }
+            
         </script>
 
 
@@ -184,6 +171,21 @@
 
 
         <script>
+            var success = "${SUCCESS}";
+            var failure = "${FAILURE}";
+            if(success != ""){
+                toastr.success("Your form has been submitted successfully.");
+            }
+            else if(failure){
+                var msg = "<b>There was an error with submitting your form.</b><br/>";
+                msg += "<ol>"
+            <c:forEach var="message" items="${MESSAGES}">
+                    msg += "<li>${message}</li>";
+            </c:forEach>
+                    msg += "</ol>";    
+                    toastr.errorSticky(msg);
+                }
+                
             function loadValidate(){
                 $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 
