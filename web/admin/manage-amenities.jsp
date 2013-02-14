@@ -19,13 +19,13 @@
         <link rel="stylesheet" href="/css/chosen.css" />
 
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
-                <script src="/js/custom/lin.manageamenities.js"></script>
+                
 
         <script src="js/jquery.js"></script>
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
         <script src="/js/jquery.chosen.js"></script>
                 <script src="../js/jquery.validate.js"></script>
-
+<script src="/js/custom/lin.manageamenities.js"></script> 
 
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -46,7 +46,8 @@
             // Init an array of all facilities shown on this page
             var amenityList = [];
             
-            function populateEditAmenityModal(aID){ 
+            function populateEditAmenityModal(aID){
+                setupValidation();
                 amenityList.forEach(function(amenity){
                     if(amenity.id == aID){
                         $("#amenityEditLabel").text(amenity.name);
@@ -60,6 +61,7 @@
                         $("#edit_cat").val(amenity.amenityCategory.name);
                     }
                 });
+                
                 
             }
             
@@ -113,7 +115,7 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit No</label>
                                     <div class="controls">
-                                        <stripes:text id="edit_unitNo" name="unitNo"/>
+                                        <stripes:text id="edit_unitNo" name="unitno"/>
                                     </div>
                                 </div>
                                 <div class="control-group ${errorStyle}">
@@ -236,7 +238,7 @@
                 <h3>Create New Amenity</h3>
             </div>
             <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean" name="amenity_validate" id="amenity_validate">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean" name="amenity_validate2" id="amenity_validate2">
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Name</label>
                         <div class="controls">
@@ -310,6 +312,9 @@
                 }
             });
         </script>
-
+        <script>
+            
+        
+        </script>
     </body>
 </html>
