@@ -45,6 +45,16 @@ window.onload = function() {
             email:{
                 required:true,
                 email:true
+            },
+            vehicleNumberPlate:{
+                required:function(element) {
+                    return $("#vehicleType").val() !="";
+                }
+            },
+            vehicleType:{
+                required:function(element) {
+                    return $("#vehicleNumberPlate").val()!="";
+                }
             }
         },
         errorClass: "help-inline",

@@ -198,13 +198,13 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Vehicle Number Plate</label>
                             <div class="controls">
-                                <stripes:text name="vehicleNumberPlate"/> 
+                                <stripes:text name="vehicleNumberPlate" id="vehicleNumberPlate" /> 
                             </div>
                         </div> 
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Vehicle Type</label>
                             <div class="controls">
-                                <stripes:text name="vehicleType"/> 
+                                <stripes:text name="vehicleType" id="vehicleType" /> 
                             </div>
                         </div>
 
