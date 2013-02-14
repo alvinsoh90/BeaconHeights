@@ -19,12 +19,12 @@
         <link rel="stylesheet" href="/css/chosen.css" />
 
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
-                <script src="/js/custom/lin.manageamenities.js"></script>
+        <script src="/js/custom/lin.manageamenities.js"></script>
 
         <script src="js/jquery.js"></script>
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
         <script src="/js/jquery.chosen.js"></script>
-                <script src="../js/jquery.validate.js"></script>
+        <script src="../js/jquery.validate.js"></script>
 
 
         <!--[if lt IE 9]>
@@ -67,7 +67,8 @@
                 amenityList.forEach(function(amenity){
                     if(amenity.id == aID){
                         $("#amenityDeleteLabel").text(amenity.name);
-                        $("#delete_name").text(amenity.name);
+                        $("#delete_label").text(amenity.name);
+                        $("#delete_name").val(amenity.name);
                         $("#delete_id").val(amenity.id);
                     }
                 }); 
@@ -157,7 +158,7 @@
                         </div>
                         <div class="modal-body">
                             <stripes:form  class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean"> 
-                                You are now deleting <span id="delete_name"></span>. Are you sure?
+                                You are now deleting <span id="delete_label"></span>. Are you sure?
                             </div>
                             <div class="modal-footer">
                                 <a data-dismiss="modal" class="btn">Close</a>
