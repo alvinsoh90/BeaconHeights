@@ -88,7 +88,7 @@ public class Resource  implements java.io.Serializable {
     }    
      
      public String getEscapedCategory() {
-        return StringEscapeUtils.escapeEcmaScript(description);
+        return StringEscapeUtils.escapeEcmaScript(category);
     }
      
      public String getEscapedFileName() {

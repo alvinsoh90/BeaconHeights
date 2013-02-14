@@ -194,11 +194,11 @@
                         <ul id="main-nav" class="nav nav-tabs nav-stacked">
                             <h2>Your Booking Details</h2>
                             <div class="widget-content widget-nopad">
-                                <div class="bookingDetails">
-                                    Venue: <span id="venue">Choose facility
+                                <div>
+                                    <b>Venue: </b><span id="venue">Choose facility
                                     </span><br/>
-                                    Date: <span id="date"><i><font size="2"> --</font></i></span> <br/>
-                                    Time: <span id="time"><i><font size="2"> --</font></i></span>
+                                    <b>Date: </b><span id="date"><i><font size="2"> --</font></i></span> <br/>
+                                    <b>Time: </b><span id="time"><i><font size="2"> --</font></i></span>
                                 </div>
                                 <!--<div class="inviteFriends comingsoon">
                                     <div class="header">Invite Friends</div>
@@ -217,15 +217,15 @@
                                      
                                     <br/>
                                     <c:if test= "${user.role.id ==1}">
-                                        <div class="bookingDetails">
+                                        <div>
                                             <div class="control-group ${errorStyle}">
-                                                Level:
+                                                <b>Level:</b>
                                                 <div class="controls">
                                                     <stripes:select name="level" id="level">
                                                     </stripes:select>                                    </div>
                                             </div>     
                                             <div class="control-group ${errorStyle}">
-                                                Unit Number:
+                                                <b>Unit Number:</b>
                                                 <div class="controls">
                                                     <stripes:select name="unit" id ="unit">
                                                     </stripes:select>                                     </div>

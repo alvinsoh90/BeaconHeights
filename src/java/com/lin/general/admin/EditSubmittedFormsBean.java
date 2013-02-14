@@ -124,7 +124,6 @@ public class EditSubmittedFormsBean implements ActionBean {
                         fileName,
                         bProcessed
                     );
-            //System.out.println("bProcessed!!!!!!!" + bProcessed);
             fs.put("SUCCESS","Successfully updated User Submitted Form Status.");
             return new RedirectResolution("/admin/manage-onlineform.jsp");
         }

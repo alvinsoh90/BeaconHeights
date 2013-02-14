@@ -50,6 +50,13 @@
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
+        
+        <link href="/css/pickadate.02.classic.css" rel="stylesheet" />
+        <script src="../js/pickadate.js"></script>
+        <script src="../js/pickadate.legacy.min.js"></script>
+        <script src="../js/pickadate.legacy.js"></script>
+        <script src="../js/pickadate.min.js"></script>
+        
         <script>
             var success = "${SUCCESS}";
             var failure = "${FAILURE}";
@@ -93,10 +100,45 @@
                         $("select#unitnumber").html(unitOptions);
                     }
                 });
-            };  
+                
+                
+            };
+            
+            function loadDatePicker(){
+                $('.datepicker').pickadate();
+                $( '#picker_classic' ).pickadate({
+                onOpen: function() {
+                    scrollPageTo( this.$node )
+                },
+
+                /**
+                 * This is just for demo purposes. You should change
+                 * the styling for `.pickadate__active` in your stylesheet
+                 * to handle the "scrollability" of the page.
+                 */
+                onClose: initialBodyState
+            })
+            }
+            
+            function scrollPageTo( $node ) {
+                $( 'html, body' ).animate({
+                    scrollTop: ~~$node.offset().top - 60
+                }, 150)
+
+                /**
+                 * This is just for demo purposes. You should change
+                 * the styling for `.pickadate__active` in your stylesheet
+                 * to handle the "scrollability" of the page.
+                 */
+                $( 'body' ).css( 'overflow', 'auto' )
+            }
+            
+            function initialBodyState() {
+                $( 'body' ).css( 'overflow', '' )
+            }
         </script>
     </head>
-    <body>
+    <body onload="loadDatePicker()">
 
 
         <div id="content">
@@ -174,6 +216,14 @@
                     <br class="clearfix"/>
                     <br class="clearfix"/>
                     <br class="clearfix"/>
+                    
+                    <section class="holder" id="classic">
+
+        <fieldset class="datepicker">
+            <input id="picker_classic" type="text">
+        </fieldset>
+
+                    
                     <!-- Profile Wall -->
                   <!--  <c:if test="${user.userId==param.profileid || addFriendActionBean.isFriend(user.userId,param.profileid)}">
                     <div class="postWrapper offset1">
