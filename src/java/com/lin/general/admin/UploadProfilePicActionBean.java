@@ -9,6 +9,7 @@ import com.lin.dao.ResourceDAO;
 import com.lin.dao.SubmittedFormDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
+import com.lin.utils.FileUploadUtils;
 import java.io.File;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
 import net.sourceforge.stripes.action.*;
+import net.sourceforge.stripes.controller.FlashScope;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class UploadProfilePicActionBean implements ActionBean {
@@ -59,13 +61,39 @@ public class UploadProfilePicActionBean implements ActionBean {
 
     @DefaultHandler
     public Resolution upload() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        //check if file is null
+        if(file==null){
+            
+
+            // put shit inside       
+            fs.put("FAILURE","This value is not used");
+            fs.put("MESSAGES","You forgot to attach a file.");
+
+            // redirect as normal        
+
+            return new RedirectResolution("/residents/profile.jsp?profileid="+user_id+"");
+        }else{
+            ArrayList<String> list = new ArrayList<String>();
+            list.add("png");
+            list.add("jpg");
+            list.add("jpeg");
+            list.add("pdf");
+            list.add("gif");
+            list.add("tif");
+            list.add("tiff");
+            String extension = FileUploadUtils.getExtension(file);
+            System.out.println("EXTENSION : "+extension);
+            if(!list.contains(extension)){
+                fs.put("FAILURE","This value is not used");
+                fs.put("MESSAGES","Sorry you have uploaded an invalid file type");
+                return new RedirectResolution("/residents/profile.jsp?profileid="+user_id+"");
+            }
+        }
+        
         String result;
         boolean success;
-        String fileName = file.getFileName();
-        System.out.println("FILENAME! : "+fileName);
-        int index = fileName.lastIndexOf(".");
-        System.out.println("INDEX : "+index);
-        fileName = new Date().getTime()+user_id+fileName.substring(index);
+        String fileName = new Date().getTime()+user_id+"."+FileUploadUtils.getExtension(file);
         boolean processed = false;
         
         try {
@@ -81,8 +109,8 @@ public class UploadProfilePicActionBean implements ActionBean {
             result = file.getFileName();
             success = false;
         }
-        
-        return new RedirectResolution("/residents/profile.jsp?profileid="+user_id+"&createsuccess=" + success);
+        fs.put("SUCCESS","Your profile pic has be successfully updated!");
+        return new RedirectResolution("/residents/profile.jsp?profileid="+user_id);
 
     }
 }
