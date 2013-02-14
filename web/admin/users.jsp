@@ -20,8 +20,6 @@
         <meta charset="utf-8">
         <title>Admin | Manage Users</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
-        <meta name="author" content="travis">
 
         <script src="js/jquery.js"></script>
                 <script src="js/bootstrap.min.js"></script>

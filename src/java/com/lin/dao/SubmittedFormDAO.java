@@ -106,7 +106,7 @@ public class SubmittedFormDAO {
     }
     
         public SubmittedForm updateSubmittedForm(int id, User user, String fileName, boolean processed) {
-
+        openSession();
         Transaction tx = null;
         SubmittedForm sForm = null;
         try {

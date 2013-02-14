@@ -80,18 +80,15 @@ public class FormTemplate  implements java.io.Serializable {
     }
     
      public String getEscapedName() {
-        name = StringEscapeUtils.escapeEcmaScript(name);
-        return this.name;
+        return StringEscapeUtils.escapeEcmaScript(name);
     }    
 
      public String getEscapedDescription() {
-        description = StringEscapeUtils.escapeEcmaScript(description);
-        return this.description;
+        return StringEscapeUtils.escapeEcmaScript(description);
     }    
      
       public String getEscapedFileName() {
-        fileName = StringEscapeUtils.escapeEcmaScript(fileName);
-        return this.fileName;
+        return StringEscapeUtils.escapeEcmaScript(fileName);        
     }   
 }
 
