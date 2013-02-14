@@ -45,7 +45,7 @@
         <script src="./js/unicorn.calendar.js"></script>
         <script src="/js/jquery-1.9.1.min.js"></script>
         
-        <script src="./js/bootstrap.js"></script>
+        <script src="/js/bootstrap-2.3.0.js"></script>
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
@@ -217,11 +217,11 @@
                     <br class="clearfix"/>
                     
                     <section class="holder" id="classic">
-
+<!--
         <fieldset class="datepicker">
             <input id="picker_classic" type="text">
         </fieldset>
-
+-->
                     
                     <!-- Profile Wall -->
                   <!--  <c:if test="${user.userId==param.profileid || addFriendActionBean.isFriend(user.userId,param.profileid)}">
