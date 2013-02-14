@@ -9,6 +9,7 @@ import com.lin.dao.FacilityTypeDAO;
 import com.lin.dao.ResourceDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
+import com.lin.utils.FileUploadUtils;
 import java.io.File;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
 import net.sourceforge.stripes.action.*;
+import net.sourceforge.stripes.controller.FlashScope;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class EditResourceBean implements ActionBean {
@@ -95,6 +97,7 @@ public class EditResourceBean implements ActionBean {
 
     @DefaultHandler
     public Resolution editResource(){
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
         String result;
         boolean success = false;
         ResourceDAO rDAO = new ResourceDAO();
@@ -111,6 +114,18 @@ public class EditResourceBean implements ActionBean {
         System.out.println("PRINTING ID : "+id);
         
         if(file!=null){
+            ArrayList<String> list = new ArrayList<String>();
+            list.add("doc");
+            list.add("docx");
+            list.add("txt");
+            list.add("pdf");
+            String extension = FileUploadUtils.getExtension(file);
+            System.out.println("EXTENSION : "+extension);
+            if(!list.contains(extension)){
+                fs.put("FAILURE","This value is not used");
+                fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .doc .docx .txt .pdf");
+                return new RedirectResolution("/admin/manage-resource.jsp");
+            }
             fileName = new Date().getTime()+file.getFileName();
             try{
                 File location = new File("../webapps/uploads/resources/"+fileName);
@@ -127,7 +142,8 @@ public class EditResourceBean implements ActionBean {
                             fileName,
                             new Date()
                         );
-                return new RedirectResolution("/admin/manage-resource.jsp?editsuccess=true"+"&editmsg="+name);
+                fs.put("SUCCESS","Successfully updated Resource");
+                return new RedirectResolution("/admin/manage-resource.jsp");
             }
             catch(Exception e){
                 e.printStackTrace(); 
@@ -142,12 +158,14 @@ public class EditResourceBean implements ActionBean {
                             category_input,
                             new Date()
                         );
-                return new RedirectResolution("/admin/manage-resource.jsp?editsuccess=true"+"&editmsg="+name);
+                fs.put("SUCCESS","Successfully updated Resource");
+                return new RedirectResolution("/admin/manage-resource.jsp");
             }
             catch(Exception e){
                 e.printStackTrace(); 
             }
         }
+        fs.put("FAILURE","This value is not used");
         return new RedirectResolution("/admin/manage-resource.jsp?editsuccess=false"+"&editmsg="+name);
         
     }

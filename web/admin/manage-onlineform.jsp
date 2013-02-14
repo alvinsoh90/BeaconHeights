@@ -190,23 +190,23 @@
                 });
                 
             }
-            
-            var success = "${SUCCESS}";
-            var failure = "${FAILURE}";
-            if(success != ""){
-                toastr.success("Your form template has been submitted successfully.");
-            }
-            else if(failure){
-                var msg = "<b>There was an error with submitting your form template.</b><br/>";
-                msg += "<ol>"
-            <c:forEach var="message" items="${MESSAGES}">
-                    msg += "<li>${message}</li>";
-            </c:forEach>
-                    msg += "</ol>";    
-                    toastr.errorSticky(msg);
+            $(document).ready(function(){
+                var success = "${SUCCESS}";
+                var failure = "${FAILURE}";
+                if(success != ""){
+                    toastr.success(success);
                 }
-            
-            
+                else if(failure){
+                    var msg = "<b>There was an error processing your request.</b><br/>";
+                    msg += "<ol>"
+                <c:forEach var="message" items="${MESSAGES}">
+                        msg += "<li>${message}</li>";
+                </c:forEach>
+                        msg += "</ol>";    
+                        toastr.errorSticky(msg);
+                    }
+
+            });
         </script>
 
 

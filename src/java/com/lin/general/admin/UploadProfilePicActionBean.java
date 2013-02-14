@@ -86,7 +86,7 @@ public class UploadProfilePicActionBean implements ActionBean {
             System.out.println("EXTENSION : "+extension);
             if(!list.contains(extension)){
                 fs.put("FAILURE","This value is not used");
-                fs.put("MESSAGES","Sorry you have uploaded an invalid file type");
+                fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .png .jpg .jpeg .gif .tif .tiff");
                 return new RedirectResolution("/residents/profile.jsp?profileid="+user_id+"");
             }
         }
