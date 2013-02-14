@@ -12,6 +12,7 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.FlashScope;
 
 /**
  *
@@ -25,6 +26,7 @@ public class DeleteFormTemplateBean implements ActionBean {
     private boolean success = false;
     
     public Resolution deleteFormTemplate() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
         FormTemplateDAO rdao = new FormTemplateDAO();
         int rId = Integer.parseInt(id);
         //Facility facility = fdao.getFacility(fId);
@@ -33,11 +35,13 @@ public class DeleteFormTemplateBean implements ActionBean {
         try {
             rdao.deleteFormTemplate(rId);
             rdao = new FormTemplateDAO();
-            return new RedirectResolution("/admin/manage-onlineform.jsp?deletesuccess=true&deletemsg=the formTemplate");
+            fs.put("SUCCESS","Successfully deleted the Form Template.");
+            return new RedirectResolution("/admin/manage-onlineform.jsp");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new RedirectResolution("/admin/manage-onlineform.jsp?deletesuccess=false");
+        fs.put("FAILURE","This value is not used");
+        return new RedirectResolution("/admin/manage-onlineform.jsp");
 
     }
 

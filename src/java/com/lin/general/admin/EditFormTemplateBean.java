@@ -8,6 +8,7 @@ import com.lin.dao.FacilityDAO;
 import com.lin.dao.FacilityTypeDAO;
 import com.lin.dao.FormTemplateDAO;
 import com.lin.entities.*;
+import com.lin.utils.FileUploadUtils;
 import java.io.File;
 
 import java.util.Date;
@@ -22,6 +23,7 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
 import net.sourceforge.stripes.action.*;
+import net.sourceforge.stripes.controller.FlashScope;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class EditFormTemplateBean implements ActionBean {
@@ -94,6 +96,7 @@ public class EditFormTemplateBean implements ActionBean {
 
     @DefaultHandler
     public Resolution editFormTemplate(){
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
         String result;
         boolean success = false;
         FormTemplateDAO ftDAO = new FormTemplateDAO();
@@ -110,6 +113,19 @@ public class EditFormTemplateBean implements ActionBean {
         System.out.println("PRINTING ID : "+id);
         
         if(file!=null){
+            
+            ArrayList<String> list = new ArrayList<String>();
+            list.add("doc");
+            list.add("docx");
+            list.add("txt");
+            list.add("pdf");
+            String extension = FileUploadUtils.getExtension(file);
+            System.out.println("EXTENSION : "+extension);
+            if(!list.contains(extension)){
+                fs.put("FAILURE","This value is not used");
+                fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .doc .docx .txt .pdf");
+                return new RedirectResolution("/admin/manage-onlineform.jsp");
+            }
             fileName = new Date().getTime()+file.getFileName();
             try{
                 File location = new File("../webapps/uploads/form_templates/"+fileName);
@@ -126,7 +142,8 @@ public class EditFormTemplateBean implements ActionBean {
                             fileName,
                             new Date()
                         );
-                return new RedirectResolution("/admin/manage-onlineform.jsp?editsuccess=true"+"&editmsg="+name);
+                fs.put("SUCCESS","Successfully updated Form Template.");
+                return new RedirectResolution("/admin/manage-onlineform.jsp");
             }
             catch(Exception e){
                 e.printStackTrace(); 
@@ -141,12 +158,14 @@ public class EditFormTemplateBean implements ActionBean {
                             category_input,
                             new Date()
                         );
-                return new RedirectResolution("/admin/manage-onlineform.jsp?editsuccess=true"+"&editmsg="+name);
+                fs.put("SUCCESS","Successfully updated Form Template.");
+                return new RedirectResolution("/admin/manage-onlineform.jsp");
             }
             catch(Exception e){
                 e.printStackTrace(); 
             }
         }
+        fs.put("FAILURE","This value is not used");
         return new RedirectResolution("/admin/manage-onlineform.jsp?editsuccess=false"+"&editmsg="+name);
         
     }
