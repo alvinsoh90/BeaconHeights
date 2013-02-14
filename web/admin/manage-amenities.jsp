@@ -18,10 +18,16 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
-        
+        <link rel="stylesheet" href="/css/chosen.css" />
+
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
-        <script src="js/jquery.js"></script>        
+                <script src="/js/custom/lin.manageamenities.js"></script>
+
+        <script src="js/jquery.js"></script>
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
+        <script src="/js/jquery.chosen.js"></script>
+                <script src="../js/jquery.validate.js"></script>
+
 
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -91,7 +97,7 @@
                             <h3>Editing <span id="amenityEditLabel"></span>
                         </div>
                         <div class="modal-body">
-                            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean" focus="">
+                            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean" focus="" name="amenity_validate" id="amenity_validate">
                                 <stripes:hidden id="edit_id" name="id"/> 
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Amenity Name</label>
@@ -215,7 +221,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    
+
                     <a href="#createAmenityModal" role="button" data-toggle="modal" class="btn btn-success">Create New Amenity</a>
                 </div>
             </div>
@@ -232,7 +238,7 @@
                 <h3>Create New Amenity</h3>
             </div>
             <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean" name="new_amenity_validate" id="new_amenity_validate">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageAmenityBean" name="amenity_validate" id="amenity_validate">
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Name</label>
                         <div class="controls">
@@ -306,8 +312,6 @@
                 }
             });
         </script>
-
-        <script src="../js/jquery.validate.js"></script>
 
     </body>
 </html>

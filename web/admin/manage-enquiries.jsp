@@ -62,24 +62,26 @@
             
             var enquiryList = [];
             
-            function populateViewEnquiryModal(enquiryId){ 
+            function populateViewEnquiryModal(enquiryId){
                 enquiryList.forEach(function(enquiry){
                     if(enquiry.id == enquiryId){
-                        var responder = enquiry.responder;
-                        if (enquiry.isResolved==false){
-                            responder=user;
-                        }else{
-                            $("#view_response").attr("disabled", "disabled");
-
+                        var responder = enquiry.responderName;
+                        console.log(enquiry.isResolved);
+                        var status = enquiry.isResolved;
+                        if (status == "false"){
+                            responder = '${user.userName}';
+                            $('#view_response').removeAttr('disabled', 'disabled');
+                        } else {
+                            $('#view_response').attr('disabled', 'disabled');
                         }
-                        
+
                         $("#view_title").val(enquiry.title);
                         $("#view_date").val(enquiry.date);
                         $("#view_text").val(enquiry.text);
                         $("#view_id").val(enquiry.id);
-                        $("#view_responder").val(enquiry.responderName);
+                        $('#view_responder').attr('disabled', 'disabled');
+                        $("#view_responder").val(responder);
                         $("#view_responder_id").val(enquiry.responderId);
-                        
                         $("#view_response").val(enquiry.response);
                     }
                 });
@@ -205,7 +207,7 @@
                 <div class="control-group ${errorStyle}">
                     <label class="control-label">Responder</label>
                     <div class="controls">
-                        <stripes:text id="view_responder" name="responder" disabled="true"/> 
+                        <stripes:text id="view_responder" name="responder"/> 
                         <stripes:hidden id="view_responder_id" name="responderId"/>
                     </div>
                 </div>
