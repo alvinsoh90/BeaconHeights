@@ -116,7 +116,7 @@
                                 <div class="control-group ${errorStyle}">
                                     <label class="control-label">Unit No</label>
                                     <div class="controls">
-                                        <stripes:text id="edit_unitNo" name="unitno"/>
+                                        <stripes:text id="edit_unitNo" name="unitNo"/>
                                     </div>
                                 </div>
                                 <div class="control-group ${errorStyle}">

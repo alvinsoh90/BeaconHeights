@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Jan 21, 2013 7:21:56 PM by Hibernate Tools 3.2.1.GA
+// Generated Feb 15, 2013 4:09:17 AM by Hibernate Tools 3.2.1.GA
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -16,7 +16,7 @@ public class Amenity  implements java.io.Serializable {
      private AmenityCategory amenityCategory;
      private String name;
      private String description;
-     private int postalCode;
+     private String postalCode;
      private String contactNo;
      private String unitNo;
      private String streetName;
@@ -25,12 +25,12 @@ public class Amenity  implements java.io.Serializable {
     }
 
 	
-    public Amenity(AmenityCategory amenityCategory, String name, int postalCode) {
+    public Amenity(AmenityCategory amenityCategory, String name, String postalCode) {
         this.amenityCategory = amenityCategory;
         this.name = name;
         this.postalCode = postalCode;
     }
-    public Amenity(AmenityCategory amenityCategory, String name, String description, int postalCode, String contactNo, String unitNo, String streetName) {
+    public Amenity(AmenityCategory amenityCategory, String name, String description, String postalCode, String contactNo, String unitNo, String streetName) {
        this.amenityCategory = amenityCategory;
        this.name = name;
        this.description = description;
@@ -68,11 +68,11 @@ public class Amenity  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public int getPostalCode() {
+    public String getPostalCode() {
         return this.postalCode;
     }
     
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
     public String getContactNo() {
