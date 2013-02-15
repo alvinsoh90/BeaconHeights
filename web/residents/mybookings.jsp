@@ -257,14 +257,8 @@
             </stripes:form>
         </div>
 
-        <div id="footer">
+        </b><%@include file="/footer.jsp"%>
 
-            <div class="container">				
-                <hr>
-                <p>Beacon Heights Condominium</p>
-            </div> <!-- /container -->
-
-        </div> <!-- /footer -->
 
 
         <!-- Le javascript

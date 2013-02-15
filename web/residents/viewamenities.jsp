@@ -217,6 +217,7 @@
                 </div> <!-- /container -->
 
             </div> <!-- /content -->
+            <%@include file="/footer.jsp"%>
             <script src="./js/excanvas.min.js"></script>
             <script src="./js/jquery.flot.js"></script>
             <script src="./js/jquery.flot.pie.js"></script>

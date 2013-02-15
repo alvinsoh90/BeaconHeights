@@ -7,146 +7,152 @@
 <%@page import="com.lin.entities.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <head>
-        <link href="./css/adminia.css" rel="stylesheet"> 
-        <link href="./css/adminia-responsive.css" rel="stylesheet"> 
-        <link href="./css/residentscustom.css" rel="stylesheet"> 
+    <link href="./css/adminia.css" rel="stylesheet"> 
+    <link href="./css/adminia-responsive.css" rel="stylesheet"> 
+    <link href="./css/residentscustom.css" rel="stylesheet"> 
 </head>
-   
-        <div class="navbar navbar-fixed-top">
 
-            <div class="navbar-inner">
+<div class="navbar navbar-fixed-top">
 
-                <div class="container">
+    <div class="navbar-inner">
 
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
-                        <span class="icon-bar"></span> 
-                        <span class="icon-bar"></span> 
-                        <span class="icon-bar"></span> 				
+        <div class="container">
+
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 				
+            </a>
+
+            <a class="brand" href="/residents/index.jsp">Beacon Heights
+
+            </a>
+            <ul class="nav pull-left">
+
+                <li class="dropdown">
+
+                    <a data-toggle="dropdown" class="dropdown-toggle ">
+                        Community
+                        <b class="caret"></b>							
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/residents/communitywall.jsp"> Community Wall</a>
+                            <a href="/residents/usersearch.jsp"> Search Friends</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav pull-left">
+
+                <li class="dropdown">
+
+                    <a data-toggle="dropdown" class="dropdown-toggle ">
+                        Facility Booking
+                        <b class="caret"></b>							
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/residents/index.jsp"> Book Facilities</a>
+                        </li>
+
+                        <li>
+                            <a href="/residents/mybookings.jsp"> View My Bookings</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav pull-left">
+
+                <li class="dropdown">
+
+                    <a data-toggle="dropdown" class="dropdown-toggle ">
+                        Services
+                        <b class="caret"></b>							
                     </a>
 
-                    <a class="brand" href="/residents/index.jsp">Beacon Heights
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/residents/viewamenities.jsp"> View Amenities</a>
+                        </li>
+                        <li>
+                            <a href="/residents/viewresources.jsp"> Download Resources</a>
+                        </li>
 
+                        <li>
+                            <a href="/residents/submitonlineforms.jsp"> Submit Online Forms</a>
+                        </li>
+
+                    </ul>
+
+                </li>
+            </ul>
+
+
+            <div class="nav-collapse">
+
+                <ul class="nav pull-right">
+                    <li class="divider-vertical"></li>
+                    <li>
+
+                        <img class="profilePic" src="http://png.findicons.com/files/icons/756/ginux/64/user.png" />
+                    </li>
+                    <li>
+                        <a href="profile.jsp?profileid=${user.userId}">${user.firstname}</a>
+                    </li>
+
+                    <li class="dropdown">
+
+                        <a data-toggle="dropdown" class="dropdown-toggle " href="#">
+                            <i class="icon-cog"></i>
+                            <b class="caret"></b>							
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <!--<li>
+                                <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
+                            </li>
+
+                            <li>
+                                <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
+                            </li>-->
+
+                            <c:if test= "${user.role.id==1}">
+                                <li>
+                                    <a href="/admin/adminmain.jsp"><i class="icon-forward"></i>Admin Page</a>
+                                </li>
+                            </c:if>
+                            <li>
+                                <a href="profile.jsp?profileid=${user.userId}"><i class="icon-forward"></i>Profile</a>
+                            </li>
+                            <li>
+                                <a href="/residents/changepassword.jsp"><i class="icon-forward"></i>Change Password</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                            <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
+                    </li>
+                </ul>
+                </li>
+
+                </ul>
+            <ul class="nav pull-right">
+
+                <li class="dropdown">
+
+                    <a href="/residents/myenquiries.jsp"> <i>Enquiries and Feedback</i></a>
                     </a>
-                    <ul class="nav pull-left">
-
-                        <li class="dropdown">
-
-                            <a data-toggle="dropdown" class="dropdown-toggle ">
-                                Community
-                                <b class="caret"></b>							
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="/residents/communitywall.jsp"> Community Wall</a>
-                                    <a href="/residents/usersearch.jsp"> Search Friends</a>
-                                </li>
-                            </ul>
-                        </li>
+                    <ul class="dropdown-menu">
                     </ul>
-                    <ul class="nav pull-left">
+                </li>
+            </ul>
+            </div> <!-- /nav-collapse -->
 
-                        <li class="dropdown">
+        </div> <!-- /container -->
 
-                            <a data-toggle="dropdown" class="dropdown-toggle ">
-                                Facility Booking
-                                <b class="caret"></b>							
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="/residents/index.jsp"> Book Facilities</a>
-                                </li>
+    </div> <!-- /navbar-inner -->
 
-                                <li>
-                                    <a href="/residents/mybookings.jsp"> View My Bookings</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="nav pull-left">
-
-                        <li class="dropdown">
-
-                            <a data-toggle="dropdown" class="dropdown-toggle ">
-                                Services
-                                <b class="caret"></b>							
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="/residents/viewresources.jsp"> View Resources</a>
-                                </li>
-                                
-                                <li>
-                                    <a href="/residents/viewamenities.jsp"> View Amenities</a>
-                                </li>
-
-                                <li>
-                                    <a href="/residents/submitonlineforms.jsp"> Submit Online Forms</a>
-                                </li>
-                                
-                                <li>
-                                    <a href="/residents/myenquiries.jsp"> Submit Feedback</a>
-                                </li>
-                            </ul>
-
-                        </li>
-                    </ul>
-
-                    <div class="nav-collapse">
-
-                        <ul class="nav pull-right">
-                            <li class="divider-vertical"></li>
-                            <li>
-                                
-                                <img class="profilePic" src="http://png.findicons.com/files/icons/756/ginux/64/user.png" />
-                            </li>
-                            <li>
-                                <a href="profile.jsp?profileid=${user.userId}">${user.firstname}</a>
-                            </li>
-
-                            <li class="dropdown">
-
-                                <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                                    <i class="icon-cog"></i>
-                                    <b class="caret"></b>							
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <!--<li>
-                                        <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
-                                    </li>-->
-
-                                    <c:if test= "${user.role.id==1}">
-                                        <li>
-                                            <a href="/admin/adminmain.jsp"><i class="icon-forward"></i>Admin Page</a>
-                                        </li>
-                                    </c:if>
-                                        <li>
-                                            <a href="profile.jsp?profileid=${user.userId}"><i class="icon-forward"></i>Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="/residents/changepassword.jsp"><i class="icon-forward"></i>Change Password</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                    <li>
-                                    <stripes:link href="/stripes/LogoutActionBean.action"><i class="icon-off"></i>Logout</stripes:link>
-                                    </li>
-                        </ul>
-                        </li>
-
-                        </ul>
-
-                    </div> <!-- /nav-collapse -->
-
-                </div> <!-- /container -->
-
-            </div> <!-- /navbar-inner -->
-
-        </div> <!-- /navbar -->
+</div> <!-- /navbar -->
 
 
 <!-- XY IS AWESOME! --->

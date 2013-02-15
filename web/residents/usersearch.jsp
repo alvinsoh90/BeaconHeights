@@ -170,12 +170,7 @@
 
         </div>
 
-        <hr>
 
-
-        <footer class="well">
-            &copy; Charis
-        </footer>
 
     </div>
 
@@ -198,7 +193,7 @@
     </script>
 
   
-
+<%@include file="/footer.jsp"%>
     <script src="./js/excanvas.min.js"></script>
     <script src="./js/jquery.flot.js"></script>
     <script src="./js/jquery.flot.pie.js"></script>

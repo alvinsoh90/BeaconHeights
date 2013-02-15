@@ -171,20 +171,20 @@
 
                         <div class="account-container">
                             <h2>Now Booking</h2>
-                            
+
 
                         </div> <!-- /account-container -->
                         <select id ="facilityDropDown">
-                                <script>
-                                    var print;
-                                    facilityList.sort(alphabetical);
-                                    for(var i = 0;i<facilityList.length;i++){
-                                        console.log(facilityList[i].name);
-                                        print+= "<option value="+facilityList[i].id+">"+ facilityList[i].name+ "</option>";
-                                    }
-                                    $('#facilityDropDown').html(print);
-                                </script>
-                            </select>
+                            <script>
+                                var print;
+                                facilityList.sort(alphabetical);
+                                for(var i = 0;i<facilityList.length;i++){
+                                    console.log(facilityList[i].name);
+                                    print+= "<option value="+facilityList[i].id+">"+ facilityList[i].name+ "</option>";
+                                }
+                                $('#facilityDropDown').html(print);
+                            </script>
+                        </select>
                         <div class="widget-content widget-nopad">
                             <div id="facilitytypedescription"></div>
                         </div>
@@ -211,10 +211,10 @@
                                 <h4>Share this event with your friends</h4>-->
                                 <!--<button class="socialIcons iconFacebook icon-facebook"></button>
                             </div>-->
-                                
+
                                 <stripes:form beanclass="com.lin.facilitybooking.BookFacilityActionBean" focus="">
-                                    
-                                     
+
+
                                     <br/>
                                     <c:if test= "${user.role.id ==1}">
                                         <div>
@@ -232,10 +232,10 @@
                                             </div> 
                                         </div>
                                     </c:if> 
-                                     
+
                                     <c:if test= "${user.role.id !=1}">
-                                         <stripes:hidden name="level" value="${user.level}" />
-                                         <stripes:hidden name="unit" value="${user.unit}" />
+                                        <stripes:hidden name="level" value="${user.level}" />
+                                        <stripes:hidden name="unit" value="${user.unit}" />
                                     </c:if>
                                     <stripes:hidden name="facilityID" id="facilityid" />
                                     <stripes:hidden name="startDateString" id="starttimemillis"  />   
@@ -427,14 +427,7 @@
             </div> <!-- /content -->
 
 
-            <div id="footer">
-
-                <div class="container">				
-                    <hr>
-                    <p>Beacon Heights Condominium</p>
-                </div> <!-- /container -->
-
-            </div> <!-- /footer -->
+            <%@include file="/footer.jsp"%>
 
 
             <!-- Le javascript

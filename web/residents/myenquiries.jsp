@@ -305,14 +305,7 @@
 
         </div>
 
-        <div id="footer">
-
-            <div class="container">				
-                <hr>
-                <p>Beacon Heights Condominium</p>
-            </div> <!-- /container -->
-
-        </div> <!-- /footer -->
+        <%@include file="/footer.jsp"%>
 
 
         <!-- Le javascript
