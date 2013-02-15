@@ -13,6 +13,7 @@ import com.lin.entities.Role;
 import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.HandlesEvent;
@@ -42,6 +43,7 @@ public class EditUserBean extends BaseActionBean{
   private String facebookId;
   private String role;
   private String birthday;
+  private String birthday_submit;
   private String studiedAt;
   private String worksAt;
   private String aboutMe;
@@ -92,6 +94,15 @@ public class EditUserBean extends BaseActionBean{
         Role roleObj = roleDao.getRoleById(Integer.parseInt(role));
         Block blockObj = blockDao.getBlockByName(block);
         //System.out.println("BLOCK NAME : "+block);
+        Date bday=null;
+        try{
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-mm-dd");
+            bday = (Date) fmt.parse(birthday_submit);
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
         try{
             User u = dao.updateUser
                     (
@@ -106,7 +117,7 @@ public class EditUserBean extends BaseActionBean{
                         Integer.parseInt(level),
                         Integer.parseInt(unitnumber),
                         facebookId,
-                        new Date(),
+                        bday,
                         studiedAt,
                         worksAt,
                         aboutMe
@@ -237,6 +248,14 @@ public class EditUserBean extends BaseActionBean{
 
     public String getBirthday() {
         return birthday;
+    }
+
+    public String getBirthday_submit() {
+        return birthday_submit;
+    }
+
+    public void setBirthday_submit(String birthday_submit) {
+        this.birthday_submit = birthday_submit;
     }
 
     public String getFacebookId() {
