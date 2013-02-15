@@ -125,7 +125,7 @@
 
                             <div class="account-container">
                                 <h2>View Resources</h2>
-
+<!--
                                 <select id ="categorySelect">
                                     <option value="All">All</option>
                                     <c:forEach items="${manageResourceActionBean.uniqueCategories}" var="categories" varStatus="loop">
@@ -135,7 +135,7 @@
                                     </c:forEach>    
                                 </select>
 
-
+-->
 
                             </div> <!-- /account-container -->
                         </div>

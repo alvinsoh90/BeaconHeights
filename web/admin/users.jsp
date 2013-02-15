@@ -22,7 +22,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script src="js/jquery.js"></script>
-                <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
         <script src="/datatables/media/js/jquery.dataTables.js"></script>
         <link href="css/bootstrap.css" rel="stylesheet">
@@ -36,7 +36,7 @@
         <script src="/js/custom/lin.register.js"></script>
         <script src="/js/jquery.validate.js"></script>
 
-        
+
 
         <!-- Populates the Edit User form -->
         <script>
@@ -158,15 +158,15 @@
                     loadLevelsAndUnits();
                 });
                 
-                 $('#userDataTable').dataTable({
-                     "bJQueryUI": true,
+                $('#userDataTable').dataTable({
+                    "bJQueryUI": true,
                     "sPaginationType": "full_numbers",
                     "bLengthChange": false,
                     "bFilter": true,
                     "bSort": true,
                     "bInfo": false,
                     "bAutoWidth": false
-                 });
+                });
 
             });
             
@@ -188,48 +188,48 @@
                     <div class="page-header">
                         <h1>Users <small>All users</small></h1>
                     </div>
-                    
+
                     <table id="userDataTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Role</th>
-                            <th>Email</th>
-                            <th>Mobile No.</th>
-                            <th>Level</th>
-                            <th>Unit</th>
-                            <th>Action</th>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Role</th>
+                                <th>Email</th>
+                                <th>Mobile No.</th>
+                                <th>Level</th>
+                                <th>Unit</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
-                         <tbody>
-                    <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                        <tbody>
+                            <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
 
-                        <tr>
-                        <td>${loop.index + 1}</td>
-                        <td>${user.userName}</td>
-                        <td>${user.firstname}</td>
-                        <td>${user.lastname}</td>
-                        <td>${user.role.name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.mobileNo}</td>
-                        <td>${user.level}</td>
-                        <td>${user.unit}</td>
-                        <td>
-                            <div class="btn-group" style="visibility:visible !important;">
-                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <li><a href="#editUserModal" role="button" data-toggle="modal" onclick="populateEditUserModal(${user.userId});loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
-                                    <li><a href="#deleteUserModal" role="button" data-toggle="modal" onclick="populateDeleteUserModal(${user.userId})"><i class="icon-trash"></i> Delete</a></li>
-                                </ul>
-                            </div>
-                        </td>
+                                <tr>
+                                    <td>${loop.index + 1}</td>
+                                    <td>${user.userName}</td>
+                                    <td>${user.firstname}</td>
+                                    <td>${user.lastname}</td>
+                                    <td>${user.role.name}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.mobileNo}</td>
+                                    <td>${user.level}</td>
+                                    <td>${user.unit}</td>
+                                    <td>
+                                        <div class="btn-group" style="visibility:visible !important;">
+                                            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <li><a href="#editUserModal" role="button" data-toggle="modal" onclick="populateEditUserModal(${user.userId});loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
+                                                <li><a href="#deleteUserModal" role="button" data-toggle="modal" onclick="populateDeleteUserModal(${user.userId})"><i class="icon-trash"></i> Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
 
-                        </tr>
+                                </tr>
 
-                    </c:forEach>
+                            </c:forEach>
                         </tbody>
                     </table>    
 
@@ -295,17 +295,20 @@
                             </stripes:select>
                         </div>
                     </div> 
+
+
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Level</label>
                         <div class="controls">
-                            <stripes:select name="level" id="level">
-                            </stripes:select>                             </div>
-                    </div>     
+                            <stripes:text id="edit_level" name="level"/> 
+                        </div>
+                    </div>
+
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Unit Number</label>
                         <div class="controls">
-                            <stripes:select name="unitnumber" id ="unitnumber">
-                            </stripes:select>                        </div>
+                            <stripes:text id="edit_unit" name="unitnumber"/> 
+                        </div>
                     </div>
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Vehicle Number Plate</label>
@@ -346,9 +349,9 @@
                 </div>
             </stripes:form>
         </div>
-        
-        
-        
+
+
+
 
         <footer class="well">
             &copy; Charis
