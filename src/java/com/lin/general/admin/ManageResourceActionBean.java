@@ -124,11 +124,20 @@ public class ManageResourceActionBean implements ActionBean {
             list.add("docx");
             list.add("txt");
             list.add("pdf");
+            list.add("xls");
+            list.add("xlm");
+            list.add("xlsx");
+            list.add("xltx");
+            list.add("xltm");
+            list.add("xlt");
+            list.add("xla");
+            list.add("xlam");
+            list.add("xlw");
             String extension = FileUploadUtils.getExtension(file);
             //System.out.println("EXTENSION : "+extension);
             if(!list.contains(extension)){
                 fs.put("FAILURE","This value is not used");
-                fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .doc .docx .txt .pdf");
+                fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .doc .docx .txt .pdf .xls .xlsx");
                 return new RedirectResolution("/admin/manage-resource.jsp");
             }
         }
