@@ -62,6 +62,33 @@
                 });
             }
         </script>
+        
+        <script>
+            function loadValidate(){
+                $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+
+                $('select').chosen();
+
+                $("#new_enquiry_validate").validate({
+                    rules:{
+                        text:{
+                            required:true
+                        }     
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                });
+                
+                
+            }
+        </script>
 
 
         <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
@@ -177,7 +204,7 @@
 
                             </div>
                             <br/>
-                            <a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>
+                            <a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success" onclick="loadValidate()">Submit Enquiry/Feedback</a>
                         </div>
                     </div>
 

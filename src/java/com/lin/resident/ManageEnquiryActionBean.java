@@ -135,6 +135,10 @@ public class ManageEnquiryActionBean implements ActionBean{
             User enquiryUser = uDAO.getUser(Integer.parseInt(userId));
             
             EnquiryDAO enDAO = new EnquiryDAO();
+            if (text.isEmpty()){
+                throw new Exception("empty");
+                
+            }
             Enquiry enquiry = enDAO.createEnquiry(enquiryUser, title, text);
             result = "Enquiry";
             success = true;
