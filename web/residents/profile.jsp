@@ -50,7 +50,8 @@
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
         
-        <link href="/css/pickadate.02.classic.css" rel="stylesheet" />
+        <link href="/css/custom/lin.css" rel="stylesheet" />
+        <link href="/css/pickadate.03.inline.css" rel="stylesheet" />
         <script src="../js/pickadate.js"></script>
         <script src="../js/pickadate.legacy.min.js"></script>
         <script src="../js/pickadate.legacy.js"></script>
@@ -71,9 +72,13 @@
                     msg += "</ol>";    
                     toastr.errorSticky(msg);
                 }
+
+             <!-- load levels and units in the dropdown -->
             var levels="";
             var units = "";
-            window.onload = function() {
+            
+            function loadLevelsAndUnits() {
+                console.log("loading");
                 var source = "/json/loadblockproperties.jsp?blockName="+$('select#block').val();
                 $.ajax({
                     url: "/json/loadblockproperties.jsp",
@@ -88,53 +93,50 @@
                         var levelOptions="";
                         var unitOptions = "";
                         for (var i=1;i<levels+1;i++){
-                            levelOptions += '<option value="' + i + '">' + i + '</option>';
+                            if(i<10){
+                                levelOptions += '<option value="' + i + '">0' + i + '</option>';
+                            }else{
+                                levelOptions += '<option value="' + i + '">' + i + '</option>';
+                            }
                         };
-                        levelOptions+='<option value="${user.level}" selected>${user.level}</option>';
                         for (var i=1;i<units+1;i++){
-                            unitOptions += '<option value="' + i + '">' + i + '</option>';
+                            if(i<10){
+                                unitOptions += '<option value="' + i + '">0' + i + '</option>';
+                            }else{
+                                unitOptions += '<option value="' + i + '">' + i + '</option>';
+                            }
                         };
-                        unitOptions+='<option value="${user.unit}" selected>${user.unit}</option>';
                         $("select#level").html(levelOptions);
                         $("select#unitnumber").html(unitOptions);
+                        
+                        // only after successful loading should we load this 'sexy chosen' plugin	
+                        $('select').chosen();
                     }
                 });
-                
-                
             };
             
+            $(document).ready(function(){    
+            
+                // When document loads fully, load level and unit options via AJAX
+                loadLevelsAndUnits();
+
+                // if dropdown changes, we want to reload the unit and level options.
+                $("#block").change(function(){
+                    loadLevelsAndUnits();
+                });
+            });
+            
             function loadDatePicker(){
-                $('.datepicker').pickadate();
-                $( '#picker_classic' ).pickadate({
-                onOpen: function() {
-                    scrollPageTo( this.$node )
-                },
-
-                /**
-                 * This is just for demo purposes. You should change
-                 * the styling for `.pickadate__active` in your stylesheet
-                 * to handle the "scrollability" of the page.
-                 */
-                onClose: initialBodyState
-            })
+                
+                $('.picker_inline').pickadate({
+                        format: 'yyyy-mm-dd',
+                        formatSubmit: 'yyyy-mm-dd',
+                        monthSelector: true,
+                        yearSelector: true
+                });
+                
             }
             
-            function scrollPageTo( $node ) {
-                $( 'html, body' ).animate({
-                    scrollTop: ~~$node.offset().top - 60
-                }, 150)
-
-                /**
-                 * This is just for demo purposes. You should change
-                 * the styling for `.pickadate__active` in your stylesheet
-                 * to handle the "scrollability" of the page.
-                 */
-                $( 'body' ).css( 'overflow', 'auto' )
-            }
-            
-            function initialBodyState() {
-                $( 'body' ).css( 'overflow', '' )
-            }
         </script>
     </head>
     <body onload="loadDatePicker()">
@@ -215,13 +217,6 @@
                     <br class="clearfix"/>
                     <br class="clearfix"/>
                     <br class="clearfix"/>
-                    
-                    <section class="holder" id="classic">
-<!--
-        <fieldset class="datepicker">
-            <input id="picker_classic" type="text">
-        </fieldset>
--->
                     
                     <!-- Profile Wall -->
                   <!--  <c:if test="${user.userId==param.profileid || addFriendActionBean.isFriend(user.userId,param.profileid)}">
@@ -354,8 +349,8 @@
                         </div>  
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Birthday</label>
-                            <div class="controls">
-                                <stripes:text id="edit_birthday" name="birthday" value="${user.birthday}" />
+                            <div class="controls cal_width">
+                                <stripes:text class = "picker_inline input" id="edit_birthday" name="birthday" value="${user.birthday}" />
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
