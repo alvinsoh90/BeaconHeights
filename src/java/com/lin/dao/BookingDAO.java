@@ -11,7 +11,7 @@ import com.lin.utils.HibernateUtil;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.transaction.Transaction;
+import org.hibernate.Transaction;
 import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -71,33 +71,43 @@ public class BookingDAO {
 
     // Get bookings made by a specific user
     public ArrayList<Booking> getUserBookings(int userID) {
-        ArrayList<Booking> userBookingList = new ArrayList<Booking>();
+         openSession();
+        
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        Transaction tx = null;
         try {
-            ArrayList<Booking> tempList = getAllBookings();
-            for (Booking b : tempList) {
-                if (userID == b.getUser().getUserId()) {
-                    userBookingList.add(b);
-                }
-            }
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking as b where b.user.userId = :uId");
+            q.setInteger("uId", userID);
+            result = (ArrayList<Booking>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
         }
-        return userBookingList;
+        return result;
     }
 
     public Booking getBooking(int id) {
-        ArrayList<Booking> userBookingList = new ArrayList<Booking>();
+        openSession();
+        System.out.println("Looking for booking..."  + id);
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        Transaction tx = null;
         try {
-            ArrayList<Booking> tempList = getAllBookings();
-            for (Booking b : tempList) {
-                if (id == b.getId()) {
-                    return b;
-                }
-            }
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking as b join fetch b.user where b.id = :bId");
+            q.setInteger("bId", id);
+            result = (ArrayList<Booking>) q.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
         }
-        return null;
+        return result.get(0);
     }
 
     //Add bookings
@@ -159,10 +169,10 @@ public class BookingDAO {
 
             booking.setStartDate(startDate);
             booking.setEndDate(endDate);
-
+            
             session.update(booking);
             tx.commit();
-            
+            System.out.println("UPDATE COMPLETE");
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {

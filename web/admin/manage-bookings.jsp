@@ -31,10 +31,19 @@
         <link href="css/site.css" rel="stylesheet">
         <link href="css/linadmin.css" rel="stylesheet">        
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
-
+        
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
-        <script src="js/jquery.js"></script>        
+        <script src="../js/jquery-1.9.1.min.js"></script>
+        <script src="../js/bootstrap.min-2.3.0.js"></script>
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
+        <script src="../js/timepicker.min.js"></script> 
+        <link href="../css/jquery.timepicker.css" rel="stylesheet"></script>
+        <link href="../css/pickadate.02.classic.css" rel="stylesheet" />
+        <script src="../js/pickadate.min.js"></script>
+        <script src="../js/date.js"></script>
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
 
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -54,8 +63,25 @@
                     "bFilter": true,
                     "bSort": true,
                     "bInfo": false,
-                    "bAutoWidth": false
+                    "bAutoWidth": false,
+                    "fnInitComplete": function(oSettings, json) {
+                         //filter datatable programatcally if required
+                        var filterByBookingId = '${param.bookingId}';
+                        if(filterByBookingId != ''){
+                            toastr.success("The booking ID:"+filterByBookingId+" was successfully edited");
+                            $("input[aria-controls]").val(filterByBookingId);
+                            $("input[aria-controls]").keyup();
+                        }
+                    }
                 } );
+                
+                $('.timepicker').timepicker({
+                    timeFormat:"H:i:s",
+                    step:15
+                });
+                $('.datepicker').pickadate({
+                    format: 'mmm, dd yyyy'
+                });
             });
  
                 
@@ -85,8 +111,15 @@
                         $("#edit_username").val(booking.username);
                         $("#edit_facilityType").text(booking.facilityType);
                         $("#edit_facilityId").text(booking.facilityId);
-                        $("#edit_startDate").val(booking.startDate);
-                        $("#edit_endDate").val(booking.endDate);
+                        
+                        
+                        $("#editBookingStartDate").val(
+                            Date.parse(booking.startDate.substring(0,10)).toString("MMM, dd yyyy"));
+                        $("#editBookingEndDate").val(
+                            Date.parse(booking.endDate.substring(0,10)).toString("MMM, dd yyyy"));
+                        $("#editBookingStartTime").val(booking.startDate.substring(11,19));
+                        $("#editBookingEndTime").val(booking.endDate.substring(11,19));
+                        
                         $("#edit_id").val(booking.id);
                         $("#edit_displayid").val(booking.id);
                     }
@@ -176,7 +209,7 @@
                         <tbody>
                             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
                                 <tr>
-                                    <td>${loop.index + 1}</td>
+                                    <td>${booking.id}</td>
                                     <td nowrap>${booking.user.escapedUserName}</td>
                                     <td >${booking.user.escapedFirstName} ${booking.user.escapedLastName}</td>
                                     <td nowrap>${booking.facility.escapedName}</td>
@@ -202,7 +235,7 @@
                                                 <div class="btn-group" style="visibility:visible !important;">
                                                     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBoookingModal('${booking.id}');loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
+                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBookingModal('${booking.id}');"><i class="icon-pencil"></i> Edit</a></li>
                                                         <li><a href="#deleteBookingModal" role="button" data-toggle="modal" onclick="populateDeleteBookingModal('${booking.id}')"><i class="icon-trash"></i> Delete</a></li>
                                                     </ul>
                                                 </div>
@@ -216,7 +249,7 @@
                                                 <div class="btn-group" style="visibility:visible !important;">
                                                     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBoookingModal('${booking.id}');loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
+                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBoookingModal('${booking.id}');"><i class="icon-pencil"></i> Edit</a></li>
                                                         <li><a href="#pendingBookingModal" role="button" data-toggle="modal" onclick="populatePendingBookingModal('${booking.id}')"><i class="icon-refresh"></i> Revert</a></li>
                                                         <li><a href="#deleteBookingModal" role="button" data-toggle="modal" onclick="populateDeleteBookingModal('${booking.id}')"><i class="icon-trash"></i> Delete</a></li>
                                                     </ul>
@@ -231,7 +264,7 @@
                                                 <div class="btn-group" style="visibility:visible !important;">
                                                     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBoookingModal('${booking.id}');loadValidate()"><i class="icon-pencil"></i> Edit</a></li>
+                                                        <li><a href="#editBookingModal" role="button" data-toggle="modal" onclick="populateEditBookingModal('${booking.id}');"><i class="icon-pencil"></i> Edit</a></li>
                                                         <li><a href="#payBookingModal" role="button" data-toggle="modal" onclick="populatePayBookingModal('${booking.id}')"><i class="icon-check"></i> Record</a></li>
                                                         <li><a href="#deleteBookingModal" role="button" data-toggle="modal" onclick="populateDeleteBookingModal('${booking.id}')"><i class="icon-trash"></i> Delete</a></li>
                                                     </ul>
@@ -300,39 +333,59 @@
 
 
         <!-- Edit Booking Modal Form -->
-        <div id="editBookingModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
+        <div id="editBookingModal" class="modal hide fade" style="overflow: visible;">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <h3>Edit <span id="usernameEditLabel"></span>'s booking</h3>
             </div>
             <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditBookingBean" focus="" id="edit_booking_validate" name="edit_booking_validate">
+                
+                <div class="alert alert-info">
+                    <b>Note! </b> Manually editing booking timings may cause this booking to overlap with other bookings, or booking in invalid time slots. Do check if the desired timing is valid and available beforehand. 
+                </div>
+                
+                <form class="form-horizontal" id="edit_booking_validate" name="edit_booking_validate">
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Booking ID</label>
 
                         <div class="controls">
-                            <stripes:text id="edit_displayid" name="displayid" disabled="true"/>
-                            <stripes:hidden id="edit_id" name="id"/>
+                            <input type="text" id="edit_displayid" name="displayid" class="shorty" disabled/>
+                        </div>
+                    </div>
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">Start Date</label>
+                        <div class="controls">
+                            <input type="hidden" id="edit_startDateTime" name="startDateTime"/>
+                            <input type="text" id="editBookingStartDate" class="datepicker"/> 
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">Start Time</label>
                         <div class="controls">
-                            <stripes:text id="edit_startDate" name="startDate"/> 
+                            <input type="text" id="editBookingStartTime" class="timepicker"/> 
                         </div>
                     </div>    
+                        
+                    <div class="control-group ${errorStyle}">
+                        <label class="control-label">End Date</label>
+                        <div class="controls">
+                            <input type="hidden" id="edit_endDateTime" name="endDateTime"/>
+                            <input type="text" id="editBookingEndDate" class="datepicker"/> 
+                        </div>
+                    </div>
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">End Time</label>
                         <div class="controls">
-                            <stripes:text id="edit_endDate" name="endDate"/> 
+                            <input type="text" id="editBookingEndTime" class="timepicker"/> 
                         </div>
-                    </div>                              
+                    </div>     
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>
                     <input type="submit" name="editBooking" value="Confirm Edit" class="btn btn-primary"/>
                 </div>
-            </stripes:form>
+                        
+            </form>
         </div>
 
 
@@ -356,7 +409,7 @@
         </div>
 
 
-        <script src="js/bootstrap.min.js"></script>
+
 
         <script>
             $(document).ready(function() {
@@ -374,9 +427,97 @@
                     $('tr.list-users td div ul').addClass('pull-right');
                 }
             });
+            
         </script>
 
         <script src="../js/jquery.validate.js"></script>
+        
+        
+        
+        <script>
+            
+            function retrieveEditBookingFormInfo(){
+                var startDateStr = $("#editBookingStartDate").val();
+                var endDateStr = $("#editBookingEndDate").val();
+                var startTimeStr = $("#editBookingStartTime").val();
+                var endTimeStr = $("#editBookingEndTime").val();
+                
+                var startDate = new Date(startDateStr + " " + startTimeStr);
+                var endDate = new Date(endDateStr + " " + endTimeStr);
+                console.log("sd: "+startDate.getTime());
+                console.log("sd2: "+endDate);
+                $("#edit_startDateTime").val(startDate.getTime());
+                $("#edit_endDateTime").val(endDate.getTime());
+                
+                if(!startDate || !endDate){
+                    toastr.error("Please check your entry!");
+                    return false;
+                }
+                else{
+                    return true; 
+                }
+               
+            }
+            
+            $(document).ready(function() {
+                
+               
+                $("#edit_booking_validate").validate({
+                    rules:{
+                        startTime: {
+                            required: true
+                        },
+                        endTime: {
+                            required: true
+                        },
+                        startDate:{
+                            required:true
+                        },
+                        endDate:{
+                            required:true
+                        }
+                    },                    
+                    submitHandler: function(){      
+                        if(retrieveEditBookingFormInfo()){
+                            var dat = new Object();
+                            dat.bookingid = $("#edit_displayid").val();
+                            dat.startDateTime = $("#edit_startDateTime").val();
+                            dat.endDateTime = $("#edit_endDateTime").val();
+                            console.log(JSON.stringify(dat));
+                            $.ajax({
+                                type: "POST",
+                                url: "/json/admin/editBookingJSON.jsp",
+                                data: dat,
+                                success: function(data, textStatus, xhr) {
+                                    console.log(xhr.status);
+                                },
+                                complete: function(xhr, textStatus) {
+                                    if(xhr.status === 200){
+                                        window.location.href="/admin/manage-bookings.jsp?bookingId=" + $("#edit_displayid").val();
+                                    }
+                                    else{
+                                        toastr.error("There was an error editing the booking");
+                                    }
+                                } 
+                            });
+                        }                         
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                })                
+            });
 
+            function filterBookingTableById(id){
+                $("input[aria-controls]").val(id);
+                $("input[aria-controls]").keyup();
+            }
+              </script>
     </body>
 </html>

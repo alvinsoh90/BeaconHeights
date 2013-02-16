@@ -218,15 +218,9 @@
 
             </div> <!-- /content -->
             <%@include file="/footer.jsp"%>
-            <script src="./js/excanvas.min.js"></script>
-            <script src="./js/jquery.flot.js"></script>
-            <script src="./js/jquery.flot.pie.js"></script>
-            <script src="./js/jquery.flot.orderBars.js"></script>
-            <script src="./js/jquery.flot.resize.js"></script>
             <script src="./js/fullcalendar.min.js"></script>
 
             <script src="./js/bootstrap.js"></script>
-            <script src="./js/charts/bar.js"></script>
 
     </body>
 </html>
