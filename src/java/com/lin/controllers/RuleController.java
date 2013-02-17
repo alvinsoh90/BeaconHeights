@@ -196,62 +196,63 @@ public class RuleController {
             Calendar checkDate = Calendar.getInstance();
 
             for (Booking booking : userBookingList) {
-                if (!booking.getIsDeleted()) {
-                    checkDate.setTime(booking.getStartDate());
-                    if (timeFrametype.equals("DAY")) {
-                        if (bookingDate.YEAR == checkDate.YEAR) {
+                if (booking.getFacility().getFacilityType().getId() == facilityTypeID) {
+                    if (!booking.getIsDeleted()) {
+                        checkDate.setTime(booking.getStartDate());
+                        if (timeFrametype.equals("DAY")) {
+                            if (bookingDate.YEAR == checkDate.YEAR) {
+                                int bookingDay = bookingDate.DAY_OF_YEAR;
+                                int checkDay = checkDate.DAY_OF_YEAR;
+                                if (Math.abs(checkDay - bookingDay) <= numberOfTimeframe) {
+                                    count++;
+                                }
+
+                            }
+                        } else if (bookingDate.DAY_OF_YEAR < numberOfTimeframe
+                                && bookingDate.YEAR == checkDate.YEAR - 1) {
+                            int checkDay = checkDate.DAY_OF_YEAR - 365;
                             int bookingDay = bookingDate.DAY_OF_YEAR;
-                            int checkDay = checkDate.DAY_OF_YEAR;
                             if (Math.abs(checkDay - bookingDay) <= numberOfTimeframe) {
                                 count++;
                             }
-
-                        }
-                    } else if (bookingDate.DAY_OF_YEAR < numberOfTimeframe
-                            && bookingDate.YEAR == checkDate.YEAR - 1) {
-                        int checkDay = checkDate.DAY_OF_YEAR - 365;
-                        int bookingDay = bookingDate.DAY_OF_YEAR;
-                        if (Math.abs(checkDay - bookingDay) <= numberOfTimeframe) {
-                            count++;
-                        }
-                    }
-
-                } else if (timeFrametype.equals("WEEK")) {
-                    if (bookingDate.YEAR == checkDate.YEAR) {
-                        int bookingWeek = bookingDate.WEEK_OF_YEAR;
-                        int checkWeek = checkDate.DAY_OF_YEAR;
-                        if (Math.abs(checkWeek - bookingWeek) <= numberOfTimeframe) {
-                            count++;
                         }
 
+                    } else if (timeFrametype.equals("WEEK")) {
+                        if (bookingDate.YEAR == checkDate.YEAR) {
+                            int bookingWeek = bookingDate.WEEK_OF_YEAR;
+                            int checkWeek = checkDate.DAY_OF_YEAR;
+                            if (Math.abs(checkWeek - bookingWeek) <= numberOfTimeframe) {
+                                count++;
+                            }
 
-                    } else if (bookingDate.WEEK_OF_YEAR < numberOfTimeframe
-                            && bookingDate.YEAR == checkDate.YEAR - 1) {
-                        int checkWeek = checkDate.DAY_OF_YEAR - 365;
-                        int bookingWeek = bookingDate.DAY_OF_YEAR;
-                        if (Math.abs(checkWeek - bookingWeek) <= numberOfTimeframe) {
-                            count++;
+
+                        } else if (bookingDate.WEEK_OF_YEAR < numberOfTimeframe
+                                && bookingDate.YEAR == checkDate.YEAR - 1) {
+                            int checkWeek = checkDate.DAY_OF_YEAR - 365;
+                            int bookingWeek = bookingDate.DAY_OF_YEAR;
+                            if (Math.abs(checkWeek - bookingWeek) <= numberOfTimeframe) {
+                                count++;
+                            }
                         }
-                    }
-                } else if (timeFrametype.equals("YEAR")) {
-                    if (bookingDate.YEAR == checkDate.YEAR) {
-                        int bookingYear = bookingDate.YEAR;
-                        int checkYear = checkDate.YEAR;
-                        if (Math.abs(checkYear - bookingYear) <= numberOfTimeframe) {
-                            count++;
+                    } else if (timeFrametype.equals("YEAR")) {
+                        if (bookingDate.YEAR == checkDate.YEAR) {
+                            int bookingYear = bookingDate.YEAR;
+                            int checkYear = checkDate.YEAR;
+                            if (Math.abs(checkYear - bookingYear) <= numberOfTimeframe) {
+                                count++;
+                            }
+
+
                         }
-
-
                     }
                 }
+
+
+                if (count >= sessions) {
+                    limitRuleErrors.add("You have reached the maximum booking limit for the duration.");
+                    break;
+                }
             }
-
-
-            if (count >= sessions) {
-                limitRuleErrors.add("You have reached the maximum booking limit for the duration.");
-                break;
-            }
-
         }
 
         return limitRuleErrors;
