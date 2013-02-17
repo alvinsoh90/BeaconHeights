@@ -84,11 +84,17 @@ public class UploadProfilePicActionBean implements ActionBean {
             list.add("tiff");
             String extension = FileUploadUtils.getExtension(file);
             System.out.println("EXTENSION : "+extension);
-            if(!list.contains(extension)){
+            if(!list.contains(extension.toLowerCase())){
                 fs.put("FAILURE","This value is not used");
                 fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .png .jpg .jpeg .gif .tif .tiff");
                 return new RedirectResolution("/residents/profile.jsp?profileid="+user_id+"");
             }
+//            System.out.println("FILE SIZE! : "+file.getSize());
+//            if(file.getSize()>5000000){
+//                fs.put("FAILURE","This value is not used");
+//                fs.put("MESSAGES","Sorry you file is too big please limit your picture to <5mb.");
+//                return new RedirectResolution("/residents/profile.jsp?profileid="+user_id+"");
+//            }
         }
         
         String result;
