@@ -16,8 +16,8 @@
     display:inline-block;
 }
 /** Create Facility Styles **/
-.timepicker{
-    width:75px;
+.timepicker,.datepicker,input.shorty{
+    width:80px;
 }
 .timepicker.error{
     border-color: #B94A48;
@@ -123,4 +123,11 @@ span.spacing{
 
 .btn.disabled{
     pointer-events: none;
+}
+
+/**Manage Bookings**/
+input[readonly].datepicker{
+    background-color:white;
+    border-color:#ccc;
+    cursor:pointer;
 }

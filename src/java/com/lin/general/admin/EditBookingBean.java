@@ -22,9 +22,9 @@ import net.sourceforge.stripes.action.Resolution;
 public class EditBookingBean implements ActionBean {
 
     private ActionBeanContext context;
-    private int id;
-    private String startDate;
-    private String endDate;
+    private int displayid;
+    private Integer startDateTime;
+    private Integer endDateTime;
 
 
     public ActionBeanContext getContext() {
@@ -35,29 +35,35 @@ public class EditBookingBean implements ActionBean {
         this.context = context;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public int getDisplayid() {
+        return displayid;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setDisplayid(int displayid) {
+        this.displayid = displayid;
     }
 
-    public int getId() {
-        return id;
+    
+
+ 
+
+    public Integer getEndDateTime() {
+        return endDateTime;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEndDateTime(Integer endDateTime) {
+        this.endDateTime = endDateTime;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public Integer getStartDateTime() {
+        return startDateTime;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setStartDateTime(Integer startDateTime) {
+        this.startDateTime = startDateTime;
     }
+
+   
 
     
     @DefaultHandler
@@ -67,22 +73,21 @@ public class EditBookingBean implements ActionBean {
         String name = "";
         
         try{
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
             BookingDAO bDAO = new BookingDAO();
-            User user = bDAO.getBooking(id).getUser();
+            System.out.println("Looking for booking [bean]..."  + displayid);
+            System.out.println("Display Start Time: " + startDateTime);
+            Booking k = bDAO.getBooking(displayid);
+            User user = k.getUser();
             name = user.getFirstname() + " " + user.getLastname();
             
             //Retrieve form variables
-            Timestamp bookingTimeStamp = new Timestamp(System.currentTimeMillis());
-            Date start = sdf.parse(startDate);
-            Date end = sdf.parse(endDate);
+            Date start = new Date(startDateTime);
+            Date end = new Date(endDateTime);
             
-            System.out.println("THIS IS" + id);
+            System.out.println("THIS IS" + displayid);
             
-            String title = "Resident Booking";
-
             //Create new booking
-            Booking booking = bDAO.updateBooking(id, start, end);
+            Booking booking = bDAO.updateBooking(displayid, start, end);
 
             result = booking.toString();
             success = true;

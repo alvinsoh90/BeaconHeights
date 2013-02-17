@@ -26,15 +26,18 @@
         <link href="./css/adminia.css" rel="stylesheet"> 
         <link href="./css/adminia-responsive.css" rel="stylesheet"> 
         <link href="./css/residentscustom.css" rel="stylesheet"> 
-
+        
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/jquery-1.7.2.min.js"></script>
+        
+        <!-- Calendar -->
         <script src="./js/unicorn.calendar.js"></script>
+        <!--Toastr Popup -->
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
-
+        
         <!-- Scripts -->
         <script>
             var levels="";
@@ -174,17 +177,17 @@
 
 
                         </div> <!-- /account-container -->
-                        <select id ="facilityDropDown">
-                            <script>
-                                var print;
-                                facilityList.sort(alphabetical);
-                                for(var i = 0;i<facilityList.length;i++){
-                                    console.log(facilityList[i].name);
-                                    print+= "<option value="+facilityList[i].id+">"+ facilityList[i].name+ "</option>";
-                                }
-                                $('#facilityDropDown').html(print);
-                            </script>
-                        </select>
+                        <select id ="facilityDropDown" class="tour1">
+                                <script>
+                                    var print;
+                                    facilityList.sort(alphabetical);
+                                    for(var i = 0;i<facilityList.length;i++){
+                                        console.log(facilityList[i].name);
+                                        print+= "<option value="+facilityList[i].id+">"+ facilityList[i].name+ "</option>";
+                                    }
+                                    $('#facilityDropDown').html(print);
+                                </script>
+                            </select>
                         <div class="widget-content widget-nopad">
                             <div id="facilitytypedescription"></div>
                         </div>
@@ -240,11 +243,11 @@
                                     <stripes:hidden name="facilityID" id="facilityid" />
                                     <stripes:hidden name="startDateString" id="starttimemillis"  />   
                                     <stripes:hidden name="endDateString" id="endtimemillis"   /> 
-                                    <stripes:text name="title" id="title" onclick= "this.value=''" value="Enter an optional event name"/>
+                                    <stripes:text class="optionalstop" name="title" id="title" onclick= "this.value=''" value="Enter an optional event name"/>
                                     <stripes:hidden name="currentUserID" id="userID" value='${sessionScope.user.userId}'/> 
 
                                     <div class="centerText">
-                                        <stripes:submit class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>
+                                        <stripes:submit id="laststop" class="inlineblock btn-large btn btn-peace-1" name="placeBooking" value="Place Booking"/>
                                     </div>
                                 </div>
                             </stripes:form>
@@ -434,15 +437,10 @@
             ================================================== -->
             <!-- Placed at the end of the document so the pages load faster -->
 
-            <script src="./js/excanvas.min.js"></script>
-            <script src="./js/jquery.flot.js"></script>
-            <script src="./js/jquery.flot.pie.js"></script>
-            <script src="./js/jquery.flot.orderBars.js"></script>
-            <script src="./js/jquery.flot.resize.js"></script>
-            <script src="./js/fullcalendar.min.js"></script>
 
+            <script src="./js/fullcalendar.min.js"></script>
             <script src="./js/bootstrap.js"></script>
-            <script src="./js/charts/bar.js"></script>
+
 
             <script>
                 var facilityTypeList = [];
@@ -466,7 +464,43 @@
                         facilityTypeList.push(facilityType);
                 </c:forEach>
             </script>
-
+            
+            <!-- Joyride Stuff -->
+                    <!-- Joyride Walkthrough -->
+        <link href="../css/joyride-2.0.3.css" rel="stylesheet" />
+        <script src="../js/jquery.joyride-2.0.3.js"></script>
+                 <!-- Tip Content -->
+        <ol id="joyRideTipContent">
+          <li data-class="tour1" data-text="Next" data-options="tipLocation:top;tipAnimation:fade">
+            <h2>Select your facility</h2>
+            <p>You can control all the details for you tour stop. Any valid HTML will work inside of Joyride.</p>
+          </li>
+          <li data-class="fc-week1" data-button="Next" data-options="tipLocation:left;tipAnimation:fade">
+            <h2>Choose the date of your booking</h2>
+            <p>Get the details right by styling Joyride with a custom stylesheet!</p>
+          </li>
+          <li data-class="bookingDetails" data-button="Next" data-options="tipLocation:right">
+            <h2>Check your booking details</h2>
+            <p>It works right aligned.</p>
+          </li>
+          <li data-class="optionalstop" data-button="Close" data-options="tipLocation:top">
+            <h2>Enter a title to your booking (Optional)</h2>
+            <p>Now what are you waiting for? Add this to your projects and get the most out of your apps!</p>
+          </li>
+          <li data-id="laststop" data-button="Close" data-options="tipLocation:top;nub:">
+            <h2>All done! Click here to make the booking</h2>
+            <p>Now what are you waiting for? Add this to your projects and get the most out of your apps!</p>
+          </li>
+        </ol>
+                 
+                 <script>
+      $(window).load(function() {
+        $('#joyRideTipContent').joyride({
+          //pauseAfter : [1,2,3,4]
+          
+        });
+      });
+    </script>
 
     </body>
 </html>

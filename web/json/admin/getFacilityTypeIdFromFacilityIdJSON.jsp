@@ -10,7 +10,7 @@
 <%@page import="com.lin.utils.json.JSONObject"%>
 <%@page import="com.lin.dao.FacilityTypeDAO"%>
 <%@page import="com.lin.entities.FacilityType"%>
-
+<%@include file="/protectadmin.jsp"%>
 <%
 
 FacilityDAO ftDAO = new FacilityDAO();
