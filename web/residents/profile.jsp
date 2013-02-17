@@ -132,7 +132,8 @@
                         format: 'yyyy-mm-dd',
                         formatSubmit: 'yyyy-mm-dd',
                         monthSelector: true,
-                        yearSelector: true
+                        yearSelector: 100,
+                        dateMax: true
                 });
                 
             }
