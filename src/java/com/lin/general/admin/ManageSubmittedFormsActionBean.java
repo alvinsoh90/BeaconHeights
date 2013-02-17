@@ -130,7 +130,7 @@ public class ManageSubmittedFormsActionBean implements ActionBean {
             list.add("xlw");
             String extension = FileUploadUtils.getExtension(file);
             //System.out.println("EXTENSION : "+extension);
-            if(!list.contains(extension)){
+            if(!list.contains(extension.toLowerCase())){
                 fs.put("FAILURE","This value is not used");
                 fs.put("MESSAGES","Sorry you have uploaded an invalid file type, We only accept .doc .docx .txt .pdf .xls .xlsx");
                 return new RedirectResolution("/residents/submitonlineforms.jsp");
