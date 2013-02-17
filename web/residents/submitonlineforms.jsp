@@ -235,6 +235,21 @@
                     }
                 });
             }
+            
+            $(function(){
+            $('#file').change(function(){
+            var file=this.files[0];
+                if(file.fileSize > 3145728 || file.size > 3145728){
+                $("#uploadBtn").css("opacity","0.6");
+                    $("#uploadBtn").css("pointer-events","none");
+                    $("#fileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
+                }else {
+                $("#uploadBtn").css("opacity","1");
+                $("#uploadBtn").css("pointer-events","auto");
+                $("#fileInfoMsg").text("");
+                }
+            })
+            })
         </script>
 
 
@@ -354,7 +369,7 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">File:</label>
                         <div class="controls">
-                            <stripes:file name="file"/>
+                            <stripes:file name="file" id="file"/><div id="fileInfoMsg"></div>
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
@@ -364,7 +379,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" name="submit" value="Submit" class="btn btn-info btn-large"/>                                                           
+                        <input type="submit" name="submit" value="Submit" class="btn btn-info btn-large" id="uploadBtn"/>                                                           
                     </stripes:form>
                 </div>
             </div>      

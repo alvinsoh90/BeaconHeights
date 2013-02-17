@@ -151,6 +151,36 @@
                     }
                 });
             }
+            
+            $(function(){
+            $('#file').change(function(){
+            var file=this.files[0];
+                if(file.fileSize > 3145728 || file.size > 3145728){
+                $("#uploadBtn").css("opacity","0.6");
+                    $("#uploadBtn").css("pointer-events","none");
+                    $("#fileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
+                }else {
+                $("#uploadBtn").css("opacity","1");
+                $("#uploadBtn").css("pointer-events","auto");
+                $("#fileInfoMsg").text("");
+                }
+            })
+            })
+            
+             $(function(){
+            $('#editFile').change(function(){
+            var editFile=this.files[0];
+                if(editFile.fileSize > 3145728 || editFile.size > 3145728){
+                $("#editUploadBtn").css("opacity","0.6");
+                    $("#editUploadBtn").css("pointer-events","none");
+                    $("#editFileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
+                }else {
+                $("#editUploadBtn").css("opacity","1");
+                $("#editUploadBtn").css("pointer-events","auto");
+                $("#editFileInfoMsg").text("");
+                }
+            })
+            })
         </script>
     </head>
     <body>
@@ -249,11 +279,11 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">File:</label>
                         <div class="controls">
-                            <stripes:file name="file"/>
+                            <stripes:file name="file" id="file"/><div id="fileInfoMsg"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" name="createResource" value="Add this Resource" class="btn btn-info btn-large"/>                                                           
+                        <input type="submit" name="createResource" value="Add this Resource" class="btn btn-info btn-large" id="uploadBtn"/>                                                           
                     </stripes:form>
                 </div>
             </div>      
@@ -292,11 +322,11 @@
                     <div class="control-group ${errorStyle}">
                         <label class="control-label">File:</label>
                         <div class="controls">
-                            <stripes:file name="file"/>
+                            <stripes:file name="file" id="editFile"/><div id="editFileInfoMsg"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" name="createResource" value="Edit this Resource" class="btn btn-info btn-large"/>                                                           
+                        <input type="submit" name="createResource" value="Edit this Resource" class="btn btn-info btn-large" id="editUploadBtn"/>                                                           
                     </stripes:form>
                 </div>
             </div>      
