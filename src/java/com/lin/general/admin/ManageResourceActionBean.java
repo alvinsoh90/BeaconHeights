@@ -118,6 +118,12 @@ public class ManageResourceActionBean implements ActionBean {
             // redirect as normal        
 
             return new RedirectResolution("/admin/manage-resource.jsp");
+        }else if(name==null || category==null){
+            // put shit inside       
+            fs.put("FAILURE","this message is not used");
+            fs.put("MESSAGES","You forgot to fill up something.");
+            return new RedirectResolution("/admin/manage-resource.jsp");
+            // redirect as normal  
         }else{
             ArrayList<String> list = new ArrayList<String>();
             list.add("doc");

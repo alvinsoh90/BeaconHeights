@@ -98,6 +98,13 @@ public class EditResourceBean implements ActionBean {
     @DefaultHandler
     public Resolution editResource(){
         FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        if(name==null || category==null){
+            // put shit inside       
+            fs.put("FAILURE","this message is not used");
+            fs.put("MESSAGES","You forgot to fill up something.");
+            return new RedirectResolution("/admin/manage-resource.jsp");
+            // redirect as normal  
+        }
         String result;
         boolean success = false;
         ResourceDAO rDAO = new ResourceDAO();
