@@ -33,6 +33,7 @@ public class User  implements java.io.Serializable {
      private String vehicleNumberPlate;
      private String vehicleType;
      private String profilePicFilename = "default.jpg";
+     private boolean forceResetPassword;
      private Set submittedForms = new HashSet(0);
      private Set posts = new HashSet(0);
      private Set bookings = new HashSet(0);
@@ -124,6 +125,14 @@ public class User  implements java.io.Serializable {
        this.submittedForms = submittedForms;
        this.posts = posts;
        this.bookings = bookings;
+    }
+
+    public boolean isForceResetPassword() {
+        return forceResetPassword;
+    }
+
+    public void setForceResetPassword(boolean forceResetPassword) {
+        this.forceResetPassword = forceResetPassword;
     }
 
     public String getProfilePicFilename() {

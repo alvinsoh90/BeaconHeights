@@ -65,6 +65,9 @@
         <property name="profilePicFilename" type="string">
             <column name="profile_pic_filename" length="80" />
         </property>
+         <property name="forceResetPassword" type="boolean">
+            <column name="force_reset_password" not-null="true" />
+        </property>
         <set name="submittedForms" inverse="true">
             <key>
                 <column name="user" not-null="true" />
