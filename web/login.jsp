@@ -49,7 +49,10 @@
                                 <i class="icon-user"></i>									
                             </span>
                             <h5>Please Login</h5>
+                            <h5 style="text-align: right"><a href="forgotpassword.jsp">  Forgot your password?</a></h5>
+                            
                         </div>
+                        
                         <div class="widget-content nopadding">
 
                             <stripes:form class="form-horizontal" method="post" action="#" name="password_validate" id="password_validate" beanclass="com.lin.general.login.LoginActionBean" focus="">

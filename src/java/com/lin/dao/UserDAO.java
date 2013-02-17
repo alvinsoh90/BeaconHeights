@@ -100,6 +100,19 @@ public class UserDAO {
         }
         return false;
     }
+    public Boolean resetPwVerification(String username, String email){
+        retrieveAllUsers();
+        for(User u : userList){
+            if(u.getUserName().equals(username) && u.getEmail().equals(email)){
+                
+                    return true;
+                
+                
+                
+            }
+        }
+        return false;
+    }
 
     //Method adds a temp user in user_temp awaiting approval.
     public UserTemp addTempUser(String username, String password, String firstname, String lastname, String mobileno,String email, String block, int level, int unitnumber) {
