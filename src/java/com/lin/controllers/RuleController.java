@@ -183,55 +183,71 @@ public class RuleController {
         ArrayList<String> limitRuleErrors = new ArrayList<String>();
         ArrayList<LimitRule> limitRuleList = rDAO.getAllLimitRule(facilityTypeID);
         ArrayList<Booking> userBookingList = bDAO.getUserBookings(userID);
-        
+
         for (Object o : limitRuleList) {
             LimitRule limitRule = (LimitRule) o;
             String timeFrametype = limitRule.getTimeframeType();
+            int sessions = limitRule.getSessions();
             int numberOfTimeframe = limitRule.getNumberOfTimeframe();
             int count = 0;
-            Date bookingDate;
-            Date limitDate;
-            SimpleDateFormat sdf = new SimpleDateFormat();
+            Calendar bookingDate = Calendar.getInstance();
+            bookingDate.setTime(startBookingTime);
 
-            if (timeFrametype.equals("DAY")) {
-
-                sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-            } else if (timeFrametype.equals("MONTH")) {
-
-                sdf = new SimpleDateFormat("yyyy-MM");
-
-            } else if (timeFrametype.equals("YEAR")) {
-
-                sdf = new SimpleDateFormat("yyyy");
-
-            }
+            Calendar checkDate = Calendar.getInstance();
 
             for (Booking booking : userBookingList) {
                 if (!booking.getIsDeleted()) {
-                    bookingDate = booking.getStartDate();
+                    checkDate.setTime(booking.getStartDate());
+                    if (timeFrametype.equals("DAY")) {
+                        if (bookingDate.YEAR == checkDate.YEAR) {
+                            int bookingDay = bookingDate.DAY_OF_YEAR;
+                            int checkDay = checkDate.DAY_OF_YEAR;
+                            if (Math.abs(checkDay - bookingDay) <= numberOfTimeframe) {
+                                count++;
+                            }
 
-                    //looks weird but this is to remove the time for comparison.
-                    String plainExistingBookingDate = sdf.format(bookingDate);
-                    String plainNewBookingDate = sdf.format(startBookingTime);
-
-                    //now convert them back fresh
-                    try {
-                        bookingDate = sdf.parse(plainExistingBookingDate);
-                        startBookingTime = sdf.parse(plainNewBookingDate);
-                    } catch (Exception e) {
-                        System.out.println("ERROR IN PARSING");
+                        }
+                    } else if (bookingDate.DAY_OF_YEAR < numberOfTimeframe
+                            && bookingDate.YEAR == checkDate.YEAR - 1) {
+                        int checkDay = checkDate.DAY_OF_YEAR - 365;
+                        int bookingDay = bookingDate.DAY_OF_YEAR;
+                        if (Math.abs(checkDay - bookingDay) <= numberOfTimeframe) {
+                            count++;
+                        }
                     }
 
-                    if (bookingDate.equals(startBookingTime)) {
-                        System.out.println(plainExistingBookingDate);
-                        System.out.println(plainNewBookingDate);
-                        count++;
+                } else if (timeFrametype.equals("WEEK")) {
+                    if (bookingDate.YEAR == checkDate.YEAR) {
+                        int bookingWeek = bookingDate.WEEK_OF_YEAR;
+                        int checkWeek = checkDate.DAY_OF_YEAR;
+                        if (Math.abs(checkWeek - bookingWeek) <= numberOfTimeframe) {
+                            count++;
+                        }
+
+
+                    } else if (bookingDate.WEEK_OF_YEAR < numberOfTimeframe
+                            && bookingDate.YEAR == checkDate.YEAR - 1) {
+                        int checkWeek = checkDate.DAY_OF_YEAR - 365;
+                        int bookingWeek = bookingDate.DAY_OF_YEAR;
+                        if (Math.abs(checkWeek - bookingWeek) <= numberOfTimeframe) {
+                            count++;
+                        }
+                    }
+                } else if (timeFrametype.equals("YEAR")) {
+                    if (bookingDate.YEAR == checkDate.YEAR) {
+                        int bookingYear = bookingDate.YEAR;
+                        int checkYear = checkDate.YEAR;
+                        if (Math.abs(checkYear - bookingYear) <= numberOfTimeframe) {
+                            count++;
+                        }
+
+
                     }
                 }
             }
 
-            if (count >= numberOfTimeframe) {
+
+            if (count >= sessions) {
                 limitRuleErrors.add("You have reached the maximum booking limit for the duration.");
                 break;
             }
@@ -239,7 +255,6 @@ public class RuleController {
         }
 
         return limitRuleErrors;
-
     }
 
     private ArrayList<String> validateAdvanceRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
