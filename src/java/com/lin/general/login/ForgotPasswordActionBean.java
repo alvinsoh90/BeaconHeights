@@ -135,7 +135,7 @@ public class ForgotPasswordActionBean extends BaseActionBean {
 
 
             String newPassword = PasswordGeneration.generateRandomPassword();
-            System.out.println("NEW PASSWORD : "+ newPassword);
+            //System.out.println("NEW PASSWORD : "+ newPassword);
             int userID = uDAO.getUser(username).getUserId();
             uDAO.changePasword(userID, newPassword);
 
