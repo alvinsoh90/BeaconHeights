@@ -18,6 +18,7 @@
                      class="com.lin.general.admin.ApproveUserBean"/>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
+        <%@include file="/analytics/analytics.jsp"%>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">    

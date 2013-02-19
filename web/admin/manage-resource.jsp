@@ -54,53 +54,53 @@
                     var msg = "<b>There was an error processing your request.</b><br/>";
                     msg += "<ol>"
                 <c:forEach var="message" items="${MESSAGES}">
-                        msg += "<li>${message}</li>";
-                </c:forEach>
-                        msg += "</ol>";    
-                        toastr.errorSticky(msg);
-                    }
-            });
-            $(document).ready(function() {
-                $('#table_id').dataTable( {
-                    "bJQueryUI": true,
-                    "sPaginationType": "full_numbers",
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bSort": true,
-                    "bInfo": false,
-                    "bAutoWidth": false
-                } );
-            });
-            // Init an array of all rc shown on this page
-            var resourceList = [];
+                            msg += "<li>${message}</li>";
+            </c:forEach>
+                            msg += "</ol>";    
+                            toastr.errorSticky(msg);
+                        }
+                    });
+                    $(document).ready(function() {
+                        $('#table_id').dataTable( {
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bLengthChange": false,
+                            "bFilter": true,
+                            "bSort": true,
+                            "bInfo": false,
+                            "bAutoWidth": false
+                        } );
+                    });
+                    // Init an array of all rc shown on this page
+                    var resourceList = [];
             
-            //when this function is called, resourceList should already be populated
-            function populateEditResourceModal(resourceID){ 
-                resourceList.forEach(function(resource){
-                    if(resource.id == resourceID){
-                        $("#resourceLabel").text(resource.name);
-                        $("#edit_id").val(resource.id);
-                        $("#edit_name").val(resource.name);
-                        $("#edit_description").val(resource.description);
-                        $("#edit_category").val(resource.category);
-                    }
+                    //when this function is called, resourceList should already be populated
+                    function populateEditResourceModal(resourceID){ 
+                        resourceList.forEach(function(resource){
+                            if(resource.id == resourceID){
+                                $("#resourceLabel").text(resource.name);
+                                $("#edit_id").val(resource.id);
+                                $("#edit_name").val(resource.name);
+                                $("#edit_description").val(resource.description);
+                                $("#edit_category").val(resource.category);
+                            }
                     
-                });
+                        });
                 
-            }
-            
-            //when this function is called, resourceList should already be populated
-            function populateDeleteResourceModal(resourceID){ 
-                resourceList.forEach(function(resource){
-                    if(resource.id == resourceID){
-                        $("#resourceDeleteLabel").text(resource.name);
-                        $("#delete_name").text(resource.name);
-                        $("#delete_id").val(resource.id);
-
                     }
-                });
+            
+                    //when this function is called, resourceList should already be populated
+                    function populateDeleteResourceModal(resourceID){ 
+                        resourceList.forEach(function(resource){
+                            if(resource.id == resourceID){
+                                $("#resourceDeleteLabel").text(resource.name);
+                                $("#delete_name").text(resource.name);
+                                $("#delete_id").val(resource.id);
+
+                            }
+                        });
                 
-            }
+                    }
         </script>
 
 
@@ -153,33 +153,33 @@
             }
             
             $(function(){
-            $('#file').change(function(){
-            var file=this.files[0];
-                if(file.fileSize > 3145728 || file.size > 3145728){
-                $("#uploadBtn").css("opacity","0.6");
-                    $("#uploadBtn").css("pointer-events","none");
-                    $("#fileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
-                }else {
-                $("#uploadBtn").css("opacity","1");
-                $("#uploadBtn").css("pointer-events","auto");
-                $("#fileInfoMsg").text("");
-                }
-            })
+                $('#file').change(function(){
+                    var file=this.files[0];
+                    if(file.fileSize > 3145728 || file.size > 3145728){
+                        $("#uploadBtn").css("opacity","0.6");
+                        $("#uploadBtn").css("pointer-events","none");
+                        $("#fileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
+                    }else {
+                        $("#uploadBtn").css("opacity","1");
+                        $("#uploadBtn").css("pointer-events","auto");
+                        $("#fileInfoMsg").text("");
+                    }
+                })
             })
             
-             $(function(){
-            $('#editFile').change(function(){
-            var editFile=this.files[0];
-                if(editFile.fileSize > 3145728 || editFile.size > 3145728){
-                $("#editUploadBtn").css("opacity","0.6");
-                    $("#editUploadBtn").css("pointer-events","none");
-                    $("#editFileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
-                }else {
-                $("#editUploadBtn").css("opacity","1");
-                $("#editUploadBtn").css("pointer-events","auto");
-                $("#editFileInfoMsg").text("");
-                }
-            })
+            $(function(){
+                $('#editFile').change(function(){
+                    var editFile=this.files[0];
+                    if(editFile.fileSize > 3145728 || editFile.size > 3145728){
+                        $("#editUploadBtn").css("opacity","0.6");
+                        $("#editUploadBtn").css("pointer-events","none");
+                        $("#editFileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
+                    }else {
+                        $("#editUploadBtn").css("opacity","1");
+                        $("#editUploadBtn").css("pointer-events","auto");
+                        $("#editFileInfoMsg").text("");
+                    }
+                })
             })
         </script>
     </head>
@@ -237,7 +237,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-          
+
                     <a href="#createResourceModal" role='button' data-toggle='modal' class="btn btn-success">Create New Resource</a>
                 </div>
             </div>
@@ -351,15 +351,15 @@
                 </div>
             </stripes:form>
         </div>
-<div id="footer">
+        <div id="footer">
 
-                <div class="container">				
-                    <hr>
-                    <p><center><a href="mailto:helpdesk@beaconheights.com.sg">
-                            Facing Technical Issues? Contact the LivingNet help desk</a></center></p>
-                </div> <!-- /container -->
+            <div class="container">				
+                <hr>
+                <p><center><a href="mailto:helpdesk@beaconheights.com.sg">
+                        Facing Technical Issues? Contact the LivingNet help desk</a></center></p>
+            </div> <!-- /container -->
 
-            </div> <!-- /footer -->
+        </div> <!-- /footer -->
 
         <script src="js/bootstrap.min.js"></script>
         <script>
@@ -380,6 +380,7 @@
         </script>
 
         <script src="../js/jquery.validate.js"></script>
+        <%@include file="/analytics/analytics.jsp"%>
 
     </body>
 </html>

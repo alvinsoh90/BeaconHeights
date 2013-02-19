@@ -12,6 +12,7 @@
              class="com.lin.general.login.RegisterActionBean"/>
 
 <%@include file="/protectadmin.jsp"%>
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -20,7 +21,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
-                <link href="css/linadmin.css" rel="stylesheet">
+        <link href="css/linadmin.css" rel="stylesheet">
 
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/custom/lin.css" />
@@ -218,6 +219,7 @@
 
         <%@include file="include/footer.jsp"%>
 
+        <%@include file="/analytics/analytics.jsp"%>
 
     </body>
 

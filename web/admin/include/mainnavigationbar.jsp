@@ -34,7 +34,6 @@
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="new-user.jsp">New User</a></li>
-                            <li class="divider"></li>
                             <li><a href="users.jsp">Manage Users</a></li>
                         </ul>
                     </li>

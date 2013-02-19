@@ -425,5 +425,7 @@
                 });
             }
         </script>
+        <%@include file="/analytics/analytics.jsp"%>
+
     </body>
 </html>
