@@ -76,7 +76,7 @@
                         $("select#unit").html(unitOptions);
                         
                         // only after successful loading should we load this 'sexy chosen' plugin	
-                        $('select').chosen();
+//                        $('select').chosen();
                     }
                 });
             };
@@ -242,8 +242,8 @@
                                         <stripes:hidden name="unit" value="${user.unit}" />
                                     </c:if>
                                     <stripes:hidden name="facilityID" id="facilityid" />
-                                    <stripes:hidden name="startDateString" id="starttimemillis"  />   
-                                    <stripes:hidden name="endDateString" id="endtimemillis"   /> 
+                                    <stripes:hidden name="startDateString" id="starttimemillis" />   
+                                    <stripes:hidden name="endDateString" id="endtimemillis" /> 
                                     <stripes:text class="optionalstop" name="title" id="title" onclick= "this.value=''" value="Enter an optional event name"/>
                                     <stripes:hidden name="currentUserID" id="userID" value='${sessionScope.user.userId}'/> 
 
@@ -308,7 +308,6 @@
 
                                 var payload = new Object();
                                 payload.id = currFacilityID; 
-                                
                                 $.ajax({
                                     type: "POST",
                                     url: "/json/admin/getFacilityTypeIdFromFacilityIdJSON.jsp",

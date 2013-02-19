@@ -77,7 +77,7 @@ public class BookingDAO {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking as b where b.user.userId = :uId");
+            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType join fetch booking.user where booking.user.userId = :uId");
             q.setInteger("uId", userID);
             result = (ArrayList<Booking>) q.list();
             tx.commit();
