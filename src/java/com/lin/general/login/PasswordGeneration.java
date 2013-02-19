@@ -25,7 +25,7 @@ public class PasswordGeneration {
   {
       // Pick from some letters that won't be easily mistaken for each
       // other.omitted o O and 0, 1 l and L.
-      String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789+@";
+      String letters = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 
       String pw = "";
       for (int i=0; i<PASSWORD_LENGTH; i++)

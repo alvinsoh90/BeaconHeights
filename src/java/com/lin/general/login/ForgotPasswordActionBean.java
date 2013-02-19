@@ -8,6 +8,7 @@ import com.lin.dao.UserDAO;
 import com.lin.entities.User;
 import com.lin.entities.UserTemp;
 import java.util.ArrayList;
+import com.lin.controllers.*;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -137,66 +138,58 @@ public class ForgotPasswordActionBean extends BaseActionBean {
             int userID = uDAO.getUser(username).getUserId();
             uDAO.changePasword(userID, newPassword);
 
-
             //sending email part
-            String to = email;
-            String from = "helpdesk@beaconheights.com.sg";
-            String host = "localhost";
-           
-            boolean debug = Boolean.valueOf(false).booleanValue();
-            String msgText1 = "Sending password " + newPassword;
-            String subject = "Sending a file";
+//            MailController mc = new MailController();
+//            String emailText = "This is your new password:" + newPassword;
+//            mc.sendEmail(email, emailText);
 
-            // create some properties and get the default Session  
-            Properties props = System.getProperties();
+
+
+            //sending email part 2
+
+            String host = "mail.beaconheights.com.sg";
+            String from = "helpdesk@beaconheights.com.sg";
+            String to = email;
+            String userFirstName = uDAO.getUser(username).getFirstname();
+            String newLine = System.getProperty("line.separator");
+
+            // Set properties
+            Properties props = new Properties();
             props.put("mail.smtp.host", host);
+            props.put("mail.debug", "true");
             props.setProperty("mail.user", "helpdesk@beaconheights.com.sg");
             props.setProperty("mail.password", "Charisfyp!");
 
-            Session session = Session.getInstance(props, null);
-            session.setDebug(debug);
+            // Get session
+            Session session = Session.getInstance(props);
 
             try {
-                // create a message  
-                MimeMessage msg = new MimeMessage(session);
+                // Instantiate a message
+                Message msg = new MimeMessage(session);
+
+                // Set the FROM message
                 msg.setFrom(new InternetAddress(from));
+
+                // The recipients can be more than one so we use an array but you can
+                // use 'new InternetAddress(to)' for only one address.
                 InternetAddress[] address = {new InternetAddress(to)};
                 msg.setRecipients(Message.RecipientType.TO, address);
-                msg.setSubject(subject);
 
-                // create and fill the first message part  
-                MimeBodyPart mbp1 = new MimeBodyPart();
-                mbp1.setText(msgText1);
-
-                // create the second message part  
-                MimeBodyPart mbp2 = new MimeBodyPart();
-
-             
-                // create the Multipart and add its parts to it  
-                Multipart mp = new MimeMultipart();
-                mp.addBodyPart(mbp1);
-                mp.addBodyPart(mbp2);
-
-                // add the Multipart to the message  
-                msg.setContent(mp);
-
-                // set the Date: header  
+                // Set the message subject and date we sent it.
+                msg.setSubject("[Beacon Heights] LIN Password Reset");
                 msg.setSentDate(new Date());
 
-                // send the message  
+                // Set message content
+                msg.setText("Dear " + userFirstName + "," + newLine + newLine + "Your new password is: '" + newPassword + "'"+ newLine + newLine + "Please log in with your new password and remember to change your password after logging in." + newLine + newLine + "Thanks,"+newLine+"The Beacon Heights Helpdesk Team");
+
+                // Send the message
                 Transport.send(msg);
-
             } catch (MessagingException mex) {
-                mex.printStackTrace();
-                Exception ex = null;
-                if ((ex = mex.getNextException()) != null) {
-                    ex.printStackTrace();
-                }
-            } 
-        
+            }
 
-        successMsg = newPassword;
-        return new RedirectResolution("/login.jsp?success=true&msg=" + successMsg);
+
+            successMsg = "Your password has been successfully reset! Please check your email for your new password.";
+            return new RedirectResolution("/login.jsp?success=true&msg=" + successMsg);
+        }
     }
-}
 }

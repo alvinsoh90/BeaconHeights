@@ -41,6 +41,7 @@ public class ChangePasswordActionBean implements ActionBean {
         User user = uDAO.getUser(Integer.parseInt(user_id));
         boolean success = false;
         String storedHash = "";
+        String successMsg;
         
         if(user==null){
             return new RedirectResolution("/residents/index.jsp?success=" + success);
@@ -62,10 +63,12 @@ public class ChangePasswordActionBean implements ActionBean {
                 success = uDAO.changePasword(Integer.parseInt(user_id), newpassword2);
             } catch (Exception e) {
                 success = false;
-                return new RedirectResolution("/residents/index.jsp?success=" + success);
+                successMsg = "Password change was unsuccessful";
+                return new RedirectResolution("/residents/index.jsp?success=" + success+"&msg=" + successMsg);
             }
         }
-        return new RedirectResolution("/residents/index.jsp?success=" + success);
+        successMsg = "Your password has been succesfully changed!";
+        return new RedirectResolution("/residents/index.jsp?success=" + success+"&msg=" + successMsg);
 
     }
     
