@@ -200,13 +200,13 @@
                     var msg = "<b>There was an error processing your request.</b><br/>";
                     msg += "<ol>"
                 <c:forEach var="message" items="${MESSAGES}">
-                        msg += "<li>${message}</li>";
-                </c:forEach>
-                        msg += "</ol>";    
-                        toastr.errorSticky(msg);
-                    }
+                            msg += "<li>${message}</li>";
+            </c:forEach>
+                            msg += "</ol>";    
+                            toastr.errorSticky(msg);
+                        }
 
-            });
+                    });
         </script>
 
 
@@ -346,33 +346,33 @@
             }
             
             $(function(){
-            $('#file').change(function(){
-            var file=this.files[0];
-                if(file.fileSize > 3145728 || file.size > 3145728){
-                $("#uploadBtn").css("opacity","0.6");
-                    $("#uploadBtn").css("pointer-events","none");
-                    $("#fileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
-                }else {
-                $("#uploadBtn").css("opacity","1");
-                $("#uploadBtn").css("pointer-events","auto");
-                $("#fileInfoMsg").text("");
-                }
-            })
+                $('#file').change(function(){
+                    var file=this.files[0];
+                    if(file.fileSize > 3145728 || file.size > 3145728){
+                        $("#uploadBtn").css("opacity","0.6");
+                        $("#uploadBtn").css("pointer-events","none");
+                        $("#fileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
+                    }else {
+                        $("#uploadBtn").css("opacity","1");
+                        $("#uploadBtn").css("pointer-events","auto");
+                        $("#fileInfoMsg").text("");
+                    }
+                })
             })
             
-             $(function(){
-            $('#editFile').change(function(){
-            var editFile=this.files[0];
-                if(editFile.fileSize > 3145728 || editFile.size > 3145728){
-                $("#editUploadBtn").css("opacity","0.6");
-                    $("#editUploadBtn").css("pointer-events","none");
-                    $("#editFileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
-                }else {
-                $("#editUploadBtn").css("opacity","1");
-                $("#editUploadBtn").css("pointer-events","auto");
-                $("#editFileInfoMsg").text("");
-                }
-            })
+            $(function(){
+                $('#editFile').change(function(){
+                    var editFile=this.files[0];
+                    if(editFile.fileSize > 3145728 || editFile.size > 3145728){
+                        $("#editUploadBtn").css("opacity","0.6");
+                        $("#editUploadBtn").css("pointer-events","none");
+                        $("#editFileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
+                    }else {
+                        $("#editUploadBtn").css("opacity","1");
+                        $("#editUploadBtn").css("pointer-events","auto");
+                        $("#editFileInfoMsg").text("");
+                    }
+                })
             })
         </script>
 
@@ -674,6 +674,7 @@
     </script>
 
     <script src="../js/jquery.validate.js"></script>
+    <%@include file="/analytics/analytics.jsp"%>
 
 </body>
 

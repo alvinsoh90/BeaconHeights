@@ -15,6 +15,7 @@
         </style>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
+        <%@include file="/analytics/analytics.jsp"%>
 
         <link href="./css/bootstrap.min.css" rel="stylesheet">
         <link href="./css/bootstrap-responsive.min.css" rel="stylesheet">

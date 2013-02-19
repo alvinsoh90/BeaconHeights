@@ -35,6 +35,7 @@
         <script src="js/jquery.validate.js"></script>
         <script src="js/unicorn.js"></script>
         <script src="js/custom/lin.register.js"></script>
+        <%@include file="analytics/analytics.jsp"%>
 
         <script>
             var levels="";

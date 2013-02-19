@@ -25,6 +25,7 @@
         <link href="./css/bootstrap-responsive.min.css" rel="stylesheet">
 
         <%@include file="/header.jsp"%>
+        <%@include file="/analytics/analytics.jsp"%>
 
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
         <link href="./css/font-awesome.css" rel="stylesheet">

@@ -21,11 +21,11 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
-        
+
         <link href="/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
         <script src="js/jquery.js"></script>        
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
-        
+
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -249,6 +249,7 @@
             </script>
 
             <script src="../js/jquery.validate.js"></script>
+            <%@include file="/analytics/analytics.jsp"%>
 
     </body>
 </html>

@@ -220,6 +220,7 @@
         </script>
 
         <script src="../js/jquery.validate.js"></script>
+        <%@include file="/analytics/analytics.jsp"%>
 
     </body>
 </html>

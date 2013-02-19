@@ -13,6 +13,7 @@
                      class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
+        <%@include file="/analytics/analytics.jsp"%>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">    
@@ -346,7 +347,8 @@
                                                     
                                                 toPrint = toPrint + "<br/><b>Booking Fees: </b>";
                                                 if(null != currFacilityType.bookingFees){
-                                                    toPrint = toPrint + "$" + currFacilityType.bookingFees + "<br/>";
+                                                    var num = currFacilityType.bookingFees;
+                                                    toPrint = toPrint + "$" + parseFloat(num).toFixed(2) + "<br/>";
                                                 }else{
                                                     toPrint = toPrint + "None<br/>";
                                                 }

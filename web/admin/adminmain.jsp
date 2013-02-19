@@ -9,6 +9,7 @@
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
 <%@include file="/protectadmin.jsp"%>
+<%@include file="/analytics/analytics.jsp"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en">
@@ -225,7 +226,7 @@
                             <stripes:text id="edit_lastname" name="lastname"/> 
                         </div>
                     </div>
-                        <div class="control-group ${errorStyle}">
+                    <div class="control-group ${errorStyle}">
                         <label class="control-label">Email</label>
                         <div class="controls">
                             <stripes:text id="edit_email" name="email"/> 
