@@ -20,7 +20,7 @@
                         <a href="/residents/profile.jsp?profileid=${user.userId}"><i class="icon-forward"></i>Profile</a>
                     </li>
                     <li>
-                        <a href="/admin/changepassword.jsp"><i class="icon-forward"></i> Change Password</a>
+                        <a href="/admin/changepassword.jsp"><i class="icon-forward"></i>Change Password</a>
                     </li>
                     <li class="divider"></li>
                     <li>

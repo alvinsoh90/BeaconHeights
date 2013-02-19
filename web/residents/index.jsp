@@ -387,20 +387,22 @@
                         });
                         
                         //if successful booking, show message
-                        var successBookingID = "${SUCCESS}";
-                        var failure = "${FAILURE}";
-                        if(successBookingID != ""){
-                            toastr.success("Your booking is confirmed. Booking ID: " + successBookingID);
-                        }
-                        else if(failure){
-                            var msg = "<b>There was an error with your booking.</b><br/>";
-                            msg += "<ol>"
-                        <c:forEach var="message" items="${MESSAGES}">
-                                msg += "<li>${message}</li>";
-                        </c:forEach>
-                                msg += "</ol>";    
-                                toastr.errorSticky(msg);
+                        $(document).ready(function(){
+                            var success = "${SUCCESS}";
+                            var failure = "${FAILURE}";
+                            if(success != ""){
+                                toastr.success(success);
                             }
+                            else if(failure){
+                                var msg = "<b>There was an error processing your request.</b><br/>";
+                                msg += "<ol>"
+                            <c:forEach var="message" items="${MESSAGES}">
+                                    msg += "<li>${message}</li>";
+                            </c:forEach>
+                                    msg += "</ol>";    
+                                    toastr.errorSticky(msg);
+                                }
+                        });
                         
                     </script>
 

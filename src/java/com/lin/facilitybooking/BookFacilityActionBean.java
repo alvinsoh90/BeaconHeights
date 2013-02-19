@@ -176,7 +176,7 @@ public class BookFacilityActionBean implements ActionBean{
         FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
         
         // put shit inside       
-        fs.put("SUCCESS",booking.getId());
+        fs.put("SUCCESS","Your booking is confirmed. Booking ID: " + booking.getId());
         
         // redirect as normal        
         return new RedirectResolution("/residents/index.jsp?fid="+getFacilityID());

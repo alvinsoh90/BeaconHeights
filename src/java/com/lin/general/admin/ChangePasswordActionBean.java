@@ -24,6 +24,7 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
 import net.sourceforge.stripes.action.*;
+import net.sourceforge.stripes.controller.FlashScope;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ChangePasswordActionBean implements ActionBean {
@@ -37,14 +38,19 @@ public class ChangePasswordActionBean implements ActionBean {
 
     @DefaultHandler
     public Resolution changepassword() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true);
         UserDAO uDAO = new UserDAO();
         User user = uDAO.getUser(Integer.parseInt(user_id));
         boolean success = false;
         String storedHash = "";
-        String successMsg;
+        String msg = "";
         
         if(user==null){
-            return new RedirectResolution("/residents/index.jsp?success=" + success);
+            success = false;
+            msg = "Failed to change password";
+        }else if(!newpassword.equals(newpassword2)){
+            success = false;
+            msg = "New Passwords do no match.";
         }else{ 
             //retrieve hash from DB
             //storedHash = userDAO.getUserHash(username);
@@ -52,9 +58,12 @@ public class ChangePasswordActionBean implements ActionBean {
             //check if hash is same as user input        
             if(oldpassword !=null && !storedHash.isEmpty()){
                success = BCrypt.checkpw(oldpassword,storedHash);
-            }
-            else{
+               if(!success){
+                   msg = "The Old password you keyed in is wrong.";
+               }
+            }else{
                success = false;
+               msg = "Failed to change password";
             }
         }  
         
@@ -62,25 +71,42 @@ public class ChangePasswordActionBean implements ActionBean {
             try {
                 success = uDAO.changePasword(Integer.parseInt(user_id), newpassword2);
             } catch (Exception e) {
+                e.printStackTrace();
                 success = false;
-                successMsg = "Password change was unsuccessful";
-                return new RedirectResolution("/residents/index.jsp?success=" + success+"&msg=" + successMsg);
+                msg = "Failed to change password";
             }
+            
         }
-        successMsg = "Your password has been succesfully changed!";
-        return new RedirectResolution("/residents/index.jsp?success=" + success+"&msg=" + successMsg);
+        if(success){
+            fs.put("SUCCESS","Password Successfully Changed.");
+            return new RedirectResolution("/residents/index.jsp");
+        }else{
+            fs.put("FAILURE",true);
+            fs.put("MESSAGES",msg);
+            System.out.println("MSG : " + msg);
+            return new RedirectResolution("/residents/index.jsp");
+        }
+        
+        
+        
 
     }
     
     @HandlesEvent("admin_change_password")
     public Resolution changeAdminpassword() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true);
         UserDAO uDAO = new UserDAO();
         User user = uDAO.getUser(Integer.parseInt(user_id));
         boolean success = false;
         String storedHash = "";
+        String msg = "";
         
         if(user==null){
-            return new RedirectResolution("/residents/index.jsp?success=" + success);
+            success = false;
+            msg = "Failed to change password";
+        }else if(!newpassword.equals(newpassword2)){
+            success = false;
+            msg = "New Passwords do no match.";
         }else{ 
             //retrieve hash from DB
             //storedHash = userDAO.getUserHash(username);
@@ -88,9 +114,12 @@ public class ChangePasswordActionBean implements ActionBean {
             //check if hash is same as user input        
             if(oldpassword !=null && !storedHash.isEmpty()){
                success = BCrypt.checkpw(oldpassword,storedHash);
-            }
-            else{
+               if(!success){
+                   msg = "The Old password you keyed in is wrong.";
+               }
+            }else{
                success = false;
+               msg = "Failed to change password";
             }
         }  
         
@@ -98,12 +127,22 @@ public class ChangePasswordActionBean implements ActionBean {
             try {
                 success = uDAO.changePasword(Integer.parseInt(user_id), newpassword2);
             } catch (Exception e) {
+                e.printStackTrace();
                 success = false;
-                return new RedirectResolution("/admin/adminmain.jsp?success=" + success);
+                msg = "Failed to change password";
             }
+            
         }
-        return new RedirectResolution("/admin/adminmain.jsp?success=" + success);
-
+        if(success){
+            fs.put("SUCCESS","Password Successfully Changed.");
+            return new RedirectResolution("/admin/adminmain.jsp");
+        }else{
+            fs.put("FAILURE",true);
+            fs.put("MESSAGES",msg);
+            System.out.println("MSG : " + msg);
+            return new RedirectResolution("/admin/adminmain.jsp");
+        }
+     
     }
     
     
