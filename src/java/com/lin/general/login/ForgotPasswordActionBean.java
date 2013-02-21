@@ -181,7 +181,7 @@ public class ForgotPasswordActionBean extends BaseActionBean {
                 msg.setSentDate(new Date());
 
                 // Set message content
-                msg.setText("Dear " + userFirstName + "," + newLine + newLine + "Your new password is: '" + newPassword + "'"+ newLine + newLine + "Please log in with your new password and remember to change your password after logging in." + newLine + newLine + "Thanks,"+newLine+"The Beacon Heights Helpdesk Team");
+                msg.setText("Dear " + userFirstName + "," + newLine + newLine + "Your new password is: " + newPassword + newLine + newLine + "Please login to http://livingnet.beaconheights.com.sg with your new password and remember to change your password after logging in." + newLine + newLine + "Thanks,"+newLine+"The Beacon Heights Helpdesk Team");
 
                 // Send the message
                 Transport.send(msg);
