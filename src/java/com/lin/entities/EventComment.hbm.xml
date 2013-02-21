@@ -3,22 +3,22 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Feb 22, 2013 4:40:00 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.lin.entities.Comment" table="comment" catalog="lin_staging_db">
+    <class name="com.lin.entities.EventComment" table="event_comment" catalog="lin_staging_db">
         <id name="commentId" type="java.lang.Integer">
             <column name="comment_id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="event" class="com.lin.entities.Event" fetch="select">
+            <column name="event_id" not-null="true" />
+        </many-to-one>
         <many-to-one name="user" class="com.lin.entities.User" fetch="select">
             <column name="poster_id" not-null="true" />
-        </many-to-one>
-        <many-to-one name="post" class="com.lin.entities.Post" fetch="select">
-            <column name="post_id" not-null="true" />
         </many-to-one>
         <property name="text" type="string">
             <column name="text" length="300" />
         </property>
         <property name="commentDate" type="timestamp">
-            <column name="comment_date" length="19" />
+            <column name="comment_date" length="19" not-null="true" />
         </property>
         <property name="isDeleted" type="boolean">
             <column name="is_deleted" not-null="true" />

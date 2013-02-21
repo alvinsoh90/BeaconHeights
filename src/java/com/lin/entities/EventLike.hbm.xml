@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2013 4:40:00 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lin.entities.EventLike" table="event_like" catalog="lin_staging_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <timestamp name="timestamp" column="timestamp" />
+        <many-to-one name="event" class="com.lin.entities.Event" fetch="select">
+            <column name="event_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="com.lin.entities.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

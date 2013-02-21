@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2013 4:40:00 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.lin.entities.Event" table="event" catalog="lin_staging_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <timestamp name="timestamp" column="timestamp" />
+        <many-to-one name="user" class="com.lin.entities.User" fetch="select">
+            <column name="poster_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="booking" class="com.lin.entities.Booking" fetch="select">
+            <column name="booking_id" />
+        </many-to-one>
+        <property name="title" type="string">
+            <column name="title" length="100" not-null="true" />
+        </property>
+        <property name="startTime" type="timestamp">
+            <column name="start_time" length="19" not-null="true" />
+        </property>
+        <property name="endTime" type="timestamp">
+            <column name="end_time" length="19" not-null="true" />
+        </property>
+        <property name="venue" type="string">
+            <column name="venue" length="400" />
+        </property>
+        <property name="details" type="string">
+            <column name="details" length="400" />
+        </property>
+        <property name="isPublicEvent" type="boolean">
+            <column name="is_public_event" not-null="true" />
+        </property>
+        <property name="isAdminEvent" type="boolean">
+            <column name="is_admin_event" not-null="true" />
+        </property>
+        <property name="isDeleted" type="boolean">
+            <column name="is_deleted" not-null="true" />
+        </property>
+        <set name="eventLikes" inverse="true">
+            <key>
+                <column name="event_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.EventLike" />
+        </set>
+        <set name="posts" inverse="true">
+            <key>
+                <column name="event_id" />
+            </key>
+            <one-to-many class="com.lin.entities.Post" />
+        </set>
+        <set name="eventInvites" inverse="true">
+            <key>
+                <column name="event_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.EventInvite" />
+        </set>
+        <set name="notifications" inverse="true">
+            <key>
+                <column name="event_id" />
+            </key>
+            <one-to-many class="com.lin.entities.Notification" />
+        </set>
+        <set name="eventInappropriates" inverse="true">
+            <key>
+                <column name="event_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.EventInappropriate" />
+        </set>
+        <set name="eventComments" inverse="true">
+            <key>
+                <column name="event_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.EventComment" />
+        </set>
+    </class>
+</hibernate-mapping>

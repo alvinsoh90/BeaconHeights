@@ -28,7 +28,7 @@ public class CommunityWallController {
                 uDAO.getUser(posterId),
                 pDAO.getPost(postId),
                 content,
-                new Date());
+                new Date(),false);
         
         cDAO.addComment(comment);
     }

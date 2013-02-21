@@ -139,25 +139,7 @@ public class PostDAO {
         return false;
     }
     
-        public boolean updateLikes(int postId, int noOfLikes) {
-        openSession();
-        Transaction tx = null;
-
-        try {
-            tx = session.beginTransaction();
-            Post p = (Post) session.get(Post.class, postId);
-            p.setNoOfLikes(noOfLikes);
-            session.update(p);
-            tx.commit();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (tx != null) {
-                tx.rollback();
-            }
-        }
-        return false;
-    }
+        
 
 }
 

@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Feb 7, 2013 9:01:43 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Feb 22, 2013 4:40:00 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Post" table="post" catalog="lin_staging_db">
-        <id name="postId" type="int">
+        <id name="postId" type="java.lang.Integer">
             <column name="post_id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
+        <many-to-one name="event" class="com.lin.entities.Event" fetch="select">
+            <column name="event_id" />
+        </many-to-one>
         <many-to-one name="user" class="com.lin.entities.User" fetch="select">
             <column name="user_id" not-null="true" />
         </many-to-one>
         <property name="message" type="string">
             <column name="message" length="300" />
         </property>
-        <property name="postedDate" type="timestamp">
+        <property name="date" type="timestamp">
             <column name="date" length="19" />
-        </property>
-        <property name="noOfLikes" type="java.lang.Integer">
-            <column name="no_of_likes" />
         </property>
         <property name="title" type="string">
             <column name="title" length="100" />
@@ -26,13 +26,28 @@
         <property name="category" type="string">
             <column name="category" length="30" />
         </property>
-        <property name="isInappropriate" type="java.lang.Boolean">
-            <column name="is_inappropriate" />
+        <property name="isDeleted" type="boolean">
+            <column name="is_deleted" not-null="true" />
         </property>
-        <property name="eventId" type="java.lang.Integer">
-            <column name="event_id" />
-        </property>
-        <set name="comments" inverse="true" cascade="all-delete-orphan" fetch="join">
+        <set name="postInappropriates" inverse="true">
+            <key>
+                <column name="post_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.PostInappropriate" />
+        </set>
+        <set name="postLikes" inverse="true">
+            <key>
+                <column name="post_id" not-null="true" />
+            </key>
+            <one-to-many class="com.lin.entities.PostLike" />
+        </set>
+        <set name="notifications" inverse="true">
+            <key>
+                <column name="post_id" />
+            </key>
+            <one-to-many class="com.lin.entities.Notification" />
+        </set>
+        <set name="comments" inverse="true">
             <key>
                 <column name="post_id" not-null="true" />
             </key>
