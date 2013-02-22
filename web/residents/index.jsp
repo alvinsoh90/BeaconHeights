@@ -477,23 +477,23 @@
         <ol id="joyRideTipContent">
           <li data-class="tour1" data-text="Next" data-options="tipLocation:top;tipAnimation:fade">
             <h2>Select your facility</h2>
-            <p>You can control all the details for you tour stop. Any valid HTML will work inside of Joyride.</p>
+            <p>This is the facility you wish to make a booking for.</p>
           </li>
           <li data-class="fc-week1" data-button="Next" data-options="tipLocation:left;tipAnimation:fade">
             <h2>Choose the date of your booking</h2>
-            <p>Get the details right by styling Joyride with a custom stylesheet!</p>
+            <p>Please ensure you adhere to the booking rules shown just above.</p>
           </li>
           <li data-class="bookingDetails" data-button="Next" data-options="tipLocation:right">
             <h2>Check your booking details</h2>
-            <p>It works right aligned.</p>
+            <p></p>
           </li>
           <li data-class="optionalstop" data-button="Close" data-options="tipLocation:top">
             <h2>Enter a title to your booking (Optional)</h2>
-            <p>Now what are you waiting for? Add this to your projects and get the most out of your apps!</p>
+            <p></p>
           </li>
           <li data-id="laststop" data-button="Close" data-options="tipLocation:top;nub:">
             <h2>All done! Click here to make the booking</h2>
-            <p>Now what are you waiting for? Add this to your projects and get the most out of your apps!</p>
+            <p>You are just one click away from making your booking.</p>
           </li>
         </ol>
                  

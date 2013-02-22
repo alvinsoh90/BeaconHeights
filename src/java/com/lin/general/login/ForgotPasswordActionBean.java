@@ -156,13 +156,23 @@ public class ForgotPasswordActionBean extends BaseActionBean {
 
             // Set properties
             Properties props = new Properties();
+            props.setProperty("mail.transport.protocol", "smtp");
+            props.setProperty("mail.smtp.auth", "true");
             props.put("mail.smtp.host", host);
             props.put("mail.debug", "true");
             props.setProperty("mail.user", "helpdesk@beaconheights.com.sg");
             props.setProperty("mail.password", "Charisfyp!");
 
             // Get session
-            Session session = Session.getInstance(props);
+            //Session session = Session.getInstance(props);
+            
+            Session session = Session.getDefaultInstance(props, new Authenticator(){
+                public PasswordAuthentication getPasswordAuthentication() {
+                    String username = "helpdesk@beaconheights.com.sg";
+                    String password = "Charisfyp!";
+                    return new PasswordAuthentication(username, password);
+                }
+            });
 
             try {
                 // Instantiate a message
