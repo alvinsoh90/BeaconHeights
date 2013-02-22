@@ -43,6 +43,22 @@
                     </ul>
                 </li>
             </ul>
+            
+            <ul class="nav pull-left">
+
+                <li class="dropdown">
+
+                    <a data-toggle="dropdown" class="dropdown-toggle ">
+                        Events
+                        <b class="caret"></b>							
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/residents/eventwall.jsp"> Event Wall</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
             <ul class="nav pull-left">
 
                 <li class="dropdown">
