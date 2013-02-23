@@ -14,14 +14,14 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
 /**
  *
  * @author Shamus
  */
 public class EventDAO {
+
     Session session = null;
-    
+
     public EventDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
@@ -29,10 +29,10 @@ public class EventDAO {
     private void openSession() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    public Event createEvent(User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent, boolean isAdminEvent){
-        Event e = new Event(user,booking,title,startTime,endTime,venue,details,isPublicEvent,isAdminEvent);
-        
+
+    public Event createEvent(User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent, boolean isAdminEvent) {
+        Event e = new Event(user, booking, title, startTime, endTime, venue, details, isPublicEvent, isAdminEvent);
+
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -48,12 +48,12 @@ public class EventDAO {
         //return null if failed
         return null;
     }
-    
-    public Event getEvent(int id){
-        return (Event)session.get(Event.class, id);
+
+    public Event getEvent(int id) {
+        return (Event) session.get(Event.class, id);
     }
-    
-    public ArrayList<Event> getAllEvents(){
+
+    public ArrayList<Event> getAllEvents() {
         openSession();
         ArrayList<Event> list = new ArrayList<Event>();
         try {
@@ -67,8 +67,8 @@ public class EventDAO {
 
         return list;
     }
-    
-    public ArrayList<Event> getAllEventsLazy(){
+
+    public ArrayList<Event> getAllEventsLazy() {
         openSession();
         ArrayList<Event> list = new ArrayList<Event>();
         try {
@@ -82,47 +82,52 @@ public class EventDAO {
 
         return list;
     }
-    
-    public void deleteEvent(int id){
+
+    public boolean deleteEvent(int id) {
         openSession();
         Transaction tx = null;
+
         try {
             tx = session.beginTransaction();
             Event e = (Event)session.get(Event.class, id);
             e.setIsDeleted(true);
             tx.commit();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {
                 tx.rollback();
             }
         }
+        return false;
     }
-    
-    public Event updateEvent(int id, User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent){
+
+    public boolean updateEvent(int id, User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent) {
         openSession();
         Transaction tx = null;
         Event e = null;
+
         try {
-        tx = session.beginTransaction();
-        e = (Event) session.get(Event.class, id);
-        
-        e.setUser(user);
-        e.setBooking(booking);
-        e.setTitle(title);
-        e.setStartTime(startTime);
-        e.setEndTime(endTime);
-        e.setVenue(venue);
-        e.setDetails(details);
-        e.setIsPublicEvent(isPublicEvent);
-        
-        tx.commit();
+            tx = session.beginTransaction();
+            e = (Event) session.get(Event.class, id);
+
+            e.setUser(user);
+            e.setBooking(booking);
+            e.setTitle(title);
+            e.setStartTime(startTime);
+            e.setEndTime(endTime);
+            e.setVenue(venue);
+            e.setDetails(details);
+            e.setIsPublicEvent(isPublicEvent);
+
+            tx.commit();
+            return true;
         } catch (Exception ex) {
             ex.printStackTrace();
             if (tx != null) {
                 tx.rollback();
             }
         }
-        return e;
+        return false;
     }
 }

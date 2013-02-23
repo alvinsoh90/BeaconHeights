@@ -15,14 +15,14 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
 /**
  *
  * @author Shamus
  */
 public class EventCommentDAO {
+
     Session session = null;
-    
+
     public EventCommentDAO() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
@@ -30,10 +30,9 @@ public class EventCommentDAO {
     private void openSession() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    public EventComment createEventComment(Event event, User user, String text, Date commentDate, boolean isDeleted){
-        EventComment ec = new EventComment( event, user, text, commentDate, isDeleted);
-        
+
+    public EventComment createEventComment(EventComment ec) {
+
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -49,17 +48,19 @@ public class EventCommentDAO {
         //return null if failed
         return null;
     }
-    
-    public EventComment getEventComment(int id){
-        return (EventComment)session.get(EventComment.class, id);
+
+    public EventComment getEvent(int id) {
+        return (EventComment) session.get(EventComment.class, id);
     }
-    
-    public ArrayList<EventComment> getAllEvents(){
+
+    public ArrayList<EventComment> getAllCommentsForEvent(int eventId) {
         openSession();
         ArrayList<EventComment> list = new ArrayList<EventComment>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from EventComment as ec join fetch ec.user join fetch ec.event");
+            Query q = session.createQuery("from EventComment as ec join fetch "
+                    + "ec.user join fetch ec.event where ec.event.eventId = :id");
+            q.setString("id", eventId + "");
             list = (ArrayList<EventComment>) q.list();
             tx.commit();
         } catch (Exception e) {
@@ -68,8 +69,8 @@ public class EventCommentDAO {
 
         return list;
     }
-    
-    public ArrayList<EventComment> getAllEventCommentsLazy(){
+
+    public ArrayList<EventComment> getAllEventCommentsLazy() {
         openSession();
         ArrayList<EventComment> list = new ArrayList<EventComment>();
         try {
@@ -83,13 +84,13 @@ public class EventCommentDAO {
 
         return list;
     }
-    
-    public boolean deleteEventComment(int id){
+
+    public boolean deleteEventComment(int id) {
         openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            EventComment ec = (EventComment)session.get(EventComment.class, id);
+            EventComment ec = (EventComment) session.get(EventComment.class, id);
             ec.setIsDeleted(true);
             tx.commit();
             return true;
@@ -103,6 +104,5 @@ public class EventCommentDAO {
     }
     //don't think need to update comments right?
 //    public Event updateEventComment(Event event, User user, String text, Date commentDate){
-
 //    }
 }
