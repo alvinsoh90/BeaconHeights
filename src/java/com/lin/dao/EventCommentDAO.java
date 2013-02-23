@@ -84,7 +84,7 @@ public class EventCommentDAO {
         return list;
     }
     
-    public void deleteEventComment(int id){
+    public boolean deleteEventComment(int id){
         openSession();
         Transaction tx = null;
         try {
@@ -92,11 +92,13 @@ public class EventCommentDAO {
             EventComment ec = (EventComment)session.get(EventComment.class, id);
             ec.setIsDeleted(true);
             tx.commit();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {
                 tx.rollback();
             }
+            return false;
         }
     }
     //don't think need to update comments right?
