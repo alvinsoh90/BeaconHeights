@@ -88,10 +88,9 @@ public class EventDAO {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            String hql = "delete from Event where id = :id";
-            Query query = session.createQuery(hql);
-            query.setString("id", id + "");
-            query.executeUpdate();
+            tx = session.beginTransaction();
+            Event e = (Event)session.get(Event.class, id);
+            e.setIsDeleted(true);
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
