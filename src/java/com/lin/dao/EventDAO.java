@@ -86,27 +86,20 @@ public class EventDAO {
     public boolean deleteEvent(int id) {
         openSession();
         Transaction tx = null;
-        int rowCount = 0;
 
         try {
             tx = session.beginTransaction();
-            String hql = "delete from Event where id = :id";
-            Query query = session.createQuery(hql);
-            query.setString("id", id + "");
-            rowCount = query.executeUpdate();
+            Event e = (Event)session.get(Event.class, id);
+            e.setIsDeleted(true);
             tx.commit();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             if (tx != null) {
                 tx.rollback();
             }
         }
-        System.out.println("Event - Rows affected: " + rowCount);
-        if (rowCount > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     public boolean updateEvent(int id, User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent) {
