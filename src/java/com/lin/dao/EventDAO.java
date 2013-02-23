@@ -88,7 +88,6 @@ public class EventDAO {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            tx = session.beginTransaction();
             Event e = (Event)session.get(Event.class, id);
             e.setIsDeleted(true);
             tx.commit();

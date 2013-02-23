@@ -50,7 +50,7 @@ public class EventCommentDAO {
         return null;
     }
     
-    public EventComment getEvent(int id){
+    public EventComment getEventComment(int id){
         return (EventComment)session.get(EventComment.class, id);
     }
     
