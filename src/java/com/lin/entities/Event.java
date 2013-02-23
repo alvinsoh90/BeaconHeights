@@ -44,6 +44,18 @@ public class Event  implements java.io.Serializable {
         this.isAdminEvent = isAdminEvent;
         this.isDeleted = isDeleted;
     }
+    public Event(User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent, boolean isAdminEvent) {
+        this.user = user;
+        this.booking = booking;
+        this.title = title;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.venue = venue;
+        this.details = details;
+        this.isPublicEvent = isPublicEvent;
+        this.isAdminEvent = isAdminEvent;
+        this.isDeleted = false;
+    }
     public Event(User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent, boolean isAdminEvent, boolean isDeleted, Set eventLikes, Set posts, Set eventInvites, Set notifications, Set eventInappropriates, Set eventComments) {
        this.user = user;
        this.booking = booking;
