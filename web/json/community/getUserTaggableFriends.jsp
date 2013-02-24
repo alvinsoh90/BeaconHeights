@@ -29,11 +29,11 @@ JSONArray friendArr = new JSONArray();
 
 for(User u : friendList){
     JSONObject friend = new JSONObject();
-    friend.put("username", u.getUserName());
+    friend.put("username", u.getEscapedUserName());
     friend.put("userId", u.getUserId());
-    friend.put("firstName", u.getFirstname());
-    friend.put("lastName", u.getLastname());
-    friend.put("name", u.getFirstname() + " " + u.getLastname());
+    friend.put("firstName", u.getEscapedFirstName());
+    friend.put("lastName", u.getEscapedLastName());
+    friend.put("name", u.getEscapedFirstName() + " " + u.getEscapedLastName());
     friend.put("profilePic", u.getProfilePicFilename());
     
     friendArr.put(friend);

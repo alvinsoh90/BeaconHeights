@@ -36,8 +36,10 @@
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
          <script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
+         <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
         <link rel="stylesheet" href="/css/token-input.css" type="text/css" />
         <link rel="stylesheet" href="/css/token-input-facebook.css" type="text/css" />
+        <link rel="stylesheet" href="/css/tipsy.css" type="text/css" />
 
 
         <script>
@@ -153,22 +155,58 @@
             function likePost(postId){
                 var dat = new Object();
                 dat.postId = postId;
+                dat.isALike = true;
                 
                 console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
                 
                 $.ajax({
                     type: "POST",
-                    url: "/json/community/likeAPost.jsp",
+                    url: "/json/community/likeOrUnlikePost.jsp",
                     data: dat,
                     success: function(data, textStatus, xhr) {
                         console.log(xhr.status);
                     },
                     complete: function(xhr, textStatus) {
                         if(xhr.status === 200){
-                            refreshPost(postId);
+                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
+                            // disable like button
+                            $("#post-"+postId+" .postLikeBtn .txt").text("You like");
+                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-ok iconLike");
+                            $("#post-"+postId+" .postLikeBtn").attr("onclick","unlikePost("+postId+")");
                         }
                         else{
                             toastr.error("There was a problem liking this post. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            
+            function unlikePost(postId){
+                var dat = new Object();
+                dat.postId = postId;
+                dat.isALike = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/likeOrUnlikePost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
+                            // enable like button
+                            $("#post-"+postId+" .postLikeBtn .txt").text("Like");
+                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-heart iconLike");
+                            $("#post-"+postId+" .postLikeBtn").attr("onclick","likePost("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem unliking this post. Please try again later.");
                         }
                     } 
                 });
@@ -273,8 +311,7 @@
 
 
             <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
-
-
+        
                 <div id="post-${post.postId}" class="postWrapper row-fluid">
                     <div class="leftContent span2">
                         <div class="posterInfo">
@@ -298,9 +335,19 @@
                             </div>
                         </div>
                         <div class="linkBar">
-                            <a class="btn"><i class="icon-check"></i> I'm going!</a>
-                            <a class="btn" onclick="likePost(${post.postId})"><i class="icon-heart"></i> Like</a>
-                            <a class="btn"><i class="icon-eye-open"></i> View Event</a>
+                            <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
+                            
+                            <%-- Check if user likes this post --%>
+                            <c:choose>
+                                <c:when test="${managePostBean.hasUserLikedPost(post.postId, sessionScope.user.userId)}">
+                                    <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="unlikePost(${post.postId})"><i class="iconLike icon-ok"></i> <span class="txt">You Like</span></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.postId})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
+                                </c:otherwise>    
+                            </c:choose>                                
+                            
+                            <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
                             <a href="#" class="float_r flagPost"><i class="icon-flag"></i> Flag as inappropriate</a>
                         </div>
                     </div>
@@ -326,7 +373,29 @@
 
                     </div>
                 </div>
-
+                <div class="span2 postSideBlock">
+                    <!--<div class="sideHeaderBtn">
+                        <div><i class="iconLike icon-heart"></i></div>
+                        <div class="txt">You Like</div> 
+                    </div>-->
+                    <c:set var="numPostLikes" value="${managePostBean.getNumPostLikes(post.postId)}"/>
+                    <c:if test="${numPostLikes > 0}">
+                        <div class="header">${numPostLikes} Likes</div>
+                        <div class="likerSpace">
+                        <c:forEach items="${managePostBean.getLikersOfPost(post.postId,18)}" var="liker" varStatus="stat">
+                            <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname}" class="liker" src='/uploads/profile_pic/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                        </c:forEach>      
+                        </div>
+                            <script>
+                                $(document).ready(function() {         
+                                    //Tipsy tooltips
+                                    $(".liker").each(function(){
+                                        $(this).tipsy({gravity: 'n'});
+                                    });
+                                });       
+                            </script>
+                    </c:if>                        
+                </div>                                
             </div>
         </c:forEach>
 
@@ -359,7 +428,7 @@
                 //slotDataHasError
             }
                         
-        });
+        });        
     });       
 </script>
 

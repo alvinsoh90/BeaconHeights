@@ -73,4 +73,9 @@ public class CommunityWallController {
         return (pl != null);
     }
     
+    public boolean unlikePost(int userId, int postId){
+                
+        return pDAO.unlikePost(userId,postId);
+    }
+    
 }

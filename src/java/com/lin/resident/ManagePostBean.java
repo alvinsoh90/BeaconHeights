@@ -7,8 +7,11 @@ package com.lin.resident;
 import com.lin.controllers.CommunityWallController;
 import com.lin.dao.CommunityWallCommentDAO;
 import com.lin.dao.PostDAO;
+import com.lin.dao.UserDAO;
 import com.lin.entities.Comment;
 import com.lin.entities.Post;
+import com.lin.entities.PostLike;
+import com.lin.entities.User;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -30,6 +33,8 @@ public class ManagePostBean implements ActionBean {
     private Integer replyTo;
     private Integer noOfLikes;
     private ArrayList<Post> postList;
+    PostDAO pDAO = new PostDAO();
+
 
     @Override
     public void setContext(ActionBeanContext abc) {
@@ -90,7 +95,6 @@ public class ManagePostBean implements ActionBean {
     }
     
     public ArrayList<Post> getPostList() {
-        PostDAO pDAO = new PostDAO();
         postList = pDAO.retrievePostsWithLimit(10);
         System.out.println("postList size: "+postList.size());
         
@@ -103,5 +107,30 @@ public class ManagePostBean implements ActionBean {
         }
         
         return postList;
+    }
+    
+    public boolean hasUserLikedPost(int postId, int userId){        
+        return pDAO.hasUserLikedPost(postId, userId);
+    }
+    
+    public int getNumPostLikes(int postId){
+        return pDAO.getPostLikesByPostId(postId).size();
+    }
+    
+    public ArrayList<User> getLikersOfPost(int postId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<PostLike> likeList=  pDAO.getPostLikesByPostId(postId);
+        int fetchSize = likeList.size();
+        
+        if(likeList.size() > limit) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            PostLike pl = likeList.get(i);
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+        }
+        
+        return list;
     }
 }

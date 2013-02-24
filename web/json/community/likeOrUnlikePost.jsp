@@ -10,11 +10,20 @@
 User currUser = (User)session.getAttribute("user");
 int userId = currUser.getUserId();
 int postId = Integer.parseInt(request.getParameter("postId"));
-
-CommunityWallController wallCtrl = new CommunityWallController();
+String isLiking = request.getParameter("isALike");
 
 JSONObject jOb = new JSONObject();
-jOb.put("like_success", wallCtrl.likePost(userId, postId));
+CommunityWallController wallCtrl = new CommunityWallController();
+
+
+if(isLiking.equalsIgnoreCase("true")){
+    jOb.put("like_success", wallCtrl.likePost(userId, postId));
+}
+else{
+    jOb.put("unlike_success", wallCtrl.unlikePost(userId, postId));
+}
+
+
 
 out.println(jOb.toString());
 System.out.println(jOb.toString());

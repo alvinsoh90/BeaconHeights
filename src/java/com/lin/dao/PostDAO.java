@@ -196,7 +196,97 @@ public class PostDAO {
         }
         return null;
     }
+    
+    public PostLike getPostLike(int id){        
+        ArrayList<PostLike> postLikeList = new ArrayList<PostLike>();
+        openSession();
         
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from PostLike where id = :id");
+            q.setInteger("id", id);
+            postLikeList = (ArrayList<PostLike>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return postLikeList.get(0);
+    }
+
+    public boolean unlikePost(int userId, int postId) {
+        openSession();
+        Transaction tx = null;
+        int rowCount = 0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from PostLike as pl "
+                    + "where pl.post.postId = :pid "
+                    + "and pl.user.userId = :uid";
+            Query query = session.createQuery(hql);
+            query.setInteger("pid", postId);
+            query.setInteger("uid", userId);
+            rowCount = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }   
+    }
+    
+    public boolean hasUserLikedPost(int postId, int userId){
+        
+        ArrayList<PostLike> postLikeList = new ArrayList<PostLike>();
+        
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from PostLike as pl "
+                    + "where pl.post.postId = :id "
+                    + "and pl.user.userId = :uid");
+            q.setInteger("id", postId);
+            q.setInteger("uid", userId);
+            
+            postLikeList = (ArrayList<PostLike>) q.list();
+            tx.commit();
+            
+            return !postLikeList.isEmpty();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
+
+    public ArrayList<PostLike> getPostLikesByPostId(int postId) {
+        openSession();
+        ArrayList<PostLike> postLikeList = new ArrayList<PostLike>();
+        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from PostLike as pl "
+                    + "where pl.post.postId = :id");
+            
+            q.setInteger("id", postId);
+            postLikeList = (ArrayList<PostLike>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return postLikeList;
+    }
 
 }
 
