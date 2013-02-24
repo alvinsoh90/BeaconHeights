@@ -356,9 +356,7 @@
                         <div class="control-group ${errorStyle}">
                             <label class="control-label">Mobile Number<span class="required"> *</span></label>
                             <div class="controls">
-                                <div class="input-prepend">
-                                <span class="add-on">+65</span><stripes:text id="edit_mobileno" name="mobileno" value="${user.mobileNo}" />   
-                                </div>
+                                <stripes:text id="edit_mobileno" name="mobileno" value="${user.mobileNo}" />
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
