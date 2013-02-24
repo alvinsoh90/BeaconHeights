@@ -133,6 +133,9 @@
                     <div class="page-header">
                         <h1>Amenity Categories <small>Manage categories of amenities</small></h1>
                     </div>
+                    
+                    <a href="#createAmenityCategoryModal" role="button" data-toggle="modal" class="btn btn-success">Create New Category</a>
+                    
                     <table id ="table_id" class ="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
@@ -163,7 +166,6 @@
                         </tbody>
                     </table>
 
-                    <a href="#createAmenityCategoryModal" role="button" data-toggle="modal" class="btn btn-success">Create New Category</a>
                 </div>
             </div>
         </div>

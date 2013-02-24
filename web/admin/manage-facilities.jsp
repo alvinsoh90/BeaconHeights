@@ -67,7 +67,7 @@
                 facilityList.forEach(function(facility){
                     if(facility.id == facilityID){
                         $("#facilityDeleteLabel").text(facility.name);
-                        $("#delete_name").text(facility.type + " " + facility.id);
+                        $("#delete_name").text(facility.name);
                         $("#delete_id").val(facility.id);
 
                     }
@@ -149,6 +149,9 @@
                     <div class="page-header">
                         <h1>Facilities <small>Manage existing estate facilities</small></h1>
                     </div>
+                    
+                    <a href="#createFacilityModal" role='button' data-toggle='modal' class="btn btn-success">Create New Facility</a>
+                    
                     <table id="facilityTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
@@ -183,7 +186,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <a href="#createFacilityModal" role='button' data-toggle='modal' class="btn btn-success">Create New Facility</a>
+                    
                 </div>
             </div>
         </div>

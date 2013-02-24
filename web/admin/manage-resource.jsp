@@ -197,6 +197,9 @@
                     <div class="page-header">
                         <h1>Resources <small>Manage Resources</small></h1>
                     </div>
+                    
+                    <a href="#createResourceModal" role='button' data-toggle='modal' class="btn btn-success">Create New Resource</a>
+                    
                     <table id ="table_id" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
@@ -238,7 +241,7 @@
                         </tbody>
                     </table>
 
-                    <a href="#createResourceModal" role='button' data-toggle='modal' class="btn btn-success">Create New Resource</a>
+                    
                 </div>
             </div>
         </div>

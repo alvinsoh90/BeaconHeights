@@ -188,7 +188,9 @@
                     <div class="page-header">
                         <h1>Users <small>All users</small></h1>
                     </div>
-
+                    
+                    <a href="new-user.jsp" class="btn btn-success">Add New User</a>
+                    
                     <table id="userDataTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
@@ -205,6 +207,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
                             <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
 
                                 <tr>
@@ -231,9 +234,8 @@
 
                             </c:forEach>
                         </tbody>
+                        
                     </table>    
-
-                    <a href="new-user.jsp" class="btn btn-success">New User</a>
                 </div>
             </div>
         </div>

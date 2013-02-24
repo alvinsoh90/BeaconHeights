@@ -318,22 +318,23 @@
                     <h3>Edit <span id="usernameLabel">${user.firstname}</span>'s information</h3>
                 </div>
                 <div class="modal-body">
+                    <span class="required">* Required</span>
                     <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditUserBean" focus="" name="editUserProfile" id="edit_user_validate">
 
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">First Name</label>
+                            <label class="control-label">First Name<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:text id="edit_firstname" name="firstname" value="${user.firstname}"/> 
                             </div>
                         </div>                              
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Last Name</label>
+                            <label class="control-label">Last Name<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:text id="edit_lastname" name="lastname" value="${user.lastname}"/> 
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Block</label>
+                            <label class="control-label">Block<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:select id="block" name="block" value="${user.block.blockName}">
                                     <stripes:options-collection collection="${registerActionBean.allBlocks}" value="blockName" label="blockName" />        
@@ -341,25 +342,27 @@
                             </div>
                         </div> 
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Level</label>
+                            <label class="control-label">Level<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:select name="level" id="level" value="${user.level}">
                                 </stripes:select>                            </div>
                         </div>     
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Unit Number</label>
+                            <label class="control-label">Unit Number<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:select name="unitnumber" id ="unitnumber" value="${user.unit}">
                                 </stripes:select>                             </div>
                         </div>    
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Mobile Number</label>
+                            <label class="control-label">Mobile Number<span class="required"> *</span></label>
                             <div class="controls">
-                                <stripes:text id="edit_mobileno" name="mobileno" value="${user.mobileNo}" />   
+                                <div class="input-prepend">
+                                <span class="add-on">+65</span><stripes:text id="edit_mobileno" name="mobileno" value="${user.mobileNo}" />   
+                                </div>
                             </div>
-                        </div>  
+                        </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Email</label>
+                            <label class="control-label">Email<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:text id="edit_email" name="email" value="${user.email}" /> 
                             </div>

@@ -418,7 +418,8 @@
                             <!-- Tab 2 -->
                             <div id="pane2" class="tab-pane">
                                 <h4>Form Templates</h4>
-
+                                <br/>
+                                <a href="#createFormTemplateModal" role='button' data-toggle='modal' class="btn btn-success">Upload New Form</a>
 
                                 <table id="templateTable"  class="table table-striped table-bordered table-condensed">
                                     <thead>
@@ -465,8 +466,7 @@
                                     </tbody>
                                 </table>
 
-                                <a href="#createFormTemplateModal" role='button' data-toggle='modal' class="btn btn-success">Upload New Form</a>
-
+                                
                             </div>
                             <hr>
                         </div>

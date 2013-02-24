@@ -178,3 +178,7 @@ cursor: default;
     font-size: 18px;
     margin-left: 20px;
 }
+
+.required{
+    color: #b94a48
+}

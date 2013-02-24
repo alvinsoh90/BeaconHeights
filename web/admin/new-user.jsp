@@ -118,9 +118,10 @@
                     <div class="page-header">
                         <h1>New User <small>User registration</small></h1>
                     </div>
+                    <span class="required">* Required</span>
                     <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageUsersActionBean" focus="" name="registration_validate" id="registration_validate">
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Role</label>
+                            <label class="control-label">Role<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:select name="role" id="role">
                                     <stripes:options-collection collection="${manageUsersActionBean.roleList}" value="name" label="name"/>        
@@ -129,43 +130,43 @@
                         </div>
 
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Username</label>
+                            <label class="control-label">Username<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:text name="username" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Password</label>
+                            <label class="control-label">Password<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:password name="password" id="password" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Confirm Password</label>
+                            <label class="control-label">Confirm Password<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:password  name="passwordconfirm" id="passwordconfirm" autocomplete="off"/>
                             </div>
                         </div>                             
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">First Name</label>
+                            <label class="control-label">First Name<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:text name="firstname" autocomplete="off"/> 
                             </div>
                         </div>                              
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Last Name</label>
+                            <label class="control-label">Last Name<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:text name="lastname" autocomplete="off"/> 
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Email</label>
+                            <label class="control-label">Email<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:text name="email" autocomplete="off"/> 
                             </div>
                         </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Mobile Number</label>
+                            <label class="control-label">Mobile Number<span class="required"> *</span></label>
                             <div class="controls">
                                 <div class="input-prepend">
                                     <span class="add-on">+65</span><stripes:text name="mobileno" autocomplete="off"/> 
@@ -173,7 +174,7 @@
                             </div>  
                         </div>
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Block</label>
+                            <label class="control-label">Block<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:select name="block" id="block">
                                     <stripes:options-collection collection="${registerActionBean.allBlocks}" 
@@ -182,14 +183,14 @@
                             </div>
                         </div> 
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Level</label>
+                            <label class="control-label">Level<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:select name="level" id="level">
                                 </stripes:select>
                             </div>
                         </div>     
                         <div class="control-group ${errorStyle}">
-                            <label class="control-label">Unit Number</label>
+                            <label class="control-label">Unit Number<span class="required"> *</span></label>
                             <div class="controls">
                                 <stripes:select name="unitnumber" id ="unitnumber">
                                 </stripes:select>                                        </div>

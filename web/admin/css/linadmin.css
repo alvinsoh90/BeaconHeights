@@ -131,3 +131,33 @@ input[readonly].datepicker{
     border-color:#ccc;
     cursor:pointer;
 }
+
+/*data tables*/
+.ui-state-default .ui-icon {
+    background-image: url(images/ui-icons_888888_256x240.png); 
+}
+
+.ui-icon-triangle-1-n {
+background-position: 0 -16px;
+}
+
+.ui-icon {
+width: 16px;
+height: 16px;
+background-image: url(images/ui-icons_888888_256x240.png);
+}
+
+.ui-icon {
+display: block;
+text-indent: -99999px;
+overflow: hidden;
+background-repeat: no-repeat;
+}
+
+.ui-icon-triangle-1-s {
+background-position: -64px -16px;
+}
+
+.ui-icon-carat-2-n-s {
+background-position: -128px 0;
+}

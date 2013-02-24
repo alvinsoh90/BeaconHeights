@@ -109,6 +109,9 @@
                     <div class="page-header">
                         <h1>Facility Types <small>Manage estate facility types</small></h1>
                     </div>
+                    
+                    <a href="createfacilitytype.jsp" class="btn btn-success">Create New Facility Type</a>
+                    
                     <table id ="facilityTypeTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
@@ -158,7 +161,7 @@
                         </tbody>
                     </table>
 
-                    <a href="createfacilitytype.jsp" class="btn btn-success">Create New Facility Type</a>
+                    
                 </div>
             </div>
         </div>

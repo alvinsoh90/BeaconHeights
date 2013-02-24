@@ -190,7 +190,9 @@
                     <div class="page-header">
                         <h1>Bookings <small>View and manage current facility bookings</small></h1>
                     </div>
-
+                    
+                    <a href="../residents/index.jsp" class="btn btn-success">Create New Booking</a>
+                    
                     <table id="bookingTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
@@ -278,7 +280,7 @@
                         </tbody>
                     </table>
 
-                    <a href="#" class="btn btn-success">New Booking</a>
+                    
                 </div>
             </div>
         </div>
