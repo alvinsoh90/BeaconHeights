@@ -102,8 +102,8 @@ public class UploadProfilePicActionBean extends BaseActionBean {
             }
             file.save(location);
             UserDAO uDAO = new UserDAO();
-            User u = uDAO.uploadProfilePic(Integer.parseInt(user_id),fileName);
-            getContext().setUser(u);
+            User user = uDAO.uploadProfilePic(Integer.parseInt(user_id),fileName);
+            getContext().setUser(user);
             success = true;
         } catch (Exception e) {
             result = file.getFileName();
