@@ -170,7 +170,8 @@ public class FriendshipDAO {
                     + "JOIN FETCH f.userByUserIdOne "
                     + "JOIN FETCH f.userByUserIdTwo "
                     + "WHERE f.userByUserIdOne = :id "
-                    + "AND f.userByUserIdTwo.userName LIKE :name ORDER BY f.date DESC");
+                    + "AND CONCAT(f.userByUserIdTwo.firstname,' ',f.userByUserIdTwo.lastname) LIKE :name "
+                    + "ORDER BY f.date DESC");
             q.setInteger("id", userId);
             q.setString("name", "%"+name+"%");
             
