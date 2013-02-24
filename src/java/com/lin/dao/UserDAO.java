@@ -274,6 +274,20 @@ public class UserDAO {
         System.out.println("RETRIEVEDUSER:" + userList.get(0));
         return userList.get(0);
     }
+    
+        public User getShallowUser(int userId) {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from User as u where u.userId = :id");
+            q.setString("id", userId + "");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userList.get(0);
+    }
 
     public UserTemp getUserTemp(int userId) {
         openSession();

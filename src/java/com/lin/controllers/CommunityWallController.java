@@ -10,6 +10,8 @@ import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Comment;
 import com.lin.entities.Friendship;
+import com.lin.entities.Post;
+import com.lin.entities.PostLike;
 import com.lin.entities.User;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +59,18 @@ public class CommunityWallController {
         }
         
         return friendList;
+    }
+    
+    public boolean likePost(int userId, int postId){
+        User u = uDAO.getShallowUser(userId);
+        Post p = pDAO.getPost(postId);
+        
+        PostLike pl = new PostLike(u,p);
+        pl.setTimestamp(new Date());
+        
+        pl = pDAO.likePost(pl);
+        
+        return (pl != null);
     }
     
 }

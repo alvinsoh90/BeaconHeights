@@ -5,6 +5,8 @@
 package com.lin.dao;
 
 import com.lin.entities.Post;
+import com.lin.entities.PostLike;
+import com.lin.entities.User;
 import com.lin.utils.HibernateUtil;
 import java.util.ArrayList;
 import org.hibernate.Query;
@@ -174,6 +176,26 @@ public class PostDAO {
         return false;
     }
     
+    public PostLike likePost(PostLike postLike){
+        openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.beginTransaction();
+            session.save("PostLike", postLike);
+            session.flush();
+            
+            tx.commit();
+            return postLike;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return null;
+    }
         
 
 }

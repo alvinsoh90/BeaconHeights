@@ -149,6 +149,31 @@
                     } 
                 });
             }
+            
+            function likePost(postId){
+                var dat = new Object();
+                dat.postId = postId;
+                
+                console.log(JSON.stringify(dat));
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/likeAPost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            refreshPost(postId);
+                        }
+                        else{
+                            toastr.error("There was a problem liking this post. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            
             var r;
             function refreshPost(postId){
                 //fade out comment area
@@ -272,9 +297,9 @@
                                 <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
                             </div>
                         </div>
-                        <div class="linkBar hide">
+                        <div class="linkBar">
                             <a class="btn"><i class="icon-check"></i> I'm going!</a>
-                            <a class="btn"><i class="icon-heart"></i> Like</a>
+                            <a class="btn" onclick="likePost(${post.postId})"><i class="icon-heart"></i> Like</a>
                             <a class="btn"><i class="icon-eye-open"></i> View Event</a>
                             <a href="#" class="float_r flagPost"><i class="icon-flag"></i> Flag as inappropriate</a>
                         </div>
