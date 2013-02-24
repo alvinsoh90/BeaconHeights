@@ -12,7 +12,7 @@
     <property name="hibernate.cache.use_second_level_cache">false</property>
     <property name="org.hibernate.hql.ast.ASTQueryTranslatorFactory">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
     <!-- no "connection.pool_size" entry! -->
-<!--        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>    
+    <!--        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>    
         <property name="hibernate.c3p0.min_size">5</property>
         <property name="hibernate.c3p0.max_size">100</property>
         <property name="hibernate.c3p0.timeout">300</property>
@@ -51,5 +51,6 @@
     <mapping resource="com/lin/entities/PostInappropriate.hbm.xml"/>
     <mapping resource="com/lin/entities/PostLike.hbm.xml"/>
     <mapping resource="com/lin/entities/EventInvite.hbm.xml"/>
+    <mapping resource="com/lin/entities/PostUserTag.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
