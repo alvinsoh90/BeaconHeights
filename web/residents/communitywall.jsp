@@ -105,6 +105,12 @@
                     defaultTitle = announcementDefaultTitle;
                 }
                 
+                $("#firstPostIcon").removeClass("INVITE");
+                $("#firstPostIcon").removeClass("SHOUTOUT");
+                $("#firstPostIcon").removeClass("REQUEST");
+                $("#firstPostIcon").removeClass("ANNOUNCEMENT");
+                
+                $("#firstPostIcon").addClass(postType);
                 $("#postTitle").val(defaultTitle);
             }
                
@@ -332,7 +338,7 @@
                             <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic" />
                             <div class="name">${user.userName}</div>
                         </div>
-                        <div class="postIcon wallicon INVITE">
+                        <div id="firstPostIcon" class="postIcon wallicon INVITE">
                             <div class="timeline"/></div>
                     </div>
                 </div>
