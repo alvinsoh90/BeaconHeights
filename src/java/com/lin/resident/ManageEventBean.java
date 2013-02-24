@@ -9,6 +9,7 @@ import com.lin.dao.EventDAO;
 import com.lin.entities.Booking;
 import com.lin.entities.Comment;
 import com.lin.entities.Event;
+import com.lin.entities.EventComment;
 import com.lin.entities.User;
 import java.util.ArrayList;
 import java.util.Date;
@@ -210,8 +211,8 @@ public class ManageEventBean implements ActionBean {
         EventWallController wallCtrl = new EventWallController();
         //get associated comments
         for (Event e : eventList) {
-            ArrayList<Comment> l = wallCtrl.getCommentsForEventSortedByDate(e.getId());
-            Set<Comment> relatedComments = new HashSet<Comment>(l);
+            ArrayList<EventComment> l = wallCtrl.getCommentsForEventSortedByDate(e.getId());
+            Set<EventComment> relatedComments = new HashSet<EventComment>(l);
             e.setEventComments(relatedComments);
         }
 
