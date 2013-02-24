@@ -11,6 +11,7 @@ import com.lin.dao.UserDAO;
 import com.lin.entities.Comment;
 import com.lin.entities.Friendship;
 import com.lin.entities.Post;
+import com.lin.entities.PostInappropriate;
 import com.lin.entities.PostLike;
 import com.lin.entities.User;
 import java.util.ArrayList;
@@ -44,6 +45,11 @@ public class CommunityWallController {
         return list;        
     }
     
+     public ArrayList<Comment> getCommentsForPost(int postId){
+        ArrayList<Comment> list = cDAO.retrieveCommentsForPost(postId);
+        return list;        
+    }
+    
     public ArrayList<User> getAllPostersFriendsWithSimilarName(int userId, String name){
         FriendshipDAO fDAO = new FriendshipDAO();
         ArrayList<User> friendList = new ArrayList<User>();
@@ -73,9 +79,32 @@ public class CommunityWallController {
         return (pl != null);
     }
     
-    public boolean unlikePost(int userId, int postId){
-                
+    public boolean unlikePost(int userId, int postId){                
         return pDAO.unlikePost(userId,postId);
+    }
+    
+    public boolean flagPostInappropriate(int userId, int postId){
+        User u = uDAO.getShallowUser(userId);
+        Post p = pDAO.getPost(postId);
+        
+        PostInappropriate pl = new PostInappropriate(u,p);
+        pl.setTimestamp(new Date());
+        
+        return pDAO.flagPostInappropriate(pl);
+    }
+    
+    public boolean unFlagPostInappropriate(int userId, int postId){                
+        return pDAO.unFlagPostInappropriate(userId,postId);
+    }
+    
+    public boolean hasUserFlaggedInappropriate(int userId, int postId){
+        PostInappropriate p = pDAO.getPostInappropriate(userId,postId);
+        
+        if(p != null){
+            return true;
+        }
+        
+        return false;
     }
     
 }

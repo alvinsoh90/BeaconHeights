@@ -13,6 +13,7 @@ import com.lin.entities.Post;
 import com.lin.entities.PostLike;
 import com.lin.entities.User;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -101,12 +102,18 @@ public class ManagePostBean implements ActionBean {
         CommunityWallController wallCtrl = new CommunityWallController();
         //get associated comments
         for(Post p : postList){
-            ArrayList<Comment> l = wallCtrl.getCommentsForPostSortedByDate(p.getPostId());
+            ArrayList<Comment> l = wallCtrl.getCommentsForPost(p.getPostId());
             Set<Comment> relatedComments = new HashSet<Comment>(l);
             p.setComments(relatedComments);
         }
         
         return postList;
+    }
+    
+    public ArrayList<Comment> sortCommentsByDate(HashSet<Comment> l){
+        ArrayList<Comment> cList = new ArrayList<Comment>(l);
+        Collections.sort(cList);
+        return cList;
     }
     
     public boolean hasUserLikedPost(int postId, int userId){        

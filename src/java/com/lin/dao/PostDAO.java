@@ -5,6 +5,7 @@
 package com.lin.dao;
 
 import com.lin.entities.Post;
+import com.lin.entities.PostInappropriate;
 import com.lin.entities.PostLike;
 import com.lin.entities.User;
 import com.lin.utils.HibernateUtil;
@@ -286,6 +287,80 @@ public class PostDAO {
         }
         
         return postLikeList;
+    }
+
+    public boolean flagPostInappropriate(PostInappropriate pi) {
+        openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.beginTransaction();
+            session.save("PostInappropriate", pi);
+            session.flush();
+            
+            tx.commit();
+            return true;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return false;
+    }
+
+    public boolean unFlagPostInappropriate(int userId, int postId) {
+        openSession();
+        Transaction tx = null;
+        int rowCount = 0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from PostInappropriate as p "
+                    + "where p.post.postId = :pid "
+                    + "and p.user.userId = :uid";
+            Query query = session.createQuery(hql);
+            query.setInteger("pid", postId);
+            query.setInteger("uid", userId);
+            rowCount = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }   
+    }
+    
+    public PostInappropriate getPostInappropriate(int userId, int postId){
+        openSession();
+        ArrayList<PostInappropriate> postInappropriateList = new ArrayList<PostInappropriate>();
+        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from PostInappropriate as p "
+                    + "where p.post.postId = :pid "
+                    + "and p.user.userId = :uid");
+            
+            q.setInteger("pid", postId);
+            q.setInteger("uid", userId);
+            postInappropriateList = (ArrayList<PostInappropriate>) q.list();
+            
+            tx.commit();
+            return postInappropriateList.get(0);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
     }
 
 }

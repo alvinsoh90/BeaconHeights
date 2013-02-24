@@ -212,6 +212,64 @@
                 });
             }
             
+            function flagPostInappropriate(postId){
+                var dat = new Object();
+                dat.postId = postId;
+                dat.isInappropriate = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        if(xhr.status === 200){
+                            if(!data.flag_success && data.reason){
+                                toastr.error(data.reason);
+                            }
+                            $("#post-"+postId+" .flagInappropriateBtn").removeClass("disabled");
+                            // disable button
+                            $("#post-"+postId+" .flagInappropriateBtn .txt").text("Post flagged (click to undo)");
+                            $("#post-"+postId+" .flagInappropriateBtn").attr("onclick","unFlagPostInappropriate("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    }
+                });
+            }
+            
+            function unFlagPostInappropriate(postId){
+                var dat = new Object();
+                dat.postId = postId;
+                dat.isInappropriate = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .flagInappropriateBtn").removeClass("disabled");
+                            // disable like button
+                            $("#post-"+postId+" .flagInappropriateBtn .txt").text("Flag as inappropriate");
+                            $("#post-"+postId+" .flagInappropriateBtn").attr("onclick","flagPostInappropriate("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    } 
+                });
+            }
+            
             var r;
             function refreshPost(postId){
                 //fade out comment area
@@ -348,12 +406,12 @@
                             </c:choose>                                
                             
                             <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
-                            <a href="#" class="float_r flagPost"><i class="icon-flag"></i> Flag as inappropriate</a>
+                            <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
                         </div>
                     </div>
                     <div class="commentArea">
                         <div class="comments">
-                            <c:forEach items="${post.comments}" var="comment" varStatus="loop">
+                            <c:forEach items="${managePostBean.sortCommentsByDate(post.comments)}" var="comment" varStatus="loop">
                                 <div class="comment">
                                     <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
                                     <div class="content float_l">
@@ -383,7 +441,7 @@
                         <div class="header">${numPostLikes} Likes</div>
                         <div class="likerSpace">
                         <c:forEach items="${managePostBean.getLikersOfPost(post.postId,18)}" var="liker" varStatus="stat">
-                            <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname}" class="liker" src='/uploads/profile_pic/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                            <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
                         </c:forEach>      
                         </div>
                             <script>
