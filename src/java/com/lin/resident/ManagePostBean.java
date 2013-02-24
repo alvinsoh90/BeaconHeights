@@ -11,6 +11,7 @@ import com.lin.dao.UserDAO;
 import com.lin.entities.Comment;
 import com.lin.entities.Post;
 import com.lin.entities.PostLike;
+import com.lin.entities.PostUserTag;
 import com.lin.entities.User;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -129,7 +130,7 @@ public class ManagePostBean implements ActionBean {
         ArrayList<PostLike> likeList=  pDAO.getPostLikesByPostId(postId);
         int fetchSize = likeList.size();
         
-        if(likeList.size() > limit) fetchSize = limit;
+        if(likeList.size() > limit && limit != -1) fetchSize = limit;
         
         //retrieve users
         UserDAO uDAO = new UserDAO();
@@ -140,4 +141,22 @@ public class ManagePostBean implements ActionBean {
         
         return list;
     }
+    
+    public ArrayList<User> getTaggedUsers(int postId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<PostUserTag> tagList =  pDAO.getPostUserTagsByPostId(postId);
+        int fetchSize = tagList.size();
+        
+        if(tagList.size() > limit && limit != -1) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            PostUserTag pl = tagList.get(i);
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+        }
+        
+        return list;
+    }
+    
 }

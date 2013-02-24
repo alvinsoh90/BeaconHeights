@@ -329,6 +329,13 @@ a.fc-event, .fc-event-draggable{
 .linkBar{
     margin-top:0.6em;
 }
+.taggedUsers{
+    padding: 5px;
+    border-radius: 3px;
+    margin: 6px 2px;
+    font-weight: bold;
+    font-size: 11px;
+}
 .commentArea .replyArea input{
     width:87%;
     margin: 0.4em 0 0 0.5em;

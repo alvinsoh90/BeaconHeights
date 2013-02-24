@@ -8,6 +8,7 @@ import com.lin.controllers.CommunityWallController;
 import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Post;
+import com.lin.entities.PostUserTag;
 import com.lin.entities.User;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,20 +90,15 @@ public class AddPostActionBean implements ActionBean{
         //read tagged users ID list
         System.out.println("friends: " + getTaggedFriends());
         String taggedIds = getTaggedFriends().replace("[", "");
-        taggedIds =  getTaggedFriends().replace("]", "");
+        taggedIds = taggedIds.replace("]", "");
         String[] taggedIdArray = taggedIds.split(",");
-        
+        System.out.println("trimmed: " + taggedIdArray.toString());
         
         try {
             UserDAO uDAO = new UserDAO();
             PostDAO pDAO = new PostDAO();
             User user = uDAO.getUser(getPosterId());
             
-            //Retrieve tagged users for each ID
-            ArrayList<User> taggedUserList = new ArrayList<User>();
-            for(String uId : taggedIdArray){
-                taggedUserList.add(uDAO.getUser(uId));
-            }
             
             //Create and save post
             Post aPost = null;
@@ -124,9 +120,17 @@ public class AddPostActionBean implements ActionBean{
                 fs.put("SUCCESS","false");
             }      
             
-            if(pDAO.addPost(aPost) != null){               
-                fs.put("SUCCESS","true");
-                
+            Post posted = pDAO.addPost(aPost);
+            if(posted != null){
+                //Retrieve and save tagged users for this post
+                    for(String uId : taggedIdArray){                        
+                    pDAO.addPostUserTag(new PostUserTag(
+                            uDAO.getShallowUser(Integer.parseInt(uId)),
+                            pDAO.getPost(posted.getPostId()),
+                            new Date()
+                     ));                    
+                }                    
+                fs.put("SUCCESS","true");                
             }
             
         } catch (Exception e) {

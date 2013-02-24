@@ -22,6 +22,12 @@ public class PostUserTag  implements java.io.Serializable {
        this.user = user;
        this.post = post;
     }
+    
+    public PostUserTag(User user, Post post, Date date) {
+       this.user = user;
+       this.post = post;
+       timestamp = date;
+    }
    
     public Integer getId() {
         return this.id;

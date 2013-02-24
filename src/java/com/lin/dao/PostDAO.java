@@ -7,6 +7,7 @@ package com.lin.dao;
 import com.lin.entities.Post;
 import com.lin.entities.PostInappropriate;
 import com.lin.entities.PostLike;
+import com.lin.entities.PostUserTag;
 import com.lin.entities.User;
 import com.lin.utils.HibernateUtil;
 import java.util.ArrayList;
@@ -361,6 +362,47 @@ public class PostDAO {
         }
         
         return null;
+    }
+
+    public boolean addPostUserTag(PostUserTag postUserTag) {
+        openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.beginTransaction();
+            session.save("PostUserTag", postUserTag);
+            session.flush();
+            
+            tx.commit();
+            return true;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<PostUserTag> getPostUserTagsByPostId(int postId) {
+        openSession();
+        ArrayList<PostUserTag> postTagList = new ArrayList<PostUserTag>();
+        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from PostUserTag as pl "
+                    + "where pl.post.postId = :id");
+            
+            q.setInteger("id", postId);
+            postTagList = (ArrayList<PostUserTag>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return postTagList;
     }
 
 }
