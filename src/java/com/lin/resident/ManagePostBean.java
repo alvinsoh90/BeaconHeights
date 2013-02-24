@@ -91,7 +91,7 @@ public class ManagePostBean implements ActionBean {
     
     public ArrayList<Post> getPostList() {
         PostDAO pDAO = new PostDAO();
-        postList = pDAO.retrieveAllPosts();
+        postList = pDAO.retrievePostsWithLimit(10);
         System.out.println("postList size: "+postList.size());
         
         CommunityWallController wallCtrl = new CommunityWallController();

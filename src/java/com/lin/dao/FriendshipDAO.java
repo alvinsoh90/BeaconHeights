@@ -16,12 +16,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -162,11 +166,24 @@ public class FriendshipDAO {
         ArrayList<Friendship> friendList = new ArrayList<Friendship>(); 
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("FROM Friendship AS f JOIN FETCH f.userByUserIdOne JOIN FETCH f.userByUserIdTwo WHERE f.userByUserIdOne = :id OR f.userByUserIdTwo = :id AND f.userByUserIdOne.userName LIKE :name or f.userByUserIdTwo.userName LIKE :name  ORDER BY f.date DESC");
+            Query q = session.createQuery("FROM Friendship AS f "
+                    + "JOIN FETCH f.userByUserIdOne "
+                    + "JOIN FETCH f.userByUserIdTwo "
+                    + "WHERE f.userByUserIdOne = :id "
+                    + "AND f.userByUserIdTwo.userName LIKE :name ORDER BY f.date DESC");
             q.setInteger("id", userId);
-            q.setString("name", name);
+            q.setString("name", "%"+name+"%");
             
-            friendList = (ArrayList<Friendship>) q.list();            
+            
+            friendList = (ArrayList<Friendship>) q.list();
+            
+            /** Uncomment when we need to iterate twice through **/
+//            Query q2 = session.createQuery("FROM Friendship AS f JOIN FETCH f.userByUserIdOne JOIN FETCH f.userByUserIdTwo WHERE f.userByUserIdTwo = :id AND f.userByUserIdOne.userName LIKE :name ORDER BY f.date DESC");
+//            q2.setInteger("id", userId);
+//            q2.setString("name", "%"+name+"%");
+//            
+//            friendList.addAll(q2.list());
+            
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();

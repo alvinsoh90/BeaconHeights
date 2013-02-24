@@ -49,7 +49,42 @@ public class PostDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Post as p join fetch p.user order by p.postId DESC");
             postList = (ArrayList<Post>) q.list();
-            // join fetch p.comments 
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return postList;
+    }
+    
+    public ArrayList<Post> retrievePostsWithLimit(int limit) {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Post as p join fetch p.user order by p.postId DESC")
+                    .setMaxResults(limit);
+            
+            postList = (ArrayList<Post>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return postList;
+    }
+    
+    public ArrayList<Post> retrievePostsWithOffset(int offsetSize, int nextChunkSize) {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Post as p join fetch p.user order by p.postId DESC");
+            
+            q.setFirstResult(offsetSize);
+            q.setMaxResults(nextChunkSize);
+            
+            postList = (ArrayList<Post>) q.list();
             
             tx.commit();
         } catch (Exception e) {
