@@ -9,6 +9,7 @@ import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Post;
 import com.lin.entities.User;
+import java.util.ArrayList;
 import java.util.Date;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -27,7 +28,18 @@ public class AddPostActionBean implements ActionBean{
     private String postTitle;
     private int posterId;
     private String postCategory;
+    private String taggedFriends;  //retrieved as "[id1,id2,id3,...]"
 
+    public String getTaggedFriends() {
+        return taggedFriends;
+    }
+
+    public void setTaggedFriends(String taggedFriends) {
+        this.taggedFriends = taggedFriends;
+    }
+
+    
+    
     public String getPostCategory() {
         return postCategory;
     }
@@ -73,12 +85,26 @@ public class AddPostActionBean implements ActionBean{
         
         // get flash scope instance
         FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
-   
+        
+        //read tagged users ID list
+        System.out.println("friends: " + getTaggedFriends());
+        String taggedIds = getTaggedFriends().replace("[", "");
+        taggedIds =  getTaggedFriends().replace("]", "");
+        String[] taggedIdArray = taggedIds.split(",");
+        
+        
         try {
             UserDAO uDAO = new UserDAO();
             PostDAO pDAO = new PostDAO();
             User user = uDAO.getUser(getPosterId());
             
+            //Retrieve tagged users for each ID
+            ArrayList<User> taggedUserList = new ArrayList<User>();
+            for(String uId : taggedIdArray){
+                taggedUserList.add(uDAO.getUser(uId));
+            }
+            
+            //Create and save post
             Post aPost = null;
             
             if("REQUEST".equals(getPostCategory())){

@@ -5,9 +5,12 @@
 package com.lin.controllers;
 
 import com.lin.dao.CommunityWallCommentDAO;
+import com.lin.dao.FriendshipDAO;
 import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Comment;
+import com.lin.entities.Friendship;
+import com.lin.entities.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -37,6 +40,23 @@ public class CommunityWallController {
         ArrayList<Comment> list = cDAO.retrieveCommentsForPost(postId);
         Collections.sort(list);
         return list;        
+    }
+    
+    public ArrayList<User> getAllPostersFriendsWithSimilarName(int userId, String name){
+        FriendshipDAO fDAO = new FriendshipDAO();
+        ArrayList<User> friendList = new ArrayList<User>();
+        ArrayList<Friendship> fsList = fDAO.getAllFriendsOfUserBySimilarName(userId, name);
+        
+        for(Friendship f : fsList){
+            if(f.getUserByUserIdOne().getUserId() != userId){
+                friendList.add(f.getUserByUserIdOne());
+            }
+            else{
+                friendList.add(f.getUserByUserIdTwo());
+            }
+        }
+        
+        return friendList;
     }
     
 }

@@ -10,6 +10,7 @@
     <link href="./css/adminia.css" rel="stylesheet"> 
     <link href="./css/adminia-responsive.css" rel="stylesheet"> 
     <link href="./css/residentscustom.css" rel="stylesheet"> 
+    <script src="/js/underscore-min.js"></script>
 </head>
 
 <div class="navbar navbar-fixed-top">

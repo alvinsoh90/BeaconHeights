@@ -139,4 +139,40 @@ public class FriendshipDAO {
         }
         return f;
     }
+    
+    public ArrayList<User> getAllFriendsByUser(int userId){
+        openSession();
+        ArrayList<User> friendList = new ArrayList<User>(); 
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("FROM Friendship AS f JOIN FETCH f.userByUserIdOne JOIN FETCH f.userByUserIdTwo WHERE f.userByUserIdOne = :id OR f.userByUserIdTwo = :id ORDER BY f.date DESC");
+            q.setInteger("id", userId);
+            
+            friendList = (ArrayList<User>) q.list();            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return friendList;
+    }
+    
+    public ArrayList<Friendship> getAllFriendsOfUserBySimilarName(int userId, String name){
+        openSession();
+        ArrayList<Friendship> friendList = new ArrayList<Friendship>(); 
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("FROM Friendship AS f JOIN FETCH f.userByUserIdOne JOIN FETCH f.userByUserIdTwo WHERE f.userByUserIdOne = :id OR f.userByUserIdTwo = :id AND f.userByUserIdOne.userName LIKE :name or f.userByUserIdTwo.userName LIKE :name  ORDER BY f.date DESC");
+            q.setInteger("id", userId);
+            q.setString("name", name);
+            
+            friendList = (ArrayList<Friendship>) q.list();            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return friendList;
+    }
+    
 }

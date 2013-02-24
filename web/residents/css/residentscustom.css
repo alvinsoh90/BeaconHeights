@@ -343,6 +343,59 @@ a.fc-event, .fc-event-draggable{
     top: -4px;
 }
 
+.resultsPic{
+    height:25px;
+    width:25px;
+    position:relative;
+    top:-1em;
+    left:2px;
+}
+.resultsName{
+    font-weight:bold;
+}
+.resultsUsername{
+    font-size:10px;
+    color:grey;
+}
+
+/**#taggableUserListBox{
+    position: relative;
+    top: -5em;
+    background: white;
+    border: 1px solid green;
+    padding: 0px;
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+#taggableUserListBox div{
+    list-style: none;
+    list-style-image: none;
+    list-style-type: none;
+    width:100%;
+    padding:8px;
+    clear:both;
+    height: 2.5em;
+    cursor: pointer;
+}
+
+#taggableUserListBox div:hover{
+    background:darkseagreen;
+}
+
+#taggableUserListBox .profilePic{
+    height:35px;
+    width:35px;
+    margin:0px;
+}
+
+#taggableUserListBox div a{
+    color: darkGreen;
+    font-weight: bold;
+    position: relative;
+    top: 0.5em;
+    left: 0.5em;
+} **/
+
 /** Profile Page **/
 .profileTopWrapper{
     background:white;
