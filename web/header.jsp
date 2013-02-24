@@ -112,7 +112,7 @@
                     <li class="divider-vertical"></li>
                     <li>
 
-                        <img class="profilePic" src="http://png.findicons.com/files/icons/756/ginux/64/user.png" />
+                        <img class="profilePic" src="/uploads/profile_pics/${user.profilePicFilename}" />
                     </li>
                     <li>
                         <a href="profile.jsp?profileid=${user.userId}">${user.firstname}</a>

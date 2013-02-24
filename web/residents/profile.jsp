@@ -43,7 +43,7 @@
 
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
-        <script src="./js/unicorn.calendar.js"></script>
+        
         <script src="/js/jquery-1.9.1.min.js"></script>
         
         <script src="/js/bootstrap-2.3.0.js"></script>
@@ -111,7 +111,7 @@
                         $("select#unitnumber").html(unitOptions);
                         
                         // only after successful loading should we load this 'sexy chosen' plugin	
-                        $('select').chosen();
+                        //$('select').chosen();
                     }
                 });
             };

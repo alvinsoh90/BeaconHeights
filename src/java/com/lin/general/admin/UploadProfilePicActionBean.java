@@ -9,6 +9,7 @@ import com.lin.dao.ResourceDAO;
 import com.lin.dao.SubmittedFormDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
+import com.lin.general.login.BaseActionBean;
 import com.lin.utils.FileUploadUtils;
 import java.io.File;
 
@@ -27,7 +28,7 @@ import net.sourceforge.stripes.action.*;
 import net.sourceforge.stripes.controller.FlashScope;
 import org.apache.commons.lang3.StringEscapeUtils;
 
-public class UploadProfilePicActionBean implements ActionBean {
+public class UploadProfilePicActionBean extends BaseActionBean {
 
     private ActionBeanContext context;
     private ArrayList<SubmittedForm> sfList;
@@ -51,14 +52,6 @@ public class UploadProfilePicActionBean implements ActionBean {
         this.user_id = user_id;
     }
     
-    public ActionBeanContext getContext() {
-        return context;
-    }
-
-    public void setContext(ActionBeanContext context) {
-        this.context = context;
-    }
-
     @DefaultHandler
     public Resolution upload() {
         FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
@@ -109,7 +102,8 @@ public class UploadProfilePicActionBean implements ActionBean {
             }
             file.save(location);
             UserDAO uDAO = new UserDAO();
-            uDAO.uploadProfilePic(Integer.parseInt(user_id),fileName);
+            User user = uDAO.uploadProfilePic(Integer.parseInt(user_id),fileName);
+            getContext().setUser(user);
             success = true;
         } catch (Exception e) {
             result = file.getFileName();

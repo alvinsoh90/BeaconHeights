@@ -487,7 +487,7 @@ public class UserDAO {
         User u = null;
         try {
             tx = session.beginTransaction();
-            u = (User) session.get(User.class, user_id);
+            u = (User) session.createQuery("from User as u join fetch u.role join fetch u.block where u.userId = :id").setString("id", user_id + "").uniqueResult();
             u.setProfilePicFilename(fileName);
             tx.commit();
         } catch (Exception e) {

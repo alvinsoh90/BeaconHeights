@@ -338,7 +338,7 @@
                             <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic" />
                             <div class="name">${user.userName}</div>
                         </div>
-                        <div id="firstPostIcon" class="postIcon wallicon INVITE">
+                        <div id="firstPostIcon" class="postIcon wallicon SHOUTOUT">
                             <div class="timeline"/></div>
                     </div>
                 </div>
