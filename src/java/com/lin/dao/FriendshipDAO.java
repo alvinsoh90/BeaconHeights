@@ -45,7 +45,7 @@ public class FriendshipDAO {
     }
 
     public Friendship createFriendship(User userOne, User userTwo, String relationshipOneTwo, String relationshipTwoOne) {
-        Friendship friendship = new Friendship(userOne, userTwo, new Date(), relationshipOneTwo, relationshipTwoOne);
+        Friendship friendship = new Friendship(userOne, userTwo, new Date(), relationshipOneTwo, relationshipTwoOne,false);
 
         openSession();
         Transaction tx = null;
@@ -123,7 +123,7 @@ public class FriendshipDAO {
         return friendship;
     }
     
-    public Friendship updateFriendship(int friendshipId, User userOne, User userTwo, String relationshipOneTwo, String relationshipTwoOne) {
+    public Friendship updateFriendship(int friendshipId, User userOne, User userTwo, String relationshipOneTwo, String relationshipTwoOne, boolean hasAccepted) {
         openSession();
         Transaction tx = null;
         Friendship f = null;
@@ -134,6 +134,8 @@ public class FriendshipDAO {
             f.setUserByUserIdTwo(userTwo);
             f.setRelationshipOneTwo(relationshipOneTwo);
             f.setRelationshipTwoOne(relationshipTwoOne);
+            f.setHasAccepted(hasAccepted);
+            
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();

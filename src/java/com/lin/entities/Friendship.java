@@ -1,5 +1,5 @@
 package com.lin.entities;
-// Generated Feb 2, 2013 9:48:21 PM by Hibernate Tools 3.2.1.GA
+// Generated Feb 25, 2013 2:38:19 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -10,29 +10,31 @@ import java.util.Date;
 public class Friendship  implements java.io.Serializable {
 
 
-     private int id;
+     private Integer id;
      private User userByUserIdTwo;
      private User userByUserIdOne;
      private Date date;
      private String relationshipOneTwo;
      private String relationshipTwoOne;
+     private boolean hasAccepted;
 
     public Friendship() {
     }
 
-    public Friendship(User userByUserIdTwo, User userByUserIdOne, Date date, String relationshipOneTwo, String relationshipTwoOne) {
+    public Friendship(User userByUserIdTwo, User userByUserIdOne, Date date, String relationshipOneTwo, String relationshipTwoOne, boolean hasAccepted) {
        this.userByUserIdTwo = userByUserIdTwo;
        this.userByUserIdOne = userByUserIdOne;
        this.date = date;
        this.relationshipOneTwo = relationshipOneTwo;
        this.relationshipTwoOne = relationshipTwoOne;
+       this.hasAccepted = hasAccepted;
     }
    
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public User getUserByUserIdTwo() {
@@ -69,6 +71,13 @@ public class Friendship  implements java.io.Serializable {
     
     public void setRelationshipTwoOne(String relationshipTwoOne) {
         this.relationshipTwoOne = relationshipTwoOne;
+    }
+    public boolean isHasAccepted() {
+        return this.hasAccepted;
+    }
+    
+    public void setHasAccepted(boolean hasAccepted) {
+        this.hasAccepted = hasAccepted;
     }
 
 
