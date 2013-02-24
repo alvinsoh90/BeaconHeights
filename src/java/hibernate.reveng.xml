@@ -31,4 +31,5 @@
   <table-filter match-name="enquiry"/>
   <table-filter match-name="submitted_form"/>
   <table-filter match-name="close_rule"/>
+  <table-filter match-name="post_user_tag"/>
 </hibernate-reverse-engineering>
