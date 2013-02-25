@@ -6,11 +6,13 @@ package com.lin.resident;
 
 import com.lin.controllers.EventWallController;
 import com.lin.dao.EventDAO;
+import com.lin.dao.UserDAO;
 import com.lin.entities.Booking;
 import com.lin.entities.Comment;
 import com.lin.entities.Event;
 import com.lin.entities.EventComment;
 import com.lin.entities.User;
+import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -20,21 +22,18 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.FlashScope;
 
 /**
  *
  * @author fayannefoo
  */
-public class ManageEventBean implements ActionBean {
+public class ManageEventBean extends BaseActionBean{
 
     private ActionBeanContext context;
     private Integer id;
     private Date timestamp;
-    private User user;
-    private Booking booking;
     private String title;
-    private Date startTime;
-    private Date endTime;
     private String venue;
     private String details;
     private boolean isPublicEvent;
@@ -48,25 +47,34 @@ public class ManageEventBean implements ActionBean {
     private Set eventComments = new HashSet(0);
     private ArrayList<Event> eventList;
     private boolean outcome;
+    private String eventTimeStart;
+    private String eventTimeEnd;
+    private String eventTaggedFriends;
 
-    @Override
-    public void setContext(ActionBeanContext abc) {
-        this.context = context;
+    public String getEventTaggedFriends() {
+        return eventTaggedFriends;
     }
 
-    @Override
-    public ActionBeanContext getContext() {
-        return context;
+    public void setEventTaggedFriends(String eventTaggedFriends) {
+        this.eventTaggedFriends = eventTaggedFriends;
+    }
+    
+    public String getEventTimeEnd() {
+        return eventTimeEnd;
     }
 
-    public Booking getBooking() {
-        return booking;
+    public void setEventTimeEnd(String eventTimeEnd) {
+        this.eventTimeEnd = eventTimeEnd;
     }
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
+    public String getEventTimeStart() {
+        return eventTimeStart;
     }
 
+    public void setEventTimeStart(String eventTimeStart) {
+        this.eventTimeStart = eventTimeStart;
+    }
+    
     public String getDetails() {
         return details;
     }
@@ -75,13 +83,6 @@ public class ManageEventBean implements ActionBean {
         this.details = details;
     }
 
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
 
     public Set getEventComments() {
         return eventComments;
@@ -163,13 +164,6 @@ public class ManageEventBean implements ActionBean {
         this.posts = posts;
     }
 
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
 
     public Date getTimestamp() {
         return timestamp;
@@ -185,14 +179,6 @@ public class ManageEventBean implements ActionBean {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getVenue() {
@@ -227,24 +213,46 @@ public class ManageEventBean implements ActionBean {
                 + outcome + "&deletemsg=" + getTitle());
     }
 
-    @HandlesEvent("editEvent")
-    public Resolution editEvent() {
-        EventDAO eDAO = new EventDAO();
-        outcome = eDAO.updateEvent(id, user, booking,
-                title, startTime, endTime, venue, details,isPublicEvent);
-        return new RedirectResolution("/resident/eventwall.jsp?editsuccess="
-                + outcome + "&editmsg=" + getTitle());
-    }
 
     @HandlesEvent("addEvent")
     public Resolution addEvent() {
+        
+        // get flash scope instance
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        
         EventDAO eDAO = new EventDAO();
-        Event e = eDAO.createEvent(user, booking, title, startTime, endTime, venue, 
-                details,isPublicEvent,isAdminEvent);
-        if(e != null){
-            outcome = true;
+        
+        Date start = new Date(Long.parseLong(getEventTimeStart()));
+        Date end = new Date(Long.parseLong(getEventTimeEnd()));
+        
+        Event event = new Event(
+                getContext().getUser(), 
+                getTitle(), 
+                start,
+                end, 
+                getVenue(), 
+                getDetails(), 
+                isIsPublicEvent());
+        
+        //Check if any friends invite
+        String friendsStr = getEventTaggedFriends();
+        String[] friendsArr;
+        if(!friendsStr.isEmpty()){
+            friendsStr = friendsStr.replace("[", "");
+            friendsStr = friendsStr.replace("]", "");
+            friendsArr = friendsStr.split(",");
         }
-        return new RedirectResolution("/resident/eventwall.jsp?createsuccess="
-                + outcome + "&createmsg=" + getTitle());
+        
+        //Check any booking tagged
+        
+
+        Event e = eDAO.createEvent(event);
+        if(e != null){
+            fs.put("SUCCESS","true");
+        }
+        else{
+            fs.put("SUCCESS","false");
+        }
+        return new RedirectResolution("/residents/eventwall.jsp");
     }
 }

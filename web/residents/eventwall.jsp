@@ -9,7 +9,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Community Wall | Beacon Heights</title>
+        <title>Event Wall | Beacon Heights</title>
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -32,11 +32,9 @@
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
         <link href="./css/font-awesome.css" rel="stylesheet">
 
-        <link href="./css/residentscustom.css" rel="stylesheet"> 
 
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
-        <script src="./js/unicorn.calendar.js"></script>
         <script src="/js/jquery-1.9.1.min.js"></script>
 
         <script src="/js/bootstrap-2.3.0.js"></script>
@@ -45,74 +43,104 @@
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
 
         <link href="/css/custom/lin.css" rel="stylesheet" />
-        <link href="/css/pickadate.03.inline.css" rel="stylesheet" />
+        <link href="../css/pickadate.02.classic.css" rel="stylesheet" />
         <script src="../js/pickadate.js"></script>
         <script src="../js/pickadate.legacy.min.js"></script>
-        <script src="../js/pickadate.legacy.js"></script>
         <script src="../js/pickadate.min.js"></script>
+          <script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
+         <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
+        <link rel="stylesheet" href="/css/token-input.css" type="text/css" />
+        <link rel="stylesheet" href="/css/token-input-facebook.css" type="text/css" />
+        <link rel="stylesheet" href="/css/tipsy.css" type="text/css" />
+        <script src="../js/timepicker.min.js"></script> 
+        <link href="../css/jquery.timepicker.css" rel="stylesheet"></script>
+    <script src="../js/date.js"></script>
+                <link href="./css/residentscustom.css" rel="stylesheet"> 
 
         <script>
-            function loadDatePicker(){
-                
-                $('.picker_inline').pickadate({
-                    format: 'yyyy-mm-dd',
-                    formatSubmit: 'yyyy-mm-dd',
-                    monthSelector: true,
-                    yearSelector: 100,
-                    //dateMax: true
-                });
-                
-            }
+    // ** Handle friend tagging ** //
+    
+    var start=/@/ig; // @ Match
+    var word=/@(\w+)/ig; //@abc Match
+    
+    var latestFriendList;
+    
+    function tagFriendAndReplaceByIdx(idx){
+        var content = $("#postContent").val();
+
+        var symbol = content.match(start); //Content Matching @
+        var name = content.match(word);
+        
+        console.log("old content: " + content + ".. looking to replace == " + name);
+        
+        content = content.replace(name, "<div><a href='./profile.jsp?profileid='>"
+            + latestFriendList[idx].name + "</div></a>");
+        
+        $("#postContent").append(content);
+        console.log("new content: " + content);
+    }
+    
+
+    //Watch for @
+    $("#postContent").on('keyup',function(){
+        var content = $("#postContent").val();
+        
+        var symbol = content.match(start); //Content Matching @
+        var name = content.match(word);
+        
+        
+        // if @name is found
+        if(symbol != null){ 
+            //make ajax call
+            console.log("make ajax");
             
-            // Init an array of all users shown on this page
-            var userList = [];
-           
-            //Loop through userList and output all into table for display
-            function showUsers(userArr){           
-                
-                var r = new Array(), j = -1;
-                var string = "<br>";
-                var i = 0;
-                for (i=userArr.length-1; i>=0; i--){
-                    string += "<span class=\"label label-info\" onclick=confirm('"+ userArr[i].username + "')>"
-                        + userArr[i].username + "</span>  ";
-                    if(i%5==0){
-                        string+="</br>"
-                    }
+            var dat = new Object();
+                dat.userId = '${sessionScope.user.userId}';
+                console.log(name[0]);
+                dat.searchString = name[0].substring(1);                   
+        } 
+    });
+    
+    var taggedFriendsList = [];
+    
+    $(document).ready(function() {
+            $("#tagFriendsBox").tokenInput("/json/community/getUserTaggableFriends.jsp", {
+                theme: "facebook",
+                queryParam:"searchString",
+                jsonContainer:"friendList",
+                searchingText:"Searching friends...",
+                hintText:"Enter a friend's name",
+                resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" },
+                onAdd: function(item){
+                    taggedFriendsList.push(item.userId);
+                    $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
+                },
+                onDelete: function(item){
+                    var idx = taggedFriendsList.indexOf(item.userId);
+                    if(idx!=-1) taggedFriendsList.splice(idx,1);
+                    $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
                 }
-                $('#userList').html(string); 
-            }
-           
-            //show confirmed list of users to the user as they select the guest
-            function confirm(id){
-                alert(id);
-                $('#invited').html(id); 
-            }
-           
+            });
+        });
+    
+</script>
+      
+            <script>
+                $(document).ready(function() {                
+                    $('.timepicker').timepicker({
+                        timeFormat:"H:i:s",
+                        step:15,
+                        'scrollDefaultNow': true 
+                    });
+                    $('.datepicker').pickadate({
+                        format: 'mmm, dd yyyy'
+                    });
+                });
         </script>
+        
     </head>
 
-    <body onload="loadDatePicker()">
-        <!-- should get friendList instead -->
-        <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
-            <script>
-                var user = new Object();
-                user.id = '${user.userId}';
-                user.username = '${user.userName}';
-                user.firstName = '${user.firstname}';
-                user.lastName = '${user.lastname}';
-                user.roleName = '${user.role.name}';
-                user.email = '${user.email}';
-                user.mobileNo= '${user.mobileNo}';
-                user.blockName = '${user.block.blockName}';
-                user.level = '${user.level}';
-                user.unit = '${user.unit}';
-                user.vehicleNumberPlate = '${user.vehicleNumberPlate}';
-                user.vehicleType = '${user.vehicleType}';
-                userList.push(user);
-            </script>
-        </c:forEach>
-
+    <body>
         <div id="content">
 
             <div class="container">
@@ -126,53 +154,64 @@
                             <div class="timeline"/></div>
                     </div>
                 </div>
-                <div class="post newSpan">
-                        <div class="guestList">
-                            <span>Invite:</span>             
-                            <input id="searchterm" class="input-medium search-query" value="Search for friends via first name, last name, or email" onfocus="this.value = this.value=='Search for friends via first name, last name, or email'?'':this.value;" onblur="this.value = this.value==''?'Search for friends via first name, last name, or email':this.value;" style="width:350px;"/>
-                            <div id="userList"></div>
-                            <span>Invited</span>             
-                            <hr></br>
-                            <div id="invited"></div>
-                        </div>
+                <div class="postEvent well well-small span5">
+                       
                         <div class="eventBasic">
-                        <stripes:form id="makePostForm" beanclass="com.lin.resident.AddPostActionBean" focus="postContent" class ="form-horizontal">
+                        <stripes:form id="postEventForm" beanclass="com.lin.resident.ManageEventBean" focus="eventname" class ="form-horizontal">
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Event Name</label>
                                     <div class="controls ">
-                                    <stripes:text id="event_name" name="eventname" value=""/> 
+                                    <stripes:text class="wide" id="event_name" name="title" value=""/> 
                                 </div>
                             </div>
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Event Date</label>
-                                <div class="controls cal_width">
-                                    <stripes:text class = "picker_inline input" id="booking_date" name="booking_date" value="" />
+                                <div class="controls">
+                                    <input class = "wide datepicker input" id="eventDateRaw" />
                                 </div>
                             </div>
-                            <div class="float_time">
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">Start Time</label>
-                                    <div class="controls time ">
-                                        <stripes:text class = "picker_inline input" id="booking_date" name="booking_date" value="" />
-                                    </div>
+                            <div class="pushBottom">
+                                <label class="control-label">Event Time</label>
+                                <div class="controls">
+                                        <stripes:hidden id="eventTimeStart" name="eventTimeStart"/>
+                                        <input class = "shorty input timepicker" id="eventTimeStartRaw" />
+                                    to
+                                        <stripes:hidden id="eventTimeEnd" name="eventTimeEnd" />
+                                        <input class = "shorty input timepicker" id="eventTimeEndRaw" />
                                 </div>
-                                <div class="control-group ${errorStyle}">
-                                    <label class="control-label">End Time</label>
-                                    <div class="controls time">
-                                        <stripes:text class = "picker_inline input" id="booking_date" name="booking_date" value="" />
-                                    </div>
-                                </div> 
-                            </div>
+                           </div>                                
+                           <div class="pushBottom">
+                                <label class="control-label">Venue</label>
+                                <div class="controls">
+                                    <stripes:text class="shorty" id="event_venue" name="event" />
+                                    or
+                                    <select class="shorty"></select>
+                                </div>
+                           </div>                                 
                             <div class="control-group ${errorStyle}">
                                 <label class="control-label">Event Details</label>
                                 <div class="controls">
-                                    <stripes:textarea id="event_description" name="postContent" />
+                                    <stripes:textarea id="event_description" class="wide" name="details" />
                                 </div>
                             </div>
+                        </div> 
+                        <div class="control-group tagFriends">        
+                            <label class="control-label">Tag Friends: </label>
+                            <div class="control">
+                                <input text="text"  id="tagFriendsBox" />
+                                <stripes:hidden id="taggedFriends" name="eventTaggedFriends" />
+                            </div>
                         </div>
+                            
+                        <div class="control-group">        
+                            <label class="control-label">Public Event </label>
+                            <div class="control">
+                                <stripes:checkbox name="isPublicEvent" />
+                            </div>
+                        </div>    
 
                             <stripes:hidden name="posterId" id="posterID" value='${sessionScope.user.userId}'/> 
-                            <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Wall"/> 
+                            <stripes:submit id="submitPost" class="float_l btn btn-peace-1" name="addEvent" value="Create Event"/> 
                         </stripes:form>
                     
                 </div>
@@ -283,26 +322,75 @@
 
 </div> <!-- /footer -->
 <script>
-    $(document).ready(function() { 
-                
-        $("#makePostForm").validate({
-            rules: {
-                postTitle: "required",
-                postContent: "required"                        
-            },
-            messages :{
-                postTitle: "",
-                postContent: ""
-            },
-                        
-            submitHandler: function(form) {
-                formAjaxSubmit();     
-                //slotDataHasError
+            var successStatus = "${SUCCESS}";
+            if(successStatus == "true"){
+                toastr.success("Event successfully created!");
+            }else if(successStatus == "false"){
+                toastr.error("There was a problem creating your event. Please try again later");
             }
-                        
-        });
-    });
-            
+    
+               function retrieveCreateEventFormInfo(){
+                    var eventDateStr = $("#eventDateRaw").val();
+                    var startTimeStr = $("#eventTimeStartRaw").val();
+                    var endTimeStr = $("#eventTimeEndRaw").val();
+
+                    var eventDateStart = new Date(eventDateStr + " " + startTimeStr);
+                    var eventDateEnd = new Date(eventDateStr + " " + endTimeStr);
+
+                    $("#eventTimeStart").val(eventDateStart.getTime());
+                    $("#eventTimeEnd").val(eventDateEnd.getTime());
+                    
+                    var now = new Date();
+                    
+                    if(!eventDateStr || !startTimeStr || !endTimeStr){
+                        return false;
+                    }
+                    else if(eventDateStart<now){
+                        toastr.errorSticky("You cannot create events in the past!");
+                        return false;
+                    }
+                    else{
+                        return true; 
+                    }
+               
+                }
+    
+$(document).ready(function() {
+                
+                $("#postEventForm").validate({
+                    rules:{
+                        eventName: {
+                            required: true
+                        },
+                        eventDate: {
+                            required: true
+                        },
+                        eventTimeStart:{
+                            required:true
+                        },
+                        eventTimeEnd:{
+                            required:true
+                        }
+                    },                    
+                    submitHandler: function(form){      
+                        if(retrieveCreateEventFormInfo()){
+                            form.submit();
+                        }
+                        else{
+                            toastr.error("Please check your entry!");
+                        }
+                    },
+                    errorClass: "help-inline",
+                    errorElement: "span",
+                    highlight:function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').addClass('error');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parents('.control-group').removeClass('error');
+                        $(element).parents('.control-group').addClass('success');
+                    }
+                })                
+            }); 
        
 </script>                
 

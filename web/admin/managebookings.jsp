@@ -221,10 +221,6 @@
         <script src="../js/jquery.ui.custom.js"></script>
         <script src="../js/bootstrap.min.js"></script>
 
-        <script src="../js/jquery.flot.min.js"></script>
-        <script src="../js/jquery.flot.resize.min.js"></script>
-        <script src="../js/jquery.peity.min.js"></script>
-
         <script src="../js/jquery.uniform.js"></script>
         <script src="../js/jquery.chosen.js"></script>
         <script src="../js/jquery.validate.js"></script>
@@ -574,10 +570,7 @@
 
 
         <script src="../js/lin.manageusers.js"></script>
-        <script src="../js/fullcalendar.min.js"></script>
-        <script src="../js/unicorn.js"></script>
-        <script src="../js/unicorn.dashboard.js"></script>
-        <script src="../js/unicorn.form_common.js"></script>
+
     </body>
 
 </html>
