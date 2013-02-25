@@ -8,6 +8,7 @@ import com.lin.dao.EventCommentDAO;
 import com.lin.dao.EventDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.EventComment;
+import com.lin.entities.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -22,11 +23,11 @@ public class EventWallController {
     EventCommentDAO cDAO = new EventCommentDAO();
     EventDAO eDAO = new EventDAO();
 
-    public void addCommentOnEvent(int eventId, int posterId, String content) {
+    public void addCommentOnEvent(int eventId, User user, String content) {
         
         EventComment eComment = new EventComment(
                 eDAO.getEvent(eventId),
-                uDAO.getUser(posterId),
+                user,
                 content,
                 new Date(),
                 false);

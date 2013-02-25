@@ -2,6 +2,8 @@ package com.lin.entities;
 // Generated Feb 22, 2013 4:39:59 AM by Hibernate Tools 3.2.1.GA
 
 
+import com.lin.utils.GeneralFunctions;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -78,7 +80,14 @@ public class EventComment  implements java.io.Serializable {
         this.isDeleted = isDeleted;
     }
 
-
+    public String getTimeSinceComment(){
+        try {
+            return GeneralFunctions.getTimeSinceString(commentDate);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return "moments ago";
+    }
 
 
 }

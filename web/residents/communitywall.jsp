@@ -453,18 +453,20 @@
                     <div class="baseContent">
                         <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.userName}</b></a> ${post.title}</div>
                         <div class="content">"${post.message}"</div>
-                        <div class="taggedUsers">
+                        
                             
                             <c:set var="taggedUsers" value="${managePostBean.getTaggedUsers(post.postId,-1)}"/>
                             
                             <c:if test="${not empty taggedUsers}">
+                                <div class="taggedUsers">
                                 Tagged:
-                                <c:forEach items="${managePostBean.getTaggedUsers(post.postId,-1)}" var="tagged" varStatus="status">
+                                <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
                                     <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
                                 </c:forEach>
+                                </div>    
                             </c:if>
    
-                        </div>
+                        
                         <div class="attachment event hide">
                             <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
                             <div class="eventMeta">

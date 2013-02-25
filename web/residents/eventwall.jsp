@@ -136,6 +136,95 @@
                 });
         </script>
         
+        <script>
+            //* Handle Commentng *//
+        $(document).ready(function() {       
+                //handlers for making comment
+                $(".commentTextArea").each(function(){
+                    $(this).keypress(function(e) {
+                        if(e.which == 13) {
+                            var postId = $(this).attr("data-post-id");
+                            var content = $(this).val();
+                            postComment(postId,content);
+                        }
+                    });                   
+                });
+        });
+            
+            function postComment(postId, commentContent){
+                
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.content = commentContent;
+                
+                console.log(JSON.stringify(dat));
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/commentOnEventWallPost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            refreshPost(postId);
+                            //setTimeout('window.location.href="/admin/manage-facilitytypes.jsp"',1300);
+                        }
+                        else{
+                            toastr.error("There was a problem leaving a comment. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            var r;
+            function refreshPost(postId){
+                //fade out comment area
+                $("#post-" + postId + " .commentArea .comments").css("opacity","0.6");
+                //show ajax loading
+                $("#post-" + postId + " .commentArea .ajaxSpinnerSmall").show();
+                
+                var dat = new Object();
+                dat.postId = postId;
+                
+                //post comment
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/getCommentsForPost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(data.comments);
+                        r = data.comments[0];
+                        $("#post-" + postId + " .commentArea .comments").html(""); 
+                            
+                        //loop thru retrieved comments and append to html
+                        for(var i=0;i<data.comments[0].length;i++){
+                            var c = data.comments[0][i];
+                            $("#post-" + postId + " .commentArea .comments").append(
+                            '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedUserName+': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
+                        )
+                        }
+
+                        //after done, fade in comment area
+                        $("#post-" + postId + " .commentArea .comments").css("opacity","1");
+                        //clear comment input box
+                        $("#post-" + postId + " .commentArea .commentTextArea").val("");   
+                        //hide ajax loading
+                        $("#post-" + postId + " .commentArea .ajaxSpinnerSmall").hide();
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                        }
+                        else{
+                            $("#post-" + postId + " .commentArea .comments").css("opacity","1");
+                            toastr.error("There was a problem leaving a comment. Please try again later.");
+                        }
+                    } 
+                });
+                                             
+            }
+        </script>
+        
     </head>
 
     <body>
@@ -173,7 +262,7 @@
                                 <div class="controls">
                                         <stripes:hidden id="eventTimeStart" name="eventTimeStart"/>
                                         <input class = "shorty input timepicker" id="eventTimeStartRaw" />
-                                    to
+                                        <span class="gap">to</span>
                                         <stripes:hidden id="eventTimeEnd" name="eventTimeEnd" />
                                         <input class = "shorty input timepicker" id="eventTimeEndRaw" />
                                 </div>
@@ -182,7 +271,7 @@
                                 <label class="control-label">Venue</label>
                                 <div class="controls">
                                     <stripes:text class="shorty" id="event_venue" name="venue" />
-                                    or
+                                    <span class="gap">and</span>
                                     <stripes:select class="shorty" name="bookingId">
                                         <c:set var="bookingList" value="${manageEventBean.getBookingsOfUser(user.userId)}"/>
                                         
@@ -196,7 +285,8 @@
                                         </c:choose>
                                                 
                                         <c:forEach items="${bookingList}" var="booking">
-                                            <option value="${booking.id}">${booking.facility.name} on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${booking.startDate}" /></option>
+                                            <option value="${booking.id}">${booking.facility.name} 
+                                                on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${booking.startDate}" /></option>
                                         </c:forEach>       
                             
                                     </stripes:select>
@@ -220,7 +310,7 @@
                         <div class="control-group">        
                             <label class="control-label">Public Event </label>
                             <div class="control">
-                                <stripes:checkbox name="isPublicEvent" />
+                                <stripes:checkbox name="isPublicEvent" checked="true"/>
                             </div>
                         </div>    
 
@@ -232,44 +322,10 @@
             </div>
 
 
-            <script>
-                $("#searchterm").keyup(function(e){
-                    var q = $("#searchterm").val().toLowerCase();
-                                      
-                    var tempArr = [];
-                    for(var i=0;i<userList.length;i++){
-                        console.log(name);
-                        var fName = userList[i].firstName.toLowerCase();
-                        var lName = userList[i].lastName.toLowerCase()
-                        var userEmail = userList[i].email;
-                        var fullname = fName + " " + lName;
-                        if(!q==''){
-                            
-                                
-                            if(fName.indexOf(q) !== -1){
-                                tempArr.push(userList[i]);
-                            } else if (lName.indexOf(q)!== -1){
-                                tempArr.push(userList[i]);
-                            } else if (userEmail.indexOf(q)!== -1){
-                                tempArr.push(userList[i]);
-                            } else if (fullname.indexOf(q)!== -1){
-                                tempArr.push(userList[i]);
-                            }
-                                
-                                
-                        }
-                            
-                    }
-                    
-                    showUsers(tempArr);
-  
-                });
-            </script>
-
-            <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
+            <c:forEach items="${manageEventBean.getAllPublicAndFriendEvents(10)}" var="post" varStatus="loop">
 
 
-                <div id="post-${post.postId}" class="postWrapper row-fluid">
+                <div id="post-${post.id}" class="postWrapper row-fluid">
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
@@ -283,14 +339,32 @@
                 <div class="post span6">
                     <div class="baseContent">
                         <div class="title"><b>${post.user.userName}</b> created an event</div>
-                        <div class="content">"${post.message}"</div>
-                        <div class="attachment event hide">
-                            <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
-                            <div class="eventMeta">
-                                <b>Venue:</b> Beacon Heights Tennis Court 2 <br/>
-                                <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
-                            </div>
+                        <div class="content">"${post.details}"</div>
+                        <div class="attachment event">
+                            <div class="eventTitle"><a href="#">${post.title}</a></div>
+                            <c:if test="${post.booking != null}">
+                                <div class="eventMeta">
+                                    <b>Venue:</b> ${post.venue}
+                                    <c:if test="${not empty post.booking.facility.name}">
+                                        <span class="label label-info bookedLabel">${post.booking.facility.name} <b>(Booked)</b></span>
+                                    </c:if>
+                                        <br/>
+                                    <b>Date/Time:</b> ${post.formattedEventTime}
+                                </div>
+                            </c:if>
                         </div>
+                            
+                            <c:set var="taggedUsers" value="${manageEventBean.getInvitedUsers(post.id,-1)}"/>
+                            
+                            <c:if test="${not empty taggedUsers}">
+                                <div class="taggedUsers">
+                                Invited:
+                                <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
+                                    <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                </c:forEach>
+                                </div>      
+                            </c:if>
+    
                         <div class="linkBar hide">
                             <a class="btn"><i class="icon-check"></i> I'm going!</a>
                             <a class="btn"><i class="icon-heart"></i> Like</a>
@@ -300,7 +374,7 @@
                     </div>
                     <div class="commentArea">
                         <div class="comments">
-                            <c:forEach items="${post.comments}" var="comment" varStatus="loop">
+                            <c:forEach items="${post.eventCommentsList}" var="comment" varStatus="loop">
                                 <div class="comment">
                                     <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
                                     <div class="content float_l">
@@ -313,7 +387,7 @@
                         </div>
                         <div class="comment replyArea">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic float_l" />
-                            <input class="float_l commentTextArea" data-post-id="${post.postId}" placeholder="Say something here..."/><div class="float_r ajaxSpinnerSmall hide"></div>
+                            <input class="float_l commentTextArea" data-post-id="${post.id}" placeholder="Say something here..."/><div class="float_r ajaxSpinnerSmall hide"></div>
                             <br class="clearfix"/>
                         </div>
 

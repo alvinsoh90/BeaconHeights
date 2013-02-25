@@ -129,6 +129,26 @@ public class BookingDAO {
         }
         return result.get(0);
     }
+    
+    public Booking getFullDataBooking(int id){
+        openSession();
+        System.out.println("Looking for booking..."  + id);
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking as b join fetch b.user join fetch b.facility where b.id = :bId");
+            q.setInteger("bId", id);
+            result = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return result.get(0);
+    }
 
     //Add bookings
     // Note : In database startDate and endDate are stored as dateTime, but not sure why hibernate convert it to timestamp

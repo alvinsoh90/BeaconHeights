@@ -535,10 +535,18 @@ h1{
     width:263px;
 }
 input.shorty{
-    width:117px;
+    width:109px;
 }
 select.shorty{
     width: 135px;
+}
+.gap{
+    padding:8px;
+}
+.bookedLabel{
+    top: -2px;
+    left: 4px;
+    position:relative;
 }
 /**.tagFriends ul{
     width: 200px;
