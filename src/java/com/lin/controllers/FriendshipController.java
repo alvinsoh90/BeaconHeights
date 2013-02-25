@@ -29,9 +29,24 @@ public class FriendshipController {
     public Friendship acceptFriend(User userOne, User userTwo){
         fDAO = new FriendshipDAO();
         Friendship friendship = fDAO.getFriendship(userOne, userTwo);
-        
         fDAO.updateFriendship(friendship.getId(), userOne, userTwo,true);
         return friendship;
+    }
+    
+    public boolean isPending(User userOne, User userTwo){
+        fDAO = new FriendshipDAO();
+        try {
+            Friendship f = fDAO.getFriendship(userOne, userTwo);
+            if (f == null){
+                f = fDAO.getFriendship(userTwo, userOne);
+            }
+            if (f != null && f.isHasAccepted() == false){
+                return true;
+            }
+        } catch (Exception e){
+            return false;
+        }
+        return false;
     }
     
     public boolean isFriend(User userOne, User userTwo){
@@ -41,7 +56,7 @@ public class FriendshipController {
             if (f == null){
                 f = fDAO.getFriendship(userTwo, userOne);
             }
-            if (f != null){
+            if (f != null && f.isHasAccepted() == true){
                 return true;
             }
         } catch (Exception e){

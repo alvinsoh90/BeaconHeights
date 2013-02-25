@@ -129,7 +129,7 @@ public class FriendshipDAO {
         Friendship f = null;
         try {
             tx = session.beginTransaction();
-            f = (Friendship) session.get(User.class, friendshipId);
+            f = (Friendship) session.get(Friendship.class, friendshipId);
             f.setUserByUserIdOne(userOne);
             f.setUserByUserIdTwo(userTwo);
             f.setHasAccepted(hasAccepted);
@@ -150,7 +150,7 @@ public class FriendshipDAO {
         Friendship f = null;
         try {
             tx = session.beginTransaction();
-            f = (Friendship) session.get(User.class, friendshipId);
+            f = (Friendship) session.get(Friendship.class, friendshipId);
             f.setUserByUserIdOne(userOne);
             f.setUserByUserIdTwo(userTwo);
             f.setRelationshipOneTwo(relationshipOneTwo);
