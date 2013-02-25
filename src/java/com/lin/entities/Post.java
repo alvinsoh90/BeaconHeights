@@ -84,7 +84,7 @@ public class Post  implements java.io.Serializable {
        this.receivingWallId = receivingWallId;
     }
     
-    public Post(Event event, User user, String message, Date date, String title, String category, boolean isDeleted, Set postInappropriates, Set postLikes, Set notifications, Set comments) {
+    public Post(Event event, User user, String message, Date date, String title, String category, boolean isDeleted, int receivingWallId, Set postInappropriates, Set postLikes, Set notifications, Set comments) {
        this.event = event;
        this.user = user;
        this.message = message;
@@ -96,6 +96,7 @@ public class Post  implements java.io.Serializable {
        this.postLikes = postLikes;
        this.notifications = notifications;
        this.comments = comments;
+       this.receivingWallId = receivingWallId;
     }
 
     public int getReceivingWallId() {

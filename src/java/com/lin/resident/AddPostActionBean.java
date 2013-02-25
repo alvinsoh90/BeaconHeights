@@ -87,12 +87,7 @@ public class AddPostActionBean implements ActionBean{
         // get flash scope instance
         FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
         
-        //read tagged users ID list
-        System.out.println("friends: " + getTaggedFriends());
-        String taggedIds = getTaggedFriends().replace("[", "");
-        taggedIds = taggedIds.replace("]", "");
-        String[] taggedIdArray = taggedIds.split(",");
-        System.out.println("trimmed: " + taggedIdArray.toString());
+        
         
         try {
             UserDAO uDAO = new UserDAO();
@@ -122,15 +117,23 @@ public class AddPostActionBean implements ActionBean{
             
             Post posted = pDAO.addPost(aPost);
             if(posted != null){
-                //Retrieve and save tagged users for this post
-                    for(String uId : taggedIdArray){                        
-                    pDAO.addPostUserTag(new PostUserTag(
-                            uDAO.getShallowUser(Integer.parseInt(uId)),
-                            pDAO.getPost(posted.getPostId()),
-                            new Date()
-                     ));                    
-                }                    
-                fs.put("SUCCESS","true");                
+                if(getTaggedFriends()!=null){
+                    //read tagged users ID list
+                    System.out.println("friends: " + getTaggedFriends());
+                    String taggedIds = getTaggedFriends().replace("[", "");
+                    taggedIds = taggedIds.replace("]", "");
+                    String[] taggedIdArray = taggedIds.split(",");
+                    System.out.println("trimmed: " + taggedIdArray.toString());
+                    //Retrieve and save tagged users for this post
+                        for(String uId : taggedIdArray){                        
+                        pDAO.addPostUserTag(new PostUserTag(
+                                uDAO.getShallowUser(Integer.parseInt(uId)),
+                                pDAO.getPost(posted.getPostId()),
+                                new Date()
+                        ));                    
+                    }                    
+                    fs.put("SUCCESS","true");  
+                }              
             }
             
         } catch (Exception e) {
