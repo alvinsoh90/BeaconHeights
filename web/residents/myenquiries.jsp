@@ -36,6 +36,9 @@
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/unicorn.calendar.js"></script>
         <script src="./js/jquery-1.7.2.min.js"></script>
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
         <!-- Scripts -->
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -43,7 +46,24 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <script>
-                
+            $(document).ready(function(){
+                var success = "${SUCCESS}";
+                var failure = "${FAILURE}";
+                if(success != ""){
+                    toastr.success(success);
+                }
+                else if(failure){
+                    var msg = "<b>There was an error processing your request.</b><br/>";
+                    msg += "<ol>"
+                <c:forEach var="message" items="${MESSAGES}">
+                            msg += "<li>${message}</li>";
+            </c:forEach>
+                            msg += "</ol>";    
+                            toastr.errorSticky(msg);
+                        }
+
+                    });
+            
             var enquiryList = [];
             
             

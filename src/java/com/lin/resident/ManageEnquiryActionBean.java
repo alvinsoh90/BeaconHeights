@@ -20,6 +20,7 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.util.Log;
 import javax.persistence.*;
 import net.sourceforge.stripes.action.*;
+import net.sourceforge.stripes.controller.FlashScope;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -123,6 +124,7 @@ public class ManageEnquiryActionBean implements ActionBean{
     
     @DefaultHandler
     public Resolution submit() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
         String result;
         boolean success;
         
@@ -146,8 +148,8 @@ public class ManageEnquiryActionBean implements ActionBean{
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/residents/myenquiries.jsp?createsuccess=" + success
-                + "&createmsg=" + result);
+        fs.put("SUCCESS","Enquiry successfully uploaded.");
+        return new RedirectResolution("/residents/myenquiries.jsp");
 
 
 
