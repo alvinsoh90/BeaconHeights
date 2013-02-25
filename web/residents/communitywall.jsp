@@ -380,7 +380,7 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
-                            <div class="name">${post.user.userName}</div>
+                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.userName}</div></a>
                             <div class="timestamp">${post.timeSincePost}</div>
                         </div>
                         <div class="postIcon wallicon ${post.category}">
@@ -389,7 +389,7 @@
                 </div>
                 <div class="post span6">
                     <div class="baseContent">
-                        <div class="title"><b>${post.user.userName}</b> ${post.title}</div>
+                        <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.userName}</b></a> ${post.title}</div>
                         <div class="content">"${post.message}"</div>
                         <div class="taggedUsers">
                             
