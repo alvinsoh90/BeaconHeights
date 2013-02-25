@@ -24,9 +24,31 @@
         <link rel="stylesheet" href="css/fullcalendar.css" />	
         <link rel="stylesheet" href="css/unicorn.main.css" />
         <link rel="stylesheet" href="css/unicorn.grey.css" class="skin-color" />
+        <script src="js/jquery.js"></script>        
         <link rel="stylesheet" href="css/custom/lin.css" />
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
     </head>
+    <script>
+        $(document).ready(function(){
+            var success = "${SUCCESS}";
+            var failure = "${FAILURE}";
+            if(success != ""){
+                toastr.success(success);
+            }
+            else if(failure){
+                var msg = "<b>There was an error processing your request.</b><br/>";
+                msg += "<ol>"
+        <c:forEach var="message" items="${MESSAGES}">
+                    msg += "<li>${message}</li>";
+        </c:forEach>
+                    msg += "</ol>";    
+                    toastr.errorSticky(msg);
+                }
 
+            });
+    </script>
     <body style="background: url('img/noise_grey_bg.png')">
         <% if (session.getAttribute("user") != null) {
                 response.sendRedirect("/residents/index.jsp");
@@ -51,9 +73,9 @@
                             </span>
                             <h5>Please Login</h5>
                             <h5 style="text-align: right"><a href="forgotpassword.jsp">  Forgot your password?</a></h5>
-                            
+
                         </div>
-                        
+
                         <div class="widget-content nopadding">
 
                             <stripes:form class="form-horizontal" method="post" action="#" name="password_validate" id="password_validate" beanclass="com.lin.general.login.LoginActionBean" focus="">
