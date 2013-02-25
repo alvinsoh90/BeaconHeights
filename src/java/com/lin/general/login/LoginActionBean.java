@@ -8,6 +8,7 @@ import java.io.IOException;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.FlashScope;
 
 /**
  * A very simple calculator action.
@@ -16,7 +17,6 @@ import net.sourceforge.stripes.action.Resolution;
 public class LoginActionBean extends BaseActionBean {
     private String plaintext;
     private String username;
-    private boolean success;
     private User currentUser;
 
     public String getPlaintext() {
@@ -46,12 +46,17 @@ public class LoginActionBean extends BaseActionBean {
         
     @DefaultHandler
     public Resolution login() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        boolean success = false;
         String storedHash = "";
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getUser(username);
         
         if(user==null){
-            return new RedirectResolution("/login.jsp?err=true&user="+username);
+            fs.put("FAILURE","This value is not used");
+            fs.put("MESSAGES","Username or password is entered incorectly.");
+            System.out.println("FAIL ONE");
+            return new RedirectResolution("/login.jsp");
         }else{ 
             //retrieve hash from DB
             //storedHash = userDAO.getUserHash(username);
@@ -72,8 +77,12 @@ public class LoginActionBean extends BaseActionBean {
             System.out.println("ADDED TO SESSION:" +currentUser.toString());
             return new RedirectResolution("/residents/index.jsp");
         }else{
-            return new RedirectResolution("/login.jsp?err=true&user="+username);
+            fs.put("FAILURE","This value is not used");
+            fs.put("MESSAGES","Username or password is entered incorectly.");
+            System.out.println("FAIL TWO");
+            return new RedirectResolution("/login.jsp");
         }
+        
     }
     
  
