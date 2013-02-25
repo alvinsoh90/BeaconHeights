@@ -122,6 +122,27 @@ public class FriendshipDAO {
         }
         return friendship;
     }
+    //for acceptance
+    public Friendship updateFriendship(int friendshipId, User userOne, User userTwo, boolean hasAccepted) {
+        openSession();
+        Transaction tx = null;
+        Friendship f = null;
+        try {
+            tx = session.beginTransaction();
+            f = (Friendship) session.get(User.class, friendshipId);
+            f.setUserByUserIdOne(userOne);
+            f.setUserByUserIdTwo(userTwo);
+            f.setHasAccepted(hasAccepted);
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return f;
+    }
     
     public Friendship updateFriendship(int friendshipId, User userOne, User userTwo, String relationshipOneTwo, String relationshipTwoOne, boolean hasAccepted) {
         openSession();

@@ -25,10 +25,22 @@ public class FriendshipController {
         
     }
     
+    //userOne is requester, userTwo is accepter
+    public Friendship acceptFriend(User userOne, User userTwo){
+        fDAO = new FriendshipDAO();
+        Friendship friendship = fDAO.getFriendship(userOne, userTwo);
+        
+        fDAO.updateFriendship(friendship.getId(), userOne, userTwo,true);
+        return friendship;
+    }
+    
     public boolean isFriend(User userOne, User userTwo){
         fDAO = new FriendshipDAO();
         try {
             Friendship f = fDAO.getFriendship(userOne, userTwo);
+            if (f == null){
+                f = fDAO.getFriendship(userTwo, userOne);
+            }
             if (f != null){
                 return true;
             }
