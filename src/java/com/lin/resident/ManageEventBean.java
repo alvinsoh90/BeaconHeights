@@ -5,12 +5,14 @@
 package com.lin.resident;
 
 import com.lin.controllers.EventWallController;
+import com.lin.dao.BookingDAO;
 import com.lin.dao.EventDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Booking;
 import com.lin.entities.Comment;
 import com.lin.entities.Event;
 import com.lin.entities.EventComment;
+import com.lin.entities.EventInvite;
 import com.lin.entities.User;
 import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
@@ -50,6 +52,15 @@ public class ManageEventBean extends BaseActionBean{
     private String eventTimeStart;
     private String eventTimeEnd;
     private String eventTaggedFriends;
+    private String bookingId;
+
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
+    }
 
     public String getEventTaggedFriends() {
         return eventTaggedFriends;
@@ -224,7 +235,7 @@ public class ManageEventBean extends BaseActionBean{
         
         Date start = new Date(Long.parseLong(getEventTimeStart()));
         Date end = new Date(Long.parseLong(getEventTimeEnd()));
-        
+        System.out.println("venue: " + getVenue());
         Event event = new Event(
                 getContext().getUser(), 
                 getTitle(), 
@@ -232,27 +243,49 @@ public class ManageEventBean extends BaseActionBean{
                 end, 
                 getVenue(), 
                 getDetails(), 
-                isIsPublicEvent());
+                isIsPublicEvent());        
         
-        //Check if any friends invite
-        String friendsStr = getEventTaggedFriends();
-        String[] friendsArr;
-        if(!friendsStr.isEmpty()){
-            friendsStr = friendsStr.replace("[", "");
-            friendsStr = friendsStr.replace("]", "");
-            friendsArr = friendsStr.split(",");
+         //Check any booking tagged
+        if(Integer.parseInt(getBookingId()) != -1){
+            BookingDAO bDAO = new BookingDAO();
+            Booking b = bDAO.getBooking(Integer.parseInt(getBookingId()));
+            event.setBooking(b);
         }
         
-        //Check any booking tagged
-        
-
         Event e = eDAO.createEvent(event);
-        if(e != null){
+        if(e != null){            
+            //Check if any friends invite
+            String friendsStr = getEventTaggedFriends();
+            String[] friendsArr;
+            if(friendsStr != null){
+                friendsStr = friendsStr.replace("[", "");
+                friendsStr = friendsStr.replace("]", "");
+                friendsArr = friendsStr.split(",");
+
+                //create invites and store in DB
+                UserDAO uDAO = new UserDAO();
+                for(String userId : friendsArr){
+                    User u = uDAO.getShallowUser(Integer.parseInt(userId));
+                    EventInvite ei = new EventInvite(e,u,EventInvite.Type.PENDING);
+                    eDAO.addEventInvite(ei);
+                }            
+            }
+            
             fs.put("SUCCESS","true");
         }
         else{
             fs.put("SUCCESS","false");
         }
+        
+        
+        
         return new RedirectResolution("/residents/eventwall.jsp");
+    }
+    
+    public ArrayList<Booking> getBookingsOfUser(int userId){
+        ArrayList<Booking> bList = new ArrayList<Booking>();        
+        BookingDAO bDAO = new BookingDAO();
+        bList = bDAO.getShallowUserBookings(userId);        
+        return bList;
     }
 }

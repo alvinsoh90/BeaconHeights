@@ -13,10 +13,8 @@
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-        <jsp:useBean id="managePostBean" scope="page"
-                     class="com.lin.resident.ManagePostBean"/>
-        <jsp:useBean id="manageUsersActionBean" scope="page"
-                     class="com.lin.general.admin.ManageUsersActionBean"/>
+        <jsp:useBean id="manageEventBean" scope="page"
+                     class="com.lin.resident.ManageEventBean"/>
         <%@include file="/protect.jsp"%>
 
 
@@ -183,9 +181,25 @@
                            <div class="pushBottom">
                                 <label class="control-label">Venue</label>
                                 <div class="controls">
-                                    <stripes:text class="shorty" id="event_venue" name="event" />
+                                    <stripes:text class="shorty" id="event_venue" name="venue" />
                                     or
-                                    <select class="shorty"></select>
+                                    <stripes:select class="shorty" name="bookingId">
+                                        <c:set var="bookingList" value="${manageEventBean.getBookingsOfUser(user.userId)}"/>
+                                        
+                                        <c:choose>
+                                            <c:when test="${not empty bookingList}">
+                                                <option value="-1">Select a booking</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="-1">No bookings available</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                                
+                                        <c:forEach items="${bookingList}" var="booking">
+                                            <option value="${booking.id}">${booking.facility.name} on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${booking.startDate}" /></option>
+                                        </c:forEach>       
+                            
+                                    </stripes:select>
                                 </div>
                            </div>                                 
                             <div class="control-group ${errorStyle}">
@@ -345,8 +359,11 @@
                     if(!eventDateStr || !startTimeStr || !endTimeStr){
                         return false;
                     }
-                    else if(eventDateStart<now){
+                    else if(eventDateStart < now){
                         toastr.errorSticky("You cannot create events in the past!");
+                        return false;
+                    }else if(eventDateEnd < eventDateStart){
+                        toastr.errorSticky("Your event ends before it begins!");
                         return false;
                     }
                     else{

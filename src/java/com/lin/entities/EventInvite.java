@@ -9,6 +9,9 @@ import java.util.Date;
  */
 public class EventInvite  implements java.io.Serializable {
 
+    public enum Type{
+        ACCEPTED,REJECTED,PENDING
+    }
 
      private Integer id;
      private Date timestamp;
@@ -24,6 +27,24 @@ public class EventInvite  implements java.io.Serializable {
        this.user = user;
        this.inviteStatus = inviteStatus;
     }
+    
+    //Use this for creating events
+   public EventInvite(Event event, User user, EventInvite.Type type) {
+       this.event = event;
+       this.user = user;
+       this.inviteStatus = getTypeStringFromEnum(type);
+    }
+   
+   public String getTypeStringFromEnum(EventInvite.Type t){
+       if(t == EventInvite.Type.ACCEPTED){
+           return "ACCEPTED";
+       }else if(t == EventInvite.Type.REJECTED){
+           return "REJECTED";
+       }else if(t == EventInvite.Type.PENDING){
+           return "PENDING";
+       }
+       return "";
+   }
    
     public Integer getId() {
         return this.id;

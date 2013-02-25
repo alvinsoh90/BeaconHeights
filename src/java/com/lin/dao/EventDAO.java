@@ -27,27 +27,9 @@ public class EventDAO {
     private void openSession() {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-
-    public Event createEvent(User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent, boolean isAdminEvent) {
-        Event e = new Event(user, booking, title, startTime, endTime, venue, details, isPublicEvent, isAdminEvent);
-
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            session.save("Event", e);
-            tx.commit();
-            return e;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            if (tx != null) {
-                tx.rollback();
-            }
-        }
-        //return null if failed
-        return null;
-    }
     
     public Event createEvent(Event e) {
+        openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
