@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Feb 2, 2013 9:48:22 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Feb 25, 2013 2:38:24 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Friendship" table="friendship" catalog="lin_staging_db">
         <id name="id" type="java.lang.Integer">
@@ -14,14 +14,17 @@
         <many-to-one name="userByUserIdOne" class="com.lin.entities.User" fetch="select">
             <column name="user_id_one" not-null="true" />
         </many-to-one>
-        <property name="date" type="date">
-            <column name="date" length="10" not-null="true" />
+        <property name="date" type="timestamp">
+            <column name="date" length="19" not-null="true" />
         </property>
         <property name="relationshipOneTwo" type="string">
             <column name="relationship_one_two" length="30" not-null="true" />
         </property>
         <property name="relationshipTwoOne" type="string">
             <column name="relationship_two_one" length="30" not-null="true" />
+        </property>
+        <property name="hasAccepted" type="boolean">
+            <column name="has_accepted" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

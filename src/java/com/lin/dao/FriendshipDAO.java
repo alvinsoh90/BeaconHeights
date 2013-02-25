@@ -45,7 +45,7 @@ public class FriendshipDAO {
     }
 
     public Friendship createFriendship(User userOne, User userTwo, String relationshipOneTwo, String relationshipTwoOne) {
-        Friendship friendship = new Friendship(userOne, userTwo, new Date(), relationshipOneTwo, relationshipTwoOne);
+        Friendship friendship = new Friendship(userOne, userTwo, new Date(), relationshipOneTwo, relationshipTwoOne,false);
 
         openSession();
         Transaction tx = null;
@@ -122,18 +122,41 @@ public class FriendshipDAO {
         }
         return friendship;
     }
-    
-    public Friendship updateFriendship(int friendshipId, User userOne, User userTwo, String relationshipOneTwo, String relationshipTwoOne) {
+    //for acceptance
+    public Friendship updateFriendship(int friendshipId, User userOne, User userTwo, boolean hasAccepted) {
         openSession();
         Transaction tx = null;
         Friendship f = null;
         try {
             tx = session.beginTransaction();
-            f = (Friendship) session.get(User.class, friendshipId);
+            f = (Friendship) session.get(Friendship.class, friendshipId);
+            f.setUserByUserIdOne(userOne);
+            f.setUserByUserIdTwo(userTwo);
+            f.setHasAccepted(hasAccepted);
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return f;
+    }
+    
+    public Friendship updateFriendship(int friendshipId, User userOne, User userTwo, String relationshipOneTwo, String relationshipTwoOne, boolean hasAccepted) {
+        openSession();
+        Transaction tx = null;
+        Friendship f = null;
+        try {
+            tx = session.beginTransaction();
+            f = (Friendship) session.get(Friendship.class, friendshipId);
             f.setUserByUserIdOne(userOne);
             f.setUserByUserIdTwo(userTwo);
             f.setRelationshipOneTwo(relationshipOneTwo);
             f.setRelationshipTwoOne(relationshipTwoOne);
+            f.setHasAccepted(hasAccepted);
+            
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();

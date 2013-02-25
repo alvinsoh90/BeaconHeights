@@ -67,25 +67,39 @@ public class AddFriendActionBean implements ActionBean {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-    
-    public boolean isFriend(String user, String friend){
+
+    public boolean isFriend(String userString, String friendString) {
+        FriendshipController friendshipController = new FriendshipController();
         FriendshipDAO fDAO = new FriendshipDAO();
-        int userID = Integer.parseInt(user);
-        int friendID = Integer.parseInt(friend);
-        //User userObj = uDAO.getUser(Integer.parseInt(user));
-        //User friendObj = uDAO.getUser(Integer.parseInt(friend));
-        System.out.println("USER :"+user + "FRIEND : "+friend);
-        Friendship friendship1 = fDAO.getFriendship(userID, friendID);
-        System.out.println("FRIEND1 : "+friendship1);
-        Friendship friendship2 = fDAO.getFriendship(friendID, userID);
-        System.out.println("FRIEND2 : "+friendship2);
-        if(friendship1!=null || friendship2!=null){
+        int userParseID = Integer.parseInt(userString);
+        int friendParseID = Integer.parseInt(friendString);
+        UserDAO uDAO = new UserDAO();
+        User user = uDAO.getUser(userParseID);
+        User friend = uDAO.getUser(friendParseID);
+
+        if (friendshipController.isFriend(user, friend)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
+    public boolean isPending(String userString, String friendString){
+        FriendshipController friendshipController = new FriendshipController();
+        FriendshipDAO fDAO = new FriendshipDAO();
+        int userParseID = Integer.parseInt(userString);
+        int friendParseID = Integer.parseInt(friendString);
+        UserDAO uDAO = new UserDAO();
+        User user = uDAO.getUser(userParseID);
+        User friend = uDAO.getUser(friendParseID);
+
+        if (friendshipController.isPending(user, friend)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     @Override
     public void setContext(ActionBeanContext context) {
         this.context = context;
@@ -107,14 +121,27 @@ public class AddFriendActionBean implements ActionBean {
             UserDAO uDAO = new UserDAO();
             User user = uDAO.getUser(userId);
             User friend = uDAO.getUser(friendId);
-            friendshipController.addFriend(user, friend, "Friend");
+            FriendshipDAO fDAO = new FriendshipDAO();
+            Friendship friendship = fDAO.getFriendship(friendId, userId);
+
+            //to accept
+            if (friendship != null) {
+                friendshipController.acceptFriend(friend, user);
+            } else {
+                friendship = fDAO.getFriendship(userId, friendId);
+                if (friendship == null){
+                    friendshipController.addFriend(user, friend, "Friend");
+                }else {
+                    fDAO.deleteFriendship(user, friend);
+                }
+            }
             result = "Friendship";
             success = true;
         } catch (Exception e) {
             result = "fail";
             success = false;
         }
-        return new RedirectResolution("/residents/profile.jsp?profileid="+friendId+"&createsuccess=" + success
+        return new RedirectResolution("/residents/profile.jsp?profileid=" + friendId + "&createsuccess=" + success
                 + "&createmsg=" + result);
 
 
