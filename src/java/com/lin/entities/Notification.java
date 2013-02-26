@@ -67,6 +67,16 @@ public class Notification  implements java.io.Serializable {
         }        
         return null;
     }
+
+    public Type getNotificationEnumType() {
+        return notificationEnumType;
+    }
+
+    public void setNotificationEnumType(Type notificationEnumType) {
+        this.notificationEnumType = notificationEnumType;
+    }
+    
+    
    
     public Integer getId() {
         return this.id;
