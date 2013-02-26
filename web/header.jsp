@@ -32,7 +32,7 @@
 
                 <li class="dropdown">
 
-                    <a data-toggle="dropdown" class="dropdown-toggle ">
+                    <a href="#community" data-toggle="dropdown" class="dropdown-toggle ">
                         Community
                         <b class="caret"></b>							
                     </a>
