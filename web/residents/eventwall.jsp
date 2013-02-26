@@ -53,7 +53,6 @@
         <script src="../js/timepicker.min.js"></script> 
         <link href="../css/jquery.timepicker.css" rel="stylesheet"></script>
     <script src="../js/date.js"></script>
-                <link href="./css/residentscustom.css" rel="stylesheet"> 
 
         <script>
     // ** Handle friend tagging ** //
@@ -168,7 +167,7 @@
                     },
                     complete: function(xhr, textStatus) {
                         if(xhr.status === 200){
-                            refreshPost(postId);
+                            refreshEvent(postId);
                             //setTimeout('window.location.href="/admin/manage-facilitytypes.jsp"',1300);
                         }
                         else{
@@ -178,7 +177,7 @@
                 });
             }
             var r;
-            function refreshPost(postId){
+            function refreshEvent(postId){
                 //fade out comment area
                 $("#post-" + postId + " .commentArea .comments").css("opacity","0.6");
                 //show ajax loading
@@ -222,6 +221,124 @@
                     } 
                 });
                                              
+            }
+            
+            function likePost(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isALike = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/likeOrUnlikePost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
+                            // disable like button
+                            $("#post-"+postId+" .postLikeBtn .txt").text("You like");
+                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-ok iconLike");
+                            $("#post-"+postId+" .postLikeBtn").attr("onclick","unlikePost("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem liking this post. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            
+            function unlikePost(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isALike = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/likeOrUnlikePost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
+                            // enable like button
+                            $("#post-"+postId+" .postLikeBtn .txt").text("Like");
+                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-heart iconLike");
+                            $("#post-"+postId+" .postLikeBtn").attr("onclick","likePost("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem unliking this post. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            
+            function flagPostInappropriate(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isInappropriate = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        if(xhr.status === 200){
+                            if(!data.flag_success && data.reason){
+                                toastr.error(data.reason);
+                            }
+                            $("#post-"+postId+" .flagInappropriateBtn").removeClass("disabled");
+                            // disable button
+                            $("#post-"+postId+" .flagInappropriateBtn .txt").text("Post flagged (click to undo)");
+                            $("#post-"+postId+" .flagInappropriateBtn").attr("onclick","unFlagPostInappropriate("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    }
+                });
+            }
+            
+            function unFlagPostInappropriate(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isInappropriate = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .flagInappropriateBtn").removeClass("disabled");
+                            // disable like button
+                            $("#post-"+postId+" .flagInappropriateBtn .txt").text("Flag as inappropriate");
+                            $("#post-"+postId+" .flagInappropriateBtn").attr("onclick","flagPostInappropriate("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    } 
+                });
             }
         </script>
         
@@ -306,13 +423,7 @@
                                 <stripes:hidden id="taggedFriends" name="eventTaggedFriends" />
                             </div>
                         </div>
-                            
-                        <div class="control-group">        
-                            <label class="control-label">Public Event </label>
-                            <div class="control">
-                                <stripes:checkbox name="isPublicEvent" checked="true"/>
-                            </div>
-                        </div>    
+                        <div class="pushBottom">Public Event <stripes:checkbox name="isPublicEvent" checked="true"/></div>
 
                             <stripes:hidden name="posterId" id="posterID" value='${sessionScope.user.userId}'/> 
                             <stripes:submit id="submitPost" class="float_l btn btn-peace-1" name="addEvent" value="Create Event"/> 
@@ -329,16 +440,17 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
-                            <div class="name">${post.user.userName}</div>
+                             <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.userName}</div></a>
                             <div class="timestamp">${post.timeSincePost}</div>
                         </div>
-                        <div class="postIcon wallicon DATE"> 
+                        <div class="postIcon wallicon DATE">
                             <div class="timeline"/></div>
-                    </div>
+                        </div>
+                        <div class="wallDate"><fmt:formatDate pattern="dd MMM" value="${post.startTime}" /></div>
                 </div>
                 <div class="post span6">
                     <div class="baseContent">
-                        <div class="title"><b>${post.user.userName}</b> created an event</div>
+                        <div class="title"><a href="profile.jsp?profileid=${post.user.userId}"><b>${post.user.userName}</b></a> created an event</div>
                         <div class="content">"${post.details}"</div>
                         <div class="attachment event">
                             <div class="eventTitle"><a href="#">${post.title}</a></div>
@@ -365,11 +477,21 @@
                                 </div>      
                             </c:if>
     
-                        <div class="linkBar hide">
-                            <a class="btn"><i class="icon-check"></i> I'm going!</a>
-                            <a class="btn"><i class="icon-heart"></i> Like</a>
-                            <a class="btn"><i class="icon-eye-open"></i> View Event</a>
-                            <a href="#" class="float_r flagPost"><i class="icon-flag"></i> Flag as inappropriate</a>
+                        <div class="linkBar">
+                            <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
+                            
+                            <%-- Check if user likes this post --%>
+                            <c:choose>
+                                <c:when test="${manageEventBean.hasUserLikedEvent(post.id, sessionScope.user.userId)}">
+                                    <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="unlikePost(${post.id})"><i class="iconLike icon-ok"></i> <span class="txt">You Like</span></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.id})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
+                                </c:otherwise>    
+                            </c:choose>                                
+                            
+                            <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
+                            <a href="#flag" onclick="flagPostInappropriate(${post.id})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
                         </div>
                     </div>
                     <div class="commentArea">
@@ -394,6 +516,26 @@
 
                     </div>
                 </div>
+                
+                <div class="span2 postSideBlock">
+                    <c:set var="numPostLikes" value="${manageEventBean.getNumEventLikes(post.id)}"/>
+                    <c:if test="${numPostLikes > 0}">
+                        <div class="header">${numPostLikes} Likes</div>
+                        <div class="likerSpace">
+                        <c:forEach items="${manageEventBean.getLikersOfEvent(post.id,18)}" var="liker" varStatus="stat">
+                            <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                        </c:forEach>      
+                        </div>
+                            <script>
+                                $(document).ready(function() {         
+                                    //Tipsy tooltips
+                                    $(".liker").each(function(){
+                                        $(this).tipsy({gravity: 'n'});
+                                    });
+                                });       
+                            </script>
+                    </c:if>                        
+                </div>  
 
             </div>
         </c:forEach>

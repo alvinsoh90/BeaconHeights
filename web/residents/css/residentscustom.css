@@ -548,6 +548,16 @@ select.shorty{
     left: 4px;
     position:relative;
 }
+.wallDate{
+    top: -3.7em;
+    left: 108px;
+    width: 58px;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 1px teal;
+    font-size: 20px;
+    position: relative;
+}
 /**.tagFriends ul{
     width: 200px;
     margin-left: 58px;

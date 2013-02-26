@@ -373,7 +373,7 @@ public class EventDAO {
                     + "where e.event.id = :eid "
                     + "and e.user.userId = :uid");
             
-            q.setInteger("pid", eventId);
+            q.setInteger("eid", eventId);
             q.setInteger("uid", userId);
             ei = (EventInappropriate) q.uniqueResult();
             

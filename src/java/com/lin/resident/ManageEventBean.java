@@ -14,6 +14,7 @@ import com.lin.entities.Comment;
 import com.lin.entities.Event;
 import com.lin.entities.EventComment;
 import com.lin.entities.EventInvite;
+import com.lin.entities.EventLike;
 import com.lin.entities.User;
 import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
@@ -323,4 +324,45 @@ public class ManageEventBean extends BaseActionBean{
         return list;
     }
     
+    public boolean hasUserLikedEvent(int postId, int userId){        
+        return eDAO.hasUserLikedEvent(postId, userId);
+    }
+    
+    public int getNumEventLikes(int postId){
+        return eDAO.getEventLikesByEventId(postId).size();
+    }
+    
+    public ArrayList<User> getLikersOfEvent(int postId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<EventLike> likeList=  eDAO.getEventLikesByEventId(postId);
+        int fetchSize = likeList.size();
+        
+        if(likeList.size() > limit && limit != -1) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            EventLike pl = likeList.get(i);
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<User> getTaggedUsers(int postId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<EventInvite> tagList =  eDAO.getEventInvitesByEventId(postId);
+        int fetchSize = tagList.size();
+        
+        if(tagList.size() > limit && limit != -1) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            EventInvite pl = tagList.get(i);
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+        }
+        
+        return list;
+    }
 }
