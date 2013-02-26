@@ -528,6 +528,9 @@ h1{
 .pushBottom{
     margin-bottom:10px;
 }
+.joinEventBtn{
+    margin-left: 3px;
+}
 .eventBasic .control-group{
     margin-bottom: 10px;
 }
