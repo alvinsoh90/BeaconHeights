@@ -107,6 +107,23 @@ public class NotificationDAO {
         }
         return list;
     }
+    
+   public ArrayList<Notification> retrieveUnreadNotificationByReceivingUserId(int user_id) {
+        openSession();
+        ArrayList<Notification> list = new ArrayList<Notification>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery(""
+                    + "from Notification as n where n.userByReceiverId.id = :id "
+                    + "where hasBeenViewed is false");
+            q.setString("id", user_id + "");
+            list = (ArrayList<Notification>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public boolean deleteNotification(int id) {
         openSession();
@@ -192,4 +209,26 @@ public class NotificationDAO {
             return false;
         }
     }
+    
+    public ArrayList<User> retrieveCommentersForPostExcludingAUser(int postId, int excludedUserId) {
+        openSession();
+        ArrayList<User> uList = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("select distinct c.user from "
+                    + "Comment as c join fetch "
+                    + "c.user where c.post.postId = :id "
+                    + "and c.user.userId <> :uid");
+            q.setInteger("id", postId);
+            q.setInteger("uid", excludedUserId);
+            
+            uList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return uList;
+    }
+
 }

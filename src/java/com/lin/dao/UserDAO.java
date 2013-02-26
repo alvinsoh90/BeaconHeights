@@ -5,6 +5,7 @@
 package com.lin.dao;
 
 import com.lin.entities.Block;
+import com.lin.entities.Event;
 import com.lin.entities.Role;
 import com.lin.entities.User;
 import com.lin.entities.UserTemp;
@@ -63,6 +64,21 @@ public class UserDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from User as u join fetch u.role join fetch u.block");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return userList;
+    }
+    
+    public ArrayList<User> retrieveAllShallowUsersExceptCurrentUser(int currentUserId){
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from User as u where u.userId <> :uid");
+            q.setInteger("uid", currentUserId);
             userList = (ArrayList<User>) q.list();
             tx.commit();
         } catch (Exception e) {

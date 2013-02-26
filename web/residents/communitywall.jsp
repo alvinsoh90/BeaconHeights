@@ -302,7 +302,7 @@
                         for(var i=0;i<data.comments[0].length;i++){
                             var c = data.comments[0][i];
                             $("#post-" + postId + " .commentArea .comments").append(
-                            '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedUserName+': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
+                            '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedFirstName + ' ' + c.user.escapedLastName +': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
                         )
                         }
 
@@ -406,7 +406,7 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic" />
-                            <div class="name">${user.userName}</div>
+                            <div class="name">${user.firstname} ${user.lastname}</div>
                         </div>
                         <div id="firstPostIcon" class="postIcon wallicon SHOUTOUT">
                             <div class="timeline"/></div>
@@ -415,7 +415,7 @@
                 <div class="post span6">
                     <div class="baseContent newPost">
                         <stripes:form id="makePostForm" beanclass="com.lin.resident.AddPostActionBean" focus="postContent">
-                            <div class="inlineblock name">${user.userName}  </div>
+                            <div class="inlineblock name">${user.firstname} ${user.lastname}  </div>
                             <stripes:text id="postTitle" name="postTitle" class="postTitleArea span3" />
                             <stripes:textarea id="postContent" name="postContent" class="makePost" />
                             Tag Friends: <input text="text"  id="tagFriendsBox" />
@@ -444,7 +444,7 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
-                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.userName}</div></a>
+                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.firstname} ${post.user.lastname}</div></a>
                             <div class="timestamp">${post.timeSincePost}</div>
                         </div>
                         <div class="postIcon wallicon ${post.category}">
@@ -453,7 +453,7 @@
                 </div>
                 <div class="post span6">
                     <div class="baseContent">
-                        <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.userName}</b></a> ${post.title}</div>
+                        <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
                         <div class="content">"${post.message}"</div>
                         
                             
@@ -463,7 +463,7 @@
                                 <div class="taggedUsers">
                                 Tagged:
                                 <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
-                                    <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                    <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
                                 </c:forEach>
                                 </div>    
                             </c:if>
@@ -499,7 +499,7 @@
                                 <div class="comment">
                                     <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
                                     <div class="content float_l">
-                                        <b>${comment.user.userName}: </b>${comment.text}
+                                        <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
                                         <div class="timestamp">${comment.timeSinceComment}</div>
                                     </div>
                                     <br class="clearfix"/>

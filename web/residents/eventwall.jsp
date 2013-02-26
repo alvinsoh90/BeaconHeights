@@ -16,6 +16,8 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="manageEventBean" scope="page"
                      class="com.lin.resident.ManageEventBean"/>
+        <jsp:useBean id="manageNotificationBean" scope="page"
+                     class="com.lin.resident.ManageNotificationBean"/>
         <%@include file="/protect.jsp"%>
 
 
@@ -35,19 +37,17 @@
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="/js/jquery-1.9.1.min.js"></script>
-
         <script src="/js/bootstrap-2.3.0.js"></script>
+        <link href="../css/pickadate.02.classic.css" rel="stylesheet" />
+        <script src="../js/pickadate.min.js"></script>
+          <script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
+         <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
 
         <link href="/css/custom/lin.css" rel="stylesheet" />
-        <link href="../css/pickadate.02.classic.css" rel="stylesheet" />
-        <script src="../js/pickadate.js"></script>
-        <script src="../js/pickadate.legacy.min.js"></script>
-        <script src="../js/pickadate.min.js"></script>
-          <script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
-         <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
+        
         <link rel="stylesheet" href="/css/token-input.css" type="text/css" />
         <link rel="stylesheet" href="/css/token-input-facebook.css" type="text/css" />
         <link rel="stylesheet" href="/css/tipsy.css" type="text/css" />
@@ -201,7 +201,7 @@
                         for(var i=0;i<data.comments[0].length;i++){
                             var c = data.comments[0][i];
                             $("#post-" + postId + " .commentArea .comments").append(
-                            '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedUserName+': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
+                            '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedFirstName + ' ' + c.user.escapedLastName +': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
                         )
                         }
 
@@ -413,7 +413,7 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic" />
-                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${user.userName}</div></a>
+                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${user.firstname} ${user.lastname}</div></a>
                         </div>
                         <div class="postIcon wallicon DATE">
                             <div class="timeline"/></div>                           
@@ -505,7 +505,7 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
-                             <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.userName}</div></a>
+                             <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.firstname} ${post.user.lastname}</div></a>
                             <div class="timestamp">${post.timeSincePost}</div>
                         </div>
                         <div class="postIcon wallicon DATE">
@@ -515,7 +515,7 @@
                 </div>
                 <div class="post span6">
                     <div class="baseContent">
-                        <div class="title"><a href="profile.jsp?profileid=${post.user.userId}"><b>${post.user.userName}</b></a> created an event</div>
+                        <div class="title"><a href="profile.jsp?profileid=${post.user.userId}"><b>${post.user.firstname} ${post.user.lastname}</b></a> created an event</div>
                         <div class="content">"${post.details}"</div>
                         <div class="attachment event">
                             <div class="eventTitle"><a href="#">${post.title}</a></div>
@@ -525,10 +525,10 @@
                                     <c:if test="${not empty post.booking.facility.name}">
                                         <span class="label label-info bookedLabel">${post.booking.facility.name} <b>(Booked)</b></span>
                                     </c:if>
-                                        <br/>
-                                    <b>Date/Time:</b> ${post.formattedEventTime}
+                                        <br/>                                    
                                 </div>
                             </c:if>
+                            <b>Date/Time:</b> ${post.formattedEventTime}
                         </div>
                             
                             <c:set var="taggedUsers" value="${manageEventBean.getPendingInvites(post.id,-1)}"/>
@@ -548,7 +548,7 @@
                                 <c:if test="${not empty attendingUsers && not empty taggedUsers}"><span class="gap"></span></c:if>
                                         ${fn:length(attendingUsers)} Coming:
                                         <c:forEach items="${attendingUsers}" var="tagged" varStatus="status">
-                                            <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                            <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
                                             </c:forEach>    
                             </c:if>
                             </div>
@@ -585,7 +585,7 @@
                                 <div class="comment">
                                     <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
                                     <div class="content float_l">
-                                        <b>${comment.user.userName}: </b>${comment.text}
+                                        <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
                                         <div class="timestamp">${comment.timeSinceComment}</div>
                                     </div>
                                     <br class="clearfix"/>
@@ -593,7 +593,7 @@
                             </c:forEach>
                         </div>
                         <div class="comment replyArea">
-                            <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic float_l" />
+                            <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic float_l" />
                             <input class="float_l commentTextArea" data-post-id="${post.id}" placeholder="Say something here..."/><div class="float_r ajaxSpinnerSmall hide"></div>
                             <br class="clearfix"/>
                         </div>
@@ -608,7 +608,7 @@
                         <div class="header">${numPostLikes} Likes</div>
                         <div class="likerSpace">
                         <c:forEach items="${manageEventBean.getLikersOfEvent(post.id,18)}" var="liker" varStatus="stat">
-                            <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                            <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname} ${liker.lastname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
                         </c:forEach>      
                         </div>
                             <script>

@@ -117,7 +117,8 @@ public class EventDAO {
                      "from Event as e join fetch e.user "
                     + "where e.isPublicEvent is true "
                     + "and e.isDeleted is false "
-                    + "order by e.id DESC")
+                    + "and e.startTime > current_timestamp() "
+                    + "order by e.startTime ASC")
                     .setMaxResults(limit);
             
             list = (ArrayList<Event>) q.list();
