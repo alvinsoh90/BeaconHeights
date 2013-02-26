@@ -142,9 +142,7 @@
                                 <td><b>${loop.index + 1}</b></td>
                                 <td><b>${facilityType.name}</b></td>
                                 <td>${facilityType.description}</td>
-                                <td><c:forEach items="${facilityType.sortedOpenRules}" var="openRule" varStatus="loop">
-                                        ${openRule}<br>    
-                                    </c:forEach></td>
+                                <td>${manageFacilityTypesActionBean.formatOpenRuleForDisplay(facilityType.sortedOpenRules)}</td>
                                 <td><c:forEach items="${facilityType.limitRules}" var="limitRules" varStatus="loop">
                                         ${limitRules}<br>    
                                     </c:forEach></td>
