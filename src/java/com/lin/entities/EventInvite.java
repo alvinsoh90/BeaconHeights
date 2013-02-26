@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class EventInvite  implements java.io.Serializable {
 
+    public void setInviteStatus(Type type) {
+        this.inviteStatus = getTypeStringFromEnum(type);
+    }
+
     public enum Type{
         ACCEPTED,REJECTED,PENDING
     }

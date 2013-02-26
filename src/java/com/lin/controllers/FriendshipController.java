@@ -49,6 +49,37 @@ public class FriendshipController {
         return false;
     }
     
+    //for showing if Pending Request?
+    public boolean isPendingRequest(User userOne, User userTwo){
+        fDAO = new FriendshipDAO();
+        try {
+            Friendship f = fDAO.getFriendship(userOne, userTwo);
+            
+            if (f != null && f.isHasAccepted() == false){
+                return true;
+            }
+        } catch (Exception e){
+            return false;
+        }
+        return false;
+    }
+    
+    
+    //for showing if Accept Request?
+    public boolean isPendingAccept(User userOne, User userTwo){
+        fDAO = new FriendshipDAO();
+        try {
+            Friendship f = fDAO.getFriendship(userTwo, userOne);
+
+            if (f != null && f.isHasAccepted() == false){
+                return true;
+            }
+        } catch (Exception e){
+            return false;
+        }
+        return false;
+    }
+    
     public boolean isFriend(User userOne, User userTwo){
         fDAO = new FriendshipDAO();
         try {

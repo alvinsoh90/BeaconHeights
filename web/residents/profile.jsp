@@ -226,10 +226,16 @@
                                                 <a href="#addFriendModal" role="button" data-toggle="modal" class="btn btn-info" onclick=''><i class="icon-user"></i> Friend This User</a>
                                             </div>
                                         </c:if>
-                                        <c:if test="${addFriendActionBean.isPending(user.userId,param.profileid)}">
+                                        <c:if test="${addFriendActionBean.isPendingRequester(user.userId,param.profileid)}">
 
                                             <div id="addFriend">
                                                 <a href="#addFriendModal" role="button" data-toggle="modal" class="btn btn-info" onclick=''><i class="icon-user"></i> Pending Approval</a>
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${addFriendActionBean.isPendingReceiver(user.userId,param.profileid)}">
+
+                                            <div id="addFriend">
+                                                <a href="#addFriendModal" role="button" data-toggle="modal" class="btn btn-info" onclick=''><i class="icon-user"></i> Accept Request?</a>
                                             </div>
                                         </c:if>
 

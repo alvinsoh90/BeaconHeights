@@ -203,6 +203,7 @@ public class EventDAO {
     }
     
     public EventLike likeEvent(EventLike eventLike){
+        unlikeEvent(eventLike.getUser().getUserId(), eventLike.getEvent().getId());
         openSession();
         Transaction tx = null;
         
@@ -315,6 +316,7 @@ public class EventDAO {
     }
     
     public boolean flagEventInappropriate(EventInappropriate ei) {
+        unFlagEventInappropriate(ei.getUser().getUserId(), ei.getEvent().getId());
         openSession();
         Transaction tx = null;
         

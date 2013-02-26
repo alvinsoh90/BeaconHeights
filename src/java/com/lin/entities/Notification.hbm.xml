@@ -24,5 +24,8 @@
         <property name="type" type="string">
             <column name="type" length="100" not-null="true" />
         </property>
+        <property name="hasBeenViewed" type="boolean">
+            <column name="has_been_viewed" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

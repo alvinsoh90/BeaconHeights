@@ -20,6 +20,7 @@ public class Notification  implements java.io.Serializable {
      private Post post;
      private User userByReceiverId;
      private String type;
+     private boolean hasBeenViewed;
      private Type notificationEnumType;
 
     public Notification() {
@@ -68,6 +69,14 @@ public class Notification  implements java.io.Serializable {
         return null;
     }
 
+    public boolean isHasBeenViewed() {
+        return hasBeenViewed;
+    }
+
+    public void setHasBeenViewed(boolean hasBeenViewed) {
+        this.hasBeenViewed = hasBeenViewed;
+    }
+    
     public Type getNotificationEnumType() {
         return notificationEnumType;
     }

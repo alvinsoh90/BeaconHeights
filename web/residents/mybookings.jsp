@@ -46,7 +46,7 @@
                     if(booking.id == bookingID){
                         console.log(booking.id);
                         $("#delete_facilityType").text(booking.facilityType);
-                        $("#delete_startDate").text(booking.startDate);
+                        $("#delete_startDate").text(booking.startDateFormatted);
                         $("#delete_endDate").text(booking.endDate);
                         $("#delete_id").val(booking.id);
                     }
@@ -61,6 +61,7 @@
                 booking.id = '${booking.id}';
                 booking.facilityType = '${booking.facility.facilityType.name}';
                 booking.startDate = '${booking.startDate}';
+                booking.startDateFormatted = '${booking.startDateFormatted}';
                 bookingList.push(booking);
             </script>
         </c:forEach>

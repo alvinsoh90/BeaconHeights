@@ -202,11 +202,11 @@ public class FriendshipDAO {
             friendList = (ArrayList<Friendship>) q.list();
             
             /** Uncomment when we need to iterate twice through **/
-//            Query q2 = session.createQuery("FROM Friendship AS f JOIN FETCH f.userByUserIdOne JOIN FETCH f.userByUserIdTwo WHERE f.userByUserIdTwo = :id AND f.userByUserIdOne.userName LIKE :name ORDER BY f.date DESC");
-//            q2.setInteger("id", userId);
-//            q2.setString("name", "%"+name+"%");
-//            
-//            friendList.addAll(q2.list());
+            Query q2 = session.createQuery("FROM Friendship AS f JOIN FETCH f.userByUserIdOne JOIN FETCH f.userByUserIdTwo WHERE f.userByUserIdTwo = :id AND f.userByUserIdOne.userName LIKE :name ORDER BY f.date DESC");
+            q2.setInteger("id", userId);
+            q2.setString("name", "%"+name+"%");
+            
+            friendList.addAll(q2.list());
             
             tx.commit();
         } catch (Exception e) {

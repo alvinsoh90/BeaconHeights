@@ -172,6 +172,8 @@ public class RuleController {
                 //if the end of the booking falls between the start of the closed time and end of it
             } else if (closeRule.getStartDate().before(endBookingTime) && closeRule.getEndDate().after(endBookingTime)) {
                 closeRuleErrors.add("Sorry, the facility is closed on that day.");
+            } else if (closeRule.getStartDate().after(startBookingTime) && closeRule.getEndDate().before(endBookingTime)) {
+                closeRuleErrors.add("Sorry, the facility is closed on that day.");
             }
         }
 
