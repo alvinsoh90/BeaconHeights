@@ -185,12 +185,12 @@
                 $("#post-" + postId + " .commentArea .ajaxSpinnerSmall").show();
                 
                 var dat = new Object();
-                dat.postId = postId;
+                dat.eventId = postId;
                 
                 //post comment
                 $.ajax({
                     type: "POST",
-                    url: "/json/community/getCommentsForPost.jsp",
+                    url: "/json/community/getEventCommentsForEvent.jsp",
                     data: dat,
                     success: function(data, textStatus, xhr) {
                         console.log(data.comments);

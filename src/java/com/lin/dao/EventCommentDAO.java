@@ -85,6 +85,24 @@ public class EventCommentDAO {
 
         return list;
     }
+    
+    public ArrayList<EventComment> retrieveCommentsForPost(int eId) {
+        openSession();
+        ArrayList<EventComment> commentList = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from EventComment as c join fetch c.user where c.event.id = :id");
+            q.setInteger("id", eId);
+            
+            commentList = (ArrayList<EventComment>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return commentList;
+    }
+    
 
     public boolean deleteEventComment(int id) {
         openSession();

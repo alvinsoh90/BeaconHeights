@@ -40,7 +40,9 @@
         <link rel="stylesheet" href="/css/token-input.css" type="text/css" />
         <link rel="stylesheet" href="/css/token-input-facebook.css" type="text/css" />
         <link rel="stylesheet" href="/css/tipsy.css" type="text/css" />
-
+        <script src="../js/jquery.validate.js"></script>
+        <script src="../js/jquery.validate.bootstrap.js"></script>                
+        <script src="./js/bootstrap.js"></script>
 
         <script>
             var successStatus = "${SUCCESS}";
@@ -573,9 +575,5 @@
 </script>
 
 
-
-<script src="../js/jquery.validate.js"></script>
-<script src="../js/jquery.validate.bootstrap.js"></script>                
-<script src="./js/bootstrap.js"></script>
 </body>
 </html>
