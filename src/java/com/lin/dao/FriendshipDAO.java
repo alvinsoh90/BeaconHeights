@@ -92,7 +92,38 @@ public class FriendshipDAO {
             return false;
         }
     }
-
+    
+    public boolean deleteFriendship(int fid) {
+        openSession();
+        Transaction tx = null;
+        int rowCount = 0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from Friendship where id =:id";
+            Query query = session.createQuery(hql);
+            query.setString("id", fid + "");
+            rowCount = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        System.out.println("Rows affected: " + rowCount);
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public Friendship getFriendship(int id){
+        openSession();
+        return (Friendship)session.get(Friendship.class, id);
+    }
+    
     public Friendship getFriendship(User userOne, User userTwo) {
         openSession();
         
@@ -165,6 +196,26 @@ public class FriendshipDAO {
             }
         }
         return f;
+    }
+    
+    public boolean acceptFriendship(int fid){
+        openSession();
+        Transaction tx = null;
+        Friendship f = null;
+        try {
+            tx = session.beginTransaction();
+            f = (Friendship) session.get(Friendship.class, fid);
+            f.setHasAccepted(true);
+            
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return false;
+        }
     }
     
     public ArrayList<User> getAllFriendsByUser(int userId){
