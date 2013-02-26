@@ -84,6 +84,7 @@ public class AddFriendActionBean implements ActionBean {
         }
     }
 
+    
     public boolean isPending(String userString, String friendString){
         FriendshipController friendshipController = new FriendshipController();
         FriendshipDAO fDAO = new FriendshipDAO();
@@ -94,6 +95,39 @@ public class AddFriendActionBean implements ActionBean {
         User friend = uDAO.getUser(friendParseID);
 
         if (friendshipController.isPending(user, friend)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    
+    public boolean isPendingRequester(String userString, String friendString){
+        FriendshipController friendshipController = new FriendshipController();
+        FriendshipDAO fDAO = new FriendshipDAO();
+        int userParseID = Integer.parseInt(userString);
+        int friendParseID = Integer.parseInt(friendString);
+        UserDAO uDAO = new UserDAO();
+        User user = uDAO.getUser(userParseID);
+        User friend = uDAO.getUser(friendParseID);
+
+        if (friendshipController.isPendingRequest(user, friend)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isPendingReceiver(String userString, String friendString){
+        FriendshipController friendshipController = new FriendshipController();
+        FriendshipDAO fDAO = new FriendshipDAO();
+        int userParseID = Integer.parseInt(userString);
+        int friendParseID = Integer.parseInt(friendString);
+        UserDAO uDAO = new UserDAO();
+        User user = uDAO.getUser(userParseID);
+        User friend = uDAO.getUser(friendParseID);
+
+        if (friendshipController.isPendingAccept(user, friend)) {
             return true;
         } else {
             return false;
