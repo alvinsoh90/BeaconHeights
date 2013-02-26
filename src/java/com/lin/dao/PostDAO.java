@@ -64,6 +64,7 @@ public class PostDAO {
     
     public ArrayList<Post> retrievePostsWithLimit(int limit) {
         openSession();
+        ArrayList<Post> postList = new ArrayList<Post>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Post as p join fetch p.user order by p.postId DESC")
@@ -179,14 +180,22 @@ public class PostDAO {
     }
     
     public PostLike likePost(PostLike postLike){
+        unlikePost(postLike.getUser().getUserId(),postLike.getPost().getPostId());
         openSession();
         Transaction tx = null;
         
         try {
             tx = session.beginTransaction();
+//            Query q = session.createQuery("from PostLike as pl where pl.user.userId = :uid and pl.post.id = :pid");
+//            q.setInteger("uid", postLike.getUser().getUserId());
+//            q.setInteger("pid", postLike.getPost().getPostId());
+//            PostLike pl = (PostLike)q.uniqueResult();
+//            
+//            if(pl==null){
+//                session.save("PostLike", postLike);
+//            }
+//            
             session.save("PostLike", postLike);
-            session.flush();
-            
             tx.commit();
             return postLike;
             
@@ -291,6 +300,7 @@ public class PostDAO {
     }
 
     public boolean flagPostInappropriate(PostInappropriate pi) {
+        unFlagPostInappropriate(pi.getUser().getUserId(), pi.getPost().getPostId());
         openSession();
         Transaction tx = null;
         

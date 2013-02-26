@@ -28,6 +28,7 @@ public class Post  implements java.io.Serializable {
      private String title;
      private String category;
      private boolean isDeleted;
+     private int receivingWallId;
      private Set postInappropriates = new HashSet(0);
      private Set postLikes = new HashSet(0);
      private Set notifications = new HashSet(0);
@@ -57,7 +58,7 @@ public class Post  implements java.io.Serializable {
         this.isDeleted = isDeleted;
     }
     
-    // constr for making a new post
+    // constr for making a new post on community wall
     public Post(User user, String message, Date date, String title, Type category){
        this.user = user;
        this.message = message;
@@ -67,9 +68,23 @@ public class Post  implements java.io.Serializable {
        this.event = null;
        this.comments = null;
        this.isDeleted = false;
+       this.receivingWallId = -1;
     }
     
-    public Post(Event event, User user, String message, Date date, String title, String category, boolean isDeleted, Set postInappropriates, Set postLikes, Set notifications, Set comments) {
+    // constr for making a new post on user's profile wall
+    public Post(User user, String message, Date date, String title, Type category, int receivingWallId){
+       this.user = user;
+       this.message = message;
+       this.date = date;
+       this.title = title;
+       this.category = getCategoryStringFromType(category);
+       this.event = null;
+       this.comments = null;
+       this.isDeleted = false;
+       this.receivingWallId = receivingWallId;
+    }
+    
+    public Post(Event event, User user, String message, Date date, String title, String category, boolean isDeleted, int receivingWallId, Set postInappropriates, Set postLikes, Set notifications, Set comments) {
        this.event = event;
        this.user = user;
        this.message = message;
@@ -81,6 +96,15 @@ public class Post  implements java.io.Serializable {
        this.postLikes = postLikes;
        this.notifications = notifications;
        this.comments = comments;
+       this.receivingWallId = receivingWallId;
+    }
+
+    public int getReceivingWallId() {
+        return receivingWallId;
+    }
+
+    public void setReceivingWallId(int receivingWallId) {
+        this.receivingWallId = receivingWallId;
     }
    
     public Integer getPostId() {

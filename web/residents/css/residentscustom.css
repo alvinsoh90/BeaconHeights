@@ -1,3 +1,6 @@
+.disabled{
+    pointer-events:none;
+}
 .bigDropdown{
     font-size: 21px;
     height: 47px;
@@ -511,18 +514,39 @@ h1{
 .event_description {width:auto;}
 
 .float-time{
-    float:left;
+    
 }
 
 .newSpan{
-    
    display: inline;
     width:73%;
     margin-left:2.564102564%;
     background: #FFFFFF;
-
 }
 
-.eventBasic{
-    width:50%;
+/** Event Wall Styles **/
+.pushBottom{
+    margin-bottom:10px;
 }
+.eventBasic .control-group{
+    margin-bottom: 10px;
+}
+.postEvent .wide{
+    width:263px;
+}
+input.shorty{
+    width:117px;
+}
+select.shorty{
+    width: 135px;
+}
+/**.tagFriends ul{
+    width: 200px;
+    margin-left: 58px;
+    display: inline-block;
+}
+.tagFriends .float_l{
+    position: relative;
+    top: .5em;
+    float:left;
+}**/

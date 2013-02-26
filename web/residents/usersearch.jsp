@@ -80,77 +80,43 @@
 
 
     <body>
-
-
-        <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
-            <script>
+        <div class="container">
+            <c:forEach items="${manageUsersActionBean.userList}" var="user" varStatus="loop">
+                <script>
                                 
-                var user = new Object();
-                user.id = '${user.userId}';
-                user.username = '${user.userName}';
-                user.firstName = '${user.firstname}';
-                user.lastName = '${user.lastname}';
-                user.roleName = '${user.role.name}';
-                user.email = '${user.email}';
-                user.mobileNo= '${user.mobileNo}';
-                user.blockName = '${user.block.blockName}';
-                user.level = '${user.level}';
-                user.unit = '${user.unit}';
-                user.vehicleNumberPlate = '${user.vehicleNumberPlate}';
-                user.vehicleType = '${user.vehicleType}';
-                userList.push(user);
-            </script>
-        </c:forEach>
+                    var user = new Object();
+                    user.id = '${user.userId}';
+                    user.username = '${user.userName}';
+                    user.firstName = '${user.firstname}';
+                    user.lastName = '${user.lastname}';
+                    user.roleName = '${user.role.name}';
+                    user.email = '${user.email}';
+                    user.mobileNo= '${user.mobileNo}';
+                    user.blockName = '${user.block.blockName}';
+                    user.level = '${user.level}';
+                    user.unit = '${user.unit}';
+                    user.vehicleNumberPlate = '${user.vehicleNumberPlate}';
+                    user.vehicleType = '${user.vehicleType}';
+                    userList.push(user);
+                </script>
+            </c:forEach>
 
             <br></br>
 
-        <div class="container-fluid">
+            <div class="container-fluid">
 
-            <div class="page-header">
-                <h1>Search <small>Users</small></h1>
+                <div class="page-header">
+                    <h1>Search <small>Users</small></h1>
+                </div>
+
+                <input id="searchterm" class="input-medium search-query" value="Search for friends via first name, last name, or email" onfocus="this.value = this.value=='Search for friends via first name, last name, or email'?'':this.value;" onblur="this.value = this.value==''?'Search for friends via first name, last name, or email':this.value;" style="width:350px;"/>
+
+
+                <button id="seach" type="submit" class="btn"><i class="icon-search"></i> Search</button> 
+                <br></br>
+
+
             </div>
-            
-            <input id="searchterm" class="input-medium search-query" value="Search for friends via first name, last name, or email" onfocus="this.value = this.value=='Search for friends via first name, last name, or email'?'':this.value;" onblur="this.value = this.value==''?'Search for friends via first name, last name, or email':this.value;" style="width:350px;"/>
-                   
-                 
-            <button id="seach" type="submit" class="btn"><i class="icon-search"></i> Search</button> 
-            <br></br>
-                    
-            <script>
-                $("#searchterm").keyup(function(e){
-                    var q = $("#searchterm").val().toLowerCase();
-                                      
-                    var tempArr = [];
-                          
-                    for(var i=0;i<userList.length;i++){
-                        console.log(name);
-                        var fName = userList[i].firstName.toLowerCase();
-                        var lName = userList[i].lastName.toLowerCase()
-                        var userEmail = userList[i].email;
-                        var fullname = fName + " " + lName;
-                        if(!q==''){
-                            
-                                
-                                if(fName.indexOf(q) !== -1){
-                                    tempArr.push(userList[i]);
-                                } else if (lName.indexOf(q)!== -1){
-                                    tempArr.push(userList[i]);
-                                } else if (userEmail.indexOf(q)!== -1){
-                                    tempArr.push(userList[i]);
-                                } else if (fullname.indexOf(q)!== -1){
-                                    tempArr.push(userList[i]);
-                                }
-                                
-                                
-                        }
-                            
-                    }
-                    
-                    showUsers(tempArr);
-  
-                });
-            </script>
-
             <!-- table to display user info -->
             <table id="userTable" class="table table-striped table-bordered table-condensed">
 
@@ -176,6 +142,44 @@
     </div>
 
 
+
+    <script>
+        $("#searchterm").keyup(function(e){
+            var q = $("#searchterm").val().toLowerCase();
+                                      
+            var tempArr = [];
+                          
+            for(var i=0;i<userList.length;i++){
+                console.log(name);
+                var fName = userList[i].firstName.toLowerCase();
+                var lName = userList[i].lastName.toLowerCase()
+                var userEmail = userList[i].email;
+                var fullname = fName + " " + lName;
+                if(!q==''){
+                            
+                                
+                    if(fName.indexOf(q) !== -1){
+                        tempArr.push(userList[i]);
+                    } else if (lName.indexOf(q)!== -1){
+                        tempArr.push(userList[i]);
+                    } else if (userEmail.indexOf(q)!== -1){
+                        tempArr.push(userList[i]);
+                    } else if (fullname.indexOf(q)!== -1){
+                        tempArr.push(userList[i]);
+                    }
+                                
+                                
+                }
+                            
+            }
+                    
+            showUsers(tempArr);
+  
+        });
+    </script>
+
+
+
     <script>
         $(document).ready(function() {
             $('.dropdown-menu li a').hover(
@@ -193,8 +197,8 @@
         });
     </script>
 
-  
-<%@include file="/footer.jsp"%>
+
+    <%@include file="/footer.jsp"%>
     <script src="./js/excanvas.min.js"></script>
     <script src="./js/jquery.flot.js"></script>
     <script src="./js/jquery.flot.pie.js"></script>

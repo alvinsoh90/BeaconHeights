@@ -29,6 +29,9 @@
         <property name="isDeleted" type="boolean">
             <column name="is_deleted" not-null="true" />
         </property>
+        <property name="receivingWallId" type="java.lang.Integer">
+            <column name="receiving_wall_id" />
+        </property>
         <set name="postInappropriates" inverse="true">
             <key>
                 <column name="post_id" not-null="true" />

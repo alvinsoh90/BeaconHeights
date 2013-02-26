@@ -324,6 +324,74 @@
             }
             
         </script>
+        
+        <script>
+    // ** Handle friend tagging ** //
+    
+    var start=/@/ig; // @ Match
+    var word=/@(\w+)/ig; //@abc Match
+    
+    var latestFriendList;
+    
+    function tagFriendAndReplaceByIdx(idx){
+        var content = $("#postContent").val();
+
+        var symbol = content.match(start); //Content Matching @
+        var name = content.match(word);
+        
+        console.log("old content: " + content + ".. looking to replace == " + name);
+        
+        content = content.replace(name, "<div><a href='./profile.jsp?profileid='>"
+            + latestFriendList[idx].name + "</div></a>");
+        
+        $("#postContent").append(content);
+        console.log("new content: " + content);
+    }
+    
+
+    //Watch for @
+    $("#postContent").on('keyup',function(){
+        var content = $("#postContent").val();
+        
+        var symbol = content.match(start); //Content Matching @
+        var name = content.match(word);
+        
+        
+        // if @name is found
+        if(symbol != null){ 
+            //make ajax call
+            console.log("make ajax");
+            
+            var dat = new Object();
+                dat.userId = '${sessionScope.user.userId}';
+                console.log(name[0]);
+                dat.searchString = name[0].substring(1);                   
+        } 
+    });
+    
+    var taggedFriendsList = [];
+    
+    $(document).ready(function() {
+            $("#tagFriendsBox").tokenInput("/json/community/getUserTaggableFriends.jsp", {
+                theme: "facebook",
+                queryParam:"searchString",
+                jsonContainer:"friendList",
+                searchingText:"Searching friends...",
+                hintText:"Enter a friend's name",
+                resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" },
+                onAdd: function(item){
+                    taggedFriendsList.push(item.userId);
+                    $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
+                },
+                onDelete: function(item){
+                    var idx = taggedFriendsList.indexOf(item.userId);
+                    if(idx!=-1) taggedFriendsList.splice(idx,1);
+                    $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
+                }
+            });
+        });
+    
+</script>
 
     </head>
     <body>
@@ -363,12 +431,6 @@
                             </stripes:form>
                         </div>
                     </div>
-                    
-                    <div id="taggableUserListBox" class="hide">
-                            <!--<div>James Yuen</div>
-                            <div>Luo Jia</div>
-                            <div>Peh Xiang Yang</div> -->
-                    </div>
                 </div>
 
             </div>
@@ -380,7 +442,7 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
-                            <div class="name">${post.user.userName}</div>
+                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.userName}</div></a>
                             <div class="timestamp">${post.timeSincePost}</div>
                         </div>
                         <div class="postIcon wallicon ${post.category}">
@@ -389,7 +451,7 @@
                 </div>
                 <div class="post span6">
                     <div class="baseContent">
-                        <div class="title"><b>${post.user.userName}</b> ${post.title}</div>
+                        <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.userName}</b></a> ${post.title}</div>
                         <div class="content">"${post.message}"</div>
                         <div class="taggedUsers">
                             
@@ -508,107 +570,7 @@
     });       
 </script>
 
-<script>
-    // ** Handle friend tagging ** //
-    
-    var start=/@/ig; // @ Match
-    var word=/@(\w+)/ig; //@abc Match
-    
-    var latestFriendList;
-    
-    function tagFriendAndReplaceByIdx(idx){
-        var content = $("#postContent").val();
 
-        var symbol = content.match(start); //Content Matching @
-        var name = content.match(word);
-        
-        console.log("old content: " + content + ".. looking to replace == " + name);
-        
-        content = content.replace(name, "<div><a href='./profile.jsp?profileid='>"
-            + latestFriendList[idx].name + "</div></a>");
-        
-        $("#postContent").append(content);
-        console.log("new content: " + content);
-    }
-    
-
-    //Watch for @
-    $("#postContent").on('keyup',function(){
-        var content = $("#postContent").val();
-        
-        var symbol = content.match(start); //Content Matching @
-        var name = content.match(word);
-        
-        
-        // if @name is found
-        if(symbol != null){ 
-            //make ajax call
-            console.log("make ajax");
-            
-            var dat = new Object();
-                dat.userId = '${sessionScope.user.userId}';
-                console.log(name[0]);
-                dat.searchString = name[0].substring(1);
-            
-//            $.ajax({
-//                    type: "POST",
-//                    url: "/json/community/getUserTaggableFriends.jsp",
-//                    data: dat,
-//                    success: function(data, textStatus, xhr) {
-//                        console.log(data);
-//                        
-//                        //get the data
-//                        var friendList = data.friendList;
-//                        latestFriendList = friendList;
-//                        
-//                        //show list of users #taggableUserListBox
-//                        $("#taggableUserListBox").empty();
-//                        
-//                        for(var i = 0 ; i < friendList.length ; i++){
-//                            $("#taggableUserListBox").append("<div onclick='tagFriendAndReplaceByIdx(" + i + ")'> "
-//                                 + "<img src='/uploads/profile_pic/" + friendList[i].profilePic + "' class='profilePic float_l' />"
-//                                 + "<a href='./profile.jsp?profileid="+ friendList[i].userId +"'>" + friendList[i].name + "</a>"
-//                                 + " </div>");
-//                            $("#taggableUserListBox").show();
-//                        }
-//                        
-//                        //if nothing found, hide box
-//                        if(friendList.length == 0 || friendList == undefined ){
-//                            $("#taggableUserListBox").hide();
-//                        }
-//                        
-//                        console.log(friendList.length);
-//                    },
-//                    complete: function(xhr, textStatus) {
-//                        
-//                    } 
-//                });            
-        } 
-    });
-    
-    var taggedFriendsList = [];
-    
-    $(document).ready(function() {
-            $("#tagFriendsBox").tokenInput("/json/community/getUserTaggableFriends.jsp", {
-                theme: "facebook",
-                queryParam:"searchString",
-                jsonContainer:"friendList",
-                searchingText:"Searching friends...",
-                hintText:"Enter a friend's name",
-                resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" },
-                onAdd: function(item){
-                    taggedFriendsList.push(item.userId);
-                    $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
-                },
-                onDelete: function(item){
-                    var idx = taggedFriendsList.indexOf(item.userId);
-                    if(idx!=-1) taggedFriendsList.splice(idx,1);
-                    $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
-                }
-            });
-        });
-    
-</script>
 
 <script src="../js/jquery.validate.js"></script>
 <script src="../js/jquery.validate.bootstrap.js"></script>                
