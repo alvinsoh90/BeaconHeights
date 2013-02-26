@@ -124,7 +124,8 @@ public class FacilityType  implements java.io.Serializable {
         return this.advanceRules;
     }
     
-    public ArrayList<OpenRule> getSortedOpenRules(){
+    public ArrayList<OpenRule> getSortedOpenRules(){ 
+        //starts with sunday and ends with sat
         ArrayList<OpenRule> l = new ArrayList<OpenRule>();
         l.addAll(getOpenRules());
         Collections.sort(l,new SortOpenRuleByDayOfWeekComparator());

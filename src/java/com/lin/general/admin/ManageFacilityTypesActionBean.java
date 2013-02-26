@@ -387,8 +387,85 @@ public class ManageFacilityTypesActionBean implements ActionBean {
         }
         return new RedirectResolution("/admin/manage-facilities.jsp?createFTsuccess=" + success
                 + "&createFTmsg=" + result);
-
-
-
+    }
+    
+    public String formatOpenRuleForDisplay(ArrayList<OpenRule> ruleList){
+        String openRule ="";
+        ArrayList<String> days = new ArrayList<String>();
+        days.add("Sunday");
+        days.add("Monday");
+        days.add("Tuesday");
+        days.add("Wednesday");
+        days.add("Thursday");
+        days.add("Friday");
+        days.add("Saturday");
+        
+        for(String day : days){
+            int startTimeH = 24;
+            int startTimeM = 24;
+            int endTimeH = 0;
+            int endTimeM = 0;
+            int count = 0;
+            for(OpenRule r : ruleList){
+                if(r.getDay().equals(day)){
+                    count++;
+                    if(r.getStartTime().getHours() < startTimeH){
+                        startTimeH = r.getStartTime().getHours();
+                        startTimeM = r.getStartTime().getMinutes();
+                    }
+                    if(r.getStartTime().getHours() == startTimeH){
+                        if(r.getStartTime().getMinutes() < startTimeM){
+                        startTimeH = r.getStartTime().getHours();
+                        startTimeM = r.getStartTime().getMinutes();
+                        }
+                    }    
+                    if(r.getEndTime().getHours() > endTimeH){
+                        endTimeH = r.getEndTime().getHours();
+                        endTimeM = r.getEndTime().getMinutes();
+                    }
+                    if(r.getEndTime().getHours() == endTimeH){
+                        if(r.getEndTime().getMinutes() > endTimeM){
+                            endTimeH = r.getEndTime().getHours();
+                            endTimeM = r.getEndTime().getMinutes();
+                        }
+                    }
+                }
+            }
+            
+            String startTimeHours = "";
+            String startTimeMin = "";
+            if( startTimeH < 10){
+                startTimeHours = "0" + startTimeH;
+            }else{
+                startTimeHours = "" + startTimeH;
+            }
+            
+            if( startTimeM < 10){
+                startTimeMin = "0" + startTimeM;
+            }else{
+                startTimeMin = "" + startTimeM;
+            }
+            
+            String endTimeHours = "";
+            String endTimeMin = "";
+            if( endTimeH < 10){
+                endTimeHours = "0" + endTimeH;
+            }else{
+                endTimeHours = "" + endTimeH;
+            }
+            if( endTimeM < 10){
+                endTimeMin = "0" + endTimeM;
+            }else{
+                endTimeMin = "" + endTimeM;
+            }
+            
+            openRule += day + ": "+ String.valueOf(count) + " slot";
+            if(count>1){
+                openRule += "s";
+            }
+            openRule += " between " + startTimeHours + ":" + startTimeMin + "-" + endTimeHours + ":" + endTimeMin + "</br>";
+        }
+            
+        return openRule;
     }
 }
