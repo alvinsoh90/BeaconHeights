@@ -427,4 +427,25 @@ public class EventDAO {
         
         return eventInviteList;
     }
+    
+    public ArrayList<EventInvite> getAttendingEventInvitesByEventId(int eventId) {
+        openSession();
+        ArrayList<EventInvite> eventInviteList = new ArrayList<EventInvite>();
+        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from EventInvite as ei "
+                    + "where ei.event.id = :id "
+                    + "and ei.inviteStatus = 'ATTENDING'");
+            
+            q.setInteger("id", eventId);
+            eventInviteList = (ArrayList<EventInvite>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return eventInviteList;
+    }
 }

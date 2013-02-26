@@ -540,6 +540,10 @@ input.shorty{
 select.shorty{
     width: 135px;
 }
+.bigFormSubmit{
+    padding: 6px 40px;
+    margin-left: 28%;
+}
 .gap{
     padding:8px;
 }

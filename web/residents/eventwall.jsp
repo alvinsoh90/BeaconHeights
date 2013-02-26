@@ -12,6 +12,7 @@
         <title>Event Wall | Beacon Heights</title>
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="manageEventBean" scope="page"
                      class="com.lin.resident.ManageEventBean"/>
@@ -352,14 +353,16 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic" />
-                            <div class="name">${user.userName}</div>
+                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${user.userName}</div></a>
                         </div>
-                        <div class="postIcon wallicon SHOUTOUT">
-                            <div class="timeline"/></div>
+                        <div class="postIcon wallicon DATE">
+                            <div class="timeline"/></div>                           
                     </div>
+                    <c:set var="now" value="<%=new java.util.Date()%>" />
+                    <div class="wallDate"><fmt:formatDate pattern="dd MMM" value="${now}" /></div>
                 </div>
                 <div class="postEvent well well-small span5">
-                       
+                    <h2>Create an Event</h2>
                         <div class="eventBasic">
                         <stripes:form id="postEventForm" beanclass="com.lin.resident.ManageEventBean" focus="eventname" class ="form-horizontal">
                             <div class="control-group ${errorStyle}">
@@ -426,7 +429,9 @@
                         <div class="pushBottom">Public Event <stripes:checkbox name="isPublicEvent" checked="true"/></div>
 
                             <stripes:hidden name="posterId" id="posterID" value='${sessionScope.user.userId}'/> 
-                            <stripes:submit id="submitPost" class="float_l btn btn-peace-1" name="addEvent" value="Create Event"/> 
+                            <div class="centerText">
+                                <stripes:submit id="submitPost" class="float_l btn btn-peace-1 bigFormSubmit" name="addEvent" value="Create Event"/> 
+                            </div>
                         </stripes:form>
                     
                 </div>
@@ -467,13 +472,21 @@
                         </div>
                             
                             <c:set var="taggedUsers" value="${manageEventBean.getInvitedUsers(post.id,-1)}"/>
+                            <c:set var="attendingUsers" value="${manageEventBean.getAttendingUsers(post.id,-1)}"/>
                             
                             <c:if test="${not empty taggedUsers}">
                                 <div class="taggedUsers">
-                                Invited:
-                                <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
-                                    <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
-                                </c:forEach>
+                                    ${fn:length(taggedUsers)} Invited:
+                                    <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
+                                        <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                        </c:forEach>
+                                    <span class="gap"></span>
+                                    <c:if test="${not empty attendingUsers}">       
+                                        ${fn:length(attendingUsers)} Coming:
+                                        <c:forEach items="${attendingUsers}" var="tagged" varStatus="status">
+                                            <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                            </c:forEach>    
+                                    </c:if>
                                 </div>      
                             </c:if>
     
