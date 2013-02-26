@@ -92,7 +92,38 @@ public class FriendshipDAO {
             return false;
         }
     }
-
+    
+    public boolean deleteFriendship(int fid) {
+        openSession();
+        Transaction tx = null;
+        int rowCount = 0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from Friendship where id =:id";
+            Query query = session.createQuery(hql);
+            query.setString("id", fid + "");
+            rowCount = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        System.out.println("Rows affected: " + rowCount);
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public Friendship getFriendship(int id){
+        openSession();
+        return (Friendship)session.get(Friendship.class, id);
+    }
+    
     public Friendship getFriendship(User userOne, User userTwo) {
         openSession();
         
@@ -167,6 +198,26 @@ public class FriendshipDAO {
         return f;
     }
     
+    public boolean acceptFriendship(int fid){
+        openSession();
+        Transaction tx = null;
+        Friendship f = null;
+        try {
+            tx = session.beginTransaction();
+            f = (Friendship) session.get(Friendship.class, fid);
+            f.setHasAccepted(true);
+            
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return false;
+        }
+    }
+    
     public ArrayList<User> getAllFriendsByUser(int userId){
         openSession();
         ArrayList<User> friendList = new ArrayList<User>(); 
@@ -193,6 +244,7 @@ public class FriendshipDAO {
                     + "JOIN FETCH f.userByUserIdOne "
                     + "JOIN FETCH f.userByUserIdTwo "
                     + "WHERE f.userByUserIdOne = :id "
+                    + "AND f.hasAccepted = true "
                     + "AND CONCAT(f.userByUserIdTwo.firstname,' ',f.userByUserIdTwo.lastname) LIKE :name "
                     + "ORDER BY f.date DESC");
             q.setInteger("id", userId);
@@ -202,7 +254,7 @@ public class FriendshipDAO {
             friendList = (ArrayList<Friendship>) q.list();
             
             /** Uncomment when we need to iterate twice through **/
-            Query q2 = session.createQuery("FROM Friendship AS f JOIN FETCH f.userByUserIdOne JOIN FETCH f.userByUserIdTwo WHERE f.userByUserIdTwo = :id AND f.userByUserIdOne.userName LIKE :name ORDER BY f.date DESC");
+            Query q2 = session.createQuery("FROM Friendship AS f JOIN FETCH f.userByUserIdOne JOIN FETCH f.userByUserIdTwo WHERE f.userByUserIdTwo = :id AND f.hasAccepted = true AND f.userByUserIdOne.userName LIKE :name ORDER BY f.date DESC");
             q2.setInteger("id", userId);
             q2.setString("name", "%"+name+"%");
             
