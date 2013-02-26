@@ -6,6 +6,8 @@
 
 <%@page import="com.lin.entities.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="notificationBean" scope="page"
+             class="com.lin.resident.ManageNotificationBean"/>
 <head>
     <link href="./css/adminia.css" rel="stylesheet"> 
     <link href="./css/adminia-responsive.css" rel="stylesheet"> 
@@ -32,11 +34,11 @@
 
                 <li class="dropdown">
 
-                    <a href="#community" data-toggle="dropdown" class="dropdown-toggle ">
+                    <a href="/residents/communitywall.jsp" data-toggle="dropdown" class="dropdown-toggle ">
                         Community
                         <b class="caret"></b>							
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu hoverShow">
                         <li>
                             <a href="/residents/communitywall.jsp"> Community Wall</a>
                             <a href="/residents/usersearch.jsp"> Search Friends</a>
@@ -44,16 +46,16 @@
                     </ul>
                 </li>
             </ul>
-            
+
             <ul class="nav pull-left">
 
                 <li class="dropdown">
 
-                    <a data-toggle="dropdown" class="dropdown-toggle ">
+                    <a href="/residents/eventwall.jsp" data-toggle="dropdown" class="dropdown-toggle ">
                         Events
                         <b class="caret"></b>							
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu hoverShow">
                         <li>
                             <a href="/residents/eventwall.jsp"> Event Wall</a>
                         </li>
@@ -64,11 +66,11 @@
 
                 <li class="dropdown">
 
-                    <a data-toggle="dropdown" class="dropdown-toggle ">
+                    <a data-target ="#" href="/residents/index.jsp" data-toggle="dropdown" class="dropdown-toggle ">
                         Facility Booking
                         <b class="caret"></b>							
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu hoverShow">
                         <li>
                             <a href="/residents/index.jsp"> Book Facilities</a>
                         </li>
@@ -83,12 +85,12 @@
 
                 <li class="dropdown">
 
-                    <a data-toggle="dropdown" class="dropdown-toggle ">
+                    <a href="#services" data-toggle="dropdown" class="dropdown-toggle ">
                         Services
                         <b class="caret"></b>							
                     </a>
 
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu hoverShow">
                         <li>
                             <a href="/residents/viewamenities.jsp"> View Amenities</a>
                         </li>
@@ -125,11 +127,11 @@
                             <b class="caret"></b>							
                         </a>
 
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu hoverShow">
                             <!--<li>
                                 <a href="./account.html"><i class="icon-user"></i> Account Setting  </a>
                             </li>
-
+                                
                             <li>
                                 <a href="./change_password.html"><i class="icon-lock"></i> Change Password</a>
                             </li>-->
@@ -153,16 +155,37 @@
                 </li>
 
                 </ul>
-            <ul class="nav pull-right">
+                            
+                <ul class="nav pull-right">
+                    <li class="divider-vertical"></li>                    
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle " href="#">
+                            <span class="label label-important notificationCount">40</span>
+                            <i class="icon-download-alt larger"></i>                            
+                            <b class="caret"></b>							
+                        </a>
 
-                <li class="dropdown">
+                        <ul class="dropdown-menu hoverShow">
+                            <li><div>asdasdsadada <a href="#">blablaa</a></div></li>
+                            <li><div>asdasdsadada <a href="#">blablaa</a></div></li>
+                            <li><div>asdasdsadada <a href="#">blablaa</a></div></li>
+                            <li><div>asdasdsadada <a href="#">blablaa</a></div></li>
+                           
+                        </ul>
+                     </li>
+                </ul>            
+                            
+                <ul class="nav pull-right">
 
-                    <a href="/residents/myenquiries.jsp"> <i>Enquiries and Feedback</i></a>
-                    </a>
-                    <ul class="dropdown-menu">
-                    </ul>
-                </li>
-            </ul>
+                    <li class="dropdown">
+
+                        <a href="/residents/myenquiries.jsp"> <i>Enquiries and Feedback</i></a>
+                        </a>
+                        <ul class="dropdown-menu">
+                        </ul>
+                    </li>
+                </ul>
+                            
             </div> <!-- /nav-collapse -->
 
         </div> <!-- /container -->

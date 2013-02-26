@@ -562,13 +562,15 @@ select.shorty{
     font-size: 20px;
     position: relative;
 }
-/**.tagFriends ul{
-    width: 200px;
-    margin-left: 58px;
-    display: inline-block;
+
+ul.nav li.dropdown:hover > ul.dropdown-menu.hoverShow{
+    display: block;    
 }
-.tagFriends .float_l{
+i.larger{
+    font-size: 16px;
+    height: 12px;
+}
+.notificationCount{
     position: relative;
-    top: .5em;
-    float:left;
-}**/
+    top: 1px;
+}

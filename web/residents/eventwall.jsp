@@ -16,6 +16,8 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="manageEventBean" scope="page"
                      class="com.lin.resident.ManageEventBean"/>
+        <jsp:useBean id="manageNotificationBean" scope="page"
+                     class="com.lin.resident.ManageNotificationBean"/>
         <%@include file="/protect.jsp"%>
 
 
@@ -35,19 +37,17 @@
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="/js/jquery-1.9.1.min.js"></script>
-
         <script src="/js/bootstrap-2.3.0.js"></script>
+        <link href="../css/pickadate.02.classic.css" rel="stylesheet" />
+        <script src="../js/pickadate.min.js"></script>
+          <script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
+         <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
 
         <link href="/css/custom/lin.css" rel="stylesheet" />
-        <link href="../css/pickadate.02.classic.css" rel="stylesheet" />
-        <script src="../js/pickadate.js"></script>
-        <script src="../js/pickadate.legacy.min.js"></script>
-        <script src="../js/pickadate.min.js"></script>
-          <script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
-         <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
+        
         <link rel="stylesheet" href="/css/token-input.css" type="text/css" />
         <link rel="stylesheet" href="/css/token-input-facebook.css" type="text/css" />
         <link rel="stylesheet" href="/css/tipsy.css" type="text/css" />

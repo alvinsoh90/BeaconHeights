@@ -271,6 +271,12 @@ public class ManageEventBean extends BaseActionBean{
                 }            
             }
             
+            //Create notifications if public event
+            if(isIsPublicEvent()){
+                ManageNotificationBean nBean = new ManageNotificationBean();
+                nBean.sendEventCreatedNotification( e , getContext().getUser());
+            }            
+            
             fs.put("SUCCESS","true");
         }
         else{

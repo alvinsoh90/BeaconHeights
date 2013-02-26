@@ -10,7 +10,7 @@ import java.util.Date;
 public class Notification  implements java.io.Serializable {
 
     public enum Type{
-        INVITATION,EVENTCOMMENT,POSTCOMMENT
+        EVENTCREATED,FRIENDREQUEST,JOINEDEVENT,EVENTCOMMENT,POSTCOMMENT,TAGGEDINPOST,EVENTINVITE
     }
 
      private Integer id;
@@ -42,15 +42,53 @@ public class Notification  implements java.io.Serializable {
        this.notificationEnumType = getTypeFromCategoryString(type);
     }
     
+    //Constr for EVENTCREATED,EVENTINVITE,EVENTCOMMENT,JOINEDEVENT  Notification
+    public Notification(User eventCreator, Event event, User receipient, Type t, Date d){
+       this.event = event;
+       this.userBySenderId = eventCreator;
+       this.userByReceiverId = receipient;
+       this.type = getCategoryStringFromType(t);
+       this.notificationEnumType = t;
+       this.timestamp = d;
+    }
+    //Constr for FRIENDREQUEST
+    public Notification(User joinedUser, User receipient, Type t, Date d){
+       this.userBySenderId = joinedUser;
+       this.userByReceiverId = receipient;
+       this.type = getCategoryStringFromType(t);
+       this.notificationEnumType = t;
+       this.timestamp = d;
+    }
+    //Constr for POSTCOMMENT, TAGGEDINPOST
+    public Notification(User commenter, User receipient, Post p, Type t, Date d){
+       this.userBySenderId = commenter;
+       this.userByReceiverId = receipient;
+       this.post = p;
+       this.type = getCategoryStringFromType(t);
+       this.notificationEnumType = t;
+       this.timestamp = d;
+    }
     
     private String getCategoryStringFromType(Type type){
         if(type == type.EVENTCOMMENT){
             return "EVENTCOMMENT";
         }
-        else if(type == type.INVITATION){
+        else if(type == type.EVENTINVITE){
             return "INVITATION";
         }
         else if(type == type.POSTCOMMENT){
+            return "POSTCOMMENT";
+        }
+        else if(type == type.EVENTCREATED){
+            return "POSTCOMMENT";
+        }
+        else if(type == type.FRIENDREQUEST){
+            return "POSTCOMMENT";
+        }
+        else if(type == type.JOINEDEVENT){
+            return "POSTCOMMENT";
+        }
+        else if(type == type.TAGGEDINPOST){
             return "POSTCOMMENT";
         }
         return null;
@@ -60,12 +98,24 @@ public class Notification  implements java.io.Serializable {
         if(category.equals("EVENTCOMMENT")){
             return Type.EVENTCOMMENT;
         }
-        else if(category.equals("INVITATION")){
-            return Type.INVITATION;
+        else if(category.equals("EVENTINVITE")){
+            return Type.EVENTINVITE;
         }
         else if (category.equals("POSTCOMMENT")){
             return Type.POSTCOMMENT;
-        }        
+        }
+        else if (category.equals("EVENTCREATED")){
+            return Type.EVENTCREATED;
+        }   
+        else if (category.equals("FRIENDREQUEST")){
+            return Type.FRIENDREQUEST;
+        }   
+        else if (category.equals("JOINEDEVENT")){
+            return Type.JOINEDEVENT;
+        } 
+        else if (category.equals("TAGGEDINPOST")){
+            return Type.TAGGEDINPOST;
+        }   
         return null;
     }
 
