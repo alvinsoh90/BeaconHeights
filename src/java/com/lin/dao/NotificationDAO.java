@@ -157,7 +157,7 @@ public class NotificationDAO {
             q.setString("eid", ""+n.getEvent().getId());
             q.setString("uid", ""+n.getUserByReceiverId().getUserId());
             EventInvite ei = (EventInvite) q.uniqueResult();
-            ei.setInviteStatus(ei.getTypeStringFromEnum(EventInvite.Type.ACCEPTED));
+            ei.setInviteStatus(EventInvite.Type.ACCEPTED);
             
             tx.commit();
             return true;
@@ -180,7 +180,7 @@ public class NotificationDAO {
             q.setString("eid", ""+n.getEvent().getId());
             q.setString("uid", ""+n.getUserByReceiverId().getUserId());
             EventInvite ei = (EventInvite) q.uniqueResult();
-            ei.setInviteStatus(ei.getTypeStringFromEnum(EventInvite.Type.REJECTED));
+            ei.setInviteStatus(EventInvite.Type.REJECTED);
             
             tx.commit();
             return true;
