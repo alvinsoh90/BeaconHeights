@@ -80,16 +80,16 @@ public class Notification  implements java.io.Serializable {
             return "POSTCOMMENT";
         }
         else if(type == type.EVENTCREATED){
-            return "POSTCOMMENT";
+            return "EVENTCREATED";
         }
         else if(type == type.FRIENDREQUEST){
-            return "POSTCOMMENT";
+            return "FRIENDREQUEST";
         }
         else if(type == type.JOINEDEVENT){
-            return "POSTCOMMENT";
+            return "JOINEDEVENT";
         }
         else if(type == type.TAGGEDINPOST){
-            return "POSTCOMMENT";
+            return "TAGGEDINPOST";
         }
         return null;
     }

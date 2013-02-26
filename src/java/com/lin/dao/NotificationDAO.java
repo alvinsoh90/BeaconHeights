@@ -216,9 +216,9 @@ public class NotificationDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("select distinct c.user from "
-                    + "Comment as c join fetch "
-                    + "c.user where c.post.postId = :id "
-                    + "and c.user.userId <> :uid");
+                    + "Comment as c where c.post.postId = :id "
+                    + "and c.user.userId != :uid "
+                    + "and c.user.userId != c.post.user.userId"); //excludes poster
             q.setInteger("id", postId);
             q.setInteger("uid", excludedUserId);
             
@@ -230,5 +230,26 @@ public class NotificationDAO {
 
         return uList;
     }
+    
+     public ArrayList<User> retrieveParticipantsOfEventExcludingAUser(int eventId, int excludedUserId) {
+        openSession();
+        ArrayList<User> uList = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("select distinct e.user from "
+                    + "EventInvite as e where e.event.id = :id "
+                    + "and e.user.userId <> :uid");
+            q.setInteger("id", eventId);
+            q.setInteger("uid", excludedUserId);
+            
+            uList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return uList;
+    }
+    
 
 }

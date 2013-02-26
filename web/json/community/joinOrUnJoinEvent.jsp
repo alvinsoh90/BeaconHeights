@@ -1,3 +1,4 @@
+<%@page import="com.lin.resident.ManageNotificationBean"%>
 <%@page import="com.lin.entities.EventInvite"%>
 <%@page import="com.lin.entities.Event"%>
 <%@page import="com.lin.dao.EventDAO"%>
@@ -31,7 +32,15 @@ if(eventIdStr != null){
    
     if(isJoiningEvent.equalsIgnoreCase("true")){
         //join
-        jOb.put("flag_success", eDAO.addEventInvite(ei));
+        boolean success = eDAO.addEventInvite(ei);
+        jOb.put("flag_success", success);
+        
+        if(success){
+            //send notifications
+            ManageNotificationBean nBean = new ManageNotificationBean();
+            nBean.sendJoinedEventNotification(currUser, event);
+        }
+        
     }
     else{
         //unjoin

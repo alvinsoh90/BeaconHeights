@@ -566,6 +566,7 @@
                                 </c:otherwise>    
                             </c:choose>     
                                     <%-- Check if user likes this post --%>
+                                    <c:if test="${user.userId != post.user.userId}">
                             <c:choose>
                                 <c:when test="${manageEventBean.hasUserJoinedEvent(post.id, sessionScope.user.userId)}">
                                     <a href="#join" onclick="unJoinEvent(${post.id})" class="joinEventBtn btn btn-info btn-mini"><i class="icon-check iconJoinEvent"></i> <span class="txt">You're going!</span></a>
@@ -574,6 +575,7 @@
                                     <a href="#join" onclick="joinEvent(${post.id})" class="joinEventBtn btn btn-info btn-mini"><i class="icon-share iconJoinEvent"></i> <span class="txt">Join Event</span></a>
                                 </c:otherwise>    
                             </c:choose>     
+                                    </c:if>
                             
                             <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
                             <a href="#flag" onclick="flagPostInappropriate(${post.id})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>

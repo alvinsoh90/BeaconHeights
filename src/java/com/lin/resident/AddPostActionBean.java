@@ -86,9 +86,7 @@ public class AddPostActionBean implements ActionBean{
         
         // get flash scope instance
         FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
-        
-        
-        
+
         try {
             UserDAO uDAO = new UserDAO();
             PostDAO pDAO = new PostDAO();
@@ -124,14 +122,25 @@ public class AddPostActionBean implements ActionBean{
                     taggedIds = taggedIds.replace("]", "");
                     String[] taggedIdArray = taggedIds.split(",");
                     System.out.println("trimmed: " + taggedIdArray.toString());
+                    
                     //Retrieve and save tagged users for this post
-                        for(String uId : taggedIdArray){                        
-                        pDAO.addPostUserTag(new PostUserTag(
-                                uDAO.getShallowUser(Integer.parseInt(uId)),
-                                pDAO.getPost(posted.getPostId()),
-                                new Date()
-                        ));                    
-                    }                    
+                    ArrayList<User> taggedUsers = new ArrayList<User>();
+                    for(String uId : taggedIdArray){
+                            
+                            User taggedUser = uDAO.getShallowUser(Integer.parseInt(uId));
+                            taggedUsers.add(taggedUser);
+                            
+                            pDAO.addPostUserTag(new PostUserTag(
+                                    taggedUser,
+                                    pDAO.getPost(posted.getPostId()),
+                                    new Date()
+                            ));
+                    }
+                                     
+                    //send notifications
+                    ManageNotificationBean nBean = new ManageNotificationBean();
+                    nBean.sendTaggedInPostNotification(posted, taggedUsers);    
+                        
                     fs.put("SUCCESS","true");  
                 }              
             }

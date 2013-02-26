@@ -14,6 +14,7 @@ import com.lin.entities.Post;
 import com.lin.entities.PostInappropriate;
 import com.lin.entities.PostLike;
 import com.lin.entities.User;
+import com.lin.resident.ManageNotificationBean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,14 +30,20 @@ public class CommunityWallController {
     PostDAO pDAO = new PostDAO();
     
     public void addCommentOnPost(int posterId, int postId, String content){
+        User poster = uDAO.getUser(posterId);
+        Post post = pDAO.getPostWithUserLoaded(postId);
         
         Comment comment = new Comment(
-                uDAO.getUser(posterId),
-                pDAO.getPost(postId),
+                poster,
+                post,
                 content,
                 new Date(),false);
         
         cDAO.addComment(comment);
+        
+        //send Notifications
+        ManageNotificationBean nBean = new ManageNotificationBean();
+        nBean.sendPostCommentedNotification(poster, post);
     }
     
     public ArrayList<Comment> getCommentsForPostSortedByDate(int postId){

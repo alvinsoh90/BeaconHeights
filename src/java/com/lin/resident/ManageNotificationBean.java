@@ -37,6 +37,7 @@ public class ManageNotificationBean extends BaseActionBean{
                 getContext().getUser().getUserId());
     }
 
+    //OK
     public void sendEventCreatedNotification(Event newEvent, User currentUser){
        UserDAO uDAO = new UserDAO();       
         //event created is sent to all users except current user
@@ -52,11 +53,11 @@ public class ManageNotificationBean extends BaseActionBean{
         }
     }
     
+    //LATER FIX
    public void sendEventCommentedNotification(Event event, User commenter){
-       ManageEventBean manageEventBean = new ManageEventBean();
        
        //all invited users
-        for(User user : manageEventBean.getInvitedUsers(event.getId(),-1)){
+        for(User user : nDAO.retrieveParticipantsOfEventExcludingAUser(event.getId(),commenter.getUserId())){
             nDAO.createNotification(
                     new Notification(
                     commenter, //sender
@@ -67,17 +68,25 @@ public class ManageNotificationBean extends BaseActionBean{
             ));            
         }
        
-        //user who created the event
-        nDAO.createNotification(
+        //send to user who created event, if current commenter is not creator
+        System.out.println("Commenter id:" + commenter.getUserId());
+        System.out.println("creator id:" + event.getUser().getUserId());
+        
+        if(commenter.getUserId() != event.getUser().getUserId()){
+            System.out.println("not posting t myself");
+            nDAO.createNotification(
                     new Notification(
                     commenter, //sender
                     event, //this event
                     event.getUser(), // receipient
                     Notification.Type.EVENTCOMMENT,
                     new Date()
-            ));            
+            ));  
+        }
+                  
     }
     
+   
     public void sendFriendRequestNotification(User sender, User receipient){
         nDAO.createNotification(
                     new Notification(
@@ -88,7 +97,10 @@ public class ManageNotificationBean extends BaseActionBean{
             ));
     }
     
+    //OK
     public void sendJoinedEventNotification(User joiner, Event event){
+        
+        //Send to creator of event
         nDAO.createNotification(
                     new Notification(
                     joiner, //sender
@@ -96,34 +108,56 @@ public class ManageNotificationBean extends BaseActionBean{
                     event.getUser(), // receipient
                     Notification.Type.JOINEDEVENT,
                     new Date()
-            )); 
-    }
-    
-    public void sendPostCommentedNotification(User commenter, Post post){
-        //user who created the post        
-        nDAO.createNotification(
-                    new Notification(
-                    commenter, //sender
-                    post.getUser(), // receipient
-                    post,        
-                    Notification.Type.EVENTCOMMENT,
-                    new Date()
             ));
         
+        //send to all who are invited or joined the event
+        //excludes the current user who had just joined
+        System.out.println("event: " + event);
+        System.out.println("joiner: " + joiner);
+        for(User user : 
+           nDAO.retrieveParticipantsOfEventExcludingAUser(event.getId(), joiner.getUserId())){
+            nDAO.createNotification(
+                    new Notification(
+                    joiner, //sender
+                    event, //this event
+                    user, // receipient
+                    Notification.Type.JOINEDEVENT,
+                    new Date()
+            ));
+        }
+    }
+    
+    //OK
+    public void sendPostCommentedNotification(User commenter, Post post){
         
-        //users who commented on the post
+        //user who created the post, if the creator is not the one posting
+        if(commenter.getUserId() != post.getUser().getUserId()){
+            System.out.println("Sending to...creator" + post.getUser());
+            nDAO.createNotification(
+                        new Notification(
+                        commenter, //sender
+                        post.getUser(), // receipient
+                        post,        
+                        Notification.Type.POSTCOMMENT,
+                        new Date()
+            ));
+        }
+        
+        //users who commented on the post, excluding commenter
         for(User user : nDAO.retrieveCommentersForPostExcludingAUser(post.getPostId(),
-                post.getUser().getUserId())){
-            
+                commenter.getUserId())){
+                System.out.println("Sending to... " + user.getUserId());
             nDAO.createNotification(
                     new Notification(
                     commenter, //sender
-                    user, //this event
-                    Notification.Type.EVENTCOMMENT,
+                    user, //receipient 
+                    post,        
+                    Notification.Type.POSTCOMMENT,
                     new Date()
             ));            
         }
     }
+    
     
     public void sendEventInviteNotification(Event event, ArrayList<User> receivers){
         
@@ -140,6 +174,7 @@ public class ManageNotificationBean extends BaseActionBean{
         }
     }
     
+    //OK
     public void sendTaggedInPostNotification(Post post, ArrayList<User> taggedUsers){
         
         //users who are tagged in post
