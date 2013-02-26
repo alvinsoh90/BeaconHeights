@@ -61,6 +61,22 @@ public class EventDAO {
         }
         return list.get(0);
     }
+    
+    public Event getEventWithUserLoaded(int id) {        
+        openSession();
+        Event ev = null;
+        ArrayList<Event> list = new ArrayList<Event>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Event as e join fetch e.user where e.id = :id");
+            q.setInteger("id",id);
+            list = (ArrayList<Event>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list.get(0);
+    }
 
     public ArrayList<Event> getAllEvents() {
         openSession();
@@ -295,6 +311,30 @@ public class EventDAO {
         return false;
     }
     
+    public boolean hasUserJoinedEvent(int eventId, int userId) {
+        ArrayList<EventInvite> eventLikeList = new ArrayList<EventInvite>();
+        
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from EventInvite as ei "
+                    + "where ei.event.id = :id "
+                    + "and ei.user.userId = :uid");
+            q.setInteger("id", eventId);
+            q.setInteger("uid", userId);
+            
+            eventLikeList = (ArrayList<EventInvite>) q.list();
+            tx.commit();
+            
+            return !eventLikeList.isEmpty();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
+    
     public ArrayList<EventLike> getEventLikesByEventId(int eventId) {
         openSession();
         ArrayList<EventLike> eventLikeList = new ArrayList<EventLike>();
@@ -411,6 +451,35 @@ public class EventDAO {
         return false;
     }
     
+    public boolean deleteEventInvite(int eventId, int userId){
+        openSession();
+        Transaction tx = null;
+        int rowCount = 0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from EventInvite as ei "
+                    + "where ei.event.id = :eid "
+                    + "and ei.user.userId = :uid";
+            Query query = session.createQuery(hql);
+            query.setInteger("eid", eventId);
+            query.setInteger("uid", userId);
+            rowCount = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }   
+    }
+    
     public ArrayList<EventInvite> getEventInvitesByEventId(int eventId) {
         openSession();
         ArrayList<EventInvite> eventInviteList = new ArrayList<EventInvite>();
@@ -439,7 +508,7 @@ public class EventDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from EventInvite as ei "
                     + "where ei.event.id = :id "
-                    + "and ei.inviteStatus = 'ATTENDING'");
+                    + "and ei.inviteStatus = 'ACCEPTED'");
             
             q.setInteger("id", eventId);
             eventInviteList = (ArrayList<EventInvite>) q.list();
@@ -451,4 +520,27 @@ public class EventDAO {
         
         return eventInviteList;
     }
+
+    public ArrayList<EventInvite> getPendingEventInvitesByEventId(int eventId) {
+        openSession();
+        ArrayList<EventInvite> eventInviteList = new ArrayList<EventInvite>();
+        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from EventInvite as ei "
+                    + "where ei.event.id = :id "
+                    + "and ei.inviteStatus = 'PENDING'");
+            
+            q.setInteger("id", eventId);
+            eventInviteList = (ArrayList<EventInvite>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return eventInviteList;
+    }
+
+    
 }

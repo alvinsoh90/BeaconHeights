@@ -330,8 +330,29 @@ public class ManageEventBean extends BaseActionBean{
         return list;
     }
     
+    public ArrayList<User> getPendingInvites(int eventId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<EventInvite> tagList =  eDAO.getPendingEventInvitesByEventId(eventId);
+        int fetchSize = tagList.size();
+        
+        if(tagList.size() > limit && limit != -1) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            EventInvite invite = tagList.get(i);
+            list.add(uDAO.getShallowUser(invite.getUser().getUserId()));           
+        }
+        
+        return list;
+    }
+    
     public boolean hasUserLikedEvent(int postId, int userId){        
         return eDAO.hasUserLikedEvent(postId, userId);
+    }
+    
+    public boolean hasUserJoinedEvent(int postId, int userId){        
+        return eDAO.hasUserJoinedEvent(postId, userId);
     }
     
     public int getNumEventLikes(int postId){

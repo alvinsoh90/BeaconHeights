@@ -341,6 +341,66 @@
                     } 
                 });
             }
+            
+            function joinEvent(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isJoiningEvent = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .joinEventBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/joinOrUnJoinEvent.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        if(xhr.status === 200){
+                            if(!data.flag_success && data.reason){
+                                toastr.error(data.reason);
+                            }
+                            $("#post-"+postId+" .joinEventBtn").removeClass("disabled");
+                            // disable button
+                            $("#post-"+postId+" .joinEventBtn .txt").text("You're going!");
+                            $("#post-"+postId+" .joinEventBtn .iconJoinEvent").attr("class","icon-check iconJoinEvent");
+                            $("#post-"+postId+" .joinEventBtn").attr("onclick","unJoinEvent("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    }
+                });
+            }
+            
+            function unJoinEvent(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isJoiningEvent = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .joinEventBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/joinOrUnJoinEvent.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        if(xhr.status === 200){
+                            if(!data.flag_success && data.reason){
+                                toastr.error(data.reason);
+                            }
+                            $("#post-"+postId+" .joinEventBtn").removeClass("disabled");
+                            // disable button
+                            $("#post-"+postId+" .joinEventBtn .txt").text("Join Event");
+                            $("#post-"+postId+" .joinEventBtn .iconJoinEvent").attr("class","icon-share iconJoinEvent");
+                            $("#post-"+postId+" .joinEventBtn").attr("onclick","joinEvent("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    }
+                });
+            }
         </script>
         
     </head>
@@ -471,24 +531,27 @@
                             <b>Date/Time:</b> ${post.formattedEventTime}
                         </div>
                             
-                            <c:set var="taggedUsers" value="${manageEventBean.getInvitedUsers(post.id,-1)}"/>
+                            <c:set var="taggedUsers" value="${manageEventBean.getPendingInvites(post.id,-1)}"/>
                             <c:set var="attendingUsers" value="${manageEventBean.getAttendingUsers(post.id,-1)}"/>
                             
+                            <div class="taggedUsers">
                             <c:if test="${not empty taggedUsers}">
-                                <div class="taggedUsers">
+                                
                                     ${fn:length(taggedUsers)} Invited:
                                     <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
-                                        <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
-                                        </c:forEach>
-                                    <span class="gap"></span>
-                                    <c:if test="${not empty attendingUsers}">       
+                                        <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                    </c:forEach>                                    
+                                      
+                            </c:if>
+                            <c:if test="${not empty attendingUsers}">
+                                        
+                                <c:if test="${not empty attendingUsers && not empty taggedUsers}"><span class="gap"></span></c:if>
                                         ${fn:length(attendingUsers)} Coming:
                                         <c:forEach items="${attendingUsers}" var="tagged" varStatus="status">
                                             <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
                                             </c:forEach>    
-                                    </c:if>
-                                </div>      
                             </c:if>
+                            </div>
     
                         <div class="linkBar">
                             <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
@@ -501,7 +564,16 @@
                                 <c:otherwise>
                                     <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.id})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
                                 </c:otherwise>    
-                            </c:choose>                                
+                            </c:choose>     
+                                    <%-- Check if user likes this post --%>
+                            <c:choose>
+                                <c:when test="${manageEventBean.hasUserJoinedEvent(post.id, sessionScope.user.userId)}">
+                                    <a href="#join" onclick="unJoinEvent(${post.id})" class="joinEventBtn btn btn-info btn-mini"><i class="icon-check iconJoinEvent"></i> <span class="txt">You're going!</span></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="#join" onclick="joinEvent(${post.id})" class="joinEventBtn btn btn-info btn-mini"><i class="icon-share iconJoinEvent"></i> <span class="txt">Join Event</span></a>
+                                </c:otherwise>    
+                            </c:choose>     
                             
                             <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
                             <a href="#flag" onclick="flagPostInappropriate(${post.id})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
