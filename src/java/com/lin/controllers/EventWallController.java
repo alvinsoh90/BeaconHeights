@@ -7,7 +7,11 @@ package com.lin.controllers;
 import com.lin.dao.EventCommentDAO;
 import com.lin.dao.EventDAO;
 import com.lin.dao.UserDAO;
+import com.lin.entities.Event;
 import com.lin.entities.EventComment;
+import com.lin.entities.EventInappropriate;
+import com.lin.entities.EventLike;
+import com.lin.entities.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -22,11 +26,11 @@ public class EventWallController {
     EventCommentDAO cDAO = new EventCommentDAO();
     EventDAO eDAO = new EventDAO();
 
-    public void addCommentOnEvent(int eventId, int posterId, String content) {
+    public void addCommentOnEvent(int eventId, User user, String content) {
         
         EventComment eComment = new EventComment(
                 eDAO.getEvent(eventId),
-                uDAO.getUser(posterId),
+                user,
                 content,
                 new Date(),
                 false);
@@ -38,5 +42,45 @@ public class EventWallController {
         ArrayList<EventComment> list = cDAO.getAllCommentsForEvent(eventId);
         //Collections.sort(list);
         return list;  
+    }
+    
+    public boolean likeEvent(int userId, int postId){
+        User u = uDAO.getShallowUser(userId);
+        Event e = eDAO.getEvent(postId);
+        
+        EventLike pl = new EventLike(e,u);
+        pl.setTimestamp(new Date());
+        
+        pl = eDAO.likeEvent(pl);
+        
+        return (pl != null);
+    }
+    
+    public boolean unlikeEvent(int userId, int postId){                
+        return eDAO.unlikeEvent(userId,postId);
+    }
+    
+    public boolean flagEventInappropriate(int userId, int postId){
+        User u = uDAO.getShallowUser(userId);
+        Event e = eDAO.getEvent(postId);
+        
+        EventInappropriate pl = new EventInappropriate(e,u);
+        pl.setTimestamp(new Date());
+        
+        return eDAO.flagEventInappropriate(pl);
+    }
+    
+    public boolean unFlagEventInappropriate(int userId, int postId){                
+        return eDAO.unFlagEventInappropriate(userId,postId);
+    }
+    
+    public boolean hasUserFlaggedInappropriate(int userId, int postId){
+        EventInappropriate p = eDAO.getEventInappropriate(userId,postId);
+        
+        if(p != null){
+            return true;
+        }
+        
+        return false;
     }
 }

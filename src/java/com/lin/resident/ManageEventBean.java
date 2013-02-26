@@ -6,6 +6,7 @@ package com.lin.resident;
 
 import com.lin.controllers.EventWallController;
 import com.lin.dao.BookingDAO;
+import com.lin.dao.EventCommentDAO;
 import com.lin.dao.EventDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Booking;
@@ -13,6 +14,7 @@ import com.lin.entities.Comment;
 import com.lin.entities.Event;
 import com.lin.entities.EventComment;
 import com.lin.entities.EventInvite;
+import com.lin.entities.EventLike;
 import com.lin.entities.User;
 import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
@@ -53,7 +55,9 @@ public class ManageEventBean extends BaseActionBean{
     private String eventTimeEnd;
     private String eventTaggedFriends;
     private String bookingId;
+    private EventDAO eDAO = new EventDAO();
 
+    
     public String getBookingId() {
         return bookingId;
     }
@@ -201,7 +205,6 @@ public class ManageEventBean extends BaseActionBean{
     }
 
     public ArrayList<Event> getEventList() {
-        EventDAO eDAO = new EventDAO();
         eventList = eDAO.getAllEvents();
         System.out.println("eventList size: " + eventList.size());
 
@@ -218,7 +221,6 @@ public class ManageEventBean extends BaseActionBean{
     
         @HandlesEvent("deleteEvent")
     public Resolution deleteEvent() {
-        EventDAO eDAO = new EventDAO();
         outcome = eDAO.deleteEvent(id);
         return new RedirectResolution("/resident/eventwall.jsp?deletesuccess="
                 + outcome + "&deletemsg=" + getTitle());
@@ -230,9 +232,7 @@ public class ManageEventBean extends BaseActionBean{
         
         // get flash scope instance
         FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
-        
-        EventDAO eDAO = new EventDAO();
-        
+                
         Date start = new Date(Long.parseLong(getEventTimeStart()));
         Date end = new Date(Long.parseLong(getEventTimeEnd()));
         System.out.println("venue: " + getVenue());
@@ -275,10 +275,7 @@ public class ManageEventBean extends BaseActionBean{
         }
         else{
             fs.put("SUCCESS","false");
-        }
-        
-        
-        
+        }                        
         return new RedirectResolution("/residents/eventwall.jsp");
     }
     
@@ -287,5 +284,102 @@ public class ManageEventBean extends BaseActionBean{
         BookingDAO bDAO = new BookingDAO();
         bList = bDAO.getShallowUserBookings(userId);        
         return bList;
+    }
+    
+    public ArrayList<Event> getAllPublicAndFriendEvents(int limit){
+        ArrayList<Event> list =  eDAO.getAllPublicEventsWithLimit(limit);
+        EventCommentDAO ecDAO = new EventCommentDAO();
+        BookingDAO bDAO = new BookingDAO(); 
+        
+        //get relevant comments and attach bookings if present
+        for(Event e : list){
+            //comments
+            e.setEventCommentsList(ecDAO.getAllCommentsForEvent(e.getId()));
+            //booking
+            if(e.getBooking() != null){
+                System.out.println("bId: "+
+                e.getBooking().getId());
+                e.setBooking(bDAO.getFullDataBooking(e.getBooking().getId()));
+            }
+        }        
+        
+        System.out.println("found events ::" +list.size());
+        return list;
+    }
+    
+    public ArrayList<User> getInvitedUsers(int eventId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<EventInvite> tagList =  eDAO.getEventInvitesByEventId(eventId);
+        int fetchSize = tagList.size();
+        
+        if(tagList.size() > limit && limit != -1) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            EventInvite invite = tagList.get(i);
+            list.add(uDAO.getShallowUser(invite.getUser().getUserId()));           
+        }
+        
+        return list;
+    }
+    
+    public boolean hasUserLikedEvent(int postId, int userId){        
+        return eDAO.hasUserLikedEvent(postId, userId);
+    }
+    
+    public int getNumEventLikes(int postId){
+        return eDAO.getEventLikesByEventId(postId).size();
+    }
+    
+    public ArrayList<User> getLikersOfEvent(int postId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<EventLike> likeList=  eDAO.getEventLikesByEventId(postId);
+        int fetchSize = likeList.size();
+        
+        if(likeList.size() > limit && limit != -1) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            EventLike pl = likeList.get(i);
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<User> getTaggedUsers(int postId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<EventInvite> tagList =  eDAO.getEventInvitesByEventId(postId);
+        int fetchSize = tagList.size();
+        
+        if(tagList.size() > limit && limit != -1) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            EventInvite pl = tagList.get(i);
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<User> getAttendingUsers(int postId, int limit){ //-1 for no limit
+        ArrayList<User> list = new ArrayList<User>();
+        ArrayList<EventInvite> tagList =  eDAO.getAttendingEventInvitesByEventId(postId);
+        int fetchSize = tagList.size();
+        
+        if(tagList.size() > limit && limit != -1) fetchSize = limit;
+        
+        //retrieve users
+        UserDAO uDAO = new UserDAO();
+        for(int i = 0 ; i < fetchSize ; i++){
+            EventInvite pl = tagList.get(i);
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+        }
+        
+        return list;
     }
 }

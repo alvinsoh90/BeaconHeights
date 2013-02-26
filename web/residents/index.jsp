@@ -464,7 +464,7 @@
                     </c:forEach>
                         facilityType.needsPayment = "${facilityType.needsPaymentString}";
                         facilityType.bookingFees = "${facilityType.bookingFees}";
-                        facilityType.bookingFees = "${facilityType.bookingDeposit}";
+                        facilityType.bookingDeposit = "${facilityType.bookingDeposit}";
                         facilityTypeList.push(facilityType);
                 </c:forEach>
             </script>

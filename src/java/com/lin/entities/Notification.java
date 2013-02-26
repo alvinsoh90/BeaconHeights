@@ -9,6 +9,9 @@ import java.util.Date;
  */
 public class Notification  implements java.io.Serializable {
 
+    public enum Type{
+        INVITATION,EVENTCOMMENT,POSTCOMMENT
+    }
 
      private Integer id;
      private Date timestamp;
@@ -17,6 +20,8 @@ public class Notification  implements java.io.Serializable {
      private Post post;
      private User userByReceiverId;
      private String type;
+     private boolean hasBeenViewed;
+     private Type notificationEnumType;
 
     public Notification() {
     }
@@ -26,6 +31,7 @@ public class Notification  implements java.io.Serializable {
         this.userBySenderId = userBySenderId;
         this.userByReceiverId = userByReceiverId;
         this.type = type;
+        this.notificationEnumType = getTypeFromCategoryString(type);
     }
     public Notification(Event event, User userBySenderId, Post post, User userByReceiverId, String type) {
        this.event = event;
@@ -33,7 +39,53 @@ public class Notification  implements java.io.Serializable {
        this.post = post;
        this.userByReceiverId = userByReceiverId;
        this.type = type;
+       this.notificationEnumType = getTypeFromCategoryString(type);
     }
+    
+    
+    private String getCategoryStringFromType(Type type){
+        if(type == type.EVENTCOMMENT){
+            return "EVENTCOMMENT";
+        }
+        else if(type == type.INVITATION){
+            return "INVITATION";
+        }
+        else if(type == type.POSTCOMMENT){
+            return "POSTCOMMENT";
+        }
+        return null;
+    }
+    
+    private Type getTypeFromCategoryString(String category) {
+        if(category.equals("EVENTCOMMENT")){
+            return Type.EVENTCOMMENT;
+        }
+        else if(category.equals("INVITATION")){
+            return Type.INVITATION;
+        }
+        else if (category.equals("POSTCOMMENT")){
+            return Type.POSTCOMMENT;
+        }        
+        return null;
+    }
+
+    public boolean isHasBeenViewed() {
+        return hasBeenViewed;
+    }
+
+    public void setHasBeenViewed(boolean hasBeenViewed) {
+        this.hasBeenViewed = hasBeenViewed;
+    }
+    
+    public Type getNotificationEnumType() {
+        return notificationEnumType;
+    }
+
+    public void setNotificationEnumType(Type notificationEnumType) {
+        this.notificationEnumType = notificationEnumType;
+    }
+    
+    
    
     public Integer getId() {
         return this.id;

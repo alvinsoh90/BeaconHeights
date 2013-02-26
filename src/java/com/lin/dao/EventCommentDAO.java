@@ -32,7 +32,7 @@ public class EventCommentDAO {
     }
 
     public EventComment createEventComment(EventComment ec) {
-
+        openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -49,7 +49,7 @@ public class EventCommentDAO {
         return null;
     }
 
-    public EventComment getEvent(int id) {
+    public EventComment getEventComment(int id) {
         return (EventComment) session.get(EventComment.class, id);
     }
 
@@ -59,7 +59,8 @@ public class EventCommentDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from EventComment as ec join fetch "
-                    + "ec.user join fetch ec.event where ec.event.eventId = :id");
+                    + "ec.user join fetch ec.event where ec.event.id = :id "
+                    + "order by ec.commentId DESC");
             q.setString("id", eventId + "");
             list = (ArrayList<EventComment>) q.list();
             tx.commit();
@@ -84,6 +85,24 @@ public class EventCommentDAO {
 
         return list;
     }
+    
+    public ArrayList<EventComment> retrieveCommentsForPost(int eId) {
+        openSession();
+        ArrayList<EventComment> commentList = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from EventComment as c join fetch c.user where c.event.id = :id");
+            q.setInteger("id", eId);
+            
+            commentList = (ArrayList<EventComment>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return commentList;
+    }
+    
 
     public boolean deleteEventComment(int id) {
         openSession();
@@ -102,6 +121,24 @@ public class EventCommentDAO {
             return false;
         }
     }
+    
+    public ArrayList<EventComment> retrieveCommentsForEvent(int eventId) {
+        openSession();
+        ArrayList<EventComment> commentList = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from EventComment as c join fetch c.user where c.event.id = :id");
+            q.setInteger("id", eventId);
+            
+            commentList = (ArrayList<EventComment>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return commentList;
+    }
+    
     //don't think need to update comments right?
 //    public Event updateEventComment(Event event, User user, String text, Date commentDate){
 //    }

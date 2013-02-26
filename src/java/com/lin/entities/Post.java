@@ -16,6 +16,8 @@ import org.hibernate.annotations.FetchMode;
  */
 public class Post  implements java.io.Serializable {
 
+
+
      public enum Type {
          INVITE,SHOUTOUT,REQUEST,ANNOUNCEMENT;
      } 
@@ -33,6 +35,7 @@ public class Post  implements java.io.Serializable {
      private Set postLikes = new HashSet(0);
      private Set notifications = new HashSet(0);
      private Set comments = new HashSet(0);
+     private Type type;
 
     public Post() {
     }
@@ -49,6 +52,22 @@ public class Post  implements java.io.Serializable {
         }
         else if(type == type.SHOUTOUT){
             return "SHOUTOUT";
+        }
+        return null;
+    }
+        
+            private Type getTypeFromCategoryString(String category) {
+        if(category.equals("INVITE")){
+            return Type.INVITE;
+        }
+        else if(category.equals("SHOUTOUT")){
+            return Type.SHOUTOUT;
+        }
+        else if (category.equals("REQUEST")){
+            return Type.REQUEST;
+        }
+        else if (category.equals("ANNOUNCEMENT")){
+            return Type.ANNOUNCEMENT;
         }
         return null;
     }
@@ -97,8 +116,17 @@ public class Post  implements java.io.Serializable {
        this.notifications = notifications;
        this.comments = comments;
        this.receivingWallId = receivingWallId;
+       this.type = getTypeFromCategoryString(category);
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+    
     public int getReceivingWallId() {
         return receivingWallId;
     }

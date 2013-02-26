@@ -535,10 +535,32 @@ h1{
     width:263px;
 }
 input.shorty{
-    width:117px;
+    width:109px;
 }
 select.shorty{
     width: 135px;
+}
+.bigFormSubmit{
+    padding: 6px 40px;
+    margin-left: 28%;
+}
+.gap{
+    padding:8px;
+}
+.bookedLabel{
+    top: -2px;
+    left: 4px;
+    position:relative;
+}
+.wallDate{
+    top: -3.7em;
+    left: 108px;
+    width: 58px;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 1px teal;
+    font-size: 20px;
+    position: relative;
 }
 /**.tagFriends ul{
     width: 200px;

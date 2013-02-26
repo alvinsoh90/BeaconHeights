@@ -12,6 +12,7 @@
         <title>Event Wall | Beacon Heights</title>
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="manageEventBean" scope="page"
                      class="com.lin.resident.ManageEventBean"/>
@@ -53,7 +54,6 @@
         <script src="../js/timepicker.min.js"></script> 
         <link href="../css/jquery.timepicker.css" rel="stylesheet"></script>
     <script src="../js/date.js"></script>
-                <link href="./css/residentscustom.css" rel="stylesheet"> 
 
         <script>
     // ** Handle friend tagging ** //
@@ -136,6 +136,213 @@
                 });
         </script>
         
+        <script>
+            //* Handle Commentng *//
+        $(document).ready(function() {       
+                //handlers for making comment
+                $(".commentTextArea").each(function(){
+                    $(this).keypress(function(e) {
+                        if(e.which == 13) {
+                            var postId = $(this).attr("data-post-id");
+                            var content = $(this).val();
+                            postComment(postId,content);
+                        }
+                    });                   
+                });
+        });
+            
+            function postComment(postId, commentContent){
+                
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.content = commentContent;
+                
+                console.log(JSON.stringify(dat));
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/commentOnEventWallPost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            refreshEvent(postId);
+                            //setTimeout('window.location.href="/admin/manage-facilitytypes.jsp"',1300);
+                        }
+                        else{
+                            toastr.error("There was a problem leaving a comment. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            var r;
+            function refreshEvent(postId){
+                //fade out comment area
+                $("#post-" + postId + " .commentArea .comments").css("opacity","0.6");
+                //show ajax loading
+                $("#post-" + postId + " .commentArea .ajaxSpinnerSmall").show();
+                
+                var dat = new Object();
+                dat.eventId = postId;
+                
+                //post comment
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/getEventCommentsForEvent.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(data.comments);
+                        r = data.comments[0];
+                        $("#post-" + postId + " .commentArea .comments").html(""); 
+                            
+                        //loop thru retrieved comments and append to html
+                        for(var i=0;i<data.comments[0].length;i++){
+                            var c = data.comments[0][i];
+                            $("#post-" + postId + " .commentArea .comments").append(
+                            '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedUserName+': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
+                        )
+                        }
+
+                        //after done, fade in comment area
+                        $("#post-" + postId + " .commentArea .comments").css("opacity","1");
+                        //clear comment input box
+                        $("#post-" + postId + " .commentArea .commentTextArea").val("");   
+                        //hide ajax loading
+                        $("#post-" + postId + " .commentArea .ajaxSpinnerSmall").hide();
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                        }
+                        else{
+                            $("#post-" + postId + " .commentArea .comments").css("opacity","1");
+                            toastr.error("There was a problem leaving a comment. Please try again later.");
+                        }
+                    } 
+                });
+                                             
+            }
+            
+            function likePost(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isALike = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/likeOrUnlikePost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
+                            // disable like button
+                            $("#post-"+postId+" .postLikeBtn .txt").text("You like");
+                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-ok iconLike");
+                            $("#post-"+postId+" .postLikeBtn").attr("onclick","unlikePost("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem liking this post. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            
+            function unlikePost(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isALike = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/likeOrUnlikePost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
+                            // enable like button
+                            $("#post-"+postId+" .postLikeBtn .txt").text("Like");
+                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-heart iconLike");
+                            $("#post-"+postId+" .postLikeBtn").attr("onclick","likePost("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem unliking this post. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            
+            function flagPostInappropriate(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isInappropriate = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        if(xhr.status === 200){
+                            if(!data.flag_success && data.reason){
+                                toastr.error(data.reason);
+                            }
+                            $("#post-"+postId+" .flagInappropriateBtn").removeClass("disabled");
+                            // disable button
+                            $("#post-"+postId+" .flagInappropriateBtn .txt").text("Post flagged (click to undo)");
+                            $("#post-"+postId+" .flagInappropriateBtn").attr("onclick","unFlagPostInappropriate("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    }
+                });
+            }
+            
+            function unFlagPostInappropriate(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isInappropriate = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .flagInappropriateBtn").removeClass("disabled");
+                            // disable like button
+                            $("#post-"+postId+" .flagInappropriateBtn .txt").text("Flag as inappropriate");
+                            $("#post-"+postId+" .flagInappropriateBtn").attr("onclick","flagPostInappropriate("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    } 
+                });
+            }
+        </script>
+        
     </head>
 
     <body>
@@ -146,14 +353,16 @@
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic" />
-                            <div class="name">${user.userName}</div>
+                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${user.userName}</div></a>
                         </div>
-                        <div class="postIcon wallicon SHOUTOUT">
-                            <div class="timeline"/></div>
+                        <div class="postIcon wallicon DATE">
+                            <div class="timeline"/></div>                           
                     </div>
+                    <c:set var="now" value="<%=new java.util.Date()%>" />
+                    <div class="wallDate"><fmt:formatDate pattern="dd MMM" value="${now}" /></div>
                 </div>
                 <div class="postEvent well well-small span5">
-                       
+                    <h2>Create an Event</h2>
                         <div class="eventBasic">
                         <stripes:form id="postEventForm" beanclass="com.lin.resident.ManageEventBean" focus="eventname" class ="form-horizontal">
                             <div class="control-group ${errorStyle}">
@@ -173,7 +382,7 @@
                                 <div class="controls">
                                         <stripes:hidden id="eventTimeStart" name="eventTimeStart"/>
                                         <input class = "shorty input timepicker" id="eventTimeStartRaw" />
-                                    to
+                                        <span class="gap">to</span>
                                         <stripes:hidden id="eventTimeEnd" name="eventTimeEnd" />
                                         <input class = "shorty input timepicker" id="eventTimeEndRaw" />
                                 </div>
@@ -182,7 +391,7 @@
                                 <label class="control-label">Venue</label>
                                 <div class="controls">
                                     <stripes:text class="shorty" id="event_venue" name="venue" />
-                                    or
+                                    <span class="gap">and</span>
                                     <stripes:select class="shorty" name="bookingId">
                                         <c:set var="bookingList" value="${manageEventBean.getBookingsOfUser(user.userId)}"/>
                                         
@@ -196,7 +405,8 @@
                                         </c:choose>
                                                 
                                         <c:forEach items="${bookingList}" var="booking">
-                                            <option value="${booking.id}">${booking.facility.name} on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${booking.startDate}" /></option>
+                                            <option value="${booking.id}">${booking.facility.name} 
+                                                on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${booking.startDate}" /></option>
                                         </c:forEach>       
                             
                                     </stripes:select>
@@ -216,91 +426,90 @@
                                 <stripes:hidden id="taggedFriends" name="eventTaggedFriends" />
                             </div>
                         </div>
-                            
-                        <div class="control-group">        
-                            <label class="control-label">Public Event </label>
-                            <div class="control">
-                                <stripes:checkbox name="isPublicEvent" />
-                            </div>
-                        </div>    
+                        <div class="pushBottom">Public Event <stripes:checkbox name="isPublicEvent" checked="true"/></div>
 
                             <stripes:hidden name="posterId" id="posterID" value='${sessionScope.user.userId}'/> 
-                            <stripes:submit id="submitPost" class="float_l btn btn-peace-1" name="addEvent" value="Create Event"/> 
+                            <div class="centerText">
+                                <stripes:submit id="submitPost" class="float_l btn btn-peace-1 bigFormSubmit" name="addEvent" value="Create Event"/> 
+                            </div>
                         </stripes:form>
                     
                 </div>
             </div>
 
 
-            <script>
-                $("#searchterm").keyup(function(e){
-                    var q = $("#searchterm").val().toLowerCase();
-                                      
-                    var tempArr = [];
-                    for(var i=0;i<userList.length;i++){
-                        console.log(name);
-                        var fName = userList[i].firstName.toLowerCase();
-                        var lName = userList[i].lastName.toLowerCase()
-                        var userEmail = userList[i].email;
-                        var fullname = fName + " " + lName;
-                        if(!q==''){
-                            
-                                
-                            if(fName.indexOf(q) !== -1){
-                                tempArr.push(userList[i]);
-                            } else if (lName.indexOf(q)!== -1){
-                                tempArr.push(userList[i]);
-                            } else if (userEmail.indexOf(q)!== -1){
-                                tempArr.push(userList[i]);
-                            } else if (fullname.indexOf(q)!== -1){
-                                tempArr.push(userList[i]);
-                            }
-                                
-                                
-                        }
-                            
-                    }
-                    
-                    showUsers(tempArr);
-  
-                });
-            </script>
-
-            <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
+            <c:forEach items="${manageEventBean.getAllPublicAndFriendEvents(10)}" var="post" varStatus="loop">
 
 
-                <div id="post-${post.postId}" class="postWrapper row-fluid">
+                <div id="post-${post.id}" class="postWrapper row-fluid">
                     <div class="leftContent span2">
                         <div class="posterInfo">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
-                            <div class="name">${post.user.userName}</div>
+                             <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.userName}</div></a>
                             <div class="timestamp">${post.timeSincePost}</div>
                         </div>
-                        <div class="postIcon wallicon DATE"> 
+                        <div class="postIcon wallicon DATE">
                             <div class="timeline"/></div>
-                    </div>
+                        </div>
+                        <div class="wallDate"><fmt:formatDate pattern="dd MMM" value="${post.startTime}" /></div>
                 </div>
                 <div class="post span6">
                     <div class="baseContent">
-                        <div class="title"><b>${post.user.userName}</b> created an event</div>
-                        <div class="content">"${post.message}"</div>
-                        <div class="attachment event hide">
-                            <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
-                            <div class="eventMeta">
-                                <b>Venue:</b> Beacon Heights Tennis Court 2 <br/>
-                                <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
-                            </div>
+                        <div class="title"><a href="profile.jsp?profileid=${post.user.userId}"><b>${post.user.userName}</b></a> created an event</div>
+                        <div class="content">"${post.details}"</div>
+                        <div class="attachment event">
+                            <div class="eventTitle"><a href="#">${post.title}</a></div>
+                            <c:if test="${post.booking != null}">
+                                <div class="eventMeta">
+                                    <b>Venue:</b> ${post.venue}
+                                    <c:if test="${not empty post.booking.facility.name}">
+                                        <span class="label label-info bookedLabel">${post.booking.facility.name} <b>(Booked)</b></span>
+                                    </c:if>
+                                        <br/>
+                                    <b>Date/Time:</b> ${post.formattedEventTime}
+                                </div>
+                            </c:if>
                         </div>
-                        <div class="linkBar hide">
-                            <a class="btn"><i class="icon-check"></i> I'm going!</a>
-                            <a class="btn"><i class="icon-heart"></i> Like</a>
-                            <a class="btn"><i class="icon-eye-open"></i> View Event</a>
-                            <a href="#" class="float_r flagPost"><i class="icon-flag"></i> Flag as inappropriate</a>
+                            
+                            <c:set var="taggedUsers" value="${manageEventBean.getInvitedUsers(post.id,-1)}"/>
+                            <c:set var="attendingUsers" value="${manageEventBean.getAttendingUsers(post.id,-1)}"/>
+                            
+                            <c:if test="${not empty taggedUsers}">
+                                <div class="taggedUsers">
+                                    ${fn:length(taggedUsers)} Invited:
+                                    <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
+                                        <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                        </c:forEach>
+                                    <span class="gap"></span>
+                                    <c:if test="${not empty attendingUsers}">       
+                                        ${fn:length(attendingUsers)} Coming:
+                                        <c:forEach items="${attendingUsers}" var="tagged" varStatus="status">
+                                            <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                            </c:forEach>    
+                                    </c:if>
+                                </div>      
+                            </c:if>
+    
+                        <div class="linkBar">
+                            <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
+                            
+                            <%-- Check if user likes this post --%>
+                            <c:choose>
+                                <c:when test="${manageEventBean.hasUserLikedEvent(post.id, sessionScope.user.userId)}">
+                                    <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="unlikePost(${post.id})"><i class="iconLike icon-ok"></i> <span class="txt">You Like</span></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.id})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
+                                </c:otherwise>    
+                            </c:choose>                                
+                            
+                            <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
+                            <a href="#flag" onclick="flagPostInappropriate(${post.id})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
                         </div>
                     </div>
                     <div class="commentArea">
                         <div class="comments">
-                            <c:forEach items="${post.comments}" var="comment" varStatus="loop">
+                            <c:forEach items="${post.eventCommentsList}" var="comment" varStatus="loop">
                                 <div class="comment">
                                     <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
                                     <div class="content float_l">
@@ -313,13 +522,33 @@
                         </div>
                         <div class="comment replyArea">
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic float_l" />
-                            <input class="float_l commentTextArea" data-post-id="${post.postId}" placeholder="Say something here..."/><div class="float_r ajaxSpinnerSmall hide"></div>
+                            <input class="float_l commentTextArea" data-post-id="${post.id}" placeholder="Say something here..."/><div class="float_r ajaxSpinnerSmall hide"></div>
                             <br class="clearfix"/>
                         </div>
 
 
                     </div>
                 </div>
+                
+                <div class="span2 postSideBlock">
+                    <c:set var="numPostLikes" value="${manageEventBean.getNumEventLikes(post.id)}"/>
+                    <c:if test="${numPostLikes > 0}">
+                        <div class="header">${numPostLikes} Likes</div>
+                        <div class="likerSpace">
+                        <c:forEach items="${manageEventBean.getLikersOfEvent(post.id,18)}" var="liker" varStatus="stat">
+                            <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                        </c:forEach>      
+                        </div>
+                            <script>
+                                $(document).ready(function() {         
+                                    //Tipsy tooltips
+                                    $(".liker").each(function(){
+                                        $(this).tipsy({gravity: 'n'});
+                                    });
+                                });       
+                            </script>
+                    </c:if>                        
+                </div>  
 
             </div>
         </c:forEach>

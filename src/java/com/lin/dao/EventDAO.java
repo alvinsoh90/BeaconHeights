@@ -46,8 +46,20 @@ public class EventDAO {
         return null;
     }
 
-    public Event getEvent(int id) {
-        return (Event) session.get(Event.class, id);
+    public Event getEvent(int id) {        
+        openSession();
+        Event ev = null;
+        ArrayList<Event> list = new ArrayList<Event>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Event as e where e.id = :id");
+            q.setInteger("id",id);
+            list = (ArrayList<Event>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list.get(0);
     }
 
     public ArrayList<Event> getAllEvents() {
@@ -80,12 +92,16 @@ public class EventDAO {
         return list;
     }
     
-    public ArrayList<Event> retrieveEventsWithLimit(int limit) {
+    public ArrayList<Event> getAllPublicEventsWithLimit(int limit) {
         openSession();
         ArrayList<Event> list = new ArrayList<Event>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Event as e join fetch e.user join fetch e.booking order by e.id DESC")
+            Query q = session.createQuery(
+                     "from Event as e join fetch e.user "
+                    + "where e.isPublicEvent is true "
+                    + "and e.isDeleted is false "
+                    + "order by e.id DESC")
                     .setMaxResults(limit);
             
             list = (ArrayList<Event>) q.list();
@@ -96,13 +112,18 @@ public class EventDAO {
         }
 
         return list;
-    }
-    public ArrayList<Event> retrieveEventsWithOffset(int offsetSize, int nextChunkSize) {
+    } 
+    
+    public ArrayList<Event> getAllPublicAndFriendEventsWithOffset(int offsetSize, int nextChunkSize) {
         openSession();
         ArrayList<Event> list = new ArrayList<Event>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Event as e join fetch e.user join fetch e.booking order by e.id DESC");
+            Query q = session.createQuery(""
+                    + "from Event as e join fetch e.user join fetch e.booking "
+                    + "where e.isPublicEvent is true "
+                    + "and e.isDeleted is false "
+                    + "order by e.id DESC");
             
             q.setFirstResult(offsetSize);
             q.setMaxResults(nextChunkSize);
@@ -181,6 +202,7 @@ public class EventDAO {
     }
     
     public EventLike likeEvent(EventLike eventLike){
+        unlikeEvent(eventLike.getUser().getUserId(), eventLike.getEvent().getId());
         openSession();
         Transaction tx = null;
         
@@ -226,7 +248,7 @@ public class EventDAO {
         try {
             tx = session.beginTransaction();
             String hql = "delete from EventLike as el "
-                    + "where el.event.eventId = :eid "
+                    + "where el.event.id = :eid "
                     + "and el.user.userId = :uid";
             Query query = session.createQuery(hql);
             query.setInteger("eid", eventId);
@@ -255,7 +277,7 @@ public class EventDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from EventLike as el "
-                    + "where el.event.eventId = :id "
+                    + "where el.event.id = :id "
                     + "and el.user.userId = :uid");
             q.setInteger("id", eventId);
             q.setInteger("uid", userId);
@@ -279,7 +301,7 @@ public class EventDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from EventLike as el "
-                    + "where el.event.eventId = :id");
+                    + "where el.event.id = :id");
             
             q.setInteger("id", eventId);
             eventLikeList = (ArrayList<EventLike>) q.list();
@@ -293,6 +315,7 @@ public class EventDAO {
     }
     
     public boolean flagEventInappropriate(EventInappropriate ei) {
+        unFlagEventInappropriate(ei.getUser().getUserId(), ei.getEvent().getId());
         openSession();
         Transaction tx = null;
         
@@ -321,7 +344,7 @@ public class EventDAO {
         try {
             tx = session.beginTransaction();
             String hql = "delete from EventInappropriate as e "
-                    + "where e.event.eventId = :eid "
+                    + "where e.event.id = :eid "
                     + "and e.user.userId = :uid";
             Query query = session.createQuery(hql);
             query.setInteger("eid", eventId);
@@ -349,10 +372,10 @@ public class EventDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from EventInappropriate as e "
-                    + "where e.event.eventId = :eid "
+                    + "where e.event.id = :eid "
                     + "and e.user.userId = :uid");
             
-            q.setInteger("pid", eventId);
+            q.setInteger("eid", eventId);
             q.setInteger("uid", userId);
             ei = (EventInappropriate) q.uniqueResult();
             
@@ -394,7 +417,28 @@ public class EventDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from EventInvite as ei "
-                    + "where ei.event.evenId = :id");
+                    + "where ei.event.id = :id");
+            
+            q.setInteger("id", eventId);
+            eventInviteList = (ArrayList<EventInvite>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return eventInviteList;
+    }
+    
+    public ArrayList<EventInvite> getAttendingEventInvitesByEventId(int eventId) {
+        openSession();
+        ArrayList<EventInvite> eventInviteList = new ArrayList<EventInvite>();
+        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from EventInvite as ei "
+                    + "where ei.event.id = :id "
+                    + "and ei.inviteStatus = 'ATTENDING'");
             
             q.setInteger("id", eventId);
             eventInviteList = (ArrayList<EventInvite>) q.list();

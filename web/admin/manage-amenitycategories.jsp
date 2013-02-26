@@ -191,11 +191,11 @@
 
                 </div>
 
-
-
-                <div class="form-actions">
-                    <input type="submit" name="addAmenityCategory" value="Add this category" class="btn btn-info btn-large"/>
-                </div>         
+                            <div class="modal-footer">
+                                <a data-dismiss="modal" class="btn">Close</a>
+                                <input type="submit" name="addAmenityCategory" value="Add this category" class="btn btn-info"/>
+                            </div>
+         
 
             </stripes:form>
         </div>

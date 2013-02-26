@@ -2,6 +2,10 @@ package com.lin.entities;
 // Generated Feb 22, 2013 4:39:59 AM by Hibernate Tools 3.2.1.GA
 
 
+import com.lin.utils.GeneralFunctions;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +34,7 @@ public class Event  implements java.io.Serializable {
      private Set notifications = new HashSet(0);
      private Set eventInappropriates = new HashSet(0);
      private Set eventComments = new HashSet(0);
+     private ArrayList<EventComment> eventCommentsList;
 
     public Event() {
     }
@@ -216,7 +221,35 @@ public class Event  implements java.io.Serializable {
         this.eventComments = eventComments;
     }
 
+    public String getTimeSincePost(){
+        try {
+            return GeneralFunctions.getTimeSinceString(timestamp);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return "moments ago";
+    }
+    
+    public String getFormattedEventTime(){
+        String buffer = "";
+        SimpleDateFormat dfDate = new SimpleDateFormat("dd MMM yy @ ");
+        SimpleDateFormat dfTime = new SimpleDateFormat("K:mma");
+        
+        buffer = dfDate.format(startTime); //gets date
+        buffer += dfTime.format(startTime).toLowerCase(); //gets start time hrs
+        buffer += " - ";
+        buffer += dfTime.format(endTime).toLowerCase(); //gets end time hrs
+        
+        return buffer;
+    }
 
+    public ArrayList<EventComment> getEventCommentsList() {
+        return eventCommentsList;
+    }
+
+    public void setEventCommentsList(ArrayList<EventComment> eventCommentsList) {
+        this.eventCommentsList = eventCommentsList;
+    }
 
 
 }
