@@ -1,3 +1,4 @@
+<%@page import="com.lin.resident.ManageNotificationBean"%>
 <%@page import="com.lin.controllers.EventWallController"%>
 <%@include file="/protect.jsp"%>
 
@@ -24,5 +25,4 @@ int posterId = u.getUserId();
 EventWallController wallCtrl = new EventWallController();
 System.out.println("event creator id: " + posterId);
 wallCtrl.addCommentOnEvent(postId, u, commentContent);
-
 %>

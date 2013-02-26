@@ -12,6 +12,7 @@ import com.lin.entities.EventComment;
 import com.lin.entities.EventInappropriate;
 import com.lin.entities.EventLike;
 import com.lin.entities.User;
+import com.lin.resident.ManageNotificationBean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -27,15 +28,19 @@ public class EventWallController {
     EventDAO eDAO = new EventDAO();
 
     public void addCommentOnEvent(int eventId, User user, String content) {
-        
+        Event event = eDAO.getEventWithUserLoaded(eventId);
         EventComment eComment = new EventComment(
-                eDAO.getEvent(eventId),
+                event,
                 user,
                 content,
                 new Date(),
                 false);
 
-        cDAO.createEventComment(eComment);
+        cDAO.createEventComment(eComment); 
+        
+        //send notifications
+        ManageNotificationBean nBean = new ManageNotificationBean();
+        nBean.sendEventCommentedNotification(event, user);
     }
 
     public ArrayList<EventComment> getCommentsForEventSortedByDate(int eventId) {

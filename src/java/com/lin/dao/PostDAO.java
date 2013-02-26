@@ -46,6 +46,21 @@ public class PostDAO {
         System.out.println("Post:" + postList.get(0));
         return postList.get(0);
     }
+    
+    public Post getPostWithUserLoaded(int postId) {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Post as p join fetch p.user where p.postId = :id");
+            q.setString("id", postId + "");
+            postList = (ArrayList<Post>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Post:" + postList.get(0));
+        return postList.get(0);
+    }
 
     public ArrayList<Post> retrieveAllPosts() {
         openSession();
