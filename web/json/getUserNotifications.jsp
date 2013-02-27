@@ -62,11 +62,11 @@ for(Notification n : nList){
     if(n.getType().equals("FRIENDREQUEST")){
         //nothing
     }
-    else if(n.getType().equals("POSTCOMMENT")){
+    else if(n.getType().equals("POSTCOMMENT") || n.getType().equals("TAGGEDINPOST")){
         System.out.println("Its a post comment!");
         JSONObject arro = new JSONObject();
         String msg = n.getPost().getMessage();
-        if(msg.length() > 38){
+        if(msg.length() >= 38){
             msg = msg.substring(0, 38) + "...";
         }
         arro.put("title", msg);
@@ -74,10 +74,10 @@ for(Notification n : nList){
                 
         item.put("post",arro);
     }
-    else if(n.getType().equals("CREATEDEVENT")){
+    else if(n.getType().equals("CREATEDEVENT") || n.getType().equals("JOINEDEVENT")){
         JSONObject arro = new JSONObject();
         String msg = n.getEvent().getTitle();
-        if(msg.length() > 38){
+        if(msg.length() >= 38){
             msg = msg.substring(0, 38) + "...";
         }
         arro.put("title", msg);
