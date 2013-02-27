@@ -191,7 +191,7 @@
 
                         </div> <!-- /account-container -->
                     </div>
-                    <div class="span9">
+                    <div class="span8" style="margin-left: 42px;">
 
                         <h1 class="page-title">
                             <i class="icon-calendar"></i>
