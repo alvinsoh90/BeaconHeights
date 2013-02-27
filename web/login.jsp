@@ -71,11 +71,12 @@
 
             if ( ver > -1 )
             {
-                msg = "You're using Internet Explorer. This site is not supported on IE, and we recommend you download <a href='http://www.google.com/chrome'>Chrome</a> or <a href='http://www.mozilla.com/firefox'>Firefox</a>."
+                msg = "You're using Internet Explorer. This site is not supported on IE, and we recommend you download Chrome (http://www.google.com/chrome) or Firefox (http://www.mozilla.com/firefox)."
+                alert( msg );
             }
-            alert( msg );
+            
         }
-        window.onload = getInternetExplorerVersion();
+        window.onload = checkVersion;
     </script>
     <body style="background: url('img/noise_grey_bg.png')">
         <% if (session.getAttribute("user") != null) {
