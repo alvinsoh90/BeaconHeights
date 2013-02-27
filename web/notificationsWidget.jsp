@@ -42,8 +42,10 @@
                                                for(var i = 0 ; i < data.notifications.length ; i++){
                                                    var html = '';
                                                    var n = data.notifications[i];
+                                                   console.log(i + " is " + n.type);
                                                    if(n.type == "FRIENDREQUEST"){
-                                                       html = '<li><div class="notification FRIENDREQUEST"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> would like to be your friend <br/><a onclick="acceptFriend('+n.senderId+')" href="#">Accept</a> or <a onclick="acceptFriend('+n.senderId+')" href="#">Reject</a> <span>'+n.timestamp+'</span></div></div></li>';                                                       
+                                                       
+                                                       html = '<li id="n-'+n.id+'"><div class="notification FRIENDREQUEST"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> would like to be your friend <br/><span id="acceptReject"><a onclick="acceptFriend('+n.senderId+','+n.id+')" href="#">Accept</a> or <a onclick="rejectFriend('+n.senderId+','+n.id+')" href="#">Reject</a></span> <span>'+n.timestamp+'</span></div></div></li>';                                                       
                                                    } 
                                                    else if(n.type == "TAGGEDINPOST"){
                                                        html = '<li><div class="notification TAGGEDINPOST"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> tagged you in a <a href="communitywall.jsp?pid='+n.post.id+'">post</a>:<br/> <b>"'+n.post.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
@@ -55,7 +57,7 @@
                                                        html = '<li><div class="notification JOINEDEVENT"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> joined the <a href="eventwall.jsp?eid='+n.event.id+'">event</a>:<br/> <b>"'+n.event.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
                                                    }
                                                    else if(n.type == "POSTCOMMENT"){
-                                                       html = '<li><div class="notification JOINEDEVENT"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> commented on the <a href="communitywall.jsp?eid='+n.post.id+'">post</a>:<br/> <b>"'+n.post.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
+                                                       html = '<li><div class="notification POSTCOMMENT"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> commented on the <a href="communitywall.jsp?eid='+n.post.id+'">post</a>:<br/> <b>"'+n.post.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
                                                    }
                                                    
                                                    $("#nHolder").append(html);
@@ -73,63 +75,51 @@
                             }
                            
                             
-                            function acceptFriend(postId){
+                            function acceptFriend(friendRequesterId, notificationId){
                                 var dat = new Object();
-                                dat.postId = postId;
-                                dat.isALike = true;
-
+                                dat.friendRequesterId = friendRequesterId;
+                                dat.isAccepting = true;
+                                dat.notificationId = notificationId;
+                                
                                 console.log(JSON.stringify(dat));
-                                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
 
                                 $.ajax({
                                     type: "POST",
-                                    url: "/json/community/likeOrUnlikePost.jsp",
+                                    url: "/json/community/acceptOrRejectFriendship.jsp",
                                     data: dat,
                                     success: function(data, textStatus, xhr) {
-                                        console.log(xhr.status);
-                                    },
-                                    complete: function(xhr, textStatus) {
-                                        if(xhr.status === 200){
-                                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
-                                            // disable like button
-                                            $("#post-"+postId+" .postLikeBtn .txt").text("You like");
-                                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-ok iconLike");
-                                            $("#post-"+postId+" .postLikeBtn").attr("onclick","unlikePost("+postId+")");
+                                        if(xhr.status === 200 && data.flag_success){
+                                            $("#n-"+notificationId+" #acceptReject").html("You accepted <i class='icon icon-ok'></i>");
                                         }
                                         else{
-                                            toastr.error("There was a problem liking this post. Please try again later.");
+                                            toastr.error("There was a problem accepting the request. Please try again later.");
                                         }
-                                    } 
+                                    }
+
                                 });
                             }
 
-                            function rejectFriend(postId){
+                            function rejectFriend(friendRequesterId, notificationId){
                                 var dat = new Object();
-                                dat.postId = postId;
-                                dat.isALike = false;
+                                dat.friendRequesterId = friendRequesterId;
+                                dat.isAccepting = false;
+                                dat.notificationId = notificationId;
 
                                 console.log(JSON.stringify(dat));
-                                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
 
                                 $.ajax({
                                     type: "POST",
-                                    url: "/json/community/likeOrUnlikePost.jsp",
+                                    url: "/json/community/acceptOrRejectFriendship.jsp",
                                     data: dat,
                                     success: function(data, textStatus, xhr) {
-                                        console.log(xhr.status);
-                                    },
-                                    complete: function(xhr, textStatus) {
-                                        if(xhr.status === 200){
-                                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
-                                            // enable like button
-                                            $("#post-"+postId+" .postLikeBtn .txt").text("Like");
-                                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-heart iconLike");
-                                            $("#post-"+postId+" .postLikeBtn").attr("onclick","likePost("+postId+")");
+                                        if(xhr.status === 200 && data.unflag_success){
+                                            $("#n-"+notificationId+" #acceptReject").html("You rejected <i class='icon icon-ok'></i>");
                                         }
                                         else{
-                                            toastr.error("There was a problem unliking this post. Please try again later.");
+                                            toastr.error("There was a problem rejecting the request. Please try again later.");
                                         }
-                                    } 
+                                    }
+
                                 });
                             }
                         </script>

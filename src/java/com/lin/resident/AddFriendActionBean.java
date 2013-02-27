@@ -171,6 +171,12 @@ public class AddFriendActionBean implements ActionBean {
             }
             result = "Friendship";
             success = true;
+            
+            if(success){
+                ManageNotificationBean nBean = new ManageNotificationBean();
+                nBean.sendFriendRequestNotification(user, friend);
+            }
+            
         } catch (Exception e) {
             result = "fail";
             success = false;

@@ -1,3 +1,5 @@
+<%@page import="com.lin.dao.NotificationDAO"%>
+<%@page import="com.lin.resident.ManageNotificationBean"%>
 <%@page import="com.lin.entities.Friendship"%>
 <%@page import="com.lin.dao.FriendshipDAO"%>
 <%@page import="com.lin.entities.EventInvite"%>
@@ -16,12 +18,14 @@ User currUser = (User)session.getAttribute("user");
 int userId = currUser.getUserId();
 
 String friendRequesterIdStr = request.getParameter("friendRequesterId"); //this will be null if event is being flagged
+int notificationId = Integer.parseInt(request.getParameter("notificationId"));
 
 String isAccepting = request.getParameter("isAccepting");
 
 JSONObject jOb = new JSONObject();
 FriendshipDAO fDAO = new FriendshipDAO();
 
+NotificationDAO nDAO = new NotificationDAO();
 
 //Action is being done on Event
 if(friendRequesterIdStr != null){
@@ -30,11 +34,20 @@ if(friendRequesterIdStr != null){
     
     if(isAccepting.equalsIgnoreCase("true")){
         //join
-        jOb.put("flag_success", fDAO.acceptFriendship(f.getId()));
+        if(fDAO.acceptFriendship(f.getId())){
+            jOb.put("flag_success", true);
+            
+            nDAO.markAsRead(notificationId);
+        }
+        
     }
     else{
         //unjoin
-        jOb.put("unflag_success", fDAO.deleteFriendship(f.getId()));
+        if(fDAO.deleteFriendship(f.getId())){
+            jOb.put("unflag_success", true);
+            
+            nDAO.markAsRead(notificationId);
+        }
     }
 }else{
     jOb.put("flag_success", false);
