@@ -15,7 +15,7 @@
 User currUser = (User)session.getAttribute("user");
 int userId = currUser.getUserId();
 
-String friendshipIdStr = request.getParameter("friendshipId"); //this will be null if event is being flagged
+String friendRequesterIdStr = request.getParameter("friendRequesterId"); //this will be null if event is being flagged
 
 String isAccepting = request.getParameter("isAccepting");
 
@@ -24,16 +24,17 @@ FriendshipDAO fDAO = new FriendshipDAO();
 
 
 //Action is being done on Event
-if(friendshipIdStr != null){
-    int friendshipId = Integer.parseInt(friendshipIdStr);
-   
+if(friendRequesterIdStr != null){
+    int friendRequesterId = Integer.parseInt(friendRequesterIdStr);
+    Friendship f = fDAO.getFriendship(friendRequesterId, userId);
+    
     if(isAccepting.equalsIgnoreCase("true")){
         //join
-        jOb.put("flag_success", fDAO.acceptFriendship(friendshipId));
+        jOb.put("flag_success", fDAO.acceptFriendship(f.getId()));
     }
     else{
         //unjoin
-        jOb.put("unflag_success", fDAO.deleteFriendship(friendshipId));
+        jOb.put("unflag_success", fDAO.deleteFriendship(f.getId()));
     }
 }else{
     jOb.put("flag_success", false);
