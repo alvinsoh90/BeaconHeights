@@ -163,7 +163,7 @@
 
                     <li class="dropdown">
 
-                        <a href="/residents/myenquiries.jsp"> <i>Enquiries and Feedback</i></a>
+                        <a href="/residents/myenquiries.jsp"> <i>Enquiries</i></a>
                         </a>
                         <ul class="dropdown-menu">
                         </ul>
