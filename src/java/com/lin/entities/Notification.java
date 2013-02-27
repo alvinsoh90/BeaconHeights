@@ -41,6 +41,16 @@ public class Notification  implements java.io.Serializable {
        this.type = type;
        this.notificationEnumType = getTypeFromCategoryString(type);
     }
+    public Notification(Event event, User userBySenderId, Post post, User userByReceiverId, String type, boolean hasBeenViewed, Date timestamp) {
+       this.event = event;
+       this.userBySenderId = userBySenderId;
+       this.post = post;
+       this.userByReceiverId = userByReceiverId;
+       this.type = type;
+       this.timestamp = timestamp;
+       this.hasBeenViewed = hasBeenViewed;
+       this.notificationEnumType = getTypeFromCategoryString(type);
+    }
     
     //Constr for EVENTCREATED,EVENTINVITE,EVENTCOMMENT,JOINEDEVENT  Notification
     public Notification(User eventCreator, Event event, User receipient, Type t, Date d){
