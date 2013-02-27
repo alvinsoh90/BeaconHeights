@@ -157,24 +157,7 @@
 
                 </ul>
                             
-                <ul class="nav pull-right">
-                    <li class="divider-vertical"></li>                    
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle " href="#">
-                            <span class="label label-important notificationCount">40</span>
-                            <i class="icon-download-alt larger"></i>                            
-                            <b class="caret"></b>							
-                        </a>
-
-                        <ul class="dropdown-menu hoverShow">
-                            <li><div>asdasdsadada <a href="#">blablaa</a></div></li>
-                            <li><div>asdasdsadada <a href="#">blablaa</a></div></li>
-                            <li><div>asdasdsadada <a href="#">blablaa</a></div></li>
-                            <li><div>asdasdsadada <a href="#">blablaa</a></div></li>
-                           
-                        </ul>
-                     </li>
-                </ul>            
+                           <%@include file="/notificationsWidget.jsp"%>
                             
                 <ul class="nav pull-right">
 

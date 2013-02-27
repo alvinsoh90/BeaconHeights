@@ -32,9 +32,9 @@ public class ManageNotificationBean extends BaseActionBean{
         return getContext().getUser();
     }
     
-    public ArrayList<Notification> getUnreadNotificationList() {
-        return nDAO.retrieveUnreadNotificationByReceivingUserId(
-                getContext().getUser().getUserId());
+    public ArrayList<Notification> getUnreadNotificationList(User user) {
+        return nDAO.retrieveUnreadNotificationByReceivingUserId(user.getUserId());
+               
     }
 
     //OK
@@ -188,6 +188,10 @@ public class ManageNotificationBean extends BaseActionBean{
                     new Date()
             ));            
         }
+    }
+    
+    public ArrayList<Notification> notificationList(User receiver){
+        return nDAO.retrieveNotificationByReceivingUserId(receiver.getUserId());
     }
     
 }

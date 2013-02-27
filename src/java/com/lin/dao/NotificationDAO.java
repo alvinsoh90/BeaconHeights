@@ -114,8 +114,10 @@ public class NotificationDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery(""
-                    + "from Notification as n where n.userByReceiverId.id = :id "
-                    + "where hasBeenViewed is false");
+                    + "from Notification as n join fetch n.userByReceiverId "
+                    + "join fetch n.userBySenderId "
+                    + "where n.userByReceiverId.id = :id "
+                    + "and n.hasBeenViewed is false");
             q.setString("id", user_id + "");
             list = (ArrayList<Notification>) q.list();
             tx.commit();
@@ -249,6 +251,42 @@ public class NotificationDAO {
         }
 
         return uList;
+    }
+     
+     public Post getPostFromNotification(int nId) {
+        openSession();
+        Post p = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("select n.post from Notification as n "
+                    + "where n.id = :nid");
+            q.setInteger("nid", nId);
+            
+            p = (Post) q.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return p;
+    }
+     
+   public Event getEventFromNotification(int nId) {
+        openSession();
+        Event e = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("select n.event from Notification as n "
+                    + "where n.id = :nid");
+            q.setInteger("nid", nId);
+            
+            e = (Event) q.uniqueResult();
+            tx.commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return e;
     }
     
 
