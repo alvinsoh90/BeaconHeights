@@ -144,18 +144,18 @@ public class ManageNotificationBean extends BaseActionBean{
         }
         
         //users who commented on the post, excluding commenter
-        for(User user : nDAO.retrieveCommentersForPostExcludingAUser(post.getPostId(),
-                commenter.getUserId())){
-                System.out.println("Sending to... " + user.getUserId());
-            nDAO.createNotification(
-                    new Notification(
-                    commenter, //sender
-                    user, //receipient 
-                    post,        
-                    Notification.Type.POSTCOMMENT,
-                    new Date()
-            ));            
-        }
+//        for(User user : nDAO.retrieveCommentersForPostExcludingAUser(post.getPostId(),
+//                commenter.getUserId())){
+//                System.out.println("Sending to... " + user.getUserId());
+//            nDAO.createNotification(
+//                    new Notification(
+//                    commenter, //sender
+//                    user, //receipient 
+//                    post,        
+//                    Notification.Type.POSTCOMMENT,
+//                    new Date()
+//            ));            
+//        }
     }
     
     
