@@ -49,6 +49,35 @@
 
             });
     </script>
+    <script>
+        function getInternetExplorerVersion()
+        // Returns the version of Internet Explorer or a -1
+        // (indicating the use of another browser).
+        {
+            var rv = -1; // Return value assumes failure.
+            if (navigator.appName == 'Microsoft Internet Explorer')
+            {
+                var ua = navigator.userAgent;
+                var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+                if (re.exec(ua) != null)
+                    rv = parseFloat( RegExp.$1 );
+            }
+            return rv;
+        }
+        function checkVersion()
+        {
+            var msg = "You're not using Internet Explorer.";
+            var ver = getInternetExplorerVersion();
+
+            if ( ver > -1 )
+            {
+                msg = "You're using Internet Explorer. This site is not supported on IE, and we recommend you download Chrome (http://www.google.com/chrome) or Firefox (http://www.mozilla.com/firefox)."
+                alert( msg );
+            }
+            
+        }
+        window.onload = checkVersion;
+    </script>
     <body style="background: url('img/noise_grey_bg.png')">
         <% if (session.getAttribute("user") != null) {
                 response.sendRedirect("/residents/index.jsp");
