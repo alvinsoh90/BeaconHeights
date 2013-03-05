@@ -46,23 +46,21 @@ for(Notification n : nList){
     item.put("type", n.getType());
     item.put("senderProfilePhotoFilename",n.getUserBySenderId().getProfilePicFilename());
     
-    //retrieve stuff that isn't populated
-    Event e = nDAO.getEventFromNotification(n.getId());
-    Post p = nDAO.getPostFromNotification(n.getId());
-    if(e != null){
-        n.setEvent(e);
-        System.out.println("Retrieved event");
-    }
-    if(p != null){
-        n.setPost(p);
-        System.out.println("Retrieved post");
-    }
+    
+
     
     //add conitional propoerties
     if(n.getType().equals("FRIENDREQUEST")){
         //nothing
     }
     else if(n.getType().equals("POSTCOMMENT") || n.getType().equals("TAGGEDINPOST")){
+        Post p = nDAO.getPostFromNotification(n.getId());
+    
+        if(p != null){
+            n.setPost(p);
+            System.out.println("Retrieved post");
+        }
+        
         System.out.println("Its a post comment!");
         JSONObject arro = new JSONObject();
         String msg = n.getPost().getMessage();
@@ -74,7 +72,14 @@ for(Notification n : nList){
                 
         item.put("post",arro);
     }
-    else if(n.getType().equals("CREATEDEVENT") || n.getType().equals("JOINEDEVENT")){
+    else if(n.getType().equals("EVENTCREATED") || n.getType().equals("JOINEDEVENT")){
+        //retrieve stuff that isn't populated
+        Event e = nDAO.getEventFromNotification(n.getId());
+        if(e != null){
+            n.setEvent(e);
+            System.out.println("Retrieved event");
+        }    
+    
         JSONObject arro = new JSONObject();
         String msg = n.getEvent().getTitle();
         if(msg.length() >= 38){
@@ -83,7 +88,7 @@ for(Notification n : nList){
         arro.put("title", msg);
         arro.put("id", n.getEvent().getId());
         
-        item.put("event",n.getEvent());
+        item.put("event",arro);
     } 
     
     arr.put(item);

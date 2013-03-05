@@ -34,7 +34,8 @@
                                             var count = data.notifications.length;
                                             console.log(count);
                                             if(count){
-                                               var visibleCount = 0;
+                                               $("#nCount").text(count);
+                                               $("#nCount").show();
                                                
                                                $("#nHolder").html("");
                                                //loop through and show
@@ -43,34 +44,24 @@
                                                    var n = data.notifications[i];
                                                    console.log(i + " is " + n.type);
                                                    if(n.type == "FRIENDREQUEST"){
-                                                       visibleCount = visibleCount +1;
+                                                       
                                                        html = '<li id="n-'+n.id+'"><div class="notification FRIENDREQUEST"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> would like to be your friend <br/><span id="acceptReject"><a onclick="acceptFriend('+n.senderId+','+n.id+')" href="#">Accept</a> or <a onclick="rejectFriend('+n.senderId+','+n.id+')" href="#">Reject</a></span> <span>'+n.timestamp+'</span></div></div></li>';                                                       
                                                    } 
                                                    else if(n.type == "TAGGEDINPOST"){
-                                                       visibleCount = visibleCount +1;
                                                        html = '<li><div class="notification TAGGEDINPOST"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> tagged you in a <a href="communitywall.jsp?pid='+n.post.id+'">post</a>:<br/> <b>"'+n.post.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
                                                    }
                                                    else if(n.type == "EVENTCREATED"){
-                                                       visibleCount = visibleCount +1;
-                                                       html = '<li><div class="notification EVENTCREATED"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> created an <a href="eventwall.jsp?eid='+n.event.id+'">event</a>:<br/> <b>"'+n.event.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
+                                                       html = '<li><div class="notification EVENTCREATED"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> is participating in <a href="eventwall.jsp?eid='+n.event.id+'">event</a>:<br/> <b>"'+n.event.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
                                                    }
                                                    else if(n.type == "JOINEDEVENT"){
-                                                       visibleCount = visibleCount +1;
-                                                       html = '<li><div class="notification JOINEDEVENT"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> joined the <a href="eventwall.jsp?eid='+n.event.id+'">event</a>:<br/> <b>"'+n.event.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
+                                                       html = '<li><div class="notification JOINEDEVENT"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> is participating in <a href="eventwall.jsp?eid='+n.event.id+'">event</a>:<br/> <b>"'+n.event.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
                                                    }
-//                                                   else if(n.type == "POSTCOMMENT"){
-//                                                       html = '<li><div class="notification POSTCOMMENT"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> commented on the <a href="communitywall.jsp?eid='+n.post.id+'">post</a>:<br/> <b>"'+n.post.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
-//                                                   }
+                                                   else if(n.type == "POSTCOMMENT"){
+                                                       html = '<li><div class="notification POSTCOMMENT"><div class="float_l"><img src="/uploads/profile_pics/'+ n.senderProfilePhotoFilename +'"/></div><div class="content"><a href="profile.jsp?profileid='+ n.senderId +'"<b>'+ n.senderName +'</b></a> commented on the <a href="communitywall.jsp?eid='+n.post.id+'">post</a>:<br/> <b>"'+n.post.title+'"</b> <span>'+n.timestamp+'</span></div></div></li>';
+                                                   }
                                                    
                                                    $("#nHolder").append(html);
                                                }
-                                               
-                                               
-                                               if(visibleCount){
-                                                   $("#nCount").text(visibleCount);
-                                                   $("#nCount").show();
-                                               }
-                                               
                                                
                                             }                                            
                                         }
@@ -80,7 +71,7 @@
                                     }
                                 });
                                 
-                                setTimeout(retrieveNotifications,10000);
+                                setTimeout(retrieveNotifications,15000);
                             }
                            
                             
@@ -89,7 +80,7 @@
                                 dat.friendRequesterId = friendRequesterId;
                                 dat.isAccepting = true;
                                 dat.notificationId = notificationId;
-                                
+                                //hello!!
                                 console.log(JSON.stringify(dat));
 
                                 $.ajax({
