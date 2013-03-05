@@ -18,7 +18,7 @@
             <column name="password" length="60" not-null="true" />
         </property>
         <property name="userName" type="string">
-            <column name="user_name" length="100" not-null="true" />
+            <column name="user_name" length="100" not-null="true" unique="true" />
         </property>
         <property name="firstname" type="string">
             <column name="firstname" length="100" not-null="true" />
@@ -65,8 +65,14 @@
         <property name="profilePicFilename" type="string">
             <column name="profile_pic_filename" length="80" />
         </property>
-         <property name="forceResetPassword" type="boolean">
+        <property name="forceResetPassword" type="boolean">
             <column name="force_reset_password" />
+        </property>
+        <property name="forceChooseUsername" type="boolean">
+            <column name="force_choose_username" />
+        </property>
+        <property name="fbSecretToken" type="string">
+            <column name="fb_secret_token" length="50" />
         </property>
         <set name="submittedForms" inverse="true">
             <key>
