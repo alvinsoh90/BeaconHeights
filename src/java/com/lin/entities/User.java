@@ -34,6 +34,8 @@ public class User  implements java.io.Serializable {
      private String vehicleType;
      private String profilePicFilename = "default.jpg";
      private boolean forceResetPassword;
+     private boolean forceChooseUsername;
+     private String fbSecretToken;
      private Set submittedForms = new HashSet(0);
      private Set posts = new HashSet(0);
      private Set bookings = new HashSet(0);
@@ -125,6 +127,22 @@ public class User  implements java.io.Serializable {
        this.submittedForms = submittedForms;
        this.posts = posts;
        this.bookings = bookings;
+    }
+
+    public String getFbSecretToken() {
+        return fbSecretToken;
+    }
+
+    public void setFbSecretToken(String fbSecretToken) {
+        this.fbSecretToken = fbSecretToken;
+    }
+
+    public boolean isForceChooseUsername() {
+        return forceChooseUsername;
+    }
+
+    public void setForceChooseUsername(boolean forceChooseUsername) {
+        this.forceChooseUsername = forceChooseUsername;
     }
 
     public boolean isForceResetPassword() {
