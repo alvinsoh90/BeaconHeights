@@ -18,7 +18,7 @@
             <column name="password" length="60" not-null="true" />
         </property>
         <property name="userName" type="string">
-            <column name="user_name" length="100" not-null="true" />
+            <column name="user_name" length="100" not-null="true" unique="true" />
         </property>
         <property name="firstname" type="string">
             <column name="firstname" length="100" not-null="true" />
