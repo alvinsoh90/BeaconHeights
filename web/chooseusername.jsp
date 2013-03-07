@@ -11,6 +11,9 @@
 
 <jsp:useBean id="chooseUsernameActionBean" scope="page"
              class="com.lin.general.login.ChooseUsernameActionBean"/>
+<jsp:useBean id="logoutActionBean" scope="page"
+             class="com.lin.general.login.LogoutActionBean"/>
+
 
 
 <!DOCTYPE html>
@@ -93,13 +96,19 @@
             }
             
             function submitForm(){
-                checkUser();
+                //checkUser();
                 var success = $("#success").val();
                 if (success=='true'){
-                    $("#chooseUsername").submit();
+                    if(confirm('Once you confirm, you can never change your username again.')){
+                        $("#chooseUsername").submit();
+                    }
                 }else{
-                    alert("Username already in use please key in another username.");
+                    alert("Please click Check to see if you have entred a valid username.");
                 }
+            }
+            
+            function logOutFunction(){
+                $("#logout").submit();
             }
             
             $(document).ready(function(){
@@ -188,11 +197,14 @@
                                 </div>                        
                                 <div class="form-actions" id="twoButtons" style="padding-left:15px">
                                     <a class="btn btn-info btn-large" onclick="submitForm()" style="width:150px" ></i> <span class="txt">Unlock</span></a>
-                                    <a href="/login.jsp" role ="button" class="btn btn-cancel btn-large" id="customCancelBut">Cancel</a>
+                                    <a class="btn btn-cancel btn-large" onclick="logOutFunction()" style="width:150px" ></i> <span class="txt">Cancel</span></a>
+                                    
                                 </div>                            
 
                             </stripes:form>
-
+                            <stripes:form  beanclass="com.lin.general.login.LogoutActionBean" focus="" name="logout" id="logout">
+                                
+                            </stripes:form>
                         </div>
 
                     </div>
