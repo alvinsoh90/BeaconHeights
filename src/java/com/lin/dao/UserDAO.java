@@ -563,5 +563,50 @@ public class UserDAO {
         System.out.println("RETRIEVED USER:" + result);
         return result;
     }
+
+    public User chooseUsername(int id, String username, String newpassword) {
+        openSession();
+        Transaction tx = null;
+        User u = null;
+        String salt = BCrypt.gensalt();
+        String newHash = BCrypt.hashpw(newpassword, salt);
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, id);
+            u.setPassword(newHash);
+            u.setUserName(username);
+            u.setForceChooseUsername(false);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return null;
+        }
+        return u;
+        
+    }
+
+    
+    public Boolean canChoose(int id) {
+        openSession();
+        boolean result = false;
+        Transaction tx = null;
+        User u = null;
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, id);
+            result = u.isForceChooseUsername();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return result;
+        }
+        return result;
+    }
     
 }

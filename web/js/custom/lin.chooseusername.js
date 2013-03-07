@@ -1,16 +1,11 @@
 
 window.onload = function() {
 	
-    $("#registration_validate").validate({
+    $("#chooseUsername").validate({
         rules:{
             username:{
                 required: true,
                 minlength:5,
-                maxlength:20
-            },
-            oldpassword:{
-                required: true,
-                minlength:6,
                 maxlength:20
             },
             newpassword:{

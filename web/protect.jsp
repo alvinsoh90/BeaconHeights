@@ -13,3 +13,6 @@
         <c:if test= "${user==null}">
             <c:redirect url="/login.jsp" />
         </c:if>
+        <c:if test= "${user.forceChooseUsername}">
+            <c:redirect url="/chooseusername.jsp" />
+        </c:if>
