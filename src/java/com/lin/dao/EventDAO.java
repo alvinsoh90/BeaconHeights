@@ -430,6 +430,24 @@ public class EventDAO {
         return null;
     }
     
+    public ArrayList<Event> getAllInappropriate() {
+        openSession();
+        ArrayList<Event> list = new ArrayList<Event>();
+        try {
+                        System.out.println("inappropirate list size:" + list.size());
+
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("ei.event from EventInappropriate as ei");
+            list = (ArrayList<Event>) q.list();
+            tx.commit();
+            System.out.println("inappropirate list size:" + list.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
     public boolean addEventInvite(EventInvite eventInvite) {
         openSession();
         Transaction tx = null;
@@ -541,6 +559,7 @@ public class EventDAO {
         
         return eventInviteList;
     }
+
 
     
 }

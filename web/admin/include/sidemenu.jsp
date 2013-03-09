@@ -27,6 +27,8 @@
                 <li><a href="manage-onlineform.jsp">Nearby Amenities</a></li>
                 <li><a href="manage-onlineform.jsp">Useful Contacts</a></li>
                 -->
+                <li class="nav-header"><i class="icon-bullhorn"></i> Manage Community </li>
+                <li><a href="manage-events.jsp">Manage Flagged Events</a></li>
 
                 
                 <!--<li class="nav-header"><i class="icon-signal"></i> Statistics</li>
