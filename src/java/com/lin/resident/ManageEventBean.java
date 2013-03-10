@@ -219,6 +219,22 @@ public class ManageEventBean extends BaseActionBean{
         return eventList;
     }
     
+     public ArrayList<Event> getFlaggedList() {
+        System.out.println("flaggedList size: " + eventList.size());
+
+        EventWallController wallCtrl = new EventWallController();
+        eventList = eDAO.getAllInappropriate();
+
+        //get associated comments
+        for (Event e : eventList) {
+            ArrayList<EventComment> l = wallCtrl.getCommentsForEventSortedByDate(e.getId());
+            Set<EventComment> relatedComments = new HashSet<EventComment>(l);
+            e.setEventComments(relatedComments);
+        }
+
+        return eventList;
+    }
+    
         @HandlesEvent("deleteEvent")
     public Resolution deleteEvent() {
         outcome = eDAO.deleteEvent(id);
