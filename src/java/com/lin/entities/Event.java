@@ -127,7 +127,7 @@ public class Event  implements java.io.Serializable {
         return this.title;
     }
     
-     public String getEscapedTitles() {
+     public String getEscapedTitle() {
         return StringEscapeUtils.escapeEcmaScript(this.title);
     }
 
