@@ -253,6 +253,7 @@ public class Event  implements java.io.Serializable {
     }
 
     public ArrayList<EventComment> getEventCommentsList() {
+        System.out.println("COMMENT LIST SIZE: " + eventCommentsList.size());
         return eventCommentsList;
     }
 

@@ -32,10 +32,11 @@ import net.sourceforge.stripes.controller.FlashScope;
  *
  * @author fayannefoo
  */
-public class ManageEventBean extends BaseActionBean{
+public class ManageEventBean extends BaseActionBean {
 
     private ActionBeanContext context;
     private Integer id;
+    private Integer commentId;
     private Date timestamp;
     private String title;
     private String venue;
@@ -56,8 +57,8 @@ public class ManageEventBean extends BaseActionBean{
     private String eventTaggedFriends;
     private String bookingId;
     private EventDAO eDAO = new EventDAO();
+    private EventCommentDAO ecDAO = new EventCommentDAO();
 
-    
     public String getBookingId() {
         return bookingId;
     }
@@ -73,9 +74,17 @@ public class ManageEventBean extends BaseActionBean{
     public void setEventTaggedFriends(String eventTaggedFriends) {
         this.eventTaggedFriends = eventTaggedFriends;
     }
-    
+
     public String getEventTimeEnd() {
         return eventTimeEnd;
+    }
+
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public void setEventTimeEnd(String eventTimeEnd) {
@@ -89,7 +98,7 @@ public class ManageEventBean extends BaseActionBean{
     public void setEventTimeStart(String eventTimeStart) {
         this.eventTimeStart = eventTimeStart;
     }
-    
+
     public String getDetails() {
         return details;
     }
@@ -97,7 +106,6 @@ public class ManageEventBean extends BaseActionBean{
     public void setDetails(String details) {
         this.details = details;
     }
-
 
     public Set getEventComments() {
         return eventComments;
@@ -179,7 +187,6 @@ public class ManageEventBean extends BaseActionBean{
         this.posts = posts;
     }
 
-
     public Date getTimestamp() {
         return timestamp;
     }
@@ -218,216 +225,238 @@ public class ManageEventBean extends BaseActionBean{
 
         return eventList;
     }
-    
-     public ArrayList<Event> getFlaggedList() {
+
+    public ArrayList<Event> getFlaggedList() {
         EventWallController wallCtrl = new EventWallController();
+        EventCommentDAO ecDAO = new EventCommentDAO();
+        BookingDAO bDAO = new BookingDAO();
         eventList = eDAO.getAllInappropriate();
 
-        //get associated comments
-        for (Event e : eventList) {
-            ArrayList<EventComment> l = wallCtrl.getCommentsForEventSortedByDate(e.getId());
-            Set<EventComment> relatedComments = new HashSet<EventComment>(l);
-            e.setEventComments(relatedComments);
-        }
 
+        for (Event e : eventList) {
+            //comments
+            e.setEventCommentsList(ecDAO.getAllCommentsForEvent(e.getId()));
+            //booking
+            if (e.getBooking() != null) {
+                System.out.println("bId: "
+                        + e.getBooking().getId());
+                e.setBooking(bDAO.getFullDataBooking(e.getBooking().getId()));
+            }
+        }
         return eventList;
     }
-    
-        @HandlesEvent("deleteEvent")
+
+    @HandlesEvent("deleteEvent")
     public Resolution deleteEvent() {
         outcome = eDAO.deleteEvent(id);
         return new RedirectResolution("/resident/eventwall.jsp?deletesuccess="
                 + outcome + "&deletemsg=" + getTitle());
     }
-        
-   @HandlesEvent("adminDeleteEvent")
+
+    @HandlesEvent("adminDeleteEvent")
     public Resolution adminDeleteEvent() {
         outcome = eDAO.deleteEvent(id);
         return new RedirectResolution("/admin/manage-events.jsp?deletesuccess="
                 + outcome + "&deletemsg=" + getTitle());
     }
-
+    
+    @HandlesEvent("adminDeleteComment")
+    public Resolution adminDeleteComment() {
+        System.out.println(commentId);
+        outcome = ecDAO.deleteEventComment(commentId);
+        return new RedirectResolution("/admin/manage-events.jsp?deletesuccess="
+                + outcome + "&deletemsg=Comment");
+    }
 
     @HandlesEvent("addEvent")
     public Resolution addEvent() {
-        
+
         // get flash scope instance
-        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
-                
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true);
+
         Date start = new Date(Long.parseLong(getEventTimeStart()));
         Date end = new Date(Long.parseLong(getEventTimeEnd()));
         System.out.println("venue: " + getVenue());
         Event event = new Event(
-                getContext().getUser(), 
-                getTitle(), 
+                getContext().getUser(),
+                getTitle(),
                 start,
-                end, 
-                getVenue(), 
-                getDetails(), 
-                isIsPublicEvent());        
-        
-         //Check any booking tagged
-        if(Integer.parseInt(getBookingId()) != -1){
+                end,
+                getVenue(),
+                getDetails(),
+                isIsPublicEvent());
+
+        //Check any booking tagged
+        if (Integer.parseInt(getBookingId()) != -1) {
             BookingDAO bDAO = new BookingDAO();
             Booking b = bDAO.getBooking(Integer.parseInt(getBookingId()));
             event.setBooking(b);
         }
-        
+
         Event e = eDAO.createEvent(event);
-        if(e != null){            
+        if (e != null) {
             //Check if any friends invite
             String friendsStr = getEventTaggedFriends();
             String[] friendsArr;
-            if(friendsStr != null){
+            if (friendsStr != null) {
                 friendsStr = friendsStr.replace("[", "");
                 friendsStr = friendsStr.replace("]", "");
                 friendsArr = friendsStr.split(",");
 
                 //create invites and store in DB
                 UserDAO uDAO = new UserDAO();
-                for(String userId : friendsArr){
+                for (String userId : friendsArr) {
                     User u = uDAO.getShallowUser(Integer.parseInt(userId));
-                    EventInvite ei = new EventInvite(e,u,EventInvite.Type.PENDING);
+                    EventInvite ei = new EventInvite(e, u, EventInvite.Type.PENDING);
                     eDAO.addEventInvite(ei);
-                }            
+                }
             }
-            
+
             //Create notifications if public event
-            if(isIsPublicEvent()){
+            if (isIsPublicEvent()) {
                 ManageNotificationBean nBean = new ManageNotificationBean();
-                nBean.sendEventCreatedNotification( e , getContext().getUser());
-            }            
-            
-            fs.put("SUCCESS","true");
+                nBean.sendEventCreatedNotification(e, getContext().getUser());
+            }
+
+            fs.put("SUCCESS", "true");
+        } else {
+            fs.put("SUCCESS", "false");
         }
-        else{
-            fs.put("SUCCESS","false");
-        }                        
         return new RedirectResolution("/residents/eventwall.jsp");
     }
-    
-    public ArrayList<Booking> getBookingsOfUser(int userId){
-        ArrayList<Booking> bList = new ArrayList<Booking>();        
+
+    public ArrayList<Booking> getBookingsOfUser(int userId) {
+        ArrayList<Booking> bList = new ArrayList<Booking>();
         BookingDAO bDAO = new BookingDAO();
-        bList = bDAO.getShallowUserBookings(userId);        
+        bList = bDAO.getShallowUserBookings(userId);
         return bList;
     }
-    
-    public ArrayList<Event> getAllPublicAndFriendEvents(int limit){
-        ArrayList<Event> list =  eDAO.getAllPublicEventsWithLimit(limit);
+
+    public ArrayList<Event> getAllPublicAndFriendEvents(int limit) {
+        ArrayList<Event> list = eDAO.getAllPublicEventsWithLimit(limit);
         EventCommentDAO ecDAO = new EventCommentDAO();
-        BookingDAO bDAO = new BookingDAO(); 
-        
+        BookingDAO bDAO = new BookingDAO();
+
         //get relevant comments and attach bookings if present
-        for(Event e : list){
+        for (Event e : list) {
             //comments
             e.setEventCommentsList(ecDAO.getAllCommentsForEvent(e.getId()));
             //booking
-            if(e.getBooking() != null){
-                System.out.println("bId: "+
-                e.getBooking().getId());
+            if (e.getBooking() != null) {
+                System.out.println("bId: "
+                        + e.getBooking().getId());
                 e.setBooking(bDAO.getFullDataBooking(e.getBooking().getId()));
             }
-        }        
-        
-        System.out.println("found events ::" +list.size());
+        }
+
+        System.out.println("found events ::" + list.size());
         return list;
     }
-    
-    public ArrayList<User> getInvitedUsers(int eventId, int limit){ //-1 for no limit
+
+    public ArrayList<User> getInvitedUsers(int eventId, int limit) { //-1 for no limit
         ArrayList<User> list = new ArrayList<User>();
-        ArrayList<EventInvite> tagList =  eDAO.getEventInvitesByEventId(eventId);
+        ArrayList<EventInvite> tagList = eDAO.getEventInvitesByEventId(eventId);
         int fetchSize = tagList.size();
-        
-        if(tagList.size() > limit && limit != -1) fetchSize = limit;
-        
+
+        if (tagList.size() > limit && limit != -1) {
+            fetchSize = limit;
+        }
+
         //retrieve users
         UserDAO uDAO = new UserDAO();
-        for(int i = 0 ; i < fetchSize ; i++){
+        for (int i = 0; i < fetchSize; i++) {
             EventInvite invite = tagList.get(i);
-            list.add(uDAO.getShallowUser(invite.getUser().getUserId()));           
+            list.add(uDAO.getShallowUser(invite.getUser().getUserId()));
         }
-        
+
         return list;
     }
-    
-    public ArrayList<User> getPendingInvites(int eventId, int limit){ //-1 for no limit
+
+    public ArrayList<User> getPendingInvites(int eventId, int limit) { //-1 for no limit
         ArrayList<User> list = new ArrayList<User>();
-        ArrayList<EventInvite> tagList =  eDAO.getPendingEventInvitesByEventId(eventId);
+        ArrayList<EventInvite> tagList = eDAO.getPendingEventInvitesByEventId(eventId);
         int fetchSize = tagList.size();
-        
-        if(tagList.size() > limit && limit != -1) fetchSize = limit;
-        
+
+        if (tagList.size() > limit && limit != -1) {
+            fetchSize = limit;
+        }
+
         //retrieve users
         UserDAO uDAO = new UserDAO();
-        for(int i = 0 ; i < fetchSize ; i++){
+        for (int i = 0; i < fetchSize; i++) {
             EventInvite invite = tagList.get(i);
-            list.add(uDAO.getShallowUser(invite.getUser().getUserId()));           
+            list.add(uDAO.getShallowUser(invite.getUser().getUserId()));
         }
-        
+
         return list;
     }
-    
-    public boolean hasUserLikedEvent(int postId, int userId){        
+
+    public boolean hasUserLikedEvent(int postId, int userId) {
         return eDAO.hasUserLikedEvent(postId, userId);
     }
-    
-    public boolean hasUserJoinedEvent(int postId, int userId){        
+
+    public boolean hasUserJoinedEvent(int postId, int userId) {
         return eDAO.hasUserJoinedEvent(postId, userId);
     }
-    
-    public int getNumEventLikes(int postId){
+
+    public int getNumEventLikes(int postId) {
         return eDAO.getEventLikesByEventId(postId).size();
     }
-    
-    public ArrayList<User> getLikersOfEvent(int postId, int limit){ //-1 for no limit
+
+    public ArrayList<User> getLikersOfEvent(int postId, int limit) { //-1 for no limit
         ArrayList<User> list = new ArrayList<User>();
-        ArrayList<EventLike> likeList=  eDAO.getEventLikesByEventId(postId);
+        ArrayList<EventLike> likeList = eDAO.getEventLikesByEventId(postId);
         int fetchSize = likeList.size();
-        
-        if(likeList.size() > limit && limit != -1) fetchSize = limit;
-        
+
+        if (likeList.size() > limit && limit != -1) {
+            fetchSize = limit;
+        }
+
         //retrieve users
         UserDAO uDAO = new UserDAO();
-        for(int i = 0 ; i < fetchSize ; i++){
+        for (int i = 0; i < fetchSize; i++) {
             EventLike pl = likeList.get(i);
-            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));
         }
-        
+
         return list;
     }
-    
-    public ArrayList<User> getTaggedUsers(int postId, int limit){ //-1 for no limit
+
+    public ArrayList<User> getTaggedUsers(int postId, int limit) { //-1 for no limit
         ArrayList<User> list = new ArrayList<User>();
-        ArrayList<EventInvite> tagList =  eDAO.getEventInvitesByEventId(postId);
+        ArrayList<EventInvite> tagList = eDAO.getEventInvitesByEventId(postId);
         int fetchSize = tagList.size();
-        
-        if(tagList.size() > limit && limit != -1) fetchSize = limit;
-        
+
+        if (tagList.size() > limit && limit != -1) {
+            fetchSize = limit;
+        }
+
         //retrieve users
         UserDAO uDAO = new UserDAO();
-        for(int i = 0 ; i < fetchSize ; i++){
+        for (int i = 0; i < fetchSize; i++) {
             EventInvite pl = tagList.get(i);
-            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));
         }
-        
+
         return list;
     }
-    
-    public ArrayList<User> getAttendingUsers(int postId, int limit){ //-1 for no limit
+
+    public ArrayList<User> getAttendingUsers(int postId, int limit) { //-1 for no limit
         ArrayList<User> list = new ArrayList<User>();
-        ArrayList<EventInvite> tagList =  eDAO.getAttendingEventInvitesByEventId(postId);
+        ArrayList<EventInvite> tagList = eDAO.getAttendingEventInvitesByEventId(postId);
         int fetchSize = tagList.size();
-        
-        if(tagList.size() > limit && limit != -1) fetchSize = limit;
-        
+
+        if (tagList.size() > limit && limit != -1) {
+            fetchSize = limit;
+        }
+
         //retrieve users
         UserDAO uDAO = new UserDAO();
-        for(int i = 0 ; i < fetchSize ; i++){
+        for (int i = 0; i < fetchSize; i++) {
             EventInvite pl = tagList.get(i);
-            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));           
+            list.add(uDAO.getShallowUser(pl.getUser().getUserId()));
         }
-        
+
         return list;
     }
 }

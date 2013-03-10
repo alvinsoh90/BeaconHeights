@@ -438,7 +438,8 @@ public class EventDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("select distinct e.event from EventInappropriate e"
                     + " left join fetch e.event.user left join fetch e.event.booking"
-                    + " left join fetch e.event.booking.facility where e.event.isDeleted is false ");
+                    + " left join fetch e.event.booking.facility "
+                    + "where e.event.isDeleted is false ");
             list = (ArrayList<Event>) q.list();
 
             System.out.println("inappropirate list size:" + list.size());

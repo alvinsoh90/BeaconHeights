@@ -61,12 +61,12 @@
                 
             }
             
-            function populateDeleteCommentModal(commentEventID,commentID){ 
+            function populateDeleteEventCommentModal(eventID,commentID){ 
                 eventList.forEach(function(event){
-                    if(event.id == commentEventID){
-                        $("#usernameDeleteLabel").text(event.firstName + " " + event.lastName);
-                        $("#delete_id").val(commentID);
-                    }
+                    alert("here");
+                    $("#usernameDeleteCommentLabel").text(event.firstName + " " + event.lastName);
+                    $("#usernameCommentLabel").text(event.firstName + " " + event.lastName);
+                    $("#delete_comment_id").val(commentID);
                 });
                 
             }
@@ -80,7 +80,6 @@
 
             <c:forEach items="${manageEventBean.flaggedList}" var="event" varStatus="loop">
                 <script>
-                    
                     var event = new Object();
                     event.id = '${event.id}';
                     event.username = '${event.user.escapedUserName}';
@@ -89,11 +88,11 @@
                     event.title = '${event.escapedTitle}';
                     event.details = '${event.escapedDetails}';
                     event.startTime = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
-                                                        value="${event.startTime}"/>';
-                    event.endTime = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
-                                                        value="${event.endTime}"/>';
-                    event.venue = '${event.venue}';
-                    eventList.push(event);
+                    value="${event.startTime}"/>';
+                                                            event.endTime = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                    value="${event.endTime}"/>';
+                                                            event.venue = '${event.venue}';
+                                                            eventList.push(event);
                 </script>
             </c:forEach>
         </c:if>
@@ -134,13 +133,18 @@
                                 <div class="baseContent">
                                     <div class="content"><b>Event Details:</b> "${post.details}"</div>
                                     <b>Event Title:</b> <a href="#">${post.title}</a><br/>
-                                    <b>Venue:</b> ${post.venue}<br/>
-                                    <c:if test="${post.booking != null}">
-                                        <c:if test="${not empty post.booking.facility.name}">
-                                            <span class="label label-info bookedLabel">${post.booking.facility.name} <b>(Booked)</b></span>
-                                        </c:if>
-                                        <br/>                                    
-                                    </c:if>
+                                    <b>Venue:</b>
+                                    <c:choose>
+                                        <c:when test="${post.booking != null}">
+                                            <c:if test="${not empty post.booking.facility.name}">
+                                                <span class="label label-info bookedLabel">${post.booking.facility.name} <b>(Booked)</b></span>
+                                            </c:if>
+                                            <br/>                                    
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${post.venue}<br/>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <b>Date/Time:</b> ${post.formattedEventTime}
 
                                     <c:set var="taggedUsers" value="${manageEventBean.getPendingInvites(post.id,-1)}"/>
@@ -173,9 +177,10 @@
                                 <div class="commentArea">
                                     <div class="comments">
                                         <c:forEach items="${post.eventCommentsList}" var="comment" varStatus="loop">
+                                            
                                             <div class="comment">
                                                 <div class="delete"><a href="#deleteEventCommentModal" role ="button" data-toggle="modal"
-                                                                       onclick="populateDeleteEventModal(${post.id},${comment.commentId}">
+                                                                       onclick="alert(${post.id});populateDeleteEventCommentModal(${post.id},${comment.commentId});">
                                                         <i class="icon-remove"></i>							
                                                     </a></div>
                                                 <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
@@ -228,6 +233,25 @@
                     <a data-dismiss="modal" class="btn">Close</a>
                     <stripes:hidden id="delete_id" name="id"/>
                     <input type="submit" name="adminDeleteEvent" value="Confirm Delete" class="btn btn-danger"/>
+                </div>
+            </stripes:form>
+        </div>
+
+
+        <!-- Delete Event Comment Modal -->
+        <div id="deleteEventCommentModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Deletion of <span id="usernameDeleteCommentLabel"></span>'s comment</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEventBean" focus=""> 
+                    You are now deleting <b><span id="usernameCommentLabel"></span>'s</b> comment. Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="delete_comment_id" name="commentId"/>
+                    <input type="submit" name="adminDeleteComment" value="Confirm Delete" class="btn btn-danger"/>
                 </div>
             </stripes:form>
         </div>
