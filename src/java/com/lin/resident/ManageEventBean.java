@@ -220,8 +220,6 @@ public class ManageEventBean extends BaseActionBean{
     }
     
      public ArrayList<Event> getFlaggedList() {
-        System.out.println("flaggedList size: " + eventList.size());
-
         EventWallController wallCtrl = new EventWallController();
         eventList = eDAO.getAllInappropriate();
 
@@ -239,6 +237,13 @@ public class ManageEventBean extends BaseActionBean{
     public Resolution deleteEvent() {
         outcome = eDAO.deleteEvent(id);
         return new RedirectResolution("/resident/eventwall.jsp?deletesuccess="
+                + outcome + "&deletemsg=" + getTitle());
+    }
+        
+   @HandlesEvent("adminDeleteEvent")
+    public Resolution adminDeleteEvent() {
+        outcome = eDAO.deleteEvent(id);
+        return new RedirectResolution("/admin/manage-events.jsp?deletesuccess="
                 + outcome + "&deletemsg=" + getTitle());
     }
 

@@ -45,7 +45,7 @@
         <![endif]-->
         <!-- Populates the Booking Modals-->
         <script>
-           var eventList = [];             
+            var eventList = [];             
                 
             function populateDeleteEventModal(eventID){ 
                 eventList.forEach(function(event){
@@ -71,38 +71,16 @@
                 
             }
             
-            function populateEditEventModal(bookingID){ 
-                console.log("REACHED");
-                eventList.forEach(function(booking){
-                    if(booking.id == bookingID){
-                        $("#usernameEditLabel").text(booking.username);
-                        $("#edit_username").val(booking.username);
-                        $("#edit_facilityType").text(booking.facilityType);
-                        $("#edit_facilityId").text(booking.facilityId);
-                        
-                        
-                        $("#editBookingStartDate").val(
-                        Date.parse(booking.startDate.substring(0,10)).toString("MMM, dd yyyy"));
-                        $("#editBookingEndDate").val(
-                        Date.parse(booking.endDate.substring(0,10)).toString("MMM, dd yyyy"));
-                        $("#editBookingStartTime").val(booking.startDate.substring(11,19));
-                        $("#editBookingEndTime").val(booking.endDate.substring(11,19));
-                        
-                        $("#edit_id").val(booking.id);
-                        $("#edit_displayid").val(booking.id);
-                    }
-                });
-                
-            }
 
         </script>
 
         <%--Load up events --%>
 
-        <c:if test="${manageEventsBean.flaggedList.size()!=0}">   
-            
-            <c:forEach items="${manageEventsBean.flaggedList}" var="event" varStatus="loop">
+        <c:if test="${manageEventBean.flaggedList.size()!=0}">   
+
+            <c:forEach items="${manageEventBean.flaggedList}" var="event" varStatus="loop">
                 <script>
+                    
                     var event = new Object();
                     event.id = '${event.id}';
                     event.username = '${event.user.escapedUserName}';
@@ -110,8 +88,10 @@
                     event.lastName = '${event.user.escapedLastName}';
                     event.title = '${event.escapedTitle}';
                     event.details = '${event.escapedDetails}';
-                    event.startTime = '${event.startTime}';
-                    event.endTime = '${event.endTime}';
+                    event.startTime = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                        value="${event.startTime}"/>';
+                    event.endTime = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                        value="${event.endTime}"/>';
                     event.venue = '${event.venue}';
                     eventList.push(event);
                 </script>
@@ -136,8 +116,9 @@
                     </div>
                     <div class="container">
 
-                        <c:forEach items="${manageEventBean.getAllPublicAndFriendEvents(10)}" var="post" varStatus="loop">
-
+                        <c:forEach items="${manageEventBean.flaggedList}" var="post" varStatus="loop">
+                            <div id="post-${post.id}" class="postWrapper row-fluid">
+                            </div>
                             <div class="post span6">
                                 <div class ="eventHeader">
                                     <div class="delete"><a href="#deleteEventModal" role ="button" data-toggle="modal" 
@@ -153,8 +134,8 @@
                                 <div class="baseContent">
                                     <div class="content"><b>Event Details:</b> "${post.details}"</div>
                                     <b>Event Title:</b> <a href="#">${post.title}</a><br/>
+                                    <b>Venue:</b> ${post.venue}<br/>
                                     <c:if test="${post.booking != null}">
-                                        <b>Venue:</b> ${post.venue}
                                         <c:if test="${not empty post.booking.facility.name}">
                                             <span class="label label-info bookedLabel">${post.booking.facility.name} <b>(Booked)</b></span>
                                         </c:if>
@@ -170,7 +151,7 @@
                                         ${fn:length(taggedUsers)} <br/><b>Guests Invited:</b>
                                         <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
                                             <code>${tagged.firstname} ${tagged.lastname}</code>
-                                            </c:forEach>                                    
+                                        </c:forEach>                                    
 
                                     </c:if>
                                     <c:if test="${not empty attendingUsers}">
@@ -181,11 +162,13 @@
                                             <code>${tagged.firstname} ${tagged.lastname}</code>
                                         </c:forEach>    
                                     </c:if>
-                                       <br/>     
+                                    <br/>     
                                 </div>
-                                <div class="linkBar">
-                                    <center><b>Event Comments</b></center>
-                                </div>
+                                <c:if test ="${not empty post.eventCommentsList}">
+                                    <div class="linkBar">
+                                        <center><b>Event Comments</b></center>
+                                    </div>
+                                </c:if>
 
                                 <div class="commentArea">
                                     <div class="comments">
@@ -208,255 +191,73 @@
 
 
                                 </div>
+
                             </div>
 
 
-                        </div>
-                    </c:forEach>
+
+                        </c:forEach>
+                    </div>
+
                 </div>
             </div>
 
 
         </div>
 
-<hr>
+        <hr>
 
-<%@include file="include/footer.jsp"%>
+        <%@include file="include/footer.jsp"%>
 
 
-<!-- Pay Booking Modal -->
-<div id="payBookingModal" class="modal hide fade">
-    <div id="myModal" class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-        <h3>Record Payment of <span id="usernamePayLabel"></span>'s booking</h3>
-    </div>
-    <div class="modal-body">
-        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
-            <div class="control-group ${errorStyle}">
-                <label class="control-label">Transaction ID</label>
-                <div class="controls">
-                    <stripes:text id="pay_transactionId" name="transactionId"/>
-                </div>
+
+        <!-- Delete Event Modal -->
+        <div id="deleteEventModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Deletion of <span id="usernameDeleteLabel"></span>'s event</h3>
             </div>
-        </div>
-        <div class="modal-footer">
-            <a data-dismiss="modal" class="btn">Close</a>
-            <stripes:hidden id="pay_username" name="username"/>
-            <stripes:hidden id="pay_id" name="id"/>
-            <input type="submit" name="payBooking" value="Update" class="btn btn-primary"/>
-        </div>
-    </stripes:form>
-</div>
-
-<!-- Pending Booking Modal -->
-<div id="pendingBookingModal" class="modal hide fade">
-    <div id="myModal" class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-        <h3>Revert Payment of <span id="usernamePendingLabel"></span>'s booking</h3>
-    </div>
-    <div class="modal-body">
-        <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.PayBookingBean" focus=""> 
-            You are now reverting the booking status to pending. Are you sure?
-        </div>
-        <div class="modal-footer">
-            <a data-dismiss="modal" class="btn">Close</a>
-            <stripes:hidden id="pending_username" name="username"/>
-            <stripes:hidden id="pending_id" name="id"/>
-            <input type="submit" name="payBooking" value="Change to Pending" class="btn btn-primary"/>
-        </div>
-    </stripes:form>
-</div>
-
-
-<!-- Edit Booking Modal Form -->
-<div id="editBookingModal" class="modal hide fade" style="overflow: visible;">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-        <h3>Edit <span id="usernameEditLabel"></span>'s booking</h3>
-    </div>
-    <div class="modal-body">
-
-        <div class="alert alert-info">
-            <b>Note! </b> Manually editing booking timings may cause this booking to overlap with other bookings, or booking in invalid time slots. Do check if the desired timing is valid and available beforehand. 
-        </div>
-
-        <form class="form-horizontal" id="edit_booking_validate" name="edit_booking_validate">
-            <div class="control-group ${errorStyle}">
-                <label class="control-label">Booking ID</label>
-
-                <div class="controls">
-                    <input type="text" id="edit_displayid" name="displayid" class="shorty" disabled/>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEventBean" focus=""> 
+                    You are now deleting <b><span id="delete_firstName"></span> 
+                        <span id="delete_lastName"></span>'s</b> event on the <b>
+                        <span id="delete_eventDate"></span>
+                    </b> at <b><span id="delete_eventVenue"></span></b>. Are you sure?
                 </div>
-            </div>
-            <div class="control-group ${errorStyle}">
-                <label class="control-label">Start Date</label>
-                <div class="controls">
-                    <input type="hidden" id="edit_startDateTime" name="startDateTime"/>
-                    <input type="text" id="editBookingStartDate" class="datepicker"/> 
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="delete_id" name="id"/>
+                    <input type="submit" name="adminDeleteEvent" value="Confirm Delete" class="btn btn-danger"/>
                 </div>
-            </div>
-            <div class="control-group ${errorStyle}">
-                <label class="control-label">Start Time</label>
-                <div class="controls">
-                    <input type="text" id="editBookingStartTime" class="timepicker"/> 
-                </div>
-            </div>    
-
-            <div class="control-group ${errorStyle}">
-                <label class="control-label">End Date</label>
-                <div class="controls">
-                    <input type="hidden" id="edit_endDateTime" name="endDateTime"/>
-                    <input type="text" id="editBookingEndDate" class="datepicker"/> 
-                </div>
-            </div>
-            <div class="control-group ${errorStyle}">
-                <label class="control-label">End Time</label>
-                <div class="controls">
-                    <input type="text" id="editBookingEndTime" class="timepicker"/> 
-                </div>
-            </div>     
-    </div>
-    <div class="modal-footer">
-        <a data-dismiss="modal" class="btn">Close</a>
-        <input type="submit" name="editBooking" value="Confirm Edit" class="btn btn-primary"/>
-    </div>
-
-</form>
-</div>
-
-
-<!-- Delete Event Modal -->
-<div id="deleteEventModal" class="modal hide fade">
-    <div id="myModal" class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-        <h3>Deletion of <span id="usernameDeleteLabel"></span>'s event</h3>
-    </div>
-    <div class="modal-body">
-        <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEventBean" focus=""> 
-            You are now deleting <b><span id="delete_firstName"></span> 
-                <span id="delete_lastName"></span>'s</b> event on the <b>
-                    <span id="delete_eventDate"></span>
-                </b> on <b><span id="delete_eventVenue"></span></b>. Are you sure?
+            </stripes:form>
         </div>
-        <div class="modal-footer">
-            <a data-dismiss="modal" class="btn">Close</a>
-            <stripes:hidden id="delete_id" name="id"/>
-            <input type="submit" name="deleteEvent" value="Confirm Delete" class="btn btn-danger"/>
-        </div>
-    </stripes:form>
-</div>
 
 
 
 
-<script>
-    $(document).ready(function() {
-        // Init
-        $('.dropdown-menu li a').hover(
-        function() {
-            $(this).children('i').addClass('icon-white');
-        },
-        function() {
-            $(this).children('i').removeClass('icon-white');
-        });
+        <script>
+            $(document).ready(function() {
+                // Init
+                $('.dropdown-menu li a').hover(
+                function() {
+                    $(this).children('i').addClass('icon-white');
+                },
+                function() {
+                    $(this).children('i').removeClass('icon-white');
+                });
 		
-        if($(window).width() > 760)
-        {
-            $('tr.list-users td div ul').addClass('pull-right');
-        }
-    });
-            
-</script>
-
-<script src="../js/jquery.validate.js"></script>
-
-
-
-<script>        
-    function retrieveEditBookingFormInfo(){
-        var startDateStr = $("#editBookingStartDate").val();
-        var endDateStr = $("#editBookingEndDate").val();
-        var startTimeStr = $("#editBookingStartTime").val();
-        var endTimeStr = $("#editBookingEndTime").val();
-                
-        var startDate = new Date(startDateStr + " " + startTimeStr);
-        var endDate = new Date(endDateStr + " " + endTimeStr);
-        console.log("sd: "+startDate.getTime());
-        console.log("sd2: "+endDate);
-        $("#edit_startDateTime").val(startDate.getTime());
-        $("#edit_endDateTime").val(endDate.getTime());
-                
-        if(!startDate || !endDate){
-            toastr.error("Please check your entry!");
-            return false;
-        }
-        else{
-            return true; 
-        }
-               
-    }
-            
-    $(document).ready(function() {
-                
-               
-        $("#edit_booking_validate").validate({
-            rules:{
-                startTime: {
-                    required: true
-                },
-                endTime: {
-                    required: true
-                },
-                startDate:{
-                    required:true
-                },
-                endDate:{
-                    required:true
+                if($(window).width() > 760)
+                {
+                    $('tr.list-users td div ul').addClass('pull-right');
                 }
-            },                    
-            submitHandler: function(){      
-                if(retrieveEditBookingFormInfo()){
-                    var dat = new Object();
-                    dat.bookingid = $("#edit_displayid").val();
-                    dat.startDateTime = $("#edit_startDateTime").val();
-                    dat.endDateTime = $("#edit_endDateTime").val();
-                    console.log(JSON.stringify(dat));
-                    $.ajax({
-                        type: "POST",
-                        url: "/json/admin/editBookingJSON.jsp",
-                        data: dat,
-                        success: function(data, textStatus, xhr) {
-                            console.log(xhr.status);
-                        },
-                        complete: function(xhr, textStatus) {
-                            if(xhr.status === 200){
-                                window.location.href="/admin/manage-bookings.jsp?bookingId=" + $("#edit_displayid").val();
-                            }
-                            else{
-                                toastr.error("There was an error editing the booking");
-                            }
-                        } 
-                    });
-                }                         
-            },
-            errorClass: "help-inline",
-            errorElement: "span",
-            highlight:function(element, errorClass, validClass) {
-                $(element).parents('.control-group').addClass('error');
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).parents('.control-group').removeClass('error');
-                $(element).parents('.control-group').addClass('success');
-            }
-        })                
-    });
+            });
+            
+        </script>
 
-    function filterBookingTableById(id){
-        $("input[aria-controls]").val(id);
-        $("input[aria-controls]").keyup();
-    }
-</script>
-<%@include file="/analytics/analytics.jsp"%>
+        <script src="../js/jquery.validate.js"></script>
 
-</body>
+
+        <%@include file="/analytics/analytics.jsp"%>
+
+    </body>
 </html>
