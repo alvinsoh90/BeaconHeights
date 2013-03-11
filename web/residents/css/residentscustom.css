@@ -622,3 +622,33 @@ i.larger{
     border-top:1px solid #CCC;
     border-bottom:1px solid #CCC;
 }
+
+/** View my Events **/
+.postWrapper .editBtn{
+    color:green;
+    padding:2px 4px;
+}
+.postWrapper .editBtn:hover{
+    background:green;
+    color:white;
+}
+.postWrapper a:hover{
+    text-decoration:none;
+}
+
+.bannerEvent{
+    height:200px;
+    width:100%;
+    margin-top: 41px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.32),inset 0px 1px 2px rgba(0, 0, 0, 0.32);
+    -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.32),inset 0px 1px 2px rgba(0, 0, 0, 0.32);
+    -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.32),inset 0px 1px 2px rgba(0, 0, 0, 0.32);
+    margin-bottom: 1em;
+    background-position: center !important;
+}
+.bannerEvent.default{
+    background:url(../img/banner_bbq.png) no-repeat;
+}
+#content.nopaddingtop{
+    padding-top:0;
+}

@@ -406,8 +406,8 @@
     </head>
 
     <body>
-        <div id="content">
-
+        <div id="content" class="nopaddingtop">
+            <div class="bannerEvent default"></div>
             <div class="container">
                 <div class="postWrapper row-fluid">
                     <div class="leftContent span2">

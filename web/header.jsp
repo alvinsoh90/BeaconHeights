@@ -59,6 +59,7 @@
                     <ul class="dropdown-menu hoverShow">
                         <li>
                             <a href="/residents/eventwall.jsp"> Event Wall</a>
+                            <a href="/residents/viewmyevents.jsp"> View My Events</a>
                         </li>
                     </ul>
                 </li>

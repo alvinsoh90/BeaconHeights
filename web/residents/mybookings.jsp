@@ -22,14 +22,9 @@
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
         <link href="./css/font-awesome.css" rel="stylesheet">
 
-        <link href="./css/adminia.css" rel="stylesheet"> 
-        <link href="./css/adminia-responsive.css" rel="stylesheet"> 
         <link href="./css/residentscustom.css" rel="stylesheet"> 
 
-        <link rel="stylesheet" href="./css/fullcalendar.css" />	
-        <link href="./css/pages/dashboard.css" rel="stylesheet"> 
-        <script src="./js/unicorn.calendar.js"></script>
-        <script src="./js/jquery-1.7.2.min.js"></script>
+        <script src="./../js/jquery-1.9.1.min.js"></script>
         <!-- Scripts -->
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
