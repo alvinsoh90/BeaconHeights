@@ -516,27 +516,7 @@
                     </div>
                 </div>
                 <div class="span2 postSideBlock">
-                    <!--<div class="sideHeaderBtn">
-                        <div><i class="iconLike icon-heart"></i></div>
-                        <div class="txt">You Like</div> 
-                    </div>-->
-                    <c:set var="numPostLikes" value="${managePostBean.getNumPostLikes(post.postId)}"/>
-                    <c:if test="${numPostLikes > 0}">
-                        <div class="header">${numPostLikes} Likes</div>
-                        <div class="likerSpace">
-                        <c:forEach items="${managePostBean.getLikersOfPost(post.postId,18)}" var="liker" varStatus="stat">
-                            <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
-                        </c:forEach>      
-                        </div>
-                            <script>
-                                $(document).ready(function() {         
-                                    //Tipsy tooltips
-                                    $(".liker").each(function(){
-                                        $(this).tipsy({gravity: 'n'});
-                                    });
-                                });       
-                            </script>
-                    </c:if>                        
+                                         
                 </div>                                
             </div>
         </c:forEach>

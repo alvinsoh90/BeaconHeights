@@ -388,6 +388,26 @@ public class PostDAO {
         
         return null;
     }
+    
+      public ArrayList<Post> getAllPostInappropriate(){
+        openSession();
+        ArrayList<Post> postInappropriateList = new ArrayList<Post>();
+        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            
+            Query q = session.createQuery("select distinct p.post from PostInappropriate p left join fetch p.post.user");
+            postInappropriateList = (ArrayList<Post>) q.list();
+            
+            tx.commit();
+            return postInappropriateList;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
 
     public boolean addPostUserTag(PostUserTag postUserTag) {
         openSession();
