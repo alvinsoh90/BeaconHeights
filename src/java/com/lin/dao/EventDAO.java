@@ -69,7 +69,7 @@ public class EventDAO {
         ArrayList<Event> list = new ArrayList<Event>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Event as e join fetch e.user where e.id = :id");
+            Query q = session.createQuery("from Event as e join fetch e.user where e.id = :id ");
             q.setInteger("id", id);
             list = (ArrayList<Event>) q.list();
             tx.commit();
@@ -78,6 +78,7 @@ public class EventDAO {
         }
         return list.get(0);
     }
+    
 
     public ArrayList<Event> getAllEvents() {
         openSession();

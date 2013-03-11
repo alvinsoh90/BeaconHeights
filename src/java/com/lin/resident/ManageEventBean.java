@@ -210,6 +210,14 @@ public class ManageEventBean extends BaseActionBean {
     public void setVenue(String venue) {
         this.venue = venue;
     }
+    
+    public Event getEvent(Integer id){
+        EventDAO eDAO = new EventDAO();
+        
+        Event event = eDAO.getEventWithUserLoaded(id);
+        return event;
+                   
+    }
 
     public ArrayList<Event> getEventList() {
         eventList = eDAO.getAllEvents();
@@ -458,5 +466,15 @@ public class ManageEventBean extends BaseActionBean {
         }
 
         return list;
+    }
+    
+    public boolean getIsInvited(int eventid, int limit, int userId){
+        ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
+        for (User user : invitedUsers){
+            if (user.getUserId() == userId){
+                return true;
+            }
+        }
+        return false;
     }
 }
