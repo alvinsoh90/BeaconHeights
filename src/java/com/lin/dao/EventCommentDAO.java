@@ -60,7 +60,7 @@ public class EventCommentDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from EventComment as ec join fetch "
                     + "ec.user join fetch ec.event where ec.event.id = :id "
-                    + "order by ec.commentId ASC");
+                    + "and ec.isDeleted is false order by ec.commentId ASC");
             q.setString("id", eventId + "");
             list = (ArrayList<EventComment>) q.list();
             tx.commit();
