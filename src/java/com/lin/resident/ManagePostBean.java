@@ -112,6 +112,7 @@ public class ManagePostBean implements ActionBean {
     }
     
     public ArrayList<Post> getPostList() {
+        //postList = pDAO.retrievePostsWithLimitWithEvent(10);
         postList = pDAO.retrievePostsWithLimit(10);
         System.out.println("postList size: "+postList.size());
         

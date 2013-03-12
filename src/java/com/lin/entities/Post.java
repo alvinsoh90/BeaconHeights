@@ -78,13 +78,13 @@ public class Post  implements java.io.Serializable {
     }
     
     // constr for making a new post on community wall
-    public Post(User user, String message, Date date, String title, Type category){
+    public Post(User user, String message, Date date, String title, Type category, Event event){
        this.user = user;
        this.message = message;
        this.date = date;
        this.title = title;
        this.category = getCategoryStringFromType(category);
-       this.event = null;
+       this.event = event;
        this.comments = null;
        this.isDeleted = false;
        this.receivingWallId = -1;

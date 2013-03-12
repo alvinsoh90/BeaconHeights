@@ -15,6 +15,8 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="managePostBean" scope="page"
                      class="com.lin.resident.ManagePostBean"/>
+        <jsp:useBean id="manageEventBean" scope="page"
+                     class="com.lin.resident.ManageEventBean"/>
         <%@include file="/protect.jsp"%>
 
 
@@ -418,6 +420,25 @@
                             <div class="inlineblock name">${user.firstname} ${user.lastname}  </div>
                             <stripes:text id="postTitle" name="postTitle" class="postTitleArea span3" />
                             <stripes:textarea id="postContent" name="postContent" class="makePost" />
+                            Tag Event:
+                            <stripes:select name="eventId">
+                                        <c:set value="${manageEventBean.getAllFutureEventsForUser(user)}" var="futureBookingList" />
+                                        <c:choose>
+                                            <c:when test="${not empty futureBookingList}">
+                                                <option value="-1">Select an event</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="-1">No events available</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                                
+                                        <c:forEach items="${futureBookingList}" var="event">
+                                            <option value="${event.id}">${event.title} 
+                                                on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${event.startTime}" /></option>
+                                        </c:forEach>       
+                            
+                            </stripes:select>
+                            <br/>
                             Tag Friends: <input text="text"  id="tagFriendsBox" />
                             <stripes:hidden name="taggedFriends" id="taggedFriends" />
                             <br/>
@@ -467,8 +488,7 @@
                                 </c:forEach>
                                 </div>    
                             </c:if>
-   
-                        
+                       
                         <div class="attachment event hide">
                             <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
                             <div class="eventMeta">

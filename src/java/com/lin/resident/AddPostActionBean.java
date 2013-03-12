@@ -7,9 +7,11 @@ package com.lin.resident;
 import com.lin.controllers.CommunityWallController;
 import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
+import com.lin.dao.EventDAO;
 import com.lin.entities.Post;
 import com.lin.entities.PostUserTag;
 import com.lin.entities.User;
+import com.lin.entities.Event;
 import java.util.ArrayList;
 import java.util.Date;
 import net.sourceforge.stripes.action.ActionBean;
@@ -28,6 +30,7 @@ public class AddPostActionBean implements ActionBean{
     private String postContent;
     private String postTitle;
     private int posterId;
+    private int eventId;
     private String postCategory;
     private String taggedFriends;  //retrieved as "[id1,id2,id3,...]"
 
@@ -39,7 +42,13 @@ public class AddPostActionBean implements ActionBean{
         this.taggedFriends = taggedFriends;
     }
 
-    
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
     
     public String getPostCategory() {
         return postCategory;
@@ -91,22 +100,23 @@ public class AddPostActionBean implements ActionBean{
             UserDAO uDAO = new UserDAO();
             PostDAO pDAO = new PostDAO();
             User user = uDAO.getUser(getPosterId());
-            
+            EventDAO eDAO = new EventDAO();
+            Event event = eDAO.getEvent(eventId);
             
             //Create and save post
             Post aPost = null;
             
             if("REQUEST".equals(getPostCategory())){
-                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.REQUEST);
+                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.REQUEST, event);
             }
             else if("INVITE".equals(getPostCategory())){
-                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.INVITE);
+                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.INVITE, event);
             }
             else if("SHOUTOUT".equals(getPostCategory())){
-                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.SHOUTOUT);
+                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.SHOUTOUT, event);
             }
             else if("ANNOUNCEMENT".equals(getPostCategory())){
-                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.ANNOUNCEMENT);
+                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.ANNOUNCEMENT, event);
             }
             else{
                 System.out.println("\nINVALID POST CATEGORY\n");
