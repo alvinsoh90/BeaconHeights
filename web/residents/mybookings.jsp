@@ -25,6 +25,11 @@
         <link href="./css/residentscustom.css" rel="stylesheet"> 
 
         <script src="./../js/jquery-1.9.1.min.js"></script>
+
+        <!--Toastr Popup -->
+        <script src="/js/toastr.js"></script>
+        <link href="/css/toastr.css" rel="stylesheet" />
+        <link href="/css/toastr-responsive.css" rel="stylesheet" />
         <!-- Scripts -->
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -34,30 +39,37 @@
         <script>
             
             var bookingList = [];
-            
-            //populate delete booking modal
-            function populateDeleteBookingModal(bookingID){ 
-                bookingList.forEach(function(booking){
-                    if(booking.id == bookingID){
-                        console.log(booking.id);
-                        $("#delete_facilityType").text(booking.facilityType);
-                        $("#delete_startDate").text(booking.startDateFormatted);
-                        $("#delete_endDate").text(booking.endDate);
-                        $("#delete_id").val(booking.id);
-                    }
-                });
-            }
+            $(document).ready(function(){
+                var success = "${success}";
+                var failure = "${failure}";
+                if(success != ""){
+                    toastr.success("Booking confirmed. Transaction Id: " +success);
+                }else if(failure !=""){
+                    toastr.errorSticky("Booking not confirmed. Transaction failed.")
+                }
+                //populate delete booking modal
+                function populateDeleteBookingModal(bookingID){ 
+                    bookingList.forEach(function(booking){
+                        if(booking.id == bookingID){
+                            console.log(booking.id);
+                            $("#delete_facilityType").text(booking.facilityType);
+                            $("#delete_startDate").text(booking.startDateFormatted);
+                            $("#delete_endDate").text(booking.endDate);
+                            $("#delete_id").val(booking.id);
+                        }
+                    });
+                }
         </script>
 
         <!--populate user current bookings -->
         <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
             <script>
-                var booking = new Object();
-                booking.id = '${booking.id}';
-                booking.facilityType = '${booking.facility.facilityType.name}';
-                booking.startDate = '${booking.startDate}';
-                booking.startDateFormatted = '${booking.startDateFormatted}';
-                bookingList.push(booking);
+                    var booking = new Object();
+                    booking.id = '${booking.id}';
+                    booking.facilityType = '${booking.facility.facilityType.name}';
+                    booking.startDate = '${booking.startDate}';
+                    booking.startDateFormatted = '${booking.startDateFormatted}';
+                    bookingList.push(booking);
             </script>
         </c:forEach>
     </head>
@@ -98,28 +110,28 @@
                                 <h3> Current Bookings </h3>
 
                                 <script>
-                                    ( function($) {
-                                        $(document).ready( function() { 
-                                            $('#history').hide();
-                                        } );
-                                    } ) ( jQuery );
+                                        ( function($) {
+                                            $(document).ready( function() { 
+                                                $('#history').hide();
+                                            } );
+                                        } ) ( jQuery );
                                     
-                                    function displayVals() {
-                                        var singleValues = $("#view").val();
-                                        $("h3").html(singleValues);
-                                    }
-
-                                    $("select").change(displayVals);
-                                    displayVals();
-                                    $("select").change(function() {
-                                        if($(this).val() == 'Current Bookings') {
-                                            $('#current').show();
-                                            $('#history').hide();
-                                        }else{
-                                            $('#history').show();                                            
-                                            $('#current').hide();
+                                        function displayVals() {
+                                            var singleValues = $("#view").val();
+                                            $("h3").html(singleValues);
                                         }
-                                    });
+
+                                        $("select").change(displayVals);
+                                        displayVals();
+                                        $("select").change(function() {
+                                            if($(this).val() == 'Current Bookings') {
+                                                $('#current').show();
+                                                $('#history').hide();
+                                            }else{
+                                                $('#history').show();                                            
+                                                $('#current').hide();
+                                            }
+                                        });
 
                                 </script>
                             </div> <!-- /widget-header -->
@@ -160,27 +172,34 @@
                                                         </c:if>
                                                         <c:if test= "${booking.isDeleted == 'false'}">
                                                             <c:if test= "${booking.facility.facilityType.needsPayment == 'true'}">
-                                                                <c:out value="${booking.isPaid ? 'Paid': 'Not Paid'}"/>
+                                                                <c:choose>
+                                                                    <c:when test = "${booking.isPaid == 'true'}">
+                                                                        ${booking.transactionId}
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        Not Paid
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                             </c:if>
                                                             <c:if test= "${booking.facility.facilityType.needsPayment == 'false'}">
                                                                 N/A
                                                             </c:if>
 
                                                         </c:if>
-                                                        </td>
-                                                        <td class="action-td">
-                                                            <c:if test= "${booking.isDeleted == 'true'}">
-                                                                -
-                                                            </c:if>
-                                                            <c:if test= "${booking.isDeleted == 'false'}">
-                                                                <a href="#deleteBookingModal" role ="button" data-toggle="modal" 
-                                                                   class="btn btn-small btn-warning"
-                                                                   onclick="populateDeleteBookingModal(${booking.id})">
-                                                                    <i class="icon-remove"></i>							
-                                                                </a>
-                                                            </c:if>
-                                                        </td>
-                                                    </tr>
+                                                    </td>
+                                                    <td class="action-td">
+                                                        <c:if test= "${booking.isDeleted == 'true'}">
+                                                            -
+                                                        </c:if>
+                                                        <c:if test= "${booking.isDeleted == 'false'}">
+                                                            <a href="#deleteBookingModal" role ="button" data-toggle="modal" 
+                                                               class="btn btn-small btn-warning"
+                                                               onclick="populateDeleteBookingModal(${booking.id})">
+                                                                <i class="icon-remove"></i>							
+                                                            </a>
+                                                        </c:if>
+                                                    </td>
+                                                </tr>
                                             </c:forEach>
                                         </c:if>
                                         <c:if test="${manageBookingsActionBean.userCurrentBookingList.size()==0}">
@@ -204,21 +223,21 @@
 
                                         <% int countHistory = 1;%>
                                         <tbody style="font-size: 11px">
-                                        <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
-                                            <tr>
-                                                <td><%=countHistory++%></td>
-                                                <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
-                                                                value="${booking.bookingTimeStamp}"/></td>
-                                                <td>${booking.title}</td>
-                                                <td>${booking.facility.facilityType.name} </td>
-                                                <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
-                                                                value="${booking.startDate}"/></td>
-                                                <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
-                                                                value="${booking.endDate}"/></td>            
-                                            </tr>
-                                        </c:forEach>
-                                    </c:if>
-                                        </tbody>
+                                            <c:forEach items="${manageBookingsActionBean.userHistoricalBookingList}" var="booking" varStatus="loop">
+                                                <tr>
+                                                    <td><%=countHistory++%></td>
+                                                    <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                                    value="${booking.bookingTimeStamp}"/></td>
+                                                    <td>${booking.title}</td>
+                                                    <td>${booking.facility.facilityType.name} </td>
+                                                    <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                                    value="${booking.startDate}"/></td>
+                                                    <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                                    value="${booking.endDate}"/></td>            
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                    </tbody>
                                     <c:if test="${manageBookingsActionBean.userHistoricalBookingList.size()==0}">
                                         <thead>
                                         <th> You have no bookings</th>
@@ -254,22 +273,22 @@
             </stripes:form>
         </div>
 
-        </b><%@include file="/footer.jsp"%>
+    </b><%@include file="/footer.jsp"%>
 
 
 
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./js/excanvas.min.js"></script>
+    <script src="./js/jquery.flot.js"></script>
+    <script src="./js/jquery.flot.pie.js"></script>
+    <script src="./js/jquery.flot.orderBars.js"></script>
+    <script src="./js/jquery.flot.resize.js"></script>
+    <script src="./js/fullcalendar.min.js"></script>
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/charts/bar.js"></script>
 
-    </body>
+</body>
 </html>

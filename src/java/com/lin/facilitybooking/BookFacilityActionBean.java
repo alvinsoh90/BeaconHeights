@@ -165,6 +165,7 @@ public class BookFacilityActionBean implements ActionBean {
                 FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true);
                 // put shit inside       
                 fs.put("booking", booking);
+               
                 // redirect to payment page        
                 return new RedirectResolution("/residents/bookingpayment.jsp");
 

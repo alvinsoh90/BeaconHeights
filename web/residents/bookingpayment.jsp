@@ -3,7 +3,7 @@
     Created on : Mar 13, 2013, 2:14:25 AM
     Author     : fayannefoo
 --%>
-
+<%@page import="net.sourceforge.stripes.controller.FlashScope"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,14 +11,6 @@
         <title>Make a Booking | Beacon Heights</title>
         <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-        <!-- action beans -->
-        <jsp:useBean id="manageBookingsActionBean" scope="page"
-                     class="com.lin.general.admin.ManageBookingsActionBean"/>
-        <jsp:useBean id="manageFacilitiesActionBean" scope="page"
-                     class="com.lin.general.admin.ManageFacilitiesActionBean"/>
-        <jsp:useBean id="manageFacilityTypesActionBean" scope="page"
-                     class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
 
         <!-- includes -->
         <%@include file="/protect.jsp"%>
@@ -42,16 +34,15 @@
         <link href="./css/pages/dashboard.css" rel="stylesheet">  
 
         <!-- scripts -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script type="text/javascript">
             $(document).bind("mobileinit", function(){
                 $.mobile.loadingMessageTextVisible = true;
             }); 
 
         </script>
+        <script src="./js/jquery-1.7.2.min.js"></script>
         <script src="js/jquery.mobile-1.1.0.min.js"></script>
         <script src="https://app.zooz.com/mobile/js/zooz-ext-web.js"></script> <!-- Include the ZooZ script that contains the zoozStartCheckout() function -->
-        <script src="./js/jquery-1.7.2.min.js"></script>
 
         <!--Toastr Popup -->
         <script src="/js/toastr.js"></script>
@@ -61,24 +52,37 @@
         <script>
             $(document).ready(function(){
                 //populate payment modal
-                var booking = '${booking}';
-                    
+                var booking = new Object();
+                booking.userId ='${booking.user.userId}';
+                booking.facilityId = '${booking.facility.id}';
+                booking.bookingDate = '${booking.bookingTimeStamp}';
+                booking.startDate = '${booking.startDate}';
+                booking.endDate = '${booking.endDate}';
+                booking.title = '${booking.title}';
+                booking.level = '${booking.level}';
+                booking.unit = '${booking.unit}';
+                booking.amount = '${booking.facility.facilityType.bookingFees}';
+                
                 $("#facility").text("${booking.facility.name}");
-                $("#date").text("${booking.bookingTimeStamp}");
-                $("#startTime").text("${booking.startDate}");
-                $("#endTime").text("${booking.endDate}");
+                $("#date").text(booking.bookingDate);
+                $("#startTime").text(booking.startDate);
+                $("#endTime").text(booking.endDate);
+                $("#amount").text("$"+ booking.amount);
     
-
                 $('#checkoutButton').click(function() {
-                    alert("clicked");
                     $.mobile.showPageLoadingMsg("b", "loading", false);
                     $.ajax({
-                        url: '/PaymentController?cmd=openTrx', // A call to server side to initiate the payment process
+                        url: '/PaymentController?cmd=openTrx'+"&amt="+booking.amount
+                            +"&userId="+booking.userId +"&facilityId="+booking.facilityId
+                            +"&bookingDate="+booking.bookingDate
+                            +"&startDate="+booking.startDate+"&endDate="+booking.endDate
+                            +"&title="+booking.title+"&level="+booking.level
+                            +"&unit="+booking.unit, // A call to server side to initiate the payment process
                         dataType: 'html',
                         cache: false,
                         success: function(response) {
                             eval(response);
-                            var path = window.location.protocol + "//" + window.location.host + "/mobilewebsample";
+                            var path = window.location.protocol + "//" + window.location.host;
 					
                             $.mobile.hidePageLoadingMsg();
 					
@@ -86,13 +90,17 @@
                                 token : data.token,					// Session token recieved from server
                                 uniqueId : "com.livingnet",				// unique ID as registered in the developer portal
                                 isSandbox : true,					// true = Sandbox environment
-                                returnUrl : path + "/PaymentController?return=true",      // return page URL
-                                cancelUrl : path + "/index.jsp?success=false"			// cancel page URL
+                                returnUrl : path+"/PaymentController",      // return page URL
+                                cancelUrl : path+"/residents/index.jsp"			// cancel page URL
 						
                             });
                         }
                     });
                 
+                });
+                $('#cancelButton').click(function() {
+                    window.location.href="/residents/index.jsp?cancel=true";
+
                 });
             })	;	
 
@@ -124,11 +132,13 @@
                                     </span><br/>
                                     <b>Date: </b><span id="date"><i><font size="2"> --</font></i></span> <br/>
                                     <b>Start Time: </b><span id="startTime"><i><font size="2"> --</font></i></span><br/>
-                                    <b>End Time: </b><span id="endTime"><i><font size="2"> --</font></i></span>
+                                    <b>End Time: </b><span id="endTime"><i><font size="2"> --</font></i></span><br/><br/>
+                                    <font size="4"><b>Amount: </b><span id="amount"><i> --</i></span><br/></font>
+
                                 </div>                                
                             </div>
                             <div class="modal-footer">
-                                <a href="/PaymentController?cancel=true" class="btn btn-large btn-danger"/>Cancel</a>
+                                <button id ="cancelButton" class="btn btn-large btn-danger"/>Cancel</a> 
                                 <button id ="checkoutButton" class="btn btn-large btn-peace-1"/>Proceed</a>
                             </div>
                         </div>
@@ -140,9 +150,9 @@
                 </div> <!-- /container -->
 
             </div> <!-- /content -->
+        </div>
 
-
-            <%@include file="/footer.jsp"%>
-            <script src="./js/bootstrap.js"></script>
+        <%@include file="/footer.jsp"%>
+        <script src="./js/bootstrap.js"></script>
 
 </html>
