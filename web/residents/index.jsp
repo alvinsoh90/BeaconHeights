@@ -401,6 +401,8 @@
                             </c:forEach>
                                     msg += "</ol>";    
                                     toastr.errorSticky(msg);
+                                }else if ("${param.cancel}"=="true"){
+                                    toastr.errorSticky("Booking Cancelled");
                                 }
                         });
                         
