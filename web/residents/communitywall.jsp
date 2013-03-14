@@ -37,8 +37,8 @@
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
-         <script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
-         <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
+        <script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
+        <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
         <link rel="stylesheet" href="/css/token-input.css" type="text/css" />
         <link rel="stylesheet" href="/css/token-input-facebook.css" type="text/css" />
         <link rel="stylesheet" href="/css/tipsy.css" type="text/css" />
@@ -93,32 +93,32 @@
                     }
                 });
                 
-            function changeDefaultPostTitle(){
-                var postType = $('select#postOption option:selected').val();
+                function changeDefaultPostTitle(){
+                    var postType = $('select#postOption option:selected').val();
                 
-                if(postType == "INVITE"){
-                    defaultTitle = inviteDefaultTitle;
-                }
-                else if(postType == "SHOUTOUT"){
-                    defaultTitle = shoutoutDefaultTitle;
-                }
-                else if(postType == "REQUEST"){
-                    defaultTitle = requestDefaultTitle;
-                }
-                else if(postType == "ANNOUNCEMENT"){
-                    defaultTitle = announcementDefaultTitle;
-                }
+                    if(postType == "INVITE"){
+                        defaultTitle = inviteDefaultTitle;
+                    }
+                    else if(postType == "SHOUTOUT"){
+                        defaultTitle = shoutoutDefaultTitle;
+                    }
+                    else if(postType == "REQUEST"){
+                        defaultTitle = requestDefaultTitle;
+                    }
+                    else if(postType == "ANNOUNCEMENT"){
+                        defaultTitle = announcementDefaultTitle;
+                    }
                 
-                $("#firstPostIcon").removeClass("INVITE");
-                $("#firstPostIcon").removeClass("SHOUTOUT");
-                $("#firstPostIcon").removeClass("REQUEST");
-                $("#firstPostIcon").removeClass("ANNOUNCEMENT");
+                    $("#firstPostIcon").removeClass("INVITE");
+                    $("#firstPostIcon").removeClass("SHOUTOUT");
+                    $("#firstPostIcon").removeClass("REQUEST");
+                    $("#firstPostIcon").removeClass("ANNOUNCEMENT");
                 
-                $("#firstPostIcon").addClass(postType);
-                $("#postTitle").val(defaultTitle);
-            }
+                    $("#firstPostIcon").addClass(postType);
+                    $("#postTitle").val(defaultTitle);
+                }
                
-               //* Handle Commentng *//
+                //* Handle Commentng *//
                
                 //handlers for making comment
                 $(".commentTextArea").each(function(){
@@ -328,74 +328,74 @@
             }
             
         </script>
-        
+
         <script>
-    // ** Handle friend tagging ** //
+            // ** Handle friend tagging ** //
     
-    var start=/@/ig; // @ Match
-    var word=/@(\w+)/ig; //@abc Match
+            var start=/@/ig; // @ Match
+            var word=/@(\w+)/ig; //@abc Match
     
-    var latestFriendList;
+            var latestFriendList;
     
-    function tagFriendAndReplaceByIdx(idx){
-        var content = $("#postContent").val();
+            function tagFriendAndReplaceByIdx(idx){
+                var content = $("#postContent").val();
 
-        var symbol = content.match(start); //Content Matching @
-        var name = content.match(word);
+                var symbol = content.match(start); //Content Matching @
+                var name = content.match(word);
         
-        console.log("old content: " + content + ".. looking to replace == " + name);
+                console.log("old content: " + content + ".. looking to replace == " + name);
         
-        content = content.replace(name, "<div><a href='./profile.jsp?profileid='>"
-            + latestFriendList[idx].name + "</div></a>");
+                content = content.replace(name, "<div><a href='./profile.jsp?profileid='>"
+                    + latestFriendList[idx].name + "</div></a>");
         
-        $("#postContent").append(content);
-        console.log("new content: " + content);
-    }
+                $("#postContent").append(content);
+                console.log("new content: " + content);
+            }
     
 
-    //Watch for @
-    $("#postContent").on('keyup',function(){
-        var content = $("#postContent").val();
+            //Watch for @
+            $("#postContent").on('keyup',function(){
+                var content = $("#postContent").val();
         
-        var symbol = content.match(start); //Content Matching @
-        var name = content.match(word);
+                var symbol = content.match(start); //Content Matching @
+                var name = content.match(word);
         
         
-        // if @name is found
-        if(symbol != null){ 
-            //make ajax call
-            console.log("make ajax");
+                // if @name is found
+                if(symbol != null){ 
+                    //make ajax call
+                    console.log("make ajax");
             
-            var dat = new Object();
-                dat.userId = '${sessionScope.user.userId}';
-                console.log(name[0]);
-                dat.searchString = name[0].substring(1);                   
-        } 
-    });
-    
-    var taggedFriendsList = [];
-    
-    $(document).ready(function() {
-            $("#tagFriendsBox").tokenInput("/json/community/getUserTaggableFriends.jsp", {
-                theme: "facebook",
-                queryParam:"searchString",
-                jsonContainer:"friendList",
-                searchingText:"Searching friends...",
-                hintText:"Enter a friend's name",
-                resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" },
-                onAdd: function(item){
-                    taggedFriendsList.push(item.userId);
-                    $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
-                },
-                onDelete: function(item){
-                    var idx = taggedFriendsList.indexOf(item.userId);
-                    if(idx!=-1) taggedFriendsList.splice(idx,1);
-                    $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
-                }
+                    var dat = new Object();
+                    dat.userId = '${sessionScope.user.userId}';
+                    console.log(name[0]);
+                    dat.searchString = name[0].substring(1);                   
+                } 
             });
-        });
     
-</script>
+            var taggedFriendsList = [];
+    
+            $(document).ready(function() {
+                $("#tagFriendsBox").tokenInput("/json/community/getUserTaggableFriends.jsp", {
+                    theme: "facebook",
+                    queryParam:"searchString",
+                    jsonContainer:"friendList",
+                    searchingText:"Searching friends...",
+                    hintText:"Enter a friend's name",
+                    resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" },
+                    onAdd: function(item){
+                        taggedFriendsList.push(item.userId);
+                        $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
+                    },
+                    onDelete: function(item){
+                        var idx = taggedFriendsList.indexOf(item.userId);
+                        if(idx!=-1) taggedFriendsList.splice(idx,1);
+                        $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
+                    }
+                });
+            });
+    
+        </script>
 
     </head>
     <body>
@@ -422,21 +422,21 @@
                             <stripes:textarea id="postContent" name="postContent" class="makePost" />
                             Tag Event:
                             <stripes:select name="eventId">
-                                        <c:set value="${manageEventBean.getAllFutureEventsForUser(user)}" var="futureBookingList" />
-                                        <c:choose>
-                                            <c:when test="${not empty futureBookingList}">
-                                                <option value="-1">Select an event</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="-1">No events available</option>
-                                            </c:otherwise>
-                                        </c:choose>
-                                                
-                                        <c:forEach items="${futureBookingList}" var="event">
-                                            <option value="${event.id}">${event.title} 
-                                                on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${event.startTime}" /></option>
-                                        </c:forEach>       
-                            
+                                <c:set value="${manageEventBean.getAllFutureEventsForUser(user)}" var="futureBookingList" />
+                                <c:choose>
+                                    <c:when test="${not empty futureBookingList}">
+                                        <option value="-1">Select an event</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="-1">No events available</option>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <c:forEach items="${futureBookingList}" var="event">
+                                    <option value="${event.id}">${event.title} 
+                                        on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${event.startTime}" /></option>
+                                    </c:forEach>       
+
                             </stripes:select>
                             <br/>
                             Tag Friends: <input text="text"  id="tagFriendsBox" />
@@ -449,18 +449,33 @@
                                     <option value="INVITE">Event Invitation</option>                                                                   
                                     <option value="REQUEST">Request</option> 
                                 </stripes:select>
-                                    
+
                                 <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Wall"/> 
                             </stripes:form>
                         </div>
                     </div>
                 </div>
+                <div class="featured">
+                    <section class="featuredTitle"> FEATURED</section>
+                    <section class="featuredPost">
+                        <div class="featuredProfile">
+                            <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic"/>
+                            <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.firstname} ${post.user.lastname}</div></a>
+                        </div>
+                         POST<hr/>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Duis ligula arcu, luctus nec elementum quis, condimentum a lectus. 
+                                Suspendisse potenti. Proin neque diam, dictum ac elementum scelerisque, 
+                                aliquet eget diam....
+                    </section>
+                </div>
+
 
             </div>
 
 
             <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
-        
+
                 <div id="post-${post.postId}" class="postWrapper row-fluid">
                     <div class="leftContent span2">
                         <div class="posterInfo">
@@ -476,19 +491,19 @@
                     <div class="baseContent">
                         <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
                         <div class="content">"${post.message}"</div>
-                        
-                            
-                            <c:set var="taggedUsers" value="${managePostBean.getTaggedUsers(post.postId,-1)}"/>
-                            
-                            <c:if test="${not empty taggedUsers}">
-                                <div class="taggedUsers">
+
+
+                        <c:set var="taggedUsers" value="${managePostBean.getTaggedUsers(post.postId,-1)}"/>
+
+                        <c:if test="${not empty taggedUsers}">
+                            <div class="taggedUsers">
                                 Tagged:
                                 <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
                                     <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
-                                </c:forEach>
-                                </div>    
-                            </c:if>
-                       
+                                    </c:forEach>
+                            </div>    
+                        </c:if>
+
                         <div class="attachment event hide">
                             <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
                             <div class="eventMeta">
@@ -498,7 +513,7 @@
                         </div>
                         <div class="linkBar">
                             <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
-                            
+
                             <%-- Check if user likes this post --%>
                             <c:choose>
                                 <c:when test="${managePostBean.hasUserLikedPost(post.postId, sessionScope.user.userId)}">
@@ -508,7 +523,7 @@
                                     <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.postId})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
                                 </c:otherwise>    
                             </c:choose>                                
-                            
+
                             <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
                             <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
                         </div>
@@ -536,7 +551,7 @@
                     </div>
                 </div>
                 <div class="span2 postSideBlock">
-                                         
+
                 </div>                                
             </div>
         </c:forEach>

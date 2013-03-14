@@ -514,11 +514,11 @@ h1{
 .event_description {width:auto;}
 
 .float-time{
-    
+
 }
 
 .newSpan{
-   display: inline;
+    display: inline;
     width:73%;
     margin-left:2.564102564%;
     background: #FFFFFF;
@@ -651,4 +651,45 @@ i.larger{
 }
 #content.nopaddingtop{
     padding-top:0;
+}
+
+
+/** FEATURED POST STYLES **/
+.featured{
+    margin-left: 40px;
+    display: inline-block;
+    width: 30%;
+    height: 249px;
+    border-color: #888888;
+    border-width:1px solid;
+    text-shadow: 1px 0px 0 black;
+    background-color: #333333;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#000000));
+    background-image: -webkit-linear-gradient(top, #FFFFFF, #eeeeee);
+    background-image: -moz-linear-gradient(top, #333333, #000000);
+    background-image: -o-linear-gradient(top, #333333, #000000);
+    background-image: linear-gradient(to bottom, #333333, #000000);
+}
+
+.featuredTitle{
+    background-color:rgb(27, 172, 179);
+    font-size: 20px;
+    padding: 9px;
+
+
+}
+
+.featuredPost{
+        position:relative;
+        font-size: 18px;
+padding: 9px;
+
+}
+.featuredProfile{
+    float: right;
+margin: 0 0 1em 1em;
+}
+
+.quote{
+    float:right;
 }
