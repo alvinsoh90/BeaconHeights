@@ -95,6 +95,24 @@ public class PostDAO {
         return postList;
     }
     
+    public ArrayList<Post> retrievePostsWithLimitWithEvent(int limit) {
+        openSession();
+        ArrayList<Post> postList = new ArrayList<Post>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Post as p join fetch p.user join fetch p.event order by p.postId DESC")
+                    .setMaxResults(limit);
+            
+            postList = (ArrayList<Post>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return postList;
+    }
+    
     public ArrayList<Post> retrievePostsWithOffset(int offsetSize, int nextChunkSize) {
         openSession();
         try {
@@ -381,6 +399,26 @@ public class PostDAO {
             
             tx.commit();
             return postInappropriateList.get(0);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+      public ArrayList<Post> getAllPostInappropriate(){
+        openSession();
+        ArrayList<Post> postInappropriateList = new ArrayList<Post>();
+        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            
+            Query q = session.createQuery("select distinct p.post from PostInappropriate p left join fetch p.post.user");
+            postInappropriateList = (ArrayList<Post>) q.list();
+            
+            tx.commit();
+            return postInappropriateList;
             
         } catch (Exception e) {
             e.printStackTrace();

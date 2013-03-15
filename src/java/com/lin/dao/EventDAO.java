@@ -46,6 +46,25 @@ public class EventDAO {
         //return null if failed
         return null;
     }
+    
+    
+    public Event updateEvent(Event e) {
+        openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save("Event", e);
+            tx.commit();
+            return e;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        //return null if failed
+        return null;
+    }
 
     public Event getEvent(int id) {
         openSession();
@@ -62,21 +81,34 @@ public class EventDAO {
         }
         return list.get(0);
     }
+    
+    public Event getEventForPopulatingEdit(int id) {
+        openSession();
+        Event ev = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Event as e left join fetch e.booking left join fetch e.eventInvites where e.id = :id");
+            q.setInteger("id", id);
+            ev = (Event) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ev;
+    }
 
     public Event getEventWithUserLoaded(int id) {
         openSession();
         Event ev = null;
-        ArrayList<Event> list = new ArrayList<Event>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Event as e join fetch e.user where e.id = :id ");
             q.setInteger("id", id);
-            list = (ArrayList<Event>) q.list();
+            ev = (Event) q.uniqueResult();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list.get(0);
+        return ev;
     }
     
 
@@ -125,6 +157,29 @@ public class EventDAO {
             list = (ArrayList<Event>) q.list();
 
             tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    public ArrayList<Event> getAllFutureEventsForUser(User user) {
+        openSession();
+        ArrayList<Event> list = new ArrayList<Event>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery(
+                    "from Event as e join fetch e.user "
+                    + "where e.isPublicEvent is true "
+                    + "and e.isDeleted is false "
+                    + "and e.startTime > current_timestamp() "
+                    + "and e.user = :userid "
+                    + "order by e.startTime ASC");
+            q.setInteger("userid", user.getUserId());
+
+            list = (ArrayList<Event>) q.list();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

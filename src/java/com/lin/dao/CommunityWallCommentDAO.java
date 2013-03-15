@@ -51,7 +51,7 @@ public class CommunityWallCommentDAO {
         return commentList;
     }
     
-        public Comment addComment(Comment comment) {
+    public Comment addComment(Comment comment) {
 
         openSession();
 
@@ -71,4 +71,5 @@ public class CommunityWallCommentDAO {
         // if txn fails, return null
         return null;
     }
+  
 }

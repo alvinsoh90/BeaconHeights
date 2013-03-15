@@ -70,8 +70,8 @@
                                         }
                                     }
                                 });
-                                
-                                setTimeout(retrieveNotifications,15000);
+                                //TURN OFF NOTIFICATIONS
+                               // setTimeout(retrieveNotifications,15000);
                             }
                            
                             

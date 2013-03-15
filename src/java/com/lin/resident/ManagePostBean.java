@@ -18,6 +18,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import net.sourceforge.stripes.action.HandlesEvent;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 
@@ -28,13 +32,17 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 public class ManagePostBean implements ActionBean {
 
     private ActionBeanContext context;
+    private int id;
     private int postId;
+    private Integer commentId;
     private int userId;
     private String message;
     private Date date;
     private Integer replyTo;
     private Integer noOfLikes;
     private ArrayList<Post> postList;
+    private ArrayList<Post> flaggedPostList;
+    private boolean outcome;
     PostDAO pDAO = new PostDAO();
 
 
@@ -50,6 +58,13 @@ public class ManagePostBean implements ActionBean {
 
     public Date getDate() {
         return date;
+    }
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public void setDate(Date date) {
@@ -97,6 +112,7 @@ public class ManagePostBean implements ActionBean {
     }
     
     public ArrayList<Post> getPostList() {
+        //postList = pDAO.retrievePostsWithLimitWithEvent(10);
         postList = pDAO.retrievePostsWithLimit(10);
         System.out.println("postList size: "+postList.size());
         
@@ -110,6 +126,37 @@ public class ManagePostBean implements ActionBean {
         
         return postList;
     }
+    public ArrayList<Post> getFlaggedPostList() {
+        flaggedPostList = pDAO.getAllPostInappropriate();
+        System.out.println("postList size: "+flaggedPostList.size());
+        
+        CommunityWallController wallCtrl = new CommunityWallController();
+        //get associated comments
+        for(Post p : flaggedPostList){
+            ArrayList<Comment> l = wallCtrl.getCommentsForPost(p.getPostId());
+            Set<Comment> relatedComments = new HashSet<Comment>(l);
+            p.setComments(relatedComments);
+        }
+        
+        return flaggedPostList;
+    }
+    
+        @HandlesEvent("deletePost")
+    public Resolution deletePost() {
+        outcome = pDAO.deletePost(id);
+        return new RedirectResolution("/resident/eventwall.jsp?deletesuccess="
+                + outcome + "&deletemsg=" + "Deleted");
+    }
+
+    @HandlesEvent("adminDeletePost")
+    public Resolution adminDeletePost() {
+        outcome = pDAO.deletePost(id);
+        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
+                + outcome + "&deletemsg=" + "Deleted");
+    }
+    
+  
+    
     
     public ArrayList<Comment> sortCommentsByDate(HashSet<Comment> l){
         ArrayList<Comment> cList = new ArrayList<Comment>(l);
