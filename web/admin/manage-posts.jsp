@@ -29,7 +29,7 @@
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
         <script src="js/jquery.js"></script>        
-
+        <link href="css/linadmin.css" rel="stylesheet">    
 
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
         <link href="./css/font-awesome.css" rel="stylesheet">
@@ -62,6 +62,7 @@
                         $("#delete_lastName").text(post.lastName);
                         $("#delete_postDate").text(post.date);
                         $("#delete_id").val(post.postId);
+                        
                     }
                 });
                 
@@ -91,6 +92,7 @@
                     post.firstName = '${post.user.escapedFirstName}';
                     post.lastName = '${post.user.escapedLastName}';
                     post.title = '${post.escapedTitle}';
+                    post.date = '${post.escapedDate}';
                     
                     postList.push(post);
                 </script>
@@ -126,34 +128,25 @@
                         </div>
                         <div class="post span6">
 
+                            <div class="delete"><a href="#deletePostModal" role ="button" data-toggle="modal"
+                                                   onclick="populateDeletePostModal(${post.postId})">
+                                    <i class="icon-remove"></i>							
+                                </a></div>
+                                    
+                                   
 
 
 
                             <div class="baseContent">
                                 <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
                                 <div class="content">"${post.message}"</div>
+                                
 
 
 
-
-                                <div class="attachment post hide">
-                                    <div class="postTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
-                                    <div class="postMeta">
-                                        <b>Venue:</b> Beacon Heights Tennis Court 2 <br/>
-                                        <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
-                                    </div>
-                                </div>
-                                <div class="linkBar">
-                                    <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
-
-
-
-                                    <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Post</a> -->
-                                    <!-- This should be to flag as APPROPRIATE-->
-                                    <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
-
-                                </div>
                             </div>
+                                
+                                
                             <div class="commentArea">
                                 <div class="comments">
                                     <c:forEach items="${managePostBean.sortCommentsByDate(post.comments)}" var="comment" varStatus="loop">
@@ -184,31 +177,22 @@
                         <div class="span2 postSideBlock">
 
 
-                            <div class="delete"><a href="#deletePostModal" role ="button" data-toggle="modal"
-                                                   onclick="populateDeletePostModal(${post.postId})">
-                                    <i class="icon-remove"></i>							
-                                </a></div>
+
+                            <div class="linkBar">
+                                <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
+
+
+
+                                <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Post</a> -->
+                                <!-- This should be to flag as APPROPRIATE-->
+                                <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
+
+                            </div>
                             <!--<div class="sideHeaderBtn">
                                 <div><i class="iconLike icon-heart"></i></div>
                                 <div class="txt">You Like</div> 
                             </div>-->
-                            <c:set var="numPostLikes" value="${managePostBean.getNumPostLikes(post.postId)}"/>
-                            <c:if test="${numPostLikes > 0}">
-                                <div class="header">${numPostLikes} Likes</div>
-                                <div class="likerSpace">
-                                    <c:forEach items="${managePostBean.getLikersOfPost(post.postId,18)}" var="liker" varStatus="stat">
-                                        <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
-                                        </c:forEach>      
-                                </div>
-                                <script>
-                                    $(document).ready(function() {         
-                                        //Tipsy tooltips
-                                        $(".liker").each(function(){
-                                            $(this).tipsy({gravity: 'n'});
-                                        });
-                                    });       
-                                </script>
-                            </c:if>                        
+
                         </div>   
 
                     </div>
@@ -248,7 +232,7 @@
 </div>
 
 
-<!-- Delete Event Comment Modal -->
+<!-- Delete Post Comment Modal -->
 <div id="deleteCommentModal" class="modal hide fade">
     <div id="myModal" class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>

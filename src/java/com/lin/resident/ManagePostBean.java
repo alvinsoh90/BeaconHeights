@@ -149,9 +149,9 @@ public class ManagePostBean implements ActionBean {
     }
 
     @HandlesEvent("adminDeletePost")
-    public Resolution adminDeleteEvent() {
+    public Resolution adminDeletePost() {
         outcome = pDAO.deletePost(id);
-        return new RedirectResolution("/admin/manage-events.jsp?deletesuccess="
+        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
                 + outcome + "&deletemsg=" + "Deleted");
     }
     
