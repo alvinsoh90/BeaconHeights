@@ -26,7 +26,7 @@
                 
                 <li class="nav-header"><i class="icon-tasks"></i> Admin Management </li>
                 <li><a href="manage-posts.jsp">Manage Posts</a></li>
-                <li><a href="manage-events.jsp">Manage Events</a></li>
+                <li><a href="manage-allevents.jsp">Manage Events</a></li>
                 <!--
                 <li><a href="manage-onlineform.jsp">Taxi Booking</a></li>
                 <li><a href="manage-onlineform.jsp">Nearby Amenities</a></li>

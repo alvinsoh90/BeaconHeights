@@ -116,6 +116,25 @@ public class UserDAO {
         }
         return false;
     }
+    
+    //Method checks DB if username exists.
+    public Boolean canChooseUsername(String username, String currentUsername) {
+        
+        if(username.equalsIgnoreCase(currentUsername)){
+            return false;
+        }
+        //retieve all users first
+        retrieveAllUsers();
+        
+        //check if user exists
+        for (User u : userList) {
+            if (u.getUserName().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public Boolean resetPwVerification(String username, String email){
         retrieveAllUsers();
         for(User u : userList){

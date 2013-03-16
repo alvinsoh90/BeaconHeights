@@ -210,15 +210,14 @@ public class ManageEventBean extends BaseActionBean {
     public void setVenue(String venue) {
         this.venue = venue;
     }
-    
-    public Event getEvent(Integer id){
-        EventDAO eDAO = new EventDAO();
-        
-        Event event = eDAO.getEventWithUserLoaded(id);
-        return event;
-                   
-    }
 
+    public ArrayList<Event> getEventListWithNoComments() {
+        ArrayList<Event> eventList = eDAO.getYtdToFutureEvents();
+        System.out.println("eventList size: " + eventList.size());
+
+        return eventList;
+    }
+    
     public ArrayList<Event> getEventList() {
         eventList = eDAO.getAllEvents();
         System.out.println("eventList size: " + eventList.size());
@@ -253,7 +252,7 @@ public class ManageEventBean extends BaseActionBean {
         }
         return eventList;
     }
-
+    
     @HandlesEvent("deleteEvent")
     public Resolution deleteEvent() {
         outcome = eDAO.deleteEvent(id);
@@ -261,8 +260,23 @@ public class ManageEventBean extends BaseActionBean {
                 + outcome + "&deletemsg=" + getTitle());
     }
 
+    @HandlesEvent("deleteEventAllEventTab")
+    public Resolution deleteEventAllEventTab() {
+        System.out.println("EVENT ID " + id);
+        outcome = eDAO.deleteEvent(id);
+        return new RedirectResolution("/admin/manage-allevents.jsp");
+    }
+    
+    @HandlesEvent("featureEvent")
+    public Resolution featureEvent() {
+        System.out.println("EVENT ID " + id);
+        outcome = eDAO.featureEvent(id);
+        return new RedirectResolution("/admin/manage-allevents.jsp");
+    }
+        
     @HandlesEvent("adminDeleteEvent")
     public Resolution adminDeleteEvent() {
+        System.out.println("EVENT ID " + id);
         outcome = eDAO.deleteEvent(id);
         return new RedirectResolution("/admin/manage-events.jsp?deletesuccess="
                 + outcome + "&deletemsg=" + getTitle());
@@ -331,40 +345,6 @@ public class ManageEventBean extends BaseActionBean {
             fs.put("SUCCESS", "false");
         }
         return new RedirectResolution("/residents/eventwall.jsp");
-    }
-    
-    public boolean editEvent(Event newEvent){
-
-        Event e = eDAO.updateEvent(newEvent);
-        if (e != null) {
-            //Check if any friends invite
-            String friendsStr = getEventTaggedFriends();
-            String[] friendsArr;
-            if (friendsStr != null) {
-                friendsStr = friendsStr.replace("[", "");
-                friendsStr = friendsStr.replace("]", "");
-                friendsArr = friendsStr.split(",");
-
-                //create invites and store in DB
-                UserDAO uDAO = new UserDAO();
-                for (String userId : friendsArr) {
-                    User u = uDAO.getShallowUser(Integer.parseInt(userId));
-                    EventInvite ei = new EventInvite(e, u, EventInvite.Type.PENDING);
-                    eDAO.addEventInvite(ei);
-                }
-            }
-
-            //Create notifications if public event
-            if (isIsPublicEvent()) {
-                ManageNotificationBean nBean = new ManageNotificationBean();
-                nBean.sendEventCreatedNotification(e, getContext().getUser());
-            }
-
-         return true;
-         
-        }
-        return false;
-   
     }
 
     public ArrayList<Booking> getBookingsOfUser(int userId) {
@@ -502,35 +482,6 @@ public class ManageEventBean extends BaseActionBean {
         return list;
     }
     
-<<<<<<< HEAD
-    public boolean getIsInvited(int eventid, int limit, int userId){
-        ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
-        for (User user : invitedUsers){
-            if (user.getUserId() == userId){
-                return true;
-            }
-        }
-        return false;
-=======
-    public ArrayList<Event> getAllFutureEventsForUser(User user) {
-        ArrayList<Event> list = eDAO.getAllFutureEventsForUser(user);
-        EventCommentDAO ecDAO = new EventCommentDAO();
-        BookingDAO bDAO = new BookingDAO();
-
-        //get relevant comments and attach bookings if present
-        for (Event e : list) {
-            //comments
-            e.setEventCommentsList(ecDAO.getAllCommentsForEvent(e.getId()));
-            //booking
-            if (e.getBooking() != null) {
-                System.out.println("bId: "
-                        + e.getBooking().getId());
-                e.setBooking(bDAO.getFullDataBooking(e.getBooking().getId()));
-            }
-        }
-
-        System.out.println("found events ::" + list.size());
-        return list;
->>>>>>> c0185dba255af3a2ba06b350c6ef10fe7737bef3
-    }
+    //============================================ADMIN SPECIFIC FUNCTIONS====================================
+    
 }
