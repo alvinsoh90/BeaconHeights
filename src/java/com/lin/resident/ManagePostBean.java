@@ -13,6 +13,7 @@ import com.lin.entities.Post;
 import com.lin.entities.PostLike;
 import com.lin.entities.PostUserTag;
 import com.lin.entities.User;
+import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,9 +30,8 @@ import net.sourceforge.stripes.action.ActionBeanContext;
  *
  * @author fayannefoo
  */
-public class ManagePostBean implements ActionBean {
+public class ManagePostBean extends BaseActionBean {
 
-    private ActionBeanContext context;
     private int id;
     private int postId;
     private Integer commentId;
@@ -45,16 +45,6 @@ public class ManagePostBean implements ActionBean {
     private boolean outcome;
     PostDAO pDAO = new PostDAO();
 
-
-    @Override
-    public void setContext(ActionBeanContext abc) {
-        this.context = context;
-    }
-
-    @Override
-    public ActionBeanContext getContext() {
-        return context;
-    }
 
     public Date getDate() {
         return date;
@@ -150,9 +140,10 @@ public class ManagePostBean implements ActionBean {
 
     @HandlesEvent("adminDeletePost")
     public Resolution adminDeletePost() {
-        outcome = pDAO.deletePost(id);
+        System.out.println(postId+"deletePostId");
+        outcome = pDAO.deletePost(postId);
         return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
-                + outcome + "&deletemsg=" + "Deleted");
+                + outcome);
     }
     
   

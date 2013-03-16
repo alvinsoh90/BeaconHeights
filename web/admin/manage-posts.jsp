@@ -84,15 +84,15 @@
 
         <c:if test="${managePostBean.flaggedPostList.size()!=0}">   
 
-            <c:forEach items="${mmanagePostBean.flaggedPostList}" var="post" varStatus="loop">
+            <c:forEach items="${managePostBean.flaggedPostList}" var="post" varStatus="loop">
                 <script>
                     var post = new Object();
                     post.postId = '${post.postId}';
                     post.username = '${post.user.escapedUserName}';
                     post.firstName = '${post.user.escapedFirstName}';
                     post.lastName = '${post.user.escapedLastName}';
-                    post.title = '${post.escapedTitle}';
-                    post.date = '${post.escapedDate}';
+                    post.title = '${post.title}';
+                    post.date = '${post.date}';
                     
                     postList.push(post);
                 </script>
@@ -129,7 +129,7 @@
                         <div class="post span6">
 
                             <div class="delete"><a href="#deletePostModal" role ="button" data-toggle="modal"
-                                                   onclick="populateDeletePostModal(${post.postId})">
+                                                   onclick="alert(${post.postId});populateDeletePostModal(${post.postId})">
                                     <i class="icon-remove"></i>							
                                 </a></div>
                                     
@@ -225,7 +225,7 @@
         </div>
         <div class="modal-footer">
             <a data-dismiss="modal" class="btn">Close</a>
-            <stripes:hidden id="delete_id" name="id"/>
+            <stripes:hidden id="delete_id" name="postId"/>
             <input type="submit" name="adminDeletePost" value="Confirm Delete" class="btn btn-danger"/>
         </div>
     </stripes:form>
