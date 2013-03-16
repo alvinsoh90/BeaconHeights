@@ -90,6 +90,30 @@ public class BookingDAO {
         return result;
     }
     
+    public ArrayList<Booking> getUnitBookings(int block, int level, int unit) {
+         openSession();
+        
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType join fetch booking.user where booking.user.blockId = :bId and booking.user.unit = :unit and booking.user.level = :level");
+            q.setInteger("bId", block);
+            q.setInteger("unit", unit);
+            q.setInteger("level", level);
+            result = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return result;
+    }
+    
+    
+    
     public ArrayList<Booking> getShallowUserBookings(int userID) {
          openSession();
         

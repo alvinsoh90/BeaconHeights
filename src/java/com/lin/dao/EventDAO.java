@@ -101,7 +101,7 @@ public class EventDAO {
         Event ev = null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Event as e join fetch e.user where e.id = :id");
+            Query q = session.createQuery("from Event as e join fetch e.user where e.id = :id ");
             q.setInteger("id", id);
             ev = (Event) q.uniqueResult();
             tx.commit();
@@ -110,6 +110,7 @@ public class EventDAO {
         }
         return ev;
     }
+    
 
     public ArrayList<Event> getAllEvents() {
         openSession();
