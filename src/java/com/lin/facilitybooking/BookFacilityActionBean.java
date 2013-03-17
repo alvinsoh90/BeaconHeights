@@ -9,6 +9,7 @@ import com.lin.dao.BookingDAO;
 import com.lin.dao.FacilityDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
+import com.lin.general.login.BaseActionBean;
 import com.lin.global.StandardMsgs;
 
 import java.sql.Timestamp;
@@ -27,7 +28,7 @@ import net.sourceforge.stripes.controller.FlashScope;
  * @author Yangsta
  */
 @UrlBinding("/stripes/BookFacilityActionBean.action")
-public class BookFacilityActionBean implements ActionBean {
+public class BookFacilityActionBean extends BaseActionBean {
 
     private ActionBeanContext context;
     private String startdatestring;
@@ -66,14 +67,6 @@ public class BookFacilityActionBean implements ActionBean {
 
     public void setCurrentUserID(Integer currentUserID) {
         this.currentUserID = currentUserID;
-    }
-
-    public ActionBeanContext getContext() {
-        return context;
-    }
-
-    public void setContext(ActionBeanContext context) {
-        this.context = context;
     }
 
     public String getEndDateString() {
@@ -135,8 +128,8 @@ public class BookFacilityActionBean implements ActionBean {
             if (title.equals("Enter an optional event name")) {
                 title = "Resident Booking";
             }
-
-            ArrayList<String> errorMsg = ruleController.isFacilityAvailable(currentUserID, getFacilityID(), startDate, endDate);
+            System.out.println("Curr User Id: " + getContext().getUser().getUserId());
+            ArrayList<String> errorMsg = ruleController.isFacilityAvailable(getContext().getUser().getUserId(), getFacilityID(), startDate, endDate);
 
             if (!errorMsg.isEmpty()) {
                 for (String msg : errorMsg) {
