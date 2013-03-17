@@ -108,7 +108,7 @@ public class UploadEventBannerActionBean extends BaseActionBean {
             result = file.getFileName();
             success = false;
         }
-        fs.put("SUCCESS","Your profile pic has be successfully updated!");
+        fs.put("SUCCESS","Your event banner has be successfully updated!");
         return new RedirectResolution("/admin/manage-allevents.jsp");
 
     }

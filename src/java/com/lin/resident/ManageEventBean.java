@@ -210,13 +210,21 @@ public class ManageEventBean extends BaseActionBean {
     public void setVenue(String venue) {
         this.venue = venue;
     }
-    
-    public Event getEvent(Integer id){
+
+    public Event getEvent(Integer id) {
         EventDAO eDAO = new EventDAO();
-        
-        Event event = eDAO.getEventWithUserBookingLoaded(id);
+        BookingDAO bDAO = new BookingDAO();
+        Event event = eDAO.getEventWithUserLoaded(id);
+        //comments
+        event.setEventCommentsList(ecDAO.getAllCommentsForEvent(event.getId()));
+        //booking
+        if (event.getBooking() != null) {
+
+            event.setBooking(bDAO.getFullDataBooking(event.getBooking().getId()));
+        }
+
         return event;
-                   
+
     }
 
     public ArrayList<Event> getEventListWithNoComments() {
@@ -225,7 +233,7 @@ public class ManageEventBean extends BaseActionBean {
 
         return eventList;
     }
-    
+
     public ArrayList<Event> getEventList() {
         eventList = eDAO.getAllEvents();
         System.out.println("eventList size: " + eventList.size());
@@ -260,7 +268,7 @@ public class ManageEventBean extends BaseActionBean {
         }
         return eventList;
     }
-    
+
     @HandlesEvent("deleteEvent")
     public Resolution deleteEvent() {
         outcome = eDAO.deleteEvent(id);
@@ -274,14 +282,14 @@ public class ManageEventBean extends BaseActionBean {
         outcome = eDAO.deleteEvent(id);
         return new RedirectResolution("/admin/manage-allevents.jsp");
     }
-    
+
     @HandlesEvent("featureEvent")
     public Resolution featureEvent() {
         System.out.println("EVENT ID " + id);
         outcome = eDAO.featureEvent(id);
         return new RedirectResolution("/admin/manage-allevents.jsp");
     }
-        
+
     @HandlesEvent("adminDeleteEvent")
     public Resolution adminDeleteEvent() {
         System.out.println("EVENT ID " + id);
@@ -289,7 +297,7 @@ public class ManageEventBean extends BaseActionBean {
         return new RedirectResolution("/admin/manage-events.jsp?deletesuccess="
                 + outcome + "&deletemsg=" + getTitle());
     }
-    
+
     @HandlesEvent("adminDeleteComment")
     public Resolution adminDeleteComment() {
         System.out.println(commentId);
@@ -491,8 +499,8 @@ public class ManageEventBean extends BaseActionBean {
         return list;
     }
 
-public boolean editEvent(Event newEvent){
- 
+    public boolean editEvent(Event newEvent) {
+
         Event e = eDAO.updateEvent(newEvent);
         if (e != null) {
             //Check if any friends invite
@@ -502,7 +510,7 @@ public boolean editEvent(Event newEvent){
                 friendsStr = friendsStr.replace("[", "");
                 friendsStr = friendsStr.replace("]", "");
                 friendsArr = friendsStr.split(",");
- 
+
                 //create invites and store in DB
                 UserDAO uDAO = new UserDAO();
                 for (String userId : friendsArr) {
@@ -511,49 +519,46 @@ public boolean editEvent(Event newEvent){
                     eDAO.addEventInvite(ei);
                 }
             }
- 
+
             //Create notifications if public event
             if (isIsPublicEvent()) {
                 ManageNotificationBean nBean = new ManageNotificationBean();
                 nBean.sendEventCreatedNotification(e, getContext().getUser());
             }
- 
-         return true;
-         
+
+            return true;
+
         }
         return false;
-   
+
     }
 
-    public boolean getIsInvited(int eventid, int limit, int userId){
-        ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
-        for (User user : invitedUsers){
-            if (user.getUserId() == userId){
+    public boolean getIsInvited(int eventid, int userId) {
+        ArrayList<User> invitedUsers = getInvitedUsers(eventid, -1);
+        for (User user : invitedUsers) {
+            if (user.getUserId() == userId) {
                 return true;
             }
         }
         return false;
     }
-    
-    public boolean getAccess(int eventid, int limit, int userId){
-        ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
-        EventDAO eDAO = new EventDAO();
+
+    public boolean getIsEventViewable(int eventid, int userId) {
+        ArrayList<User> invitedUsers = getInvitedUsers(eventid, -1);
         Event event = eDAO.getEvent(eventid);
         User eventUser = event.getUser();
-        if (eventUser.getUserId() == userId){
+        if (eventUser.getUserId() == userId) {
             return true;
         }
-                
-        for (User user : invitedUsers){
-            if (user.getUserId() == userId){
+
+        for (User user : invitedUsers) {
+            if (user.getUserId() == userId) {
                 return true;
             }
         }
         return false;
     }
-    
-    
-    
+
     public ArrayList<Event> getAllFutureEventsForUser(User user) {
         ArrayList<Event> list = eDAO.getAllFutureEventsForUser(user);
         EventCommentDAO ecDAO = new EventCommentDAO();
@@ -576,6 +581,4 @@ public boolean editEvent(Event newEvent){
 
     }
     //============================================ADMIN SPECIFIC FUNCTIONS====================================
-    
-
 }

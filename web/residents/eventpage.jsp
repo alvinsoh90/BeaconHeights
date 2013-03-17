@@ -44,24 +44,290 @@
         <script src="../js/jquery.validate.js"></script>
         <script src="../js/jquery.validate.bootstrap.js"></script>                
         <script src="./js/bootstrap.js"></script>
+<script>
+            //* Handle Commentng *//
+        $(document).ready(function() {       
+                //handlers for making comment
+                $(".commentTextArea").each(function(){
+                    $(this).keypress(function(e) {
+                        if(e.which == 13) {
+                            var postId = $(this).attr("data-post-id");
+                            var content = $(this).val();
+                            postComment(postId,content);
+                        }
+                    });                   
+                });
+        });
+            
+            function postComment(postId, commentContent){
+                
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.content = commentContent;
+                
+                console.log(JSON.stringify(dat));
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/commentOnEventWallPost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            refreshEvent(postId);
+                            //setTimeout('window.location.href="/admin/manage-facilitytypes.jsp"',1300);
+                        }
+                        else{
+                            toastr.error("There was a problem leaving a comment. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            var r;
+            function refreshEvent(postId){
+                //fade out comment area
+                $("#post-" + postId + " .commentArea .comments").css("opacity","0.6");
+                //show ajax loading
+                $("#post-" + postId + " .commentArea .ajaxSpinnerSmall").show();
+                
+                var dat = new Object();
+                dat.eventId = postId;
+                
+                //post comment
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/getEventCommentsForEvent.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(data.comments);
+                        r = data.comments[0];
+                        $("#post-" + postId + " .commentArea .comments").html(""); 
+                            
+                        //loop thru retrieved comments and append to html
+                        for(var i=0;i<data.comments[0].length;i++){
+                            var c = data.comments[0][i];
+                            $("#post-" + postId + " .commentArea .comments").append(
+                            '<div class="comment"><img src="/uploads/profile_pics/'+c.user.profilePicFilename+'" class="profilePic float_l"><div class="content float_l"><b>'+c.user.escapedFirstName + ' ' + c.user.escapedLastName +': </b>'+c.text+'<div class="timestamp">'+c.timeSinceComment+'</div></div><br class="clearfix"></div>'
+                        )
+                        }
 
+                        //after done, fade in comment area
+                        $("#post-" + postId + " .commentArea .comments").css("opacity","1");
+                        //clear comment input box
+                        $("#post-" + postId + " .commentArea .commentTextArea").val("");   
+                        //hide ajax loading
+                        $("#post-" + postId + " .commentArea .ajaxSpinnerSmall").hide();
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                        }
+                        else{
+                            $("#post-" + postId + " .commentArea .comments").css("opacity","1");
+                            toastr.error("There was a problem leaving a comment. Please try again later.");
+                        }
+                    } 
+                });
+                                             
+            }
+            
+            function likePost(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isALike = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/likeOrUnlikePost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
+                            // disable like button
+                            $("#post-"+postId+" .postLikeBtn .txt").text("You like");
+                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-ok iconLike");
+                            $("#post-"+postId+" .postLikeBtn").attr("onclick","unlikePost("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem liking this post. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            
+            function unlikePost(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isALike = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .postLikeBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/likeOrUnlikePost.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .postLikeBtn").removeClass("disabled");
+                            // enable like button
+                            $("#post-"+postId+" .postLikeBtn .txt").text("Like");
+                            $("#post-"+postId+" .postLikeBtn .iconLike").attr("class","icon-heart iconLike");
+                            $("#post-"+postId+" .postLikeBtn").attr("onclick","likePost("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem unliking this post. Please try again later.");
+                        }
+                    } 
+                });
+            }
+            
+            function flagPostInappropriate(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isInappropriate = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        if(xhr.status === 200){
+                            if(!data.flag_success && data.reason){
+                                toastr.error(data.reason);
+                            }
+                            $("#post-"+postId+" .flagInappropriateBtn").removeClass("disabled");
+                            // disable button
+                            $("#post-"+postId+" .flagInappropriateBtn .txt").text("Post flagged (click to undo)");
+                            $("#post-"+postId+" .flagInappropriateBtn").attr("onclick","unFlagPostInappropriate("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    }
+                });
+            }
+            
+            function unFlagPostInappropriate(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isInappropriate = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    },
+                    complete: function(xhr, textStatus) {
+                        if(xhr.status === 200){
+                            $("#post-"+postId+" .flagInappropriateBtn").removeClass("disabled");
+                            // disable like button
+                            $("#post-"+postId+" .flagInappropriateBtn .txt").text("Flag as inappropriate");
+                            $("#post-"+postId+" .flagInappropriateBtn").attr("onclick","flagPostInappropriate("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    } 
+                });
+            }
+            
+            function joinEvent(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isJoiningEvent = true;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .joinEventBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/joinOrUnJoinEvent.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        if(xhr.status === 200){
+                            if(!data.flag_success && data.reason){
+                                toastr.error(data.reason);
+                            }
+                            $("#post-"+postId+" .joinEventBtn").removeClass("disabled");
+                            // disable button
+                            $("#post-"+postId+" .joinEventBtn .txt").text("You're going!");
+                            $("#post-"+postId+" .joinEventBtn .iconJoinEvent").attr("class","icon-check iconJoinEvent");
+                            $("#post-"+postId+" .joinEventBtn").attr("onclick","unJoinEvent("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    }
+                });
+            }
+            
+            function unJoinEvent(postId){
+                var dat = new Object();
+                dat.eventId = postId;
+                dat.isJoiningEvent = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .joinEventBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/joinOrUnJoinEvent.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        if(xhr.status === 200){
+                            if(!data.flag_success && data.reason){
+                                toastr.error(data.reason);
+                            }
+                            $("#post-"+postId+" .joinEventBtn").removeClass("disabled");
+                            // disable button
+                            $("#post-"+postId+" .joinEventBtn .txt").text("Join Event");
+                            $("#post-"+postId+" .joinEventBtn .iconJoinEvent").attr("class","icon-share iconJoinEvent");
+                            $("#post-"+postId+" .joinEventBtn").attr("onclick","joinEvent("+postId+")");
+                        }
+                        else{
+                            toastr.error("There was a problem flagging this post. Please contact us directly at helpdesk@beaconheights.com.sg");
+                        }
+                    }
+                });
+            }
+        </script>
+        
     </head>
     <body>
 
         <c:set var="event" value="${manageEventBean.getEvent(param.eventid)}"/>
-        
+
 
         <div id="content" class="nopaddingtop">
             <c:if test="${user.userId==event.user.userId}">
-                <a href='#editPicModal'>
-            </c:if>
+                <a href='#editPicModal' role='button' data-toggle='modal'>
+                </c:if>
                 <img class ="bannerEvent" src="/uploads/banner_pics/${event.bannerFileName}" />
-            <c:if test="${user.userId==event.user.userId}">
+                <c:if test="${user.userId==event.user.userId}">
                 </a>
             </c:if>
             <div class="container">
 
-                <c:if test="${!manageEventBean.getAccess(param.eventid,-1,user.userId)}">
+                <c:if test="${!manageEventBean.getIsEventViewable(param.eventid,user.userId)}">
                     <div class="postWrapper row-fluid">
                         <div class="baseContent container">
                             <h2>
@@ -70,9 +336,8 @@
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${manageEventBean.getAccess(param.eventid,-1,user.userId)}">
+                <c:if test="${manageEventBean.getIsEventViewable(param.eventid,user.userId)}">
 
-                    ${event.user.userid}
 
                     <div id="post-${event.id}" class="postWrapper row-fluid">
                         <div class="leftContent span2">
@@ -214,6 +479,27 @@
         </div> <!-- /container -->
 
     </div> <!-- /footer -->
+    <!-- Edit Pic Modal Form -->
+    <div id="editPicModal" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Upload A New Event Banner</h3>
+        </div>
+        <div class="modal-body">
+            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.UploadEventBannerActionBean" name="new_resource_validate" id="new_resource_validate">                 
+                <stripes:hidden name="user_id" value="${user.userId}" />
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">File:</label>
+                    <div class="controls">
+                        <stripes:file name="file" id="file"/><div id="fileInfoMsg"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" name="upload" value="Upload" class="btn btn-info btn-large" id="uploadBtn"/>                                                           
+                </stripes:form>
+            </div>
+        </div>      
+    </div>
 
 
 </body>
