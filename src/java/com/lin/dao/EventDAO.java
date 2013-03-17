@@ -248,7 +248,35 @@ public class EventDAO {
         try {
             tx = session.beginTransaction();
             Event e = (Event) session.get(Event.class, id);
-            e.setIsDeleted(true);
+            if(e.isIsDeleted()){
+                e.setIsDeleted(false);
+            }else{
+                e.setIsDeleted(true);
+            }
+            
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return false;
+    }
+    
+    public boolean featureEvent(int id) {
+        openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Event e = (Event) session.get(Event.class, id);
+            if(e.isIsFeatured()){
+                e.setIsFeatured(false);
+            }else{
+                e.setIsFeatured(true);
+            }
             tx.commit();
             return true;
         } catch (Exception e) {
@@ -631,5 +659,45 @@ public class EventDAO {
         }
 
         return eventInviteList;
+    }
+    
+
+    public ArrayList<Event> getYtdToFutureEvents() {
+        openSession();
+        ArrayList<Event> list = new ArrayList<Event>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery(
+                    "from Event "
+                    + "where startTime > timestampadd(day,-2,current_timestamp())"
+                    + "order by startTime ASC");
+
+            list = (ArrayList<Event>) q.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public boolean uploadEventBanner(int id, String fileName) {
+        openSession();
+        Transaction tx = null;
+        Event e = null;
+        try {
+            tx = session.beginTransaction();
+            e = (Event) session.get(Event.class, id);
+            e.setBannerFileName(fileName);
+            tx.commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return false;
+        }
+        return true;
     }
 }
