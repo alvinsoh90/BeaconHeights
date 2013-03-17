@@ -9,6 +9,7 @@ import com.lin.dao.CommunityWallCommentDAO;
 import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Comment;
+import com.lin.entities.Event;
 import com.lin.entities.Post;
 import com.lin.entities.PostLike;
 import com.lin.entities.PostUserTag;
@@ -112,7 +113,12 @@ public class ManagePostBean extends BaseActionBean {
             ArrayList<Comment> l = wallCtrl.getCommentsForPost(p.getPostId());
             Set<Comment> relatedComments = new HashSet<Comment>(l);
             p.setComments(relatedComments);
+            
+            //get associated event
+            p.setEvent(pDAO.getEventOfPost(p.getPostId()));
         }
+        
+        
         
         return postList;
     }
@@ -197,4 +203,8 @@ public class ManagePostBean extends BaseActionBean {
         return list;
     }
     
+    public Event getTaggedEvent(int postId){ 
+        return pDAO.getEventOfPost(postId);       
+
+    }
 }

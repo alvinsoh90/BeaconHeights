@@ -503,14 +503,18 @@
                                     </c:forEach>
                             </div>    
                         </c:if>
-
-                        <div class="attachment event hide">
-                            <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
+                        
+                        
+                        <c:if test="${post.event != null}">
+                            <div class="attachment event">
+                            <div class="eventTitle"><a href="eventpage.jsp?eventid=${post.event.id}">${post.event.title}</a></div>
                             <div class="eventMeta">
-                                <b>Venue:</b> Beacon Heights Tennis Court 2 <br/>
-                                <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
+                                <b>Venue:</b> ${post.event.venue} <br/>                                    
+                                <b>Date/Time:</b> ${post.event.formattedEventTime}
                             </div>
                         </div>
+                        </c:if>
+                        
                         <div class="linkBar">
                             <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
 

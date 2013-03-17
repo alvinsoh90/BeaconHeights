@@ -4,6 +4,7 @@
  */
 package com.lin.dao;
 
+import com.lin.entities.Event;
 import com.lin.entities.Post;
 import com.lin.entities.PostInappropriate;
 import com.lin.entities.PostLike;
@@ -466,6 +467,23 @@ public class PostDAO {
         }
         
         return postTagList;
+    }
+
+    public Event getEventOfPost(int postId) {
+        openSession();
+        Event ev = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("select p.event from Post as p where p.postId = :id");
+            q.setInteger("id", postId);
+            ev = (Event) q.uniqueResult();
+            
+            tx.commit();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ev;
     }
 
 }
