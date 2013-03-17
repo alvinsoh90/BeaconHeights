@@ -297,17 +297,18 @@ public class UserDAO {
 
     public User getUser(int userId) {
         openSession();
+        User u = null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from User as u join fetch u.role join fetch u.block where u.userId = :id");
             q.setString("id", userId + "");
-            userList = (ArrayList<User>) q.list();
+            u = (User) q.uniqueResult();
+            
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("RETRIEVEDUSER:" + userList.get(0));
-        return userList.get(0);
+        return u;
     }
     
         public User getShallowUser(int userId) {
