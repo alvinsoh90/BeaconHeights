@@ -347,10 +347,11 @@ public class ManageEventBean extends BaseActionBean {
         return new RedirectResolution("/residents/eventwall.jsp");
     }
 
-    public ArrayList<Booking> getBookingsOfUser(int userId) {
+    //Used in viewmyevents and eventwall.jsp to output user's future events for tagging purposes
+    public ArrayList<Booking> getUserFutureBookings(int userId) {
         ArrayList<Booking> bList = new ArrayList<Booking>();
         BookingDAO bDAO = new BookingDAO();
-        bList = bDAO.getShallowUserBookings(userId);
+        bList = bDAO.getUserYtdToFutureBookings(userId);
         return bList;
     }
 
@@ -479,6 +480,62 @@ public class ManageEventBean extends BaseActionBean {
             list.add(uDAO.getShallowUser(pl.getUser().getUserId()));
         }
 
+        return list;
+    }
+    
+        
+    public boolean editEvent(Event newEvent){
+ 
+        Event e = eDAO.updateEvent(newEvent);
+        if (e != null) {
+            //Check if any friends invite
+            String friendsStr = getEventTaggedFriends();
+            String[] friendsArr;
+            if (friendsStr != null) {
+                friendsStr = friendsStr.replace("[", "");
+                friendsStr = friendsStr.replace("]", "");
+                friendsArr = friendsStr.split(",");
+ 
+                //create invites and store in DB
+                UserDAO uDAO = new UserDAO();
+                for (String userId : friendsArr) {
+                    User u = uDAO.getShallowUser(Integer.parseInt(userId));
+                    EventInvite ei = new EventInvite(e, u, EventInvite.Type.PENDING);
+                    eDAO.addEventInvite(ei);
+                }
+            }
+ 
+            //Create notifications if public event
+            if (isIsPublicEvent()) {
+                ManageNotificationBean nBean = new ManageNotificationBean();
+                nBean.sendEventCreatedNotification(e, getContext().getUser());
+            }
+ 
+         return true;
+         
+        }
+        return false;
+   
+    }
+ 
+    public ArrayList<Event> getAllFutureEventsForUser(User user) {
+        ArrayList<Event> list = eDAO.getAllFutureEventsForUser(user);
+        EventCommentDAO ecDAO = new EventCommentDAO();
+        BookingDAO bDAO = new BookingDAO();
+ 
+        //get relevant comments and attach bookings if present
+        for (Event e : list) {
+            //comments
+            e.setEventCommentsList(ecDAO.getAllCommentsForEvent(e.getId()));
+            //booking
+            if (e.getBooking() != null) {
+                System.out.println("bId: "
+                        + e.getBooking().getId());
+                e.setBooking(bDAO.getFullDataBooking(e.getBooking().getId()));
+            }
+        }
+ 
+        System.out.println("found events ::" + list.size());
         return list;
     }
     

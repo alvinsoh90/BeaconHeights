@@ -453,7 +453,7 @@
                                     <stripes:text class="shorty" id="event_venue" name="venue" />
                                     <span class="gap">and</span>
                                     <stripes:select class="shorty" name="bookingId">
-                                        <c:set var="bookingList" value="${manageEventBean.getBookingsOfUser(user.userId)}"/>
+                                        <c:set var="bookingList" value="${manageEventBean.getUserFutureBookings(user.userId)}"/>
                                         
                                         <c:choose>
                                             <c:when test="${not empty bookingList}">

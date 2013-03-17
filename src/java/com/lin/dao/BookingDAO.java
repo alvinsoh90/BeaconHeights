@@ -133,6 +133,31 @@ public class BookingDAO {
         }
         return result;
     }
+        
+        //used in viewmyevents.jsp and eventwall.jsp to output taggable bookings
+    public ArrayList<Booking> getUserYtdToFutureBookings(int userID) {
+         openSession();
+        
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking as booking "
+                    + "join fetch booking.facility "
+                    + "where booking.user.userId = :uId "
+                    + "and booking.startDate > timestampadd(day,-2,current_timestamp())");
+            
+            q.setInteger("uId", userID);
+            result = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return result;
+    }
 
     public Booking getBooking(int id) {
         openSession();

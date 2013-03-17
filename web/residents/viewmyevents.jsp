@@ -636,7 +636,7 @@
                                             <input type="text" class="shorty" id="eventVenue" name="venue" />
                                             <span class="gap">and</span>
                                             <select id="bookingDropdownSelection" class="shorty">
-                                                <c:set var="bookingList" value="${manageEventBean.getBookingsOfUser(user.userId)}"/>
+                                                <c:set var="bookingList" value="${manageEventBean.getUserFutureBookings(user.userId)}"/>
                                                         
                                                 <c:choose>
                                                     <c:when test="${not empty bookingList}">
