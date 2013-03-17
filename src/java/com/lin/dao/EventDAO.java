@@ -111,6 +111,21 @@ public class EventDAO {
         return ev;
     }
     
+    public Event getEventWithUserBookingLoaded(int id) {
+        openSession();
+        Event ev = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Event as e join fetch e.booking join fetch e.booking.facility join fetch e.user where e.id = :id ");
+            q.setInteger("id", id);
+            ev = (Event) q.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ev;
+    }
+    
 
     public ArrayList<Event> getAllEvents() {
         openSession();

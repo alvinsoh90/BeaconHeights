@@ -214,7 +214,7 @@ public class ManageEventBean extends BaseActionBean {
     public Event getEvent(Integer id){
         EventDAO eDAO = new EventDAO();
         
-        Event event = eDAO.getEventWithUserLoaded(id);
+        Event event = eDAO.getEventWithUserBookingLoaded(id);
         return event;
                    
     }
@@ -502,7 +502,7 @@ public class ManageEventBean extends BaseActionBean {
         return list;
     }
     
-<<<<<<< HEAD
+
     public boolean getIsInvited(int eventid, int limit, int userId){
         ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
         for (User user : invitedUsers){
@@ -511,7 +511,8 @@ public class ManageEventBean extends BaseActionBean {
             }
         }
         return false;
-=======
+    }
+    
     public ArrayList<Event> getAllFutureEventsForUser(User user) {
         ArrayList<Event> list = eDAO.getAllFutureEventsForUser(user);
         EventCommentDAO ecDAO = new EventCommentDAO();
@@ -531,6 +532,6 @@ public class ManageEventBean extends BaseActionBean {
 
         System.out.println("found events ::" + list.size());
         return list;
->>>>>>> c0185dba255af3a2ba06b350c6ef10fe7737bef3
+
     }
 }
