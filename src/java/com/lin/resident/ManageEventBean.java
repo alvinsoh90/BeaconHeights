@@ -504,12 +504,19 @@ public boolean editEventAndSendNotifications(Event newEvent, String[] friendsArr
         Event e = eDAO.updateEvent(newEvent);
         //create invites and store in DB
         UserDAO uDAO = new UserDAO();
-        for (String userId : friendsArr) {
-            User u = uDAO.getShallowUser(Integer.parseInt(userId));
-            System.out.println("Sent invite to: " + u.getUserName());
-            EventInvite ei = new EventInvite(e, u, EventInvite.Type.PENDING);
-            eDAO.addEventInvite(ei);
+        
+        try{
+            for (String userId : friendsArr) {
+                User u = uDAO.getShallowUser(Integer.parseInt(userId));
+                System.out.println("Sent invite to: " + u.getUserName());
+                EventInvite ei = new EventInvite(e, u, EventInvite.Type.PENDING);
+                eDAO.addEventInvite(ei);
+            }
         }
+        catch(NumberFormatException nfe){
+            nfe.printStackTrace();
+        }
+        
         return true;
         
     }

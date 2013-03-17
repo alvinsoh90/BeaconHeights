@@ -60,6 +60,8 @@ public class EventDAO {
             editedEvent.setTitle(event.getTitle());
             editedEvent.setIsPublicEvent(event.isIsPublicEvent());
             editedEvent.setStartTime(event.getStartTime());
+            editedEvent.setBooking(event.getBooking());
+            
             tx.commit();
             return editedEvent;
             
