@@ -310,8 +310,14 @@ $.TokenList = function (input, url_or_data, settings) {
 
                     if(!$(this).val().length) {
                         if(selected_token) {
-                            delete_token($(selected_token));
-                            hidden_input.change();
+                            if($(selected_token).children(".token-input-delete-token-facebook").length > 0){
+                                delete_token($(selected_token));
+                                hidden_input.change();
+                            }
+                            else{       
+                                toastr.info("Cannot remove friends who are already tagged!");
+                            }
+                            
                         } else if(previous_token.length) {
                             select_token($(previous_token.get(0)));
                         }
@@ -726,16 +732,8 @@ $.TokenList = function (input, url_or_data, settings) {
         if(index > selected_token_index) index--;
 
         // Delete the token
+        token.remove();
         
-        //if has a delete token then delete
-        if($(token).children(".token-input-delete-token-facebook").length > 0){
-           token.remove(); 
-        }
-        else{       
-            toastr.info("Cannot remove friends who are already tagged!");
-            return;
-        }
-                
         selected_token = null;
 
         // Show the input box and give it focus again
