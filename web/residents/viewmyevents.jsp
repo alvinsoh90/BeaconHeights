@@ -542,6 +542,30 @@
                             });
                         }
                         
+                        function postCancellingEvent(){
+                            if(!confirm("Are you sure? This action cannot be undone.")){
+                                return;
+                            }
+                            var dat = new Object();
+                            dat.isCancellingEvent = true;
+                            dat.eventId = $("#editEventId").val();
+                            
+                            $.ajax({
+                                type: "POST",
+                                url: "/json/community/editEventJSON.jsp",
+                                data: dat,
+                                success: function(data, textStatus, xhr) {
+                                    if(xhr.status == 200 && data.edit_success){
+                                        toastr.success("This event is now cancelled. Refreshing page...");
+                                        setTimeout("window.location.reload()",2000);
+                                    }
+                                    else{
+                                        toastr.error("Sorry, there was a problem cancelling your event. Please try again later.");
+                                    }
+                                } 
+                            });
+                        }
+                        
                         function postEditEvent(eventId){
                             var dat = new Object();
                             dat.isEditingEvent = true;
@@ -705,9 +729,9 @@
                         </div>
                   
                     <div class="modal-footer">
-                        
-                        <a href="#"  data-dismiss="modal" class="btn">Close</a>
-                        <a href="##ubmit" id="submitEditEvent" onclick="postEditEvent()" class="btn btn-primary btn btn-peace-1">Save changes</a>
+                        <a href="#cancel" onclick="postCancellingEvent()" class="btn btn-danger pull-right">Cancel Event</a>
+                        <a href="#"  data-dismiss="modal" class="btn pull-left">Close</a>
+                        <a href="#submit" id="submitEditEvent" onclick="postEditEvent()" class="btn btn-primary btn btn-peace-1 pull-left">Save changes</a>
                     </div>
                 </div>
                 

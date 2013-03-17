@@ -22,6 +22,7 @@
 int eventId = Integer.parseInt(request.getParameter("eventId"));
 String isRetrievingData = request.getParameter("isRetrievingData");
 String isEditingEvent = request.getParameter("isEditingEvent");
+String isCancellingEvent = request.getParameter("isCancellingEvent");
 
 JSONObject res = new JSONObject();
 
@@ -95,9 +96,17 @@ else if(isEditingEvent != null){
     res.put("edit_success", success);
 }
 
+else if(isCancellingEvent != null){
+    EventDAO eDAO = new EventDAO();
+        
+    res.put("edit_success", eDAO.deleteEvent(eventId));
+}
+
 
 out.println(res.toString());
 System.out.println(res.toString());
 %>
+
+
 
 
