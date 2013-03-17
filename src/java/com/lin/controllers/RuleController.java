@@ -184,6 +184,8 @@ public class RuleController {
     private ArrayList<String> validateLimitRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> limitRuleErrors = new ArrayList<String>();
         ArrayList<LimitRule> limitRuleList = rDAO.getAllLimitRule(facilityTypeID);
+        uDAO = new UserDAO();
+        
         
         User user = uDAO.getUser(userID);
         int block = user.getBlock().getId();
