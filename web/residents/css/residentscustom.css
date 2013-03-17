@@ -1,3 +1,11 @@
+a{
+    color: #597448;
+}
+
+a:hover{
+    color: #33581B;
+}
+
 .disabled{
     pointer-events:none;
 }
@@ -311,7 +319,6 @@ a.fc-event, .fc-event-draggable{
     margin: 11px 0;
 }
 .eventTitle a{
-    color:#597448;
     font-weight: bold;
     font-size: 14px;
 }
