@@ -518,7 +518,7 @@
                         <div class="title"><a href="profile.jsp?profileid=${post.user.userId}"><b>${post.user.firstname} ${post.user.lastname}</b></a> created an event</div>
                         <div class="content">"${post.details}"</div>
                         <div class="attachment event">
-                            <div class="eventTitle"><a href="#">${post.title}</a></div>
+                            <div class="eventTitle"><a href="eventpage.jsp?eventid=${post.id}">${post.title}</a></div>
                             <c:if test="${post.booking != null}">
                                 <div class="eventMeta">
                                     <b>Venue:</b> ${post.venue}

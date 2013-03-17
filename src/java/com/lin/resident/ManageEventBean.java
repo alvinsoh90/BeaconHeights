@@ -210,6 +210,14 @@ public class ManageEventBean extends BaseActionBean {
     public void setVenue(String venue) {
         this.venue = venue;
     }
+    
+    public Event getEvent(Integer id){
+        EventDAO eDAO = new EventDAO();
+        
+        Event event = eDAO.getEventWithUserBookingLoaded(id);
+        return event;
+                   
+    }
 
     public ArrayList<Event> getEventListWithNoComments() {
         ArrayList<Event> eventList = eDAO.getYtdToFutureEvents();
@@ -482,9 +490,8 @@ public class ManageEventBean extends BaseActionBean {
 
         return list;
     }
-    
-        
-    public boolean editEvent(Event newEvent){
+
+public boolean editEvent(Event newEvent){
  
         Event e = eDAO.updateEvent(newEvent);
         if (e != null) {
@@ -517,12 +524,41 @@ public class ManageEventBean extends BaseActionBean {
         return false;
    
     }
- 
+
+    public boolean getIsInvited(int eventid, int limit, int userId){
+        ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
+        for (User user : invitedUsers){
+            if (user.getUserId() == userId){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean getAccess(int eventid, int limit, int userId){
+        ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
+        EventDAO eDAO = new EventDAO();
+        Event event = eDAO.getEvent(eventid);
+        User eventUser = event.getUser();
+        if (eventUser.getUserId() == userId){
+            return true;
+        }
+                
+        for (User user : invitedUsers){
+            if (user.getUserId() == userId){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    
     public ArrayList<Event> getAllFutureEventsForUser(User user) {
         ArrayList<Event> list = eDAO.getAllFutureEventsForUser(user);
         EventCommentDAO ecDAO = new EventCommentDAO();
         BookingDAO bDAO = new BookingDAO();
- 
+
         //get relevant comments and attach bookings if present
         for (Event e : list) {
             //comments
@@ -534,11 +570,12 @@ public class ManageEventBean extends BaseActionBean {
                 e.setBooking(bDAO.getFullDataBooking(e.getBooking().getId()));
             }
         }
- 
+
         System.out.println("found events ::" + list.size());
         return list;
+
     }
-    
     //============================================ADMIN SPECIFIC FUNCTIONS====================================
     
+
 }
