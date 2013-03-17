@@ -48,14 +48,21 @@ public class EventDAO {
     }
     
     
-    public Event updateEvent(Event e) {
+    public Event updateEvent(Event event) {
         openSession();
         Transaction tx = null;
+        Event editedEvent = null;
         try {
             tx = session.beginTransaction();
-            session.save("Event", e);
+            editedEvent = (Event) session.get(Event.class, event.getId());
+            editedEvent.setDetails(event.getDetails());
+            editedEvent.setEndTime(event.getEndTime());
+            editedEvent.setTitle(event.getTitle());
+            editedEvent.setIsPublicEvent(event.isIsPublicEvent());
+            editedEvent.setStartTime(event.getStartTime());
             tx.commit();
-            return e;
+            return editedEvent;
+            
         } catch (Exception ex) {
             ex.printStackTrace();
             if (tx != null) {
@@ -116,7 +123,7 @@ public class EventDAO {
         Event ev = null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            System.out.println("HEREHRHErhehRHERHERHEURHUIDHSAIUDHSIAHDSIUAHDISA" + id);
+            
             Query q = session.createQuery("from Event as e join fetch e.booking join fetch e.booking.facility join fetch e.user where e.id = :id ");
             q.setInteger("id", id);
             ev = (Event) q.uniqueResult();
@@ -186,9 +193,8 @@ public class EventDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery(
-                    "from Event as e join fetch e.user "
-                    + "where e.isPublicEvent is true "
-                    + "and e.isDeleted is false "
+                    "from Event as e join fetch e.user "                    
+                    + "where e.isDeleted is false "
                     + "and e.startTime > current_timestamp() "
                     + "and e.user = :userid "
                     + "order by e.startTime ASC");

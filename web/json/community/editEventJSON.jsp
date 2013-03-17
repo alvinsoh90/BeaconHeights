@@ -1,3 +1,5 @@
+<%@page import="com.lin.resident.ManageEventBean"%>
+<%@page import="com.lin.dao.BookingDAO"%>
 <%@page import="com.lin.entities.EventInvite"%>
 <%@page import="com.lin.entities.Event"%>
 <%@page import="com.lin.controllers.EventWallController"%>
@@ -57,7 +59,41 @@ if(isRetrievingData != null){
 }
 
 
-
+else if(isEditingEvent != null){
+    String details = request.getParameter("details");
+    Long endTime = Long.parseLong(request.getParameter("endTime"));
+    String name = request.getParameter("name");
+    String friendsStr = request.getParameter("taggedFriends");
+    boolean isPublicEvent = Boolean.parseBoolean(request.getParameter("isPublicEvent"));
+    Long startTime = Long.parseLong(request.getParameter("startTime"));
+    Integer taggedBookingId = Integer.parseInt(request.getParameter("taggedBookingId"));
+    String venue = request.getParameter("venue");
+    
+    EventDAO eDAO = new EventDAO();
+    Event editedEvent = eDAO.getEvent(eventId);
+    editedEvent.setDetails(details);
+    editedEvent.setEndTime(new Date(endTime));
+    editedEvent.setTitle(name);
+    editedEvent.setIsPublicEvent(isPublicEvent);
+    editedEvent.setStartTime(new Date(startTime));
+    
+    if(taggedBookingId != -1){
+        BookingDAO bDAO = new BookingDAO();
+        editedEvent.setBooking(bDAO.getBooking(taggedBookingId));
+    }
+    
+    editedEvent.setVenue(venue);
+    
+    String[] friendsArr;
+    friendsStr = friendsStr.replace("[", "");
+                friendsStr = friendsStr.replace("]", "");
+                friendsArr = friendsStr.split(",");
+    
+    ManageEventBean eBean = new ManageEventBean();
+    boolean success = eBean.editEventAndSendNotifications(editedEvent, friendsArr);
+    
+    res.put("edit_success", success);
+}
 
 
 out.println(res.toString());

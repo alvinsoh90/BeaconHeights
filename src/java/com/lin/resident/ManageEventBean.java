@@ -491,38 +491,19 @@ public class ManageEventBean extends BaseActionBean {
         return list;
     }
 
-public boolean editEvent(Event newEvent){
+public boolean editEventAndSendNotifications(Event newEvent, String[] friendsArr){
  
         Event e = eDAO.updateEvent(newEvent);
-        if (e != null) {
-            //Check if any friends invite
-            String friendsStr = getEventTaggedFriends();
-            String[] friendsArr;
-            if (friendsStr != null) {
-                friendsStr = friendsStr.replace("[", "");
-                friendsStr = friendsStr.replace("]", "");
-                friendsArr = friendsStr.split(",");
- 
-                //create invites and store in DB
-                UserDAO uDAO = new UserDAO();
-                for (String userId : friendsArr) {
-                    User u = uDAO.getShallowUser(Integer.parseInt(userId));
-                    EventInvite ei = new EventInvite(e, u, EventInvite.Type.PENDING);
-                    eDAO.addEventInvite(ei);
-                }
-            }
- 
-            //Create notifications if public event
-            if (isIsPublicEvent()) {
-                ManageNotificationBean nBean = new ManageNotificationBean();
-                nBean.sendEventCreatedNotification(e, getContext().getUser());
-            }
- 
-         return true;
-         
+        //create invites and store in DB
+        UserDAO uDAO = new UserDAO();
+        for (String userId : friendsArr) {
+            User u = uDAO.getShallowUser(Integer.parseInt(userId));
+            System.out.println("Sent invite to: " + u.getUserName());
+            EventInvite ei = new EventInvite(e, u, EventInvite.Type.PENDING);
+            eDAO.addEventInvite(ei);
         }
-        return false;
-   
+        return true;
+        
     }
 
     public boolean getIsInvited(int eventid, int limit, int userId){

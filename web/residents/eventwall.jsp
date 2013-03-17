@@ -107,6 +107,7 @@
                 queryParam:"searchString",
                 jsonContainer:"friendList",
                 searchingText:"Searching friends...",
+                preventDuplicates: true,
                 hintText:"Enter a friend's name",
                 resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" },
                 onAdd: function(item){
