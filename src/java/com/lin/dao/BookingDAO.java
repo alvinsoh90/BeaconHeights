@@ -97,7 +97,7 @@ public class BookingDAO {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType join fetch booking.user where booking.user.blockId = :bId and booking.user.unit = :unit and booking.user.level = :level");
+            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType join fetch booking.user where booking.user.block = :bId and booking.user.unit = :unit and booking.user.level = :level");
             q.setInteger("bId", block);
             q.setInteger("unit", unit);
             q.setInteger("level", level);
