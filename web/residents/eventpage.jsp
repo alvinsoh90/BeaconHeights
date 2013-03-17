@@ -49,19 +49,19 @@
     <body>
 
         <c:set var="event" value="${manageEventBean.getEvent(param.eventid)}"/>
+        
 
         <div id="content" class="nopaddingtop">
             <c:if test="${user.userId==event.user.userId}">
                 <a href='#editPicModal'>
             </c:if>
-                <img class ="bannerEvent" src="/uploads/banner_pics/${event.bannerPicFilename}" />
+                <img class ="bannerEvent" src="/uploads/banner_pics/${event.bannerFileName}" />
             <c:if test="${user.userId==event.user.userId}">
                 </a>
             </c:if>
-            ${event.user.userId}
             <div class="container">
 
-                <c:if test="${!manageEventBean.getIsInvited(param.eventid,-1,user.userId)}">
+                <c:if test="${!manageEventBean.getAccess(param.eventid,-1,user.userId)}">
                     <div class="postWrapper row-fluid">
                         <div class="baseContent container">
                             <h2>
@@ -70,9 +70,9 @@
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${manageEventBean.getIsInvited(param.eventid,-1,user.userId)}">
+                <c:if test="${manageEventBean.getAccess(param.eventid,-1,user.userId)}">
 
-
+                    ${event.user.userid}
 
                     <div id="post-${event.id}" class="postWrapper row-fluid">
                         <div class="leftContent span2">

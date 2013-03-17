@@ -116,6 +116,7 @@ public class EventDAO {
         Event ev = null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
+            System.out.println("HEREHRHErhehRHERHERHEURHUIDHSAIUDHSIAHDSIUAHDISA" + id);
             Query q = session.createQuery("from Event as e join fetch e.booking join fetch e.booking.facility join fetch e.user where e.id = :id ");
             q.setInteger("id", id);
             ev = (Event) q.uniqueResult();

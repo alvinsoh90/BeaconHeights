@@ -210,7 +210,6 @@ public class ManageEventBean extends BaseActionBean {
     public void setVenue(String venue) {
         this.venue = venue;
     }
-<<<<<<< HEAD
     
     public Event getEvent(Integer id){
         EventDAO eDAO = new EventDAO();
@@ -219,8 +218,6 @@ public class ManageEventBean extends BaseActionBean {
         return event;
                    
     }
-=======
->>>>>>> 1f7f4f28d1e6daaba5c72200c34366609b98f6e6
 
     public ArrayList<Event> getEventListWithNoComments() {
         ArrayList<Event> eventList = eDAO.getYtdToFutureEvents();
@@ -492,8 +489,7 @@ public class ManageEventBean extends BaseActionBean {
 
         return list;
     }
-    
-<<<<<<< HEAD
+
 
     public boolean getIsInvited(int eventid, int limit, int userId){
         ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
@@ -504,6 +500,25 @@ public class ManageEventBean extends BaseActionBean {
         }
         return false;
     }
+    
+    public boolean getAccess(int eventid, int limit, int userId){
+        ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
+        EventDAO eDAO = new EventDAO();
+        Event event = eDAO.getEvent(eventid);
+        User eventUser = event.getUser();
+        if (eventUser.getUserId() == userId){
+            return true;
+        }
+                
+        for (User user : invitedUsers){
+            if (user.getUserId() == userId){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
     
     public ArrayList<Event> getAllFutureEventsForUser(User user) {
         ArrayList<Event> list = eDAO.getAllFutureEventsForUser(user);
@@ -526,8 +541,7 @@ public class ManageEventBean extends BaseActionBean {
         return list;
 
     }
-=======
     //============================================ADMIN SPECIFIC FUNCTIONS====================================
     
->>>>>>> 1f7f4f28d1e6daaba5c72200c34366609b98f6e6
+
 }
