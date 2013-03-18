@@ -449,7 +449,7 @@
                                     <option value="INVITE">Event Invitation</option>                                                                   
                                     <option value="REQUEST">Request</option> 
                                 </stripes:select>
-
+                                <stripes:hidden name="wallId" id="wallId" value="-1"/> 
                                 <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Wall"/> 
                             </stripes:form>
                         </div>
@@ -462,11 +462,11 @@
                             <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic"/>
                             <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.firstname} ${post.user.lastname}</div></a>
                         </div>
-                         POST<hr/>
+                        POST<hr/>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Duis ligula arcu, luctus nec elementum quis, condimentum a lectus. 
-                                Suspendisse potenti. Proin neque diam, dictum ac elementum scelerisque, 
-                                aliquet eget diam....
+                        Duis ligula arcu, luctus nec elementum quis, condimentum a lectus. 
+                        Suspendisse potenti. Proin neque diam, dictum ac elementum scelerisque, 
+                        aliquet eget diam....
                     </section>
                 </div>
 
@@ -503,18 +503,18 @@
                                     </c:forEach>
                             </div>    
                         </c:if>
-                        
-                        
+
+
                         <c:if test="${post.event != null}">
                             <div class="attachment event">
-                            <div class="eventTitle"><a href="eventpage.jsp?eventid=${post.event.id}">${post.event.title}</a></div>
-                            <div class="eventMeta">
-                                <b>Venue:</b> ${post.event.venue} <br/>                                    
-                                <b>Date/Time:</b> ${post.event.formattedEventTime}
+                                <div class="eventTitle"><a href="eventpage.jsp?eventid=${post.event.id}">${post.event.title}</a></div>
+                                <div class="eventMeta">
+                                    <b>Venue:</b> ${post.event.venue} <br/>                                    
+                                    <b>Date/Time:</b> ${post.event.formattedEventTime}
+                                </div>
                             </div>
-                        </div>
                         </c:if>
-                        
+
                         <div class="linkBar">
                             <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
 

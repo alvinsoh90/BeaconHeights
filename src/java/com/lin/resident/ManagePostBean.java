@@ -122,6 +122,30 @@ public class ManagePostBean extends BaseActionBean {
         
         return postList;
     }
+    
+    public ArrayList<Post> getWallPostList(int wallId){
+
+        postList = pDAO.retrievePostsWithLimitByWall(-1, wallId);
+        System.out.println("postList size: "+postList.size());
+        
+        CommunityWallController wallCtrl = new CommunityWallController();
+        //get associated comments
+        for(Post p : postList){
+            ArrayList<Comment> l = wallCtrl.getCommentsForPost(p.getPostId());
+            Set<Comment> relatedComments = new HashSet<Comment>(l);
+            p.setComments(relatedComments);
+            
+            //get associated event
+            p.setEvent(pDAO.getEventOfPost(p.getPostId()));
+        }
+        
+        
+        
+        return postList;
+        
+    }
+    
+    
     public ArrayList<Post> getFlaggedPostList() {
         flaggedPostList = pDAO.getAllPostInappropriate();
         System.out.println("postList size: "+flaggedPostList.size());

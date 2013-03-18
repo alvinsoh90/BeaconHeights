@@ -96,6 +96,24 @@ public class PostDAO {
         return postList;
     }
     
+    public ArrayList<Post> retrievePostsWithLimitByWall(int limit, int wallId) {
+        openSession();
+        ArrayList<Post> postList = new ArrayList<Post>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Post as p join fetch p.user where p.receivingWallId = :id order by p.postId DESC")
+                    .setMaxResults(limit);
+            q.setString("id", wallId + "");
+            postList = (ArrayList<Post>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return postList;
+    }
+    
     public ArrayList<Post> retrievePostsWithLimitWithEvent(int limit) {
         openSession();
         ArrayList<Post> postList = new ArrayList<Post>();
