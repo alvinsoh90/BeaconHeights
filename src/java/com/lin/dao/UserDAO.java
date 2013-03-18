@@ -116,6 +116,25 @@ public class UserDAO {
         }
         return false;
     }
+    
+    //Method checks DB if username exists.
+    public Boolean canChooseUsername(String username, String currentUsername) {
+        
+        if(username.equalsIgnoreCase(currentUsername)){
+            return false;
+        }
+        //retieve all users first
+        retrieveAllUsers();
+        
+        //check if user exists
+        for (User u : userList) {
+            if (u.getUserName().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public Boolean resetPwVerification(String username, String email){
         retrieveAllUsers();
         for(User u : userList){
@@ -278,17 +297,18 @@ public class UserDAO {
 
     public User getUser(int userId) {
         openSession();
+        User u = null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from User as u join fetch u.role join fetch u.block where u.userId = :id");
             q.setString("id", userId + "");
-            userList = (ArrayList<User>) q.list();
+            u = (User) q.uniqueResult();
+            
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("RETRIEVEDUSER:" + userList.get(0));
-        return userList.get(0);
+        return u;
     }
     
         public User getShallowUser(int userId) {

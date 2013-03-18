@@ -478,8 +478,11 @@
                             });
                         });       
                     </script>
-                </c:if>                        
+                </c:if>  
+              
             </div>
+            </div>    
+            </c:forEach>
     
                 <script> 
                         var taggedFriendsList = [];
@@ -510,8 +513,8 @@
                                         var start = new Date(data.startTime);
                                         var end = new Date(data.endTime);
                                         //get date formatted in Mar, 12 2013 format
-                                        $("#eventTimeStart").val(start.toString("hh:mm:ss"));
-                                        $("#eventTimeEnd").val(end.toString("hh:mm:ss"));
+                                        $("#eventTimeStart").val(start.toString("H:mm:ss"));
+                                        $("#eventTimeEnd").val(end.toString("H:mm:ss"));
                                         var input = $( '.datepicker' ).pickadate();
                                         var calendar = input.data( 'pickadate' );
                                         console.log(start.getDate());
@@ -526,12 +529,38 @@
                                         $("#tagFriendsBox").tokenInput("clear"); //clear any previous taggs
                                         if(data.taggedFriends){
                                             for(var i = 0 ; i < data.taggedFriends.length ; i++){
+                                                data.taggedFriends[i].readonly = true;
+                                                console.log(data.taggedFriends[i]);
                                                 $("#tagFriendsBox").tokenInput("add", data.taggedFriends[i]);
                                             }                                            
                                         }
                                         
                                     }else{
                                         toastr.error("Sorry there was a problem retrieving event details. Please try again later");
+                                    }
+                                } 
+                            });
+                        }
+                        
+                        function postCancellingEvent(){
+                            if(!confirm("Are you sure? This action cannot be undone.")){
+                                return;
+                            }
+                            var dat = new Object();
+                            dat.isCancellingEvent = true;
+                            dat.eventId = $("#editEventId").val();
+                            
+                            $.ajax({
+                                type: "POST",
+                                url: "/json/community/editEventJSON.jsp",
+                                data: dat,
+                                success: function(data, textStatus, xhr) {
+                                    if(xhr.status == 200 && data.edit_success){
+                                        toastr.success("This event is now cancelled. Refreshing page...");
+                                        setTimeout("window.location.reload()",2000);
+                                    }
+                                    else{
+                                        toastr.error("Sorry, there was a problem cancelling your event. Please try again later.");
                                     }
                                 } 
                             });
@@ -545,8 +574,17 @@
                             dat.details = $("#eventDetails").val();
                             dat.venue = $("#eventVenue").val();
                             dat.eventId = $("#editEventId").val();
-                            dat.taggedFriends = $("#tagFriendsBox").tokenInput("get");
-                            dat.isPublicEvent = $('#check_id').is(":checked");
+                            
+                            var inputTaggedList = $("#tagFriendsBox").tokenInput("get"); //all who are tagged
+                            var taggedFriends = [];
+                            for(var i = 0 ; i < inputTaggedList.length ; i++){
+                                if(inputTaggedList[i].userId){
+                                    taggedFriends.push(inputTaggedList[i].userId); //get only NEW tags
+                                }
+                            }
+                            dat.taggedFriends = JSON.stringify(taggedFriends);
+                            
+                            dat.isPublicEvent = $('#isPublicEvent').is(":checked");
                             dat.taggedBookingId = $("#bookingDropdownSelection").val();
                             
                             var eventDateStr = $("#eventDate").val();
@@ -575,7 +613,20 @@
                             
                             
                             console.log(dat);
-                            
+                            $.ajax({
+                                type: "POST",
+                                url: "/json/community/editEventJSON.jsp?isEditingEvent=true",
+                                data: dat,
+                                success: function(data, textStatus, xhr) {
+                                    if(xhr.status == 200 && data.edit_success){
+                                        toastr.success("Successfully edited your event! Refreshing page...");
+                                        setTimeout("window.location.reload()",2000);
+                                    }
+                                    else{
+                                        toastr.error("Sorry, there was a problem editing your event. Please try again later.");
+                                    }
+                                } 
+                            });
                            
                         }
                         
@@ -584,18 +635,17 @@
                             theme: "facebook",
                             queryParam:"searchString",
                             jsonContainer:"friendList",
+                            preventDuplicates: true,
                             searchingText:"Searching friends...",
                             hintText:"Enter a friend's name",
-                            resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" },
+                            zindex: 11001,
                             onAdd: function(item){
-                                taggedFriendsList.push(item.userId);
-                                $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
-                            },
-                            onDelete: function(item){
-                                var idx = taggedFriendsList.indexOf(item.userId);
-                                if(idx!=-1) taggedFriendsList.splice(idx,1);
-                                $("#taggedFriends").val(JSON.stringify(taggedFriendsList));
-                            }
+                                console.log("addeditem: " + JSON.stringify(item));
+                                        var list = $("#tagFriendsBox").tokenInput("get");
+                                        console.log("found: " + JSON.stringify(_.findWhere(list, {userId: item.id})));
+                                        
+                                   },
+                            resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" }
                         }); 
                     });
                 </script>
@@ -636,7 +686,7 @@
                                             <input type="text" class="shorty" id="eventVenue" name="venue" />
                                             <span class="gap">and</span>
                                             <select id="bookingDropdownSelection" class="shorty">
-                                                <c:set var="bookingList" value="${manageEventBean.getBookingsOfUser(user.userId)}"/>
+                                                <c:set var="bookingList" value="${manageEventBean.getUserFutureBookings(user.userId)}"/>
                                                         
                                                 <c:choose>
                                                     <c:when test="${not empty bookingList}">
@@ -665,7 +715,7 @@
                                 <div class="control-group tagFriends">        
                                     <label class="control-label">Tag Friends: </label>
                                     <div class="control">
-                                        <input type="text"  id="tagFriendsBox" />
+                                        <input type="text" id="tagFriendsBox" />
                                         <input type="hidden" id="taggedFriends" name="eventTaggedFriends" />
                                     </div>
                                 </div>
@@ -679,19 +729,19 @@
                         </div>
                   
                     <div class="modal-footer">
-                        <a href="#"  data-dismiss="modal" class="btn">Close</a>
-                        <a href="##ubmit" id="submitEditEvent" onclick="postEditEvent()" class="btn btn-primary btn btn-peace-1">Save changes</a>
+                        <a href="#cancel" onclick="postCancellingEvent()" class="btn btn-danger pull-right">Cancel Event</a>
+                        <a href="#"  data-dismiss="modal" class="btn pull-left">Close</a>
+                        <a href="#submit" id="submitEditEvent" onclick="postEditEvent()" class="btn btn-primary btn btn-peace-1 pull-left">Save changes</a>
                     </div>
                 </div>
                 
 
         </div>
-    </c:forEach>
+   
 
-</div>
+
 </div>
 <div id="footer">
-
     <div class="container">				
 
         <p><center><a href="mailto:helpdesk@beaconheights.com.sg">

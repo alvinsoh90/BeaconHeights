@@ -199,14 +199,13 @@
                 else if(failure){
                     var msg = "<b>There was an error processing your request.</b><br/>";
                     msg += "<ol>"
-                <c:forEach var="message" items="${MESSAGES}">
-                            msg += "<li>${message}</li>";
-            </c:forEach>
-                            msg += "</ol>";    
-                            toastr.errorSticky(msg);
-                        }
-
-                    });
+                    <c:forEach var="message" items="${MESSAGES}">
+                        msg += "<li>${message}</li>";
+                    </c:forEach>
+                        msg += "</ol>";    
+                        toastr.errorSticky(msg);
+                }
+            });
         </script>
 
 

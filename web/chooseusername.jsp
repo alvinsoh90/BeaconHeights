@@ -70,11 +70,13 @@
         </style>
         
         <script>
-            function checkUser(){
+            var check = function checkUser(){
                 //$("#success").val('true')
                 var dat = new Object();
-                dat.username = $("#username").val();
-                
+//                dat.username = $("#username").value;
+                dat.username = document.getElementById('username').value
+                dat.currentUsername = '${user.userName}';
+                console.log("boo");
                 //post comment
                 $.ajax({
                     type: "POST",
@@ -85,15 +87,19 @@
                         var valid = data.result;
                         if(valid==false){
                             $("#success").val('true');
-                            alert("Username is valid : " + $("#username").val() + " can be used.");
+                            $("#username").parent().parent().removeClass("error");
+                            $("#username").parent().parent().addClass("success");
                         }else{
                             $("#success").val('false');
-                            alert("Username is invalid : " + $("#username").val() + " already exists.");
+                            $("#username").parent().parent().removeClass("success");
+                            $("#username").parent().parent().addClass("error");
                         }
                     }, 
                     dataType: "json"
                 });
             }
+            
+            
             
             function submitForm(){
                 //checkUser();
@@ -112,6 +118,8 @@
             }
             
             $(document).ready(function(){
+                $("#username").on('keyup',check);
+                
                 var success = "${SUCCESS}";
                 var failure = "${FAILURE}";
                 if(success != ""){
@@ -180,7 +188,7 @@
                                 <div class="control-group ${errorStyle}">
                                 <label class="control-label">New username:</label>
                                 <div class="controls">
-                                    <stripes:text name="username" id="username" /><a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="checkUser()"><i class="iconLike icon-search"></i> <span class="txt">Check</span></a>
+                                    <stripes:text name="username" id="username" class="ignore" /><a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="check"><i class="iconLike icon-search"></i> <span class="txt">Check</span></a>
                                 </div>
                                 </div>
                                 <div class="control-group ${errorStyle}">

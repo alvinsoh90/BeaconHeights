@@ -39,6 +39,12 @@
         <property name="isDeleted" type="boolean">
             <column name="is_deleted" not-null="true" />
         </property>
+        <property name="isFeatured" type="boolean">
+            <column name="is_featured" not-null="true" />
+        </property>
+        <property name="bannerFileName" type="string">
+            <column name="banner_file_name" length="80"  />
+        </property>
         <set name="eventLikes" inverse="true">
             <key>
                 <column name="event_id" not-null="true" />

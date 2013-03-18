@@ -90,6 +90,30 @@ public class BookingDAO {
         return result;
     }
     
+    public ArrayList<Booking> getUnitBookings(int block, int level, int unit) {
+         openSession();
+        
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType join fetch booking.user where booking.user.block = :bId and booking.user.unit = :unit and booking.user.level = :level");
+            q.setInteger("bId", block);
+            q.setInteger("unit", unit);
+            q.setInteger("level", level);
+            result = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return result;
+    }
+    
+    
+    
     public ArrayList<Booking> getShallowUserBookings(int userID) {
          openSession();
         
@@ -98,6 +122,31 @@ public class BookingDAO {
         try {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Booking as booking join fetch booking.facility where booking.user.userId = :uId");
+            q.setInteger("uId", userID);
+            result = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(tx!=null){
+                tx.rollback();
+            }
+        }
+        return result;
+    }
+        
+        //used in viewmyevents.jsp and eventwall.jsp to output taggable bookings
+    public ArrayList<Booking> getUserYtdToFutureBookings(int userID) {
+         openSession();
+        
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking as booking "
+                    + "join fetch booking.facility "
+                    + "where booking.user.userId = :uId "
+                    + "and booking.startDate > timestampadd(day,-2,current_timestamp())");
+            
             q.setInteger("uId", userID);
             result = (ArrayList<Booking>) q.list();
             tx.commit();
@@ -355,6 +404,29 @@ public class BookingDAO {
             Query q = session.createQuery("from Booking b where b.facility = :facility and b.startDate <= :start and b.endDate >= :start");
             q.setParameter("facility",facility);
             q.setParameter("start",start);
+            list = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<Booking> getListOfBookingOfAParticularSlot(int start, int end, int day_of_week, int fid){
+        ArrayList<Booking> list = new ArrayList<Booking>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Facility facility = (Facility) session.get(Facility.class, fid);
+            Query q = session.createQuery("from Booking b where b.facility = :facility "+
+                    "and dayofweek(b.startDate) = :dow "+
+                    "and hour(b.startDate) = :start "+
+                    "and hour(b.endDate) = :end");
+            q.setParameter("facility",facility);
+            q.setParameter("start",start);
+            q.setParameter("dow",day_of_week);
+            q.setParameter("end",end);
             list = (ArrayList<Booking>) q.list();
             tx.commit();
         } catch (Exception e) {

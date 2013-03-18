@@ -9,10 +9,12 @@ import com.lin.dao.CommunityWallCommentDAO;
 import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Comment;
+import com.lin.entities.Event;
 import com.lin.entities.Post;
 import com.lin.entities.PostLike;
 import com.lin.entities.PostUserTag;
 import com.lin.entities.User;
+import com.lin.general.login.BaseActionBean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,9 +31,8 @@ import net.sourceforge.stripes.action.ActionBeanContext;
  *
  * @author fayannefoo
  */
-public class ManagePostBean implements ActionBean {
+public class ManagePostBean extends BaseActionBean {
 
-    private ActionBeanContext context;
     private int id;
     private int postId;
     private Integer commentId;
@@ -46,16 +47,6 @@ public class ManagePostBean implements ActionBean {
     private boolean outcome;
     PostDAO pDAO = new PostDAO();
 
-
-    @Override
-    public void setContext(ActionBeanContext abc) {
-        this.context = context;
-    }
-
-    @Override
-    public ActionBeanContext getContext() {
-        return context;
-    }
 
     public Date getDate() {
         return date;
@@ -123,10 +114,39 @@ public class ManagePostBean implements ActionBean {
             ArrayList<Comment> l = wallCtrl.getCommentsForPost(p.getPostId());
             Set<Comment> relatedComments = new HashSet<Comment>(l);
             p.setComments(relatedComments);
+            
+            //get associated event
+            p.setEvent(pDAO.getEventOfPost(p.getPostId()));
         }
+        
+        
         
         return postList;
     }
+    
+    public ArrayList<Post> getWallPostList(int wallId){
+
+        postList = pDAO.retrievePostsWithLimitByWall(-1, wallId);
+        System.out.println("postList size: "+postList.size());
+        
+        CommunityWallController wallCtrl = new CommunityWallController();
+        //get associated comments
+        for(Post p : postList){
+            ArrayList<Comment> l = wallCtrl.getCommentsForPost(p.getPostId());
+            Set<Comment> relatedComments = new HashSet<Comment>(l);
+            p.setComments(relatedComments);
+            
+            //get associated event
+            p.setEvent(pDAO.getEventOfPost(p.getPostId()));
+        }
+        
+        
+        
+        return postList;
+        
+    }
+    
+    
     public ArrayList<Post> getFlaggedPostList() {
         flaggedPostList = pDAO.getAllPostInappropriate();
         System.out.println("postList size: "+flaggedPostList.size());
@@ -156,10 +176,11 @@ public class ManagePostBean implements ActionBean {
     }
 
     @HandlesEvent("adminDeletePost")
-    public Resolution adminDeleteEvent() {
-        outcome = pDAO.deletePost(id);
-        return new RedirectResolution("/admin/manage-events.jsp?deletesuccess="
-                + outcome + "&deletemsg=" + "Deleted");
+    public Resolution adminDeletePost() {
+        System.out.println(postId+"deletePostId");
+        outcome = pDAO.deletePost(postId);
+        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
+                + outcome);
     }
     
   
@@ -213,4 +234,8 @@ public class ManagePostBean implements ActionBean {
         return list;
     }
     
+    public Event getTaggedEvent(int postId){ 
+        return pDAO.getEventOfPost(postId);       
+
+    }
 }

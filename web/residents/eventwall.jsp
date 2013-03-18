@@ -107,6 +107,7 @@
                 queryParam:"searchString",
                 jsonContainer:"friendList",
                 searchingText:"Searching friends...",
+                preventDuplicates: true,
                 hintText:"Enter a friend's name",
                 resultsFormatter: function(item){ return "<li>" + "<img class='resultsPic' src='/uploads/profile_pics/" + item.profilePic + "' title='" + item.name + "' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='resultsName'>" + item.name + "</div><div class='resultsUsername'>" + item.username + "</div></div></li>" },
                 onAdd: function(item){
@@ -453,7 +454,7 @@
                                     <stripes:text class="shorty" id="event_venue" name="venue" />
                                     <span class="gap">and</span>
                                     <stripes:select class="shorty" name="bookingId">
-                                        <c:set var="bookingList" value="${manageEventBean.getBookingsOfUser(user.userId)}"/>
+                                        <c:set var="bookingList" value="${manageEventBean.getUserFutureBookings(user.userId)}"/>
                                         
                                         <c:choose>
                                             <c:when test="${not empty bookingList}">
@@ -518,7 +519,7 @@
                         <div class="title"><a href="profile.jsp?profileid=${post.user.userId}"><b>${post.user.firstname} ${post.user.lastname}</b></a> created an event</div>
                         <div class="content">"${post.details}"</div>
                         <div class="attachment event">
-                            <div class="eventTitle"><a href="#">${post.title}</a></div>
+                            <div class="eventTitle"><a href="eventpage.jsp?eventid=${post.id}">${post.title}</a></div>
                             <c:if test="${post.booking != null}">
                                 <div class="eventMeta">
                                     <b>Venue:</b> ${post.venue}

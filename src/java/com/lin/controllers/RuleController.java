@@ -184,7 +184,14 @@ public class RuleController {
     private ArrayList<String> validateLimitRule(int userID, int facilityTypeID, Date startBookingTime, Date endBookingTime) {
         ArrayList<String> limitRuleErrors = new ArrayList<String>();
         ArrayList<LimitRule> limitRuleList = rDAO.getAllLimitRule(facilityTypeID);
-        ArrayList<Booking> userBookingList = bDAO.getUserBookings(userID);
+        uDAO = new UserDAO();
+        
+        
+        User user = uDAO.getUser(userID);
+        int block = user.getBlock().getId();
+        int unit = user.getUnit();
+        int level = user.getLevel();
+        ArrayList<Booking> unitBookingList = bDAO.getUnitBookings(block, unit, level);
 
         for (Object o : limitRuleList) {
             LimitRule limitRule = (LimitRule) o;
@@ -197,7 +204,7 @@ public class RuleController {
 
             Calendar checkDate = Calendar.getInstance();
 
-            for (Booking booking : userBookingList) {
+            for (Booking booking : unitBookingList) {
                 if (booking.getFacility().getFacilityType().getId() == facilityTypeID) {
                     if (!booking.getIsDeleted()) {
                         checkDate.setTime(booking.getStartDate());
@@ -224,9 +231,7 @@ public class RuleController {
                         if (bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR)) {
                             int bookingWeek = bookingDate.get(Calendar.WEEK_OF_YEAR);
                             int checkWeek = checkDate.get(Calendar.WEEK_OF_YEAR);
-                            System.out.println(numberOfTimeframe);
-                                System.out.println(bookingDate);
-                                System.out.println(checkDate);
+                        
                             if (Math.abs(checkWeek - bookingWeek) < numberOfTimeframe) {
                                 
                                 count++;
@@ -256,10 +261,6 @@ public class RuleController {
 
 
                 if (count >= sessions) {
-
-                    System.out.println("DUSDUS" + timeFrametype);
-                    System.out.println("DUSDUS" + count);
-                    System.out.println(sessions);
                     limitRuleErrors.add("You have reached the maximum booking limit for the duration.");
                     break;
                 }

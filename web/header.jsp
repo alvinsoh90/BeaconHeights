@@ -31,83 +31,85 @@
             <a class="brand" href="/residents/index.jsp">Beacon Heights
 
             </a>
-            <ul class="nav pull-left">
+            <div class="nav-collapse">
+                <ul class="nav pull-left">
 
-                <li class="dropdown">
+                    <li class="dropdown">
 
-                    <a href="/residents/communitywall.jsp" data-toggle="dropdown" class="dropdown-toggle ">
-                        Community
-                        <b class="caret"></b>							
-                    </a>
-                    <ul class="dropdown-menu hoverShow">
-                        <li>
-                            <a href="/residents/communitywall.jsp"> Community Wall</a>
-                            <a href="/residents/usersearch.jsp"> Search Friends</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                        <a href="/residents/communitywall.jsp" data-toggle="dropdown" class="dropdown-toggle ">
+                            Community
+                            <b class="caret"></b>							
+                        </a>
+                        <ul class="dropdown-menu hoverShow">
+                            <li>
+                                <a href="/residents/communitywall.jsp"> Community Wall</a>
+                                <a href="/residents/usersearch.jsp"> Search Friends</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
-            <ul class="nav pull-left">
+                <ul class="nav pull-left">
 
-                <li class="dropdown">
+                    <li class="dropdown">
 
-                    <a href="/residents/eventwall.jsp" data-toggle="dropdown" class="dropdown-toggle ">
-                        Events
-                        <b class="caret"></b>							
-                    </a>
-                    <ul class="dropdown-menu hoverShow">
-                        <li>
-                            <a href="/residents/eventwall.jsp"> Event Wall</a>
-                            <a href="/residents/viewmyevents.jsp"> View My Events</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav pull-left">
+                        <a href="/residents/eventwall.jsp" data-toggle="dropdown" class="dropdown-toggle ">
+                            Events
+                            <b class="caret"></b>							
+                        </a>
+                        <ul class="dropdown-menu hoverShow">
+                            <li>
+                                <a href="/residents/eventwall.jsp"> Event Wall</a>
+                                <a href="/residents/viewmyevents.jsp"> View My Events</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav pull-left">
 
-                <li class="dropdown">
+                    <li class="dropdown">
 
-                    <a data-target ="#" href="/residents/index.jsp" data-toggle="dropdown" class="dropdown-toggle ">
-                        Facility Booking
-                        <b class="caret"></b>							
-                    </a>
-                    <ul class="dropdown-menu hoverShow">
-                        <li>
-                            <a href="/residents/index.jsp"> Book Facilities</a>
-                        </li>
+                        <a data-target ="#" href="/residents/index.jsp" data-toggle="dropdown" class="dropdown-toggle ">
+                            Facility Booking
+                            <b class="caret"></b>							
+                        </a>
+                        <ul class="dropdown-menu hoverShow">
+                            <li>
+                                <a href="/residents/index.jsp"> Book Facilities</a>
+                            </li>
 
-                        <li>
-                            <a href="/residents/mybookings.jsp"> View My Bookings</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav pull-left">
+                            <li>
+                                <a href="/residents/mybookings.jsp"> View My Bookings</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav pull-left">
 
-                <li class="dropdown">
+                    <li class="dropdown">
 
-                    <a href="#services" data-toggle="dropdown" class="dropdown-toggle ">
-                        Services
-                        <b class="caret"></b>							
-                    </a>
+                        <a href="#services" data-toggle="dropdown" class="dropdown-toggle ">
+                            Services
+                            <b class="caret"></b>							
+                        </a>
 
-                    <ul class="dropdown-menu hoverShow">
-                        <li>
-                            <a href="/residents/viewamenities.jsp"> View Amenities</a>
-                        </li>
-                        <li>
-                            <a href="/residents/viewresources.jsp"> Download Resources</a>
-                        </li>
+                        <ul class="dropdown-menu hoverShow">
+                            <li>
+                                <a href="/residents/viewamenities.jsp"> View Amenities</a>
+                            </li>
+                            <li>
+                                <a href="/residents/viewresources.jsp"> Download Resources</a>
+                            </li>
 
-                        <li>
-                            <a href="/residents/submitonlineforms.jsp"> Submit Online Forms</a>
-                        </li>
+                            <li>
+                                <a href="/residents/submitonlineforms.jsp"> Submit Online Forms</a>
+                            </li>
 
-                    </ul>
+                        </ul>
 
-                </li>
-            </ul>
+                    </li>
+                </ul>
+           </div>     
 
 
             <div class="nav-collapse">

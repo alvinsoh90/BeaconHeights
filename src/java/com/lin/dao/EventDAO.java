@@ -48,14 +48,23 @@ public class EventDAO {
     }
     
     
-    public Event updateEvent(Event e) {
+    public Event updateEvent(Event event) {
         openSession();
         Transaction tx = null;
+        Event editedEvent = null;
         try {
             tx = session.beginTransaction();
-            session.save("Event", e);
+            editedEvent = (Event) session.get(Event.class, event.getId());
+            editedEvent.setDetails(event.getDetails());
+            editedEvent.setEndTime(event.getEndTime());
+            editedEvent.setTitle(event.getTitle());
+            editedEvent.setIsPublicEvent(event.isIsPublicEvent());
+            editedEvent.setStartTime(event.getStartTime());
+            editedEvent.setBooking(event.getBooking());
+            
             tx.commit();
-            return e;
+            return editedEvent;
+            
         } catch (Exception ex) {
             ex.printStackTrace();
             if (tx != null) {
@@ -101,7 +110,7 @@ public class EventDAO {
         Event ev = null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Event as e join fetch e.user where e.id = :id");
+            Query q = session.createQuery("from Event as e join fetch e.user where e.id = :id ");
             q.setInteger("id", id);
             ev = (Event) q.uniqueResult();
             tx.commit();
@@ -110,6 +119,23 @@ public class EventDAO {
         }
         return ev;
     }
+    
+    public Event getEventWithUserBookingLoaded(int id) {
+        openSession();
+        Event ev = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            
+            Query q = session.createQuery("from Event as e join fetch e.booking join fetch e.booking.facility join fetch e.user where e.id = :id ");
+            q.setInteger("id", id);
+            ev = (Event) q.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ev;
+    }
+    
 
     public ArrayList<Event> getAllEvents() {
         openSession();
@@ -169,9 +195,8 @@ public class EventDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery(
-                    "from Event as e join fetch e.user "
-                    + "where e.isPublicEvent is true "
-                    + "and e.isDeleted is false "
+                    "from Event as e join fetch e.user "                    
+                    + "where e.isDeleted is false "
                     + "and e.startTime > current_timestamp() "
                     + "and e.user = :userid "
                     + "order by e.startTime ASC");
@@ -232,7 +257,35 @@ public class EventDAO {
         try {
             tx = session.beginTransaction();
             Event e = (Event) session.get(Event.class, id);
-            e.setIsDeleted(true);
+            if(e.isIsDeleted()){
+                e.setIsDeleted(false);
+            }else{
+                e.setIsDeleted(true);
+            }
+            
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return false;
+    }
+    
+    public boolean featureEvent(int id) {
+        openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Event e = (Event) session.get(Event.class, id);
+            if(e.isIsFeatured()){
+                e.setIsFeatured(false);
+            }else{
+                e.setIsFeatured(true);
+            }
             tx.commit();
             return true;
         } catch (Exception e) {
@@ -615,5 +668,45 @@ public class EventDAO {
         }
 
         return eventInviteList;
+    }
+    
+
+    public ArrayList<Event> getYtdToFutureEvents() {
+        openSession();
+        ArrayList<Event> list = new ArrayList<Event>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery(
+                    "from Event "
+                    + "where startTime > timestampadd(day,-2,current_timestamp())"
+                    + "order by startTime ASC");
+
+            list = (ArrayList<Event>) q.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public boolean uploadEventBanner(int id, String fileName) {
+        openSession();
+        Transaction tx = null;
+        Event e = null;
+        try {
+            tx = session.beginTransaction();
+            e = (Event) session.get(Event.class, id);
+            e.setBannerFileName(fileName);
+            tx.commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return false;
+        }
+        return true;
     }
 }

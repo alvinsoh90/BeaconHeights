@@ -479,16 +479,16 @@
                         <br/>
                         <stripes:hidden name="posterId" id="posterID" value='${sessionScope.user.userId}'/> 
                         <div class="optionsBar">
-                            <span>Type:</span> <stripes:select name="postCategory" id="postOption">
-                                <option value="SHOUTOUT">Shout Out</option>
-                                <option value="INVITE">Event Invitation</option>                                                                   
-                                <option value="REQUEST">Request</option> 
-                            </stripes:select>
-
-                            <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Wall"/> 
-                        </stripes:form>
+                                <span>Type:</span> <stripes:select name="postCategory" id="postOption">
+                                    <option value="SHOUTOUT">Shout Out</option>
+                                    <option value="INVITE">Event Invitation</option>                                                                   
+                                    <option value="REQUEST">Request</option> 
+                                </stripes:select>
+                                <stripes:hidden name="wallId" id="wallId" value="-1"/> 
+                                <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Wall"/> 
+                            </stripes:form>
+                        </div>
                     </div>
-                </div>
             </div>
 
             <div class="featured">
@@ -517,47 +517,52 @@
                         <div class="timeline"/></div>
                 </div>
             </div>
-            <div class="post span6">
-                <div class="baseContent">
-                    <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
-                    <div class="content">"${post.message}"</div>
+                <div class="post span6">
+                    <div class="baseContent">
+                        <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
+                        <div class="content">"${post.message}"</div>
 
 
-                    <c:set var="taggedUsers" value="${managePostBean.getTaggedUsers(post.postId,-1)}"/>
+                        <c:set var="taggedUsers" value="${managePostBean.getTaggedUsers(post.postId,-1)}"/>
 
-                    <c:if test="${not empty taggedUsers}">
-                        <div class="taggedUsers">
-                            Tagged:
-                            <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
-                                <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
-                                </c:forEach>
-                        </div>    
-                    </c:if>
+                        <c:if test="${not empty taggedUsers}">
+                            <div class="taggedUsers">
+                                Tagged:
+                                <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
+                                    <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                    </c:forEach>
+                            </div>    
+                        </c:if>
 
-                    <div class="attachment event hide">
-                        <div class="eventTitle"><a href="#">Tennis Game Tonight, 7pm!</a></div>
-                        <div class="eventMeta">
-                            <b>Venue:</b> Beacon Heights Tennis Court 2 <br/>
-                            <b>Date/Time:</b> 28 Sept '12 @ 7pm - 10pm
+
+                        <c:if test="${post.event != null}">
+                            <div class="attachment event">
+                                <div class="eventTitle"><a href="eventpage.jsp?eventid=${post.event.id}">${post.event.title}</a></div>
+                                <div class="eventMeta">
+                                    <b>Venue:</b> ${post.event.venue} <br/>                                    
+                                    <b>Date/Time:</b> ${post.event.formattedEventTime}
+                                </div>
+                            </div>
+                        </c:if>
+
+                        <div class="linkBar">
+                            <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
+
+                            <%-- Check if user likes this post --%>
+                            <c:choose>
+                                <c:when test="${managePostBean.hasUserLikedPost(post.postId, sessionScope.user.userId)}">
+                                    <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="unlikePost(${post.postId})"><i class="iconLike icon-ok"></i> <span class="txt">You Like</span></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.postId})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
+                                </c:otherwise>    
+                            </c:choose>                                
+
+                            <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
+                            <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
                         </div>
                     </div>
-                    <div class="linkBar">
-                        <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
 
-                        <%-- Check if user likes this post --%>
-                        <c:choose>
-                            <c:when test="${managePostBean.hasUserLikedPost(post.postId, sessionScope.user.userId)}">
-                                <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="unlikePost(${post.postId})"><i class="iconLike icon-ok"></i> <span class="txt">You Like</span></a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.postId})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
-                            </c:otherwise>    
-                        </c:choose>                                
-
-                        <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
-                        <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
-                    </div>
-                </div>
                 <div class="commentArea">
                     <div class="comments">
                         <c:forEach items="${managePostBean.sortCommentsByDate(post.comments)}" var="comment" varStatus="loop">

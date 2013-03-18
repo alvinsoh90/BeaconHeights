@@ -4,6 +4,7 @@
  */
 package com.lin.dao;
 
+import com.lin.entities.Event;
 import com.lin.entities.Post;
 import com.lin.entities.PostInappropriate;
 import com.lin.entities.PostLike;
@@ -85,6 +86,24 @@ public class PostDAO {
             Query q = session.createQuery("from Post as p join fetch p.user order by p.postId DESC")
                     .setMaxResults(limit);
             
+            postList = (ArrayList<Post>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return postList;
+    }
+    
+    public ArrayList<Post> retrievePostsWithLimitByWall(int limit, int wallId) {
+        openSession();
+        ArrayList<Post> postList = new ArrayList<Post>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Post as p join fetch p.user where p.receivingWallId = :id order by p.postId DESC")
+                    .setMaxResults(limit);
+            q.setString("id", wallId + "");
             postList = (ArrayList<Post>) q.list();
             
             tx.commit();
@@ -484,6 +503,23 @@ public class PostDAO {
         return postList;
     }
     
+
+    public Event getEventOfPost(int postId) {
+        openSession();
+        Event ev = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("select p.event from Post as p where p.postId = :id");
+            q.setInteger("id", postId);
+            ev = (Event) q.uniqueResult();
+            
+            tx.commit();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ev;
+    }
 
 }
 

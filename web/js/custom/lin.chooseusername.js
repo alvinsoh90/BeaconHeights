@@ -2,11 +2,10 @@
 window.onload = function() {
 	
     $("#chooseUsername").validate({
+        
         rules:{
             username:{
-                required: true,
-                minlength:5,
-                maxlength:20
+                required:true
             },
             newpassword:{
                 required:true,
@@ -24,6 +23,15 @@ window.onload = function() {
                 equalTo:"true"
             }
         },
+//           submitHandler: function(form) {
+//            if( $("#username").val().length > 5 && $("#username").val().length <= 20){
+//                $(form).submit();
+//            }
+//            else{
+//                toastr.error("Your username must be between 6 - 20 characters!")
+//            }
+//            
+//        },
         errorClass: "help-inline",
         errorElement: "span",
         highlight:function(element, errorClass, validClass) {
@@ -31,11 +39,12 @@ window.onload = function() {
         },
         unhighlight: function(element, errorClass, validClass) {
             $(element).parents('.control-group').removeClass('error');
-            $(element).parents('.control-group').addClass('success');
+            $(element).parents('.control-group').addClass('success');            
         }
     })
    
 
+    
 };
         
        

@@ -25,7 +25,8 @@ import net.sourceforge.stripes.controller.FlashScope;
  *
  * @author Yangsta
  */
-public class AddPostActionBean implements ActionBean{
+public class AddPostActionBean implements ActionBean {
+
     private ActionBeanContext context;
     private String postContent;
     private String postTitle;
@@ -33,6 +34,7 @@ public class AddPostActionBean implements ActionBean{
     private int eventId;
     private String postCategory;
     private String taggedFriends;  //retrieved as "[id1,id2,id3,...]"
+    private int wallId;
 
     public String getTaggedFriends() {
         return taggedFriends;
@@ -49,7 +51,7 @@ public class AddPostActionBean implements ActionBean{
     public void setEventId(int eventId) {
         this.eventId = eventId;
     }
-    
+
     public String getPostCategory() {
         return postCategory;
     }
@@ -89,78 +91,87 @@ public class AddPostActionBean implements ActionBean{
     public void setPosterId(int posterId) {
         this.posterId = posterId;
     }
-    
+
+    public int getWallId() {
+        return wallId;
+    }
+
+    public void setWallId(int wallId) {
+        this.wallId = wallId;
+    }
+
     @DefaultHandler
     public Resolution add() {
-        
+
         // get flash scope instance
-        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true);
 
         try {
             UserDAO uDAO = new UserDAO();
             PostDAO pDAO = new PostDAO();
             User user = uDAO.getUser(getPosterId());
             EventDAO eDAO = new EventDAO();
-            Event event = eDAO.getEvent(eventId);
-            
+            Event event = null;
+            if (eventId != -1) {
+                event = eDAO.getEvent(eventId);
+            }
             //Create and save post
             Post aPost = null;
-            
-            if("REQUEST".equals(getPostCategory())){
-                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.REQUEST, event);
-            }
-            else if("INVITE".equals(getPostCategory())){
-                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.INVITE, event);
-            }
-            else if("SHOUTOUT".equals(getPostCategory())){
-                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.SHOUTOUT, event);
-            }
-            else if("ANNOUNCEMENT".equals(getPostCategory())){
-                aPost = new Post(user,getPostContent(),new Date(),getPostTitle(),Post.Type.ANNOUNCEMENT, event);
-            }
-            else{
+
+            if ("REQUEST".equals(getPostCategory())) {
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.REQUEST, event, getWallId());
+            } else if ("INVITE".equals(getPostCategory())) {
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.INVITE, event, getWallId());
+            } else if ("SHOUTOUT".equals(getPostCategory())) {
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.SHOUTOUT, event, getWallId());
+            } else if ("ANNOUNCEMENT".equals(getPostCategory())) {
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.ANNOUNCEMENT, event, getWallId());
+            } else {
                 System.out.println("\nINVALID POST CATEGORY\n");
-                fs.put("SUCCESS","false");
-            }      
-            
+                fs.put("SUCCESS", "false");
+            }
+
             Post posted = pDAO.addPost(aPost);
-            if(posted != null){
-                if(getTaggedFriends()!=null){
+            if (posted != null) {
+                if (getTaggedFriends() != null) {
                     //read tagged users ID list
                     System.out.println("friends: " + getTaggedFriends());
                     String taggedIds = getTaggedFriends().replace("[", "");
                     taggedIds = taggedIds.replace("]", "");
                     String[] taggedIdArray = taggedIds.split(",");
                     System.out.println("trimmed: " + taggedIdArray.toString());
-                    
+
                     //Retrieve and save tagged users for this post
                     ArrayList<User> taggedUsers = new ArrayList<User>();
-                    for(String uId : taggedIdArray){
-                            
-                            User taggedUser = uDAO.getShallowUser(Integer.parseInt(uId));
-                            taggedUsers.add(taggedUser);
-                            
-                            pDAO.addPostUserTag(new PostUserTag(
-                                    taggedUser,
-                                    pDAO.getPost(posted.getPostId()),
-                                    new Date()
-                            ));
+                    for (String uId : taggedIdArray) {
+
+                        User taggedUser = uDAO.getShallowUser(Integer.parseInt(uId));
+                        taggedUsers.add(taggedUser);
+
+                        pDAO.addPostUserTag(new PostUserTag(
+                                taggedUser,
+                                pDAO.getPost(posted.getPostId()),
+                                new Date()));
                     }
-                                     
+
                     //send notifications
                     ManageNotificationBean nBean = new ManageNotificationBean();
-                    nBean.sendTaggedInPostNotification(posted, taggedUsers);    
-                        
-                    fs.put("SUCCESS","true");  
-                }              
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();            
-        }
-        
-        return new RedirectResolution("/residents/communitywall.jsp");
-        
-    }
+                    nBean.sendTaggedInPostNotification(posted, taggedUsers);
 
+                    fs.put("SUCCESS", "true");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //if -1, then go wall
+        if (getWallId() == -1) {
+            return new RedirectResolution("/residents/communitywall.jsp");
+        } else {
+            return new RedirectResolution("/residents/eventpage.jsp?eventid=" + getWallId());
+        }
+
+    }
 }

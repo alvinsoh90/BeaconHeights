@@ -29,6 +29,8 @@ public class Event  implements java.io.Serializable {
      private boolean isPublicEvent;
      private boolean isAdminEvent;
      private boolean isDeleted;
+     private boolean isFeatured;
+     private String bannerFileName;
      private Set eventLikes = new HashSet(0);
      private Set posts = new HashSet(0);
      private Set eventInvites = new HashSet(0);
@@ -41,7 +43,7 @@ public class Event  implements java.io.Serializable {
     }
 
 	
-    public Event(User user, String title, Date startTime, Date endTime, boolean isPublicEvent, boolean isAdminEvent, boolean isDeleted) {
+    public Event(User user, String title, Date startTime, Date endTime, boolean isPublicEvent, boolean isAdminEvent, boolean isDeleted, boolean isFeatured) {
         this.user = user;
         this.title = title;
         this.startTime = startTime;
@@ -49,6 +51,7 @@ public class Event  implements java.io.Serializable {
         this.isPublicEvent = isPublicEvent;
         this.isAdminEvent = isAdminEvent;
         this.isDeleted = isDeleted;
+        this.isFeatured = isFeatured;
     }
     
     //For creating normal, resident event
@@ -60,8 +63,11 @@ public class Event  implements java.io.Serializable {
         this.isPublicEvent = isPublicEvent;
         this.details = details;
         this.venue = venue;
+        
         this.isAdminEvent = false;
         this.isDeleted = false;
+        this.isFeatured = false;
+        this.bannerFileName = "default.png";
     }
     
     public Event(User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent, boolean isAdminEvent) {
@@ -75,8 +81,9 @@ public class Event  implements java.io.Serializable {
         this.isPublicEvent = isPublicEvent;
         this.isAdminEvent = isAdminEvent;
         this.isDeleted = false;
+        this.isFeatured = false;
     }
-    public Event(User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent, boolean isAdminEvent, boolean isDeleted, Set eventLikes, Set posts, Set eventInvites, Set notifications, Set eventInappropriates, Set eventComments) {
+    public Event(User user, Booking booking, String title, Date startTime, Date endTime, String venue, String details, boolean isPublicEvent, boolean isAdminEvent, boolean isDeleted, boolean isFeatured, Set eventLikes, Set posts, Set eventInvites, Set notifications, Set eventInappropriates, Set eventComments) {
        this.user = user;
        this.booking = booking;
        this.title = title;
@@ -87,6 +94,7 @@ public class Event  implements java.io.Serializable {
        this.isPublicEvent = isPublicEvent;
        this.isAdminEvent = isAdminEvent;
        this.isDeleted = isDeleted;
+       this.isFeatured = isFeatured;
        this.eventLikes = eventLikes;
        this.posts = posts;
        this.eventInvites = eventInvites;
@@ -183,6 +191,22 @@ public class Event  implements java.io.Serializable {
     public boolean isIsDeleted() {
         return this.isDeleted;
     }
+
+    public boolean isIsFeatured() {
+        return isFeatured;
+    }
+
+    public void setIsFeatured(boolean isFeatured) {
+        this.isFeatured = isFeatured;
+    }
+
+    public String getBannerFileName() {
+        return bannerFileName;
+    }
+
+    public void setBannerFileName(String bannerFileName) {
+        this.bannerFileName = bannerFileName;
+    }
     
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
@@ -253,7 +277,6 @@ public class Event  implements java.io.Serializable {
     }
 
     public ArrayList<EventComment> getEventCommentsList() {
-        System.out.println("COMMENT LIST SIZE: " + eventCommentsList.size());
         return eventCommentsList;
     }
 
