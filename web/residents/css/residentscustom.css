@@ -659,10 +659,9 @@ i.larger{
     margin-left: 40px;
     display: inline-block;
     width: 30%;
-    height: 249px;
     border-color: #888888;
     border-width:1px solid;
-    text-shadow: 1px 0px 0 black;
+    text-shadow: 2px 1px 0 grey;
     background-color: #333333;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#000000));
     background-image: -webkit-linear-gradient(top, #FFFFFF, #eeeeee);
@@ -675,19 +674,21 @@ i.larger{
     background-color:rgb(27, 172, 179);
     font-size: 20px;
     padding: 9px;
-
+    font-weight: bolder;
 
 }
 
 .featuredPost{
-        position:relative;
-        font-size: 18px;
-padding: 9px;
+    position:relative;
+    font-size: 18px;
+    padding: 9px;
+    clear:both;
+    text-shadow:none;
 
 }
 .featuredProfile{
     float: right;
-margin: 0 0 1em 1em;
+    margin: 0 0 1em 1em;
 }
 
 .quote{
