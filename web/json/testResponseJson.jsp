@@ -4,6 +4,7 @@
     Author     : Shamus
 --%>
 
+<%@page import="com.lin.dao.FacilityDAO"%>
 <%@page import="com.lin.dao.BookingDAO"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
@@ -16,7 +17,8 @@
     //calculate number of weeks since start of beacon heights to calculate possible number of slots
     
     int facilityId = Integer.parseInt(request.getParameter("FId"));
-    int facilityTypeId = Integer.parseInt(request.getParameter("FTId"));
+    FacilityDAO fDAO = new FacilityDAO();
+    int facilityTypeId = fDAO.getFacility(facilityId).getFacilityType().getId();
     
     Calendar date = Calendar.getInstance();
     date.set(Calendar.DAY_OF_MONTH, 0);
