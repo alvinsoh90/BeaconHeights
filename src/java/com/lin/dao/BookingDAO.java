@@ -413,6 +413,29 @@ public class BookingDAO {
         return list;
     }
     
+    public ArrayList<Booking> getListOfBookingOfAParticularSlot(int start, int end, int day_of_week, int fid){
+        ArrayList<Booking> list = new ArrayList<Booking>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Facility facility = (Facility) session.get(Facility.class, fid);
+            Query q = session.createQuery("from Booking b where b.facility = :facility "+
+                    "and dayofweek(b.startDate) = :dow "+
+                    "and hour(b.startDate) = :start "+
+                    "and hour(b.endDate) = :end");
+            q.setParameter("facility",facility);
+            q.setParameter("start",start);
+            q.setParameter("dow",day_of_week);
+            q.setParameter("end",end);
+            list = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+    }
+    
     public ArrayList<Booking> getBookingByPeriod (Date start, Date end, Facility facility){
         ArrayList<Booking> list = new ArrayList<Booking>();
         openSession();
