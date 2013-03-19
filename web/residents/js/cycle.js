@@ -1542,5 +1542,3 @@ $.fn.cycle.transitions.wipe = function($cont, $slides, opts) {
 };
 
 })(jQuery);
-Window size: x 
-Viewport size: x

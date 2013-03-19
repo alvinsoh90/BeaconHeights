@@ -486,6 +486,23 @@ public class PostDAO {
         
         return postTagList;
     }
+    
+        public ArrayList<Post> retrieveAllFeaturedPosts() {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Post as p join fetch p.user "
+                    + "where isFeatured = true order by p.postId DESC");
+            postList = (ArrayList<Post>) q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return postList;
+    }
+    
 
     public Event getEventOfPost(int postId) {
         openSession();

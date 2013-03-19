@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Feb 22, 2013 4:40:00 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Mar 15, 2013 8:44:31 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Post" table="post" catalog="lin_staging_db">
         <id name="postId" type="java.lang.Integer">
             <column name="post_id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="event" class="com.lin.entities.Event" fetch="select">
-            <column name="event_id" />
-        </many-to-one>
         <many-to-one name="user" class="com.lin.entities.User" fetch="select">
             <column name="user_id" not-null="true" />
         </many-to-one>
@@ -26,30 +23,16 @@
         <property name="category" type="string">
             <column name="category" length="30" />
         </property>
+
         <property name="isDeleted" type="boolean">
             <column name="is_deleted" not-null="true" />
         </property>
-        <property name="receivingWallId" type="java.lang.Integer">
-            <column name="receiving_wall_id" />
+        <property name="receivingWallId" type="int">
+            <column name="receiving_wall_id" not-null="true" />
         </property>
-        <set name="postInappropriates" inverse="true">
-            <key>
-                <column name="post_id" not-null="true" />
-            </key>
-            <one-to-many class="com.lin.entities.PostInappropriate" />
-        </set>
-        <set name="postLikes" inverse="true">
-            <key>
-                <column name="post_id" not-null="true" />
-            </key>
-            <one-to-many class="com.lin.entities.PostLike" />
-        </set>
-        <set name="notifications" inverse="true">
-            <key>
-                <column name="post_id" />
-            </key>
-            <one-to-many class="com.lin.entities.Notification" />
-        </set>
+        <property name="isFeatured" type="java.lang.Boolean">
+            <column name="isFeatured" />
+        </property>
         <set name="comments" inverse="true">
             <key>
                 <column name="post_id" not-null="true" />

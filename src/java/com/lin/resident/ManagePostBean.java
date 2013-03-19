@@ -43,6 +43,7 @@ public class ManagePostBean extends BaseActionBean {
     private Integer noOfLikes;
     private ArrayList<Post> postList;
     private ArrayList<Post> flaggedPostList;
+    private ArrayList<Post> featuredPostList;
     private boolean outcome;
     PostDAO pDAO = new PostDAO();
 
@@ -162,6 +163,12 @@ public class ManagePostBean extends BaseActionBean {
         }
         
         return flaggedPostList;
+    }
+    
+     public ArrayList<Post> getFeaturedPostList() {
+        featuredPostList = pDAO.retrieveAllFeaturedPosts();
+        System.out.println("featuredList size: "+featuredPostList.size());
+        return featuredPostList;
     }
     
         @HandlesEvent("deletePost")
