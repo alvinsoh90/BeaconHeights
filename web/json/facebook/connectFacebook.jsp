@@ -1,3 +1,5 @@
+<%@page import="com.lin.utils.FacebookFunctions"%>
+<%@page import="com.lin.global.GlobalVars"%>
 <%@page import="com.lin.utils.GeneralFunctions"%>
 <%@page import="com.lin.dao.UserDAO"%>
 <%@include file="/protect.jsp"%>
@@ -30,10 +32,10 @@ if(isFirstConnect != null){
         res.put("success", uDAO.updateFacebookId(currUser, fbUserId));  
 
         //extend token and store in session
-        GeneralFunctions apiCaller = new GeneralFunctions();
+        FacebookFunctions apiCaller = new FacebookFunctions();
         String newToken = apiCaller.extendFacebookAccessToken(accessToken);
         System.out.println("New token received: " + newToken);
-        session.setAttribute("fb_access_token", newToken);
+        session.setAttribute(GlobalVars.SESSION_FB_ACCESS_TOKEN, newToken);
         res.put("extended_token", newToken);
     }
     else{
@@ -43,10 +45,10 @@ if(isFirstConnect != null){
 
 if(isExtendingToken != null){
     //extend token and store in session
-        GeneralFunctions apiCaller = new GeneralFunctions();
+        FacebookFunctions apiCaller = new FacebookFunctions();
         String newToken = apiCaller.extendFacebookAccessToken(accessToken);
         System.out.println("New token received: " + newToken);
-        session.setAttribute("fb_access_token", newToken);
+        session.setAttribute(GlobalVars.SESSION_FB_ACCESS_TOKEN, newToken);
         res.put("extended_token", newToken);
 }
 

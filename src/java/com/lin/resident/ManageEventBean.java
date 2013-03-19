@@ -17,6 +17,7 @@ import com.lin.entities.EventInvite;
 import com.lin.entities.EventLike;
 import com.lin.entities.User;
 import com.lin.general.login.BaseActionBean;
+import com.lin.global.GlobalVars;
 import com.lin.utils.FacebookFunctions;
 import java.util.ArrayList;
 import java.util.Date;
@@ -363,12 +364,54 @@ public class ManageEventBean extends BaseActionBean {
             //Create notifications if public event
             if (isIsPublicEvent()) {
                 ManageNotificationBean nBean = new ManageNotificationBean();
-                nBean.sendEventCreatedNotification(e, getContext().getUser());
+                //nBean.sendEventCreatedNotification(e, getContext().getUser());
                 
                 //post to facebook?
-                if(isShareOnFacebook()){
+                System.out.println("SHARING ON FACEBOOK: " + isShareOnFacebook());
+                if (isShareOnFacebook()) {
                     FacebookFunctions fb = new FacebookFunctions();
-                    //fb.postToFacebookGroup(title, title, venue)
+                    String facebookPostId = null;
+                    //get access token from session
+                    String currAccessToken = (String) getContext().getRequest().getSession().getAttribute(GlobalVars.SESSION_FB_ACCESS_TOKEN);
+                    
+                    //post to facebook
+                    facebookPostId = fb.createEventInGroup(getTitle(), //event name
+                            start,
+                            end,
+                            getDetails(), //+ " More info here: " + GlobalVars.APP_URL + "residents/eventwall.jsp?postid=" + e.getId(), //link 
+                            getVenue(),                                                      
+                            currAccessToken);
+
+                    if (facebookPostId != null) {
+                        System.out.println("Post to fb successful! id: " + facebookPostId);
+                        
+                        //Should store facebook post id with post id here...
+                        //eDAO.updateEventWithFBPostId(e, facebookPostId);
+                        
+                    } else if (facebookPostId == null && currAccessToken != null){
+                        //if failed to post, and accessToken appears ok, try refreshing token
+                        String newToken = fb.extendFacebookAccessToken(currAccessToken);
+                        
+                        System.out.println("Trying fb post again with new access token...");
+                        
+                        //post to facebook with new token
+                        facebookPostId = fb.createEventInGroup(getTitle(), //event name
+                                start,
+                                end,
+                                getDetails() + " More info here: " + GlobalVars.APP_URL + "residents/eventwall.jsp?postid=" + e.getId(), //link 
+                                getVenue(),                                                      
+                                currAccessToken);
+                        
+                        if (facebookPostId != null) {
+                            System.out.println("2nd try Post to fb successful! id: " + facebookPostId);
+                            
+                            //Should store facebook post id with post id here...
+                            //eDAO.updateEventtWithFBPostId(e, facebookPostId);
+                            
+                            //update session with new access token
+                            getContext().getRequest().getSession().setAttribute(GlobalVars.SESSION_FB_ACCESS_TOKEN, newToken);
+                        }
+                    }                        
                 }
             }
             

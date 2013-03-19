@@ -245,7 +245,7 @@
                                         } else {
                                             toastr.warning("Facebook connect cancelled");
                                         }
-                                    },{perms:'read_stream,publish_stream,user_groups,user_likes,user_groups'});
+                                    },{perms:'read_stream,publish_stream,user_groups,user_likes,user_groups,create_event'});
                                 }
                                 
                                 function showFacebookLoggedIn(){
