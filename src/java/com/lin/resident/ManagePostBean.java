@@ -101,6 +101,9 @@ public class ManagePostBean extends BaseActionBean {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    
+    
     
     public ArrayList<Post> getPostList() {
         //postList = pDAO.retrievePostsWithLimitWithEvent(10);
@@ -124,8 +127,8 @@ public class ManagePostBean extends BaseActionBean {
     }
     
     public ArrayList<Post> getWallPostList(int wallId){
-
-        postList = pDAO.retrievePostsWithLimitByWall(-1, wallId);
+        System.out.println("I MANAGED TO GET HEREHEREHERE" + wallId);
+        postList = pDAO.retrievePostsWithLimitByWall(100, wallId);
         System.out.println("postList size: "+postList.size());
         
         CommunityWallController wallCtrl = new CommunityWallController();
