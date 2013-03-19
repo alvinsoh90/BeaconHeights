@@ -15,13 +15,14 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 //test comments
 
 public class MyAppActionBeanContext extends ActionBeanContext {
-
+    
     public void setUser(User user) {
         getRequest().getSession().setAttribute("user", user);
         System.out.println("NEW USER SET IN CONTEXT!");
     }
 
     public User getUser() {
+        System.out.println("getting user from context");
         return (User) getRequest().getSession().getAttribute("user");
     }
 }
