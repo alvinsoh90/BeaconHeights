@@ -11,6 +11,9 @@
                      class="com.lin.general.admin.ManageFacilitiesActionBean"/>
         <jsp:useBean id="manageFacilityTypesActionBean" scope="page"
                      class="com.lin.general.admin.ManageFacilityTypesActionBean"/>
+        <jsp:useBean id="editUserBean" scope="page"
+                     class="com.lin.general.admin.EditUserBean"/>
+        
         <%@include file="/protect.jsp"%>
         <%@include file="/header.jsp"%>
         <%@include file="/analytics/analytics.jsp"%>
@@ -81,6 +84,13 @@
                     }
                 });
             };
+            
+            function loadJoyRide(){
+                $('#joyRideTipContent').joyride({
+                    //pauseAfter : [1,2,3,4]
+
+                });
+            }
             
             $(document).ready(function(){    
             
@@ -190,7 +200,7 @@
                                     $('#facilityDropDown').html(print);
                                 </script>
                             </select>
-                                                
+                        <a  role="button" data-toggle="modal" class="btn btn-link btn-mini" onclick="loadJoyRide()" >Feeling Lost?</a>                     
                         <h2>About this facility</h2>
                         <div class="widget-content widget-nopad">
                             <div id="facilitytypedescription"></div>
@@ -499,14 +509,18 @@
           </li>
         </ol>
                  
-                 <script>
-      $(window).load(function() {
-        $('#joyRideTipContent').joyride({
-          //pauseAfter : [1,2,3,4]
-          
-        });
-      });
-    </script>
+    
+        <c:if test="${editUserBean.checkAndSetFirstLoad(user.userId)}">
+            <script>
+            $(window).load(function() {
+                $('#joyRideTipContent').joyride({
+                    //pauseAfter : [1,2,3,4]
+
+                });
+            }); 
+            </script>
+        </c:if>
+    
 
     </body>
 </html>

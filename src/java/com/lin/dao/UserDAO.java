@@ -628,5 +628,53 @@ public class UserDAO {
         }
         return result;
     }
+
+    public User setNotFirstLoad(int id) {
+        openSession();
+        Transaction tx = null;
+        User u = null;
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, id);
+            u.setIsFirstLoad(false);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return null;
+        }
+        return u;
+    }
+    
+    //this method will retrieve first load status and set it to false 
+    //IF it is true for use everytime user logs in.
+    public User checkAndSetFirstLoad(int id) {
+        openSession();
+        Transaction tx = null;
+        User u = null;
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, id);
+            if(u.isIsFirstLoad()){
+                u.setIsFirstLoad(false);
+                tx.commit();
+                //System.out.println("IS FIRST LOAD SETING TO FALSE NOW");
+            }else{
+                tx.commit();
+                //System.out.println("IS NOT FIRST LOAD");
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+            return null;
+        }
+        //System.out.println("RETURNING USER NOW.");
+        return u;
+    }
     
 }

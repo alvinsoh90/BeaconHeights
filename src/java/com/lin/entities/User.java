@@ -36,6 +36,7 @@ public class User  implements java.io.Serializable {
      private boolean forceResetPassword;
      private boolean forceChooseUsername;
      private String fbSecretToken;
+     private boolean isFirstLoad;
      private Set submittedForms = new HashSet(0);
      private Set posts = new HashSet(0);
      private Set bookings = new HashSet(0);
@@ -127,6 +128,14 @@ public class User  implements java.io.Serializable {
        this.submittedForms = submittedForms;
        this.posts = posts;
        this.bookings = bookings;
+    }
+
+    public boolean isIsFirstLoad() {
+        return isFirstLoad;
+    }
+
+    public void setIsFirstLoad(boolean isFirstLoad) {
+        this.isFirstLoad = isFirstLoad;
     }
 
     public String getFbSecretToken() {

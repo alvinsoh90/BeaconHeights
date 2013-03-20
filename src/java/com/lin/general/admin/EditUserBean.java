@@ -133,6 +133,28 @@ public class EditUserBean extends BaseActionBean{
         return new RedirectResolution("/residents/profile.jsp?profileid="+id+"&editsuccess=false");
         
     }
+    
+    public void setNotFirstLoad(int userId){
+        UserDAO uDAO = new UserDAO();
+        User u = uDAO.setNotFirstLoad(userId);
+        getContext().setUser(u);
+    }
+    
+    public boolean checkAndSetFirstLoad(int userId){
+//        System.out.println("USER ID : "+userId);
+        UserDAO uDAO = new UserDAO();
+        User u = uDAO.checkAndSetFirstLoad(userId);
+        if(u!=null){
+//            System.out.println("USER STUFF: "+ u.getFirstname());
+//            System.out.println("PRINT CONTEXT : "+getContext());
+            //getContext().setUser(u);
+//            System.out.println("FIRST LOAD");
+            return true;
+        }else{
+//            System.out.println("NOT FIRST LOAD");
+            return false;
+        }    
+    }
 
     public String getVehicleNumberPlate() {
         return vehicleNumberPlate;
