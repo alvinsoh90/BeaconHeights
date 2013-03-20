@@ -355,7 +355,8 @@
                                                     
                                                 toPrint = toPrint + "<br/><b>Booking Deposit: </b>";
                                                 if(null != currFacilityType.bookingDeposit){
-                                                    toPrint = toPrint + "$" + currFacilityType.bookingDeposit + "<br/>";
+                                                    var feeDep = currFacilityType.bookingDeposit;
+                                                    toPrint = toPrint + "$" + parseFloat(feeDep).toFixed(2) + "<br/>";
                                                         
                                                 }else{
                                                     toPrint = toPrint + "None<br/>";
