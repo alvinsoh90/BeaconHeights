@@ -45,6 +45,9 @@
         <property name="bannerFileName" type="string">
             <column name="banner_file_name" length="80"  />
         </property>
+        <property name="fbPostId" type="string">
+            <column name="fb_post_id" length="80" />
+        </property>
         <set name="eventLikes" inverse="true">
             <key>
                 <column name="event_id" not-null="true" />

@@ -31,6 +31,7 @@ public class Event  implements java.io.Serializable {
      private boolean isDeleted;
      private boolean isFeatured;
      private String bannerFileName;
+     private String fbPostId;
      private Set eventLikes = new HashSet(0);
      private Set posts = new HashSet(0);
      private Set eventInvites = new HashSet(0);
@@ -101,6 +102,14 @@ public class Event  implements java.io.Serializable {
        this.notifications = notifications;
        this.eventInappropriates = eventInappropriates;
        this.eventComments = eventComments;
+    }
+
+    public String getFbPostId() {
+        return fbPostId;
+    }
+
+    public void setFbPostId(String fbPostId) {
+        this.fbPostId = fbPostId;
     }
    
     public Integer getId() {

@@ -30,6 +30,7 @@ public class Post implements java.io.Serializable {
     private boolean isDeleted;
     private int receivingWallId;
     private boolean isFeatured;
+    private String fbPostId;
     private Set postInappropriates = new HashSet(0);
     private Set postLikes = new HashSet(0);
     private Set notifications = new HashSet(0);
@@ -113,6 +114,14 @@ public class Post implements java.io.Serializable {
         this.comments = comments;
         this.receivingWallId = receivingWallId;
         this.type = getTypeFromCategoryString(category);
+    }
+
+    public String getFbPostId() {
+        return fbPostId;
+    }
+
+    public void setFbPostId(String fbPostId) {
+        this.fbPostId = fbPostId;
     }
 
     public Type getType() {

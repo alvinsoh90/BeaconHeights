@@ -33,6 +33,9 @@
         <property name="isFeatured" type="java.lang.Boolean">
             <column name="isFeatured" />
         </property>
+        <property name="fbPostId" type="string">
+            <column name="fb_post_id" length="80" />
+        </property>
         <set name="comments" inverse="true">
             <key>
                 <column name="post_id" not-null="true" />
