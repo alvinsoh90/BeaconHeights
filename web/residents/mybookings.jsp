@@ -15,7 +15,6 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">    
-
         <link href="./css/bootstrap.min.css" rel="stylesheet">
         <link href="./css/bootstrap-responsive.min.css" rel="stylesheet">
 
@@ -24,7 +23,7 @@
 
         <link href="./css/residentscustom.css" rel="stylesheet"> 
 
-        <script src="./../js/jquery-1.9.1.min.js"></script>
+        <script src="./js/jquery-1.7.2.min.js"></script>
 
         <!--Toastr Popup -->
         <script src="/js/toastr.js"></script>
@@ -37,39 +36,42 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <script>
-            
-            var bookingList = [];
+                        
             $(document).ready(function(){
                 var success = "${success}";
                 var failure = "${failure}";
                 if(success != ""){
                     toastr.success("Booking confirmed. Transaction Id: " +success);
                 }else if(failure !=""){
-                    toastr.errorSticky("Booking not confirmed. Transaction failed.")
+                    toastr.errorSticky("Booking not confirmed. Transaction failed.");
                 }
-                //populate delete booking modal
-                function populateDeleteBookingModal(bookingID){ 
-                    bookingList.forEach(function(booking){
-                        if(booking.id == bookingID){
-                            console.log(booking.id);
-                            $("#delete_facilityType").text(booking.facilityType);
-                            $("#delete_startDate").text(booking.startDateFormatted);
-                            $("#delete_endDate").text(booking.endDate);
-                            $("#delete_id").val(booking.id);
-                        }
-                    });
-                }
+            });
+                
+            var bookingList = [];
+
+            //populate delete booking modal
+            function populateDeleteBookingModal(bookingID){ 
+                bookingList.forEach(function(booking){
+                    if(booking.id == bookingID){
+                        console.log(booking.id);
+                        $("#delete_facilityType").text(booking.facilityType);
+                        $("#delete_startDate").text(booking.startDateFormatted);
+                        $("#delete_endDate").text(booking.endDate);
+                        $("#delete_id").val(booking.id);
+                    }
+                });
+            }
         </script>
 
         <!--populate user current bookings -->
         <c:forEach items="${manageBookingsActionBean.userCurrentBookingList}" var="booking" varStatus="loop">
             <script>
-                    var booking = new Object();
-                    booking.id = '${booking.id}';
-                    booking.facilityType = '${booking.facility.facilityType.name}';
-                    booking.startDate = '${booking.startDate}';
-                    booking.startDateFormatted = '${booking.startDateFormatted}';
-                    bookingList.push(booking);
+                var booking = new Object();
+                booking.id = '${booking.id}';
+                booking.facilityType = '${booking.facility.facilityType.name}';
+                booking.startDate = '${booking.startDate}';
+                booking.startDateFormatted = '${booking.startDateFormatted}';
+                bookingList.push(booking);
             </script>
         </c:forEach>
     </head>
@@ -110,28 +112,28 @@
                                 <h3> Current Bookings </h3>
 
                                 <script>
-                                        ( function($) {
-                                            $(document).ready( function() { 
-                                                $('#history').hide();
-                                            } );
-                                        } ) ( jQuery );
+                                    ( function($) {
+                                        $(document).ready( function() { 
+                                            $('#history').hide();
+                                        } );
+                                    } ) ( jQuery );
                                     
-                                        function displayVals() {
-                                            var singleValues = $("#view").val();
-                                            $("h3").html(singleValues);
-                                        }
+                                    function displayVals() {
+                                        var singleValues = $("#view").val();
+                                        $("h3").html(singleValues);
+                                    }
 
-                                        $("select").change(displayVals);
-                                        displayVals();
-                                        $("select").change(function() {
-                                            if($(this).val() == 'Current Bookings') {
-                                                $('#current').show();
-                                                $('#history').hide();
-                                            }else{
-                                                $('#history').show();                                            
-                                                $('#current').hide();
-                                            }
-                                        });
+                                    $("select").change(displayVals);
+                                    displayVals();
+                                    $("select").change(function() {
+                                        if($(this).val() == 'Current Bookings') {
+                                            $('#current').show();
+                                            $('#history').hide();
+                                        }else{
+                                            $('#history').show();                                            
+                                            $('#current').hide();
+                                        }
+                                    });
 
                                 </script>
                             </div> <!-- /widget-header -->
