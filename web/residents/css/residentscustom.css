@@ -434,6 +434,26 @@ a.fc-event, .fc-event-draggable{
 }
 
 /** Profile Page **/
+.profileTopWrapper .accountInfoTile{
+    border-left:4px solid #CCC;
+}
+
+.accountInfoTile img{
+    position: relative;
+    left: -8px;
+    border: 1px solid black;
+    height: 35px;
+    width: 35px;
+}
+
+.fbConnect{
+    width: 50px;
+    padding: 2px 5px;
+    font-size: 12px;
+    margin-right: 8px;
+    margin-left: 5px;
+}
+
 .profileTopWrapper{
     background:white;
     padding: 1em 0;

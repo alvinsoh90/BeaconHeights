@@ -185,17 +185,22 @@ public class RuleController {
         ArrayList<String> limitRuleErrors = new ArrayList<String>();
         ArrayList<LimitRule> limitRuleList = rDAO.getAllLimitRule(facilityTypeID);
         uDAO = new UserDAO();
-        
-        
+
+
         User user = uDAO.getUser(userID);
         int block = user.getBlock().getId();
         int unit = user.getUnit();
         int level = user.getLevel();
         ArrayList<Booking> unitBookingList = bDAO.getUnitBookings(block, unit, level);
-
+        System.out.println("BOOKINGRETRIEVED:" + unitBookingList.size());
+        System.out.println("LIMITRULELISTSIZE:" + limitRuleList.size());
+        System.out.println("Block:" + block);
+        System.out.println("Unit:" + unit);
+        System.out.println("Level:" + level);
         for (Object o : limitRuleList) {
             LimitRule limitRule = (LimitRule) o;
             String timeFrametype = limitRule.getTimeframeType();
+            System.out.println("TIMEFRAMETYPE:" + timeFrametype);
             int sessions = limitRule.getSessions();
             int numberOfTimeframe = limitRule.getNumberOfTimeframe();
             int count = 0;
@@ -203,10 +208,13 @@ public class RuleController {
             bookingDate.setTime(startBookingTime);
 
             Calendar checkDate = Calendar.getInstance();
-
+            System.out.println(checkDate.get(Calendar.MONTH));
             for (Booking booking : unitBookingList) {
+                System.out.println("CheckONE");
                 if (booking.getFacility().getFacilityType().getId() == facilityTypeID) {
+                    System.out.println("CheckTWO");
                     if (!booking.getIsDeleted()) {
+                        System.out.println("CheckTHREE");
                         checkDate.setTime(booking.getStartDate());
                         if (timeFrametype.equals("DAY")) {
                             if (bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR)) {
@@ -217,56 +225,70 @@ public class RuleController {
                                     count++;
                                 }
 
-                            }
-                        } else if (bookingDate.get(Calendar.DAY_OF_YEAR) < numberOfTimeframe
-                                && bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR) - 1) {
-                            int checkDay = checkDate.get(Calendar.DAY_OF_YEAR) - 365;
-                            int bookingDay = bookingDate.get(Calendar.DAY_OF_YEAR);
-                            if (Math.abs(checkDay - bookingDay) < numberOfTimeframe) {
-                                count++;
-                            }
-                        }
-
-                    } else if (timeFrametype.equals("WEEK")) {
-                        if (bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR)) {
-                            int bookingWeek = bookingDate.get(Calendar.WEEK_OF_YEAR);
-                            int checkWeek = checkDate.get(Calendar.WEEK_OF_YEAR);
-                        
-                            if (Math.abs(checkWeek - bookingWeek) < numberOfTimeframe) {
-                                
-                                count++;
+                            } else if (bookingDate.get(Calendar.DAY_OF_YEAR) < numberOfTimeframe
+                                    && bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR) - 1) {
+                                int checkDay = checkDate.get(Calendar.DAY_OF_YEAR) - 365;
+                                int bookingDay = bookingDate.get(Calendar.DAY_OF_YEAR);
+                                if (Math.abs(checkDay - bookingDay) < numberOfTimeframe) {
+                                    count++;
+                                }
                             }
 
+                        } else if (timeFrametype.equals("WEEK")) {
+                            if (bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR)) {
+                                int bookingWeek = bookingDate.get(Calendar.WEEK_OF_YEAR);
+                                int checkWeek = checkDate.get(Calendar.WEEK_OF_YEAR);
 
-                        } else if (bookingDate.get(Calendar.WEEK_OF_YEAR) < numberOfTimeframe
-                                && bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR) - 1) {
-                            int checkWeek = checkDate.get(Calendar.WEEK_OF_YEAR) - 52;
-                            int bookingWeek = bookingDate.get(Calendar.WEEK_OF_YEAR);
-                            if (Math.abs(checkWeek - bookingWeek) < numberOfTimeframe) {
-                                count++;
+                                if (Math.abs(checkWeek - bookingWeek) < numberOfTimeframe) {
+
+                                    count++;
+                                }
+
+
+                            } else if (bookingDate.get(Calendar.WEEK_OF_YEAR) < numberOfTimeframe
+                                    && bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR) - 1) {
+                                int checkWeek = checkDate.get(Calendar.WEEK_OF_YEAR) - 52;
+                                int bookingWeek = bookingDate.get(Calendar.WEEK_OF_YEAR);
+                                if (Math.abs(checkWeek - bookingWeek) < numberOfTimeframe) {
+                                    count++;
+                                }
                             }
-                        }
-                    } else if (timeFrametype.equals("YEAR")) {
-                        if (bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR)) {
-                            int bookingYear = bookingDate.get(Calendar.YEAR);
-                            int checkYear = checkDate.get(Calendar.YEAR);
-                            if (Math.abs(checkYear - bookingYear) < numberOfTimeframe) {
-                                count++;
+                        } else if (timeFrametype.equals("MONTH")) {
+                            System.out.println("IGOTTOMONTH");
+
+                            if (bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR)) {
+                                int bookingMonth = bookingDate.get(Calendar.MONTH);
+                                int checkMonth = checkDate.get(Calendar.MONTH);
+
+                                if (Math.abs(checkMonth - bookingMonth) < numberOfTimeframe) {
+
+                                    count++;
+                                }
+
+
                             }
+                        } else if (timeFrametype.equals("YEAR")) {
+                            if (bookingDate.get(Calendar.YEAR) == checkDate.get(Calendar.YEAR)) {
+                                int bookingYear = bookingDate.get(Calendar.YEAR);
+                                int checkYear = checkDate.get(Calendar.YEAR);
+                                if (Math.abs(checkYear - bookingYear) < numberOfTimeframe) {
+                                    count++;
+                                }
 
 
+                            }
                         }
                     }
-                }
 
 
-                if (count >= sessions) {
-                    limitRuleErrors.add("You have reached the maximum booking limit for the duration.");
-                    break;
+                    if (count >= sessions) {
+                        limitRuleErrors.add("You have reached the maximum booking limit for the duration.");
+                        System.out.println("LIMITRULEERRORS:" + limitRuleErrors.size());
+                        break;
+                    }
                 }
             }
         }
-
         return limitRuleErrors;
     }
 

@@ -74,6 +74,9 @@
         <property name="fbSecretToken" type="string">
             <column name="fb_secret_token" length="50" />
         </property>
+        <property name="isFirstLoad" type="boolean">
+            <column name="is_first_load" />
+        </property>
         <set name="submittedForms" inverse="true">
             <key>
                 <column name="user" not-null="true" />
