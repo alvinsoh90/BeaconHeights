@@ -17,6 +17,9 @@
                      class="com.lin.resident.ManagePostBean"/>
         <jsp:useBean id="manageEventBean" scope="page"
                      class="com.lin.resident.ManageEventBean"/>
+        <jsp:useBean id="utilBean" scope="page"
+                     class="com.lin.utils.UtilityFunctionsBean"/>
+        
         <%@include file="/protect.jsp"%>
 
 
@@ -461,6 +464,15 @@
                                 <option value="REQUEST">Request</option> 
                             </stripes:select>
                             <stripes:hidden name="wallId" id="wallId" value="-1"/> 
+                            <c:set var="freshUser" value="${utilBean.refreshUser(user)}" /> 
+                            <c:choose>
+                                <c:when test="${not empty freshUser.facebookId}">
+                                    Share with Facebook Group <stripes:checkbox name="shareOnFacebook" checked="true"/>
+                                </c:when>
+                                <c:otherwise>
+                                    Share with Facebook Group <stripes:checkbox name="shareOnFacebook" checked="false" disabled="true"/>
+                                </c:otherwise>
+                            </c:choose>
                             <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Wall"/> 
                         </stripes:form>
                     </div>

@@ -1,6 +1,5 @@
 package com.lin.general.login;
 
-import com.lin.dao.LoginDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.User;
 import com.lin.utils.BCrypt;
@@ -38,6 +37,10 @@ public class LoginActionBean extends BaseActionBean {
     public String getCurrentUser(){
         String username= getContext().getUser().getFirstname();
         return username;
+    }
+    
+    public User getCurrentUserObject(){
+        return currentUser;
     }
     
     public void setCurrentUser(User currentUser){

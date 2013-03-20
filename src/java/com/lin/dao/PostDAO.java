@@ -516,7 +516,7 @@ public class PostDAO {
             tx.commit();
             
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace(); fail silently!
         }
         return ev;
     }

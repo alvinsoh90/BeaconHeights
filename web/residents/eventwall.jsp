@@ -18,6 +18,9 @@
                      class="com.lin.resident.ManageEventBean"/>
         <jsp:useBean id="manageNotificationBean" scope="page"
                      class="com.lin.resident.ManageNotificationBean"/>
+        <jsp:useBean id="utilBean" scope="page"
+                     class="com.lin.utils.UtilityFunctionsBean"/>
+        
         <%@include file="/protect.jsp"%>
 
 
@@ -53,7 +56,8 @@
         <link rel="stylesheet" href="/css/tipsy.css" type="text/css" />
         <script src="../js/timepicker.min.js"></script> 
         <link href="../css/jquery.timepicker.css" rel="stylesheet"></script>
-    <script src="../js/date.js"></script>
+        <script src="../js/date.js"></script>
+        <script src="../js/custom/lin.facebookfunctions.js"></script>
 
         <script>
     // ** Handle friend tagging ** //
@@ -489,6 +493,19 @@
                         </div>
                         <div class="pushBottom">Public Event <stripes:checkbox name="isPublicEvent" checked="true"/></div>
 
+                        <c:set var="freshUser" value="${utilBean.refreshUser(user)}" /> 
+                        <c:choose>
+                            <c:when test="${not empty freshUser.facebookId}">
+                                <div class="pushBottom">Share with Facebook Group <stripes:checkbox name="shareOnFacebook" checked="true"/></div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="pushBottom">Share with Facebook Group <stripes:checkbox name="shareOnFacebook" checked="false" disabled="true"/></div>                        
+                            </c:otherwise>
+                       </c:choose>
+                            
+                        
+                        
+
                             <stripes:hidden name="posterId" id="posterID" value='${sessionScope.user.userId}'/> 
                             <div class="centerText">
                                 <stripes:submit id="submitPost" class="float_l btn btn-peace-1 bigFormSubmit" name="addEvent" value="Create Event"/> 
@@ -714,7 +731,7 @@ $(document).ready(function() {
             }); 
        
 </script>                
-
+<%@include file="/initfacebook.jsp"  %>
 <script src="../js/jquery.validate.js"></script>
 <script src="../js/jquery.validate.bootstrap.js"></script>                
 </body>

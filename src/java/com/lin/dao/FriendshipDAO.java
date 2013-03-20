@@ -7,7 +7,6 @@ package com.lin.dao;
 import com.lin.entities.Friendship;
 import com.lin.entities.User;
 import com.lin.utils.HttpHandler;
-import com.lin.global.ApiUriList;
 import com.lin.utils.BCrypt;
 import com.lin.utils.HibernateUtil;
 import com.lin.utils.json.JSONException;

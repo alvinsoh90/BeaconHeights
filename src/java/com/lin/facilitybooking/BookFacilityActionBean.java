@@ -10,7 +10,6 @@ import com.lin.dao.FacilityDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.*;
 import com.lin.general.login.BaseActionBean;
-import com.lin.global.StandardMsgs;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

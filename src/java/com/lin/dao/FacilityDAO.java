@@ -8,7 +8,6 @@ import com.lin.entities.FacilityType;
 import com.lin.entities.Facility;
 import com.lin.entities.UserTemp;
 import com.lin.utils.HttpHandler;
-import com.lin.global.ApiUriList;
 import com.lin.utils.BCrypt;
 import com.lin.utils.HibernateUtil;
 import com.lin.utils.json.JSONException;

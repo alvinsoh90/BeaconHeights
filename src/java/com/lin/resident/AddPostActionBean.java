@@ -12,6 +12,8 @@ import com.lin.entities.Post;
 import com.lin.entities.PostUserTag;
 import com.lin.entities.User;
 import com.lin.entities.Event;
+import com.lin.global.GlobalVars;
+import com.lin.utils.FacebookFunctions;
 import java.util.ArrayList;
 import java.util.Date;
 import net.sourceforge.stripes.action.ActionBean;
@@ -35,7 +37,17 @@ public class AddPostActionBean implements ActionBean {
     private String postCategory;
     private String taggedFriends;  //retrieved as "[id1,id2,id3,...]"
     private int wallId;
+    private boolean shareOnFacebook;
 
+    public boolean isShareOnFacebook() {
+        return shareOnFacebook;
+    }
+
+    public void setShareOnFacebook(boolean shareOnFacebook) {
+        this.shareOnFacebook = shareOnFacebook;
+    }
+
+    
     public String getTaggedFriends() {
         return taggedFriends;
     }
@@ -130,8 +142,9 @@ public class AddPostActionBean implements ActionBean {
                 System.out.println("\nINVALID POST CATEGORY\n");
                 fs.put("SUCCESS", "false");
             }
-
+            System.out.println("Posting...");
             Post posted = pDAO.addPost(aPost);
+            System.out.println("Posting result: " + posted.getTitle());
             if (posted != null) {
                 if (getTaggedFriends() != null) {
                     //read tagged users ID list
@@ -153,15 +166,58 @@ public class AddPostActionBean implements ActionBean {
                                 pDAO.getPost(posted.getPostId()),
                                 new Date()));
                     }
-
+                    
                     //send notifications
                     ManageNotificationBean nBean = new ManageNotificationBean();
-                    nBean.sendTaggedInPostNotification(posted, taggedUsers);
+                    nBean.sendTaggedInPostNotification(posted, taggedUsers);                                        
 
-                    fs.put("SUCCESS", "true");
+                }
+                
+                //post to facebook?
+                System.out.println("SHARING ON FACEBOOK: " + isShareOnFacebook());
+                if (isShareOnFacebook()) {
+                    FacebookFunctions fb = new FacebookFunctions();
+                    String facebookPostId = null;
+                    //get access token from session
+                    String currAccessToken = (String) getContext().getRequest().getSession().getAttribute(GlobalVars.SESSION_FB_ACCESS_TOKEN);
+                    
+                    //post to facebook
+                    facebookPostId = fb.postToFacebookGroup(getPostContent(), //message
+                            GlobalVars.APP_URL + "residents/communitywall.jsp?postid=" + posted.getPostId(), //link                            
+                            currAccessToken);
+
+                    if (facebookPostId != null) {
+                        System.out.println("Post to fb successful! id: " + facebookPostId);
+                        
+                        //Should store facebook post id with post id here...
+                        //pDAO.updatePostWithFBPostId(posted, facebookPostId);
+                        
+                    } else if (facebookPostId == null && currAccessToken != null){
+                        //if failed to post, and accessToken appears ok, try refreshing token
+                        String newToken = fb.extendFacebookAccessToken(currAccessToken);
+                        
+                        System.out.println("Trying fb post again with new access token...");
+                        
+                        //post to facebook with new token
+                        facebookPostId = fb.postToFacebookGroup(getPostContent(), //message
+                                GlobalVars.APP_URL + "residents/communitywall.jsp?postid=" + posted.getPostId(), //link                            
+                                newToken);
+                        
+                        if (facebookPostId != null) {
+                            System.out.println("2nd try Post to fb successful! id: " + facebookPostId);
+                            
+                            //Should store facebook post id with post id here...
+                            //pDAO.updatePostWithFBPostId(posted, facebookPostId);
+                            
+                            //update session with new access token
+                            getContext().getRequest().getSession().setAttribute(GlobalVars.SESSION_FB_ACCESS_TOKEN, newToken);
+                        }
+                    }                        
                 }
             }
-
+                                
+            fs.put("SUCCESS", "true");
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

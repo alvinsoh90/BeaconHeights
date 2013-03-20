@@ -22,6 +22,8 @@
                      class="com.lin.general.login.RegisterActionBean"/>
         <jsp:useBean id="addFriendActionBean" scope="page"
                      class="com.lin.resident.AddFriendActionBean"/>
+        <jsp:useBean id="utilBean" scope="page"
+                     class="com.lin.utils.UtilityFunctionsBean"/>
 
 
         <%@include file="/protect.jsp"%>
@@ -35,13 +37,12 @@
         <link href="./css/bootstrap-responsive.min.css" rel="stylesheet">
 
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
-        <link href="./css/font-awesome.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
 
         <link href="./css/adminia.css" rel="stylesheet"> 
         <link href="./css/adminia-responsive.css" rel="stylesheet"> 
         <link href="./css/residentscustom.css" rel="stylesheet"> 
 
-        <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
 
         <script src="/js/jquery-1.9.1.min.js"></script>
@@ -54,9 +55,8 @@
         <link href="/css/custom/lin.css" rel="stylesheet" />
         <link href="/css/pickadate.03.inline.css" rel="stylesheet" />
         <script src="../js/pickadate.js"></script>
-        <script src="../js/pickadate.legacy.min.js"></script>
-        <script src="../js/pickadate.legacy.js"></script>
         <script src="../js/pickadate.min.js"></script>
+        <script src="../js/custom/lin.facebookfunctions.js"></script>
 
         <script>
             var success = "${SUCCESS}";
@@ -74,7 +74,7 @@
                     toastr.errorSticky(msg);
                 }
 
-                <!-- load levels and units in the dropdown -->
+                //load levels and units in the dropdown
                 var levels="";
                 var units = "";
             
@@ -193,7 +193,83 @@
                                         </div>
                                     </c:if>
                                 </c:forEach>
-                            </c:if>    
+                            </c:if>  
+                             <%@include file="/initfacebook.jsp"  %>
+                             <script>
+                                 $(document).ready(function(){                                                                          
+                                     FB.getLoginStatus(function(response) {
+                                         if (response.status === 'connected') {
+                                             // connected
+                                             console.log("connected");
+                                         } else if (response.status === 'not_authorized') {
+                                             // not_authorized                                             
+                                             
+                                         } else {
+                                             // not_logged_in                                             
+                                         }
+                                     });                                     
+                                 })
+                                 
+                                 function login() {
+                                    FB.login(function(response) {
+                                        if (response.authResponse) {
+                                            // connected
+                                            console.log(response);
+                                            //post to our server
+                                            var dat = new Object();
+                                            dat.accessToken = response.accessToken;
+                                            dat.fbUserId = response.authResponse.userID;
+                                            
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/json/facebook/connectFacebook.jsp?isFirstConnect=true",
+                                                data: dat,
+                                                success: function(data, textStatus, xhr) {
+                                                    if(xhr.status == 200 && data.success){
+                                                        //connect facebook success, now replace div with connected info
+                                                        toastr.success("Successfully connected facebook!");
+                                                        setTimeout("window.location.reload()",2000);
+                                                        showFacebookLoggedIn();
+                                                    }
+                                                    else if(xhr.status == 200 && data.isAlreadyConnected){
+                                                        toastr.info("A facebook account is already connected to this account.");
+                                                        showFacebookLoggedIn();
+                                                    }
+                                                    else{
+                                                        //failed. 
+                                                        toastr.error("There was an error connecting your facebook account. Please try again later.");
+                                                    }
+                                                }
+                                            });
+                                                                                        
+                                        } else {
+                                            toastr.warning("Facebook connect cancelled");
+                                        }
+                                    },{perms:'read_stream,publish_stream,user_groups,user_likes,user_groups,create_event'});
+                                }
+                                
+                                function showFacebookLoggedIn(){
+                                    FB.api('/me',{access_token: '${fb_access_token}'}, function(response) {
+                                        
+                                        if(!response.error){
+                                           $("#fb-name").text("Connected as " + response.name);
+                                            console.log(response);
+                                            $('#fbImg').attr("src", "https://graph.facebook.com/" + response.id + "/picture"); 
+                                            $("#ajax-spinner").css("opacity","0");
+                                            $("#facebookConnectArea").slideDown(400);
+                                        }
+                                        else{
+                                            console.log("responsefberror");
+                                            console.log(response);
+                                            refreshAndExtendToken();                                            
+                                        }
+                                    });
+                                }
+                               
+                             </script>
+                             
+                             
+                            
                             <c:if test="${param.profileid==null}">
                                 <div class="span4">
                                     <img src="/uploads/profile_pics/${user.profilePicFilename}" />
@@ -213,8 +289,44 @@
                                 </div>
                             </c:if>
                             <c:if test="${user.userId==param.profileid}">
-                                <div class="span2">
-                                    <a href= '#editUserModal' role='button' data-toggle='modal' class='btn'><i class="icon-pencil"></i> Update Info</a>
+                                <div class="span3">
+                                    <div class="facebookHolder alert alert-warning">
+                                        <a href= '#editUserModal' role='button' data-toggle='modal' class='btn'><i class="icon-pencil"></i> Update Info</a> <br/>
+                                    </div>
+                                    
+                                    <c:set var="freshUser" value="${utilBean.refreshUser(user)}" />
+                                    <c:choose>
+                                        <c:when test="${not empty freshUser.facebookId}">
+                                            <div id="facebookConnectArea" class="accountInfoTile hide clearfix">
+                                                <blockquote>
+                                                    <img id="fbImg" class="pull-left"/>
+                                                    <div class="pull-left">
+                                                        <p>Facebook Connected <i id="ajax-spinner" class="icon-spinner icon-spin"></i></p>
+                                                        <small id="fb-name"></small>
+                                                    </div>
+                                                </blockquote>
+                                            </div>
+                                            <script>
+                                                $(document).ready(function(){
+                                                    showFacebookLoggedIn();
+                                                });
+                                            </script>
+                                        </c:when>
+                                        <c:otherwise>
+                                           
+                                            <div class="accountInfoTile clearfix">
+                                                <a href="#fbConnect" onclick="login()" class='btn btn-primary pull-left fbConnect'>Connect <i class="icon-facebook"></i></a>
+                                                <blockquote>
+                                                    <div class="pull-left">
+                                                        <p>Facebook Connect</p>
+                                                        <small>Not Connected</small>
+                                                    </div>
+                                                </blockquote>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>                                    
+                                    <br/>                                    
+                                    
                                 </div>
                             </c:if>
                             <c:if test="${user.userId!=param.profileid}">

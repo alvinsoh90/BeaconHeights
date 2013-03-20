@@ -10,7 +10,6 @@ import com.lin.entities.Role;
 import com.lin.entities.User;
 import com.lin.entities.UserTemp;
 import com.lin.utils.HttpHandler;
-import com.lin.global.ApiUriList;
 import com.lin.utils.BCrypt;
 import com.lin.utils.HibernateUtil;
 import com.lin.utils.json.JSONException;
@@ -431,6 +430,28 @@ public class UserDAO {
         return u;
     }
     
+     public boolean updateFacebookId(User currUser, String fbId) {
+         System.out.println("Setting fbId: " + fbId);
+        openSession();
+        Transaction tx = null;
+        User u = null;
+        try {
+            tx = session.beginTransaction();
+            u = (User) session.get(User.class, currUser.getUserId());
+            u.setFacebookId(fbId);
+            System.out.println("Setting done");
+            tx.commit();
+            return true;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        return false;
+    }
     
     
         public User updateUser(int userId, Role role, Block block, String userName, String firstname, String lastname,String email,String mobileNo, Integer level, Integer unit, String facebookId, Date birthday, String studiedAt, String worksAt, String aboutMe) {
