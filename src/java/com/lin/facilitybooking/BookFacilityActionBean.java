@@ -147,24 +147,24 @@ public class BookFacilityActionBean extends BaseActionBean {
 
             // check if facility needs payment. if need payment, direct to payment page
             if (facility.getFacilityType().isNeedsPayment()) {
-                isPaid = true;
-                isDeleted = false;
-                
-                Booking booking = new Booking(user, facility, bookingTimeStamp,
-                        startDate, endDate, title, isPaid, isDeleted, level, unit);
-                System.out.println("unpaidBooking!" + level + unit);
-                // get flash scope instance
-                FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true);
-                // put shit inside       
-                fs.put("booking", booking);
-               
-                // redirect to payment page        
-                return new RedirectResolution("/residents/bookingpayment.jsp");
+                isPaid = false;
+//                isDeleted = false;
+//                
+//                Booking booking = new Booking(user, facility, bookingTimeStamp,
+//                        startDate, endDate, title, isPaid, isDeleted, level, unit);
+//                System.out.println("unpaidBooking!" + level + unit);
+//                // get flash scope instance
+//                FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true);
+//                // put shit inside       
+//                fs.put("booking", booking);
+//               
+//                // redirect to payment page        
+//                return new RedirectResolution("/residents/bookingpayment.jsp");
 
             } else {
                 isPaid = true;
+            }
                 isDeleted = false;
-
                 Booking booking = new Booking(user, facility, bookingTimeStamp,
                         startDate, endDate, title, isPaid, isDeleted, level, unit);
                 System.out.println("paidBooking!" + level + unit);
@@ -185,7 +185,7 @@ public class BookFacilityActionBean extends BaseActionBean {
 
                 // redirect as normal        
                 return new RedirectResolution("/residents/index.jsp?fid=" + getFacilityID());
-            }
+            
         } catch (Exception e) {
             result = "";
             success = false;
