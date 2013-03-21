@@ -314,7 +314,7 @@
                                         </c:when>
                                         <c:otherwise>
                                            
-                                            <div class="accountInfoTile clearfix">
+                                            <div class="accountInfoTile clearfix" style="display:none">
                                                 <a href="#fbConnect" onclick="login()" class='btn btn-primary pull-left fbConnect'>Connect <i class="icon-facebook"></i></a>
                                                 <blockquote>
                                                     <div class="pull-left">

@@ -32,7 +32,7 @@
 
             </a>
             <div class="nav-collapse">
-                <ul class="nav pull-left">
+<!--                <ul class="nav pull-left">
 
                     <li class="dropdown">
 
@@ -64,7 +64,7 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
+                </ul>-->
                 <ul class="nav pull-left">
 
                     <li class="dropdown">
@@ -160,7 +160,7 @@
 
                 </ul>
                             
-                           <%@include file="/notificationsWidget.jsp"%>
+                           
                             
                 <ul class="nav pull-right">
 

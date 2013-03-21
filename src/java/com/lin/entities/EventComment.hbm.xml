@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Feb 22, 2013 4:40:00 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.lin.entities.EventComment" table="event_comment" catalog="lin_staging_db">
+    <class name="com.lin.entities.EventComment" table="event_comment" catalog="lin_db">
         <id name="commentId" type="java.lang.Integer">
             <column name="comment_id" />
             <generator class="identity" />

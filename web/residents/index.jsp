@@ -200,7 +200,7 @@
                                     $('#facilityDropDown').html(print);
                                 </script>
                             </select>
-                        <a  role="button" data-toggle="modal" class="btn btn-link btn-mini" onclick="loadJoyRide()" >Feeling Lost?</a>                     
+                        <a  role="button" data-toggle="modal" class="btn btn-info btn-mini" onclick="loadJoyRide()" >Feeling Lost? Click to start tour.</a>                     
                         <h2>About this facility</h2>
                         <div class="widget-content widget-nopad">
                             <div id="facilitytypedescription"></div>
