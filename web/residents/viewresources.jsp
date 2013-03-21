@@ -39,11 +39,13 @@
         <link href="./css/adminia-responsive.css" rel="stylesheet"> 
         <link href="./css/residentscustom.css" rel="stylesheet">
 
-        <script src="js/jquery.js"></script>    
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/unicorn.calendar.js"></script>
         <script src="./js/jquery-1.7.2.min.js"></script>
+
+        <link href="/datatables/media/css/jquery.residentsDatatables.css" rel="stylesheet">
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
         <!-- Scripts -->
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -54,15 +56,26 @@
         <script>
             var resourceList = [];
             
+            $(document).ready(function() {
+                $('#resourceTable').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
+                })
+            });
             
             function filterByCategory(){
                 var category = $('#categorySelect').val();
                 
                 var tempArr = [];
                 if(category.equals("All")){
-                   for(var i=0;i<resourceList.length;i++){
-                    tempArr.push(resourceList[i]);
-                   }
+                    for(var i=0;i<resourceList.length;i++){
+                        tempArr.push(resourceList[i]);
+                    }
                 } else {
                     for(var i=0;i<resourceList.length;i++){
                         console.log(name);
@@ -74,7 +87,7 @@
                 }
                 
            
-               showResource(tempArr);
+                showResource(tempArr);
                     
                 
             }
@@ -110,135 +123,124 @@
             }
             
         </script>
-        
-                                            
-      
-
-        </head>
-         <body >
-
-            <div id="content">
-
-                <div class="container">
-
-                    <div class="row">
-                        <div class="span3">
-
-                            <div class="account-container">
-                                <h2>View Resources</h2>
-<!--
-                                <select id ="categorySelect">
-                                    <option value="All">All</option>
-                                    <c:forEach items="${manageResourceActionBean.uniqueCategories}" var="categories" varStatus="loop">
-
-                                        <option value=${categories}>${categories}</option>
-
-                                    </c:forEach>    
-                                </select>
-
--->
-
-                            </div> <!-- /account-container -->
-                        </div>
-                        <div class="span9">
-
-                            <h1 class="page-title">
-
-                                Resources			
-                            </h1>
-                            <br/>
-
-                            <div class="widget widget-table">
-
-                                <div class="widget-header">
-                                    <i class="icon-th-list"></i>
-                                    <h3> List of Resources </h3>
 
 
-                                </div> <!-- /widget-header -->
-                                 
-                                <div class="widget-content">
 
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                                <th>Category</th>
-                                                <th>Download</th>
-                                                <th>Last Updated</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
-                                            <script>
-                                                var resource = new Object();
-                                                resource.id = '${resource.id}';
-                                                resource.name = '${resource.name}';
-                                                resource.description = '${resource.description}';
-                                                resource.category = '${resource.category}';
-                                                resource.fileName = '${resource.fileName}';
-                                                resource.timeCreated = '${resource.timeCreated}';
-                                                resourceList.push(resource);
-                                            </script>
-                                            <tr>
 
-                                                <td>${loop.index + 1}</td>
-                                                <td>${resource.name}</td>
-                                                <td>${resource.description}</td>
-                                                <td nowrap>${resource.category}</td>
-                                                <td nowrap><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
-                                                <jsp:setProperty name="newsDate" property="time" value="${resource.timeCreated.time}" />
-                                                <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+    </head>
+    <body >
 
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
+        <div id="content">
 
-                                </div>
-                                <div class="pagination">
-                                    <ul>
-                                        <li><a href="#">Prev</a></li>
-                                        <li class="active">
-                                            <a href="#">1</a>
-                                        </li>
-                                        <!--<li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>-->
-                                        <li><a href="#">Next</a></li>
-                                    </ul>
-                                </div>
+            <div class="container">
+
+                <div class="row">
+                    <div class="span3">
+
+                        <div class="account-container">
+                            <h2>View Resources</h2>
+                            <!--
+                                                            <select id ="categorySelect">
+                                                                <option value="All">All</option>
+                            <c:forEach items="${manageResourceActionBean.uniqueCategories}" var="categories" varStatus="loop">
+
+                                <option value=${categories}>${categories}</option>
+
+                            </c:forEach>    
+                        </select>
+
+                            -->
+
+                        </div> <!-- /account-container -->
+                    </div>
+                    <div class="span9">
+
+                        <h1 class="page-title">
+
+                            Resources			
+                        </h1>
+                        <br/>
+
+                        <div class="widget widget-table">
+
+                            <div class="widget-header">
+                                <i class="icon-th-list"></i>
+                                <h3> List of Resources </h3>
+
+
+                            </div> <!-- /widget-header -->
+
+                            <div class="widget-content">
+
+                                <table id ="resourceTable" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Category</th>
+                                            <th>Download</th>
+                                            <th>Last Updated</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${manageResourceActionBean.resourceList}" var="resource" varStatus="loop">
+                                        <script>
+                                            var resource = new Object();
+                                            resource.id = '${resource.id}';
+                                            resource.name = '${resource.name}';
+                                            resource.description = '${resource.description}';
+                                            resource.category = '${resource.category}';
+                                            resource.fileName = '${resource.fileName}';
+                                            resource.timeCreated = '${resource.timeCreated}';
+                                            resourceList.push(resource);
+                                        </script>
+                                        <tr>
+
+                                            <td>${loop.index + 1}</td>
+                                            <td>${resource.name}</td>
+                                            <td>${resource.description}</td>
+                                            <td nowrap>${resource.category}</td>
+                                            <td nowrap><b><a href="/uploads/resources/${resource.fileName}">Download File</a></b></td>
+                                            <jsp:setProperty name="newsDate" property="time" value="${resource.timeCreated.time}" />
+                                            <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
 
                             </div>
+
+
                         </div>
                     </div>
+                </div>
 
 
-                </div> <!-- /row -->
+            </div> <!-- /row -->
 
-            </div> <!-- /container -->
+        </div> <!-- /container -->
 
-        </div> <!-- /content -->
-
-
-
-        <%@include file="/footer.jsp"%>
+    </div> <!-- /content -->
 
 
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+    <%@include file="/footer.jsp"%>
 
-    </body>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./js/excanvas.min.js"></script>
+    <script src="./js/jquery.flot.js"></script>
+    <script src="./js/jquery.flot.pie.js"></script>
+    <script src="./js/jquery.flot.orderBars.js"></script>
+    <script src="./js/jquery.flot.resize.js"></script>
+    <script src="./js/fullcalendar.min.js"></script>
+
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/charts/bar.js"></script>
+
+</body>
 </html>

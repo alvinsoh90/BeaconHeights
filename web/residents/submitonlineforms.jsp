@@ -37,13 +37,14 @@
 
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
-        <script src="./js/unicorn.calendar.js"></script>
         <script src="./js/jquery-1.7.2.min.js"></script>
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
 
+        <link href="/datatables/media/css/jquery.residentsDatatables.css" rel="stylesheet">
 
+        <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>
 
         <!-- Scripts -->
 
@@ -54,6 +55,18 @@
         <script>
             // Init an array of all rc shown on this page
             var formTemplateList = [];
+            
+            $(document).ready(function() {
+                $('#formsTable').dataTable( {
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
+                })
+            });
             
             //when this function is called, formTemplateList should already be populated
             function populateSubmitFormModal(formTemplateID){ 
@@ -187,70 +200,70 @@
                     toastr.errorSticky(msg);
                 }
                 
-            function loadValidate(){
-                $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+                function loadValidate(){
+                    $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 
-                $('select').chosen();
+                    $('select').chosen();
 
-                $("#new_submittedform_validate").validate({
-                    rules:{
-                        name:{
-                            required:true
-                        },
-                        description:{
-                            required:true
-                        }
+                    $("#new_submittedform_validate").validate({
+                        rules:{
+                            name:{
+                                required:true
+                            },
+                            description:{
+                                required:true
+                            }
                        
-                    },
-                    errorClass: "help-inline",
-                    errorElement: "span",
-                    highlight:function(element, errorClass, validClass) {
-                        $(element).parents('.control-group').addClass('error');
-                    },
-                    unhighlight: function(element, errorClass, validClass) {
-                        $(element).parents('.control-group').removeClass('error');
-                        $(element).parents('.control-group').addClass('success');
-                    }
-                });
-                
-                $("#edit_submittedform_validate").validate({
-                    rules:{
-                        name:{
-                            required:true
                         },
-                        description:{
-                            required:true
+                        errorClass: "help-inline",
+                        errorElement: "span",
+                        highlight:function(element, errorClass, validClass) {
+                            $(element).parents('.control-group').addClass('error');
                         },
-                        agree:{
-                            required:true
+                        unhighlight: function(element, errorClass, validClass) {
+                            $(element).parents('.control-group').removeClass('error');
+                            $(element).parents('.control-group').addClass('success');
                         }
-                    },
-                    errorClass: "help-inline",
-                    errorElement: "span",
-                    highlight:function(element, errorClass, validClass) {
-                        $(element).parents('.control-group').addClass('error');
-                    },
-                    unhighlight: function(element, errorClass, validClass) {
-                        $(element).parents('.control-group').removeClass('error');
-                        $(element).parents('.control-group').addClass('success');
-                    }
-                });
-            }
-            
-            $(function(){
-            $('#file').change(function(){
-            var file=this.files[0];
-                if(file.fileSize > 3145728 || file.size > 3145728){
-                $("#uploadBtn").css("opacity","0.6");
-                    $("#uploadBtn").css("pointer-events","none");
-                    $("#fileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
-                }else {
-                $("#uploadBtn").css("opacity","1");
-                $("#uploadBtn").css("pointer-events","auto");
-                $("#fileInfoMsg").text("");
+                    });
+                
+                    $("#edit_submittedform_validate").validate({
+                        rules:{
+                            name:{
+                                required:true
+                            },
+                            description:{
+                                required:true
+                            },
+                            agree:{
+                                required:true
+                            }
+                        },
+                        errorClass: "help-inline",
+                        errorElement: "span",
+                        highlight:function(element, errorClass, validClass) {
+                            $(element).parents('.control-group').addClass('error');
+                        },
+                        unhighlight: function(element, errorClass, validClass) {
+                            $(element).parents('.control-group').removeClass('error');
+                            $(element).parents('.control-group').addClass('success');
+                        }
+                    });
                 }
-            })
-            })
+            
+                $(function(){
+                    $('#file').change(function(){
+                        var file=this.files[0];
+                        if(file.fileSize > 3145728 || file.size > 3145728){
+                            $("#uploadBtn").css("opacity","0.6");
+                            $("#uploadBtn").css("pointer-events","none");
+                            $("#fileInfoMsg").text("File size is too big, please limit your file size to 3mb.");
+                        }else {
+                            $("#uploadBtn").css("opacity","1");
+                            $("#uploadBtn").css("pointer-events","auto");
+                            $("#fileInfoMsg").text("");
+                        }
+                    })
+                })
         </script>
 
 
@@ -269,7 +282,7 @@
 
                         <div class="account-container">
                             <h2>View Online Forms</h2>
-                            
+
 
                         </div> <!-- /account-container -->
                     </div>
@@ -283,22 +296,22 @@
                         </h1>
                         <br/>
 
-                            <div class="widget widget-table">
+                        <div class="widget widget-table">
 
-                                <div class="widget-header">
-                                    <i class="icon-th-list"></i>
-                                    <h3> List of Forms </h3>
+                            <div class="widget-header">
+                                <i class="icon-th-list"></i>
+                                <h3> List of Forms </h3>
 
 
-                                </div> <!-- /widget-header -->
-                        <div class="widget-content">
+                            </div> <!-- /widget-header -->
+                            <div class="widget-content">
 
-                                <table class="table table-striped table-bordered">
+                                <table id ="formsTable" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Title</th>
-                                            <th>Description</th>
+                                            <!--<th>Description</th>-->
                                             <th>Category</th>
                                             <th>Download File</th>
                                             <th>Action</th>
@@ -322,9 +335,9 @@
                                         </script>
                                         <tr>
 
-                                            <td>${formTemplate.id}</td>
+                                            <td>${loop.index + 1}</td>
                                             <td>${formTemplate.name}</td>
-                                            <td>${formTemplate.description}</td>
+                                            <!--<td>${formTemplate.description}</td>-->
                                             <td>${formTemplate.category}</td>
                                             <td><b><a href="/uploads/form_templates/${formTemplate.fileName}">Download File</a></b></td>
 
@@ -337,73 +350,73 @@
                                     </tbody>
                                 </table>
 
-                        </div>
-
                             </div>
+
                         </div>
                     </div>
-
-
-                </div> <!-- /row -->
-
-            </div> <!-- /container -->
-
-        </div> <!-- /content -->
-
-
-        <!-- Submit Form Modal Form -->
-        <div id="submitFormModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Submit <span id="formTemplateLabel"></span></h3>
-            </div>
-            <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageSubmittedFormsActionBean" name="new_resource_validate" id="new_resource_validate">                 
-                    <stripes:hidden id="submit_title" name="title" />
-                    <stripes:hidden name="user_id" value="${user.userId}" />
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Comments:</label>
-                        <div class="controls">
-                            <stripes:textarea name="comments" />
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">File:</label>
-                        <div class="controls">
-                            <stripes:file name="file" id="file"/><div id="fileInfoMsg"></div>
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label"><stripes:checkbox name="agree"/></label>
-                        <div class="controls">
-                            Agree to terms and conditions
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" name="submit" value="Submit" class="btn btn-info btn-large" id="uploadBtn"/>                                                           
-                    </stripes:form>
                 </div>
-            </div>      
+
+
+            </div> <!-- /row -->
+
+        </div> <!-- /container -->
+
+    </div> <!-- /content -->
+
+
+    <!-- Submit Form Modal Form -->
+    <div id="submitFormModal" class="modal hide fade">
+        <div id="myModal" class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Submit <span id="formTemplateLabel"></span></h3>
         </div>
+        <div class="modal-body">
+            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ManageSubmittedFormsActionBean" name="new_resource_validate" id="new_resource_validate">                 
+                <stripes:hidden id="submit_title" name="title" />
+                <stripes:hidden name="user_id" value="${user.userId}" />
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Comments:</label>
+                    <div class="controls">
+                        <stripes:textarea name="comments" />
+                    </div>
+                </div>
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">File:</label>
+                    <div class="controls">
+                        <stripes:file name="file" id="file"/><div id="fileInfoMsg"></div>
+                    </div>
+                </div>
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label"><stripes:checkbox name="agree"/></label>
+                    <div class="controls">
+                        Agree to terms and conditions
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" name="submit" value="Submit" class="btn btn-info btn-large" id="uploadBtn"/>                                                           
+                </stripes:form>
+            </div>
+        </div>      
+    </div>
 
 
 
 
-        <%@include file="/footer.jsp"%>
+    <%@include file="/footer.jsp"%>
 
 
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="./js/excanvas.min.js"></script>
-        <script src="./js/jquery.flot.js"></script>
-        <script src="./js/jquery.flot.pie.js"></script>
-        <script src="./js/jquery.flot.orderBars.js"></script>
-        <script src="./js/jquery.flot.resize.js"></script>
-        <script src="./js/fullcalendar.min.js"></script>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./js/excanvas.min.js"></script>
+    <script src="./js/jquery.flot.js"></script>
+    <script src="./js/jquery.flot.pie.js"></script>
+    <script src="./js/jquery.flot.orderBars.js"></script>
+    <script src="./js/jquery.flot.resize.js"></script>
+    <script src="./js/fullcalendar.min.js"></script>
 
-        <script src="./js/bootstrap.js"></script>
-        <script src="./js/charts/bar.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/charts/bar.js"></script>
 
-    </body>
+</body>
 </html>
