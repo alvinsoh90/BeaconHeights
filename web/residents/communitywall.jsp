@@ -485,7 +485,7 @@
                     <c:forEach items="${managePostBean.featuredPostList}" var="post" varStatus="loop">
                         <li class="featuredPost" style="list-style-type: none">
                             <div class="featuredProfile">
-                                <img id ="profilePic" src="${post.user.profilePicFilename}" class="profilePic"/>
+                                <img id ="profilePic" src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic"/>
                                 <span id="featuredProfile"></span>
                                 <div class="timestamp" style="width:100%;font-size:6pt;text-shadow:none" wrap>
                                     <center><span id ="featuredTimeStamp">${post.timeSincePost}</span></center></div>

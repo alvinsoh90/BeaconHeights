@@ -280,6 +280,13 @@ public class ManageEventBean extends BaseActionBean {
         return eventList;
     }
 
+    @HandlesEvent("adminUnflag")
+    public Resolution admingUnflag() {
+        outcome = eDAO.adminUnflag(id);
+        return new RedirectResolution("/admin/manage-events.jsp?deletesuccess="
+                + outcome + "&deletemsg=" + getTitle());
+    }
+
     @HandlesEvent("deleteEvent")
     public Resolution deleteEvent() {
         outcome = eDAO.deleteEvent(id);
@@ -365,7 +372,7 @@ public class ManageEventBean extends BaseActionBean {
             if (isIsPublicEvent()) {
                 ManageNotificationBean nBean = new ManageNotificationBean();
                 //nBean.sendEventCreatedNotification(e, getContext().getUser());
-                
+
                 //post to facebook?
                 System.out.println("SHARING ON FACEBOOK: " + isShareOnFacebook());
                 if (isShareOnFacebook()) {
@@ -373,48 +380,48 @@ public class ManageEventBean extends BaseActionBean {
                     String facebookPostId = null;
                     //get access token from session
                     String currAccessToken = (String) getContext().getRequest().getSession().getAttribute(GlobalVars.SESSION_FB_ACCESS_TOKEN);
-                    
+
                     //post to facebook
                     facebookPostId = fb.createEventInGroup(getTitle(), //event name
                             start,
                             end,
                             getDetails(), //+ " More info here: " + GlobalVars.APP_URL + "residents/eventwall.jsp?postid=" + e.getId(), //link 
-                            getVenue(),                                                      
+                            getVenue(),
                             currAccessToken);
 
                     if (facebookPostId != null) {
                         System.out.println("Post to fb successful! id: " + facebookPostId);
-                        
+
                         //Should store facebook post id with post id here...
                         //eDAO.updateEventWithFBPostId(e, facebookPostId);
-                        
-                    } else if (facebookPostId == null && currAccessToken != null){
+
+                    } else if (facebookPostId == null && currAccessToken != null) {
                         //if failed to post, and accessToken appears ok, try refreshing token
                         String newToken = fb.extendFacebookAccessToken(currAccessToken);
-                        
+
                         System.out.println("Trying fb post again with new access token...");
-                        
+
                         //post to facebook with new token
                         facebookPostId = fb.createEventInGroup(getTitle(), //event name
                                 start,
                                 end,
                                 getDetails() + " More info here: " + GlobalVars.APP_URL + "residents/eventwall.jsp?postid=" + e.getId(), //link 
-                                getVenue(),                                                      
+                                getVenue(),
                                 currAccessToken);
-                        
+
                         if (facebookPostId != null) {
                             System.out.println("2nd try Post to fb successful! id: " + facebookPostId);
-                            
+
                             //Should store facebook post id with post id here...
                             //eDAO.updateEventtWithFBPostId(e, facebookPostId);
-                            
+
                             //update session with new access token
                             getContext().getRequest().getSession().setAttribute(GlobalVars.SESSION_FB_ACCESS_TOKEN, newToken);
                         }
-                    }                        
+                    }
                 }
             }
-            
+
 
             fs.put("SUCCESS", "true");
         } else {
@@ -559,32 +566,31 @@ public class ManageEventBean extends BaseActionBean {
         return list;
     }
 
-public boolean editEventAndSendNotifications(Event newEvent, String[] friendsArr){
- 
+    public boolean editEventAndSendNotifications(Event newEvent, String[] friendsArr) {
+
         Event e = eDAO.updateEvent(newEvent);
         //create invites and store in DB
         UserDAO uDAO = new UserDAO();
-        
-        try{
+
+        try {
             for (String userId : friendsArr) {
                 User u = uDAO.getShallowUser(Integer.parseInt(userId));
                 System.out.println("Sent invite to: " + u.getUserName());
                 EventInvite ei = new EventInvite(e, u, EventInvite.Type.PENDING);
                 eDAO.addEventInvite(ei);
             }
-        }
-        catch(NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
         }
-        
+
         return true;
-        
+
     }
 
-    public boolean getIsInvited(int eventid, int limit, int userId){
+    public boolean getIsInvited(int eventid, int limit, int userId) {
         ArrayList<User> invitedUsers = getInvitedUsers(eventid, limit);
-        for (User user : invitedUsers){
-            if (user.getUserId() == userId){
+        for (User user : invitedUsers) {
+            if (user.getUserId() == userId) {
                 return true;
             }
         }

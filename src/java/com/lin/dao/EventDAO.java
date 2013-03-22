@@ -46,8 +46,7 @@ public class EventDAO {
         //return null if failed
         return null;
     }
-    
-    
+
     public Event updateEvent(Event event) {
         openSession();
         Transaction tx = null;
@@ -61,10 +60,10 @@ public class EventDAO {
             editedEvent.setIsPublicEvent(event.isIsPublicEvent());
             editedEvent.setStartTime(event.getStartTime());
             editedEvent.setBooking(event.getBooking());
-            
+
             tx.commit();
             return editedEvent;
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
             if (tx != null) {
@@ -90,7 +89,7 @@ public class EventDAO {
         }
         return list.get(0);
     }
-    
+
     public Event getEventForPopulatingEdit(int id) {
         openSession();
         Event ev = null;
@@ -119,13 +118,13 @@ public class EventDAO {
         }
         return ev;
     }
-    
+
     public Event getEventWithUserBookingLoaded(int id) {
         openSession();
         Event ev = null;
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            
+
             Query q = session.createQuery("from Event as e join fetch e.booking join fetch e.booking.facility join fetch e.user where e.id = :id ");
             q.setInteger("id", id);
             ev = (Event) q.uniqueResult();
@@ -135,7 +134,6 @@ public class EventDAO {
         }
         return ev;
     }
-    
 
     public ArrayList<Event> getAllEvents() {
         openSession();
@@ -188,14 +186,14 @@ public class EventDAO {
 
         return list;
     }
-    
+
     public ArrayList<Event> getAllFutureEventsForUser(User user) {
         openSession();
         ArrayList<Event> list = new ArrayList<Event>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery(
-                    "from Event as e join fetch e.user "                    
+                    "from Event as e join fetch e.user "
                     + "where e.isDeleted is false "
                     + "and e.startTime > current_timestamp() "
                     + "and e.user = :userid "
@@ -257,12 +255,12 @@ public class EventDAO {
         try {
             tx = session.beginTransaction();
             Event e = (Event) session.get(Event.class, id);
-            if(e.isIsDeleted()){
+            if (e.isIsDeleted()) {
                 e.setIsDeleted(false);
-            }else{
+            } else {
                 e.setIsDeleted(true);
             }
-            
+
             tx.commit();
             return true;
         } catch (Exception e) {
@@ -273,7 +271,7 @@ public class EventDAO {
         }
         return false;
     }
-    
+
     public boolean featureEvent(int id) {
         openSession();
         Transaction tx = null;
@@ -281,9 +279,9 @@ public class EventDAO {
         try {
             tx = session.beginTransaction();
             Event e = (Event) session.get(Event.class, id);
-            if(e.isIsFeatured()){
+            if (e.isIsFeatured()) {
                 e.setIsFeatured(false);
-            }else{
+            } else {
                 e.setIsFeatured(true);
             }
             tx.commit();
@@ -558,6 +556,30 @@ public class EventDAO {
         return list;
     }
 
+    public boolean adminUnflag(int eventId) {
+        openSession();
+        System.out.println("unflagging" + eventId);
+        int rowCount = 0;
+
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String q = "delete from EventInappropriate e where"
+                    + " e.event.id = :eid ";
+            Query query = session.createQuery(q);
+            query.setInteger("eid", eventId);
+            rowCount = query.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean addEventInvite(EventInvite eventInvite) {
         openSession();
         Transaction tx = null;
@@ -669,7 +691,6 @@ public class EventDAO {
 
         return eventInviteList;
     }
-    
 
     public ArrayList<Event> getYtdToFutureEvents() {
         openSession();

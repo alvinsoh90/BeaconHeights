@@ -71,6 +71,17 @@
                 
             }
             
+            function populateUnflagEventModal(eventID){ 
+                eventList.forEach(function(event){
+                    alert("here");
+                    $("#usernameUnflagLabel").text(event.firstName + " " + event.lastName);
+                    $("#usernameUnflagName").text(event.firstName + " " + event.lastName);
+                    $("#unflagTitle").val(event.title);
+
+                    $("#unflagId").val(eventID);
+                });
+                
+            }
 
         </script>
 
@@ -89,10 +100,10 @@
                     event.details = '${event.escapedDetails}';
                     event.startTime = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                     value="${event.startTime}"/>';
-                                                            event.endTime = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                        event.endTime = '<fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                     value="${event.endTime}"/>';
-                                                            event.venue = '${event.venue}';
-                                                            eventList.push(event);
+                                        event.venue = '${event.venue}';
+                                        eventList.push(event);
                 </script>
             </c:forEach>
         </c:if>
@@ -118,7 +129,7 @@
                         <c:forEach items="${manageEventBean.flaggedList}" var="post" varStatus="loop">
                             <div id="post-${post.id}" class="postWrapper row-fluid">
                             </div>
-                            <div class="post span6">
+                            <div class="post span6" style="margin-left:0px">
                                 <div class ="eventHeader">
                                     <div class="delete"><a href="#deleteEventModal" role ="button" data-toggle="modal" 
                                                            class="btn btn-smallnew btn-warning"
@@ -174,10 +185,11 @@
                                     </div>
                                 </c:if>
 
+
                                 <div class="commentArea">
                                     <div class="comments">
                                         <c:forEach items="${post.eventCommentsList}" var="comment" varStatus="loop">
-                                            
+
                                             <div class="comment">
                                                 <div class="delete"><a href="#deleteEventCommentModal" role ="button" data-toggle="modal"
                                                                        onclick="alert(${post.id});populateDeleteEventCommentModal(${post.id},${comment.commentId});">
@@ -198,7 +210,15 @@
                                 </div>
 
                             </div>
+                            <div class="unflagBar">
+                                <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
 
+                                <%-- Check if user likes this post --%>                          
+
+                                <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
+                                <a href="#unflagEventModal" role ="button" data-toggle="modal" 
+                                   onclick="populateUnflagEventModal(${post.id})"><i class="icon-flag"></i> <span class="txt">Remove Flag</span></a>
+                            </div>
 
 
                         </c:forEach>
@@ -257,6 +277,24 @@
         </div>
 
 
+        <!-- Delete Event Comment Modal -->
+        <div id="unflagEventModal" class="modal hide fade">
+            <div id="myModal" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Unflagging of <span id="usernameUnflagLabel"></span>'s comment</h3>
+            </div>
+            <div class="modal-body">
+                <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEventBean" focus=""> 
+                    You are now removing the flag on <b><span id="usernameUnflagName"></span>'s</b> event. Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn">Close</a>
+                    <stripes:hidden id="unflagTitle" name="title"/>
+                    <stripes:hidden id="unflagId" name="id"/>
+                    <input type="submit" name="adminUnflag" value="Confirm Unflag" class="btn btn-danger"/>
+                </div>
+            </stripes:form>
+        </div>
 
 
         <script>

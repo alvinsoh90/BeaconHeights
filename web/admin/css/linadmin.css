@@ -199,6 +199,13 @@ input[readonly].datepicker{
     border-width: 1px;
     border-color: #888888;
 }
+    .post .span6 .moveLeft{
+    margin-right: 25px;
+    margin-left: 0px;
+    background-color: black;
+    padding: 0px;
+    float: left;
+}
 .post .baseContent{
     background: white;
     padding: 2px 5px;
@@ -376,4 +383,14 @@ code{
     color: rgb(27, 145, 211);
     background-color: #f7f7f9;
     border: 1px dotted #e1e1e8;
+}
+
+.unflagBar{
+    float: left;
+    margin-left: 32px;
+    z-index: 100;
+    padding: 1px 5px 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
