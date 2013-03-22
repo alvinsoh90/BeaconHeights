@@ -38,6 +38,14 @@ public class AddPostActionBean implements ActionBean {
     private String taggedFriends;  //retrieved as "[id1,id2,id3,...]"
     private int wallId;
     private boolean shareOnFacebook;
+    private boolean isFeaturedPost;
+    
+    public boolean getFeaturedPost(){
+        return isFeaturedPost;
+    }
+    public void setFeaturedPost(boolean isFeaturedPost){
+        this.isFeaturedPost = isFeaturedPost;
+    }
 
     public boolean isShareOnFacebook() {
         return shareOnFacebook;
@@ -131,13 +139,13 @@ public class AddPostActionBean implements ActionBean {
             Post aPost = null;
 
             if ("REQUEST".equals(getPostCategory())) {
-                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.REQUEST, event, getWallId());
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.REQUEST, event, getWallId(), getFeaturedPost());
             } else if ("INVITE".equals(getPostCategory())) {
-                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.INVITE, event, getWallId());
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.INVITE, event, getWallId(),getFeaturedPost());
             } else if ("SHOUTOUT".equals(getPostCategory())) {
-                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.SHOUTOUT, event, getWallId());
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.SHOUTOUT, event, getWallId(),getFeaturedPost());
             } else if ("ANNOUNCEMENT".equals(getPostCategory())) {
-                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.ANNOUNCEMENT, event, getWallId());
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.ANNOUNCEMENT, event, getWallId(),getFeaturedPost());
             } else {
                 System.out.println("\nINVALID POST CATEGORY\n");
                 fs.put("SUCCESS", "false");

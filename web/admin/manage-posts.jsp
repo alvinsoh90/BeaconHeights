@@ -78,6 +78,24 @@
                 
             }
             
+            function unFlagPostInappropriate(postId){
+                var dat = new Object();
+                dat.postId = postId;
+                dat.isInappropriate = false;
+                
+                console.log(JSON.stringify(dat));
+                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/json/community/flagOrUnflagInappropriate.jsp",
+                    data: dat,
+                    success: function(data, textStatus, xhr) {
+                        console.log(xhr.status);
+                    }
+                     
+                });
+            }
 
         </script>
 
@@ -85,6 +103,22 @@
         <c:if test="${managePostBean.flaggedPostList.size()!=0}">   
 
             <c:forEach items="${managePostBean.flaggedPostList}" var="post" varStatus="loop">
+                <script>
+                    var post = new Object();
+                    post.postId = '${post.postId}';
+                    post.username = '${post.user.escapedUserName}';
+                    post.firstName = '${post.user.escapedFirstName}';
+                    post.lastName = '${post.user.escapedLastName}';
+                    post.title = '${post.title}';
+                    post.date = '${post.date}';
+                    
+                    postList.push(post);
+                </script>
+            </c:forEach>
+        </c:if>
+        <c:if test="${managePostBean.postList.size()!=0}">   
+
+            <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
                 <script>
                     var post = new Object();
                     post.postId = '${post.postId}';
@@ -113,146 +147,248 @@
                     <div class="page-header">
                         <h1>Community Posts <small>Manage Posts</small></h1>
                     </div>
-                    <c:forEach items="${managePostBean.flaggedPostList}" var="post" varStatus="loop">
-
-                        <div id="post-${post.postId}" class="postWrapper row-fluid">
-                            <div class="leftContent span2">
-                                <div class="posterInfo">
-
-                                    <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.firstname} ${post.user.lastname}</div></a>
-                                    <div class="timestamp">${post.timeSincePost}</div>
-                                </div>
-                                <div class="postIcon wallicon ${post.category}">
-                                    <div class="timeline"/></div>
-                            </div>
-                        </div>
-                        <div class="post span6">
-
-                            <div class="delete"><a href="#deletePostModal" role ="button" data-toggle="modal"
-                                                   onclick="alert(${post.postId});populateDeletePostModal(${post.postId})">
-                                    <i class="icon-remove"></i>							
-                                </a></div>
-                                    
-                                   
 
 
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#pane1" data-toggle="tab">Flagged Posts</a></li>
+                            <li><a href="#pane2" data-toggle="tab">All Posts</a></li>
 
-                            <div class="baseContent">
-                                <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
-                                <div class="content">"${post.message}"</div>
-                                
+                        </ul>
+                        <div class="tab-content">
+                            <!-- Tab 1 -->
+
+
+                            <div id="pane1" class="tab-pane active">
+                                <h4>Flagged Posts</h4>
+                                <c:forEach items="${managePostBean.flaggedPostList}" var="post" varStatus="loop">
+
+                                    <div id="post-${post.postId}" class="postWrapper row-fluid">
+
+                                        <div class="post span8">
+
+                                            <div class="delete"><a href="#deletePostModal" role ="button" data-toggle="modal"
+                                                                   onclick="populateDeletePostModal(${post.postId})">
+                                                    <i class="icon-remove"></i>							
+                                                </a></div>
 
 
 
-                            </div>
-                                
-                                
-                            <div class="commentArea">
-                                <div class="comments">
-                                    <c:forEach items="${managePostBean.sortCommentsByDate(post.comments)}" var="comment" varStatus="loop">
-                                        <div class="comment">
 
 
-                                            <div class="content float_l">
-                                                <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
-                                                <div class="timestamp">${comment.timeSinceComment}</div>
+                                            <div class="baseContent">
+                                                <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
+                                                <div class="content">"${post.message}"</div>
+
+
+
+
                                             </div>
-                                            <br class="clearfix"/>
+                                            <div class="comment replyArea">
+                                                Comments:
+                                                <br class="clearfix"/>
+                                            </div>   
+
+                                            <div class="commentArea">
+                                                <div class="comments">
+                                                    <c:forEach items="${managePostBean.sortCommentsByDate(post.comments)}" var="comment" varStatus="loop">
+                                                        <div class="comment">
+
+
+                                                            <div class="content float_l">
+                                                                <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
+                                                                <div class="timestamp">${comment.timeSinceComment}</div>
+                                                            </div>
+                                                            <br class="clearfix"/>
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+
                                         </div>
-                                    </c:forEach>
-                                </div>
-                                <div class="comment replyArea">
-
-
-                                    <br class="clearfix"/>
-                                </div>
+                                        <div class="span2 postSideBlock">
 
 
 
+                                            <div class="linkBar">
+                                                <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
+
+
+
+                                                <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Post</a> -->
+                                                <!-- This should be to flag as APPROPRIATE-->
+                                                <a href="#flag" onclick="unFlagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Unflag Inappropriate Post</span></a>
+
+                                            </div>
+                                            <!--<div class="sideHeaderBtn">
+                                                <div><i class="iconLike icon-heart"></i></div>
+                                                <div class="txt">You Like</div> 
+                                            </div>-->
+
+                                        </div>   
+
+                                    </div>
+                                </c:forEach>
+
+
+
+                            </div> 
+
+                            <!-- Tab 2 -->
+                            <div id="pane2" class="tab-pane">
+                                <h4>All Posts</h4>
+                                <br/>
+                                <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
+
+                                    <div id="post-${post.postId}" class="postWrapper row-fluid">
+
+                                        <div class="post span8">
+
+                                            <div class="delete"><a href="#deletePostModal" role ="button" data-toggle="modal"
+                                                                   onclick="populateDeletePostModal(${post.postId})">
+                                                    <i class="icon-remove"></i>							
+                                                </a></div>
+
+
+
+
+
+                                            <div class="baseContent">
+                                                <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
+                                                <div class="content">"${post.message}"</div>
+
+
+
+
+                                            </div>
+                                            <div class="comment replyArea">
+                                                Comments:
+                                                <br class="clearfix"/>
+                                            </div>   
+
+                                            <div class="commentArea">
+                                                <div class="comments">
+                                                    <c:forEach items="${managePostBean.sortCommentsByDate(post.comments)}" var="comment" varStatus="loop">
+                                                        <div class="comment">
+
+
+                                                            <div class="content float_l">
+                                                                <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
+                                                                <div class="timestamp">${comment.timeSinceComment}</div>
+                                                            </div>
+                                                            <br class="clearfix"/>
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="span2 postSideBlock">
+
+
+                                            <!--
+                                            <div class="linkBar">
+                                                <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
+
+
+
+                                                <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Post</a> -->
+                                                <!-- This should be to flag as APPROPRIATE
+                                                <a href="#flag" onclick="unFlagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Unflag Inappropriate Post</span></a>
+
+                                            </div>-->
+                                                
+                                                
+                                              
+                                            <!--<div class="sideHeaderBtn">
+                                                <div><i class="iconLike icon-heart"></i></div>
+                                                <div class="txt">You Like</div> 
+                                            </div>-->
+
+                                        </div>   
+
+                                    </div>
+                                </c:forEach>
 
 
                             </div>
-
+                            <hr>
                         </div>
-                        <div class="span2 postSideBlock">
+                    </div><!-- /.tab-content -->
 
 
 
-                            <div class="linkBar">
-                                <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
 
 
 
-                                <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Post</a> -->
-                                <!-- This should be to flag as APPROPRIATE-->
-                                <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
 
-                            </div>
-                            <!--<div class="sideHeaderBtn">
-                                <div><i class="iconLike icon-heart"></i></div>
-                                <div class="txt">You Like</div> 
-                            </div>-->
+                </div>
 
-                        </div>   
 
-                    </div>
-                </c:forEach>
-
+                <!--<a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>-->
             </div>
-
-
-            <!--<a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>-->
         </div>
     </div>
-</div>
 
-<hr>
+    <hr>
 
-<%@include file="include/footer.jsp"%>
+    <%@include file="include/footer.jsp"%>
 
-<!-- Delete Post Modal -->
-<div id="deletePostModal" class="modal hide fade">
-    <div id="myModal" class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-        <h3>Deletion of <span id="usernameDeleteLabel"></span>'s post</h3>
+    <!-- Delete Post Modal -->
+    <div id="deletePostModal" class="modal hide fade">
+        <div id="myModal" class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Deletion of <span id="usernameDeleteLabel"></span>'s post</h3>
+        </div>
+        <div class="modal-body">
+            <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManagePostBean" focus=""> 
+                You are now deleting <b><span id="delete_firstName"></span> 
+                    <span id="delete_lastName"></span>'s</b> post on the <b>
+                    <span id="delete_postDate"></span>
+                </b>. Are you sure?
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn">Close</a>
+                <stripes:hidden id="delete_id" name="postId"/>
+                <input type="submit" name="adminDeletePost" value="Confirm Delete" class="btn btn-danger"/>
+            </div>
+        </stripes:form>
     </div>
-    <div class="modal-body">
-        <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManagePostBean" focus=""> 
-            You are now deleting <b><span id="delete_firstName"></span> 
-                <span id="delete_lastName"></span>'s</b> post on the <b>
-                <span id="delete_postDate"></span>
-            </b>. Are you sure?
-        </div>
-        <div class="modal-footer">
-            <a data-dismiss="modal" class="btn">Close</a>
-            <stripes:hidden id="delete_id" name="postId"/>
-            <input type="submit" name="adminDeletePost" value="Confirm Delete" class="btn btn-danger"/>
-        </div>
-    </stripes:form>
-</div>
 
 
-<!-- Delete Post Comment Modal -->
-<div id="deleteCommentModal" class="modal hide fade">
-    <div id="myModal" class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-        <h3>Deletion of <span id="usernameDeleteCommentLabel"></span>'s comment</h3>
+    <!-- Delete Post Comment Modal -->
+    <div id="deleteCommentModal" class="modal hide fade">
+        <div id="myModal" class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Deletion of <span id="usernameDeleteCommentLabel"></span>'s comment</h3>
+        </div>
+        <div class="modal-body">
+            <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManagePostBean" focus=""> 
+                You are now deleting <b><span id="usernameCommentLabel"></span>'s</b> comment. Are you sure?
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn">Close</a>
+                <stripes:hidden id="delete_comment_id" name="commentId"/>
+                <input type="submit" name="adminDeleteComment" value="Confirm Delete" class="btn btn-danger"/>
+            </div>
+        </stripes:form>
     </div>
-    <div class="modal-body">
-        <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManagePostBean" focus=""> 
-            You are now deleting <b><span id="usernameCommentLabel"></span>'s</b> comment. Are you sure?
-        </div>
-        <div class="modal-footer">
-            <a data-dismiss="modal" class="btn">Close</a>
-            <stripes:hidden id="delete_comment_id" name="commentId"/>
-            <input type="submit" name="adminDeleteComment" value="Confirm Delete" class="btn btn-danger"/>
-        </div>
-    </stripes:form>
-</div>
 
 
-<script src="../js/jquery.validate.js"></script>
-<%@include file="/analytics/analytics.jsp"%>
+    <script src="../js/jquery.validate.js"></script>
+    <%@include file="/analytics/analytics.jsp"%>
 
 </body>
 </html>

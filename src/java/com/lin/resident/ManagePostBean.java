@@ -171,7 +171,7 @@ public class ManagePostBean extends BaseActionBean {
         return featuredPostList;
     }
     
-        @HandlesEvent("deletePost")
+    @HandlesEvent("deletePost")
     public Resolution deletePost() {
         outcome = pDAO.deletePost(id);
         return new RedirectResolution("/resident/eventwall.jsp?deletesuccess="
@@ -183,6 +183,14 @@ public class ManagePostBean extends BaseActionBean {
         System.out.println(postId+"deletePostId");
         outcome = pDAO.deletePost(postId);
         return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
+                + outcome);
+    }
+    
+    @HandlesEvent("adminUnfeaturePost")
+    public Resolution adminUnfeaturePost() {
+        System.out.println(postId+"unfeaturedPostID");
+        outcome = pDAO.removeFeaturedPost(postId);
+        return new RedirectResolution("/admin/manage-featureposts.jsp?deletesuccess="
                 + outcome);
     }
     

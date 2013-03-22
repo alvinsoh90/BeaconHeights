@@ -98,6 +98,19 @@ public class Post implements java.io.Serializable {
         this.isFeatured = false;
         this.receivingWallId = receivingWallId;
     }
+    // for making a featured post
+    public Post(User user, String message, Date date, String title, Type category,Event event, int receivingWallId, boolean isFeatured) {
+        this.user = user;
+        this.message = message;
+        this.date = date;
+        this.title = title;
+        this.category = getCategoryStringFromType(category);
+        this.event = event;
+        this.comments = null;
+        this.isDeleted = false;
+        this.isFeatured = isFeatured;
+        this.receivingWallId = receivingWallId;
+    }
     
     public Post(Event event, User user, String message, Date date, String title, String category, boolean isDeleted, int receivingWallId, Set postInappropriates, Set postLikes, Set notifications, Set comments) {
         this.event = event;

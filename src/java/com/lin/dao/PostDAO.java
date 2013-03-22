@@ -487,7 +487,7 @@ public class PostDAO {
         return postTagList;
     }
     
-        public ArrayList<Post> retrieveAllFeaturedPosts() {
+    public ArrayList<Post> retrieveAllFeaturedPosts() {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -501,6 +501,25 @@ public class PostDAO {
         }
 
         return postList;
+    }
+     public boolean removeFeaturedPost(int postId) {
+        openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Post p = (Post) session.get(Post.class, postId);
+            p.setIsFeatured(false);
+            session.update(p);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return false;
     }
     
 
