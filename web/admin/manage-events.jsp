@@ -190,7 +190,7 @@
 
                                             <div class="comment">
                                                 <div class="delete"><a href="#deleteEventCommentModal" role ="button" data-toggle="modal"
-                                                                       onclick="alert(${post.id});populateDeleteEventCommentModal(${post.id},${comment.commentId});">
+                                                                       onclick="populateDeleteEventCommentModal(${post.id},${comment.commentId});">
                                                         <i class="icon-remove"></i>							
                                                     </a></div>
                                                 <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
