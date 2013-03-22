@@ -63,7 +63,6 @@
             
             function populateDeleteEventCommentModal(eventID,commentID){ 
                 eventList.forEach(function(event){
-                    alert("here");
                     $("#usernameDeleteCommentLabel").text(event.firstName + " " + event.lastName);
                     $("#usernameCommentLabel").text(event.firstName + " " + event.lastName);
                     $("#delete_comment_id").val(commentID);
@@ -73,7 +72,6 @@
             
             function populateUnflagEventModal(eventID){ 
                 eventList.forEach(function(event){
-                    alert("here");
                     $("#usernameUnflagLabel").text(event.firstName + " " + event.lastName);
                     $("#usernameUnflagName").text(event.firstName + " " + event.lastName);
                     $("#unflagTitle").val(event.title);
