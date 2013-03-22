@@ -568,6 +568,7 @@ public class EventDAO {
             Query query = session.createQuery(q);
             query.setInteger("eid", eventId);
             rowCount = query.executeUpdate();
+            tx.commit();
 
         } catch (Exception e) {
             e.printStackTrace();
