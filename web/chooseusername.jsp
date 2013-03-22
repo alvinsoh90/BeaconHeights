@@ -99,6 +99,37 @@
                 });
             }
             
+            function checkUsername(){
+                //$("#success").val('true')
+                var dat = new Object();
+//                dat.username = $("#username").value;
+                dat.username = document.getElementById('username').value
+                dat.currentUsername = '${user.userName}';
+                console.log("boo");
+                //post comment
+                $.ajax({
+                    type: "POST",
+                    url: "/json/checkusername.jsp",
+                    data: dat,
+                    success: function(data) {
+                        console.log(data.result);
+                        var valid = data.result;
+                        if(valid==false){
+                            $("#success").val('true');
+                            $("#username").parent().parent().removeClass("error");
+                            $("#username").parent().parent().addClass("success");
+                            alert("Username is Valid, you can use this username.");
+                        }else{
+                            $("#success").val('false');
+                            $("#username").parent().parent().removeClass("success");
+                            $("#username").parent().parent().addClass("error");
+                            alert("Username has already been taken, please choose another username.");
+                        }
+                    }, 
+                    dataType: "json"
+                });
+            }
+            
             
             
             function submitForm(){
@@ -188,7 +219,7 @@
                                 <div class="control-group ${errorStyle}">
                                 <label class="control-label">New username:</label>
                                 <div class="controls">
-                                    <stripes:text name="username" id="username" class="ignore" /><a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="check"><i class="iconLike icon-search"></i> <span class="txt">Check</span></a>
+                                    <stripes:text name="username" id="username" class="ignore" /><a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="checkUsername()"><i class="iconLike icon-search"></i> <span class="txt">Check</span></a>
                                 </div>
                                 </div>
                                 <div class="control-group ${errorStyle}">
