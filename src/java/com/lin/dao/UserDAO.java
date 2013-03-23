@@ -181,6 +181,7 @@ public class UserDAO {
     //Method checks DB if username exists excluding current user's username
     public Boolean doesUsernameExistsExcludingCurrentUsername(String username, String currentUsername) {
         ArrayList<User> userList = new ArrayList<User>();
+        ArrayList<UserTemp> userTempList = new ArrayList<UserTemp>();
         
         if(username.equalsIgnoreCase(currentUsername)){
             return false;
@@ -192,13 +193,17 @@ public class UserDAO {
             org.hibernate.Transaction tx = session.beginTransaction();
             String hql = "from User where userName = :username";
             Query q = session.createQuery(hql);
-            q.setString("id", username + "");
+            q.setString("username", username + "");
             userList = (ArrayList<User>) q.list();
+            hql = "from UserTemp where userName = :username";
+            q = session.createQuery(hql);
+            q.setString("username", username + "");
+            userTempList = (ArrayList<UserTemp>) q.list();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(userList.isEmpty()){
+        if(userList.isEmpty() && userTempList.isEmpty()){
             return false;
         }else{
             return true;
