@@ -8,7 +8,7 @@
     String currentUsername = request.getParameter("currentUsername");
     
     UserDAO uDAO = new UserDAO();
-    boolean success = uDAO.canChooseUsername(username,currentUsername);
+    boolean success = uDAO.doesUsernameExistsExcludingCurrentUsername(username,currentUsername);
     JSONObject jOb = new JSONObject();
     jOb.put("result", success);
     

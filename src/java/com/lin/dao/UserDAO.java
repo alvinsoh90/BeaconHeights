@@ -698,7 +698,7 @@ public class UserDAO {
         String newHash = BCrypt.hashpw(newpassword, salt);
         try {
             tx = session.beginTransaction();
-            u = (User) session.get(User.class, id);
+            u = (User)session.createQuery("from User as u join fetch u.role where u.userId = :id").setString("id", id + "").uniqueResult();
             u.setPassword(newHash);
             u.setUserName(username);
             u.setForceChooseUsername(false);
