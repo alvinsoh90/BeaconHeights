@@ -136,7 +136,7 @@
                                
                                 <div class="control-group ${errorStyle}">
                                     <h5>
-                                        Please enter your username and email address for verification and an email containing a new password will be sent to your email address.
+                                        Please enter your username OR email address for verification and an email containing a new password will be sent to your email address.
                                 
                                     </h5>
                                 </div>

@@ -124,78 +124,95 @@ public class ForgotPasswordActionBean extends BaseActionBean {
 
         String errMsg;
         String successMsg;
+        boolean exists = false;
+        User user = null;
 
 
 
         userVerification = uDAO.resetPwVerification(username, email);
-        if (!userVerification) {
-            errMsg = "Username and email do not match";
+        if(username==null && email==null){
+            errMsg = "You forgot to enter something.";
             return new RedirectResolution("/forgotpassword.jsp?success=false&msg=" + errMsg);
         } else {
-
-
-            String newPassword = PasswordGeneration.generateRandomPassword();
-            //System.out.println("NEW PASSWORD : "+ newPassword);
-            int userID = uDAO.getUser(username).getUserId();
-            uDAO.changePasword(userID, newPassword);
-
-            //sending email part
-//            MailController mc = new MailController();
-//            String emailText = "This is your new password:" + newPassword;
-//            mc.sendEmail(email, emailText);
-
-
-
-            //sending email part 2
-
-            String host = "mail.beaconheights.com.sg";
-            String from = "helpdesk@beaconheights.com.sg";
-            String to = email;
-            String userFirstName = uDAO.getUser(username).getFirstname();
-            String newLine = System.getProperty("line.separator");
-
-            // Set properties
-            Properties props = new Properties();
-            props.setProperty("mail.transport.protocol", "smtp");
-            props.setProperty("mail.smtp.auth", "true");
-            props.put("mail.smtp.host", host);
-            props.put("mail.debug", "true");
-            props.setProperty("mail.user", "helpdesk@beaconheights.com.sg");
-            props.setProperty("mail.password", "Charisfyp!");
-
-            // Get session
-            //Session session = Session.getInstance(props);
-            
-            Session session = Session.getDefaultInstance(props, new Authenticator(){
-                public PasswordAuthentication getPasswordAuthentication() {
-                    String username = "helpdesk@beaconheights.com.sg";
-                    String password = "Charisfyp!";
-                    return new PasswordAuthentication(username, password);
+            if(username!=null){
+                exists = uDAO.doesUserExist(username);
+                if(exists){
+                    user = uDAO.getUser(username);
                 }
-            });
+            }else{
+                exists = uDAO.doesUserEmailExist(email);
+                if(exists){
+                    user = uDAO.getUserByEmail(email);
+                }
+            }
+            
+            if(exists){
+                String newPassword = PasswordGeneration.generateRandomPassword();
+                //System.out.println("NEW PASSWORD : "+ newPassword);
+                uDAO.changePasword(user.getUserId(), newPassword);
 
-            try {
-                // Instantiate a message
-                Message msg = new MimeMessage(session);
+                //sending email part
+    //            MailController mc = new MailController();
+    //            String emailText = "This is your new password:" + newPassword;
+    //            mc.sendEmail(email, emailText);
 
-                // Set the FROM message
-                msg.setFrom(new InternetAddress(from));
 
-                // The recipients can be more than one so we use an array but you can
-                // use 'new InternetAddress(to)' for only one address.
-                InternetAddress[] address = {new InternetAddress(to)};
-                msg.setRecipients(Message.RecipientType.TO, address);
 
-                // Set the message subject and date we sent it.
-                msg.setSubject("[Beacon Heights] LIN Password Reset");
-                msg.setSentDate(new Date());
+                //sending email part 2
 
-                // Set message content
-                msg.setText("Dear " + userFirstName + "," + newLine + newLine + "Your new password is: " + newPassword + newLine + newLine + "Please login to http://livingnet.beaconheights.com.sg with your new password and remember to change your password after logging in." + newLine + newLine + "Thanks,"+newLine+"The Beacon Heights Helpdesk Team");
+                String host = "mail.beaconheights.com.sg";
+                String from = "helpdesk@beaconheights.com.sg";
+                String to = user.getEmail();
+                String userFirstName = user.getFirstname();
+                String userUserName = user.getUserName();
+                String newLine = System.getProperty("line.separator");
 
-                // Send the message
-                Transport.send(msg);
-            } catch (MessagingException mex) {
+                // Set properties
+                Properties props = new Properties();
+                props.setProperty("mail.transport.protocol", "smtp");
+                props.setProperty("mail.smtp.auth", "true");
+                props.put("mail.smtp.host", host);
+                props.put("mail.debug", "true");
+                props.setProperty("mail.user", "helpdesk@beaconheights.com.sg");
+                props.setProperty("mail.password", "Charisfyp!");
+
+                // Get session
+                //Session session = Session.getInstance(props);
+
+                Session session = Session.getDefaultInstance(props, new Authenticator(){
+                    public PasswordAuthentication getPasswordAuthentication() {
+                        String username = "helpdesk@beaconheights.com.sg";
+                        String password = "Charisfyp!";
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+                try {
+                    // Instantiate a message
+                    Message msg = new MimeMessage(session);
+
+                    // Set the FROM message
+                    msg.setFrom(new InternetAddress(from));
+
+                    // The recipients can be more than one so we use an array but you can
+                    // use 'new InternetAddress(to)' for only one address.
+                    InternetAddress[] address = {new InternetAddress(to)};
+                    msg.setRecipients(Message.RecipientType.TO, address);
+
+                    // Set the message subject and date we sent it.
+                    msg.setSubject("[Beacon Heights] LIN Password Reset");
+                    msg.setSentDate(new Date());
+
+                    // Set message content
+                    msg.setText("Dear " + userFirstName + "," + newLine + newLine + "Your username is: " + userUserName + newLine  + "Your new password is: " + newPassword + newLine + newLine + "Please login to http://livingnet.beaconheights.com.sg with your new password and remember to change your password after logging in." + newLine + newLine + "Thanks,"+newLine+"The Beacon Heights Helpdesk Team");
+
+                    // Send the message
+                    Transport.send(msg);
+                } catch (MessagingException mex) {
+                }
+            }else{
+                errMsg = "No such User.";
+                return new RedirectResolution("/forgotpassword.jsp?success=false&msg=" + errMsg);
             }
 
 

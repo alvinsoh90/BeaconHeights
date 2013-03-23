@@ -104,34 +104,70 @@ public class UserDAO {
     //Method checks DB if username exists.
     public Boolean doesUserExist(String username) {
 
-        //retieve all users first
-        retrieveAllUsers();
-
-        //check if user exists
-        for (User u : userList) {
-            if (u.getUserName().equals(username)) {
-                return true;
-            }
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String hql = "from User where userName = :username";
+            Query q = session.createQuery(hql);
+            q.setString("username", username + "");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false;
+        if(userList.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
     }
     
     //Method checks DB if username exists.
-    public Boolean canChooseUsername(String username, String currentUsername) {
+    public Boolean doesUserEmailExist(String email) {
+
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String hql = "from User where email = :email";
+            Query q = session.createQuery(hql);
+            q.setString("email", email + "");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(userList.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    //Method checks DB if username exists excluding current user's username
+    public Boolean doesUsernameExistsExcludingCurrentUsername(String username, String currentUsername) {
+        ArrayList<User> userList = new ArrayList<User>();
         
         if(username.equalsIgnoreCase(currentUsername)){
             return false;
         }
-        //retieve all users first
-        retrieveAllUsers();
         
         //check if user exists
-        for (User u : userList) {
-            if (u.getUserName().equals(username)) {
-                return true;
-            }
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String hql = "from User where userName = :username";
+            Query q = session.createQuery(hql);
+            q.setString("id", username + "");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false;
+        if(userList.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
     }
     
     public Boolean resetPwVerification(String username, String email){
@@ -530,6 +566,20 @@ public class UserDAO {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             result = (User) session.createQuery("from User as u join fetch u.role join fetch u.block where u.userName = :username").setString("username", username + "").uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("RETRIEVED USER:" + result);
+        return result;
+    }
+    
+    public User getUserByEmail(String email) {
+        openSession();
+        User result = null;
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            result = (User) session.createQuery("from User as u join fetch u.role join fetch u.block where u.email = :email").setString("email", email + "").uniqueResult();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();

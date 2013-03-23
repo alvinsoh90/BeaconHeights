@@ -82,7 +82,7 @@ public class ChooseUsernameActionBean extends BaseActionBean {
         String successMsg;
         
         passwordMatch = (newpassword == null ? newpasswordconfirm == null : newpassword.equals(newpasswordconfirm));
-        userExists = uDAO.canChooseUsername(username,getContext().getUser().getUserName());
+        userExists = uDAO.doesUsernameExistsExcludingCurrentUsername(username,getContext().getUser().getUserName());
         canChoose = uDAO.canChoose(Integer.parseInt(userId));
         if(!canChoose){
             //return err message
