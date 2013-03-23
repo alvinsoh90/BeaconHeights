@@ -32,6 +32,14 @@ public class Role  implements java.io.Serializable {
        this.users = users;
     }
    
+    public boolean isAdmin(){
+        if(this.name.equals("Administrator")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     public Integer getId() {
         return this.id;
     }
