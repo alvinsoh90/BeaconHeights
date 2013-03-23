@@ -450,10 +450,10 @@
                     </div>
                     <div class="post span6">
                         <div class="baseContent">
-                            <div class="title"><a href="profile.jsp?profileid=${event.user.userId}"><b>${event.user.firstname} ${event.user.lastname}</b></a> created an event</div>
-                            <div class="content">"${event.details}"</div>
+                            <div class="title"><a href="profile.jsp?profileid=${event.user.userId}"><b>${event.user.firstname} ${event.user.lastname}</b></a>'s event</div>
+                            <div class="content"><h2>"${event.details}"</h2></div>
                             <div class="attachment event">
-                                <div class="eventTitle"><a href="#">${event.title}</a></div>
+                                <div class="eventTitle"><a href="#"><h1>${event.title}</h1></a></div>
                                 <c:if test="${event.booking != null}">
                                     <div class="eventMeta">
                                         <b>Venue:</b> ${event.venue}
@@ -515,210 +515,182 @@
                                 <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
                                 <a href="#flag" onclick="flagPostInappropriate(${event.id})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
                             </div>
+                            <div class="baseContent newPost">
+                                <stripes:form id="makePostForm" beanclass="com.lin.resident.AddPostActionBean" focus="postContent">
+                                    <div class="inlineblock name">Post something to this wall </div><br/>
+                                    <div class="inlineblock name">${user.firstname} ${user.lastname}  </div>
+                                    <stripes:text id="postTitle" name="postTitle" class="postTitleArea span3" />
+                                    <stripes:textarea id="postContent" name="postContent" class="makePost" />
+                                    Tag Event:
+                                    <stripes:select name="eventId">
+                                        <c:set value="${manageEventBean.getAllFutureEventsForUser(user)}" var="futureBookingList" />
+                                        <c:choose>
+                                            <c:when test="${not empty futureBookingList}">
+                                                <option value="-1">Select an event</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="-1">No events available</option>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                        <c:forEach items="${futureBookingList}" var="event">
+                                            <option value="${event.id}">${event.title} 
+                                                on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${event.startTime}" /></option>
+                                            </c:forEach>       
+
+                                    </stripes:select>
+                                    <br/>
+                                    Tag Friends: <input text="text"  id="tagFriendsBox" />
+                                    <stripes:hidden name="taggedFriends" id="taggedFriends" />
+                                    <br/>
+                                    <stripes:hidden name="posterId" id="posterID" value='${sessionScope.user.userId}'/> 
+                                    <stripes:hidden name="wallId" id="wallId" value='${param.eventid}'/> 
+                                    <div class="optionsBar">
+                                        <span>Type:</span> <stripes:select name="postCategory" id="postOption">
+                                            <option value="SHOUTOUT">Shout Out</option>
+                                            <option value="INVITE">Event Invitation</option>                                                                   
+                                            <option value="REQUEST">Request</option> 
+                                        </stripes:select>
+
+                                        <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Event"/> 
+                                    </stripes:form>
+                                </div>
+                            </div>
                         </div>
 
-                  
-  </div>
+
+                    </div>
 
 
                     <div id="content">
 
                         <div class="container">
                             <div class="postWrapper row-fluid">
-                                <div class="leftContent span2">
-                                    <div class="posterInfo">
-                                        <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic" />
-                                        <div class="name">${user.firstname} ${user.lastname}</div>
-                                    </div>
-                                    <div id="firstPostIcon" class="postIcon wallicon SHOUTOUT">
-                                        <div class="timeline"/></div>
-                                </div>
+
                             </div>
-                            <div class="post span6">
-                                <div class="baseContent newPost">
-                                    <stripes:form id="makePostForm" beanclass="com.lin.resident.AddPostActionBean" focus="postContent">
-                                        <div class="inlineblock name">${user.firstname} ${user.lastname}  </div>
-                                        <stripes:text id="postTitle" name="postTitle" class="postTitleArea span3" />
-                                        <stripes:textarea id="postContent" name="postContent" class="makePost" />
-                                        Tag Event:
-                                        <stripes:select name="eventId">
-                                            <c:set value="${manageEventBean.getAllFutureEventsForUser(user)}" var="futureBookingList" />
-                                            <c:choose>
-                                                <c:when test="${not empty futureBookingList}">
-                                                    <option value="-1">Select an event</option>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <option value="-1">No events available</option>
-                                                </c:otherwise>
-                                            </c:choose>
-
-                                            <c:forEach items="${futureBookingList}" var="event">
-                                                <option value="${event.id}">${event.title} 
-                                                    on <fmt:formatDate pattern="dd/MM @ hh:mm a" value="${event.startTime}" /></option>
-                                                </c:forEach>       
-
-                                        </stripes:select>
-                                        <br/>
-                                        Tag Friends: <input text="text"  id="tagFriendsBox" />
-                                        <stripes:hidden name="taggedFriends" id="taggedFriends" />
-                                        <br/>
-                                        <stripes:hidden name="posterId" id="posterID" value='${sessionScope.user.userId}'/> 
-                                        <stripes:hidden name="wallId" id="wallId" value='${param.eventid}'/> 
-                                        <div class="optionsBar">
-                                            <span>Type:</span> <stripes:select name="postCategory" id="postOption">
-                                                <option value="SHOUTOUT">Shout Out</option>
-                                                <option value="INVITE">Event Invitation</option>                                                                   
-                                                <option value="REQUEST">Request</option> 
-                                            </stripes:select>
-
-                                            <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Event"/> 
-                                        </stripes:form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="featured">
-                                <section class="featuredTitle"> FEATURED</section>
-                                <section class="featuredPost">
-                                    <div class="featuredProfile">
-                                        <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic"/>
-                                        <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.firstname} ${post.user.lastname}</div></a>
-                                    </div>
-                                    POST<hr/>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Duis ligula arcu, luctus nec elementum quis, condimentum a lectus. 
-                                    Suspendisse potenti. Proin neque diam, dictum ac elementum scelerisque, 
-                                    aliquet eget diam....
-                                </section>
-                            </div>
-
-
                         </div>
-
-
-                        <c:forEach items="${managePostBean.getWallPostList(param.eventid)}" var="post" varStatus="loop">
-
-                            <div id="post-${post.postId}" class="postWrapper row-fluid">
-                                <div class="leftContent span2">
-                                    <div class="posterInfo">
-                                        <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
-                                        <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.firstname} ${post.user.lastname}</div></a>
-                                        <div class="timestamp">${post.timeSincePost}</div>
-                                    </div>
-                                    <div class="postIcon wallicon ${post.category}">
-                                        <div class="timeline"/></div>
-                                </div>
-                            </div>
-                            <div class="post span6">
-                                <div class="baseContent">
-                                    <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
-                                    <div class="content">"${post.message}"</div>
-
-
-                                    <c:set var="taggedUsers" value="${managePostBean.getTaggedUsers(post.postId,-1)}"/>
-
-                                    <c:if test="${not empty taggedUsers}">
-                                        <div class="taggedUsers">
-                                            Tagged:
-                                            <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
-                                                <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
-                                                </c:forEach>
-                                        </div>    
-                                    </c:if>
-
-                                    <div class="linkBar">
-                                        <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
-
-                                        <%-- Check if user likes this post --%>
-                                        <c:choose>
-                                            <c:when test="${managePostBean.hasUserLikedPost(post.postId, sessionScope.user.userId)}">
-                                                <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="unlikePost(${post.postId})"><i class="iconLike icon-ok"></i> <span class="txt">You Like</span></a>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.postId})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
-                                            </c:otherwise>    
-                                        </c:choose>                                
-
-                                        <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
-                                        <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
-                                    </div>
-                                </div>
-                                <div class="commentArea">
-                                    <div class="comments">
-                                        <c:forEach items="${managePostBean.sortCommentsByDate(post.comments)}" var="comment" varStatus="loop">
-                                            <div class="comment">
-                                                <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
-                                                <div class="content float_l">
-                                                    <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
-                                                    <div class="timestamp">${comment.timeSinceComment}</div>
-                                                </div>
-                                                <br class="clearfix"/>
-                                            </div>
-                                        </c:forEach>
-                                    </div>
-                                    <div class="comment replyArea">
-                                        <img src="/uploads/profile_pics/${sessionScope.user.profilePicFilename}" class="profilePic float_l" />
-                                        <input class="float_l commentTextArea" data-post-id="${post.postId}" placeholder="Say something here..."/><div class="float_r ajaxSpinnerSmall hide"></div>
-                                        <br class="clearfix"/>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <div class="span2 postSideBlock">
-
-                            </div>                                
-                        </div>
-                    </c:forEach>
-
-                    <div class="commentArea">
-                        <div class="comments">
-                            <c:forEach items="${event.eventCommentsList}" var="comment" varStatus="loop">
-                                <div class="comment">
-                                    <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
-                                    <div class="content float_l">
-                                        <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
-                                        <div class="timestamp">${comment.timeSinceComment}</div>
-                                    </div>
-                                    <br class="clearfix"/>
-                                </div>
-                            </c:forEach>
-                        </div>
-                        <div class="comment replyArea">
-                            <img src="/uploads/profile_pics/${user.profilePicFilename}" class="profilePic float_l" />
-                            <input class="float_l commentTextArea" data-post-id="${event.id}" placeholder="Say something here..."/><div class="float_r ajaxSpinnerSmall hide"></div>
-                            <br class="clearfix"/>
-                        </div>
-
 
                     </div>
-                </div>
 
-                <div class="span2 postSideBlock">
-                    <c:set var="numPostLikes" value="${manageEventBean.getNumEventLikes(event.id)}"/>
-                    <c:if test="${numPostLikes > 0}">
-                        <div class="header">${numPostLikes} Likes</div>
-                        <div class="likerSpace">
-                            <c:forEach items="${manageEventBean.getLikersOfEvent(event.id,18)}" var="liker" varStatus="stat">
-                                <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname} ${liker.lastname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
-                                </c:forEach>      
+
+                    <c:forEach items="${managePostBean.getWallPostList(param.eventid)}" var="post" varStatus="loop">
+
+                        <div id="post-${post.postId}" class="postWrapper row-fluid">
+                            <div class="leftContent span2">
+                                <div class="posterInfo">
+                                    <img src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic" />
+                                    <a href="profile.jsp?profileid=${post.user.userId}"><div class="name">${post.user.firstname} ${post.user.lastname}</div></a>
+                                    <div class="timestamp">${post.timeSincePost}</div>
+                                </div>
+                                <div class="postIcon wallicon ${post.category}">
+                                    <div class="timeline"/></div>
+                            </div>
                         </div>
-                        <script>
-                            $(document).ready(function() {         
-                                //Tipsy tooltips
-                                $(".liker").each(function(){
-                                    $(this).tipsy({gravity: 'n'});
-                                });
-                            });       
-                        </script>
-                    </c:if>                        
-                </div>  
+                        <div class="post span6">
+                            <div class="baseContent">
+                                <div class="title"><b><a href="profile.jsp?profileid=${post.user.userId}">${post.user.firstname} ${post.user.lastname}</b></a> ${post.title}</div>
+                                <div class="content">"${post.message}"</div>
 
+
+                                <c:set var="taggedUsers" value="${managePostBean.getTaggedUsers(post.postId,-1)}"/>
+
+                                <c:if test="${not empty taggedUsers}">
+                                    <div class="taggedUsers">
+                                        Tagged:
+                                        <c:forEach items="${taggedUsers}" var="tagged" varStatus="status">
+                                            <a href="profile.jsp?profileid=${tagged.userId}"><img title="${tagged.firstname} ${tagged.lastname}" class="liker" src='/uploads/profile_pics/${tagged.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                                            </c:forEach>
+                                    </div>    
+                                </c:if>
+
+                                <div class="linkBar">
+                                    <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
+
+                                    <%-- Check if user likes this post --%>
+                                    <c:choose>
+                                        <c:when test="${managePostBean.hasUserLikedPost(post.postId, sessionScope.user.userId)}">
+                                            <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="unlikePost(${post.postId})"><i class="iconLike icon-ok"></i> <span class="txt">You Like</span></a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="btn btn-mini btn-rhubarbarian-3 postLikeBtn" onclick="likePost(${post.postId})"><i class="iconLike icon-heart"></i> <span class="txt">Like</span</a>
+                                        </c:otherwise>    
+                                    </c:choose>                                
+
+                                    <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Event</a> -->
+                                    <a href="#flag" onclick="flagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Flag as inappropriate</span></a>
+                                </div>
+                            </div>
+                            <div class="commentArea">
+                                <div class="comments">
+                                    <c:forEach items="${managePostBean.sortCommentsByDate(post.comments)}" var="comment" varStatus="loop">
+                                        <div class="comment">
+                                            <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
+                                            <div class="content float_l">
+                                                <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
+                                                <div class="timestamp">${comment.timeSinceComment}</div>
+                                            </div>
+                                            <br class="clearfix"/>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <div class="comment replyArea">
+                                    <img src="/uploads/profile_pics/${sessionScope.user.profilePicFilename}" class="profilePic float_l" />
+                                    <input class="float_l commentTextArea" data-post-id="${post.postId}" placeholder="Say something here..."/><div class="float_r ajaxSpinnerSmall hide"></div>
+                                    <br class="clearfix"/>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="span2 postSideBlock">
+
+                        </div>                                
+                    </div>
+                </c:forEach>
+
+                <div class="commentArea">
+                    <div class="comments">
+                        <c:forEach items="${event.eventCommentsList}" var="comment" varStatus="loop">
+                            <div class="comment">
+                                <img src="/uploads/profile_pics/${comment.user.profilePicFilename}" class="profilePic float_l"/>
+                                <div class="content float_l">
+                                    <b>${comment.user.firstname} ${comment.user.lastname}: </b>${comment.text}
+                                    <div class="timestamp">${comment.timeSinceComment}</div>
+                                </div>
+                                <br class="clearfix"/>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
             </div>
-
-
         </div>
 
-    </c:if>
+        <div class="span2 postSideBlock">
+            <c:set var="numPostLikes" value="${manageEventBean.getNumEventLikes(event.id)}"/>
+            <c:if test="${numPostLikes > 0}">
+                <div class="header">${numPostLikes} Likes</div>
+                <div class="likerSpace">
+                    <c:forEach items="${manageEventBean.getLikersOfEvent(event.id,18)}" var="liker" varStatus="stat">
+                        <a href="profile.jsp?profileid=${liker.userId}"><img title="${liker.firstname} ${liker.lastname}" class="liker" src='/uploads/profile_pics/${liker.profilePicFilename}' height="25px" width="25px" class="float_l"/></a>
+                        </c:forEach>      
+                </div>
+                <script>
+                    $(document).ready(function() {         
+                        //Tipsy tooltips
+                        $(".liker").each(function(){
+                            $(this).tipsy({gravity: 'n'});
+                        });
+                    });       
+                </script>
+            </c:if>                        
+        </div>  
+
+    </div>
+
+
+</div>
+
+</c:if>
 
 </div>
 <div id="footer">
