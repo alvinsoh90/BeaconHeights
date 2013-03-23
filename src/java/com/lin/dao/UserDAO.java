@@ -137,6 +137,27 @@ public class UserDAO {
     }
     
     //Method checks DB if username exists.
+    public Boolean doesUserExistInTemp(String username) {
+
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String hql = "from UserTemp where userName = :username";
+            Query q = session.createQuery(hql);
+            q.setString("username", username + "");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(userList.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    //Method checks DB if username exists.
     public Boolean doesUserEmailExist(String email) {
 
         openSession();

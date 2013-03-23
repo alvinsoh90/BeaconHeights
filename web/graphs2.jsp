@@ -7,8 +7,11 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes-dynattr.tld"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link href="css/bootstrap.css" rel="stylesheet">
-<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<link href="/admin/css/bootstrap.css" rel="stylesheet">
+<link href="/admin/css/site.css" rel="stylesheet">
+<link href="/admin/css/bootstrap-responsive.css" rel="stylesheet">
+
+
 
 <jsp:useBean id="manageFacilitiesActionBean" scope="page"
              class="com.lin.general.admin.ManageFacilitiesActionBean"/>
@@ -83,7 +86,7 @@ function reload(){
         .orient("left")
         .tickFormat(formatPercent);
 
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("#bigGraph").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("id","graph")
         .attr("height", height + margin.top + margin.bottom)
@@ -171,14 +174,23 @@ function reload(){
 
 </script>
 <body>
-    <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
-        <stripes:select name="Facilities" id ="facilities">
-            <stripes:options-collection collection="${manageFacilitiesActionBean.facilityList}" value="id" label="name"/>        
-        </stripes:select>
-        <a  role="button" data-toggle="modal" class="btn btn-warning btn-mini" onclick="setFid()" >Show</a>
-    </stripes:form>
-<label><input type="checkbox"> Sort values</label>
+    <%@include file="/admin/include/mainnavigationbar.jsp"%>
+    <div class="container-fluid">
+        <%@include file="/admin/include/sidemenu.jsp"%>
+        <div class="span9">
+            <div class="row-fluid">
+                <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
+                <stripes:select name="Facilities" id ="facilities">
+                    <stripes:options-collection collection="${manageFacilitiesActionBean.facilityList}" value="id" label="name"/>        
+                </stripes:select>
+                    <a  role="button" data-toggle="modal" class="btn btn-warning btn-mini" onclick="setFid()" >Show</a>
+                </stripes:form>
+            </div>
+            <div class="row-fluid">
+                <div id="bigGraph"></div>
+            </div>
+        </div>
+    </div>
+    
 </body>
-
-
 </html>

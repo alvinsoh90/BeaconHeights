@@ -119,18 +119,20 @@ public class RegisterActionBean extends BaseActionBean {
     public Resolution registerTempUserAccount() {
         UserDAO uDAO = new UserDAO();
         Boolean userExists;
+        Boolean userExistsInTemp;
         Boolean passwordMatch;
         String errMsg;
         String successMsg;
         
         passwordMatch = (password == null ? passwordconfirm == null : password.equals(passwordconfirm));
         userExists = uDAO.doesUserExist(username);
+        userExistsInTemp = uDAO.doesUserExistInTemp(username);
         if(!passwordMatch){
             //return err message
             errMsg = "Passwords do not match";
             return new RedirectResolution("/register.jsp?success=false&msg="+errMsg);
         }
-        else if(userExists){
+        else if(userExists || userExistsInTemp){
             //return err message
             errMsg = "Username already Exists";
             return new RedirectResolution("/register.jsp?success=false&msg="+errMsg);
