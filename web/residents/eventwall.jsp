@@ -731,7 +731,7 @@ $(document).ready(function() {
             }); 
        
 </script>                
-<%@include file="/initfacebook.jsp"  %>
+<%@include file="/included/facebook/initfacebook.jsp"  %>
 <script src="../js/jquery.validate.js"></script>
 <script src="../js/jquery.validate.bootstrap.js"></script>                
 </body>

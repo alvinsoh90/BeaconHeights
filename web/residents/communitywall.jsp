@@ -430,7 +430,7 @@
             </div>
             <div class="post span6">
                 <div class="baseContent newPost">
-                    <stripes:form id="makePostForm" beanclass="com.lin.resident.AddPostActionBean" focus="postContent">
+                    <stripes:form id="makePostForm" beanclass="com.lin.resident.AddPostActionBean">
                         <div class="inlineblock name">${user.firstname} ${user.lastname}  </div>
                         <stripes:text id="postTitle" name="postTitle" class="postTitleArea span3" />
                         <stripes:textarea id="postContent" name="postContent" class="makePost" />
@@ -467,14 +467,15 @@
                             <c:set var="freshUser" value="${utilBean.refreshUser(user)}" /> 
                             <c:choose>
                                 <c:when test="${not empty freshUser.facebookId}">
-                                    Share with Facebook Group <stripes:checkbox name="shareOnFacebook" checked="true"/>
+                                    Share with Condo Facebook Community<stripes:checkbox id="checkBoxShareFB" name="shareOnFacebook" checked="true"/>
                                 </c:when>
                                 <c:otherwise>
-                                    Share with Facebook Group <stripes:checkbox name="shareOnFacebook" checked="false" disabled="true"/>
+                                    Share with Condo Facebook Community <stripes:checkbox id="checkBoxShareFB" name="shareOnFacebook" checked="false"/>
                                 </c:otherwise>
                             </c:choose>
-                            <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Wall"/> 
+                                <stripes:submit id="submitPost" class="float_r btn btn-peace-1" name="addPost" value="Post to Wall"/> 
                         </stripes:form>
+                                    
                     </div>
                 </div>
             </div>
@@ -595,6 +596,10 @@
     </div> <!-- /container -->
 
 </div> <!-- /footer -->
+
+<%@include file="../included/facebook/initfacebook.jsp"  %>
+<script src="../js/custom/lin.facebookfunctions.js"></script>
+
 <script>
     $(document).ready(function() { 
                 
@@ -607,14 +612,38 @@
                 postTitle: "",
                 postContent: ""
             },
-                        
+            
             submitHandler: function(form) {
-                formAjaxSubmit();     
-                //slotDataHasError
+                                
+                if($('#checkBoxShareFB').is(":checked")){
+                    $("#submitPost").css("opacity","0.6");
+                    $("#submitPost").attr("disabled","");
+                    
+                    var successCallback = function(){
+                        toastr.info("Authentication successful. Posting your message...");
+                        
+                        form.submit();
+                    }
+                    var failedCallback = function(){
+                        toastr.error("Unable to authenticate you with facebook. Please try again or proceed without facebook share!");
+                        $('#checkBoxShareFB').attr('checked',false);
+                        
+                        $("#submitPost").css("opacity","1");
+                        $("#submitPost").removeAttr("disabled");
+                    }
+                    
+                    refreshAndExtendTokenWithCallback(successCallback, failedCallback);
+                }
+                else{
+                    form.submit();
+                }                                  
             }
                         
         });        
     });       
+    
+    
+    
 </script>
 
 

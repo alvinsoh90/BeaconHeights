@@ -1,6 +1,7 @@
 
 /** Refreshing Tokens **/
 function refreshAndExtendToken() {
+    
     FB.login(function(response) {
         if (response.authResponse) {
             // connected
@@ -17,8 +18,9 @@ function refreshAndExtendToken() {
                 success: function(data, textStatus, xhr) {
                     if(xhr.status == 200 && data.extended_token){
                         //connect facebook success, now replace div with connected info
-                        console.log("token extended, stored in session");
+                        console.log("token extended, stored in session");                        
                         showFacebookLoggedIn();
+                        
                     }                    
                     else{
                         //failed. 
@@ -29,6 +31,44 @@ function refreshAndExtendToken() {
                                                                                         
         } else {
             toastr.warning("Facebook connect cancelled");
+        }
+    });   
+}
+
+function refreshAndExtendTokenWithCallback(success_callback, failed_callback){
+    toastr.info("Authenticating with facebook...");
+    
+    FB.login(function(response) {
+        if (response.authResponse) {
+            // connected
+            console.log(response);
+            //post to our server
+            var dat = new Object();
+            dat.accessToken = response.authResponse.accessToken;
+            dat.fbUserId = response.authResponse.userID;
+                                            
+            $.ajax({
+                type: "POST",
+                url: "/json/facebook/connectFacebook.jsp?isExtendingToken=true",
+                data: dat,
+                success: function(data, textStatus, xhr) {
+                    if(xhr.status == 200 && data.extended_token){
+                        //connect facebook success
+                        console.log("token extended, stored in session");                                                                        
+                        success_callback();
+                        
+                    }                    
+                    else{
+                        //failed. 
+                        console.log("Warning: Failed to extend facebook token");
+                        failed_callback();
+                    }
+                }
+            });
+                                                                                        
+        } else {
+            toastr.warning("Facebook connect cancelled");
+            failed_callback();
         }
     });
 }

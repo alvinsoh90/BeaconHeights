@@ -194,7 +194,7 @@
                                     </c:if>
                                 </c:forEach>
                             </c:if>  
-                             <%@include file="/initfacebook.jsp"  %>
+                             <%@include file="/included/facebook/initfacebook.jsp"  %>
                              <script>
                                  $(document).ready(function(){                                                                          
                                      FB.getLoginStatus(function(response) {
