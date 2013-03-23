@@ -79,9 +79,9 @@ public class FacebookFunctions {
     }
     
     /** Sends A notification in the format: "<Sender Facebook Name> <message>" **/
-    public String postToUserNotifications(String facebookId, String message, String link, String senderFBId) {
+    public String postToUserNotifications(String appAccessToken, String facebookId, String message, String link, String senderFBId) {
 
-        String baseURL = "https://graph.facebook.com/" + facebookId + "/feed";
+        String baseURL = "https://graph.facebook.com/" + facebookId + "/notifications";
 //curl --data "access_token=497424670319131|lKijQ9OlgM-In3a9_0n8ulgRfqU&href=www.google.com&template=helo" https://graph.facebook.com/776405701/notifications
 
         try {

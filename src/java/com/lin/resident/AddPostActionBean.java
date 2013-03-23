@@ -5,6 +5,7 @@
 package com.lin.resident;
 
 import com.lin.controllers.CommunityWallController;
+import com.lin.controllers.FacebookController;
 import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
 import com.lin.dao.EventDAO;
@@ -183,6 +184,8 @@ public class AddPostActionBean implements ActionBean {
                 
                 //post to facebook?
                 System.out.println("SHARING ON FACEBOOK: " + isShareOnFacebook());
+                
+                /* Flow for posting to group */
                 if (isShareOnFacebook()) {
                     FacebookFunctions fb = new FacebookFunctions();
                     String facebookPostId = null;
@@ -222,6 +225,14 @@ public class AddPostActionBean implements ActionBean {
                         }
                     }                        
                 }
+                
+                /* Flow for sending notifications */
+                if(isShareOnFacebook()){
+                    FacebookController fb = new FacebookController();
+                    fb.sendFacebookNotificationsToAll("just wrote something on the Condo Community Wall! Click here to view it.", 
+                            GlobalVars.APP_URL + "residents/communitywall.jsp?postid=" + posted.getPostId(), user);
+                }
+                
             }
                                 
             fs.put("SUCCESS", "true");

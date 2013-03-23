@@ -72,6 +72,20 @@ public class UserDAO {
         return userList;
     }
     
+    public ArrayList<User> retrieveAllFacebookConnectedUsers() {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from User as u where u.facebookId IS NOT NULL");
+            userList = (ArrayList<User>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return userList;
+    }
+    
     public ArrayList<User> retrieveAllShallowUsersExceptCurrentUser(int currentUserId){
         openSession();
         try {
