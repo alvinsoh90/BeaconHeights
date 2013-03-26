@@ -30,8 +30,8 @@ for(int i = 30; i >=0 ; i--){
         boolean sameDay = cal.get(Calendar.YEAR) == postCal.get(Calendar.YEAR) && cal.get(Calendar.DAY_OF_YEAR) == postCal.get(Calendar.DAY_OF_YEAR);
         if(sameDay){
             count++;
-            System.out.println("POST DATE : "+p.getDate());
-            System.out.println("COUNT : "+count);
+            //System.out.println("POST DATE : "+p.getDate());
+            //System.out.println("COUNT : "+count);
         }
     }
     JSONObject obj = new JSONObject();

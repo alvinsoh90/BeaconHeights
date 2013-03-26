@@ -280,7 +280,13 @@ public class ManagePostBean extends BaseActionBean {
         long change = thisWeek - lastWeek;
         double percentChange = (double)change/lastWeek*100;
         DecimalFormat df = new DecimalFormat("#.##");
-        return Double.parseDouble(df.format(percentChange));
+        if(thisWeek==0 && lastWeek==0){
+            return Double.parseDouble(df.format(0));
+        }else if(lastWeek==0){
+            return Double.parseDouble(df.format(999999));
+        }else{
+            return Double.parseDouble(df.format(percentChange));
+        }
     }
     
 }

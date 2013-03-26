@@ -29,8 +29,8 @@ for(int i = 30; i >=0 ; i--){
         boolean sameDay = cal.get(Calendar.YEAR) == bookingCal.get(Calendar.YEAR) && cal.get(Calendar.DAY_OF_YEAR) == bookingCal.get(Calendar.DAY_OF_YEAR);
         if(sameDay){
             count++;
-            System.out.println("BOOKING DATE : "+b.getBookingTimeStamp());
-            System.out.println("COUNT : "+count);
+            //System.out.println("BOOKING DATE : "+b.getBookingTimeStamp());
+            //System.out.println("COUNT : "+count);
         }
     }
     JSONObject obj = new JSONObject();
