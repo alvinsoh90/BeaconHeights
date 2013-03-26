@@ -142,7 +142,7 @@ public class AddPostActionBean implements ActionBean {
             System.out.println("CCCCC"+eventId);
             //Create and save post
             Post aPost = null;
-            System.out.println(getFeaturedPost());
+            //System.out.println(getFeaturedPost());
             System.out.append("AAAAA");
 
             if ("REQUEST".equals(getPostCategory())) {
@@ -158,7 +158,7 @@ public class AddPostActionBean implements ActionBean {
                 fs.put("SUCCESS", "false");
             }
             System.out.println("Posting...");
-            System.out.println(getFeaturedPost()+"JJjjjjjjjjn ");
+            //System.out.println(getFeaturedPost()+"JJjjjjjjjjn ");
             Post posted = pDAO.addPost(aPost);
             System.out.println("Posting result: " + posted.getTitle());
             if (posted != null) {

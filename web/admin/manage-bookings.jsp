@@ -198,11 +198,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Username</th>
+                                <th>Level</th>
+                                <th>Unit</th>
                                 <th>Name</th>
                                 <th>Facility</th>
-                                <th>Start</th>
-                                <th>End</th>
+                                <th>Time Slot</th>
+                                <th>Time of Booking</th>
                                 <th>Status</th>
                                 <th>Paid</th>
                                 <th>Transaction ID</th>
@@ -213,14 +214,17 @@
                             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
                                 <tr>
                                     <td>${booking.id}</td>
-                                    <td nowrap>${booking.user.escapedUserName}</td>
+                                    <td nowrap>${booking.user.level}</td>
+                                    <td nowrap>${booking.user.unit}</td>
                                     <td >${booking.user.escapedFirstName} ${booking.user.escapedLastName}</td>
                                     <td nowrap>${booking.facility.escapedName}</td>
 
                                     <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
-                                                                    value="${booking.startDate}"/></td>
-                                    <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                                    value="${booking.startDate}"/>-<br>
+                                    <fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
                                                                     value="${booking.endDate}"/></td>
+                                    <td><fmt:formatDate pattern="dd-MM-yyyy hh:mma" 
+                                                                    value="${booking.bookingTimeStamp}"/></td>
 
                                     <c:choose>
                                         <c:when test="${booking.isDeleted == 'true'}">
