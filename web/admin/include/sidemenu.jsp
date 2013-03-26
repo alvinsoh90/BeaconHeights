@@ -25,8 +25,9 @@
                 
                 
                 <li class="nav-header"><i class="icon-tasks"></i> Admin Management </li>
-                <li><a href="">Manage Posts</a></li>
+                
                 <li><a href="manage-allevents.jsp">Manage Events</a></li>
+                <li><a href="manage-posts.jsp">Manage Posts</a></li>
                 <!--
                 <li><a href="manage-onlineform.jsp">Taxi Booking</a></li>
                 <li><a href="manage-onlineform.jsp">Nearby Amenities</a></li>
@@ -34,8 +35,8 @@
                 -->
                 <li class="nav-header"><i class="icon-bullhorn"></i> Manage Community </li>
                 <li><a href="manage-events.jsp">Manage Flagged Events</a></li>
-                <li><a href="manage-posts.jsp">Manage Flagged Posts</a></li>
-                <li><a href="manage-featureposts.jsp">Manage Featured Posts</a></li>
+                <li><a href="manage-flaggedposts.jsp">Manage Flagged Posts</a></li>
+                
                 
                 <!--<li class="nav-header"><i class="icon-signal"></i> Statistics</li>
                 <li><a href="stats.html">General</a></li>

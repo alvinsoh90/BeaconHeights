@@ -186,6 +186,14 @@ public class ManagePostBean extends BaseActionBean {
                 + outcome);
     }
     
+    
+    @HandlesEvent("adminUnFlagPostInappropriate")
+    public Resolution adminUnflagPost(){
+        outcome = pDAO.adminUnFlagPostInappropriate(postId);
+        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
+                + outcome);
+    }
+    
     @HandlesEvent("adminUnfeaturePost")
     public Resolution adminUnfeaturePost() {
         System.out.println(postId+"unfeaturedPostID");

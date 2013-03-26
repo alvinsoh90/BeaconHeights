@@ -152,6 +152,7 @@ public class AddPostActionBean implements ActionBean {
                 fs.put("SUCCESS", "false");
             }
             System.out.println("Posting...");
+            System.out.println(getFeaturedPost()+"JJjjjjjjjjn ");
             Post posted = pDAO.addPost(aPost);
             System.out.println("Posting result: " + posted.getTitle());
             if (posted != null) {

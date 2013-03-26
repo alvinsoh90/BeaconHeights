@@ -401,6 +401,36 @@ public class PostDAO {
             return false;
         }   
     }
+    public boolean adminUnFlagPostInappropriate(int postId) {
+        openSession();
+        Transaction tx = null;
+        int rowCount = 0;
+        
+        try {
+            tx = session.beginTransaction();
+            String hql = "delete from PostInappropriate as p "
+                    + "where p.post.postId = :pid ";
+            Query query = session.createQuery(hql);
+            query.setInteger("pid", postId);
+            
+            rowCount = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        if (rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }   
+    }
+    
+    
+    
     
     public PostInappropriate getPostInappropriate(int userId, int postId){
         openSession();
