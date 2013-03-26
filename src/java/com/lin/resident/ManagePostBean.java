@@ -270,4 +270,7 @@ public class ManagePostBean extends BaseActionBean {
     public long getNumberOfFlaggedPosts(){
         return pDAO.getNumberOfFlaggedPosts();
     }
+    public long getNumberOfNewPostsThisWeek(){
+        return pDAO.getNumberOfNewPostsThisWeek();
+    }
 }

@@ -635,9 +635,15 @@ public class ManageEventBean extends BaseActionBean {
 
     }
     
+    
+    //============================================ Analytics SPECIFIC FUNCTIONS====================================
     public long getNumberOfFlaggedEvents(){
         EventDAO eDAO = new EventDAO();
         return eDAO.getNumberOfFlaggedEvents();
     }
-    //============================================ADMIN SPECIFIC FUNCTIONS====================================
+    
+    public long getNumberOfEventsCreatedThisWeek(){
+        EventDAO eDAO = new EventDAO();
+        return eDAO.getNumberOfEventsCreatedThisWeek();
+    }
 }

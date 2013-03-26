@@ -16,6 +16,8 @@
              class="com.lin.resident.ManagePostBean"/>
 <jsp:useBean id="manageEnquiryActionBean" scope="page"
              class="com.lin.resident.ManageEnquiryActionBean"/>
+<jsp:useBean id="manageBookingsActionBean" scope="page"
+             class="com.lin.general.admin.ManageBookingsActionBean"/>
 
 <%@include file="/protectadmin.jsp"%>
 <%@include file="/analytics/analytics.jsp"%>
@@ -171,26 +173,26 @@
                 <div class="row-fluid">
                     <div class="span4  well well-large">
                         <div class="row-fluid">
-                            <h2 class="analyticsHeader">No. of Facility Bookings</h2>
+                            <h2 class="analyticsHeader">New Facility Bookings this week</h2>
                         </div>
                         <div class="row-fluid">
-                            <div class="weekly-stats">1233<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>20%</span></div>
-                        </div>
-                    </div>
-                    <div class="span4 well well-large">
-                        <div class="row-fluid">
-                            <h2 class="analyticsHeader">No. of Community Posts</h2>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="weekly-stats">2222<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>15%</span></div>
+                            <div class="weekly-stats">${manageBookingsActionBean.numberOfNewBookingsThisWeek}<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>20%</span></div>
                         </div>
                     </div>
                     <div class="span4 well well-large">
                         <div class="row-fluid">
-                            <h2 class="analyticsHeader">No. of Community Events</h2>
+                            <h2 class="analyticsHeader">New Community Posts this week</h2>
                         </div>
                         <div class="row-fluid">
-                            <div class="weekly-stats">123<span class="weekly-loss"><i class="icon-arrow-down weekly-gain"></i>8%</span></div>
+                            <div class="weekly-stats">${managePostBean.numberOfNewPostsThisWeek}<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>15%</span></div>
+                        </div>
+                    </div>
+                    <div class="span4 well well-large">
+                        <div class="row-fluid">
+                            <h2 class="analyticsHeader">New Community Events this week</h2>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="weekly-stats">${manageEventBean.numberOfEventsCreatedThisWeek}<span class="weekly-loss"><i class="icon-arrow-down weekly-gain"></i>8%</span></div>
                         </div>
                     </div>
                 </div>
@@ -221,7 +223,7 @@
                     </div>
                 </div>
 <!--                dropdown containing a list of all the facilities-->
-                <div class="row-fluid">
+                <div class="row-fluid" id="bigGraphHolder">
                     <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
                         <stripes:select name="Facilities" id ="facilities">
                             <stripes:options-collection collection="${manageFacilitiesActionBean.facilityList}" value="id" label="name"/>        
@@ -253,8 +255,9 @@
     }
     function reload(){
         d3.select("#graph").remove();
+        var responsiveWidth = $("#bigGraphHolder").width();
         var margin = {top: 20, right: 20, bottom: 150, left: 40},
-        width = 960 - margin.left - margin.right,
+        width = responsiveWidth - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
         var formatPercent = d3.format(".0%");
@@ -275,7 +278,7 @@
             .tickFormat(formatPercent);
 
         var svg = d3.select("#bigGraph").append("svg")
-            .attr("width", width + margin.left + margin.right)
+            .attr("width", "100%")
             .attr("id","graph")
             .attr("height", height + margin.top + margin.bottom)
         .append("g")

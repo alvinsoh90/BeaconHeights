@@ -316,4 +316,8 @@ public class ManageBookingsActionBean extends BaseActionBean {
         System.out.println("HELLO " + getFacilityType());
         return new RedirectResolution("/residents/index.jsp?ftype=" + getFacilityType());
     }
+    public long getNumberOfNewBookingsThisWeek(){
+        BookingDAO bDAO = new BookingDAO();
+        return bDAO.getNumberOfNewBookingsThisWeek();
+    }
 }
