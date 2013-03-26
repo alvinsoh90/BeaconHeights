@@ -26,7 +26,7 @@ public class RoleDAO {
     public ArrayList<Role> getAllRoles() {
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Role");
+            Query q = session.createQuery ("from Role order by id DESC");
             roleList = (ArrayList<Role>) q.list();
             tx.commit();
         } catch (Exception e) {
