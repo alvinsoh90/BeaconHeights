@@ -109,6 +109,7 @@
             var facilityList =[];
             var bookingList = [];
             var openTimingsList = [];
+            var currEventSource;
 
             function showFacilityBookingsByFacilityID(facilityID){ 
                 //this method is called when page is fully loaded
@@ -116,9 +117,14 @@
                 //clear previous events
                 $('#fullcalendar').fullCalendar( 'removeEvents');
                 
+                //remove prev event source
+                $("#fullcalendar").fullCalendar( 'removeEventSource', currEventSource);
+                
                 //add new event source
                 var eventSource = "/json/bookingevents.jsp?facilityid=" 
                     + facilityID +"&userid="+${sessionScope.user.userId};
+                
+                currEventSource = eventSource; //keep track of this for clearing later
                 
                 $('#fullcalendar').fullCalendar( 'addEventSource', eventSource );  
                 
@@ -189,8 +195,8 @@
 
                         </div> <!-- /account-container -->
                         
-                        <select id ="facilityDropDown" class="tour1 bigDropdown">
-                                <script>
+                        <select id ="facilityDropDown" class="tour1 bigDropdown"></select>
+                        <script>
                                     var print;
                                     facilityList.sort(alphabetical);
                                     for(var i = 0;i<facilityList.length;i++){
@@ -198,8 +204,7 @@
                                         print+= "<option value="+facilityList[i].id+">"+ facilityList[i].name+ "</option>";
                                     }
                                     $('#facilityDropDown').html(print);
-                                </script>
-                            </select>
+                        </script>
                         <a  role="button" data-toggle="modal" class="btn btn-info btn-mini" onclick="loadJoyRide()" >Feeling Lost? Click to start tour.</a>                     
                         <h2>About this facility</h2>
                         <div class="widget-content widget-nopad">
@@ -301,6 +306,7 @@
                         $(document).ready(function(){
                             // To display facility selected in the dropdown box, in the booking details
                             function displayVals() {
+                                console.log("DISPLAY VALS CALLED");
                                 var singleValues = $("#facilityDropDown option:selected").text();
 
                                 //set venue texts

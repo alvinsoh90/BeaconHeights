@@ -330,7 +330,8 @@ public class BookingDAO {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType where facility_id ='" + facilityid + "'");
+            Query q = session.createQuery("from Booking as booking join fetch booking.facility join fetch booking.facility.facilityType where booking.facility = :id");
+            q.setInteger("id", facilityid);
             currentList = (ArrayList<Booking>) q.list();
             
             Booking b = (Booking)q.list().get(0);
