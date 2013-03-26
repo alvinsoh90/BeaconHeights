@@ -591,6 +591,8 @@ public class PostDAO {
         }
         return ev;
     }
+    
+    //========================Methods for analytics Start =============================
 
     public long getNumberOfFlaggedPosts() {
         openSession();
@@ -636,6 +638,21 @@ public class PostDAO {
             return -1L;
         }
     }
-
+    
+    public ArrayList<Post> getLastMonthsPosts(){
+        ArrayList<Post> list = new ArrayList<Post>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Post e where e.date > timestampadd(day,-30,current_timestamp())");
+            list = (ArrayList<Post>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    //========================Methods for analytics end =============================
 }
 

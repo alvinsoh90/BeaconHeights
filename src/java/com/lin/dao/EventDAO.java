@@ -732,6 +732,8 @@ public class EventDAO {
         return true;
     }
 
+    //========================Methods for analytics Start =============================
+    
     public long getNumberOfFlaggedEvents() {
         openSession();
         try {
@@ -775,4 +777,20 @@ public class EventDAO {
             return -1L;
         }
     }
+    
+    public ArrayList<Event> getLastMonthsEvents(){
+        ArrayList<Event> list = new ArrayList<Event>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Event e where e.timestamp > timestampadd(day,-30,current_timestamp())");
+            list = (ArrayList<Event>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    //========================Methods for analytics END =============================
 }

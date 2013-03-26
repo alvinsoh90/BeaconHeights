@@ -457,6 +457,8 @@ public class BookingDAO {
         
         return list;
     }
+    
+    //========================Methods for analytics Start =============================
 
     public long getNumberOfNewBookingsThisWeek() {
         openSession();
@@ -488,4 +490,19 @@ public class BookingDAO {
         }
     }
     
+    public ArrayList<Booking> getLastMonthsBookings(){
+        ArrayList<Booking> list = new ArrayList<Booking>();
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("from Booking b where b.bookingTimeStamp > timestampadd(day,-30,current_timestamp())");
+            list = (ArrayList<Booking>) q.list();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    //========================Methods for analytics END =============================
 }
