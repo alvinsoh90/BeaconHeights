@@ -78,7 +78,12 @@ public class LoginActionBean extends BaseActionBean {
             getContext().setUser(user);
             currentUser= getContext().getUser();
             System.out.println("ADDED TO SESSION:" +currentUser.toString());
-            return new RedirectResolution("/residents/index.jsp");
+            if(user.getRole().isAdmin()){
+                return new RedirectResolution("/admin/adminmain.jsp");
+            }else{
+                return new RedirectResolution("/residents/index.jsp");
+            }
+            
         }else{
             fs.put("FAILURE","This value is not used");
             fs.put("MESSAGES","Username or password is entered incorectly.");
