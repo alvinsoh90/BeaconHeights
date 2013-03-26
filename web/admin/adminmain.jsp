@@ -80,6 +80,14 @@
         right: 10px;
         }
         
+        .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+        }
+        h3{
+            text-align: center;
+        }
         h2.analyticsHeader{
             color: #0D361A;
             text-align: center;
@@ -126,21 +134,26 @@
             
             
             $(document).ready(function(){
-                            var success = "${SUCCESS}";
-                            var failure = "${FAILURE}";
-                            if(success != ""){
-                                toastr.success(success);
-                            }
-                            else if(failure){
-                                var msg = "<b>There was an error processing your request.</b><br/>";
-                                msg += "<ol>"
-                            <c:forEach var="message" items="${MESSAGES}">
-                                    msg += "<li>${message}</li>";
-                            </c:forEach>
-                                    msg += "</ol>";    
-                                    toastr.errorSticky(msg);
-                                }
-                        });
+                var success = "${SUCCESS}";
+                var failure = "${FAILURE}";
+                if(success != ""){
+                    toastr.success(success);
+                }
+                else if(failure){
+                    var msg = "<b>There was an error processing your request.</b><br/>";
+                    msg += "<ol>"
+                <c:forEach var="message" items="${MESSAGES}">
+                        msg += "<li>${message}</li>";
+                </c:forEach>
+                    msg += "</ol>";    
+                    toastr.errorSticky(msg);
+                }
+                
+                loadBookingsGraph();
+                loadEventsGraph();
+                loadPostsGraph();
+
+            });
         </script>
 
     </head>
@@ -206,33 +219,27 @@
                     </div>
                 </div>
                 <div class="row-fluid">
-                    <div class="span4  well well-large">
+                    <div class="span4">
                         <div class="row-fluid">
-                            <h2 class="analyticsHeader">No. of Facility Bookings</h2>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="weekly-stats">1233<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>20%</span></div>
+                            <h3>Last Month's Bookings</h3>
+                            <div id="graph-bookings"></div>
                         </div>
                     </div>
-                    <div class="span4 well well-large">
+                    <div class="span4">
                         <div class="row-fluid">
-                            <h2 class="analyticsHeader">No. of Community Posts</h2>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="weekly-stats">2222<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>15%</span></div>
+                            <h3>Last Month's Posts</h3>
+                            <div id="graph-posts"></div>
                         </div>
                     </div>
-                    <div class="span4 well well-large">
+                    <div class="span4">
                         <div class="row-fluid">
-                            <h2 class="analyticsHeader">No. of Community Events</h2>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="weekly-stats">123<span class="weekly-loss"><i class="icon-arrow-down weekly-gain"></i>8%</span></div>
+                            <h3>Last Month's Events</h3>
+                            <div id="graph-events"></div>
                         </div>
                     </div>
                 </div>
 <!--                dropdown containing a list of all the facilities-->
-                <div class="row-fluid" id="bigGraphHolder">
+                <div class="row-fluid">
                     <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
                         <stripes:select name="Facilities" id ="facilities">
                             <stripes:options-collection collection="${manageFacilitiesActionBean.facilityList}" value="id" label="name"/>        
@@ -255,6 +262,8 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
 
+    //=============================== BIG GRAPH START =================================
+    
     var fid;
 
     function setFid(){
@@ -264,7 +273,7 @@
     }
     function reload(){
         d3.select("#graph").remove();
-        var responsiveWidth = $("#bigGraphHolder").width();
+        var responsiveWidth = $("#bigGraph").width();
         var margin = {top: 20, right: 20, bottom: 150, left: 40},
         width = responsiveWidth - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
@@ -371,6 +380,196 @@
         });
     }
 
+    //=============================== BIG GRAPH END =================================
+    
+    //=============================== BOOKINGS GRAPH START =================================
+        function loadBookingsGraph(){
+            var responsiveWidthBookings = $("#graph-bookings").width();
+            var margin = {top: 20, right: 20, bottom: 30, left: 50},
+                width = responsiveWidthBookings - margin.left - margin.right,
+                height = 200 - margin.top - margin.bottom;
+
+            var x = d3.scale.linear()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var line = d3.svg.line()
+                .x(function(d) { return x(d.date); })
+                .y(function(d) { return y(d.count); });
+
+            var svg = d3.select("#graph-bookings").append("svg")
+                .attr("id","bookings")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            d3.json("/json/bookingsGraph.jsp", function(error, data) {
+            console.log(data);
+            data.forEach(function(d) {
+                d.date = d.date;
+                d.count = +d.count;
+            });
+
+            x.domain(d3.extent(data, function(d) { return d.date; }));
+            y.domain(d3.extent(data, function(d) { return d.count; }));
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("No. of Bookings");
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line);
+            });
+        }
+    
+    //=============================== BOOKINGS GRAPH END =================================
+    
+    
+    
+    //=============================== POSTS GRAPH START =================================
+        function loadPostsGraph(){
+            var responsiveWidthBookings = $("#graph-posts").width();
+            var margin = {top: 20, right: 20, bottom: 30, left: 50},
+                width = responsiveWidthBookings - margin.left - margin.right,
+                height = 200 - margin.top - margin.bottom;
+
+            var x = d3.scale.linear()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var line = d3.svg.line()
+                .x(function(d) { return x(d.date); })
+                .y(function(d) { return y(d.count); });
+
+            var svg = d3.select("#graph-posts").append("svg")
+                .attr("id","posts")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            d3.json("/json/postsGraph.jsp", function(error, data) {
+            console.log(data);
+            data.forEach(function(d) {
+                d.date = d.date;
+                d.count = +d.count;
+            });
+
+            x.domain(d3.extent(data, function(d) { return d.date; }));
+            y.domain(d3.extent(data, function(d) { return d.count; }));
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("No. of Posts");
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line);
+            });
+        }
+       
+    
+    //=============================== POSTS GRAPH END =================================
+    
+    
+    
+    //=============================== EVENTS GRAPH START =================================
+        function loadEventsGraph(){
+            var responsiveWidthBookings = $("#graph-events").width();
+            var margin = {top: 20, right: 20, bottom: 30, left: 50},
+                width = responsiveWidthBookings - margin.left - margin.right,
+                height = 200 - margin.top - margin.bottom;
+
+            var x = d3.scale.linear()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var line = d3.svg.line()
+                .x(function(d) { return x(d.date); })
+                .y(function(d) { return y(d.count); });
+
+            var svg = d3.select("#graph-events").append("svg")
+                .attr("id","events")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            d3.json("/json/eventsGraph.jsp", function(error, data) {
+            console.log(data);
+            data.forEach(function(d) {
+                d.date = d.date;
+                d.count = +d.count;
+            });
+
+            x.domain(d3.extent(data, function(d) { return d.date; }));
+            y.domain(d3.extent(data, function(d) { return d.count; }));
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("No. of Events");
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line);
+            });
+        }
+        
+    
+    //=============================== EVENTS GRAPH END =================================
 
     </script>
 </body>
