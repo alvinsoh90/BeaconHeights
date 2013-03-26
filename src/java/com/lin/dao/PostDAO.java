@@ -621,6 +621,21 @@ public class PostDAO {
             return -1L;
         }
     }
+    
+    public long getNumberOfNewPostsLastWeek() {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String hql = "select count(*) from Post where date > timestampadd(day,-14,current_timestamp()) and date < timestampadd(day,-7,current_timestamp())";
+            Query query = session.createQuery(hql);
+            long result = (Long)query.uniqueResult();
+            tx.commit();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1L;
+        }
+    }
 
 }
 

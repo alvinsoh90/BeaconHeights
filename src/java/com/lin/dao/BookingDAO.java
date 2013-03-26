@@ -473,4 +473,19 @@ public class BookingDAO {
         }
     }
     
+    public long getNumberOfNewBookingsLastWeek() {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String hql = "select count(*) from Booking where bookingTimeStamp > timestampadd(day,-14,current_timestamp()) and bookingTimeStamp < timestampadd(day,-7,current_timestamp())";
+            Query query = session.createQuery(hql);
+            long result = (Long)query.uniqueResult();
+            tx.commit();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1L;
+        }
+    }
+    
 }

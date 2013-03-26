@@ -16,6 +16,7 @@ import com.lin.entities.PostLike;
 import com.lin.entities.PostUserTag;
 import com.lin.entities.User;
 import com.lin.general.login.BaseActionBean;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -273,4 +274,13 @@ public class ManagePostBean extends BaseActionBean {
     public long getNumberOfNewPostsThisWeek(){
         return pDAO.getNumberOfNewPostsThisWeek();
     }
+    public String getPercentChange(){
+        long thisWeek = pDAO.getNumberOfNewPostsThisWeek();
+        long lastWeek = pDAO.getNumberOfNewPostsLastWeek();
+        long change = thisWeek - lastWeek;
+        double percentChange = (double)change/lastWeek*100;
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(percentChange);
+    }
+    
 }

@@ -15,6 +15,7 @@ import com.lin.entities.*;
 import com.lin.general.login.BaseActionBean;
 import com.lin.general.login.LoginActionBean;
 import com.lin.general.login.MyAppActionBeanContext;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -319,5 +320,18 @@ public class ManageBookingsActionBean extends BaseActionBean {
     public long getNumberOfNewBookingsThisWeek(){
         BookingDAO bDAO = new BookingDAO();
         return bDAO.getNumberOfNewBookingsThisWeek();
+    }
+    public long getNumberOfNewBookingsLastWeek(){
+        BookingDAO bDAO = new BookingDAO();
+        return bDAO.getNumberOfNewBookingsLastWeek();
+    }
+    public String getPercentChange(){
+        BookingDAO bDAO = new BookingDAO();
+        long thisWeek = bDAO.getNumberOfNewBookingsThisWeek();
+        long lastWeek = bDAO.getNumberOfNewBookingsLastWeek();
+        long change = thisWeek - lastWeek;
+        double percentChange = (double)change/lastWeek*100;
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(percentChange);
     }
 }

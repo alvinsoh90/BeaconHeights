@@ -761,4 +761,18 @@ public class EventDAO {
             return -1L;
         }
     }
+    public long getNumberOfEventsCreatedLastWeek() {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String hql = "select count(*) from Event where timestamp > timestampadd(day,-14,current_timestamp()) and timestamp < timestampadd(day,-7,current_timestamp())";
+            Query query = session.createQuery(hql);
+            long result = (Long)query.uniqueResult();
+            tx.commit();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1L;
+        }
+    }
 }

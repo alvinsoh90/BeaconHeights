@@ -88,24 +88,33 @@
             margin-top: 8px;
             text-align: center;
             font-size: 30px;
-            line-height: 40px;
+            line-height: 36px;
             color: #0D361A;
+            font-weight: bold;
         }
         div.analyticsHeader{
             text-align: center;
         }
         span.weekly-gain{
             color:#21fc00;
-            font-size: 38px;
-            margin-left: 18px;
+            font-size: 25px;
+            margin-left: 10px;
+            font-weight: normal;
         }
         span.weekly-loss{
             color:#f90025;
-            font-size: 38px;
-            margin-left: 18px;
+            font-size: 25px;
+            margin-left: 10px;
+            font-weight: normal;
         }
         i.weekly-gain{
-            margin-top: 16px; 
+            margin-top: 9px; 
+        }
+        a.badge-urgent{
+            padding: 1px 15px 2px;
+            font-size: 13px;
+            line-height: 18px;
+            background-color: #f90025;
         }
         
         </style>
@@ -150,19 +159,19 @@
                 <div class="row-fluid">
                     <div class="span3 analyticsHeader">
                         <h3>User Pending Approval</h3>
-                        <p><a href="users.jsp" class="badge badge-warning">${approveUserBean.tempUserListCount}</a></p>
+                        <p><a href="users.jsp" class="badge badge-urgent">${approveUserBean.tempUserListCount}</a></p>
                     </div>
                     <div class="span3 analyticsHeader">
                         <h3>Flagged Posts</h3>
-                        <p><a href="manage-posts.jsp" class="badge badge-warning">${managePostBean.numberOfFlaggedPosts}</a></p>
+                        <p><a href="manage-posts.jsp" class="badge badge-urgent">${managePostBean.numberOfFlaggedPosts}</a></p>
                     </div>
                     <div class="span3 analyticsHeader">
                         <h3>Flagged Events</h3>
-                        <p><a href="manage-events.html" class="badge badge-warning">${manageEventBean.numberOfFlaggedEvents}</a></p>
+                        <p><a href="manage-events.html" class="badge badge-urgent">${manageEventBean.numberOfFlaggedEvents}</a></p>
                     </div>
                     <div class="span3 analyticsHeader">
                         <h3>Unresolved Enquiries</h3>
-                        <p><a href="manage-enquiries.jsp" class="badge badge-warning">${manageEnquiryActionBean.numberOfUnresolvedEnquiries}</a></p>
+                        <p><a href="manage-enquiries.jsp" class="badge badge-urgent">${manageEnquiryActionBean.numberOfUnresolvedEnquiries}</a></p>
                     </div>
                 </div>
                 <div class="row-fluid">
@@ -176,7 +185,7 @@
                             <h2 class="analyticsHeader">New Facility Bookings this week</h2>
                         </div>
                         <div class="row-fluid">
-                            <div class="weekly-stats">${manageBookingsActionBean.numberOfNewBookingsThisWeek}<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>20%</span></div>
+                            <div class="weekly-stats">${manageBookingsActionBean.numberOfNewBookingsThisWeek}<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>${manageBookingsActionBean.percentChange}%</span></div>
                         </div>
                     </div>
                     <div class="span4 well well-large">
@@ -184,7 +193,7 @@
                             <h2 class="analyticsHeader">New Community Posts this week</h2>
                         </div>
                         <div class="row-fluid">
-                            <div class="weekly-stats">${managePostBean.numberOfNewPostsThisWeek}<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>15%</span></div>
+                            <div class="weekly-stats">${managePostBean.numberOfNewPostsThisWeek}<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>${managePostBean.percentChange}%</span></div>
                         </div>
                     </div>
                     <div class="span4 well well-large">
@@ -192,7 +201,7 @@
                             <h2 class="analyticsHeader">New Community Events this week</h2>
                         </div>
                         <div class="row-fluid">
-                            <div class="weekly-stats">${manageEventBean.numberOfEventsCreatedThisWeek}<span class="weekly-loss"><i class="icon-arrow-down weekly-gain"></i>8%</span></div>
+                            <div class="weekly-stats">${manageEventBean.numberOfEventsCreatedThisWeek}<span class="weekly-loss"><i class="icon-arrow-down weekly-gain"></i>${manageEventBean.percentChange}%</span></div>
                         </div>
                     </div>
                 </div>

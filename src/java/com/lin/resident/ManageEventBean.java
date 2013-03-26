@@ -19,6 +19,7 @@ import com.lin.entities.User;
 import com.lin.general.login.BaseActionBean;
 import com.lin.global.GlobalVars;
 import com.lin.utils.FacebookFunctions;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -638,12 +639,21 @@ public class ManageEventBean extends BaseActionBean {
     
     //============================================ Analytics SPECIFIC FUNCTIONS====================================
     public long getNumberOfFlaggedEvents(){
-        EventDAO eDAO = new EventDAO();
         return eDAO.getNumberOfFlaggedEvents();
     }
     
     public long getNumberOfEventsCreatedThisWeek(){
-        EventDAO eDAO = new EventDAO();
         return eDAO.getNumberOfEventsCreatedThisWeek();
+    }
+    public long getNumberOfEventsCreatedLastWeek(){
+        return eDAO.getNumberOfEventsCreatedLastWeek();
+    }
+    public String getPercentChange(){
+        long thisWeek = eDAO.getNumberOfEventsCreatedThisWeek();
+        long lastWeek = eDAO.getNumberOfEventsCreatedLastWeek();
+        long change = thisWeek - lastWeek;
+        double percentChange = (double)change/lastWeek*100;
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(percentChange);
     }
 }
