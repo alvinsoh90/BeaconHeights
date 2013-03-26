@@ -558,6 +558,7 @@ public class PostDAO {
 
         try {
             tx = session.beginTransaction();
+            
             Post p = (Post) session.get(Post.class, postId);
             p.setIsFeatured(true);
             session.update(p);
@@ -565,6 +566,7 @@ public class PostDAO {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+           
             if (tx != null) {
                 tx.rollback();
             }

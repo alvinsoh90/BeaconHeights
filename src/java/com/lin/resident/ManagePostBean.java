@@ -199,7 +199,7 @@ public class ManagePostBean extends BaseActionBean {
     public Resolution adminUnfeaturePost() {
         System.out.println(postId+"unfeaturedPostID");
         outcome = pDAO.removeFeaturedPost(postId);
-        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
+        return new RedirectResolution("/admin/manage-posts.jsp?unfeaturesuccess="
                 + outcome);
     }
     
@@ -207,7 +207,7 @@ public class ManagePostBean extends BaseActionBean {
     public Resolution adminFeaturePost() {
         System.out.println(postId+"featuredPostID");
         outcome = pDAO.featurePost(postId);
-        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
+        return new RedirectResolution("/admin/manage-posts.jsp?featuresuccess="
                 + outcome);
     }
     

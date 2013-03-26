@@ -39,14 +39,16 @@ public class AddPostActionBean implements ActionBean {
     private String taggedFriends;  //retrieved as "[id1,id2,id3,...]"
     private int wallId;
     private boolean shareOnFacebook;
-    private boolean isFeaturedPost;
+    private boolean feature;
+
+    public boolean isFeature() {
+        return feature;
+    }
+
+    public void setFeature(boolean feature) {
+        this.feature = feature;
+    }
     
-    public boolean getFeaturedPost(){
-        return isFeaturedPost;
-    }
-    public void setFeaturedPost(boolean isFeaturedPost){
-        this.isFeaturedPost = isFeaturedPost;
-    }
 
     public boolean isShareOnFacebook() {
         return shareOnFacebook;
@@ -134,19 +136,23 @@ public class AddPostActionBean implements ActionBean {
             EventDAO eDAO = new EventDAO();
             Event event = null;
             if (eventId != -1) {
+                System.out.println("BBBBB"+eventId);
                 event = eDAO.getEvent(eventId);
             }
+            System.out.println("CCCCC"+eventId);
             //Create and save post
             Post aPost = null;
+            System.out.println(getFeaturedPost());
+            System.out.append("AAAAA");
 
             if ("REQUEST".equals(getPostCategory())) {
-                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.REQUEST, event, getWallId(), getFeaturedPost());
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.REQUEST, event, getWallId(), isFeature());
             } else if ("INVITE".equals(getPostCategory())) {
-                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.INVITE, event, getWallId(),getFeaturedPost());
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.INVITE, event, getWallId(),isFeature());
             } else if ("SHOUTOUT".equals(getPostCategory())) {
-                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.SHOUTOUT, event, getWallId(),getFeaturedPost());
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.SHOUTOUT, event, getWallId(),isFeature());
             } else if ("ANNOUNCEMENT".equals(getPostCategory())) {
-                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.ANNOUNCEMENT, event, getWallId(),getFeaturedPost());
+                aPost = new Post(user, getPostContent(), new Date(), getPostTitle(), Post.Type.ANNOUNCEMENT, event, getWallId(),isFeature());
             } else {
                 System.out.println("\nINVALID POST CATEGORY\n");
                 fs.put("SUCCESS", "false");

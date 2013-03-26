@@ -22,7 +22,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Admin | Manage Resources</title>
+        <title>Admin | Manage Posts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
@@ -58,7 +58,7 @@
             
             
             function populateDeletePostModal(postID){ 
-                postList.forEach(function(post){
+                postList2.forEach(function(post){
                     if(post.postId == postID){
                         $("#usernameDeleteLabel").text(post.firstName + " " + post.lastName);
                         $("#delete_firstName").text(post.firstName);
@@ -95,24 +95,7 @@
                 
             }
             
-            function unFlagPostInappropriate(postId){
-                var dat = new Object();
-                dat.postId = postId;
-                dat.isInappropriate = false;
-                
-                console.log(JSON.stringify(dat));
-                $("#post-"+postId+" .flagInappropriateBtn").addClass("disabled");
-                
-                $.ajax({
-                    type: "POST",
-                    url: "/json/community/flagOrUnflagInappropriate.jsp",
-                    data: dat,
-                    success: function(data, textStatus, xhr) {
-                        console.log(xhr.status);
-                    }
-                     
-                });
-            }
+           
             function populateFeaturePostModal(postID){ 
                 postList2.forEach(function(post){
                     if(post.postId == postID){
@@ -233,8 +216,8 @@
                 </script>
             </c:forEach>
         </c:if>
-                
-                
+
+
         <c:if test="${managePostBean.postList.size()!=0}">   
 
             <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
@@ -388,7 +371,7 @@
                                                     <option value="REQUEST">Request</option> 
                                                 </stripes:select>
                                                 <stripes:hidden name="wallId" id="wallId" value="-1"/> 
-                                                <stripes:hidden name="getFeaturedPost" id="getFeaturedPost" value ="true"/>
+                                                <stripes:hidden name="feature" id="feature" value ="true"/>
 
                                                 <c:set var="freshUser" value="${utilBean.refreshUser(user)}" /> 
                                                 <c:choose>
@@ -425,7 +408,7 @@
                                             <div class="btn-group" style="visibility:visible !important;">
                                                 <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
                                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                                    <li><a href="#unfeaturePostModal" role="button" data-toggle="modal" onclick="populateUnfeaturePostModal(${post.postId})"><i class="icon-pencil"></i> Remove Flag</a></li>
+                                                    <li><a href="#unfeaturePostModal" role="button" data-toggle="modal" onclick="populateUnfeaturePostModal(${post.postId})"><i class="icon-pencil"></i> Remove Featured</a></li>
                                                     <li><a href="#deletePostModal" role="button" data-toggle="modal" onclick="populateDeletePostModal(${post.postId})"><i class="icon-trash"></i> Delete</a></li>
                                                 </ul>
                                             </div>
@@ -498,8 +481,16 @@
                                         <div class="span2 postSideBlock">
 
 
-
-                                            <a href="#featurePostModal" role="button" data-toggle="modal" class="btn btn-toolbar btn-mini" onclick="populateFeaturePostModal(${post.postId})">Feature Post</a>
+                                            <c:choose>
+                                                <c:when test="${post.isFeatured}">
+                                                    <a href="#unfeaturePostModal" role="button" data-toggle="modal" class="btn btn-inverse btn-mini" onclick="populateUnfeaturePostModal(${post.postId})"> Unfeature Post</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="#featurePostModal" role="button" data-toggle="modal" class="btn btn-toolbar btn-mini" onclick="populateFeaturePostModal(${post.postId})">Feature Post</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            
+                                            
 
 
 
@@ -545,7 +536,7 @@
             </div>
             <div class="modal-footer">
                 <a data-dismiss="modal" class="btn">Close</a>
-                <stripes:hidden id="unfeatured_id" name="postId"/>
+                <stripes:hidden id="featurePost_id" name="postId"/>
                 <input type="submit" name="adminFeaturePost" value="Feature Post" class="btn btn-primary"/>
             </div>
         </stripes:form>
@@ -566,7 +557,7 @@
             <div class="modal-footer">
                 <a data-dismiss="modal" class="btn">Close</a>
                 <stripes:hidden id="unfeatured_id" name="postId"/>
-                <input type="submit" name="adminUnfeaturePost" value="Confirm Unfeature Post" class="btn btn-primary"/>
+                <input type="submit" name="adminUnfeaturePost" value="Confirm Unfeature Post" class="btn btn-danger"/>
             </div>
         </stripes:form>
     </div>
