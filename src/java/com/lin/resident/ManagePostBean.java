@@ -6,6 +6,7 @@ package com.lin.resident;
 
 import com.lin.controllers.CommunityWallController;
 import com.lin.dao.CommunityWallCommentDAO;
+import com.lin.dao.EventDAO;
 import com.lin.dao.PostDAO;
 import com.lin.dao.UserDAO;
 import com.lin.entities.Comment;
@@ -264,5 +265,9 @@ public class ManagePostBean extends BaseActionBean {
     public Event getTaggedEvent(int postId){ 
         return pDAO.getEventOfPost(postId);       
 
+    }
+    
+    public long getNumberOfFlaggedPosts(){
+        return pDAO.getNumberOfFlaggedPosts();
     }
 }

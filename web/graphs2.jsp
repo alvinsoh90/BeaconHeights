@@ -5,7 +5,7 @@
 --%>
 
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes-dynattr.tld"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <link href="/admin/css/bootstrap.css" rel="stylesheet">
 <link href="/admin/css/site.css" rel="stylesheet">
@@ -176,17 +176,15 @@ function reload(){
 <body>
     <%@include file="/admin/include/mainnavigationbar.jsp"%>
     <div class="container-fluid">
-        <%@include file="/admin/include/sidemenu.jsp"%>
-        <div class="span9">
-            <div class="row-fluid">
+        <div class="row-fluid">
+            <%@include file="/admin/include/sidemenu.jsp"%>
+            <div class="span9">
                 <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
                 <stripes:select name="Facilities" id ="facilities">
                     <stripes:options-collection collection="${manageFacilitiesActionBean.facilityList}" value="id" label="name"/>        
                 </stripes:select>
                     <a  role="button" data-toggle="modal" class="btn btn-warning btn-mini" onclick="setFid()" >Show</a>
                 </stripes:form>
-            </div>
-            <div class="row-fluid">
                 <div id="bigGraph"></div>
             </div>
         </div>

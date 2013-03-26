@@ -219,6 +219,21 @@ public class EnquiryDAO {
        return enquiry;
         
     }
+
+    public long getNumberOfUnresolvedEnquiries() {
+        openSession();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            String hql = "select count(*) from Enquiry where isResolved = 0";
+            Query query = session.createQuery(hql);
+            long result = (Long)query.uniqueResult();
+            tx.commit();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1L;
+        }
+    }
  
 
 }

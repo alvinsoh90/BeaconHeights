@@ -8,6 +8,15 @@
 
 <jsp:useBean id="approveUserBean" scope="page"
              class="com.lin.general.admin.ApproveUserBean"/>
+<jsp:useBean id="manageFacilitiesActionBean" scope="page"
+             class="com.lin.general.admin.ManageFacilitiesActionBean"/>
+<jsp:useBean id="manageEventBean" scope="page"
+             class="com.lin.resident.ManageEventBean"/>
+<jsp:useBean id="managePostBean" scope="page"
+             class="com.lin.resident.ManagePostBean"/>
+<jsp:useBean id="manageEnquiryActionBean" scope="page"
+             class="com.lin.resident.ManageEnquiryActionBean"/>
+
 <%@include file="/protectadmin.jsp"%>
 <%@include file="/analytics/analytics.jsp"%>
 
@@ -27,48 +36,83 @@
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
+        <script src="http://d3js.org/d3.v3.min.js"></script>
         
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
+<!--        G3 styles-->
+        
+        <style>
+
+/*        body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: relative;
+        width: 960px;
+        }*/
+
+        .axis text {
+        font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+        }
+
+        .bar {
+        fill: steelblue;
+        fill-opacity: .9;
+        }
+
+        .x.axis path {
+        display: none;
+        }
+
+        label {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        }
+        
+        h2.analyticsHeader{
+            color: #0D361A;
+            text-align: center;
+        }
+        div.weekly-stats{
+            margin-top: 8px;
+            text-align: center;
+            font-size: 30px;
+            line-height: 40px;
+            color: #0D361A;
+        }
+        div.analyticsHeader{
+            text-align: center;
+        }
+        span.weekly-gain{
+            color:#21fc00;
+            font-size: 38px;
+            margin-left: 18px;
+        }
+        span.weekly-loss{
+            color:#f90025;
+            font-size: 38px;
+            margin-left: 18px;
+        }
+        i.weekly-gain{
+            margin-top: 16px; 
+        }
+        
+        </style>
+        
         <!-- Populates the Edit User form -->
         <script>
             // Init an array of all users shown on this page
             var userList = [];
             
-            //when this function is called, userList should already be populated
-            function populateApproveUserModal(userID){ 
-                userList.forEach(function(user){
-                    if(user.id == userID){
-                        $("#usernameLabel").text(user.username);
-                        $("#editid").val(user.id);
-                        $("#edit_username").val(user.username);
-                        $("#edit_firstname").val(user.firstName);
-                        $("#edit_lastname").val(user.lastName);
-                        $("#edit_block").val(user.blockName);
-                        $("#edit_email").val(user.email);
-                        $("#edit_mobileno").val(user.mobileNo);
-                        $("#edit_role").val(user.roleName);
-                        $("#edit_level").val(user.level);
-                        $("#edit_unit").val(user.unit);
-                    }
-                });
-                
-            }
-            
-            //when this function is called, userList should already be populated
-            function populateRejectUserModal(userID){ 
-                userList.forEach(function(user){
-                    if(user.id == userID){
-                        $("#usernameRejectLabel").text(user.username);
-                        $("#reject_id").val(user.id);
-                        $("#reject_username").val(user.username);
-                        $("#reject_firstname").text(user.firstName);
-                        $("#reject_lastname").text(user.lastName);
-                    }
-                });
-            }
             
             $(document).ready(function(){
                             var success = "${SUCCESS}";
@@ -96,221 +140,227 @@
             <%@include file="include/sidemenu.jsp"%>
 
             <div class="span9">
-                <div class="well hero-unit">
-                    <h1>Welcome, Administrator.</h1>
-                    <p>What would you like to do today?</p>
-                    <p><a class="btn btn-success btn-large" href="users.jsp">Manage Users &raquo;</a></p>
-                </div>
-                <div class="row-fluid">
-                    <div class="span3">
-                        <h3>Total Users</h3>
-                        <p><a href="users.jsp" class="badge badge-inverse">${approveUserBean.userListCount}</a></p>
-                    </div>
-                    <div class="span3">
-                        <h3>New Users Today</h3>
-                        <p><a href="users.jsp" class="badge badge-inverse">${approveUserBean.newUserListCount}</a></p>
-                    </div>
-                    <div class="span3">
-                        <h3>Pending</h3>
-                        <p><a href="users.jsp" class="badge badge-inverse">${approveUserBean.tempUserListCount}</a></p>
-                    </div>
-                    <div class="span3">
-                        <h3>Roles</h3>
-                        <p><a href="roles.html" class="badge badge-inverse">${approveUserBean.roleListCount}</a></p>
-                    </div>
-                </div>
-                <br />
                 <div class="row-fluid">
                     <div class="page-header">
-                        <h1>Pending Users <small>Approve or Reject</small></h1>
+                        <h1>LivingNet <small>Urgent Matters</small></h1>
                     </div>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>    
-                                <th></th>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Role</th>
-                                <th>Email</th>
-                                <th>Mobile No.</th>
-                                <th colspan="3">Address</th>
-
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!--<tr class="pending-user">
-                                    <td>564</td>
-                                    <td>John S. Schwab</td>
-                                    <td>johnschwab@provider.com</td>
-                                    <td>402-xxx-xxxx</td>
-                                    <td>Bassett, NE</td>
-                                    <td>User</td>
-                                    <td><span class="label label-important">Inactive</span></td>
-                                    <td><span class="user-actions"><a href="javascript:void(0);" class="label label-success">Approve</a> <a href="javascript:void(0);" class="label label-important">Reject</a></span></td>
-                            </tr>
-                            <tr class="pending-user">
-                                    <td>565</td>
-                                    <td>Juliana M. Sheffield</td>
-                                    <td>julianasheffield@provider.com</td>
-                                    <td>803-xxx-xxxx</td>
-                                    <td>Columbia, SC</td>
-                                    <td>User</td>
-                                    <td><span class="label label-important">Inactive</span></td>
-                                    <td><span class="user-actions"><a href="javascript:void(0);" class="label label-success">Approve</a> <a href="javascript:void(0);" class="label label-important">Reject</a></span></td>
-                            </tr> -->
-
-                            <c:forEach items="${approveUserBean.tempUserList}" var="userTemp" varStatus="loop">
-                            <script>
-                                var user = new Object();
-                                user.id = '${userTemp.userId}';
-                                user.username = '${userTemp.userName}';
-                                user.firstName = '${userTemp.firstname}';
-                                user.lastName = '${userTemp.lastname}';
-                                user.roleName = '${userTemp.role.name}';
-                                user.email = '${userTemp.email}';
-                                user.mobileNo = '${userTemp.mobileNo}';
-                                user.blockName = '${userTemp.block.blockName}';
-                                user.level = '${userTemp.level}';
-                                user.unit = '${userTemp.unit}';
-                                userList.push(user);
-                            </script>
-                            <tr class="pending-user">
-                                <td>
-                                    <div class="user-thumb">
-                                        <img width="40" height="40" alt="" src="../img/demo/av1.jpg">
-                                    </div>
-                                </td>
-                                <!--<div class="comments">
-                                    <span class="username">-->
-                                <td><b>${userTemp.userId}</b></td>
-                                <td><b>${userTemp.userName}</b></td>
-                                <td>${userTemp.firstname}</td>
-                                <td>${userTemp.lastname}</td>
-                                <td>${userTemp.role.name}</td>
-                                <td>${userTemp.email}</td>
-                                <td>${userTemp.mobileNo}</td>
-                                <td>${userTemp.block.blockName}</td>                                                            
-                                <td>${userTemp.level}</td>
-                                <td>${userTemp.unit}</td>
-                                <td>
-                                    <span class="user-actionss">
-                                        <a href="#approveUserModal" role="button" data-toggle="modal" onclick="populateApproveUserModal('${userTemp.userId}')" class="btn btn-success btn-mini">Approve</a> 
-
-                                        <a href="#rejectUserModal" role="button" data-toggle="modal" onclick="populateRejectUserModal('${userTemp.userId}')" class="btn btn-danger btn-mini" >Reject</a>
-                                    </span>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
                 </div>
+                <div class="row-fluid">
+                    <div class="span3 analyticsHeader">
+                        <h3>User Pending Approval</h3>
+                        <p><a href="users.jsp" class="badge badge-warning">${approveUserBean.tempUserListCount}</a></p>
+                    </div>
+                    <div class="span3 analyticsHeader">
+                        <h3>Flagged Posts</h3>
+                        <p><a href="manage-posts.jsp" class="badge badge-warning">${managePostBean.numberOfFlaggedPosts}</a></p>
+                    </div>
+                    <div class="span3 analyticsHeader">
+                        <h3>Flagged Events</h3>
+                        <p><a href="manage-events.html" class="badge badge-warning">${manageEventBean.numberOfFlaggedEvents}</a></p>
+                    </div>
+                    <div class="span3 analyticsHeader">
+                        <h3>Unresolved Enquiries</h3>
+                        <p><a href="manage-enquiries.jsp" class="badge badge-warning">${manageEnquiryActionBean.numberOfUnresolvedEnquiries}</a></p>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="page-header">
+                        <h1><small>Weekly Statistics</small></h1>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4  well well-large">
+                        <div class="row-fluid">
+                            <h2 class="analyticsHeader">No. of Facility Bookings</h2>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="weekly-stats">1233<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>20%</span></div>
+                        </div>
+                    </div>
+                    <div class="span4 well well-large">
+                        <div class="row-fluid">
+                            <h2 class="analyticsHeader">No. of Community Posts</h2>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="weekly-stats">2222<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>15%</span></div>
+                        </div>
+                    </div>
+                    <div class="span4 well well-large">
+                        <div class="row-fluid">
+                            <h2 class="analyticsHeader">No. of Community Events</h2>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="weekly-stats">123<span class="weekly-loss"><i class="icon-arrow-down weekly-gain"></i>8%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4  well well-large">
+                        <div class="row-fluid">
+                            <h2 class="analyticsHeader">No. of Facility Bookings</h2>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="weekly-stats">1233<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>20%</span></div>
+                        </div>
+                    </div>
+                    <div class="span4 well well-large">
+                        <div class="row-fluid">
+                            <h2 class="analyticsHeader">No. of Community Posts</h2>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="weekly-stats">2222<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>15%</span></div>
+                        </div>
+                    </div>
+                    <div class="span4 well well-large">
+                        <div class="row-fluid">
+                            <h2 class="analyticsHeader">No. of Community Events</h2>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="weekly-stats">123<span class="weekly-loss"><i class="icon-arrow-down weekly-gain"></i>8%</span></div>
+                        </div>
+                    </div>
+                </div>
+<!--                dropdown containing a list of all the facilities-->
+                <div class="row-fluid">
+                    <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
+                        <stripes:select name="Facilities" id ="facilities">
+                            <stripes:options-collection collection="${manageFacilitiesActionBean.facilityList}" value="id" label="name"/>        
+                        </stripes:select>
+                            <a  role="button" data-toggle="modal" class="btn btn-warning btn-mini" onclick="setFid()" >Show</a>
+                        </stripes:form>
+                    <div id="bigGraph"></div>
+                </div>
+                
+                <br />
             </div>
         </div>
 
         <hr>
-
-        <!-- Approve User Modal Form -->
-        <div id="approveUserModal" class="modal hide fade">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Edit <span id="usernameLabel"></span>'s information</h3>
-            </div>
-            <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.ApproveUserBean" focus="" name="registration_validate">
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Role</label>
-                        <div class="controls">
-                            <stripes:select name="role">
-                                <stripes:options-collection collection="${approveUserBean.roleList}" value="id" label="name"/>        
-                            </stripes:select>
-                        </div>
-                    </div> 
-                    <stripes:text class="hide" name="id" id="editid" />
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Username</label>
-                        <div class="controls">
-                            <stripes:text id="edit_username" name="username"/>
-                        </div>
-                    </div>
-
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">First Name</label>
-                        <div class="controls">
-                            <stripes:text id="edit_firstname" name="firstname"/> 
-                        </div>
-                    </div>                              
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Last Name</label>
-                        <div class="controls">
-                            <stripes:text id="edit_lastname" name="lastname"/> 
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Email</label>
-                        <div class="controls">
-                            <stripes:text id="edit_email" name="email"/> 
-                        </div>
-                    </div>                              
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Mobile No.</label>
-                        <div class="controls">
-                            <stripes:text id="edit_mobileno" name="mobileno"/> 
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Block</label>
-                        <div class="controls">
-                            <stripes:text id="edit_block" name="block"/> 
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Level</label>
-                        <div class="controls">
-                            <stripes:text id="edit_level" name="level"/>
-                        </div>
-                    </div>     
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Unit Number</label>
-                        <div class="controls">
-                            <stripes:text id="edit_unit" name="unitnumber"/>
-                        </div>
-                    </div>                     
-
-                </div>
-                <div class="modal-footer">
-                    <a data-dismiss="modal" class="btn">Close</a>
-                    <input type="submit" name="approveUserAction" value="Confirm Approval" class="btn btn-primary"/>
-                </div>
-            </stripes:form>
-        </div>
-
-        <!-- Reject User Modal -->
-        <div id="rejectUserModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Rejecting of <span id="usernameRejectLabel"></span>'s account</h3>
-            </div>
-            <div class="modal-body">
-                <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.RejectUserBean" focus=""> 
-                    You are now rejecting <span id="reject_firstname"></span> <span id="reject_lastname"></span>'s account. Are you sure?
-                </div>
-                <div class="modal-footer">
-                    <a data-dismiss="modal" class="btn">Close</a>
-                    <stripes:hidden name="id" id="reject_id" />
-                    <stripes:hidden id="reject_username" name="username"/>
-                    <input type="submit" name="rejectUser" value="Confirm Rejection" class="btn btn-danger"/>
-                </div>
-            </stripes:form>
-        </div>
 
         <%@include file="include/footer.jsp"%>
     </div>
 
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+
+    var fid;
+
+    function setFid(){
+        console.log(document.getElementById('facilities').value);
+        fid = document.getElementById('facilities').value;
+        reload();
+    }
+    function reload(){
+        d3.select("#graph").remove();
+        var margin = {top: 20, right: 20, bottom: 150, left: 40},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+        var formatPercent = d3.format(".0%");
+
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1, 1);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickFormat(formatPercent);
+
+        var svg = d3.select("#bigGraph").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("id","graph")
+            .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        d3.json("/json/testResponseJson.jsp?FId="+fid, function(error, data) {
+        console.log(data);
+        data.forEach(function(d) {
+            d.frequency = +d.frequency;
+        });
+
+        x.domain(data.map(function(d) { return d.letter; }));
+        y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+                .selectAll("text")  
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", function(d) {
+                        return "rotate(-65)" 
+                        });
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Frequency");
+
+        svg.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return x(d.letter); })
+            .attr("width", x.rangeBand())
+            .attr("y", function(d) { return y(d.frequency); })
+            .attr("height", function(d) { return height - y(d.frequency); });
+
+        d3.select("input").on("change", change);
+
+        var sortTimeout = setTimeout(function() {
+            d3.select("input").property("checked", true).each(change);
+        }, 2000);
+
+        function change() {
+            clearTimeout(sortTimeout);
+
+            // Copy-on-write since tweens are evaluated after a delay.
+            var x0 = x.domain(data.sort(this.checked
+                ? function(a, b) { return b.frequency - a.frequency; }
+                : function(a, b) { return d3.ascending(a.letter, b.letter); })
+                .map(function(d) { return d.letter; }))
+                .copy();
+
+            var transition = svg.transition().duration(750),
+                delay = function(d, i) { return i * 50; };
+
+            transition.selectAll(".bar")
+                .delay(delay)
+                .attr("x", function(d) { return x0(d.letter); });
+
+            transition.select(".x.axis")
+                .call(xAxis)
+                .selectAll("text")  
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", function(d) {
+                        return "rotate(-65)" 
+                        })
+            .selectAll("g")
+                .delay(delay);
+        }
+        });
+    }
+
+
+    </script>
 </body>
 </html>
 

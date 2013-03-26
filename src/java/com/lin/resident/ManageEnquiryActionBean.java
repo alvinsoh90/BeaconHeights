@@ -154,6 +154,11 @@ public class ManageEnquiryActionBean implements ActionBean{
 
 
     }
+    
+    public long getNumberOfUnresolvedEnquiries(){
+        EnquiryDAO enDAO = new EnquiryDAO();
+        return enDAO.getNumberOfUnresolvedEnquiries();
+    }
 
     
 }
