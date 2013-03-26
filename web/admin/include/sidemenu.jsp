@@ -6,7 +6,7 @@
                 <li class="nav-header"><i class="icon-wrench"></i> Users</li>
                 <li> <a href="users.jsp">Manage Users</a></li>
                 <li><a href="new-user.jsp">Add New User</a></li>
-                <li><a href="adminmain.jsp">Approve Users</a></li>
+                <li><a href="approveusers.jsp">Approve Users</a></li>
                 <!--<li><a href="roles.html">User Roles</a></li>-->
 
 

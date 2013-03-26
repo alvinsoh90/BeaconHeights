@@ -159,7 +159,7 @@
                 <div class="row-fluid">
                     <div class="span3 analyticsHeader">
                         <h3>User Pending Approval</h3>
-                        <p><a href="users.jsp" class="badge badge-urgent">${approveUserBean.tempUserListCount}</a></p>
+                        <p><a href="approveusers.jsp" class="badge badge-urgent">${approveUserBean.tempUserListCount}</a></p>
                     </div>
                     <div class="span3 analyticsHeader">
                         <h3>Flagged Posts</h3>
@@ -167,7 +167,7 @@
                     </div>
                     <div class="span3 analyticsHeader">
                         <h3>Flagged Events</h3>
-                        <p><a href="manage-events.html" class="badge badge-urgent">${manageEventBean.numberOfFlaggedEvents}</a></p>
+                        <p><a href="manage-events.jsp" class="badge badge-urgent">${manageEventBean.numberOfFlaggedEvents}</a></p>
                     </div>
                     <div class="span3 analyticsHeader">
                         <h3>Unresolved Enquiries</h3>
