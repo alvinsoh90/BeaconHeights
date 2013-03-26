@@ -289,7 +289,7 @@
                     </div>
                 </div>
 <!--                dropdown containing a list of all the facilities-->
-                <div class="row-fluid">
+<!--                <div class="row-fluid">
                     <stripes:form class="form-horizontal" beanclass="com.lin.general.login.RegisterActionBean" focus="" name="registration_validate" id="registration_validate">
                         <stripes:select name="Facilities" id ="facilities">
                             <stripes:options-collection collection="${manageFacilitiesActionBean.facilityList}" value="id" label="name"/>        
@@ -297,7 +297,7 @@
                             <a  role="button" data-toggle="modal" class="btn btn-warning btn-mini" onclick="setFid()" >Show</a>
                         </stripes:form>
                     <div id="bigGraph"></div>
-                </div>
+                </div>-->
                 
                 <br />
             </div>
