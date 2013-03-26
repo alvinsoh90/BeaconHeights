@@ -39,6 +39,7 @@
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
         <script src="http://d3js.org/d3.v3.min.js"></script>
+        <link href="/css/font-awesome.min.css" rel="stylesheet">
         
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -115,8 +116,18 @@
             margin-left: 10px;
             font-weight: normal;
         }
+        span.weekly-no-change{
+            font-size: 18px;
+            margin-left: 1px;
+            font-weight: normal;
+        }
         i.weekly-gain{
             margin-top: 9px; 
+            color: #21fc00;
+        }
+        i.weekly-loss{
+            margin-top: 9px; 
+            color: #f90025;
         }
         a.badge-urgent{
             padding: 1px 15px 2px;
@@ -194,27 +205,66 @@
                 </div>
                 <div class="row-fluid">
                     <div class="span4  well well-large">
+                        <c:set var="bookingPercentChange" value="${manageBookingsActionBean.percentChange}" /> 
                         <div class="row-fluid">
                             <h2 class="analyticsHeader">New Facility Bookings this week</h2>
                         </div>
                         <div class="row-fluid">
-                            <div class="weekly-stats">${manageBookingsActionBean.numberOfNewBookingsThisWeek}<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>${manageBookingsActionBean.percentChange}%</span></div>
+                            <div class="weekly-stats">${manageBookingsActionBean.numberOfNewBookingsThisWeek}
+                                    <c:choose>
+                                        <c:when test="${bookingPercentChange > 0}">
+                                            <span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>${bookingPercentChange}%</span>
+                                        </c:when>
+                                        <c:when test="${bookingPercentChange<0}">
+                                            <span class="weekly-loss"><i class="icon-arrow-down weekly-loss"></i>${bookingPercentChange}%</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="weekly-no-change">(no change)</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                            </div>
                         </div>
                     </div>
                     <div class="span4 well well-large">
+                        <c:set var="postPercentChange" value="${managePostBean.percentChange}" /> 
                         <div class="row-fluid">
                             <h2 class="analyticsHeader">New Community Posts this week</h2>
                         </div>
                         <div class="row-fluid">
-                            <div class="weekly-stats">${managePostBean.numberOfNewPostsThisWeek}<span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>${managePostBean.percentChange}%</span></div>
+                            <div class="weekly-stats">${managePostBean.numberOfNewPostsThisWeek}
+                                <c:choose>
+                                    <c:when test="${postPercentChange > 0}">
+                                        <span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>${postPercentChange}%</span>
+                                    </c:when>
+                                    <c:when test="${postPercentChange < 0}">
+                                        <span class="weekly-loss"><i class="icon-arrow-down weekly-loss"></i>${postPercentChange}%</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="weekly-no-change">(no change)</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                     </div>
                     <div class="span4 well well-large">
+                        <c:set var="eventPercentChange" value="${manageEventBean.percentChange}" /> 
                         <div class="row-fluid">
                             <h2 class="analyticsHeader">New Community Events this week</h2>
                         </div>
                         <div class="row-fluid">
-                            <div class="weekly-stats">${manageEventBean.numberOfEventsCreatedThisWeek}<span class="weekly-loss"><i class="icon-arrow-down weekly-gain"></i>${manageEventBean.percentChange}%</span></div>
+                            <div class="weekly-stats">${manageEventBean.numberOfEventsCreatedThisWeek}
+                                <c:choose>
+                                    <c:when test="${eventPercentChange > 0}">
+                                        <span class="weekly-gain"><i class="icon-arrow-up weekly-gain"></i>${eventPercentChange}%</span>
+                                    </c:when>
+                                    <c:when test="${eventPercentChange < 0}">
+                                        <span class="weekly-loss"><i class="icon-arrow-down weekly-loss"></i>${eventPercentChange}%</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="weekly-no-change">(no change)</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                     </div>
                 </div>

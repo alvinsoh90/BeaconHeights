@@ -325,13 +325,13 @@ public class ManageBookingsActionBean extends BaseActionBean {
         BookingDAO bDAO = new BookingDAO();
         return bDAO.getNumberOfNewBookingsLastWeek();
     }
-    public String getPercentChange(){
+    public double getPercentChange(){
         BookingDAO bDAO = new BookingDAO();
         long thisWeek = bDAO.getNumberOfNewBookingsThisWeek();
         long lastWeek = bDAO.getNumberOfNewBookingsLastWeek();
         long change = thisWeek - lastWeek;
         double percentChange = (double)change/lastWeek*100;
         DecimalFormat df = new DecimalFormat("#.##");
-        return df.format(percentChange);
+        return Double.parseDouble(df.format(percentChange));
     }
 }

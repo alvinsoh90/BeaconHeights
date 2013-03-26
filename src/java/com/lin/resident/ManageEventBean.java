@@ -648,12 +648,12 @@ public class ManageEventBean extends BaseActionBean {
     public long getNumberOfEventsCreatedLastWeek(){
         return eDAO.getNumberOfEventsCreatedLastWeek();
     }
-    public String getPercentChange(){
+    public double getPercentChange(){
         long thisWeek = eDAO.getNumberOfEventsCreatedThisWeek();
         long lastWeek = eDAO.getNumberOfEventsCreatedLastWeek();
         long change = thisWeek - lastWeek;
         double percentChange = (double)change/lastWeek*100;
         DecimalFormat df = new DecimalFormat("#.##");
-        return df.format(percentChange);
+        return Double.parseDouble(df.format(percentChange));
     }
 }

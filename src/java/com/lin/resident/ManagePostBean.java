@@ -274,13 +274,13 @@ public class ManagePostBean extends BaseActionBean {
     public long getNumberOfNewPostsThisWeek(){
         return pDAO.getNumberOfNewPostsThisWeek();
     }
-    public String getPercentChange(){
+    public double getPercentChange(){
         long thisWeek = pDAO.getNumberOfNewPostsThisWeek();
         long lastWeek = pDAO.getNumberOfNewPostsLastWeek();
         long change = thisWeek - lastWeek;
         double percentChange = (double)change/lastWeek*100;
         DecimalFormat df = new DecimalFormat("#.##");
-        return df.format(percentChange);
+        return Double.parseDouble(df.format(percentChange));
     }
     
 }
