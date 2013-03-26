@@ -190,7 +190,7 @@ public class ManagePostBean extends BaseActionBean {
     @HandlesEvent("adminUnFlagPostInappropriate")
     public Resolution adminUnflagPost(){
         outcome = pDAO.adminUnFlagPostInappropriate(postId);
-        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
+        return new RedirectResolution("/admin/manage-flaggedposts.jsp?deletesuccess="
                 + outcome);
     }
     
@@ -198,7 +198,15 @@ public class ManagePostBean extends BaseActionBean {
     public Resolution adminUnfeaturePost() {
         System.out.println(postId+"unfeaturedPostID");
         outcome = pDAO.removeFeaturedPost(postId);
-        return new RedirectResolution("/admin/manage-featureposts.jsp?deletesuccess="
+        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
+                + outcome);
+    }
+    
+    @HandlesEvent("adminFeaturePost")
+    public Resolution adminFeaturePost() {
+        System.out.println(postId+"featuredPostID");
+        outcome = pDAO.featurePost(postId);
+        return new RedirectResolution("/admin/manage-posts.jsp?deletesuccess="
                 + outcome);
     }
     

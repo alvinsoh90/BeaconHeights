@@ -54,7 +54,9 @@
 
         <script>
             var postList = [];             
-                
+            var postList2 = [];
+            
+            
             function populateDeletePostModal(postID){ 
                 postList.forEach(function(post){
                     if(post.postId == postID){
@@ -110,6 +112,19 @@
                     }
                      
                 });
+            }
+            function populateFeaturePostModal(postID){ 
+                postList2.forEach(function(post){
+                    if(post.postId == postID){
+                        $("#usernameFeaturePostLabel").text(post.firstName + " " + post.lastName);
+                        $("#featurePost_firstName").text(post.firstName);
+                        $("#featurePost_lastName").text(post.lastName);
+                        $("#featurePost_postDate").text(post.date);
+                        $("#featurePost_id").val(post.postId);
+                        
+                    }
+                });
+                
             }
             
         </script>
@@ -215,6 +230,24 @@
                     post.date = '${post.date}';
                     
                     postList.push(post);
+                </script>
+            </c:forEach>
+        </c:if>
+                
+                
+        <c:if test="${managePostBean.postList.size()!=0}">   
+
+            <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
+                <script>
+                    var post = new Object();
+                    post.postId = '${post.postId}';
+                    post.username = '${post.user.escapedUserName}';
+                    post.firstName = '${post.user.escapedFirstName}';
+                    post.lastName = '${post.user.escapedLastName}';
+                    post.title = '${post.title}';
+                    post.date = '${post.date}';
+                    
+                    postList2.push(post);
                 </script>
             </c:forEach>
         </c:if>
@@ -465,17 +498,9 @@
                                         <div class="span2 postSideBlock">
 
 
-                                            <!--
-                                            <div class="linkBar">
-                                            <!--<a class="btn btn-mini btn-peace-2"><i class="icon-check"></i> I'm going!</a>-->
 
+                                            <a href="#featurePostModal" role="button" data-toggle="modal" class="btn btn-toolbar btn-mini" onclick="populateFeaturePostModal(${post.postId})">Feature Post</a>
 
-
-                                            <!--<a class="btn btn-mini btn-decaying-with-elegance-3"><i class="icon-eye-open"></i> View Post</a> -->
-                                            <!-- This should be to flag as APPROPRIATE
-                                            <a href="#flag" onclick="unFlagPostInappropriate(${post.postId})" class="float_r flagPost flagInappropriateBtn"><i class="icon-flag"></i> <span class="txt">Unflag Inappropriate Post</span></a>
-
-                                        </div>-->
 
 
 
@@ -505,7 +530,26 @@
 
     <%@include file="include/footer.jsp"%>
 
-
+    <!-- feature post -->
+    <div id="featurePostModal" class="modal hide fade">
+        <div id="myModal" class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Featuring <span id="usernameFeaturePostLabel"></span>'s post</h3>
+        </div>
+        <div class="modal-body">
+            <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManagePostBean" focus=""> 
+                You are now featuring <b><span id="featurePost_firstName"></span> 
+                    <span id="featurePost_lastName"></span>'s</b> post on the <b>
+                    <span id="featurePost_postDate"></span>
+                </b>. Are you sure?
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn">Close</a>
+                <stripes:hidden id="unfeatured_id" name="postId"/>
+                <input type="submit" name="adminFeaturePost" value="Feature Post" class="btn btn-primary"/>
+            </div>
+        </stripes:form>
+    </div>
     <!-- unfeature post -->
     <div id="unfeaturePostModal" class="modal hide fade">
         <div id="myModal" class="modal-header">

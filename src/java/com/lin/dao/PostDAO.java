@@ -551,6 +551,26 @@ public class PostDAO {
         }
         return false;
     }
+     
+     public boolean featurePost(int postId) {
+        openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Post p = (Post) session.get(Post.class, postId);
+            p.setIsFeatured(true);
+            session.update(p);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return false;
+    }
     
 
     public Event getEventOfPost(int postId) {
