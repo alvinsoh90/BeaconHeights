@@ -40,7 +40,7 @@
             }); 
 
         </script>
-        <script src="./js/jquery-1.7.2.min.js"></script>
+        
         <script src="js/jquery.mobile-1.1.0.min.js"></script>
         <script src="https://app.zooz.com/mobile/js/zooz-ext-web.js"></script> <!-- Include the ZooZ script that contains the zoozStartCheckout() function -->
 

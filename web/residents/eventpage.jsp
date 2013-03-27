@@ -34,7 +34,7 @@
         <link href="./css/font-awesome.css" rel="stylesheet">
 
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
-        <script src="./js/jquery-1.7.2.min.js"></script>
+        
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
         <link href="/css/toastr-responsive.css" rel="stylesheet" />
