@@ -33,7 +33,7 @@
         
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
-        
+        <script src="./js/jquery-1.7.2.min.js"></script>
         
         <!-- Calendar -->
         <script src="./js/unicorn.calendar.js"></script>

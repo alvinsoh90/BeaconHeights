@@ -42,7 +42,7 @@
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
         <script src="./js/unicorn.calendar.js"></script>
-        
+        <script src="./js/jquery-1.7.2.min.js"></script>
 
         <link href="/datatables/media/css/jquery.residentsDatatables.css" rel="stylesheet">
         <script type="text/javascript" charset="utf-8" src="/datatables/media/js/jquery.dataTables.js"></script>

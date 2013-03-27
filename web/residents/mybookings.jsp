@@ -23,7 +23,7 @@
 
         <link href="./css/residentscustom.css" rel="stylesheet"> 
 
-        
+        <script src="./js/jquery-1.7.2.min.js"></script>
 
         <!--Toastr Popup -->
         <script src="/js/toastr.js"></script>

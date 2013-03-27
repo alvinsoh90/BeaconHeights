@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="./css/fullcalendar.css" />	
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
 
-        
+        <script src="./js/jquery-1.7.2.min.js"></script>
 
         <script type="text/javascript" src="http://gothere.sg/jsapi?sensor=false"> </script>
         <script type="text/javascript">
