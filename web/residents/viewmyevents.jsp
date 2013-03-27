@@ -34,7 +34,7 @@
         <link href="./css/font-awesome.css" rel="stylesheet">
 
         <link href="./css/pages/dashboard.css" rel="stylesheet"> 
-        <script src="/js/jquery-1.9.1.min.js"></script>
+        
         <script src="/js/bootstrap-2.3.0.js"></script>
         <link href="../css/pickadate.02.classic.css" rel="stylesheet" />
         <script src="../js/pickadate.min.js"></script>
