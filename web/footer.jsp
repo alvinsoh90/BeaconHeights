@@ -1,3 +1,4 @@
+<script src="/js/jquery.raty.js"></script>
 <div id="footer">
 
                 <div class="container">				

@@ -52,5 +52,6 @@
     <mapping resource="com/lin/entities/PostLike.hbm.xml"/>
     <mapping resource="com/lin/entities/EventInvite.hbm.xml"/>
     <mapping resource="com/lin/entities/PostUserTag.hbm.xml"/>
+    <mapping resource="com/lin/entities/UserRating.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

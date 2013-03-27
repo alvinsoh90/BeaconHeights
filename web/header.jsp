@@ -12,6 +12,8 @@
     <link href="./css/adminia.css" rel="stylesheet"> 
     <link href="./css/adminia-responsive.css" rel="stylesheet"> 
     <link href="./css/residentscustom.css" rel="stylesheet"> 
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    
     <script src="/js/underscore-min.js"></script>
     <script src="/js/json2.js"></script>
 </head>
@@ -163,7 +165,17 @@
                            
                             
                 <ul class="nav pull-right">
-
+                    <li class="dropdown">
+                        
+                        <a href="#rateAppModal" role ="button" data-toggle="modal"
+                                                                       onclick="populateRateAppModal()">
+                                                        Rate LivingNet!							
+                                                    </a>
+                        
+                        </a>
+                        <ul class="dropdown-menu">
+                        </ul>
+                    </li>
                     <li class="dropdown">
 
                         <a href="/residents/myenquiries.jsp"> <i>Enquiries</i></a>
@@ -171,6 +183,7 @@
                         <ul class="dropdown-menu">
                         </ul>
                     </li>
+                    
                 </ul>
                             
             </div> <!-- /nav-collapse -->
@@ -182,4 +195,63 @@
 </div> <!-- /navbar -->
 
 
-<!-- XY IS AWESOME! --->
+<script>
+    
+function populateRateAppModal(){ 
+    
+
+}    
+$(document).ready(function() {
+               $('#star').raty({
+                   hints:  ['Very Bad', 'Bad', 'Ok', 'Good', 'Very Good'],
+                   size: 20,
+                   score: 3,
+                   width: 150
+               });
+});
+
+function rate(){
+    var rating = $('#star').raty('score');
+    if(rating!=undefined){
+        var dat = new Object();
+        dat.userId = ${user.userId};
+        dat.rating =rating;
+    }
+    
+    $.ajax({
+        type: "POST",
+        url: "/json/community/rate.jsp",
+        data: dat,
+        success: function(data, textStatus, xhr) {
+            $('#rateAppModal').modal('hide');
+            toastr.success("Thank you, your feedback has been recorded.")
+        },
+        complete: function(xhr, textStatus){
+            $('#rateAppModal').modal('hide');
+        }
+    });
+
+}
+
+</script>
+
+ <!-- Rate App Modal -->
+<div id="rateAppModal" class="modal hide fade">
+    <div id="myModal" class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3>Rate LivingNet.</h3>
+    </div>
+    <div class="modal-body">
+        <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEventBean" focus=""> 
+            Feel free to give us your honest opinions of LivingNet. <br>If you have encountered any problems or have any feedback, do drop us an <a href="mailto:helpdesk@beaconheights.com.sg">E-mail</a> to help us help you.<br>
+            <div id="star">Rate: </div>
+    </div>
+    
+        <div class="modal-footer">
+            <a data-dismiss="modal" class="btn">Close</a>
+            <stripes:hidden name="userId" value="${user.userId}"/>
+            <stripes:hidden name="rating"/>
+            <a href="#edit" onclick="rate()" class="btn btn-info">Rate</a>
+        </div>
+    </stripes:form>
+</div>

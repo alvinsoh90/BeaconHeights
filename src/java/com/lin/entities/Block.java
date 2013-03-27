@@ -41,7 +41,7 @@ public class Block  implements java.io.Serializable {
        this.userTemps = userTemps;
        this.users = users;
     }
-   
+    
     public Integer getId() {
         return this.id;
     }
