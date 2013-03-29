@@ -204,8 +204,8 @@ function populateRateAppModal(){
 $(document).ready(function() {
                $('#star').raty({
                    hints:  ['Very Bad', 'Bad', 'Ok', 'Good', 'Very Good'],
-                   size: 20,
                    score: 3,
+                   size: 24,
                    width: 150
                });
 });
@@ -240,11 +240,15 @@ function rate(){
     <div id="myModal" class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
         <h3>Rate LivingNet.</h3>
+        Feel free to give us your honest opinions of LivingNet
     </div>
     <div class="modal-body">
         <stripes:form class="form-horizontal" beanclass="com.lin.resident.ManageEventBean" focus=""> 
-            Feel free to give us your honest opinions of LivingNet. <br>If you have encountered any problems or have any feedback, do drop us an <a href="mailto:helpdesk@beaconheights.com.sg">E-mail</a> to help us help you.<br>
             <div id="star">Rate: </div>
+            <div style="color:grey">
+                <br>If you have encountered any problems or have any feedback, do drop us an <a href="mailto:helpdesk@beaconheights.com.sg"><span style="color:#597448;font-weight: bold">E-Mail</span></a> to help us help you.<br>
+            </div>
+            
     </div>
     
         <div class="modal-footer">
