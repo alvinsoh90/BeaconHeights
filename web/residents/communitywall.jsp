@@ -482,9 +482,9 @@
 
             <div class="featured">
                 <section class="featuredTitle"> FEATURED POST</section>
-                <ul class="featuredPostList" style="display:none">
+                <ul class="featuredPostList">
                     <c:forEach items="${managePostBean.featuredPostList}" var="post" varStatus="loop">
-                        <li class="featuredPost" style="list-style-type: none">
+                        <li class="featuredPost" style="display:none">
                             <div class="featuredProfile">
                                 <img id ="profilePic" src="/uploads/profile_pics/${post.user.profilePicFilename}" class="profilePic"/>
                                 <span id="featuredProfile"></span>
@@ -497,7 +497,6 @@
                         </li>
                     </c:forEach>
                 </ul>
-                </section>
             </div>
         </div>
         <c:forEach items="${managePostBean.postList}" var="post" varStatus="loop">
