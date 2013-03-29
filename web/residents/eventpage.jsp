@@ -418,7 +418,7 @@
             <c:if test="${user.userId==event.user.userId}">
                 <a href='#editPicModal' role='button' data-toggle='modal'>
                 </c:if>
-                <img class ="bannerEvent" src="/uploads/banner_pics/${event.bannerFileName}" />
+                <img class ="bannerEvent" src="/uploads/event_banners/${event.bannerFileName}" />
                 <c:if test="${user.userId==event.user.userId}">
                 </a>
             </c:if>
