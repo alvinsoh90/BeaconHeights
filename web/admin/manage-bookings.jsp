@@ -214,8 +214,8 @@
                             <c:forEach items="${manageBookingsActionBean.bookingList}" var="booking" varStatus="loop">
                                 <tr>
                                     <td>${booking.id}</td>
-                                    <td nowrap>${booking.user.level}</td>
-                                    <td nowrap>${booking.user.unit}</td>
+                                    <td nowrap>${booking.level}</td>
+                                    <td nowrap>${booking.unit}</td>
                                     <td >${booking.user.escapedFirstName} ${booking.user.escapedLastName}</td>
                                     <td nowrap>${booking.facility.escapedName}</td>
 
