@@ -47,7 +47,7 @@ public class EnquiryDAO {
         
         try {
             tx = session.beginTransaction();
-            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.userByUserId left join fetch enquiry.userByResponderId");
+            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.user where enquiry.enquiry = null");
             //Query q = session.createQuery("from Booking");
             enquiryList = (ArrayList<Enquiry>) q.list();
             
@@ -68,7 +68,7 @@ public class EnquiryDAO {
         try {
             ArrayList<Enquiry> tempList = getAllEnquiries();
             for (Enquiry e : tempList) {
-                if (userID == e.getUserByUserId().getUserId()) {
+                if (userID == e.getUser().getUserId()) {
                     userEnquiryList.add(e);
                 }
             }
@@ -114,12 +114,38 @@ public class EnquiryDAO {
         // if txn fails, return null
         return null;
     }
-    public Enquiry createEnquiry(User user, String title, String text) throws IllegalStateException {
+    public Enquiry createEnquiry(User user, String regarding, String text) throws IllegalStateException {
         
         openSession();
         org.hibernate.Transaction tx = null;
         
-        Enquiry en = new Enquiry(user, title, text);
+        Enquiry en = new Enquiry(user, false, new Date(), new Date(), regarding, text);
+       
+        try {
+            tx = session.beginTransaction();
+            session.save("Enquiry", en);
+            tx.commit();
+
+            return en;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        
+        return null;
+    }
+    
+    
+    public Enquiry createEnquiry(User user, String regarding, String text, int replyId) throws IllegalStateException {
+        Enquiry original = getEnquiry(replyId);
+        
+        
+        openSession();
+        org.hibernate.Transaction tx = null;
+        
+        Enquiry en = new Enquiry(user, original, false, new Date(), new Date(), regarding, text);
        
         try {
             tx = session.beginTransaction();
@@ -168,7 +194,7 @@ public class EnquiryDAO {
     }
 
     //resident update
-    public Enquiry updateEnquiry(int id, String title, String text) {        
+    public Enquiry updateEnquiry(int id, String regarding, String text) {        
         openSession();
         org.hibernate.Transaction tx = null;
         Enquiry enquiry = null;
@@ -176,7 +202,7 @@ public class EnquiryDAO {
             tx = session.beginTransaction();
             enquiry = (Enquiry) session.get(Enquiry.class, id);
 
-            enquiry.setTitle(title);
+            enquiry.setRegarding(regarding);
             enquiry.setText(text);
 
             session.update(enquiry);
@@ -191,7 +217,55 @@ public class EnquiryDAO {
        return enquiry;
     }
     
-    //admin update and reply
+    //update for status
+    public Enquiry updateEnquiry(int id, boolean status) {        
+        openSession();
+        org.hibernate.Transaction tx = null;
+        Enquiry enquiry = null;
+        try {
+            tx = session.beginTransaction();
+            enquiry = (Enquiry) session.get(Enquiry.class, id);
+
+            enquiry.setStatus(status);
+
+            session.update(enquiry);
+            tx.commit();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+       return enquiry;
+    }
+    
+    public ArrayList<Enquiry> getResponses (int enquiryId){
+        openSession();
+        org.hibernate.Transaction tx;
+
+        
+        try {
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Enquiry as enquiry join fetch enquiry.user where enquiry.enquiry = :enquiryid");
+            q.setInteger("enquiryid", enquiryId);
+            enquiryList = (ArrayList<Enquiry>) q.list();
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("Closing Session...");
+            session.close();            
+        
+        }
+        return enquiryList;
+    }
+    
+    
+    
+    
+    /* to be reworked
     public Enquiry updateEnquiry(int id, String title, String text, User responder, String response, boolean isResolved){
         
         openSession();
@@ -219,12 +293,12 @@ public class EnquiryDAO {
        return enquiry;
         
     }
-
+     */
     public long getNumberOfUnresolvedEnquiries() {
         openSession();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            String hql = "select count(*) from Enquiry where isResolved = 0";
+            String hql = "select count(*) from Enquiry where status = 0";
             Query query = session.createQuery(hql);
             long result = (Long)query.uniqueResult();
             tx.commit();
@@ -234,6 +308,7 @@ public class EnquiryDAO {
             return -1L;
         }
     }
+    
  
 
 }

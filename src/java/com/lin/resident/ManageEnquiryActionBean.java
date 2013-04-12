@@ -39,6 +39,10 @@ public class ManageEnquiryActionBean implements ActionBean{
      private String title;
      private String text;
      private boolean isResolved;
+     private Enquiry enquiry;
+     private ArrayList<Enquiry> responseList;
+     private String replyid;
+     private boolean status;
 
     public int getId() {
         return this.id;
@@ -62,7 +66,15 @@ public class ManageEnquiryActionBean implements ActionBean{
         this.userId = userId;
     }
     
+    public Enquiry getEnquiry(int id){
+        EnquiryDAO enDAO = new EnquiryDAO();
+        enquiry = enDAO.getEnquiry(id);
+        return enquiry;
+    }
     
+    public void setEnquiry(Enquiry enquiry){
+        enquiry = enquiry;
+    }
     
     public Date getEnquiryTimeStamp() {
         return this.enquiryTimeStamp;
@@ -109,6 +121,33 @@ public class ManageEnquiryActionBean implements ActionBean{
     public void setEnquiryList(ArrayList<Enquiry> enquiryList) {
         this.enquiryList = enquiryList;
     }
+
+    public ArrayList<Enquiry> getResponseList(int enquiryId) {
+        EnquiryDAO enDAO = new EnquiryDAO();
+        responseList = enDAO.getResponses(enquiryId);
+        return responseList;
+    }
+
+    public void setResponseList(ArrayList<Enquiry> responseList) {
+        this.responseList = responseList;
+    }
+
+    public String getReplyid() {
+        return replyid;
+    }
+
+    public void setReplyid(String replyid) {
+        this.replyid = replyid;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
     
     
     @Override
@@ -150,6 +189,80 @@ public class ManageEnquiryActionBean implements ActionBean{
         }
         fs.put("SUCCESS","Enquiry successfully uploaded.");
         return new RedirectResolution("/residents/myenquiries.jsp");
+
+
+
+    }
+    
+    public Resolution update() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        String result;
+        boolean success;
+        
+        
+        isResolved = false;
+        
+        try {
+         
+            UserDAO uDAO = new UserDAO();
+            User enquiryUser = uDAO.getUser(Integer.parseInt(userId));
+            
+            EnquiryDAO enDAO = new EnquiryDAO();
+            if (text.isEmpty()){
+                throw new Exception("empty");
+                
+            }
+            
+            int replyId = Integer.parseInt(replyid);
+            
+            Enquiry enquiry = enDAO.createEnquiry(enquiryUser, title, text, replyId);
+            enDAO.updateEnquiry(replyId, status);
+            result = "Enquiry";
+            success = true;
+        } catch (Exception e) {
+            result = "fail";
+            success = false;
+        }
+        fs.put("SUCCESS","Enquiry successfully uploaded.");
+        return new RedirectResolution("/residents/enquiry.jsp?enquiry="+replyid);
+
+
+
+    }
+    
+    public Resolution adminUpdate() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        String result;
+        boolean success;
+        
+        
+        isResolved = false;
+        
+        try {
+         
+            UserDAO uDAO = new UserDAO();
+            User enquiryUser = uDAO.getUser(Integer.parseInt(userId));
+            
+            EnquiryDAO enDAO = new EnquiryDAO();
+            if (text.isEmpty()){
+                throw new Exception("empty");
+                
+            }
+            
+            int replyId = Integer.parseInt(replyid);
+            
+            Enquiry enquiry = enDAO.createEnquiry(enquiryUser, title, text, replyId);
+            if (status){
+                enDAO.updateEnquiry(replyId, status);
+            }
+            result = "Enquiry";
+            success = true;
+        } catch (Exception e) {
+            result = "fail";
+            success = false;
+        }
+        fs.put("SUCCESS","Enquiry successfully uploaded.");
+        return new RedirectResolution("/admin/adminenquiry.jsp?enquiry="+replyid);
 
 
 

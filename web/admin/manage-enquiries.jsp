@@ -20,6 +20,7 @@
 <jsp:useBean id="registerActionBean" scope="page"
              class="com.lin.general.login.RegisterActionBean"/>
 <jsp:useBean id="newsDate" class="java.util.Date" />
+<jsp:useBean id="upDate" class="java.util.Date" />
 
 
 
@@ -30,7 +31,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Admin | Manage Resources</title>
+        <title>Admin | Manage Enquiries</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
@@ -86,6 +87,7 @@
         </script>
 
 
+<<<<<<< HEAD
         <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
             <script>
                 
@@ -107,6 +109,8 @@
 
         </c:forEach>
 
+=======
+>>>>>>> ec787c8... Enquiry ready both admin and resident
 
     </head>
     <body>
@@ -129,9 +133,14 @@
                     <table id ="enquiryTable" class="table table-striped table-bordered table-condensed" id="current">
                         <c:if test="${manageEnquiryActionBean.enquiryList.size()!=0}">     
                             <thead>
+<<<<<<< HEAD
                             <th>Enquiry ID.</th>
+=======
+                            <th>No.</th>
+>>>>>>> ec787c8... Enquiry ready both admin and resident
                             <th>Title</th>
                             <th>Date</th>
+                            <th>Last Update</th>
                             <th>Status</th>
 
                             </thead>
@@ -139,14 +148,27 @@
                                 <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
                                     <tr>
                                         <td>ID:<fmt:formatNumber pattern="00000000" value="${enquiry.id}"/></td>
+<<<<<<< HEAD
                                         <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
                                         <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
+=======
+                                        <td nowrap><a href="adminenquiry.jsp?enquiry=${enquiry.id}"> ${enquiry.regarding}</td>
+
+                                        <jsp:setProperty name="newsDate" property="time" value="${enquiry.opened.time}" />
+                                        <jsp:setProperty name="upDate" property="time" value="${enquiry.lastUpdated.time}" />
+>>>>>>> ec787c8... Enquiry ready both admin and resident
                                         <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+                                        <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${upDate}" /></td>
                                         <td nowrap>
                                             <script>
                                                             
+<<<<<<< HEAD
                                                 if (${enquiry.isResolved}){
                                                     document.write("Resolved");
+=======
+                                                if (${enquiry.status}){
+                                                    document.write("CLOSED");
+>>>>>>> ec787c8... Enquiry ready both admin and resident
                                                 }else {
                                                     document.write("Unresolved");
                                                 }
