@@ -1,33 +1,39 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 28, 2013 4:01:28 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Mar 29, 2013 1:06:19 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.lin.entities.Enquiry" table="enquiry" catalog="lin_db">
-        <id name="id" type="java.lang.Integer">
+    <class name="com.lin.entities.Enquiry" table="enquiry" catalog="lin_staging_db">
+        <id name="id" type="int">
             <column name="id" />
-            <generator class="identity" />
+            <generator class="assigned" />
         </id>
-        <many-to-one name="userByUserId" class="com.lin.entities.User" fetch="select">
+        <many-to-one name="user" class="com.lin.entities.User" fetch="select">
             <column name="user_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="userByResponderId" class="com.lin.entities.User" fetch="select">
-            <column name="responder_id" />
+        <many-to-one name="enquiry" class="com.lin.entities.Enquiry" fetch="select">
+            <column name="reply_id" />
         </many-to-one>
-        <property name="enquiryTimeStamp" type="timestamp">
-            <column name="enquiry_time_stamp" length="19" />
+        <property name="status" type="boolean">
+            <column name="status" not-null="true" />
         </property>
-        <property name="title" type="string">
-            <column name="title" length="50" not-null="true" />
+        <property name="opened" type="date">
+            <column name="opened" length="10" not-null="true" />
+        </property>
+        <property name="lastUpdated" type="date">
+            <column name="last_updated" length="10" not-null="true" />
+        </property>
+        <property name="regarding" type="string">
+            <column name="regarding" length="30" not-null="true" />
         </property>
         <property name="text" type="string">
             <column name="text" length="5000" not-null="true" />
         </property>
-        <property name="response" type="string">
-            <column name="response" length="5000" />
-        </property>
-        <property name="isResolved" type="boolean">
-            <column name="is_resolved" not-null="true" />
-        </property>
+        <set name="enquiries" inverse="true">
+            <key>
+                <column name="reply_id" />
+            </key>
+            <one-to-many class="com.lin.entities.Enquiry" />
+        </set>
     </class>
 </hibernate-mapping>
