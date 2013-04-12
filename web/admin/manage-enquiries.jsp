@@ -129,7 +129,7 @@
                     <table id ="enquiryTable" class="table table-striped table-bordered table-condensed" id="current">
                         <c:if test="${manageEnquiryActionBean.enquiryList.size()!=0}">     
                             <thead>
-                            <th>No.</th>
+                            <th>Enquiry ID.</th>
                             <th>Title</th>
                             <th>Date</th>
                             <th>Status</th>
@@ -138,7 +138,7 @@
                             <tbody>
                                 <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
                                     <tr>
-                                        <td>${loop.index + 1}</td>
+                                        <td>ID:<fmt:formatNumber pattern="00000000" value="${enquiry.id}"/></td>
                                         <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
                                         <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
                                         <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>

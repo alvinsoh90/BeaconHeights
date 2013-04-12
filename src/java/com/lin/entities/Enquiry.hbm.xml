@@ -1,19 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 29, 2013 1:06:19 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Mar 29, 2013 12:50:58 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Enquiry" table="enquiry" catalog="lin_staging_db">
         <id name="id" type="int">
             <column name="id" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="user" class="com.lin.entities.User" fetch="select">
+        <property name="userId" type="int">
             <column name="user_id" not-null="true" />
-        </many-to-one>
-        <many-to-one name="enquiry" class="com.lin.entities.Enquiry" fetch="select">
-            <column name="reply_id" />
-        </many-to-one>
+        </property>
         <property name="status" type="boolean">
             <column name="status" not-null="true" />
         </property>
@@ -29,11 +26,8 @@
         <property name="text" type="string">
             <column name="text" length="5000" not-null="true" />
         </property>
-        <set name="enquiries" inverse="true">
-            <key>
-                <column name="reply_id" />
-            </key>
-            <one-to-many class="com.lin.entities.Enquiry" />
-        </set>
+        <property name="replyId" type="java.lang.Integer">
+            <column name="reply_id" />
+        </property>
     </class>
 </hibernate-mapping>

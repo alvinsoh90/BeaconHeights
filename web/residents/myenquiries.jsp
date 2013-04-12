@@ -195,7 +195,7 @@
                                             <%int count = 1;%>
                                             <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
                                                 <tr>
-                                                    <td><%= count++%></td>
+                                                    <td>ID:<fmt:formatNumber pattern="00000000" value="${enquiry.id}"/></td>
                                                     <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
                                                     <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
