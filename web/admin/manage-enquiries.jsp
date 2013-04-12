@@ -20,6 +20,7 @@
 <jsp:useBean id="registerActionBean" scope="page"
              class="com.lin.general.login.RegisterActionBean"/>
 <jsp:useBean id="newsDate" class="java.util.Date" />
+<jsp:useBean id="upDate" class="java.util.Date" />
 
 
 
@@ -30,7 +31,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Admin | Manage Resources</title>
+        <title>Admin | Manage Enquiries</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/site.css" rel="stylesheet">
@@ -62,25 +63,6 @@
         </script>
 
 
-        <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
-            <script>
-                
-                
-                var enquiry = new Object();
-                enquiry.id = '${enquiry.id}';
-                enquiry.title = '${enquiry.escapedTitle}';
-                enquiry.text = '${enquiry.escapedText}';
-                enquiry.date = '${enquiry.enquiryTimeStamp}';
-                enquiry.isResolved = '${enquiry.isResolved}';
-                enquiry.userName = '${enquiry.user.userName}'
-                enquiryList.push(enquiry);
-
-                
-            </script>
-
-
-        </c:forEach>
-
 
     </head>
     <body>
@@ -103,9 +85,11 @@
                     <table id ="enquiryTable" class="table table-striped table-bordered table-condensed" id="current">
                         <c:if test="${manageEnquiryActionBean.enquiryList.size()!=0}">     
                             <thead>
-                            <th>Enquiry ID.</th>
-                            <th>Regarding</th>
+                            <th>No.</th>
+                            <th>User</th>
+                            <th>Title</th>
                             <th>Date</th>
+                            <th>Last Update</th>
                             <th>Status</th>
 
                             </thead>
@@ -113,13 +97,17 @@
                                 <c:forEach items="${manageEnquiryActionBean.enquiryList}" var="enquiry" varStatus="loop">
                                     <tr>
                                         <td>ID:<fmt:formatNumber pattern="00000000" value="${enquiry.id}"/></td>
-                                        <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.regarding}</td>
-                                        <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
+                                        <td nowrap>${enquiry.user.userName}</td>
+                                        <td nowrap><a href="adminenquiry.jsp?enquiry=${enquiry.id}"> ${enquiry.regarding}</td>
+
+                                        <jsp:setProperty name="newsDate" property="time" value="${enquiry.opened.time}" />
+                                        <jsp:setProperty name="upDate" property="time" value="${enquiry.lastUpdated.time}" />
                                         <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+                                        <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${upDate}" /></td>
                                         <td nowrap>
                                             <script>
                                                             
-                                                if (${enquiry.isResolved}){
+                                                if (${enquiry.status}){
                                                     document.write("CLOSED");
                                                 }else {
                                                     document.write("OPEN");
