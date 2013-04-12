@@ -217,29 +217,6 @@ public class EnquiryDAO {
        return enquiry;
     }
     
-    //update for status
-    public Enquiry updateEnquiry(int id, boolean status) {        
-        openSession();
-        org.hibernate.Transaction tx = null;
-        Enquiry enquiry = null;
-        try {
-            tx = session.beginTransaction();
-            enquiry = (Enquiry) session.get(Enquiry.class, id);
-
-            enquiry.setStatus(status);
-
-            session.update(enquiry);
-            tx.commit();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (tx != null) {
-                tx.rollback();
-            }
-        }
-       return enquiry;
-    }
-    
     public ArrayList<Enquiry> getResponses (int enquiryId){
         openSession();
         org.hibernate.Transaction tx;

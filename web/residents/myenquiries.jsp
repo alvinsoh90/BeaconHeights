@@ -12,7 +12,7 @@
         <jsp:useBean id="registerActionBean" scope="page"
                      class="com.lin.general.login.RegisterActionBean"/>
         <jsp:useBean id="newsDate" class="java.util.Date" />
-
+        <jsp:useBean id="upDate" class="java.util.Date" />
 
         <jsp:setProperty name = "manageEnquiryActionBean"  property = "user"  value = "${user}" />
         <%@include file="/protect.jsp"%>
@@ -56,34 +56,19 @@
                     var msg = "<b>There was an error processing your request.</b><br/>";
                     msg += "<ol>"
                 <c:forEach var="message" items="${MESSAGES}">
-                            msg += "<li>${message}</li>";
+                        msg += "<li>${message}</li>";
             </c:forEach>
-                            msg += "</ol>";    
-                            toastr.errorSticky(msg);
-                        }
-
-                    });
-            
-            var enquiryList = [];
-            
-            
-            
-            function populateViewEnquiryModal(enquiryId){ 
-                enquiryList.forEach(function(enquiry){
-                    if(enquiry.id == enquiryId){
-                        
-                        $("#view_title").val(enquiry.title);
-                        $("#view_date").val(enquiry.date);
-                        $("#view_text").val(enquiry.text);
-                        $("#view_id").val(enquiry.id);
-                        $("#view_responder").val(enquiry.responderName); 
-                        $("#view_responder_id").val(enquiry.responderId);
-                        $("#view_response").val(enquiry.response);
+                        msg += "</ol>";    
+                        toastr.errorSticky(msg);
                     }
+
                 });
-            }
+            
+                var enquiryList = [];
+            
+           
         </script>
-        
+
         <script>
             function loadValidate(){
                 $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
@@ -110,31 +95,6 @@
                 
             }
         </script>
-
-
-        <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
-            <script>
-                
-               
-                var enquiry = new Object();
-                enquiry.id = '${enquiry.id}';
-                enquiry.title = '${enquiry.title}';
-                enquiry.text = '${enquiry.text}';
-                enquiry.date = '${enquiry.enquiryTimeStamp}';
-                enquiry.isResolved = '${enquiry.isResolved}';
-                enquiry.responderId = '${enquiry.userByResponderId.userId}'
-                enquiry.responderName = '${enquiry.userByResponderId.userName}';
-                enquiry.response = '${enquiry.response}';
-                enquiryList.push(enquiry);
-                    
-               
-
-
-                
-            </script>
-
-
-        </c:forEach>
 
 
     </head>
@@ -188,6 +148,7 @@
                                         <th>No.</th>
                                         <th>Title</th>
                                         <th>Date</th>
+                                        <th>Last Update</th>
                                         <th>Status</th>
 
                                         </thead>
@@ -196,16 +157,19 @@
                                             <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
                                                 <tr>
                                                     <td>ID:<fmt:formatNumber pattern="00000000" value="${enquiry.id}"/></td>
-                                                    <td nowrap><a href="#viewEnquiryModal" role="button" data-toggle="modal" onclick="populateViewEnquiryModal('${enquiry.id}')"> ${enquiry.title}</td>
-                                                    <jsp:setProperty name="newsDate" property="time" value="${enquiry.enquiryTimeStamp.time}" />
+                                                    <td nowrap><a href="enquiry.jsp?enquiry=${enquiry.id}"> ${enquiry.regarding}</td>
+
+                                                    <jsp:setProperty name="newsDate" property="time" value="${enquiry.opened.time}" />
+                                                    <jsp:setProperty name="upDate" property="time" value="${enquiry.lastUpdated.time}" />
                                                     <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${upDate}" /></td>
                                                     <td nowrap>
                                                         <script>
                                                             
-                                                            if (${enquiry.isResolved}){
-                                                                document.write("Resolved");
+                                                            if (${enquiry.status}){
+                                                                document.write("CLOSED");
                                                             }else {
-                                                                document.write("Unresolved");
+                                                                document.write("OPEN");
                                                             }
                                                       
                                                         </script>
@@ -266,57 +230,6 @@
                     <input type="submit" name="submit" value="Submit" class="btn btn-primary"/>
                 </div>
             </stripes:form>
-
-        </div>
-
-        <!-- View and update enquiries -->
-        <div id="viewEnquiryModal" class="modal hide fade">
-            <div id="myModal" class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h3>Your Enquiry</h3>
-
-                <stripes:form class="form-horizontal" beanclass="com.lin.resident.EditEnquiryActionBean" focus="" name="edit" id="edit_enquiry_validate">
-                    <div class="control-group ${errorStyle}">
-                        <div class="controls">
-                            <stripes:hidden id="view_id" name="id"/>
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Title</label>
-                        <div class="controls">
-                            <stripes:text id="view_title" name="title"/> 
-                        </div>
-                    </div>    
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Content</label>
-                        <div class="controls">
-                            <stripes:textarea id="view_text" name="text"/> 
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Responder</label>
-                        <div class="controls">
-                            <stripes:text id="view_responder" name="responder" disabled="true"/>
-                            <stripes:hidden id="view_responder_id" name="responderId"/>
-
-                        </div>
-                    </div>
-                    <div class="control-group ${errorStyle}">
-                        <label class="control-label">Response</label>
-                        <div class="controls">
-                            <stripes:textarea id="view_response" name="responder" disabled="true"/> 
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a data-dismiss="modal" class="btn">Close</a>
-                    <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
-                </div>  
-
-
-
-            </stripes:form>
-
 
         </div>
 

@@ -12,7 +12,6 @@
         <jsp:useBean id="registerActionBean" scope="page"
                      class="com.lin.general.login.RegisterActionBean"/>
         <jsp:useBean id="newsDate" class="java.util.Date" />
-        <jsp:useBean id="upDate" class="java.util.Date" />
 
 
         <jsp:setProperty name = "manageEnquiryActionBean"  property = "user"  value = "${user}" />
@@ -56,8 +55,8 @@
                 else if(failure){
                     var msg = "<b>There was an error processing your request.</b><br/>";
                     msg += "<ol>"
-                <c:forEach var="message" items="${MESSAGES}">
-                        msg += "<li>${message}</li>";
+            <c:forEach var="message" items="${MESSAGES}">
+                            msg += "<li>${message}</li>";
             </c:forEach>
                         msg += "</ol>";    
                         toastr.errorSticky(msg);
@@ -98,6 +97,29 @@
         </script>
 
 
+        <c:forEach items="${manageEnquiryActionBean.userEnquiryList}" var="enquiry" varStatus="loop">
+            <script>
+                
+               
+                var enquiry = new Object();
+                enquiry.id = '${enquiry.id}';
+                enquiry.title = '${enquiry.regarding}';
+                enquiry.text = '${enquiry.text}';
+                enquiry.opened = '${enquiry.opened}';
+                enquiry.lastUpdated = '${enquiry.lastUpdated}';
+                enquiry.status = '${enquiry.status}';
+                enquiryList.push(enquiry);
+                    
+               
+
+
+                
+            </script>
+
+
+        </c:forEach>
+
+
     </head>
 
     <body>
@@ -132,74 +154,69 @@
                             My Enquiries and Feedback					
                         </h1>
                         <br/>
+                        
+                                    <c:set var="enquiry" value="${manageEnquiryActionBean.getEnquiry(param.enquiry)}"/>  
+                        <div class="widget widget-table">
 
-                        <c:set var="enquiry" value="${manageEnquiryActionBean.getEnquiry(param.enquiry)}"/>  
-                        <c:if test="${enquiry.user.userId==user.userId}">
-                            <div class="widget widget-table">
+                            <div class="widget-header">
+                                <i class="icon-th-list"></i>
+                                <h3> Enquiry ID:<fmt:formatNumber pattern="00000000" value="${enquiry.id}"/> - ${enquiry.regarding}
 
-                                <div class="widget-header">
-                                    <i class="icon-th-list"></i>
-                                    <h3> Enquiry ID:<fmt:formatNumber pattern="00000000" value="${enquiry.id}"/> - ${enquiry.regarding}
-
-                                        <script>
+                                                <script>
                                                             
-                                            if (${enquiry.status}){
-                                                document.write("[CLOSED]");
-                                            }else {
-                                                document.write("[OPEN]");
-                                            }
+                                                    if (${enquiry.status}){
+                                                        document.write("[CLOSED]");
+                                                    }else {
+                                                        document.write("[OPEN]");
+                                                    }
                                                       
-                                        </script>
+                                                </script>
+                                            
+                                            </h3>
 
-                                    </h3>
+                            </div> <!-- /widget-header -->
 
-                                </div> <!-- /widget-header -->
+                            <div class="widget-content">
 
-                                <div class="widget-content">
-
-                                    <table class="table table-striped table-bordered" id="current">   
-                                        <thead>
-                                        <th>User</th>
-                                        <th>Text</th>
-                                        <th>Date</th>
+                                <table class="table table-striped table-bordered" id="current">   
+                                    <thead>
+                                    <th>User</th>
+                                    <th>Text</th>
+                                    <th>Date</th>
 
 
 
-                                        </thead>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td nowrap>${enquiry.user.userName}</td>
+                                            <td><a href="enquiry.jsp?enquiry=${enquiry.id}"> ${enquiry.text}</td>
+                                            <jsp:setProperty name="newsDate" property="time" value="${enquiry.opened.time}" />
+                                            <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+                                            
+
+                                        </tr><c:if test="${manageEnquiryActionBean.getResponseList(enquiry.id).size()!=0}">     
+                                     
                                         <tbody>
-                                            <tr>
-                                                <td nowrap>${enquiry.user.userName}</td>
-                                                <td><a href="enquiry.jsp?enquiry=${enquiry.id}"> ${enquiry.text}</td>
-                                                <jsp:setProperty name="newsDate" property="time" value="${enquiry.opened.time}" />
-                                                <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+                                            <c:forEach items="${manageEnquiryActionBean.getResponseList(enquiry.id)}" var="response" varStatus="loop">
+                                                <tr>
+                                                    <td>${response.user.userName}</td>
+                                                    <td nowrap>${response.text}</td>
+                                                    <jsp:setProperty name="newsDate" property="time" value="${response.opened.time}" />
+                                                    <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
+                                                    
 
-
-                                            </tr><c:if test="${manageEnquiryActionBean.getResponseList(enquiry.id).size()!=0}">     
-
-                                            <tbody>
-                                                <c:forEach items="${manageEnquiryActionBean.getResponseList(enquiry.id)}" var="response" varStatus="loop">
-                                                    <tr>
-                                                        <td>${response.user.userName}</td>
-                                                        <td nowrap>${response.text}</td>
-                                                        <jsp:setProperty name="newsDate" property="time" value="${response.opened.time}" />
-                                                        <td nowrap><fmt:formatDate pattern="dd-MM-yyyy hh:mma" value="${newsDate}" /></td>
-
-
-                                                    </tr>
-                                                </c:forEach>
-                                            </c:if>
-                                    </table>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                </table>
 
 
 
-                                </div>
-                                <br/>
-                                <a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success" onclick="loadValidate()">Update this Enquiry</a>
                             </div>
-                        </c:if>
-                        <c:if test="${enquiry.user.userId!=user.userId}">
-                            This enquiry does not belong to you. Please ensure you are at your own enquiry.
-                        </c:if>
+                            <br/>
+                            <a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success" onclick="loadValidate()">Update this Enquiry</a>
+                        </div>
                     </div>
 
 
@@ -222,10 +239,10 @@
                         </div>
                     </div>
                     <div class="control-group ${errorStyle}">
-
+                        
                         <label class="control-label">Title</label>
                         <div class="controls">
-                            <stripes:text id="create_title" name="title" value="Re: ${enquiry.regarding}"/> 
+                            <stripes:text disabled="true" id="create_title" name="title" value="Re: ${enquiry.regarding}"/> 
                         </div>
                     </div>    
                     <div class="control-group ${errorStyle}">
@@ -234,7 +251,7 @@
                             <stripes:textarea id="create_text" name="text"/> 
                         </div>
                     </div>
-                    <stripes:hidden name="replyid" value="${enquiry.id}"/>
+                            <stripes:hidden name="replyid" value="${enquiry.id}"/>
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Close</a>

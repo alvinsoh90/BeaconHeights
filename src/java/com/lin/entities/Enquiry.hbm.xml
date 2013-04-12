@@ -4,9 +4,9 @@
 <!-- Generated Mar 29, 2013 1:06:19 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.lin.entities.Enquiry" table="enquiry" catalog="lin_staging_db">
-        <id name="id" type="int">
+        <id name="id" type="java.lang.Integer">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="user" class="com.lin.entities.User" fetch="select">
             <column name="user_id" not-null="true" />
@@ -17,10 +17,10 @@
         <property name="status" type="boolean">
             <column name="status" not-null="true" />
         </property>
-        <property name="opened" type="date">
+        <property name="opened" type="timestamp">
             <column name="opened" length="10" not-null="true" />
         </property>
-        <property name="lastUpdated" type="date">
+        <property name="lastUpdated" type="timestamp">
             <column name="last_updated" length="10" not-null="true" />
         </property>
         <property name="regarding" type="string">

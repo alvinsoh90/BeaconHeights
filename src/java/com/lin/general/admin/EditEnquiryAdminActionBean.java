@@ -154,18 +154,13 @@ public class EditEnquiryAdminActionBean implements ActionBean{
         boolean success = false;
         EnquiryDAO eDAO = new EnquiryDAO();
         UserDAO uDAO = new UserDAO();
-        responder = uDAO.getUser(Integer.parseInt(responderId));
-        
         
             try{
                 eDAO.updateEnquiry
                         (
                             id,
                             title,
-                            text,
-                            responder,
-                            response,
-                            true
+                            text
                         );
                 return new RedirectResolution("/admin/manage-enquiries.jsp?editsuccess=true"+"&editmsg=Your enquiry");
             }

@@ -58,7 +58,31 @@
             
             
             var enquiryList = [];
+            
+            function populateViewEnquiryModal(enquiryId){
+                enquiryList.forEach(function(enquiry){
+                    if(enquiry.id == enquiryId){
+                        var responder = enquiry.responderName;
+                        console.log(enquiry.isResolved);
+                        var status = enquiry.isResolved;
+                        if (status == "false"){
+                            responder = '${user.userName}';
+                            $('#view_response').removeAttr('disabled', 'disabled');
+                        } else {
+                            $('#view_response').attr('disabled', 'disabled');
+                        }
 
+                        $("#view_regarding").val(enquiry.regarding);
+                        $("#view_date").val(enquiry.date);
+                        $("#view_text").val(enquiry.text);
+                        $("#view_id").val(enquiry.id);
+                        $('#view_responder').attr('disabled', 'disabled');
+                        $("#view_responder").val(responder);
+                        $("#view_responder_id").val(enquiry.responderId);
+                        $("#view_response").val(enquiry.response);
+                    }
+                });
+            }
         </script>
 
 
@@ -133,12 +157,15 @@
                             </c:if>
                             <c:if test="${manageEnquiryActionBean.enquiryList.size()==0}">
                             <thead>
-                            <th> No enquiries or feedback exist at the moment</th>
+                            <th> You have no enquiries or feedback at the moment. Would you like to make one?</th>
                             </thead>
                         </c:if>
                     </table>
 
                 </div>
+
+
+                <!--<a href="#createEnquiryModal" role='button' data-toggle='modal' class="btn btn-success">Submit Enquiry/Feedback</a>-->
             </div>
         </div>
     </div>
@@ -147,6 +174,54 @@
 
     <%@include file="include/footer.jsp"%>
 
+    <!-- View and update enquiries -->
+    <div id="viewEnquiryModal" class="modal hide fade">
+        <div id="myModal" class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Your Enquiry</h3>
+
+            <stripes:form class="form-horizontal" beanclass="com.lin.general.admin.EditEnquiryAdminActionBean" focus="" name="edit_enquiry_validate" id="edit_enquiry_validate">
+                <div class="control-group ${errorStyle}">
+                    <div class="controls">
+                        <stripes:hidden id="view_id" name="id"/>
+                        <stripes:hidden id="view_user_id" name="responderId" value="${user.userId}"/>
+                    </div>
+                </div>
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Title</label>
+                    <div class="controls">
+                        <stripes:text id="view_title" name="title"/> 
+                    </div>
+                </div>    
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Content</label>
+                    <div class="controls">
+                        <stripes:textarea id="view_text" name="text"/> 
+                    </div>
+                </div>
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Responder</label>
+                    <div class="controls">
+                        <stripes:text id="view_responder" name="responder"/> 
+                        <stripes:hidden id="view_responder_id" name="responderId"/>
+                    </div>
+                </div>
+                <div class="control-group ${errorStyle}">
+                    <label class="control-label">Response</label>
+                    <div class="controls">
+                        <stripes:textarea id="view_response" name="response"/> 
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn">Close</a>
+                <input type="submit" name="editEnquiry" value="Click to Edit" class="btn btn-primary"/>
+            </div>  
+
+        </stripes:form>
+
+
+    </div>
 
 
     <script src="js/bootstrap.min.js"></script>

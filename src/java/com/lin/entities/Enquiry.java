@@ -26,8 +26,7 @@ public class Enquiry  implements java.io.Serializable {
     }
 
 	
-    public Enquiry(int id, User user, boolean status, Date opened, Date lastUpdated, String regarding, String text) {
-        this.id = id;
+    public Enquiry(User user, boolean status, Date opened, Date lastUpdated, String regarding, String text) {
         this.user = user;
         this.status = status;
         this.opened = opened;
@@ -35,8 +34,18 @@ public class Enquiry  implements java.io.Serializable {
         this.regarding = regarding;
         this.text = text;
     }
-    public Enquiry(int id, User user, Enquiry enquiry, boolean status, Date opened, Date lastUpdated, String regarding, String text, Set enquiries) {
-       this.id = id;
+    
+    public Enquiry(User user, Enquiry enquiry, boolean status, Date opened, Date lastUpdated, String regarding, String text) {
+       this.user = user;
+       this.enquiry = enquiry;
+       this.status = status;
+       this.opened = opened;
+       this.lastUpdated = lastUpdated;
+       this.regarding = regarding;
+       this.text = text;
+    }
+   
+    public Enquiry(User user, Enquiry enquiry, boolean status, Date opened, Date lastUpdated, String regarding, String text, Set enquiries) {
        this.user = user;
        this.enquiry = enquiry;
        this.status = status;
