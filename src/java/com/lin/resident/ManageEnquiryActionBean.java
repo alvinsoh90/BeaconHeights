@@ -42,6 +42,7 @@ public class ManageEnquiryActionBean implements ActionBean{
      private Enquiry enquiry;
      private ArrayList<Enquiry> responseList;
      private String replyid;
+     private boolean status;
 
     public int getId() {
         return this.id;
@@ -138,6 +139,14 @@ public class ManageEnquiryActionBean implements ActionBean{
     public void setReplyid(String replyid) {
         this.replyid = replyid;
     }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
     
     
     
@@ -207,6 +216,7 @@ public class ManageEnquiryActionBean implements ActionBean{
             int replyId = Integer.parseInt(replyid);
             
             Enquiry enquiry = enDAO.createEnquiry(enquiryUser, title, text, replyId);
+            enDAO.updateEnquiry(replyId, status);
             result = "Enquiry";
             success = true;
         } catch (Exception e) {
@@ -215,6 +225,44 @@ public class ManageEnquiryActionBean implements ActionBean{
         }
         fs.put("SUCCESS","Enquiry successfully uploaded.");
         return new RedirectResolution("/residents/enquiry.jsp?enquiry="+replyid);
+
+
+
+    }
+    
+    public Resolution adminUpdate() {
+        FlashScope fs = FlashScope.getCurrent(getContext().getRequest(), true); 
+        String result;
+        boolean success;
+        
+        
+        isResolved = false;
+        
+        try {
+         
+            UserDAO uDAO = new UserDAO();
+            User enquiryUser = uDAO.getUser(Integer.parseInt(userId));
+            
+            EnquiryDAO enDAO = new EnquiryDAO();
+            if (text.isEmpty()){
+                throw new Exception("empty");
+                
+            }
+            
+            int replyId = Integer.parseInt(replyid);
+            
+            Enquiry enquiry = enDAO.createEnquiry(enquiryUser, title, text, replyId);
+            if (status){
+                enDAO.updateEnquiry(replyId, status);
+            }
+            result = "Enquiry";
+            success = true;
+        } catch (Exception e) {
+            result = "fail";
+            success = false;
+        }
+        fs.put("SUCCESS","Enquiry successfully uploaded.");
+        return new RedirectResolution("/admin/adminenquiry.jsp?enquiry="+replyid);
 
 
 
