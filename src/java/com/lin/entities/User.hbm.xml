@@ -24,7 +24,7 @@
             <column name="firstname" length="100" not-null="true" />
         </property>
         <property name="lastname" type="string">
-            <column name="lastname" length="100" not-null="true" />
+            <column name="lastname" length="100"/>
         </property>
         <property name="dob" type="date">
             <column name="DOB" length="10" not-null="true" />
