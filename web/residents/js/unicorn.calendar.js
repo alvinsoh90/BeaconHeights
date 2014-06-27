@@ -175,8 +175,14 @@ unicorn = {
                        if(currDayIndex === openTimingsList[i][2]){
                            console.log("found a date");
                            //find slot that wraps current time period
+                           
                            var thisStartTime = new Date(openTimingsList[i][3]);
                            var thisEndTime = new Date(openTimingsList[i][4]);
+                           
+                           var now = new Date();
+                           thisStartTime.setFullYear(now.getFullYear());
+                           thisEndTime.setFullYear(now.getFullYear());
+
                            
                            thisStartTime.setMonth(start.getMonth(),start.getDate());
                            thisEndTime.setMonth(end.getMonth(),end.getDate());
