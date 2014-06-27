@@ -57,7 +57,7 @@ public class LoginActionBean extends BaseActionBean {
         
         if(user==null){
             fs.put("FAILURE","This value is not used");
-            fs.put("MESSAGES","Username or password is entered incorectly.");
+            fs.put("MESSAGES","Username or password is entered incorrectly.");
             System.out.println("FAIL ONE");
             return new RedirectResolution("/login.jsp");
         }else{ 

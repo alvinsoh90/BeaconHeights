@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="css/fullcalendar.css" />	
         <link rel="stylesheet" href="css/unicorn.main.css" />
         <link rel="stylesheet" href="css/unicorn.grey.css" class="skin-color" />
-        <script src="js/jquery.js"></script>        
+        <script src="/js/jquery.js"></script>        
         <link rel="stylesheet" href="css/custom/lin.css" />
         <script src="/js/toastr.js"></script>
         <link href="/css/toastr.css" rel="stylesheet" />
